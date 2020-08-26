@@ -1,5 +1,7 @@
 import React from "react";
 
+import "./App.css";
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,8 +12,6 @@ import {
 
 import Navbar from "./components/Navbar";
 import { Collection, Transactions, PageNotFound } from "./components/Views";
-
-import "./App.css";
 
 function App() {
   return (
