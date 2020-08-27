@@ -7,7 +7,7 @@ interface Props {
   };
 }
 
-const YearCard: React.FC<Props> = ({ yearData }) => {
+const YearCard = ({ yearData }: Props) => {
   return (
     <div>
       <p>{yearData.year}</p>

@@ -1,14 +1,6 @@
 import React from "react";
 
-import "./App.css";
-
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useRouteMatch,
-  useParams,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import { Collection, Transactions, PageNotFound } from "./components/Views";

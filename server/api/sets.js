@@ -1,11 +1,8 @@
 const router = require("express").Router();
-const { Card, Set } = require("../db/models");
+const { Card, Set, Team } = require("../db/models");
 
 router.get("/", (req, res) => {
   Set.findAll({
-    where: {
-      year: 2020,
-    },
     include: [
       {
         model: Card,
@@ -33,6 +30,9 @@ router.get("/:id", (req, res) => {
     },
     include: {
       model: Card,
+      include: {
+        model: Team,
+      },
     },
   })
     .then((set) => {

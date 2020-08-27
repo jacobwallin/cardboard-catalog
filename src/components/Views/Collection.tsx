@@ -8,16 +8,17 @@ import Set from "../Set";
 export default function Collection() {
   const { path } = useRouteMatch();
   return (
-    <Switch>
-      <Route exact path={path}>
-        <CollectionYears />
-      </Route>
-      <Route path={`${path}/year/:setId`}>
-        <Set />
-      </Route>
-      <Route path={`${path}/:year`}>
-        <CollectionSets />
-      </Route>
-    </Switch>
+    <CollectionYears />
+    // <Switch>
+    //   <Route exact path={path}>
+    //     <CollectionYears />
+    //   </Route>
+    //   {/* <Route path={`${path}/year/:setId`}>
+    //     <Set />
+    //   </Route> */}
+    //   {/* <Route path={`${path}/:year`}>
+    //     <CollectionSets />
+    //   </Route> */}
+    // </Switch>
   );
 }
