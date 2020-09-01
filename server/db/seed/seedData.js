@@ -14,16 +14,19 @@ const sets = [
   {
     name: "Topps Base Set",
     year: 2020,
+    totalCards: 300,
     BrandId: 1,
   },
   {
     name: "Topps Special Set",
     year: 2020,
+    totalCards: 400,
     BrandId: 1,
   },
   {
     name: "Topps Base Set",
     year: 2018,
+    totalCards: 450,
     BrandId: 1,
   },
 ];

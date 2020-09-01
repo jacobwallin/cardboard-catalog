@@ -1,5 +1,7 @@
 const router = require("express").Router();
-const { Card, Set, Team } = require("../db/models");
+const { Card, Set, Team, Attribute } = require("../db/models");
+
+const sequelize = require("sequelize");
 
 router.get("/", (req, res) => {
   Set.findAll({
@@ -9,6 +11,7 @@ router.get("/", (req, res) => {
         attributes: ["id"],
       },
     ],
+    order: [["year", "DESC"]],
   })
     .then((sets) => {
       // reduce the array of cards the belong to the set
@@ -31,9 +34,10 @@ router.get("/:id", (req, res) => {
     include: {
       model: Card,
       include: {
-        model: Team,
+        all: true,
       },
     },
+    order: [[Card, "number", "ASC"]],
   })
     .then((set) => {
       res.json(set);

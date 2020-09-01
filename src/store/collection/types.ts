@@ -2,23 +2,27 @@ export interface Set {
   id: number;
   name: string;
   year: number;
+  totalCards: number;
   createdAt: string;
   updatedAt: string;
   BrandId: number;
   Cards: number;
 }
 
-interface Card {
+export interface Card {
   id: number;
   name: string;
   number: number;
-  team: string;
+  Team: {
+    name: string;
+  };
 }
 
 export interface SingleSet {
   id: number;
   name: string;
   year: number;
+  totalCards: number;
   createdAt: string;
   updatedAt: string;
   BrandId: number;

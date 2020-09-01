@@ -11,6 +11,7 @@ const initialState: CollectionState = {
     id: 0,
     name: "",
     year: 0,
+    totalCards: 0,
     createdAt: "",
     updatedAt: "",
     BrandId: 0,

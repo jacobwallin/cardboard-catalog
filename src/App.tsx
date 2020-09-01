@@ -20,6 +20,9 @@ function App() {
         <Route path="/transactions">
           <Transactions />
         </Route>
+        <Route path="/pagenotfound">
+          <PageNotFound />
+        </Route>
         <Route path="*">
           <PageNotFound />
         </Route>

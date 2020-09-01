@@ -4,29 +4,51 @@ import { ThunkDispatch } from "redux-thunk";
 import { fetchSets } from "../store/collection/thunks";
 import { Set } from "../store/collection/types";
 
+import "../styling/collection.css";
+
 import YearCard from "./YearCard";
 
 // complete Redux store state type
 import { RootState } from "../store";
 
-const dummyData = [
-  { year: 2017, cardCount: 102 },
-  { year: 2018, cardCount: 655 },
-  { year: 2019, cardCount: 99 },
-  { year: 2020, cardCount: 402 },
-];
-
 const CollectionYears = (props: Props) => {
   useEffect(() => {
-    // dipatch thunk for getting cards
-    props.getSets();
+    if (props.sets.length === 0) {
+      props.getSets();
+    }
   }, []);
 
+  // format data to be an array of type {year: number, cardCount: number}
+  // probably a better way to do this ¯\_(ツ)_/¯
+  function formatData(): Array<{ year: number; cardCount: number }> {
+    let setsByYear = props.sets.reduce((setsByYear: any, set) => {
+      if (setsByYear.hasOwnProperty(set.year)) {
+        setsByYear[set.year] += set.Cards;
+      } else {
+        setsByYear[set.year] = set.Cards;
+      }
+      return setsByYear;
+    }, {});
+
+    let returnArray = [];
+    for (const year in setsByYear) {
+      returnArray.push({
+        year: +year,
+        cardCount: setsByYear[year],
+      });
+    }
+    return returnArray;
+  }
+
   return (
-    <div>
-      {dummyData.map((yearData) => {
-        return <YearCard key={yearData.year} yearData={yearData} />;
-      })}
+    <div id="year-card-container">
+      {props.sets.length !== 0 ? (
+        formatData().map((yearData) => {
+          return <YearCard key={yearData.year} yearData={yearData} />;
+        })
+      ) : (
+        <p>Loading Collection</p>
+      )}
     </div>
   );
 };

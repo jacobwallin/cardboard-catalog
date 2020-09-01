@@ -10,6 +10,10 @@ const Set = db.define("Set", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  totalCards: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 });
 
 module.exports = Set;
