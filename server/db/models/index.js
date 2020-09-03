@@ -3,6 +3,7 @@ const Set = require("./set");
 const Brand = require("./brand");
 const Attribute = require("./attribute");
 const Team = require("./team");
+const User = require("./user");
 
 // many to many association between cards and attributes
 Card.belongsToMany(Attribute, { through: "Attribute_Join" });
@@ -25,4 +26,5 @@ module.exports = {
   Brand,
   Attribute,
   Team,
+  User,
 };

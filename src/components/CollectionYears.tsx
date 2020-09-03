@@ -19,25 +19,18 @@ const CollectionYears = (props: Props) => {
   }, []);
 
   // format data to be an array of type {year: number, cardCount: number}
-  // probably a better way to do this ¯\_(ツ)_/¯
   function formatData(): Array<{ year: number; cardCount: number }> {
-    let setsByYear = props.sets.reduce((setsByYear: any, set) => {
-      if (setsByYear.hasOwnProperty(set.year)) {
-        setsByYear[set.year] += set.Cards;
+    return props.sets.reduce((setsByYear: any, set) => {
+      if (
+        setsByYear.length > 0 &&
+        setsByYear[setsByYear.length - 1].year === set.year
+      ) {
+        setsByYear[setsByYear.length - 1].cardCount += set.Cards;
       } else {
-        setsByYear[set.year] = set.Cards;
+        setsByYear.push({ year: set.year, cardCount: set.Cards });
       }
       return setsByYear;
-    }, {});
-
-    let returnArray = [];
-    for (const year in setsByYear) {
-      returnArray.push({
-        year: +year,
-        cardCount: setsByYear[year],
-      });
-    }
-    return returnArray;
+    }, []);
   }
 
   return (

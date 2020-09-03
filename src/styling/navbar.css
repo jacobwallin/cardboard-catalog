@@ -7,10 +7,12 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
+  align-items: center;
   margin: 0;
 }
 
 #site-name {
+  margin: 0 0 0 10px;
   flex-grow: 1;
   font-weight: 600;
   font-size: 2em;
@@ -18,9 +20,8 @@ body {
 
 .navbar-link {
   flex-grow: 0;
-  height: 40px;
+  /* height: 40px; */
   color: white;
-  background-color: #0066ff;
   border-radius: 10px;
   padding: 5px;
   margin: 10px;
@@ -30,5 +31,6 @@ body {
 }
 
 .navbar-link:hover {
-  background-color: rgba(0, 102, 255, 75%);
+  /* background-color: rgba(0, 102, 255, 75%); */
+  text-decoration: underline;
 }
