@@ -6,7 +6,10 @@ const Team = require("./team");
 const User = require("./user");
 
 // many to many association between cards and attributes
-Card.belongsToMany(Attribute, { through: "Attribute_Join" });
+Card.belongsToMany(Attribute, { through: "Card_Attribute_Join" });
+
+// many to many association between users and cards
+User.belongsToMany(Card, { through: "User_Card_Join" });
 
 // One to many association between teams and cards
 Team.hasMany(Card);

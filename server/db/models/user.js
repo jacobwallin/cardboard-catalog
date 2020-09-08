@@ -12,6 +12,11 @@ const User = db.define("User", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  username: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -40,7 +45,7 @@ const User = db.define("User", {
 
 module.exports = User;
 
-User.prototype.correctPassword = function (candidatePwd) {
+User.prototype.verifyPassword = function (candidatePwd) {
   return User.encryptPassword(candidatePwd, this.salt()) === this.password();
 };
 
