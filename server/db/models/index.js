@@ -36,6 +36,10 @@ Set.belongsTo(Brand);
 League.hasMany(Set);
 Set.belongsTo(League);
 
+// One to many association between leagues and teams
+League.hasMany(Team);
+Team.belongsTo(League);
+
 module.exports = {
   User,
   Card,

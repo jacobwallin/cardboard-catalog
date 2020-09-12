@@ -10,6 +10,12 @@ const Card = db.define("card", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  rookie: {
+    type: DataTypes.BOOLEAN,
+  },
+  serialNumber: {
+    type: DataTypes.INTEGER,
+  },
 });
 
 module.exports = Card;

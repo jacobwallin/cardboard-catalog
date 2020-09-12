@@ -1,20 +1,38 @@
-const { Card, Set, Brand, Team } = require("../models");
+const {
+  User,
+  Card,
+  Set,
+  Subset,
+  Brand,
+  Team,
+  League,
+  Attribute,
+} = require("../models");
 
-const { cards, sets, brands, teams } = require("./seedData");
+const {
+  users,
+  cards,
+  sets,
+  subsets,
+  brands,
+  teams,
+  leagues,
+  attributes,
+} = require("./seed_data");
 
 const db = require("../db");
 
-db.sync({ force: true }).then(() => {
-  Brand.bulkCreate(brands).then((newBrands) => {
-    console.log("BRANDS SEEDED");
-    Team.bulkCreate(teams).then((newTeams) => {
-      console.log("TEAMS SEEDED");
-      Set.bulkCreate(sets).then((newSets) => {
-        console.log("SETS SEEDED");
-        Card.bulkCreate(cards).then((newCards) => {
-          console.log("CARDS SEEDED");
-        });
-      });
-    });
-  });
-});
+const seed = async () => {
+  await db.sync({ force: true });
+
+  await User.bulkCreate(users);
+  await League.bulkCreate(leagues);
+  await Brand.bulkCreate(brands);
+  await Attribute.bulkCreate(attributes);
+  await Team.bulkCreate(teams);
+  await Set.bulkCreate(sets);
+  await Subset.bulkCreate(subsets);
+  await Card.bulkCreate(cards);
+};
+
+seed();
