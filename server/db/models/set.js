@@ -1,16 +1,12 @@
 const db = require("../db");
 const { DataTypes } = require("sequelize");
 
-const Set = db.define("Set", {
+const Set = db.define("set", {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
   year: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  totalCards: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },

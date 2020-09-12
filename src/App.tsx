@@ -3,7 +3,13 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
-import { Collection, Transactions, PageNotFound } from "./components/Views";
+import {
+  HomePage,
+  Collection,
+  Transactions,
+  PageNotFound,
+} from "./components/Views";
+import Login from "./components/Login";
 
 function App() {
   return (
@@ -12,7 +18,7 @@ function App() {
 
       <Switch>
         <Route exact path="/">
-          <Collection />
+          <HomePage />
         </Route>
         <Route path="/collection">
           <Collection />
@@ -20,10 +26,15 @@ function App() {
         <Route path="/transactions">
           <Transactions />
         </Route>
+
+        <Route path="/login">
+          <Login />
+        </Route>
+
         <Route path="/pagenotfound">
           <PageNotFound />
         </Route>
-        <Route path="*">
+        <Route>
           <PageNotFound />
         </Route>
       </Switch>

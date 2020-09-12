@@ -2,9 +2,11 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { createLogger } from "redux-logger";
 import collectionReducer from "./collection/reducer";
+import userReducer from "./user/reducer";
 
 const combinedReducer = combineReducers({
   collection: collectionReducer,
+  user: userReducer,
 });
 
 const store = createStore(

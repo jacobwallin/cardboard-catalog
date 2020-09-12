@@ -1,5 +1,6 @@
 import Collection from "./Collection";
 import Transactions from "./Transactions";
 import PageNotFound from "./PageNotFound";
+import HomePage from "./HomePage";
 
-export { Collection, Transactions, PageNotFound };
+export { HomePage, Collection, Transactions, PageNotFound };

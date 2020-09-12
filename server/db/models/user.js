@@ -3,7 +3,7 @@ const crypto = require("crypto");
 
 const { DataTypes } = require("sequelize");
 
-const User = db.define("User", {
+const User = db.define("user", {
   firstName: {
     type: DataTypes.STRING,
     allowNull: false,
