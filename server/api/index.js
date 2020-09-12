@@ -1,8 +1,8 @@
 const router = require("express").Router();
-const cards = require("./cards");
-const sets = require("./sets");
+const collection = require("./collection");
+const library = require("./library");
 
-router.use("/cards", cards);
-router.use("/sets", sets);
+router.use("/collection", collection);
+router.use("/library", library);
 
 module.exports = router;
