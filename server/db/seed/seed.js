@@ -52,7 +52,7 @@ const createCards = () => {
   for (let i = 1; i <= 10000; i++) {
     const endingSeries = Math.ceil(i / 100) * 5;
     for (let j = 0; j < 5; j++) {
-      cards.push({ seriesId: endingSeries - j, cardDatumId: i });
+      cards.push({ seriesId: endingSeries - j, cardDataId: i });
     }
   }
 

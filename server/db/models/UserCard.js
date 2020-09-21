@@ -1,8 +1,8 @@
 const db = require("../db");
 const { DataTypes } = require("sequelize");
 
-const User_Card_Join = db.define(
-  "user_card_join",
+const UserCard = db.define(
+  "user_card",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -23,4 +23,4 @@ const User_Card_Join = db.define(
   }
 );
 
-module.exports = User_Card_Join;
+module.exports = UserCard;

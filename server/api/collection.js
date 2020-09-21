@@ -37,14 +37,12 @@ router.get("/", async (req, res, next) => {
 router.get("/:subsetId", async (req, res, next) => {
   try {
     const cards = await UserCardJoin.findAll({
-      where: { userId: 1 },
+      where: { userId: 1, "$card->series.subsetId$": 1 },
       include: {
         model: Card,
+        attributes: ["id", "seriesId"],
         include: {
           model: Series,
-          where: {
-            subsetId: 1,
-          },
         },
       },
     });

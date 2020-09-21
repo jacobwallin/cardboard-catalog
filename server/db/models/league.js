@@ -5,6 +5,7 @@ const League = db.define("league", {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
 });
 
