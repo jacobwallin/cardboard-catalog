@@ -4,7 +4,8 @@ import PrivateRoute from "../PrivateRoute";
 
 import CollectionYears from "../CollectionYears";
 import CollectionSets from "../CollectionSets";
-import Set from "../Set";
+import CollectionSubsets from "../CollectionSubsets";
+import Subset from "../Subset";
 
 export default function Collection() {
   const { path } = useRouteMatch();
@@ -12,7 +13,16 @@ export default function Collection() {
     <>
       <PrivateRoute exact path={path} component={CollectionYears} />
       <PrivateRoute exact path={`${path}/:year`} component={CollectionSets} />
-      <PrivateRoute exact path={`${path}/:year/:setId`} component={Set} />
+      <PrivateRoute
+        exact
+        path={`${path}/:year/:setId`}
+        component={CollectionSubsets}
+      />
+      <PrivateRoute
+        exact
+        path={`${path}/:year/:setId/:subsetId`}
+        component={Subset}
+      />
     </>
   );
 }

@@ -4,7 +4,8 @@ import { Link, useRouteMatch } from "react-router-dom";
 interface Props {
   yearData: {
     year: number;
-    cardCount: number;
+    distinctCards: number;
+    totalCards: number;
   };
 }
 
@@ -14,7 +15,7 @@ const YearCard: React.FC<Props> = ({ yearData }) => {
     <Link to={`${path}/${yearData.year}`}>
       <div className="year-card">
         <p className="year-card-year">{yearData.year}</p>
-        <p className="year-card-count">{`${yearData.cardCount} Cards`}</p>
+        <p className="year-card-count">{`${yearData.distinctCards} Cards`}</p>
       </div>
     </Link>
   );

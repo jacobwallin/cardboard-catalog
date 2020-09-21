@@ -1,15 +1,14 @@
 const db = require("../db");
 const { DataTypes } = require("sequelize");
 
-const Subset = db.define("subset", {
+const CardRun = db.define("series", {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  cardQuantity: {
+  serializedTo: {
     type: DataTypes.INTEGER,
-    allowNull: false,
   },
 });
 
-module.exports = Subset;
+module.exports = CardRun;

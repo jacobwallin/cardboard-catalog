@@ -1,4 +1,14 @@
-export interface Set {
+export interface Subset {
+  subsetId: number;
+  subsetName: string;
+  distinctCards: string;
+  totalCards: string;
+  setId: number;
+  setYear: number;
+  setName: string;
+}
+
+export interface SingleSubset {
   id: number;
   name: string;
   year: number;
@@ -6,7 +16,7 @@ export interface Set {
   createdAt: string;
   updatedAt: string;
   BrandId: number;
-  Cards: number;
+  Cards: Card[];
 }
 
 export interface Card {
@@ -18,33 +28,22 @@ export interface Card {
   };
 }
 
-export interface SingleSet {
-  id: number;
-  name: string;
-  year: number;
-  totalCards: number;
-  createdAt: string;
-  updatedAt: string;
-  BrandId: number;
-  Cards: Card[];
-}
-
 export interface CollectionState {
-  sets: Set[];
-  singleSet: SingleSet;
+  subsets: Subset[];
+  singleSubset: SingleSubset;
 }
 
-export const GET_SETS = "GET_SETS";
-export const GET_SINGLE_SET = "GET_SINGLE_SET";
+export const GET_SUBSETS = "GET_SUBSETS";
+export const GET_SINGLE_SUBSET = "GET_SINGLE_SUBSET";
 
-interface GetSetsAction {
-  type: typeof GET_SETS;
-  sets: Set[];
+interface GetSubsetsAction {
+  type: typeof GET_SUBSETS;
+  subsets: Subset[];
 }
 
-interface GetSingleSetAction {
-  type: typeof GET_SINGLE_SET;
-  singleSet: SingleSet;
+interface GetSingleSubsetAction {
+  type: typeof GET_SINGLE_SUBSET;
+  singleSubset: SingleSubset;
 }
 
-export type CollectionActionTypes = GetSetsAction | GetSingleSetAction;
+export type CollectionActionTypes = GetSubsetsAction | GetSingleSubsetAction;

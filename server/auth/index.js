@@ -14,7 +14,7 @@ router.post("/login", passport.authenticate("local"), (req, res, next) => {
 router.post(
   "/register",
   (req, res, next) => {
-    // explicitly destructure each field to prevent isAdmin or any other data from being sent
+    // explicitly destructure each field to prevent isAdmin or any other data from being sent to db
     const { firstName, lastName, username, email, password } = req.body;
     User.create({
       firstName,
@@ -40,7 +40,7 @@ router.post(
 router.post("/logout", (req, res, next) => {
   req.logout();
   req.session.destroy();
-  res.send("you are logged out");
+  res.sendStatus(200);
 });
 
 module.exports = router;

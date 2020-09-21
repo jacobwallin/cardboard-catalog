@@ -6,7 +6,7 @@ const attributes = [
     name: "relic",
   },
   {
-    name: "numbered",
+    name: "serialized",
   },
   {
     name: "rookie",

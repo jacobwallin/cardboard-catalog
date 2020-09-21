@@ -35,4 +35,8 @@ app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "..", "build", "index.html"));
 });
 
-app.listen(8080);
+const PORT = 8080;
+
+app.listen(PORT, () => {
+  console.log(`server running on port ${PORT}`);
+});

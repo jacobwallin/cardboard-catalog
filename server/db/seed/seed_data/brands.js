@@ -3,13 +3,13 @@ const brands = [
     name: "Topps",
   },
   {
-    name: "Dunress",
-  },
-  {
-    name: "Fleer",
+    name: "Bowman",
   },
   {
     name: "Panini",
+  },
+  {
+    name: "Fleer",
   },
 ];
 

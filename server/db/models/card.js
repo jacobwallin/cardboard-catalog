@@ -2,19 +2,11 @@ const db = require("../db");
 const { DataTypes } = require("sequelize");
 
 const Card = db.define("card", {
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  number: {
+  id: {
     type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
     allowNull: false,
-  },
-  rookie: {
-    type: DataTypes.BOOLEAN,
-  },
-  serialNumber: {
-    type: DataTypes.INTEGER,
   },
 });
 

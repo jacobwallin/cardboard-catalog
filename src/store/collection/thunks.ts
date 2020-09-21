@@ -9,7 +9,7 @@ export const fetchSets = (): ThunkAction<
   unknown,
   CollectionActionTypes
 > => (dispatch) => {
-  fetch("/api/sets")
+  fetch("/api/collection/")
     .then((response) => {
       return response.json();
     })

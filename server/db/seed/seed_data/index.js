@@ -6,5 +6,6 @@ module.exports = {
   teams: require("./teams"),
   sets: require("./sets"),
   subsets: require("./subsets"),
-  cards: require("./cards"),
+  cardData: require("./cardData"),
+  series: require("./series"),
 };
