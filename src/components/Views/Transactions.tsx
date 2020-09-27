@@ -1,5 +1,6 @@
 import React from "react";
+import AddCardsForm from "../AddCardsForm";
 
 export default function Transactions() {
-  return <div>This is the transaction view</div>;
+  return <AddCardsForm />;
 }

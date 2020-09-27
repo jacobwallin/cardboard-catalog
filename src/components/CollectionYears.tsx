@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { fetchSets } from "../store/collection/thunks";
+import { fetchCollectionSubsets } from "../store/collection/thunks";
 import { Subset } from "../store/collection/types";
 
 import "../styling/collection.css";
@@ -64,7 +64,7 @@ const mapState = (state: RootState): StateProps => {
 
 const mapDispatch = (dispatch: ThunkDispatch<{}, {}, any>): DispatchProps => {
   return {
-    getSets: () => dispatch(fetchSets()),
+    getSets: () => dispatch(fetchCollectionSubsets()),
   };
 };
 

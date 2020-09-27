@@ -7,16 +7,7 @@ import {
 
 const initialState: CollectionState = {
   subsets: [],
-  singleSubset: {
-    id: 0,
-    name: "",
-    year: 0,
-    totalCards: 0,
-    createdAt: "",
-    updatedAt: "",
-    BrandId: 0,
-    Cards: [],
-  },
+  singleSubset: [],
 };
 
 export default function collectionReducer(

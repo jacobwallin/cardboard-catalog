@@ -4,13 +4,12 @@ import { ThunkDispatch } from "redux-thunk";
 import { RouteComponentProps } from "react-router-dom";
 import { RootState } from "../store";
 import { Subset } from "../store/collection/types";
-import { fetchSets } from "../store/collection/thunks";
+import { fetchCollectionSubsets } from "../store/collection/thunks";
 
 import SetCard from "./SetCard";
 
 const CollectionSets: React.FC<Props> = (props) => {
   useEffect(() => {
-    console.log(props);
     if (props.subsets.length === 0) {
       props.getSets();
     }
@@ -59,7 +58,7 @@ const mapState = (state: RootState): StateProps => {
 
 const mapDispatch = (dispatch: ThunkDispatch<{}, {}, any>): DispatchProps => {
   return {
-    getSets: () => dispatch(fetchSets()),
+    getSets: () => dispatch(fetchCollectionSubsets()),
   };
 };
 

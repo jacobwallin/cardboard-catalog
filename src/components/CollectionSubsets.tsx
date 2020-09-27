@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { RootState } from "../store";
-import { fetchSets } from "../store/collection/thunks";
+import { fetchCollectionSubsets } from "../store/collection/thunks";
 
 import SubsetCard from "./SubsetCard";
 
@@ -17,7 +17,7 @@ const CollectionSubsets = (props: RouteComponentProps<TParams>) => {
 
   useEffect(() => {
     if (subsets.length === 0) {
-      dispatch(fetchSets());
+      dispatch(fetchCollectionSubsets());
     }
   }, []);
 

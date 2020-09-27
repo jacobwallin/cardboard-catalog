@@ -1,3 +1,5 @@
+const https = require("https");
+
 const {
   User,
   Card,
@@ -13,10 +15,7 @@ const {
 
 const {
   users,
-  cardData,
   sets,
-  subsets,
-  series,
   brands,
   teams,
   leagues,
@@ -34,9 +33,18 @@ const seed = async () => {
     await Attribute.bulkCreate(attributes);
     await Team.bulkCreate(teams);
     await Set.bulkCreate(sets);
-    await Subset.bulkCreate(subsets);
-    await Series.bulkCreate(series);
-    await CardData.bulkCreate(cardData);
+    await Subset.bulkCreate(
+      await fetchData("https://my.api.mockaroo.com/subsets.json?key=128d2830")
+    );
+    await Series.bulkCreate(
+      await fetchData("https://my.api.mockaroo.com/series.json?key=128d2830")
+    );
+    await CardData.bulkCreate(
+      await fetchData("https://my.api.mockaroo.com/card_data.json?key=128d2830")
+    );
+    await CardData.bulkCreate(
+      await fetchData("https://my.api.mockaroo.com/card_data.json?key=128d2830")
+    );
     await Card.bulkCreate(createCards());
     console.log("--SEEDING COMPLETE--");
     await db.close();
@@ -57,6 +65,28 @@ const createCards = () => {
   }
 
   return cards;
+};
+
+const fetchData = (url) => {
+  return new Promise((resolve, reject) => {
+    https
+      .get(url, (resp) => {
+        let data = "";
+
+        // A chunk of data has been recieved.
+        resp.on("data", (chunk) => {
+          data += chunk;
+        });
+
+        // The whole response has been received. Print out the result.
+        resp.on("end", () => {
+          resolve(JSON.parse(data));
+        });
+      })
+      .on("error", (err) => {
+        reject(err);
+      });
+  });
 };
 
 seed();

@@ -11,7 +11,7 @@ const {
   Team,
   Attribute,
   User,
-  UserCardJoin,
+  UserCard,
 } = require("../db/models");
 
 const sequelize = require("sequelize");
@@ -25,7 +25,7 @@ router.get("/", async (req, res, next) => {
     const userId = 1;
 
     const [results] = await db.query(
-      `SELECT subsets.id as "subsetId", subsets.name as "subsetName", COUNT(cards.id) as "distinctCards", SUM(user_card_join.quantity) as "totalCards", MAX(sets.id) as "setId", MAX(sets.year) as "setYear", MAX(sets.name) as "setName" FROM user_card_join INNER JOIN cards ON user_card_join."cardId" = cards.id AND user_card_join."userId" = ${userId} INNER JOIN series ON cards."seriesId" = series.id INNER JOIN subsets ON series."subsetId" = subsets.id INNER JOIN sets ON subsets."setId" = sets.id GROUP BY subsets.id`
+      `SELECT subsets.id as "subsetId", subsets.name as "subsetName", COUNT(cards.id) as "distinctCards", SUM(user_card.quantity) as "totalCards", MAX(sets.id) as "setId", MAX(sets.year) as "setYear", MAX(sets.name) as "setName" FROM user_card INNER JOIN cards ON user_card."cardId" = cards.id AND user_card."userId" = ${userId} INNER JOIN series ON cards."seriesId" = series.id INNER JOIN subsets ON series."subsetId" = subsets.id INNER JOIN sets ON subsets."setId" = sets.id GROUP BY subsets.id`
     );
 
     res.json(results);
@@ -36,13 +36,14 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:subsetId", async (req, res, next) => {
   try {
-    const cards = await UserCardJoin.findAll({
-      where: { userId: 1, "$card->series.subsetId$": 1 },
+    const cards = await UserCard.findAll({
+      where: { userId: 1, "$card->series.subsetId$": req.params.subsetId },
       include: {
         model: Card,
-        attributes: ["id", "seriesId"],
+        attributes: ["id", "cardDataId", "seriesId"],
         include: {
           model: Series,
+          attributes: ["id", "name", "color", "serializedTo", "subsetId"],
         },
       },
     });
@@ -55,35 +56,50 @@ router.get("/:subsetId", async (req, res, next) => {
 });
 
 router.post("/add", async (req, res) => {
-  const { cardId, quantity, serialNumber } = req.body;
-
-  console.log("SERIAL NUMBER:", serialNumber);
+  console.log("CARD RECEIVED: ", req.body);
 
   try {
-    let [userCard, created] = await UserCardJoin.findOrCreate({
-      where: { cardId: cardId, userId: 1 },
-      defaults: {
-        quantity: quantity,
-        serialNumber: serialNumber,
-      },
-    });
+    const userCards = await Promise.all(
+      req.body.map((newCard) => {
+        return UserCard.findOrCreate({
+          where: { cardId: newCard.cardId, userId: 1 },
+          defaults: {
+            quantity: newCard.quantity,
+          },
+        });
+      })
+    );
 
-    if (!created) {
-      await userCard.update({
-        quantity: userCard.quantity + quantity,
-        serialNumber: serialNumber !== undefined ? serialNumber : null,
-      });
-    }
+    const updatedUserCards = await Promise.all(
+      userCards
+        .filter((userCardData) => {
+          const [, created] = userCardData;
+          if (!created) {
+            return true;
+          }
+          return false;
+        })
+        .map((userCardData) => {
+          const [userCard] = userCardData;
+          const quantity = req.body.find(
+            (cardData) => cardData.cardId === userCard.cardId
+          ).quantity;
 
-    const idk = await userCard.getCard({
-      include: {
-        model: CardData,
-        attributes: ["name", "number", "rookie"],
-      },
-      attributes: ["id"],
-    });
+          return userCard.update({
+            quantity: userCard.quantity + quantity,
+          });
+        })
+    );
 
-    res.send(idk);
+    // send the client all created and updated user_card rows
+    const responseData = { created: [], updated: [] };
+
+    responseData.updated = updatedUserCards;
+    responseData.created = userCards
+      .filter((userCard) => userCard[1])
+      .map((userCard) => userCard[0]);
+
+    res.status(201).json(responseData);
   } catch (error) {
     console.log(error.message);
     res.sendStatus(500);

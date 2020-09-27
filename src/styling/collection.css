@@ -57,6 +57,10 @@ a {
   box-shadow: 1px 1px 2px #afafaf;
 }
 
+.player-card.not-in-collection {
+  opacity: 50%;
+}
+
 .player-card-image {
   margin: 5px;
   border: 1px solid gray;

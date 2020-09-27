@@ -7,7 +7,7 @@ const CardData = db.define("card_data", {
     allowNull: false,
   },
   number: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   rookie: {

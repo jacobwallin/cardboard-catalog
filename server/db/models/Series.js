@@ -6,6 +6,9 @@ const CardRun = db.define("series", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  color: {
+    type: DataTypes.STRING,
+  },
   serializedTo: {
     type: DataTypes.INTEGER,
   },

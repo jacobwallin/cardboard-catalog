@@ -3,7 +3,7 @@ import { RootState } from "../index";
 import { getSets, getSingleSet } from "./actions";
 import { CollectionActionTypes } from "./types";
 
-export const fetchSets = (): ThunkAction<
+export const fetchCollectionSubsets = (): ThunkAction<
   void,
   RootState,
   unknown,
@@ -19,12 +19,12 @@ export const fetchSets = (): ThunkAction<
     .catch((err) => console.log("ERROR IN FETCH SETS THUNK"));
 };
 
-export const fetchSingleSet = (
-  setId: number
+export const fetchSubsetUserCards = (
+  subsetId: number
 ): ThunkAction<void, RootState, unknown, CollectionActionTypes> => (
   dispatch
 ) => {
-  fetch(`/api/sets/${setId}`)
+  fetch(`/api/collection/${subsetId}`)
     .then((response) => {
       return response.json();
     })
