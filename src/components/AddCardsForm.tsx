@@ -1,11 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router";
 import { RootState } from "../store";
 import { Set, SubsetSummary, Card } from "../store/library/types";
 import { fetchAllSetData, fetchSubsetData } from "../store/library/thunks";
+import { clearSubsets, clearSingleSubset } from "../store/collection/actions";
 import PlayerCard from "./PlayerCard";
+import { postData } from "../utils/postData";
+import styled from "styled-components";
 
 import "../styling/addCardsForm.css";
+
+const Select = styled.select`
+  width: 50%;
+  padding: 5px;
+  margin: 5px auto;
+  @media (max-width: 768px) {
+    width: 90%;
+  }
+`;
+const TextArea = styled.textarea`
+  width: 50%;
+  margin: 5px auto;
+  resize: none;
+  height: 50px;
+`;
+const SubmitButton = styled.button`
+  width: 100px;
+`;
 
 export default function AddCardsForm() {
   const [selectedYear, setSelectedYear] = useState(-1);
@@ -13,6 +35,7 @@ export default function AddCardsForm() {
   const [selectedSubsetId, setSelectedSubsetId] = useState(-1);
   const [selectedSeriesId, setSelectedSeriesId] = useState(-1);
   const [cardNumbers, setCardNumbers] = useState("");
+  const [submitDisabled, setSubmitDisabled] = useState(false);
 
   const allSets = useSelector((state: RootState) => state.library.allSets);
   const subset = useSelector((state: RootState) => state.library.subset);
@@ -31,7 +54,7 @@ export default function AddCardsForm() {
   }, [selectedSubsetId]);
 
   const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    // reset preceding select forms to default before updating year (hopefully react does this in order??)
+    // reset preceding select forms to default before updating year (will react always decide to do this in order??)
     setCardNumbers("");
     setSelectedSeriesId(-1);
     setSelectedSubsetId(-1);
@@ -53,9 +76,27 @@ export default function AddCardsForm() {
     setSelectedSeriesId(+event.target.value);
   };
   const handleCardNumbersChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setCardNumbers(event.target.value);
+  };
+
+  const handleSubmit = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    const apiData = parseCardNumbers().found.map((card) => {
+      return { cardId: card.card.id, quantity: card.quantity };
+    });
+
+    setSubmitDisabled(true);
+
+    postData("/api/collection/add", apiData).then((response) => {
+      console.log("SUCCESS! Server response: ", response);
+
+      // clear collection data so it will be re-fetched and updated when user next goes to any collectin pages
+      dispatch(clearSubsets());
+      dispatch(clearSingleSubset());
+    });
   };
 
   const parseCardNumbers = (): {
@@ -105,7 +146,7 @@ export default function AddCardsForm() {
   return (
     <div className="add-cards">
       <div className="add-cards-form">
-        <select
+        <Select
           value={selectedYear}
           name="select-year"
           id="select-year"
@@ -119,8 +160,8 @@ export default function AddCardsForm() {
               </option>
             );
           })}
-        </select>
-        <select
+        </Select>
+        <Select
           value={selectedSetId}
           name="select-set"
           id="select-set"
@@ -135,8 +176,8 @@ export default function AddCardsForm() {
               </option>
             );
           })}
-        </select>
-        <select
+        </Select>
+        <Select
           value={selectedSubsetId}
           name="select-subset"
           id="select-subset"
@@ -151,8 +192,8 @@ export default function AddCardsForm() {
               </option>
             );
           })}
-        </select>
-        <select
+        </Select>
+        <Select
           value={selectedSeriesId}
           name="select-series"
           id="select-series"
@@ -171,16 +212,22 @@ export default function AddCardsForm() {
                 );
               })
           }
-        </select>
-        <label htmlFor="card-numbers">Enter Card Numbers: </label>
-        <input
-          type="text"
+        </Select>
+        <TextArea
           value={cardNumbers}
+          placeholder="Enter Card Numbers"
           onChange={handleCardNumbersChange}
           id="card-numbers"
           name="card-numbers"
           disabled={selectedSeriesId === -1}
         />
+        <SubmitButton
+          id="submit-cards-button"
+          onClick={handleSubmit}
+          disabled={submitDisabled || cardNumbers === ""}
+        >
+          Submit
+        </SubmitButton>
       </div>
 
       <div className="invalid-card-numbers">
@@ -191,7 +238,7 @@ export default function AddCardsForm() {
         )}
       </div>
 
-      <div className="cards-added">
+      <div className="player-card-container">
         {parseCardNumbers()
           .found.sort((a, b) => {
             // parse to int if possible, otherwise compare as strings

@@ -50,27 +50,43 @@ router.get("/", async (req, res) => {
 router.get("/subsets/:subsetId", async (req, res, next) => {
   try {
     const subset = await Subset.findByPk(req.params.subsetId, {
-      include: {
-        model: Series,
-        attributes: ["id", "name", "color", "serializedTo"],
-        include: [
-          {
-            model: Attribute,
-          },
-          {
-            model: Card,
-            attributes: ["id"],
-            include: {
-              model: CardData,
-              attributes: ["name", "number", "rookie"],
+      include: [
+        {
+          model: Series,
+          attributes: ["id", "name", "color", "serializedTo"],
+          include: [
+            {
+              model: Attribute,
+            },
+            {
+              model: Card,
+              attributes: ["id"],
               include: {
-                model: Team,
-                attributes: ["name"],
+                model: CardData,
+                attributes: ["name", "number", "rookie"],
+                include: {
+                  model: Team,
+                  attributes: ["name"],
+                },
               },
             },
-          },
-        ],
-      },
+          ],
+        },
+        {
+          model: Set,
+          attributes: ["id", "name", "year"],
+          include: [
+            {
+              model: Brand,
+              attributes: ["id", "name"],
+            },
+            {
+              model: League,
+              attributes: ["id", "name"],
+            },
+          ],
+        },
+      ],
     });
 
     res.json(subset);

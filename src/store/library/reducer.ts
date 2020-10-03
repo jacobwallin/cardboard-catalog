@@ -14,6 +14,19 @@ const initialState: LibraryState = {
     createdAt: "",
     updatedAt: "",
     series: [],
+    set: {
+      id: 0,
+      name: "",
+      year: 0,
+      brand: {
+        id: 0,
+        name: "",
+      },
+      league: {
+        id: 0,
+        name: "",
+      },
+    },
   },
   allSets: [],
 };

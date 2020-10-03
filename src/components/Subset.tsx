@@ -40,7 +40,9 @@ const Subset = (props: RouteComponentProps<TParams>) => {
   function handleSeriesChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setSelectedSeriesId(+event.target.value);
   }
-  function handleShowAllChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleShowAllChange(
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) {
     setShowAllCards(!showAllCards);
   }
 
@@ -51,20 +53,26 @@ const Subset = (props: RouteComponentProps<TParams>) => {
   ) {
     return (
       <>
+        <div id="subset-header">
+          <h1 className="subset-name">{librarySubset.name}</h1>
+          <h3 className="set-info">{librarySubset.set.name}</h3>
+        </div>
         <SubsetHeader
           handleSeries={handleSeriesChange}
           handleShowAll={handleShowAllChange}
           selectedSeriesId={selectedSeriesId}
           showAllCards={showAllCards}
         />
-        {selectedSeriesId !== 0 ? (
-          <SubsetCardsBySeries
-            showAllCards={showAllCards}
-            selectedSeriesId={selectedSeriesId}
-          />
-        ) : (
-          <SubsetsAllUserCards />
-        )}
+        <div className="player-card-container">
+          {selectedSeriesId !== 0 ? (
+            <SubsetCardsBySeries
+              showAllCards={showAllCards}
+              selectedSeriesId={selectedSeriesId}
+            />
+          ) : (
+            <SubsetsAllUserCards />
+          )}
+        </div>
       </>
     );
   } else {

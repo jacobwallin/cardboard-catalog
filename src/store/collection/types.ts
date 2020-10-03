@@ -1,9 +1,15 @@
 export const GET_SUBSETS = "GET_SUBSETS";
 export const GET_SINGLE_SUBSET = "GET_SINGLE_SUBSET";
+export const CLEAR_SUBSETS = "CLEAR_SUBSETS";
+export const CLEAR_SINGLE_SUBSET = "CLEAR_SINGLE_SUBSET";
 
 interface GetSubsetsAction {
   type: typeof GET_SUBSETS;
   subsets: Subset[];
+}
+
+interface ClearSubsetsAction {
+  type: typeof CLEAR_SUBSETS;
 }
 
 interface GetSingleSubsetAction {
@@ -11,7 +17,15 @@ interface GetSingleSubsetAction {
   singleSubset: SingleSubset;
 }
 
-export type CollectionActionTypes = GetSubsetsAction | GetSingleSubsetAction;
+interface ClearSingleSubsetAction {
+  type: typeof CLEAR_SINGLE_SUBSET;
+}
+
+export type CollectionActionTypes =
+  | GetSubsetsAction
+  | GetSingleSubsetAction
+  | ClearSubsetsAction
+  | ClearSingleSubsetAction;
 export interface CollectionState {
   subsets: Subset[];
   singleSubset: SingleSubset;
@@ -46,6 +60,13 @@ export interface UserCard {
       color: string;
       serializedTo: number;
       subsetId: number;
+    };
+    card_datum: {
+      id: number;
+      name: string;
+      number: string;
+      rookie: boolean;
+      teamId: number;
     };
   };
 }

@@ -47,6 +47,21 @@ export interface Subset {
   updatedAt: string;
   setId: number;
   series: Series[];
+  set: SetSummary;
+}
+
+interface SetSummary {
+  id: number;
+  name: string;
+  year: number;
+  brand: {
+    id: number;
+    name: string;
+  };
+  league: {
+    id: number;
+    name: string;
+  };
 }
 
 interface Series {

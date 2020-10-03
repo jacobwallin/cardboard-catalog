@@ -2,9 +2,14 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 
-interface Props {}
+interface Props {
+  handleSeries(event: React.ChangeEvent<HTMLSelectElement>): any;
+  handleShowAll(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): any;
+  selectedSeriesId: number;
+  showAllCards: boolean;
+}
 
-export default function SubsetHeader(props: any) {
+export default function SubsetHeader(props: Props) {
   const librarySubset = useSelector((state: RootState) => state.library.subset);
 
   return (

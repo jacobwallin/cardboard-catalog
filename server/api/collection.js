@@ -41,10 +41,16 @@ router.get("/:subsetId", async (req, res, next) => {
       include: {
         model: Card,
         attributes: ["id", "cardDataId", "seriesId"],
-        include: {
-          model: Series,
-          attributes: ["id", "name", "color", "serializedTo", "subsetId"],
-        },
+        include: [
+          {
+            model: Series,
+            attributes: ["id", "name", "color", "serializedTo", "subsetId"],
+          },
+          {
+            model: CardData,
+            attributes: ["id", "name", "number", "rookie", "teamId"],
+          },
+        ],
       },
     });
 
@@ -56,8 +62,6 @@ router.get("/:subsetId", async (req, res, next) => {
 });
 
 router.post("/add", async (req, res) => {
-  console.log("CARD RECEIVED: ", req.body);
-
   try {
     const userCards = await Promise.all(
       req.body.map((newCard) => {
