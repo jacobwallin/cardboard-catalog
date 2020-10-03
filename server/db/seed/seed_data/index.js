@@ -5,7 +5,4 @@ module.exports = {
   attributes: require("./attributes"),
   teams: require("./teams"),
   sets: require("./sets"),
-  subsets: require("./subsets"),
-  cardData: require("./cardData"),
-  series: require("./series"),
 };

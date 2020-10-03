@@ -10,6 +10,9 @@ const Subset = db.define("subset", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  description: {
+    type: DataTypes.TEXT,
+  },
 });
 
 module.exports = Subset;

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router";
 import { RootState } from "../store";
 import { Set, SubsetSummary, Card } from "../store/library/types";
 import { fetchAllSetData, fetchSubsetData } from "../store/library/thunks";
