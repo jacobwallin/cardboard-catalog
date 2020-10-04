@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { fetchCollectionSubsets } from "../store/collection/thunks";
-import { Subset } from "../store/collection/types";
+import { fetchCardsBySet } from "../store/collection/thunks";
+import { SetCards } from "../store/collection/types";
 
 import "../styling/collection.css";
 
@@ -12,8 +12,8 @@ import { RootState } from "../store";
 
 const CollectionYears = (props: Props) => {
   useEffect(() => {
-    if (props.subsets.length === 0) {
-      props.getSets();
+    if (props.cardsBySet.length === 0) {
+      props.getCardsBySet();
     }
   }, []);
 
@@ -23,29 +23,39 @@ const CollectionYears = (props: Props) => {
     distinctCards: number;
     totalCards: number;
   }> {
-    return props.subsets.reduce((cardsByYear: any, subset) => {
-      if (
-        cardsByYear.length > 0 &&
-        cardsByYear[cardsByYear.length - 1].year === subset.setYear
-      ) {
-        cardsByYear[
-          cardsByYear.length - 1
-        ].distinctCards += +subset.distinctCards;
-        cardsByYear[cardsByYear.length - 1].totalCards += +subset.totalCards;
-      } else {
-        cardsByYear.push({
-          year: subset.setYear,
-          distinctCards: +subset.distinctCards,
-          totalCards: +subset.totalCards,
-        });
-      }
-      return cardsByYear;
-    }, []);
+    return props.cardsBySet.reduce(
+      (
+        cardsByYear: Array<{
+          year: number;
+          distinctCards: number;
+          totalCards: number;
+        }>,
+        set
+      ) => {
+        if (
+          cardsByYear.length > 0 &&
+          cardsByYear[cardsByYear.length - 1].year === set.year
+        ) {
+          cardsByYear[
+            cardsByYear.length - 1
+          ].distinctCards += +set.distinctCards;
+          cardsByYear[cardsByYear.length - 1].totalCards += +set.totalCards;
+        } else {
+          cardsByYear.push({
+            year: set.year,
+            distinctCards: +set.distinctCards,
+            totalCards: +set.totalCards,
+          });
+        }
+        return cardsByYear;
+      },
+      []
+    );
   }
 
   return (
     <div id="year-card-container">
-      {props.subsets.length !== 0 ? (
+      {props.cardsBySet.length !== 0 ? (
         formatData().map((yearData) => {
           return <YearCard key={yearData.year} yearData={yearData} />;
         })
@@ -58,24 +68,24 @@ const CollectionYears = (props: Props) => {
 
 const mapState = (state: RootState): StateProps => {
   return {
-    subsets: state.collection.subsets,
+    cardsBySet: state.collection.cardsBySet,
   };
 };
 
 const mapDispatch = (dispatch: ThunkDispatch<{}, {}, any>): DispatchProps => {
   return {
-    getSets: () => dispatch(fetchCollectionSubsets()),
+    getCardsBySet: () => dispatch(fetchCardsBySet()),
   };
 };
 
 export default connect(mapState, mapDispatch)(CollectionYears);
 
 interface StateProps {
-  subsets: Subset[];
+  cardsBySet: SetCards[];
 }
 
 interface DispatchProps {
-  getSets: () => void;
+  getCardsBySet: () => void;
 }
 
 type Props = StateProps & DispatchProps;

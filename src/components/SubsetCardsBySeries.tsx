@@ -9,9 +9,11 @@ interface Props {
 }
 
 export default function SubsetCardsBySeries(props: Props) {
-  const librarySubset = useSelector((state: RootState) => state.library.subset);
+  const librarySubset = useSelector(
+    (state: RootState) => state.library.singleSubset
+  );
   const subsetUserCards = useSelector(
-    (state: RootState) => state.collection.singleSubset
+    (state: RootState) => state.collection.cardsInSingleSubset
   );
 
   const selectedSeries = librarySubset.series.find(

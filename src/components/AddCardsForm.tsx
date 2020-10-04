@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
-import { Set, SubsetSummary, Card } from "../store/library/types";
-import { fetchAllSetData, fetchSubsetData } from "../store/library/thunks";
-import { clearSubsets, clearSingleSubset } from "../store/collection/actions";
+import { SetSummary, Card } from "../store/library/types";
+import {
+  fetchAllSetData,
+  fetchSet,
+  fetchSubset,
+} from "../store/library/thunks";
+import { clearCollection } from "../store/collection/actions";
 import PlayerCard from "./PlayerCard";
 import { postData } from "../utils/postData";
 import styled from "styled-components";
@@ -37,7 +41,8 @@ export default function AddCardsForm() {
   const [submitDisabled, setSubmitDisabled] = useState(false);
 
   const allSets = useSelector((state: RootState) => state.library.allSets);
-  const subset = useSelector((state: RootState) => state.library.subset);
+  const set = useSelector((state: RootState) => state.library.singleSet);
+  const subset = useSelector((state: RootState) => state.library.singleSubset);
 
   const dispatch = useDispatch();
 
@@ -47,8 +52,15 @@ export default function AddCardsForm() {
 
   useEffect(() => {
     // fetch subset data, but only if a subset is selected
+    if (selectedSetId !== -1) {
+      dispatch(fetchSet(selectedSetId));
+    }
+  }, [selectedSubsetId]);
+
+  useEffect(() => {
+    // fetch subset data, but only if a subset is selected
     if (selectedSubsetId !== -1) {
-      dispatch(fetchSubsetData(selectedSubsetId));
+      dispatch(fetchSubset(selectedSubsetId));
     }
   }, [selectedSubsetId]);
 
@@ -92,9 +104,8 @@ export default function AddCardsForm() {
     postData("/api/collection/add", apiData).then((response) => {
       console.log("SUCCESS! Server response: ", response);
 
-      // clear collection data so it will be re-fetched and updated when user next goes to any collectin pages
-      dispatch(clearSubsets());
-      dispatch(clearSingleSubset());
+      // clear collection data so it will be re-fetched and updated when user next goes to any collection pages
+      dispatch(clearCollection());
     });
   };
 
@@ -184,13 +195,17 @@ export default function AddCardsForm() {
           onChange={handleSubsetChange}
         >
           <option value={-1}>Select Subset</option>
-          {aggregateSubsets(allSets, selectedSetId).map((subset) => {
-            return (
-              <option key={subset.id} value={subset.id}>
-                {subset.name}
-              </option>
-            );
-          })}
+          {
+            // only render drop down options once the correct subset has been fetched from API
+            set.id === selectedSetId &&
+              set.subsets.map((subset) => {
+                return (
+                  <option key={subset.id} value={subset.id}>
+                    {subset.name}
+                  </option>
+                );
+              })
+          }
         </Select>
         <Select
           value={selectedSeriesId}
@@ -269,7 +284,7 @@ export default function AddCardsForm() {
 }
 
 // these functions aggregate the API data for each of the select drop down menus
-function aggregateYears(allSets: Set[]): number[] {
+function aggregateYears(allSets: SetSummary[]): number[] {
   let yearsArray: number[] = [];
   allSets.forEach((set) => {
     if (
@@ -281,15 +296,8 @@ function aggregateYears(allSets: Set[]): number[] {
   });
   return yearsArray;
 }
-function aggregateSets(allSets: Set[], year: number): Set[] {
+function aggregateSets(allSets: SetSummary[], year: number): SetSummary[] {
   return allSets.filter((set) => {
     return set.year === year;
   });
-}
-function aggregateSubsets(allSets: Set[], setId: number): SubsetSummary[] {
-  const theSet = allSets.find((set) => set.id === setId);
-  if (theSet) {
-    return theSet.subsets;
-  }
-  return [];
 }

@@ -10,11 +10,13 @@ interface Props {
 }
 
 export default function SubsetHeader(props: Props) {
-  const librarySubset = useSelector((state: RootState) => state.library.subset);
+  const librarySubset = useSelector(
+    (state: RootState) => state.library.singleSubset
+  );
 
   return (
     <div className="subset-header">
-      <label htmlFor="cars">Filter by parallel series:</label>
+      <label htmlFor="cars">Filter by series:</label>
       <select id="cars" name="cars" onChange={props.handleSeries}>
         <option value={0}>Show All</option>
         {librarySubset.series.map((series) => {

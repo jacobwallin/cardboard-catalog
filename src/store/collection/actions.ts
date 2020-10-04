@@ -1,29 +1,35 @@
 import {
-  GET_SUBSETS,
-  GET_SINGLE_SUBSET,
-  CLEAR_SINGLE_SUBSET,
-  CLEAR_SUBSETS,
-  Subset,
-  SingleSubset,
+  GET_CARDS_BY_SET,
+  GET_CARDS_BY_SUBSET,
+  GET_CARDS_IN_SINGLE_SUBSET,
+  CLEAR_COLLECTION,
+  SetCards,
+  SubsetCards,
+  UserCard,
   CollectionActionTypes,
 } from "./types";
 
-export const getSets = (subsets: Subset[]): CollectionActionTypes => ({
-  type: GET_SUBSETS,
-  subsets,
-});
-
-export const clearSubsets = (): CollectionActionTypes => ({
-  type: CLEAR_SUBSETS,
-});
-
-export const getSingleSet = (
-  singleSubset: SingleSubset
+export const getCardsBySet = (
+  cardsBySet: SetCards[]
 ): CollectionActionTypes => ({
-  type: GET_SINGLE_SUBSET,
-  singleSubset,
+  type: GET_CARDS_BY_SET,
+  cardsBySet,
 });
 
-export const clearSingleSubset = (): CollectionActionTypes => ({
-  type: CLEAR_SINGLE_SUBSET,
+export const getCardsBySubset = (
+  cardsBySubset: SubsetCards[]
+): CollectionActionTypes => ({
+  type: GET_CARDS_BY_SUBSET,
+  cardsBySubset,
+});
+
+export const getSingleSubsetCards = (
+  singleSubsetCards: UserCard[]
+): CollectionActionTypes => ({
+  type: GET_CARDS_IN_SINGLE_SUBSET,
+  singleSubsetCards,
+});
+
+export const clearCollection = (): CollectionActionTypes => ({
+  type: CLEAR_COLLECTION,
 });

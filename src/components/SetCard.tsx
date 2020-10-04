@@ -5,9 +5,11 @@ import { Link, useRouteMatch } from "react-router-dom";
 interface Props {
   set: {
     setId: number;
-    name: string;
-    distinctCards: number;
-    totalCards: number;
+    setName: string;
+    setDescription: string;
+    year: number;
+    distinctCards: string;
+    totalCards: string;
   };
 }
 
@@ -16,11 +18,8 @@ const SetCard: React.FC<Props> = (props) => {
   return (
     <Link to={`${url}/${props.set.setId}`}>
       <div className="set-card">
-        <div className="set-card-name">{props.set.name}</div>
+        <div className="set-card-name">{props.set.setName}</div>
         <div className="set-card-count">{`${props.set.totalCards} Cards`}</div>
-        <div className="set-card-total">
-          {`${props.set.totalCards} cards in complete set`}
-        </div>
       </div>
     </Link>
   );

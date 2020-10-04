@@ -1,22 +1,24 @@
 import React from "react";
 
-import { Subset } from "../store/collection/types";
+import { SubsetSummary } from "../store/library/types";
 
 import { Link, useRouteMatch } from "react-router-dom";
 
 interface Props {
-  subset: Subset;
+  subset: SubsetSummary;
+  totalCards: number;
+  distinctCards: number;
 }
 
 const SubsetCard: React.FC<Props> = (props) => {
   const { url } = useRouteMatch();
   return (
-    <Link to={`${url}/${props.subset.subsetId}`}>
+    <Link to={`${url}/${props.subset.id}`}>
       <div className="set-card">
-        <div className="set-card-name">{props.subset.subsetName}</div>
-        <div className="set-card-count">{`${props.subset.totalCards} Cards`}</div>
+        <div className="set-card-name">{props.subset.name}</div>
+        <div className="set-card-count">{`${props.distinctCards} Cards`}</div>
         <div className="set-card-total">
-          {`${props.subset.totalCards} cards in complete set`}
+          {`${props.totalCards} cards in complete set`}
         </div>
       </div>
     </Link>

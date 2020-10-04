@@ -4,9 +4,11 @@ import PlayerCard from "./PlayerCard";
 import { RootState } from "../store";
 
 export default function SubsetsAllUserCards() {
-  const librarySubset = useSelector((state: RootState) => state.library.subset);
+  const librarySubset = useSelector(
+    (state: RootState) => state.library.singleSubset
+  );
   const subsetUserCards = useSelector(
-    (state: RootState) => state.collection.singleSubset
+    (state: RootState) => state.collection.cardsInSingleSubset
   );
 
   // show all the cards that are in the user's collection for the entire subset

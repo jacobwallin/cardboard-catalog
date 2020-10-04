@@ -1,47 +1,55 @@
-export const GET_SUBSETS = "GET_SUBSETS";
-export const GET_SINGLE_SUBSET = "GET_SINGLE_SUBSET";
-export const CLEAR_SUBSETS = "CLEAR_SUBSETS";
-export const CLEAR_SINGLE_SUBSET = "CLEAR_SINGLE_SUBSET";
+export const GET_CARDS_BY_SET = "GET_CARDS_BY_SET";
+export const GET_CARDS_BY_SUBSET = "GET_CARDS_BY_SUBSET";
+export const GET_CARDS_IN_SINGLE_SUBSET = "GET_CARDS_IN_SINGLE_SUBSET";
+export const CLEAR_COLLECTION = "CLEAR_COLLECTION";
 
-interface GetSubsetsAction {
-  type: typeof GET_SUBSETS;
-  subsets: Subset[];
+interface GetCardsBySetAction {
+  type: typeof GET_CARDS_BY_SET;
+  cardsBySet: SetCards[];
 }
 
-interface ClearSubsetsAction {
-  type: typeof CLEAR_SUBSETS;
+interface GetCardsBySubsetAction {
+  type: typeof GET_CARDS_BY_SUBSET;
+  cardsBySubset: SubsetCards[];
+}
+interface GetCardsInSingleSubsetAction {
+  type: typeof GET_CARDS_IN_SINGLE_SUBSET;
+  singleSubsetCards: UserCard[];
 }
 
-interface GetSingleSubsetAction {
-  type: typeof GET_SINGLE_SUBSET;
-  singleSubset: SingleSubset;
-}
-
-interface ClearSingleSubsetAction {
-  type: typeof CLEAR_SINGLE_SUBSET;
+interface ClearCollectionAction {
+  type: typeof CLEAR_COLLECTION;
 }
 
 export type CollectionActionTypes =
-  | GetSubsetsAction
-  | GetSingleSubsetAction
-  | ClearSubsetsAction
-  | ClearSingleSubsetAction;
+  | GetCardsBySetAction
+  | GetCardsBySubsetAction
+  | GetCardsInSingleSubsetAction
+  | ClearCollectionAction;
+
+// COLLECTION REDUCER STATE TYPE
 export interface CollectionState {
-  subsets: Subset[];
-  singleSubset: SingleSubset;
+  cardsBySet: SetCards[];
+  cardsBySubset: SubsetCards[];
+  cardsInSingleSubset: UserCard[];
 }
-export interface Subset {
+export interface SetCards {
+  setId: number;
+  setName: string;
+  setDescription: string;
+  year: number;
+  distinctCards: string;
+  totalCards: string;
+}
+
+export interface SubsetCards {
   subsetId: number;
   subsetName: string;
+  subsetDescription: string;
   distinctCards: string;
   totalCards: string;
   setId: number;
-  setYear: number;
-  setName: string;
 }
-
-export type SingleSubset = UserCard[];
-
 export interface UserCard {
   id: number;
   quantity: number;
