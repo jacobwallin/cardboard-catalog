@@ -31,8 +31,14 @@ app.use(passport.session());
 app.use("/api", require("./api"));
 app.use("/auth", require("./auth"));
 
-app.get("/*", function (req, res) {
+app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "build", "index.html"));
+});
+
+app.use("*", (error, req, res, next) => {
+  const status = error.status ? error.status : 500;
+  res.status(status);
+  res.json(error.message);
 });
 
 const PORT = 8080;

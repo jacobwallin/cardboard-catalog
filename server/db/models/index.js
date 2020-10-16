@@ -23,6 +23,7 @@ Subset.belongsTo(Set, {
   foreignKey: {
     allowNull: false,
   },
+  onDelete: "CASCADE",
 });
 Set.hasMany(Subset);
 
@@ -31,6 +32,7 @@ Series.belongsTo(Subset, {
   foreignKey: {
     allowNull: false,
   },
+  onDelete: "CASCADE",
 });
 Subset.hasMany(Series);
 
@@ -39,6 +41,7 @@ Card.belongsTo(Series, {
   foreignKey: {
     allowNull: false,
   },
+  onDelete: "CASCADE",
 });
 Series.hasMany(Card);
 
@@ -48,6 +51,7 @@ Card.belongsTo(CardData, {
     name: "cardDataId",
     allowNull: false,
   },
+  onDelete: "CASCADE",
 });
 CardData.hasMany(Card, {
   foreignKey: {
@@ -55,6 +59,15 @@ CardData.hasMany(Card, {
     allowNull: false,
   },
 });
+
+// One to many association between subsets and card data
+CardData.belongsTo(Subset, {
+  foreignKey: {
+    allowNull: false,
+  },
+  onDelete: "CASCADE",
+});
+Subset.hasMany(CardData);
 
 // many to many association between cardRuns and cards
 Series.belongsToMany(Attribute, { through: "series_attribute" });

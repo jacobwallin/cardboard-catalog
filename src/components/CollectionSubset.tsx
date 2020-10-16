@@ -50,11 +50,7 @@ const Subset = (props: RouteComponentProps<TParams>) => {
     setShowAllCards(!showAllCards);
   }
 
-  if (
-    librarySubset.id === SUBSET_ID_PARAM &&
-    subsetUserCards.length > 0 &&
-    subsetUserCards[0].card.series.subsetId === SUBSET_ID_PARAM
-  ) {
+  if (librarySubset.id === SUBSET_ID_PARAM) {
     return (
       <>
         <div id="subset-header">

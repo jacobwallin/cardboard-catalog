@@ -61,7 +61,12 @@ router.get("/subset/:subsetId", async (req, res, next) => {
       },
     });
 
-    res.json(cards);
+    const responseData = {
+      cards: cards,
+      subsetId: req.params.subsetId,
+    };
+
+    res.json(responseData);
   } catch (error) {
     console.log(error.message);
     res.sendStatus(500);

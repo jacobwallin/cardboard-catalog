@@ -40,10 +40,14 @@ const seed = async () => {
       await fetchData("https://my.api.mockaroo.com/series.json?key=128d2830")
     );
     await CardData.bulkCreate(
-      await fetchData("https://my.api.mockaroo.com/card_data.json?key=128d2830")
+      await fetchData(
+        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=0"
+      )
     );
     await CardData.bulkCreate(
-      await fetchData("https://my.api.mockaroo.com/card_data.json?key=128d2830")
+      await fetchData(
+        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=50"
+      )
     );
     await Card.bulkCreate(createCards());
     console.log("--SEEDING COMPLETE--");

@@ -55,7 +55,7 @@ export default function AddCardsForm() {
     if (selectedSetId !== -1) {
       dispatch(fetchSet(selectedSetId));
     }
-  }, [selectedSubsetId]);
+  }, [selectedSetId]);
 
   useEffect(() => {
     // fetch subset data, but only if a subset is selected

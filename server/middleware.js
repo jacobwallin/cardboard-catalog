@@ -1,3 +1,5 @@
+const { validationResult } = require("express-validator");
+
 // user must be logged in
 const isUser = (req, res, next) => {
   if (req.user) {
@@ -16,7 +18,18 @@ const isAdmin = (req, res, next) => {
   }
 };
 
+const validationErrorHandling = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const error = new Error();
+    error.status = 500;
+    error.message = { validationErrors: errors.array() };
+    next(error);
+  }
+};
+
 module.exports = {
   isUser,
   isAdmin,
+  validationErrorHandling,
 };
