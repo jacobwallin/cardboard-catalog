@@ -8,6 +8,7 @@ import {
   Collection,
   Transactions,
   PageNotFound,
+  Admin,
 } from "./components/Views";
 import Login from "./components/Login";
 
@@ -25,6 +26,9 @@ function App() {
         </Route>
         <Route path="/transactions">
           <Transactions />
+        </Route>
+        <Route path="/admin">
+          <Admin />
         </Route>
 
         <Route path="/login">

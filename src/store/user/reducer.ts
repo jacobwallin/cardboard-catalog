@@ -6,6 +6,7 @@ const initialState: UserState = {
   lastName: "",
   username: "",
   email: "",
+  isAdmin: false,
 };
 
 export default function userReducer(

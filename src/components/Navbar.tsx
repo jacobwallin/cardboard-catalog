@@ -22,6 +22,11 @@ export default function Navbar() {
       <div id="site-name">Cardboard Collector</div>
       {user.id !== 0 ? (
         <>
+          {user.isAdmin && (
+            <Link to="/admin" className="navbar-link">
+              Admin
+            </Link>
+          )}
           <Link to="/collection" className="navbar-link">
             My Collection
           </Link>
