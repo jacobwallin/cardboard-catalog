@@ -2,6 +2,7 @@ import { ThunkAction } from "redux-thunk";
 import { RootState } from "../index";
 import {
   getCardsBySetSuccess,
+  getCardsBySetRequest,
   getCardsBySubsetSuccess,
   getSingleSubsetCardsSuccess,
 } from "./actions";
@@ -13,6 +14,7 @@ export const fetchCardsBySet = (): ThunkAction<
   unknown,
   CollectionActionTypes
 > => (dispatch) => {
+  dispatch(getCardsBySetRequest());
   fetch("/api/collection/")
     .then((response) => {
       return response.json();

@@ -20,9 +20,9 @@ export default function loadingReducer(state: any = {}, action: any) {
 // returns a selector function that will return true only if the passed actions are not loading
 export const createLoadingSelector = (actions: Array<string>) => (
   state: RootState
-) => {
-  actions.reduce((result, action) => {
-    if (state.loading[action]) return false;
+): boolean => {
+  return actions.reduce((result: boolean, action) => {
+    if (state.loading[action]) return true;
     return result;
-  }, true);
+  }, false);
 };

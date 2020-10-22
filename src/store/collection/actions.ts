@@ -15,7 +15,7 @@ import {
   CollectionActionTypes,
 } from "./types";
 
-export const getCardsBySetRequest = () => ({
+export const getCardsBySetRequest = (): CollectionActionTypes => ({
   type: GET_CARDS_BY_SET_REQUEST,
 });
 export const getCardsBySetSuccess = (
@@ -24,12 +24,12 @@ export const getCardsBySetSuccess = (
   type: GET_CARDS_BY_SET_SUCCESS,
   cardsBySet,
 });
-export const getCardsBySetError = (message: string) => ({
+export const getCardsBySetError = (message: string): CollectionActionTypes => ({
   type: GET_CARDS_BY_SET_ERROR,
   message,
 });
 
-export const getCardsBySubsetRequest = () => ({
+export const getCardsBySubsetRequest = (): CollectionActionTypes => ({
   type: GET_CARDS_BY_SUBSET_REQUEST,
 });
 export const getCardsBySubsetSuccess = (
@@ -38,12 +38,14 @@ export const getCardsBySubsetSuccess = (
   type: GET_CARDS_BY_SUBSET_SUCCESS,
   cardsBySubset,
 });
-export const getCardsBySubsetError = (message: string) => ({
+export const getCardsBySubsetError = (
+  message: string
+): CollectionActionTypes => ({
   type: GET_CARDS_BY_SUBSET_ERROR,
   message,
 });
 
-export const getSingleSubsetCardsRequest = () => ({
+export const getSingleSubsetCardsRequest = (): CollectionActionTypes => ({
   type: GET_CARDS_IN_SINGLE_SUBSET_REQUEST,
 });
 export const getSingleSubsetCardsSuccess = (
@@ -52,7 +54,9 @@ export const getSingleSubsetCardsSuccess = (
   type: GET_CARDS_IN_SINGLE_SUBSET_SUCCESS,
   singleSubsetCards,
 });
-export const getSingleSubsetCardsError = (message: string) => ({
+export const getSingleSubsetCardsError = (
+  message: string
+): CollectionActionTypes => ({
   type: GET_CARDS_IN_SINGLE_SUBSET_ERROR,
   message,
 });
