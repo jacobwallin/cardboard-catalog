@@ -1,9 +1,9 @@
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../index";
 import {
-  getCardsBySet,
-  getCardsBySubset,
-  getSingleSubsetCards,
+  getCardsBySetSuccess,
+  getCardsBySubsetSuccess,
+  getSingleSubsetCardsSuccess,
 } from "./actions";
 import { CollectionActionTypes } from "./types";
 
@@ -18,7 +18,7 @@ export const fetchCardsBySet = (): ThunkAction<
       return response.json();
     })
     .then((data) => {
-      dispatch(getCardsBySet(data));
+      dispatch(getCardsBySetSuccess(data));
     })
     .catch((err) => console.log("ERROR FETCHING CARDS BY SET"));
 };
@@ -33,7 +33,7 @@ export const fetchCardsBySubset = (
       return response.json();
     })
     .then((data) => {
-      dispatch(getCardsBySubset(data));
+      dispatch(getCardsBySubsetSuccess(data));
     })
     .catch((err) => console.log("ERROR FETCHING CARDS BY SUBSET"));
 };
@@ -48,7 +48,7 @@ export const fetchCardsInSingleSubset = (
       return response.json();
     })
     .then((data) => {
-      dispatch(getSingleSubsetCards(data));
+      dispatch(getSingleSubsetCardsSuccess(data));
     })
     .catch((err) => console.log("ERROR FETCHING CARDS FOR SINGLE SUBSET"));
 };

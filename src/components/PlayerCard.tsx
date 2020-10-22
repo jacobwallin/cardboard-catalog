@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Card } from "../store/library/types";
+import { Card } from "../store/library/subsets/types";
 
 import defaultCardImg from "../player_card_default.png";
 

@@ -1,6 +1,6 @@
 import { ThunkAction } from "redux-thunk";
-import { RootState } from "../index";
-import { getAllSets, getSet, getSubset } from "./actions";
+import { RootState } from "../../index";
+import { getAllSets, getSet } from "./actions";
 import { LibraryActionTypes } from "./types";
 
 export const fetchAllSetData = (): ThunkAction<
@@ -9,7 +9,7 @@ export const fetchAllSetData = (): ThunkAction<
   unknown,
   LibraryActionTypes
 > => (dispatch) => {
-  fetch(`/api/library/`)
+  fetch(`/api/sets`)
     .then((response) => {
       return response.json();
     })
@@ -22,25 +22,12 @@ export const fetchAllSetData = (): ThunkAction<
 export const fetchSet = (
   setId: number
 ): ThunkAction<void, RootState, unknown, LibraryActionTypes> => (dispatch) => {
-  fetch(`/api/library/set/${setId}`)
+  fetch(`/api/sets/${setId}`)
     .then((response) => {
       return response.json();
     })
     .then((data) => {
       dispatch(getSet(data));
-    })
-    .catch((err) => console.log("ERROR IN FETCH SUBSET LIBRARY THUNK"));
-};
-
-export const fetchSubset = (
-  subsetId: number
-): ThunkAction<void, RootState, unknown, LibraryActionTypes> => (dispatch) => {
-  fetch(`/api/library/subset/${subsetId}`)
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      dispatch(getSubset(data));
     })
     .catch((err) => console.log("ERROR IN FETCH SUBSET LIBRARY THUNK"));
 };

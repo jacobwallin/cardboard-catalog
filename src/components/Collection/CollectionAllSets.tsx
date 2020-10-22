@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { fetchCardsBySet } from "../store/collection/thunks";
-import { RootState } from "../store";
+import { fetchCardsBySet } from "../../store/collection/thunks";
+import { RootState } from "../../store";
 
 import SetCard from "./SetCard";
 

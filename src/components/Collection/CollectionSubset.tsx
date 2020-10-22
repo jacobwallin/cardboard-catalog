@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { RootState } from "../store";
-import { fetchSubset } from "../store/library/thunks";
-import { fetchCardsInSingleSubset } from "../store/collection/thunks";
+import { RootState } from "../../store";
+import { fetchSubset } from "../../store/library/subsets/thunks";
+import { fetchCardsInSingleSubset } from "../../store/collection/thunks";
 import SubsetHeader from "./SubsetHeader";
 import SubsetCardsBySeries from "./SubsetCardsBySeries";
 import SubsetsAllUserCards from "./SubsetsAllUserCards";
 
-type TParams = {
+type Params = {
   year: string;
   setId: string;
   subsetId: string;
 };
 
-const Subset = (props: RouteComponentProps<TParams>) => {
+const Subset = (props: RouteComponentProps<Params>) => {
   const dispatch = useDispatch();
 
   const librarySubset = useSelector(
-    (state: RootState) => state.library.singleSubset
+    (state: RootState) => state.library.subsets.singleSubset
   );
   const subsetUserCards = useSelector(
     (state: RootState) => state.collection.cardsInSingleSubset

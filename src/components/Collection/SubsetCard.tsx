@@ -1,6 +1,6 @@
 import React from "react";
 
-import { SubsetSummary } from "../store/library/types";
+import { SubsetSummary } from "../../store/library/sets/types";
 
 import { Link, useRouteMatch } from "react-router-dom";
 

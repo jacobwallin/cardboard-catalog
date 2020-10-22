@@ -3,7 +3,6 @@ import {
   LibraryActionTypes,
   GET_ALL_SETS,
   GET_SET,
-  GET_SUBSET,
   CLEAR_LIBRARY,
 } from "./types";
 
@@ -26,27 +25,15 @@ const initialState: LibraryState = {
     },
     subsets: [],
   },
-  singleSubset: {
-    id: 0,
-    cardQuantity: 0,
-    name: "",
-    description: "",
-    setId: 0,
-    createdAt: "",
-    updatedAt: "",
-    series: [],
-  },
 };
 
-const libraryReducer = (
+const setsReducer = (
   state = initialState,
   action: LibraryActionTypes
 ): LibraryState => {
   switch (action.type) {
     case GET_SET:
       return { ...state, singleSet: action.singleSet };
-    case GET_SUBSET:
-      return { ...state, singleSubset: action.singleSubset };
     case GET_ALL_SETS:
       return { ...state, allSets: action.allSets };
     case CLEAR_LIBRARY:
@@ -56,4 +43,4 @@ const libraryReducer = (
   }
 };
 
-export default libraryReducer;
+export default setsReducer;

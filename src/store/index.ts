@@ -3,12 +3,14 @@ import thunk from "redux-thunk";
 import { createLogger } from "redux-logger";
 import collectionReducer from "./collection/reducer";
 import userReducer from "./user/reducer";
-import libraryReducer from "./library/reducer";
+import libraryReducer from "./library";
+import loadingReducer from "./loading/reducer";
 
 const combinedReducer = combineReducers({
   collection: collectionReducer,
   user: userReducer,
   library: libraryReducer,
+  loading: loadingReducer,
 });
 
 const store = createStore(

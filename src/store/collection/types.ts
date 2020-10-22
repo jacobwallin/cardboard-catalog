@@ -1,33 +1,75 @@
-export const GET_CARDS_BY_SET = "GET_CARDS_BY_SET";
-export const GET_CARDS_BY_SUBSET = "GET_CARDS_BY_SUBSET";
-export const GET_CARDS_IN_SINGLE_SUBSET = "GET_CARDS_IN_SINGLE_SUBSET";
+// --- ACTION TYPES ---
+export const GET_CARDS_BY_SET_REQUEST = "GET_CARDS_BY_SET_REQUEST";
+export const GET_CARDS_BY_SET_SUCCESS = "GET_CARDS_BY_SET_SUCCESS";
+export const GET_CARDS_BY_SET_ERROR = "GET_CARDS_BY_SET_ERROR";
+export const GET_CARDS_BY_SUBSET_REQUEST = "GET_CARDS_BY_SUBSET_REQUEST";
+export const GET_CARDS_BY_SUBSET_SUCCESS = "GET_CARDS_BY_SUBSET_SUCCESS";
+export const GET_CARDS_BY_SUBSET_ERROR = "GET_CARDS_BY_SUBSET_ERROR";
+export const GET_CARDS_IN_SINGLE_SUBSET_REQUEST =
+  "GET_CARDS_IN_SINGLE_SUBSET_REQUEST";
+export const GET_CARDS_IN_SINGLE_SUBSET_SUCCESS =
+  "GET_CARDS_IN_SINGLE_SUBSET_SUCCESS";
+export const GET_CARDS_IN_SINGLE_SUBSET_ERROR =
+  "GET_CARDS_IN_SINGLE_SUBSET_ERROR";
 export const CLEAR_COLLECTION = "CLEAR_COLLECTION";
 
-interface GetCardsBySetAction {
-  type: typeof GET_CARDS_BY_SET;
+// --- ACTIONS ---
+
+// get carrds by set actions
+interface GetCardsBySetRequestAction {
+  type: typeof GET_CARDS_BY_SET_REQUEST;
+}
+interface GetCardsBySetSuccessAction {
+  type: typeof GET_CARDS_BY_SET_SUCCESS;
   cardsBySet: SetCards[];
 }
+interface GetCardsBySetErrorAction {
+  type: typeof GET_CARDS_BY_SET_ERROR;
+  message: string;
+}
 
-interface GetCardsBySubsetAction {
-  type: typeof GET_CARDS_BY_SUBSET;
+// get cards by subset actions
+interface GetCardsBySubsetRequestAction {
+  type: typeof GET_CARDS_BY_SUBSET_REQUEST;
+}
+interface GetCardsBySubsetSuccessAction {
+  type: typeof GET_CARDS_BY_SUBSET_SUCCESS;
   cardsBySubset: SubsetCards[];
 }
-interface GetCardsInSingleSubsetAction {
-  type: typeof GET_CARDS_IN_SINGLE_SUBSET;
-  singleSubsetCards: UserCard[];
+interface GetCardsBySubsetErrorAction {
+  type: typeof GET_CARDS_BY_SUBSET_ERROR;
+  message: string;
 }
 
+// get cards by single subset actions
+interface GetCardsInSingleSubsetRequestAction {
+  type: typeof GET_CARDS_IN_SINGLE_SUBSET_REQUEST;
+}
+interface GetCardsInSingleSubsetSuccessAction {
+  type: typeof GET_CARDS_IN_SINGLE_SUBSET_SUCCESS;
+  singleSubsetCards: UserCard[];
+}
+interface GetCardsInSingleSubsetErrorAction {
+  type: typeof GET_CARDS_IN_SINGLE_SUBSET_ERROR;
+  message: string;
+}
 interface ClearCollectionAction {
   type: typeof CLEAR_COLLECTION;
 }
 
 export type CollectionActionTypes =
-  | GetCardsBySetAction
-  | GetCardsBySubsetAction
-  | GetCardsInSingleSubsetAction
+  | GetCardsBySetSuccessAction
+  | GetCardsBySetRequestAction
+  | GetCardsBySetErrorAction
+  | GetCardsBySubsetSuccessAction
+  | GetCardsBySubsetRequestAction
+  | GetCardsBySubsetErrorAction
+  | GetCardsInSingleSubsetSuccessAction
+  | GetCardsInSingleSubsetRequestAction
+  | GetCardsInSingleSubsetErrorAction
   | ClearCollectionAction;
 
-// COLLECTION REDUCER STATE TYPE
+// ---- *** COLLECTION REDUCER STATE TYPE *** ----
 export interface CollectionState {
   cardsBySet: SetCards[];
   cardsBySubset: SubsetCards[];

@@ -1,11 +1,11 @@
 import React from "react";
 import { useRouteMatch } from "react-router-dom";
-import PrivateRoute from "../PrivateRoute";
+import PrivateRoute from "../Protected_Routes/PrivateRoute";
 
-import CollectionYears from "../CollectionYears";
-import CollectionAllSets from "../CollectionAllSets";
-import CollectionSet from "../CollectionSet";
-import CollectionSubset from "../CollectionSubset";
+import CollectionYears from "../Collection/CollectionYears";
+import CollectionAllSets from "../Collection/CollectionAllSets";
+import CollectionSet from "../Collection/CollectionSet";
+import CollectionSubset from "../Collection/CollectionSubset";
 
 export default function Collection() {
   const { path } = useRouteMatch();

@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import PlayerCard from "./PlayerCard";
-import { RootState } from "../store";
+import PlayerCard from "../PlayerCard";
+import { RootState } from "../../store";
 
 interface Props {
   showAllCards: boolean;
@@ -10,7 +10,7 @@ interface Props {
 
 export default function SubsetCardsBySeries(props: Props) {
   const librarySubset = useSelector(
-    (state: RootState) => state.library.singleSubset
+    (state: RootState) => state.library.subsets.singleSubset
   );
   const subsetUserCards = useSelector(
     (state: RootState) => state.collection.cardsInSingleSubset

@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
-import { SetSummary, Card } from "../store/library/types";
-import {
-  fetchAllSetData,
-  fetchSet,
-  fetchSubset,
-} from "../store/library/thunks";
+import { SetSummary } from "../store/library/sets/types";
+import { Card } from "../store/library/subsets/types";
+import { fetchAllSetData, fetchSet } from "../store/library/sets/thunks";
+import { fetchSubset } from "../store/library/subsets/thunks";
 import { clearCollection } from "../store/collection/actions";
 import PlayerCard from "./PlayerCard";
 import { postData } from "../utils/postData";
@@ -40,9 +38,11 @@ export default function AddCardsForm() {
   const [cardNumbers, setCardNumbers] = useState("");
   const [submitDisabled, setSubmitDisabled] = useState(false);
 
-  const allSets = useSelector((state: RootState) => state.library.allSets);
-  const set = useSelector((state: RootState) => state.library.singleSet);
-  const subset = useSelector((state: RootState) => state.library.singleSubset);
+  const allSets = useSelector((state: RootState) => state.library.sets.allSets);
+  const set = useSelector((state: RootState) => state.library.sets.singleSet);
+  const subset = useSelector(
+    (state: RootState) => state.library.subsets.singleSubset
+  );
 
   const dispatch = useDispatch();
 

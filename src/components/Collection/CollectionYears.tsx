@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { fetchCardsBySet } from "../store/collection/thunks";
-import { SetCards } from "../store/collection/types";
+import { fetchCardsBySet } from "../../store/collection/thunks";
+import { SetCards } from "../../store/collection/types";
 
-import "../styling/collection.css";
+import "../../styling/collection.css";
 
 import YearCard from "./YearCard";
 
-import { RootState } from "../store";
+import { RootState } from "../../store";
 
 const CollectionYears = (props: Props) => {
   useEffect(() => {

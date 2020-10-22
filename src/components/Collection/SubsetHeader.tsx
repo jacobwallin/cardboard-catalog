@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../store";
+import { RootState } from "../../store";
 
 interface Props {
   handleSeries(event: React.ChangeEvent<HTMLSelectElement>): any;
@@ -11,7 +11,7 @@ interface Props {
 
 export default function SubsetHeader(props: Props) {
   const librarySubset = useSelector(
-    (state: RootState) => state.library.singleSubset
+    (state: RootState) => state.library.subsets.singleSubset
   );
 
   return (

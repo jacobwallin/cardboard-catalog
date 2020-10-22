@@ -9,6 +9,7 @@ body {
   justify-content: flex-end;
   align-items: center;
   margin: 0;
+  height: 50px;
 }
 
 #site-name {
