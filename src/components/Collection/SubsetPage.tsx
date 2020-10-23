@@ -4,9 +4,8 @@ import { RouteComponentProps } from "react-router-dom";
 import { RootState } from "../../store";
 import { fetchSubset } from "../../store/library/subsets/thunks";
 import { fetchCardsInSingleSubset } from "../../store/collection/thunks";
-import SubsetHeader from "./SubsetHeader";
-import SubsetCardsBySeries from "./SubsetCardsBySeries";
-import SubsetsAllUserCards from "./SubsetsAllUserCards";
+import SubsetPageHeader from "./SubsetPageHeader";
+import SubsetPageCards from "./SubsetPageCards";
 
 type Params = {
   year: string;
@@ -14,14 +13,14 @@ type Params = {
   subsetId: string;
 };
 
-const Subset = (props: RouteComponentProps<Params>) => {
+const SubsetPage = (props: RouteComponentProps<Params>) => {
   const dispatch = useDispatch();
 
   const librarySubset = useSelector(
     (state: RootState) => state.library.subsets.singleSubset
   );
   const subsetUserCards = useSelector(
-    (state: RootState) => state.collection.cardsInSingleSubset
+    (state: RootState) => state.collection.cardsInSingleSubset.cards
   );
 
   let [selectedSeriesId, setSelectedSeriesId] = useState(0);
@@ -56,21 +55,17 @@ const Subset = (props: RouteComponentProps<Params>) => {
         <div id="subset-header">
           <h1 className="subset-name">{librarySubset.name}</h1>
         </div>
-        <SubsetHeader
+        <SubsetPageHeader
           handleSeries={handleSeriesChange}
           handleShowAll={handleShowAllChange}
           selectedSeriesId={selectedSeriesId}
           showAllCards={showAllCards}
         />
         <div className="player-card-container">
-          {selectedSeriesId !== 0 ? (
-            <SubsetCardsBySeries
-              showAllCards={showAllCards}
-              selectedSeriesId={selectedSeriesId}
-            />
-          ) : (
-            <SubsetsAllUserCards />
-          )}
+          <SubsetPageCards
+            showAllCards={showAllCards}
+            selectedSeriesId={selectedSeriesId}
+          />
         </div>
       </>
     );
@@ -79,4 +74,4 @@ const Subset = (props: RouteComponentProps<Params>) => {
   }
 };
 
-export default Subset;
+export default SubsetPage;

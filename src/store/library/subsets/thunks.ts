@@ -6,7 +6,7 @@ import { LibraryActionTypes } from "./types";
 export const fetchSubset = (
   subsetId: number
 ): ThunkAction<void, RootState, unknown, LibraryActionTypes> => (dispatch) => {
-  fetch(`/api/library/subset/${subsetId}`)
+  fetch(`/api/subsets/${subsetId}`)
     .then((response) => {
       return response.json();
     })

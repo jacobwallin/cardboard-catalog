@@ -11,7 +11,7 @@ import "../../styling/collection.css";
 
 const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
 
-const CollectionYears = () => {
+const CardsByYearPage = () => {
   const cardsBySet = useSelector(
     (state: RootState) => state.collection.cardsBySet
   );
@@ -28,18 +28,20 @@ const CollectionYears = () => {
 
   return (
     <div id="year-card-container">
-      {!isLoading ? (
+      {isLoading ? (
+        <p>Loading Collection</p>
+      ) : cardsBySet.length === 0 ? (
+        <h2>No Cards In Collection</h2>
+      ) : (
         aggregateCardsByYear(cardsBySet).map((yearData) => {
           return <YearCard key={yearData.year} yearData={yearData} />;
         })
-      ) : (
-        <p>Loading Collection</p>
       )}
     </div>
   );
 };
 
-export default CollectionYears;
+export default CardsByYearPage;
 
 // transform api data to show total cards in collection aggregated by year
 function aggregateCardsByYear(

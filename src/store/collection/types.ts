@@ -47,7 +47,8 @@ interface GetCardsInSingleSubsetRequestAction {
 }
 interface GetCardsInSingleSubsetSuccessAction {
   type: typeof GET_CARDS_IN_SINGLE_SUBSET_SUCCESS;
-  singleSubsetCards: UserCard[];
+  cards: UserCard[];
+  subsetId: string;
 }
 interface GetCardsInSingleSubsetErrorAction {
   type: typeof GET_CARDS_IN_SINGLE_SUBSET_ERROR;
@@ -73,7 +74,10 @@ export type CollectionActionTypes =
 export interface CollectionState {
   cardsBySet: SetCards[];
   cardsBySubset: SubsetCards[];
-  cardsInSingleSubset: UserCard[];
+  cardsInSingleSubset: {
+    cards: UserCard[];
+    subsetId: string;
+  };
 }
 export interface SetCards {
   setId: number;

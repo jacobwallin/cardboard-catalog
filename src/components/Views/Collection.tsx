@@ -2,30 +2,22 @@ import React from "react";
 import { useRouteMatch } from "react-router-dom";
 import PrivateRoute from "../Protected_Routes/PrivateRoute";
 
-import CollectionYears from "../Collection/CollectionYears";
-import CollectionAllSets from "../Collection/CollectionAllSets";
-import CollectionSet from "../Collection/CollectionSet";
-import CollectionSubset from "../Collection/CollectionSubset";
+import CardsByYearPage from "../Collection/CardsByYearPage";
+import AllSetsPage from "../Collection/AllSetsPage";
+import SetPage from "../Collection/SetPage";
+import SubsetPage from "../Collection/SubsetPage";
 
 export default function Collection() {
   const { path } = useRouteMatch();
   return (
     <>
-      <PrivateRoute exact path={path} component={CollectionYears} />
-      <PrivateRoute
-        exact
-        path={`${path}/:year`}
-        component={CollectionAllSets}
-      />
-      <PrivateRoute
-        exact
-        path={`${path}/:year/:setId`}
-        component={CollectionSet}
-      />
+      <PrivateRoute exact path={path} component={CardsByYearPage} />
+      <PrivateRoute exact path={`${path}/:year`} component={AllSetsPage} />
+      <PrivateRoute exact path={`${path}/:year/:setId`} component={SetPage} />
       <PrivateRoute
         exact
         path={`${path}/:year/:setId/:subsetId`}
-        component={CollectionSubset}
+        component={SubsetPage}
       />
     </>
   );

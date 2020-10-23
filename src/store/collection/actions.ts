@@ -48,11 +48,13 @@ export const getCardsBySubsetError = (
 export const getSingleSubsetCardsRequest = (): CollectionActionTypes => ({
   type: GET_CARDS_IN_SINGLE_SUBSET_REQUEST,
 });
-export const getSingleSubsetCardsSuccess = (
-  singleSubsetCards: UserCard[]
-): CollectionActionTypes => ({
+export const getSingleSubsetCardsSuccess = (payload: {
+  cards: UserCard[];
+  subsetId: string;
+}): CollectionActionTypes => ({
   type: GET_CARDS_IN_SINGLE_SUBSET_SUCCESS,
-  singleSubsetCards,
+  cards: payload.cards,
+  subsetId: payload.subsetId,
 });
 export const getSingleSubsetCardsError = (
   message: string

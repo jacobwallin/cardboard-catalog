@@ -4,15 +4,18 @@ import { RouteComponentProps } from "react-router-dom";
 import { RootState } from "../../store";
 import { fetchCardsBySubset } from "../../store/collection/thunks";
 import { fetchSet } from "../../store/library/sets/thunks";
+import { createLoadingSelector } from "../../store/loading/reducer";
 
 import SubsetCard from "./SubsetCard";
+
+const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SUBSET"]);
 
 type TParams = {
   year: string;
   setId: string;
 };
 
-const CollectionSubsets = (props: RouteComponentProps<TParams>) => {
+const SetPage = (props: RouteComponentProps<TParams>) => {
   const dispatch = useDispatch();
   const cardsBySubset = useSelector(
     (state: RootState) => state.collection.cardsBySubset
@@ -61,4 +64,4 @@ const CollectionSubsets = (props: RouteComponentProps<TParams>) => {
   }
 };
 
-export default CollectionSubsets;
+export default SetPage;

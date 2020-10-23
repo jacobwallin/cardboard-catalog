@@ -9,7 +9,7 @@ interface Props {
   showAllCards: boolean;
 }
 
-export default function SubsetHeader(props: Props) {
+export default function SubsetPageHeader(props: Props) {
   const librarySubset = useSelector(
     (state: RootState) => state.library.subsets.singleSubset
   );
