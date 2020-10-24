@@ -34,7 +34,12 @@ router.get("/set/:setId", async (req, res, next) => {
       `SELECT subsets.id as "subsetId", subsets.name as "subsetName", subsets.description as "subsetDescription", COUNT(cards.id) as "distinctCards", SUM(user_card.quantity) as "totalCards", subsets."setId" as "setId" FROM user_card INNER JOIN cards ON user_card."cardId" = cards.id AND user_card."userId" = ${userId} INNER JOIN series ON cards."seriesId" = series.id INNER JOIN subsets ON series."subsetId" = subsets.id INNER JOIN sets ON subsets."setId" = sets.id WHERE sets.id = ${req.params.setId} GROUP BY subsets.id `
     );
 
-    res.json(results);
+    const responseData = {
+      cardsBySubset: results,
+      setId: +req.params.setId,
+    };
+
+    res.json(responseData);
   } catch (error) {
     res.sendStatus(500);
   }
@@ -63,7 +68,7 @@ router.get("/subset/:subsetId", async (req, res, next) => {
 
     const responseData = {
       cards: cards,
-      subsetId: req.params.subsetId,
+      subsetId: +req.params.subsetId,
     };
 
     res.json(responseData);

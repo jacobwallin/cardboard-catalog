@@ -9,11 +9,15 @@ import {
 
 const initialState: CollectionState = {
   cardsBySet: [],
-  cardsBySubset: [],
+  cardsBySubset: {
+    subsets: [],
+    setId: 0,
+  },
   cardsInSingleSubset: {
     cards: [],
-    subsetId: "",
+    subsetId: 0,
   },
+  initialDataLoadComplete: false,
 };
 
 export default function collectionReducer(
@@ -24,7 +28,10 @@ export default function collectionReducer(
     case GET_CARDS_BY_SET_SUCCESS:
       return { ...state, cardsBySet: action.cardsBySet };
     case GET_CARDS_BY_SUBSET_SUCCESS:
-      return { ...state, cardsBySubset: action.cardsBySubset };
+      return {
+        ...state,
+        cardsBySubset: { subsets: action.cardsBySubset, setId: action.setId },
+      };
     case GET_CARDS_IN_SINGLE_SUBSET_SUCCESS:
       return {
         ...state,

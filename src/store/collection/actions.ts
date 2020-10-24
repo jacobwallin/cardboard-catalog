@@ -8,6 +8,7 @@ import {
   GET_CARDS_IN_SINGLE_SUBSET_SUCCESS,
   GET_CARDS_IN_SINGLE_SUBSET_REQUEST,
   GET_CARDS_IN_SINGLE_SUBSET_ERROR,
+  SET_INITIAL_DATA_LOAD,
   CLEAR_COLLECTION,
   SetCards,
   SubsetCards,
@@ -32,11 +33,13 @@ export const getCardsBySetError = (message: string): CollectionActionTypes => ({
 export const getCardsBySubsetRequest = (): CollectionActionTypes => ({
   type: GET_CARDS_BY_SUBSET_REQUEST,
 });
-export const getCardsBySubsetSuccess = (
-  cardsBySubset: SubsetCards[]
-): CollectionActionTypes => ({
+export const getCardsBySubsetSuccess = (payload: {
+  cardsBySubset: SubsetCards[];
+  setId: number;
+}): CollectionActionTypes => ({
   type: GET_CARDS_BY_SUBSET_SUCCESS,
-  cardsBySubset,
+  cardsBySubset: payload.cardsBySubset,
+  setId: payload.setId,
 });
 export const getCardsBySubsetError = (
   message: string
@@ -50,7 +53,7 @@ export const getSingleSubsetCardsRequest = (): CollectionActionTypes => ({
 });
 export const getSingleSubsetCardsSuccess = (payload: {
   cards: UserCard[];
-  subsetId: string;
+  subsetId: number;
 }): CollectionActionTypes => ({
   type: GET_CARDS_IN_SINGLE_SUBSET_SUCCESS,
   cards: payload.cards,
@@ -61,6 +64,11 @@ export const getSingleSubsetCardsError = (
 ): CollectionActionTypes => ({
   type: GET_CARDS_IN_SINGLE_SUBSET_ERROR,
   message,
+});
+
+export const setInitialDataLoad = (status: boolean): CollectionActionTypes => ({
+  type: SET_INITIAL_DATA_LOAD,
+  status,
 });
 
 export const clearCollection = (): CollectionActionTypes => ({

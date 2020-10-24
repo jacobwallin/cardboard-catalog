@@ -17,11 +17,15 @@ const CardsByYearPage = () => {
   );
 
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
+  const initialDataLoadComplete = useSelector(
+    (state: RootState) => state.collection.initialDataLoadComplete
+  );
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (cardsBySet.length === 0) {
+    // only fetch data once
+    if (!initialDataLoadComplete) {
       dispatch(fetchCardsBySet());
     }
   }, []);

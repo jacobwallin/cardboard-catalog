@@ -1,3 +1,5 @@
+import { setInitialLoadComplete } from "./actions";
+
 // --- ACTION TYPES ---
 export const GET_CARDS_BY_SET_REQUEST = "GET_CARDS_BY_SET_REQUEST";
 export const GET_CARDS_BY_SET_SUCCESS = "GET_CARDS_BY_SET_SUCCESS";
@@ -11,6 +13,7 @@ export const GET_CARDS_IN_SINGLE_SUBSET_SUCCESS =
   "GET_CARDS_IN_SINGLE_SUBSET_SUCCESS";
 export const GET_CARDS_IN_SINGLE_SUBSET_ERROR =
   "GET_CARDS_IN_SINGLE_SUBSET_ERROR";
+export const SET_INITIAL_DATA_LOAD = "SET_INITIAL_DATA_LOAD";
 export const CLEAR_COLLECTION = "CLEAR_COLLECTION";
 
 // --- ACTIONS ---
@@ -35,6 +38,7 @@ interface GetCardsBySubsetRequestAction {
 interface GetCardsBySubsetSuccessAction {
   type: typeof GET_CARDS_BY_SUBSET_SUCCESS;
   cardsBySubset: SubsetCards[];
+  setId: number;
 }
 interface GetCardsBySubsetErrorAction {
   type: typeof GET_CARDS_BY_SUBSET_ERROR;
@@ -48,11 +52,16 @@ interface GetCardsInSingleSubsetRequestAction {
 interface GetCardsInSingleSubsetSuccessAction {
   type: typeof GET_CARDS_IN_SINGLE_SUBSET_SUCCESS;
   cards: UserCard[];
-  subsetId: string;
+  subsetId: number;
 }
 interface GetCardsInSingleSubsetErrorAction {
   type: typeof GET_CARDS_IN_SINGLE_SUBSET_ERROR;
   message: string;
+}
+
+interface SetInitialDataLoad {
+  type: typeof SET_INITIAL_DATA_LOAD;
+  status: boolean;
 }
 interface ClearCollectionAction {
   type: typeof CLEAR_COLLECTION;
@@ -68,16 +77,21 @@ export type CollectionActionTypes =
   | GetCardsInSingleSubsetSuccessAction
   | GetCardsInSingleSubsetRequestAction
   | GetCardsInSingleSubsetErrorAction
+  | SetInitialDataLoad
   | ClearCollectionAction;
 
 // ---- *** COLLECTION REDUCER STATE TYPE *** ----
 export interface CollectionState {
   cardsBySet: SetCards[];
-  cardsBySubset: SubsetCards[];
+  cardsBySubset: {
+    subsets: SubsetCards[];
+    setId: number;
+  };
   cardsInSingleSubset: {
     cards: UserCard[];
-    subsetId: string;
+    subsetId: number;
   };
+  initialDataLoadComplete: boolean;
 }
 export interface SetCards {
   setId: number;

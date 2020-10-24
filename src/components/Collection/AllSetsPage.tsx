@@ -18,9 +18,12 @@ const AllSetsPage: React.FC<RouteComponentProps<TParams>> = (props) => {
   );
 
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
+  const initialDataLoadComplete = useSelector(
+    (state: RootState) => state.collection.initialDataLoadComplete
+  );
 
   useEffect(() => {
-    if (cardsBySet.length === 0) {
+    if (!initialDataLoadComplete) {
       dispatch(fetchCardsBySet());
     }
   }, []);

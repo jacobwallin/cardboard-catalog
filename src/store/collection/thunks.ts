@@ -5,21 +5,24 @@ import {
   getCardsBySetRequest,
   getCardsBySubsetSuccess,
   getSingleSubsetCardsSuccess,
+  setInitialDataLoad,
 } from "./actions";
 import { CollectionActionTypes } from "./types";
 
 export const fetchCardsBySet = (): ThunkAction<
-  void,
+  any,
   RootState,
-  unknown,
+  any,
   CollectionActionTypes
 > => (dispatch) => {
   dispatch(getCardsBySetRequest());
-  fetch("/api/collection/")
+
+  return fetch("/api/collection/")
     .then((response) => {
       return response.json();
     })
     .then((data) => {
+      dispatch(setInitialDataLoad(true));
       dispatch(getCardsBySetSuccess(data));
     })
     .catch((err) => console.log("ERROR FETCHING CARDS BY SET"));
