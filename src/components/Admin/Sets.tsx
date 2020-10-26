@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllSetData } from "../../store/library/sets/thunks";
 import { RootState } from "../../store";
+import EditButton from "./components/EditButton";
 
 import DataTable from "react-data-table-component";
 
@@ -30,7 +31,7 @@ const columns = [
   {
     name: "Edit",
     sortable: false,
-    cell: (row: any) => <Link to={`/admin/edit-set/${row.id}`}>Edit</Link>,
+    cell: (row: any) => <EditButton to={`/admin/edit-set/${row.id}`} />,
   },
 ];
 

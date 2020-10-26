@@ -3,6 +3,7 @@ import { RouteComponentProps, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSet } from "../../store/library/sets/thunks";
 import { RootState } from "../../store";
+import EditButton from "./components/EditButton";
 import styled from "styled-components";
 
 import DataTable from "react-data-table-component";
@@ -19,11 +20,15 @@ const columns = [
     sortable: true,
   },
   {
-    name: "Edit",
+    name: "",
     sortable: false,
-    cell: (row: any) => <Link to={`/admin/edit-subset/${row.id}`}>Edit</Link>,
+    cell: (row: any) => <EditButton to={`/admin/edit-subset/${row.id}`} />,
   },
 ];
+
+const EditSetHeader = styled.div`
+  font-size: 2rem;
+`;
 
 const SetInfoContainer = styled.div`
   display: flex;
@@ -63,6 +68,7 @@ export default function EditSet(props: RouteComponentProps<Params>) {
   }, []);
   return (
     <div>
+      <EditSetHeader>EDIT SET</EditSetHeader>
       <SetInfoContainer>
         <SetInfoLine>
           <SetInfoTitle>Set Name: </SetInfoTitle>
@@ -86,7 +92,7 @@ export default function EditSet(props: RouteComponentProps<Params>) {
         </SetInfoLine>
       </SetInfoContainer>
       <DataTable
-        title="Subsets"
+        title={`Subsets in ${singleSet.name}`}
         columns={columns}
         data={singleSet.subsets}
         highlightOnHover
