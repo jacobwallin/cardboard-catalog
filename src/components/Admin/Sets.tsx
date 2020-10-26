@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useRouteMatch, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllSetData } from "../../store/library/sets/thunks";
 import { RootState } from "../../store";
@@ -36,7 +36,6 @@ const columns = [
 
 export default function Sets(props: any) {
   const dispatch = useDispatch();
-  const { path } = useRouteMatch();
   const allSets = useSelector((state: RootState) => state.library.sets.allSets);
   useEffect(() => {
     dispatch(fetchAllSetData());
@@ -44,7 +43,7 @@ export default function Sets(props: any) {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <DataTable
-        title="Arnold Movies"
+        title="All Sets"
         columns={columns}
         data={allSets}
         highlightOnHover

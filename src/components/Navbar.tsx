@@ -9,7 +9,7 @@ import "../styling/navbar.css";
 
 export default function Navbar() {
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state.user.userData);
 
   useEffect(() => {
     if (user.id === 0) {

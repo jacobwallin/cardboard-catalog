@@ -10,11 +10,13 @@ export default function AdminRoute({ component: Component, ...rest }: any) {
     <Route
       {...rest}
       render={(props) => {
-        return user.isAdmin ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to="/login" />
-        );
+        if (user.userFetched) {
+          return user.userData.isAdmin ? (
+            <Component {...props} />
+          ) : (
+            <Redirect to="/login" />
+          );
+        }
       }}
     />
   );

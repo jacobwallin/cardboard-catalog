@@ -21,7 +21,7 @@ export const Login: React.FC<Props> = (props) => {
 
   return (
     <div>
-      {user.id === 0 ? (
+      {user.userData.id === 0 ? (
         <form id="login-form" onSubmit={handleSubmit}>
           <label htmlFor="username">username:</label>
           <input
@@ -51,7 +51,7 @@ interface StateProps {
 }
 
 const mapState = (state: RootState): StateProps => ({
-  user: state.user,
+  user: state.user.userData,
 });
 
 interface DispatchProps {

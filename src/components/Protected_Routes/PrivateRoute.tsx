@@ -9,9 +9,15 @@ export default function PrivateRoute({ component: Component, ...rest }: any) {
   return (
     <Route
       {...rest}
-      render={(props) =>
-        user.id !== 0 ? <Component {...props} /> : <Redirect to="/login" />
-      }
+      render={(props) => {
+        if (user.userFetched) {
+          return user.userData.id !== 0 ? (
+            <Component {...props} />
+          ) : (
+            <Redirect to="/login" />
+          );
+        }
+      }}
     />
   );
 }

@@ -1,7 +1,7 @@
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../index";
-import { UserActionTypes, User } from "./types";
-import { getUser, removeUser } from "./actions";
+import { UserActionTypes } from "./types";
+import { getUserSuccess, setUserFetched, removeUser } from "./actions";
 
 export const fetchMe = (): ThunkAction<
   void,
@@ -14,7 +14,8 @@ export const fetchMe = (): ThunkAction<
       return response.json();
     })
     .then((user) => {
-      dispatch(getUser(user));
+      dispatch(getUserSuccess(user));
+      dispatch(setUserFetched(true));
     })
     .catch((err) => console.log("ERROR IN FETCH ME THUNK"));
 };
@@ -34,7 +35,8 @@ export const login = (
       return response.json();
     })
     .then((user) => {
-      dispatch(getUser(user));
+      dispatch(getUserSuccess(user));
+      dispatch(setUserFetched(true));
     })
     .catch((err) => console.log("ERROR IN LOGIN THUNK"));
 };

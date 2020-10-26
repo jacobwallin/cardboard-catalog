@@ -1,12 +1,21 @@
-import { UserState, UserActionTypes, GET_USER, REMOVE_USER } from "./types";
+import {
+  UserState,
+  UserActionTypes,
+  GET_USER_SUCCESS,
+  SET_USER_FETCHED,
+  REMOVE_USER,
+} from "./types";
 
 const initialState: UserState = {
-  id: 0,
-  firstName: "",
-  lastName: "",
-  username: "",
-  email: "",
-  isAdmin: false,
+  userData: {
+    id: 0,
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "",
+    isAdmin: false,
+  },
+  userFetched: false,
 };
 
 export default function userReducer(
@@ -14,8 +23,10 @@ export default function userReducer(
   action: UserActionTypes
 ): UserState {
   switch (action.type) {
-    case GET_USER:
-      return { ...action.user };
+    case GET_USER_SUCCESS:
+      return { ...state, userData: action.user };
+    case SET_USER_FETCHED:
+      return { ...state, userFetched: action.status };
     case REMOVE_USER:
       return initialState;
     default:

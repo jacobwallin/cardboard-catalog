@@ -1,14 +1,26 @@
-import { GET_USER, REMOVE_USER, UserActionTypes, User } from "./types";
+import {
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
+  SET_USER_FETCHED,
+  REMOVE_USER,
+  UserActionTypes,
+  User,
+} from "./types";
 
-export const getUser = (user: User): UserActionTypes => {
-  return {
-    type: GET_USER,
-    user: user,
-  };
-};
+export const getUserRequest = (): UserActionTypes => ({
+  type: GET_USER_REQUEST,
+});
 
-export const removeUser = (): UserActionTypes => {
-  return {
-    type: REMOVE_USER,
-  };
-};
+export const getUserSuccess = (user: User): UserActionTypes => ({
+  type: GET_USER_SUCCESS,
+  user: user,
+});
+
+export const setUserFetched = (status: boolean): UserActionTypes => ({
+  type: SET_USER_FETCHED,
+  status,
+});
+
+export const removeUser = (): UserActionTypes => ({
+  type: REMOVE_USER,
+});
