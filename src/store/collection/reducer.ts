@@ -5,6 +5,7 @@ import {
   GET_CARDS_BY_SUBSET_SUCCESS,
   GET_CARDS_IN_SINGLE_SUBSET_SUCCESS,
   CLEAR_COLLECTION,
+  SET_INITIAL_DATA_LOAD,
 } from "./types";
 
 const initialState: CollectionState = {
@@ -36,6 +37,11 @@ export default function collectionReducer(
       return {
         ...state,
         cardsInSingleSubset: { cards: action.cards, subsetId: action.subsetId },
+      };
+    case SET_INITIAL_DATA_LOAD:
+      return {
+        ...state,
+        initialDataLoadComplete: action.status,
       };
     case CLEAR_COLLECTION:
       return initialState;

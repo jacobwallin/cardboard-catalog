@@ -8,8 +8,6 @@ import { createLoadingSelector } from "../../store/loading/reducer";
 
 import SubsetCard from "./SubsetCard";
 
-const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SUBSET"]);
-
 type TParams = {
   year: string;
   setId: string;
@@ -27,25 +25,17 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
 
   useEffect(() => {
     // fetch data if necessary
-    if (
-      cardsBySubset.length === 0 ||
-      singleSet.id !== setId ||
-      cardsBySubset[0].setId !== setId
-    ) {
+    if (singleSet.id !== setId || cardsBySubset.setId !== setId) {
       dispatch(fetchCardsBySubset(setId));
       dispatch(fetchSet(setId));
     }
   }, []);
 
-  if (
-    cardsBySubset.length > 0 &&
-    singleSet.id === setId &&
-    cardsBySubset[0].setId === setId
-  ) {
+  if (singleSet.id === setId || cardsBySubset.setId === setId) {
     return (
       <>
         {singleSet.subsets.map((subset) => {
-          const subsetCards = cardsBySubset.find(
+          const subsetCards = cardsBySubset.subsets.find(
             (subsetSummary) => subsetSummary.subsetId === subset.id
           );
           return (

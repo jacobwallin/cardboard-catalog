@@ -20,7 +20,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
     (state: RootState) => state.library.subsets.singleSubset
   );
   const subsetUserCards = useSelector(
-    (state: RootState) => state.collection.cardsInSingleSubset.cards
+    (state: RootState) => state.collection.cardsInSingleSubset
   );
 
   let [selectedSeriesId, setSelectedSeriesId] = useState(0);
@@ -32,8 +32,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
     // get the complete subset data from the library api and all the user's cards that belong to the subset from the collection api
     if (
       librarySubset.id !== SUBSET_ID_PARAM ||
-      subsetUserCards.length === 0 ||
-      subsetUserCards[0].card.series.subsetId !== SUBSET_ID_PARAM
+      subsetUserCards.subsetId !== SUBSET_ID_PARAM
     ) {
       dispatch(fetchSubset(SUBSET_ID_PARAM));
       dispatch(fetchCardsInSingleSubset(SUBSET_ID_PARAM));
@@ -49,7 +48,10 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
     setShowAllCards(!showAllCards);
   }
 
-  if (librarySubset.id === SUBSET_ID_PARAM) {
+  if (
+    librarySubset.id === SUBSET_ID_PARAM &&
+    subsetUserCards.subsetId === SUBSET_ID_PARAM
+  ) {
     return (
       <>
         <div id="subset-header">

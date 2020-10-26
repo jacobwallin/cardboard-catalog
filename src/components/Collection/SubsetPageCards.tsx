@@ -42,6 +42,7 @@ export default function SubsetCardsBySeries(props: Props) {
             let seriesIdx = librarySubset.series.findIndex(
               (series) => series.id === card.card.seriesId
             );
+            console.log("SERIES INDEX", seriesIdx);
             let libCard = librarySubset.series[seriesIdx].cards.find(
               (libraryCard) => libraryCard.id === card.card.id
             )!;

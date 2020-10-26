@@ -1,5 +1,3 @@
-import { setInitialLoadComplete } from "./actions";
-
 // --- ACTION TYPES ---
 export const GET_CARDS_BY_SET_REQUEST = "GET_CARDS_BY_SET_REQUEST";
 export const GET_CARDS_BY_SET_SUCCESS = "GET_CARDS_BY_SET_SUCCESS";
