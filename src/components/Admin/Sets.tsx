@@ -29,7 +29,7 @@ const columns = [
     sortable: true,
   },
   {
-    name: "Edit",
+    name: "",
     sortable: false,
     cell: (row: any) => <EditButton to={`/admin/edit-set/${row.id}`} />,
   },
