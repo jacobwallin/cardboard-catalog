@@ -1,22 +1,44 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
+import { updateSet } from "../../store/library/sets/thunks";
+import { createLoadingSelector } from "../../store/loading/reducer";
 
 import EditFormLine, { EditFormContainer } from "./components/EditForm";
+import StyledButton from "./components/StyledButton";
+
+const isUpdatingSelector = createLoadingSelector(["UPDATE_SET"]);
 
 export default function EditSet() {
-  // redux state for set data
+  const dispatch = useDispatch();
+
   const singleSet = useSelector(
     (state: RootState) => state.library.sets.singleSet
   );
+  const brands = useSelector(
+    (state: RootState) => state.library.brands.allBrands
+  );
+  const leagues = useSelector(
+    (state: RootState) => state.library.leagues.allLeagues
+  );
+  const isUpdatingSet = useSelector((state: RootState) =>
+    isUpdatingSelector(state)
+  );
 
-  // controlled form data
+  useEffect(() => {
+    if (!isUpdatingSet) {
+      setEditing(false);
+    }
+  }, [isUpdatingSet]);
+
+  // toggles between showing current set info and the form to edit it
   const [editing, setEditing] = useState(false);
+  // controlled form data
   const [nameField, setNameField] = useState("");
   const [yearField, setYearField] = useState(0);
-  const [brandIdField, setbBrandIdField] = useState(1);
+  const [brandIdField, setbBrandIdField] = useState(0);
   const [leagueIdField, setLeagueIdField] = useState(0);
-  const [descriptionFieldField, setDescriptionField] = useState("");
+  const [descriptionField, setDescriptionField] = useState("");
 
   // form change handlers
   function handleEditStateChange() {
@@ -26,8 +48,22 @@ export default function EditSet() {
       setNameField(singleSet.name);
       setYearField(singleSet.year);
       setDescriptionField(singleSet.description);
+      setbBrandIdField(singleSet.brand.id);
+      setLeagueIdField(singleSet.league.id);
     }
     setEditing((editing) => !editing);
+  }
+
+  function handleFormSubmit() {
+    dispatch(
+      updateSet(singleSet.id, {
+        name: nameField,
+        year: yearField,
+        description: descriptionField,
+        leagueId: leagueIdField,
+        brandId: brandIdField,
+      })
+    );
   }
 
   function handleInputChange(
@@ -56,6 +92,15 @@ export default function EditSet() {
         setbBrandIdField(+value);
     }
   }
+
+  // if (isUpdatingSet) {
+  //   return (
+  //     <EditFormContainer>
+  //       <h1>UPDATING SET INFO</h1>
+  //     </EditFormContainer>
+  //   );
+  // }
+
   return (
     <EditFormContainer>
       <EditFormLine
@@ -67,6 +112,7 @@ export default function EditSet() {
             name="nameField"
             type="text"
             value={nameField}
+            disabled={isUpdatingSet}
             placeholder="Enter Set Name"
             onChange={handleInputChange}
           />
@@ -81,6 +127,7 @@ export default function EditSet() {
             name="yearField"
             type="text"
             value={yearField}
+            disabled={isUpdatingSet}
             placeholder="Enter Set Year"
             onChange={handleInputChange}
           />
@@ -94,10 +141,16 @@ export default function EditSet() {
           <select
             name="brand"
             value={brandIdField}
+            disabled={isUpdatingSet}
             onChange={handleSelectChange}
           >
-            <option value={0}>Test 0</option>
-            <option value={1}>Test 1</option>
+            {brands.map((brand) => {
+              return (
+                <option key={brand.id} value={brand.id}>
+                  {brand.name}
+                </option>
+              );
+            })}
           </select>
         }
       />
@@ -109,10 +162,16 @@ export default function EditSet() {
           <select
             name="league"
             value={leagueIdField}
+            disabled={isUpdatingSet}
             onChange={handleSelectChange}
           >
-            <option value={0}>Test 0</option>
-            <option value={1}>Test 1</option>
+            {leagues.map((league) => {
+              return (
+                <option key={league.id} value={league.id}>
+                  {league.name}
+                </option>
+              );
+            })}
           </select>
         }
       />
@@ -123,13 +182,36 @@ export default function EditSet() {
         input={
           <textarea
             name="descriptionFieldField"
-            value={descriptionFieldField}
+            value={descriptionField}
+            disabled={isUpdatingSet}
             placeholder="Enter Set Description"
             onChange={handleInputChange}
           />
         }
       />
-      <button onClick={handleEditStateChange}>Edit</button>
+      {editing ? (
+        <>
+          <StyledButton
+            onClick={handleEditStateChange}
+            buttonType="CANCEL"
+            disabled={isUpdatingSet}
+          >
+            Cancel
+          </StyledButton>
+          <StyledButton
+            onClick={handleFormSubmit}
+            buttonType="SAVE"
+            disabled={isUpdatingSet}
+          >
+            Save
+          </StyledButton>
+        </>
+      ) : (
+        <StyledButton onClick={handleEditStateChange} buttonType="EDIT">
+          Edit
+        </StyledButton>
+      )}
+      {isUpdatingSet && <h2>UPDATING SET</h2>}
     </EditFormContainer>
   );
 }

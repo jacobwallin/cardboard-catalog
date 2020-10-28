@@ -7,10 +7,12 @@ export const EditFormContainer = styled.div`
   background-color: #fff;
   margin: 10px;
   padding: 10px;
+  min-width: 750px;
   max-width: 1200px;
 `;
 
 const LineItem = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
   padding: 10px;

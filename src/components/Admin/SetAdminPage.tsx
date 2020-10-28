@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
-import { RouteComponentProps, Link } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSet } from "../../store/library/sets/thunks";
+import { fetchBrands } from "../../store/library/brands/thunks";
+import { fetchLeagues } from "../../store/library/leagues/thunks";
 import { RootState } from "../../store";
-import EditButton from "./components/EditButton";
+import EditLink from "./components/EditLink";
 import EditSet from "./EditSet";
 import styled from "styled-components";
 
@@ -23,7 +25,7 @@ const columns = [
   {
     name: "",
     sortable: false,
-    cell: (row: any) => <EditButton to={`/admin/edit-subset/${row.id}`} />,
+    cell: (row: any) => <EditLink to={`/admin/edit-subset/${row.id}`} />,
   },
 ];
 
@@ -42,6 +44,8 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
 
   useEffect(() => {
     dispatch(fetchSet(+props.match.params.setId));
+    dispatch(fetchBrands());
+    dispatch(fetchLeagues());
   }, []);
   return (
     <div>

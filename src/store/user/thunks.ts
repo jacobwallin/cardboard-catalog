@@ -17,7 +17,10 @@ export const fetchMe = (): ThunkAction<
       dispatch(getUserSuccess(user));
       dispatch(setUserFetched(true));
     })
-    .catch((err) => console.log("ERROR IN FETCH ME THUNK"));
+    .catch((err) => {
+      dispatch(setUserFetched(true));
+      console.log("ERROR IN FETCH ME THUNK");
+    });
 };
 
 export const login = (

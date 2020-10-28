@@ -15,6 +15,6 @@ interface Props {
   to: string;
 }
 
-export default function EditButton(props: Props) {
+export default function EditLink(props: Props) {
   return <StyledLink to={props.to}>Edit</StyledLink>;
 }

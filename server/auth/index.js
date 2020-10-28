@@ -4,7 +4,9 @@ const passport = require("passport");
 const { User } = require("../db/models");
 
 router.get("/", (req, res) => {
-  res.json(req.user);
+  console.log("THIS IS REQ.USER: ", req.user);
+  if (req.user) res.json(req.user);
+  res.json(undefined);
 });
 
 router.post("/login", passport.authenticate("local"), (req, res, next) => {

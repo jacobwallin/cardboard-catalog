@@ -84,13 +84,18 @@ router.put("/:setId", async (req, res, next) => {
   const { name, year, description, leagueId, brandId } = req.body;
 
   try {
-    const updatedSet = await Set.update(
+    await Set.update(
       { name, year, description, leagueId, brandId },
       { where: { id: req.params.setId } }
     );
 
+    const updatedSet = await Set.findByPk(req.params.setId, {
+      include: [League, Brand],
+    });
+
     res.json(updatedSet);
   } catch (error) {
+    console.log(error.message);
     res.sendStatus(500);
   }
 });
