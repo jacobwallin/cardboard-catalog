@@ -26,7 +26,7 @@ export interface UpdateSetRequest {
   type: typeof UPDATE_SET_REQUEST;
 }
 
-interface UpdateSetServerResponse {
+export interface UpdateSetServerResponse {
   id: number;
   name: string;
   year: number;

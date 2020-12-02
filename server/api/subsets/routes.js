@@ -78,10 +78,12 @@ router.put("/:subsetId", async (req, res, next) => {
   const { name, cardQuantity, description } = req.body;
 
   try {
-    const updatedSubset = await Subset.update(
+    await Subset.update(
       { name, cardQuantity, description },
       { where: { id: req.params.subsetId } }
     );
+
+    const updatedSubset = await Subset.findByPk(req.params.subsetId);
     res.json(updatedSubset);
   } catch (error) {
     next(error);

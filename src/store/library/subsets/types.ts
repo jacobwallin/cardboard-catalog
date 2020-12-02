@@ -1,16 +1,38 @@
-export const GET_SUBSET = "GET_SUBSET";
+export const GET_SUBSET_REQUEST = "GET_SUBSET_REQUEST";
+export const GET_SUBSET_SUCCESS = "GET_SUBSET_SUCCESS";
+export const UPDATE_SUBSET_REQUEST = "UPDATE_SUBSET_REQUEST";
+export const UPDATE_SUBSET_SUCCESS = "UPDATE_SUBSET_SUCCESS";
 export const CLEAR_LIBRARY = "CLEAR_LIBRARY";
 
-export interface GetSubsetAction {
-  type: typeof GET_SUBSET;
+export interface GetSubsetRequest {
+  type: typeof GET_SUBSET_REQUEST;
+}
+export interface GetSubsetSuccess {
+  type: typeof GET_SUBSET_SUCCESS;
   singleSubset: Subset;
 }
-
+export interface UpdateSubsetRequest {
+  type: typeof UPDATE_SUBSET_REQUEST;
+}
+export interface UpdateSubsetServerResponse {
+  name: string;
+  description: string;
+  cardQuantity: number;
+}
+export interface UpdateSubsetSuccess {
+  type: typeof UPDATE_SUBSET_SUCCESS;
+  updatedSubset: UpdateSubsetServerResponse;
+}
 export interface ClearLibraryAction {
   type: typeof CLEAR_LIBRARY;
 }
 
-export type LibraryActionTypes = GetSubsetAction | ClearLibraryAction;
+export type LibraryActionTypes =
+  | GetSubsetRequest
+  | GetSubsetSuccess
+  | UpdateSubsetRequest
+  | UpdateSubsetSuccess
+  | ClearLibraryAction;
 
 export interface LibraryState {
   singleSubset: Subset;

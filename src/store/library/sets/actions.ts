@@ -1,6 +1,7 @@
 import {
   SetSummary,
   Set,
+  UpdateSetServerResponse,
   SetsActionTypes,
   GET_ALL_SETS_REQUEST,
   GET_ALL_SETS_SUCCESS,
@@ -33,7 +34,9 @@ export const updateSetRequest = (): SetsActionTypes => ({
   type: UPDATE_SET_REQUEST,
 });
 
-export const updateSetSuccess = (updatedSet: Set): SetsActionTypes => ({
+export const updateSetSuccess = (
+  updatedSet: UpdateSetServerResponse
+): SetsActionTypes => ({
   type: UPDATE_SET_SUCCESS,
   updatedSet,
 });

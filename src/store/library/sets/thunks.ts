@@ -8,7 +8,8 @@ import {
   updateSetRequest,
   updateSetSuccess,
 } from "./actions";
-import { SetsActionTypes, Set } from "./types";
+import { SetsActionTypes } from "./types";
+import { postData } from "../../../utils/postData";
 
 export const fetchAllSetData = (): ThunkAction<
   void,

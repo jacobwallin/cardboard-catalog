@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllSetData } from "../../store/library/sets/thunks";
 import { RootState } from "../../store";
@@ -35,7 +34,7 @@ const columns = [
   },
 ];
 
-export default function Sets(props: any) {
+export default function AdminSets(props: any) {
   const dispatch = useDispatch();
   const allSets = useSelector((state: RootState) => state.library.sets.allSets);
   useEffect(() => {

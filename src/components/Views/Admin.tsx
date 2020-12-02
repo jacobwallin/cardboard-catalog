@@ -3,8 +3,8 @@ import { useRouteMatch } from "react-router-dom";
 import AdminRoute from "../Protected_Routes/AdminRoute";
 import Sidebar from "../Admin/Sidebar";
 import styled from "styled-components";
-import Sets from "../Admin/Sets";
-import SetAdminPage from "../Admin/SetAdminPage";
+import AdminSets from "../Admin/AdminSets";
+import EditSet from "../Admin/EditSet";
 import EditSubset from "../Admin/EditSubset";
 
 const AdminPage = styled.div`
@@ -18,11 +18,11 @@ export default function Admin() {
   return (
     <AdminPage>
       <Sidebar />
-      <AdminRoute exact path={path} component={Sets} />
+      <AdminRoute exact path={path} component={AdminSets} />
       <AdminRoute
         exact
         path={`${path}/edit-set/:setId`}
-        component={SetAdminPage}
+        component={EditSet}
       />
       <AdminRoute
         exact

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import StyledButton from "./StyledButton";
 
 export const EditFormContainer = styled.div`
   display: flex;
@@ -29,18 +30,51 @@ const LineItemData = styled.div`
   width: 75%;
 `;
 
-interface Props {
+interface FormLineProps {
   title: string;
   data: string | number;
   editing: boolean;
   input: any;
 }
 
-export default function EditFormLine(props: Props) {
+export function EditFormLine(props: FormLineProps) {
   return (
     <LineItem>
       <LineItemTitle>{props.title}</LineItemTitle>
       <LineItemData>{props.editing ? props.input : props.data}</LineItemData>
     </LineItem>
+  );
+}
+
+interface FormButtonProps {
+  isEditing: boolean;
+  isUpdating: boolean;
+  changesMade: boolean;
+  handleEditStateChange(): void;
+  handleFormSubmit(): void;
+}
+
+export function EditFormButtons(props: FormButtonProps) {
+  return props.isEditing ? (
+    <>
+      <StyledButton
+        onClick={props.handleEditStateChange}
+        buttonType="CANCEL"
+        disabled={props.isUpdating}
+      >
+        Cancel
+      </StyledButton>
+      <StyledButton
+        onClick={props.handleFormSubmit}
+        buttonType="SAVE"
+        disabled={props.isUpdating || !props.changesMade}
+      >
+        Save
+      </StyledButton>
+    </>
+  ) : (
+    <StyledButton onClick={props.handleEditStateChange} buttonType="EDIT">
+      Edit
+    </StyledButton>
   );
 }

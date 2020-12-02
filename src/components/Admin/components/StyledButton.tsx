@@ -19,7 +19,9 @@ const StyledButton = styled.button<{ buttonType: ButtonStyles }>`
   border-radius: 3px;
   &:hover {
     text-decoration: underline;
-    cursor: pointer;
+  }
+  &:active {
+    opacity: 80%;
   }
 `;
 

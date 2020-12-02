@@ -1,7 +1,8 @@
 import {
   LibraryState,
   LibraryActionTypes,
-  GET_SUBSET,
+  GET_SUBSET_SUCCESS,
+  UPDATE_SUBSET_SUCCESS,
   CLEAR_LIBRARY,
 } from "./types";
 
@@ -23,8 +24,13 @@ const subsetsReducer = (
   action: LibraryActionTypes
 ): LibraryState => {
   switch (action.type) {
-    case GET_SUBSET:
+    case GET_SUBSET_SUCCESS:
       return { ...state, singleSubset: action.singleSubset };
+    case UPDATE_SUBSET_SUCCESS:
+      return {
+        ...state,
+        singleSubset: { ...state.singleSubset, ...action.updatedSubset },
+      };
     case CLEAR_LIBRARY:
       return initialState;
     default:
