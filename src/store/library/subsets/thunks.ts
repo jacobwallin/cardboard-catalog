@@ -1,5 +1,4 @@
 import { ThunkAction } from "redux-thunk";
-import { postData } from "../../../utils/postData";
 import { RootState } from "../../index";
 import {
   getSubsetRequest,
