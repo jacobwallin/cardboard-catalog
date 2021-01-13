@@ -5,7 +5,7 @@ import { RootState } from "../../store";
 import { fetchSubset } from "../../store/library/subsets/thunks";
 import DataTable from "react-data-table-component";
 import { createLoadingSelector } from "../../store/loading/reducer";
-import SubsetForm from "./SubsetForm";
+import EditSubsetForm from "./EditSubsetForm";
 import EditLink from "./components/EditLink";
 
 const isLoadingSelector = createLoadingSelector(["GET_SUBSET"]);
@@ -78,7 +78,7 @@ export default function EditSubset(props: RouteComponentProps<Params>) {
   }
   return (
     <div style={{ display: "block" }}>
-      <SubsetForm />
+      <EditSubsetForm />
       <DataTable
         title={`Series in ${subset.name}`}
         columns={seriesColumns}

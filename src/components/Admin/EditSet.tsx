@@ -6,7 +6,7 @@ import { fetchBrands } from "../../store/library/brands/thunks";
 import { fetchLeagues } from "../../store/library/leagues/thunks";
 import { RootState } from "../../store";
 import EditLink from "./components/EditLink";
-import SetForm from "./SetForm";
+import EditSetForm from "./EditSetForm";
 import styled from "styled-components";
 
 import { createLoadingSelector } from "../../store/loading/reducer";
@@ -27,7 +27,7 @@ const columns = [
     name: "",
     sortable: false,
     cell: (row: any) => <EditLink to={`/admin/edit-subset/${row.id}`} />,
-  }, 
+  },
 ];
 
 const EditSetHeader = styled.div`
@@ -58,9 +58,9 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
   return (
     <div>
       <EditSetHeader>EDIT SET</EditSetHeader>
-      {!isLoading && ( 
+      {!isLoading && (
         <>
-          <SetForm />
+          <EditSetForm />
           <DataTable
             title={`Subsets in ${singleSet.name}`}
             columns={columns}

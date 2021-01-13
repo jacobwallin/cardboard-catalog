@@ -5,7 +5,7 @@ import { RootState } from "../../store";
 import { fetchAttributes } from "../../store/library/attributes/thunks";
 import { fetchSeriesById } from "../../store/library/series/thunks";
 import { createLoadingSelector } from "../../store/loading/reducer";
-import SeriesForm from "./SeriesForm";
+import EditSeriesForm from "./EditSeriesForm";
 
 const isLoadingSelector = createLoadingSelector([
   "GET_ATTRIBUTES",
@@ -32,7 +32,7 @@ export default function EditSeries(props: RouteComponentProps<Params>) {
 
   return (
     <div>
-      <SeriesForm />
+      <EditSeriesForm />
     </div>
   );
 }
