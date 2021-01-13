@@ -65,7 +65,9 @@ interface Attributes {
 
 export interface Card {
   id: number;
+  cardDataId: number;
   card_datum: {
+    id: number;
     name: string;
     number: string;
     rookie: boolean;
