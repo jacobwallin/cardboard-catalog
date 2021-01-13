@@ -26,8 +26,6 @@ router.post(
       password,
     })
       .then((user) => {
-        // redirect to login and establish session?
-        console.log("AFTER REGISTRATION: ", req.session, req.user);
         // At this point, user is not logged in and needs to be redirected to login page
         next();
       })

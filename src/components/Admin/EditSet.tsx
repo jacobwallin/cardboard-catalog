@@ -27,7 +27,7 @@ const columns = [
     name: "",
     sortable: false,
     cell: (row: any) => <EditLink to={`/admin/edit-subset/${row.id}`} />,
-  },
+  }, 
 ];
 
 const EditSetHeader = styled.div`

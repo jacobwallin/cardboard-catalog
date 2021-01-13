@@ -6,6 +6,7 @@ import styled from "styled-components";
 import AdminSets from "../Admin/AdminSets";
 import EditSet from "../Admin/EditSet";
 import EditSubset from "../Admin/EditSubset";
+import EditSeries from "../Admin/EditSeries";
 
 const AdminPage = styled.div`
   display: flex;
@@ -28,6 +29,11 @@ export default function Admin() {
         exact
         path={`${path}/edit-subset/:subsetId`}
         component={EditSubset}
+      />
+      <AdminRoute
+        exact
+        path={`${path}/edit-series/:seriesId`}
+        component={EditSeries}
       />
       <AdminRoute exact path={`${path}/teams`} component={() => <p>teams</p>} />
       <AdminRoute

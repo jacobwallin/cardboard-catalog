@@ -6,6 +6,7 @@ const series = require("./series/routes");
 const cards = require("./cards/routes");
 const brands = require("./brands/routes");
 const leagues = require("./leagues/routes");
+const attributes = require("./attributes/routes");
 
 router.use("/collection", collection);
 router.use("/sets", sets);
@@ -14,5 +15,6 @@ router.use("/series", series);
 router.use("/cards", cards);
 router.use("/brands", brands);
 router.use("/leagues", leagues);
+router.use("/attributes", attributes);
 
 module.exports = router;

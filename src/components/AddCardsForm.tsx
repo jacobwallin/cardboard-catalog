@@ -102,8 +102,6 @@ export default function AddCardsForm() {
     setSubmitDisabled(true);
 
     postData("/api/collection/add", apiData).then((response) => {
-      console.log("SUCCESS! Server response: ", response);
-
       // clear collection data so it will be re-fetched and updated when user next goes to any collection pages
       dispatch(clearCollection());
     });

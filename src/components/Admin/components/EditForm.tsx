@@ -32,7 +32,8 @@ const LineItemData = styled.div`
 
 interface FormLineProps {
   title: string;
-  data: string | number;
+  // TODO: type for react component
+  data: any;
   editing: boolean;
   input: any;
 }
@@ -54,9 +55,13 @@ interface FormButtonProps {
   handleFormSubmit(): void;
 }
 
+const FormButtonContainer = styled.div`
+  display: flex;
+`;
+
 export function EditFormButtons(props: FormButtonProps) {
   return props.isEditing ? (
-    <>
+    <FormButtonContainer>
       <StyledButton
         onClick={props.handleEditStateChange}
         buttonType="CANCEL"
@@ -71,7 +76,7 @@ export function EditFormButtons(props: FormButtonProps) {
       >
         Save
       </StyledButton>
-    </>
+    </FormButtonContainer>
   ) : (
     <StyledButton onClick={props.handleEditStateChange} buttonType="EDIT">
       Edit
