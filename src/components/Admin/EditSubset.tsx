@@ -57,7 +57,7 @@ const cardsColumns = [
   {
     name: "",
     sortable: false,
-    cell: (row: any) => <EditLink to={`/admin/edit-series/${row.id}`} />,
+    cell: (row: any) => <EditLink to={`/admin/edit-card/${row.cardDataId}`} />,
   },
 ];
 

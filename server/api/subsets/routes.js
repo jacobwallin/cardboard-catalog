@@ -37,13 +37,13 @@ router.get("/:subsetId", async (req, res, next) => {
             },
             {
               model: Card,
-              attributes: ["id"],
+              attributes: ["id", "cardDataId"],
               include: {
                 model: CardData,
-                attributes: ["name", "number", "rookie"],
+                attributes: ["id", "name", "number", "rookie"],
                 include: {
                   model: Team,
-                  attributes: ["name"],
+                  attributes: ["name", "id"],
                 },
               },
             },
