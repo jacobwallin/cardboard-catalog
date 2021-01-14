@@ -8,7 +8,7 @@ import {
 } from "./actions";
 import { CardActionTypes } from "./types";
 
-export const getCardById = (
+export const fetchCardById = (
   cardId: number
 ): ThunkAction<void, RootState, unknown, CardActionTypes> => (dispatch) => {
   dispatch(getCardByIdRequest());
