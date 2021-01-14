@@ -94,15 +94,16 @@ router.post("/bulk", async (req, res, next) => {
 });
 
 router.put("/:cardId", async (req, res, next) => {
-  const { name, number, rookie, teamId, subsetId } = req.body;
+  const { name, number, rookie, teamId } = req.body;
 
   try {
     const updatedCardData = await CardData.update(
-      { name, number, rookie, teamId, subsetId },
+      { name, number, rookie, teamId },
       { where: { id: req.params.cardId } }
     );
 
-    res.json(updatedCardData);
+    // redirect to send updated card back as the response
+    res.redirect(`/api/cards/${req.params.cardId}`);
   } catch (error) {
     next(error);
   }

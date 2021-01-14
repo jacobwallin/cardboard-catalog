@@ -18,6 +18,7 @@ interface UpdateCardRequest {
 
 interface UpdateCardSuccess {
   type: typeof UPDATE_CARD_SUCCESS;
+  updatedCard: CardState;
 }
 
 export type CardActionTypes =

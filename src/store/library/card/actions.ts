@@ -20,6 +20,7 @@ export const updateCardRequest = (): CardActionTypes => ({
   type: UPDATE_CARD_REQUEST,
 });
 
-export const updateCardSuccess = (): CardActionTypes => ({
+export const updateCardSuccess = (updatedCard: CardState): CardActionTypes => ({
   type: UPDATE_CARD_SUCCESS,
+  updatedCard,
 });

@@ -1,4 +1,9 @@
-import { CardState, CardActionTypes } from "./types";
+import {
+  CardState,
+  CardActionTypes,
+  GET_CARD_BY_ID_SUCCESS,
+  UPDATE_CARD_SUCCESS,
+} from "./types";
 
 const initialState = {
   id: 0,
@@ -39,5 +44,11 @@ export default function cardReducer(
   action: CardActionTypes
 ) {
   switch (action.type) {
+    case GET_CARD_BY_ID_SUCCESS:
+      return action.card;
+    case UPDATE_CARD_SUCCESS:
+      return action.updatedCard;
+    default:
+      return state;
   }
 }
