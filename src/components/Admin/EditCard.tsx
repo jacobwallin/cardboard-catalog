@@ -9,7 +9,7 @@ interface Params {
 export default function EditCard(props: RouteComponentProps<Params>) {
   return (
     <div>
-      <EditCardForm />
+      <EditCardForm cardId={+props.match.params.cardId} />
     </div>
   );
 }

@@ -4,7 +4,6 @@ const passport = require("passport");
 const { User } = require("../db/models");
 
 router.get("/", (req, res) => {
-  console.log("THIS IS REQ.USER: ", req.user);
   if (req.user) res.json(req.user);
   res.json(undefined);
 });

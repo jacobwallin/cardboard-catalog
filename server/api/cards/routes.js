@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const { Card, CardData, Series } = require("../../db/models");
+const { Card, CardData, Series, Team } = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -14,7 +14,7 @@ router.get("/", async (req, res, next) => {
 router.get("/:cardId", async (req, res, next) => {
   try {
     const card = await Card.findByPk(req.params.cardId, {
-      include: [{ model: CardData }, { model: Series }],
+      include: [{ model: CardData, include: Team }, { model: Series }],
     });
     res.json(card);
   } catch (error) {
