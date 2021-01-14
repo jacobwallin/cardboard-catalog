@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
+import { RootState } from "../../store";
 import EditCardForm from "./EditCardForm";
 import { createLoadingSelector } from "../../store/loading/reducer";
 import { fetchAllTeams } from "../../store/library/teams/thunks";
@@ -7,7 +9,7 @@ import { fetchCardById } from "../../store/library/card/thunks";
 
 const isLoadingSelector = createLoadingSelector([
   "GET_CARD_BY_ID",
-  "GET_TEAMS",
+  "GET_ALL_TEAMS",
 ]);
 
 interface Params {
@@ -15,9 +17,19 @@ interface Params {
 }
 
 export default function EditCard(props: RouteComponentProps<Params>) {
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    // fetch card and teams
+    dispatch(fetchAllTeams());
+    dispatch(fetchCardById(+props.match.params.cardId));
   }, []);
+
+  const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
+
+  if (isLoading) {
+    return <div>LOADING</div>;
+  }
+
   return (
     <div>
       <EditCardForm cardId={+props.match.params.cardId} />
