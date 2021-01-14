@@ -55,6 +55,16 @@ const cardsColumns = [
     cell: (row: any) => (row.card_datum.rookie ? "RC" : ""),
   },
   {
+    name: "Card ID",
+    sortable: true,
+    selector: "id",
+  },
+  {
+    name: "Card Data ID",
+    sortable: true,
+    selector: "cardDataId",
+  },
+  {
     name: "",
     sortable: false,
     cell: (row: any) => <EditLink to={`/admin/edit/card/${row.cardDataId}`} />,

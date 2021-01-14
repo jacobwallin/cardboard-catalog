@@ -4,8 +4,8 @@ const { Card, CardData, Series, Team } = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
   try {
-    const allCards = await Card.findAll();
-    res.json(allCards);
+    const allCardData = await CardData.findAll();
+    res.json(allCardData);
   } catch (error) {
     next(error);
   }
@@ -13,10 +13,10 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:cardId", async (req, res, next) => {
   try {
-    const card = await Card.findByPk(req.params.cardId, {
-      include: [{ model: CardData, include: Team }, { model: Series }],
+    const cardData = await CardData.findByPk(req.params.cardId, {
+      include: Team,
     });
-    res.json(card);
+    res.json(cardData);
   } catch (error) {
     next(error);
   }
@@ -103,8 +103,8 @@ router.put("/:cardId", async (req, res, next) => {
       { where: { id: req.params.cardId } }
     );
 
-    const updatedCard = await Card.findByPk(req.params.cardId, {
-      include: [{ model: CardData, include: Team }, { model: Series }],
+    const updatedCard = await CardData.findByPk(req.params.cardId, {
+      include: Team,
     });
 
     res.json(updatedCard);

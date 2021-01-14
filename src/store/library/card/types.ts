@@ -29,34 +29,18 @@ export type CardActionTypes =
 
 export interface CardState {
   id: number;
+  name: string;
+  number: string;
+  rookie: boolean;
   createdAt: string;
   updatedAt: string;
-  seriesId: number;
-  cardDataId: number;
-  card_datum: {
+  subsetId: number;
+  teamId: number;
+  team: {
     id: number;
     name: string;
-    number: string;
-    rookie: boolean;
     createdAt: string;
     updatedAt: string;
-    subsetId: number;
-    teamId: number;
-    team: {
-      id: number;
-      name: string;
-      createdAt: string;
-      updatedAt: string;
-      leagueId: number;
-    };
-  };
-  series: {
-    id: number;
-    name: string;
-    color: string;
-    serializedTo: number;
-    createdAt: string;
-    updatedAt: string;
-    subsetId: number;
+    leagueId: number;
   };
 }

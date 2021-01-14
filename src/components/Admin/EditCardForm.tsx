@@ -34,10 +34,10 @@ export default function EditCardForm(props: Props) {
   }, [isUpdating]);
 
   const [isEditing, setIsEditing] = useState(false);
-  const [nameField, setNameField] = useState(card.card_datum.name);
-  const [numberField, setNumberField] = useState(card.card_datum.number);
-  const [rookieField, setRookieField] = useState(card.card_datum.rookie);
-  const [teamIdField, setTeamIdField] = useState(card.card_datum.teamId);
+  const [nameField, setNameField] = useState(card.name);
+  const [numberField, setNumberField] = useState(card.number);
+  const [rookieField, setRookieField] = useState(card.rookie);
+  const [teamIdField, setTeamIdField] = useState(card.teamId);
 
   function handleEditStateChange() {
     setIsEditing(!isEditing);
@@ -86,7 +86,7 @@ export default function EditCardForm(props: Props) {
       <EditFormContainer>
         <EditFormLine
           title="Card Name: "
-          data={card.card_datum.name}
+          data={card.name}
           editing={isEditing}
           input={
             <input
@@ -101,7 +101,7 @@ export default function EditCardForm(props: Props) {
         />
         <EditFormLine
           title="Card Number: "
-          data={card.card_datum.number}
+          data={card.number}
           editing={isEditing}
           input={
             <input
@@ -117,7 +117,7 @@ export default function EditCardForm(props: Props) {
         <EditFormLine
           editing={isEditing}
           title="Team: "
-          data={card.card_datum.team.name}
+          data={card.team.name}
           input={
             <select
               name="team"
@@ -138,7 +138,7 @@ export default function EditCardForm(props: Props) {
         <EditFormLine
           editing={isEditing}
           title="Rookie Card: "
-          data={card.card_datum.rookie === true ? "YES" : "NO"}
+          data={card.rookie === true ? "YES" : "NO"}
           input={
             <select
               name="rookie"
@@ -158,12 +158,7 @@ export default function EditCardForm(props: Props) {
           handleFormSubmit={handleFormSubmit}
           changesMade={detectFormChanges(
             [nameField, numberField, rookieField, teamIdField],
-            [
-              card.card_datum.name,
-              card.card_datum.number,
-              card.card_datum.rookie,
-              card.card_datum.teamId,
-            ]
+            [card.name, card.number, card.rookie, card.teamId]
           )}
         />
       </EditFormContainer>
