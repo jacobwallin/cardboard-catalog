@@ -21,20 +21,20 @@ export default function Admin() {
     <AdminPage>
       <Sidebar />
       <AdminRoute exact path={path} component={AdminSets} />
-      <AdminRoute exact path={`${path}/edit-set/:setId`} component={EditSet} />
+      <AdminRoute exact path={`${path}/edit/set/:setId`} component={EditSet} />
       <AdminRoute
         exact
-        path={`${path}/edit-subset/:subsetId`}
+        path={`${path}/edit/subset/:subsetId`}
         component={EditSubset}
       />
       <AdminRoute
         exact
-        path={`${path}/edit-series/:seriesId`}
+        path={`${path}/edit/series/:seriesId`}
         component={EditSeries}
       />
       <AdminRoute
         exact
-        path={`${path}/edit-card/:cardId`}
+        path={`${path}/edit/card/:cardId`}
         component={EditCard}
       />
       <AdminRoute exact path={`${path}/teams`} component={() => <p>teams</p>} />

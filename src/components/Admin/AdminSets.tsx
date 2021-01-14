@@ -30,7 +30,7 @@ const columns = [
   {
     name: "",
     sortable: false,
-    cell: (row: any) => <EditLink to={`/admin/edit-set/${row.id}`} />,
+    cell: (row: any) => <EditLink to={`/admin/edit/set/${row.id}`} />,
   },
 ];
 
