@@ -5,11 +5,11 @@ import styled from "styled-components";
 const SidebarContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 15%;
+  width: 150px;
   height: auto;
   background: #ddd;
-  margin: 15px;
-  border: 1px solid black;
+  margin-right: 15px;
+  border-right: 2px solid white;
 `;
 
 export default function Sidebar() {

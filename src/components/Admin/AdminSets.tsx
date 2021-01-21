@@ -41,14 +41,13 @@ export default function AdminSets(props: any) {
     dispatch(fetchAllSetData());
   }, []);
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div>
       <DataTable
         title="All Sets"
         columns={columns}
         data={allSets}
         highlightOnHover
       />
-      ;
     </div>
   );
 }

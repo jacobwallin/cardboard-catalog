@@ -8,7 +8,7 @@ export const EditFormContainer = styled.div`
   background-color: #fff;
   margin: 10px;
   padding: 10px;
-  min-width: 750px;
+  min-width: 500px;
   max-width: 1200px;
 `;
 
@@ -21,8 +21,7 @@ const LineItem = styled.div`
 
 const LineItemTitle = styled.div`
   font-weight: bold;
-  min-width: 150px;
-  width: 25%;
+  width: 150px;
 `;
 
 const LineItemData = styled.div`
@@ -37,6 +36,13 @@ interface FormLineProps {
   editing: boolean;
   input: any;
 }
+
+export const EditSetHeader = styled.div`
+  padding-top: 25px;
+  font-size: 1.7rem;
+  max-width: 1200px;
+  text-align: center;
+`;
 
 export function EditFormLine(props: FormLineProps) {
   return (

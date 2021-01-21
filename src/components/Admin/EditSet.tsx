@@ -7,31 +7,36 @@ import { fetchLeagues } from "../../store/library/leagues/thunks";
 import { RootState } from "../../store";
 import EditLink from "./components/EditLink";
 import EditSetForm from "./EditSetForm";
+import WrappedDataTable from "./components/WrappedDataTable";
 import styled from "styled-components";
-
 import { createLoadingSelector } from "../../store/loading/reducer";
-import DataTable from "react-data-table-component";
 
 const columns = [
   {
     name: "Name",
     selector: "name",
     sortable: true,
+    grow: 1,
   },
   {
     name: "Card Qty",
     selector: "cardQuantity",
     sortable: true,
+    grow: 1,
   },
   {
     name: "",
     sortable: false,
     cell: (row: any) => <EditLink to={`/admin/edit/subset/${row.id}`} />,
+    grow: 0,
   },
 ];
 
 const EditSetHeader = styled.div`
-  font-size: 2rem;
+  padding-top: 25px;
+  font-size: 1.7rem;
+  max-width: 1200px;
+  text-align: center;
 `;
 
 const isLoadingSelector = createLoadingSelector([
@@ -57,11 +62,11 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
   }, []);
   return (
     <div>
-      <EditSetHeader>EDIT SET</EditSetHeader>
       {!isLoading && (
         <>
+          <EditSetHeader>{`Edit ${singleSet.name} Set`}</EditSetHeader>
           <EditSetForm />
-          <DataTable
+          <WrappedDataTable
             title={`Subsets in ${singleSet.name}`}
             columns={columns}
             data={singleSet.subsets}

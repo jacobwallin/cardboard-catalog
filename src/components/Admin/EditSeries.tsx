@@ -30,9 +30,5 @@ export default function EditSeries(props: RouteComponentProps<Params>) {
     return <div>LOADING</div>;
   }
 
-  return (
-    <div>
-      <EditSeriesForm />
-    </div>
-  );
+  return <EditSeriesForm />;
 }

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { RootState } from "../../store";
 import { fetchSubset } from "../../store/library/subsets/thunks";
-import DataTable from "react-data-table-component";
+import WrappedDataTable from "./components/WrappedDataTable";
 import { createLoadingSelector } from "../../store/loading/reducer";
 import EditSubsetForm from "./EditSubsetForm";
 import EditLink from "./components/EditLink";
@@ -24,6 +24,7 @@ const seriesColumns = [
     name: "",
     sortable: false,
     cell: (row: any) => <EditLink to={`/admin/edit/series/${row.id}`} />,
+    grow: 0,
   },
 ];
 const cardsColumns = [
@@ -55,19 +56,10 @@ const cardsColumns = [
     cell: (row: any) => (row.card_datum.rookie ? "RC" : ""),
   },
   {
-    name: "Card ID",
-    sortable: true,
-    selector: "id",
-  },
-  {
-    name: "Card Data ID",
-    sortable: true,
-    selector: "cardDataId",
-  },
-  {
     name: "",
     sortable: false,
     cell: (row: any) => <EditLink to={`/admin/edit/card/${row.cardDataId}`} />,
+    grow: 0,
   },
 ];
 
@@ -87,21 +79,23 @@ export default function EditSubset(props: RouteComponentProps<Params>) {
     return <h1>LOADING DATA</h1>;
   }
   return (
-    <div style={{ display: "block" }}>
+    <div>
       <EditSubsetForm />
-      <DataTable
+      <WrappedDataTable
         title={`Series in ${subset.name}`}
         columns={seriesColumns}
         data={subset.series}
         highlightOnHover
       />
-      <DataTable
+      <WrappedDataTable
         title={`Cards in ${subset.name}`}
         columns={cardsColumns}
         data={subset.series[0].cards}
         defaultSortField="card_datum.number"
         highlightOnHover
         pagination
+        paginationPerPage={20}
+        dense
       />
     </div>
   );
