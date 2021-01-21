@@ -6,6 +6,8 @@ import { fetchAttributes } from "../../store/library/attributes/thunks";
 import { fetchSeriesById } from "../../store/library/series/thunks";
 import { createLoadingSelector } from "../../store/loading/reducer";
 import EditSeriesForm from "./EditSeriesForm";
+import EditFormHeader from "./components/EditFormHeader";
+import EditPageContainer from "./components/EditPageContainer";
 
 const isLoadingSelector = createLoadingSelector([
   "GET_ATTRIBUTES",
@@ -25,10 +27,16 @@ export default function EditSeries(props: RouteComponentProps<Params>) {
   }, []);
 
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
+  const series = useSelector((state: RootState) => state.library.series.series);
 
   if (isLoading) {
     return <div>LOADING</div>;
   }
 
-  return <EditSeriesForm />;
+  return (
+    <EditPageContainer>
+      <EditFormHeader text={`Edit ${series.name} Series`} />
+      <EditSeriesForm />
+    </EditPageContainer>
+  );
 }

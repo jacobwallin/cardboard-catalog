@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  EditFormLine,
-  EditFormContainer,
-  EditFormButtons,
-} from "./components/EditForm";
+import EditFormLine from "./components/EditFormLine";
+import EditFormContainer from "./components/EditFormContainer";
+import EditFormButtons from "./components/EditFormButtons";
 import { RootState } from "../../store";
 import { createLoadingSelector } from "../../store/loading/reducer";
 import { updateSubset } from "../../store/library/subsets/thunks";

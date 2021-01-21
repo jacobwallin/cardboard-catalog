@@ -7,6 +7,8 @@ import WrappedDataTable from "./components/WrappedDataTable";
 import { createLoadingSelector } from "../../store/loading/reducer";
 import EditSubsetForm from "./EditSubsetForm";
 import EditLink from "./components/EditLink";
+import EditFormHeader from "./components/EditFormHeader";
+import EditPageContainer from "./components/EditPageContainer";
 
 const isLoadingSelector = createLoadingSelector(["GET_SUBSET"]);
 
@@ -79,7 +81,8 @@ export default function EditSubset(props: RouteComponentProps<Params>) {
     return <h1>LOADING DATA</h1>;
   }
   return (
-    <div>
+    <EditPageContainer>
+      <EditFormHeader text={`Edit ${subset.name} Subset`} />
       <EditSubsetForm />
       <WrappedDataTable
         title={`Series in ${subset.name}`}
@@ -97,6 +100,6 @@ export default function EditSubset(props: RouteComponentProps<Params>) {
         paginationPerPage={20}
         dense
       />
-    </div>
+    </EditPageContainer>
   );
 }

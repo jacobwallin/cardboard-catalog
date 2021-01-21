@@ -8,8 +8,10 @@ import { RootState } from "../../store";
 import EditLink from "./components/EditLink";
 import EditSetForm from "./EditSetForm";
 import WrappedDataTable from "./components/WrappedDataTable";
-import styled from "styled-components";
 import { createLoadingSelector } from "../../store/loading/reducer";
+
+import EditFormHeader from "./components/EditFormHeader";
+import EditPageContainer from "./components/EditPageContainer";
 
 const columns = [
   {
@@ -31,13 +33,6 @@ const columns = [
     grow: 0,
   },
 ];
-
-const EditSetHeader = styled.div`
-  padding-top: 25px;
-  font-size: 1.7rem;
-  max-width: 1200px;
-  text-align: center;
-`;
 
 const isLoadingSelector = createLoadingSelector([
   "GET_SINGLE_SET",
@@ -61,10 +56,10 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
     dispatch(fetchLeagues());
   }, []);
   return (
-    <div>
+    <EditPageContainer>
       {!isLoading && (
         <>
-          <EditSetHeader>{`Edit ${singleSet.name} Set`}</EditSetHeader>
+          <EditFormHeader text={`Edit ${singleSet.name} Set`} />
           <EditSetForm />
           <WrappedDataTable
             title={`Subsets in ${singleSet.name}`}
@@ -74,6 +69,6 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
           />
         </>
       )}
-    </div>
+    </EditPageContainer>
   );
 }

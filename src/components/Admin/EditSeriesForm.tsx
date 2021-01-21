@@ -5,11 +5,9 @@ import { createLoadingSelector } from "../../store/loading/reducer";
 import { updateSeries } from "../../store/library/series/thunks";
 import detectFormChanges from "../../utils/detectFormChanges";
 
-import {
-  EditFormLine,
-  EditFormContainer,
-  EditFormButtons,
-} from "./components/EditForm";
+import EditFormLine from "./components/EditFormLine";
+import EditFormContainer from "./components/EditFormContainer";
+import EditFormButtons from "./components/EditFormButtons";
 
 const isUpdatingSelector = createLoadingSelector(["UPDATE_SERIES"]);
 
