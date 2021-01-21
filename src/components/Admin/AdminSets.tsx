@@ -4,7 +4,9 @@ import { fetchAllSetData } from "../../store/library/sets/thunks";
 import { RootState } from "../../store";
 import EditLink from "./components/EditLink";
 
-import DataTable from "react-data-table-component";
+import WrappedDataTable from "./components/WrappedDataTable";
+
+import EditPageContainer from "./components/EditPageContainer";
 
 const columns = [
   {
@@ -31,6 +33,7 @@ const columns = [
     name: "",
     sortable: false,
     cell: (row: any) => <EditLink to={`/admin/edit/set/${row.id}`} />,
+    grow: 0,
   },
 ];
 
@@ -41,13 +44,16 @@ export default function AdminSets(props: any) {
     dispatch(fetchAllSetData());
   }, []);
   return (
-    <div>
-      <DataTable
+    <EditPageContainer>
+      <WrappedDataTable
         title="All Sets"
         columns={columns}
         data={allSets}
         highlightOnHover
+        pagination
+        paginationPerPage={20}
+        dense
       />
-    </div>
+    </EditPageContainer>
   );
 }
