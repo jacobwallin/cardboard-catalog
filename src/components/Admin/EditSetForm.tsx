@@ -8,6 +8,7 @@ import detectFormChanges from "../../utils/detectFormChanges";
 import EditFormLine from "./components/EditFormLine";
 import EditFormContainer from "./components/EditFormContainer";
 import EditFormButtons from "./components/EditFormButtons";
+import ConfirmDeleteModal from "./ConfirmDeleteModal";
 
 const isUpdatingSelector = createLoadingSelector(["UPDATE_SET"]);
 
@@ -35,6 +36,7 @@ export default function SetForm() {
 
   // toggles between showing current set info and the form to edit it
   const [isEditing, setIsEditing] = useState(false);
+  const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   // controlled form data
   const [nameField, setNameField] = useState(singleSet.name);
   const [yearField, setYearField] = useState(singleSet.year);
@@ -59,6 +61,14 @@ export default function SetForm() {
         brandId: brandIdField,
       })
     );
+  }
+
+  function handleDeleteSet() {
+    // delete set
+  }
+
+  function handleToggleModal() {
+    setShowConfirmDeleteModal(!showConfirmDeleteModal);
   }
 
   function handleInputChange(
@@ -90,6 +100,13 @@ export default function SetForm() {
 
   return (
     <EditFormContainer>
+      {showConfirmDeleteModal && (
+        <ConfirmDeleteModal
+          message={"Are you sure you want to delete?"}
+          handleDelete={handleDeleteSet}
+          handleDismiss={handleToggleModal}
+        />
+      )}
       <EditFormLine
         editing={isEditing}
         title="Set Name: "
@@ -173,6 +190,9 @@ export default function SetForm() {
             disabled={isUpdating}
             placeholder="Enter Set Description"
             onChange={handleInputChange}
+            style={{ height: "200px", width: "100%" }}
+            rows={2}
+            cols={20}
           />
         }
       />
@@ -191,6 +211,7 @@ export default function SetForm() {
         )}
         handleEditStateChange={handleEditStateChange}
         handleFormSubmit={handleFormSubmit}
+        handleDelete={handleToggleModal}
       />
     </EditFormContainer>
   );
