@@ -4,6 +4,8 @@ export const GET_SINGLE_SET_REQUEST = "GET_SINGLE_SET_REQUEST";
 export const GET_SINGLE_SET_SUCCESS = "GET_SINGLE_SET_SUCCESS";
 export const UPDATE_SET_REQUEST = "UPDATE_SET_REQUEST";
 export const UPDATE_SET_SUCCESS = "UPDATE_SET_SUCCESS";
+export const DELETE_SET_REQUEST = "DELETE_SET_REQUEST";
+export const DELETE_SET_SUCCESS = "DELETE_SET_SUCCESS";
 export const CLEAR_LIBRARY = "CLEAR_LIBRARY";
 
 export interface GetAllSetsRequest {
@@ -20,6 +22,14 @@ export interface GetSingleSetRequest {
 export interface GetSingleSetSuccess {
   type: typeof GET_SINGLE_SET_SUCCESS;
   singleSet: Set;
+}
+
+export interface DeleteSetRequest {
+  type: typeof DELETE_SET_REQUEST;
+}
+export interface DeleteSetSuccess {
+  type: typeof DELETE_SET_SUCCESS;
+  setId: number;
 }
 
 export interface UpdateSetRequest {
@@ -58,6 +68,8 @@ export type SetsActionTypes =
   | GetSingleSetSuccess
   | UpdateSetRequest
   | UpdateSetSuccess
+  | DeleteSetRequest
+  | DeleteSetSuccess
   | ClearLibraryAction;
 
 export interface SetsState {

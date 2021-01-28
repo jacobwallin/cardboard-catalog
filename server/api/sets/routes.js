@@ -101,14 +101,17 @@ router.put("/:setId", async (req, res, next) => {
 });
 
 router.delete("/:setId", async (req, res, next) => {
-  try {
-    const deleteSuccess = await Set.destroy({
-      where: { id: req.params.setId },
-    });
-    res.json(deleteSuccess);
-  } catch (error) {
-    res.sendStatus(500);
-  }
+  setTimeout(() => {
+    res.json(1);
+  }, 5000);
+  // try {
+  //   const deleteSuccess = await Set.destroy({
+  //     where: { id: req.params.setId },
+  //   });
+  //   res.json(deleteSuccess);
+  // } catch (error) {
+  //   res.sendStatus(500);
+  // }
 });
 
 module.exports = router;

@@ -4,13 +4,15 @@ import styled from "styled-components";
 const LineItem = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: row;
-  padding: 10px;
+  flex-direction: column;
+  padding: 5px;
 `;
 
 const LineItemTitle = styled.div`
   font-weight: bold;
+  font-size: 0.9em;
   width: 175px;
+  padding-bottom: 5px;
 `;
 
 const LineItemData = styled.div`

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { Redirect } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
-import { updateSet } from "../../store/library/sets/thunks";
+import { updateSet, deleteSet } from "../../store/library/sets/thunks";
 import { createLoadingSelector } from "../../store/loading/reducer";
 import detectFormChanges from "../../utils/detectFormChanges";
 
@@ -11,6 +12,7 @@ import EditFormButtons from "./components/EditFormButtons";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 
 const isUpdatingSelector = createLoadingSelector(["UPDATE_SET"]);
+const isDeletingSelector = createLoadingSelector(["DELETE_SET"]);
 
 export default function SetForm() {
   const dispatch = useDispatch();
@@ -27,6 +29,9 @@ export default function SetForm() {
   const isUpdating = useSelector((state: RootState) =>
     isUpdatingSelector(state)
   );
+  const isDeleting = useSelector((state: RootState) =>
+    isDeletingSelector(state)
+  );
 
   useEffect(() => {
     if (!isUpdating) {
@@ -37,10 +42,11 @@ export default function SetForm() {
   // toggles between showing current set info and the form to edit it
   const [isEditing, setIsEditing] = useState(false);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
+  const [setDeleted, setSetDeleted] = useState(false);
   // controlled form data
   const [nameField, setNameField] = useState(singleSet.name);
   const [yearField, setYearField] = useState(singleSet.year);
-  const [brandIdField, setbBrandIdField] = useState(singleSet.brand.id);
+  const [brandIdField, setBrandIdField] = useState(singleSet.brand.id);
   const [leagueIdField, setLeagueIdField] = useState(singleSet.league.id);
   const [descriptionField, setDescriptionField] = useState(
     singleSet.description
@@ -64,7 +70,8 @@ export default function SetForm() {
   }
 
   function handleDeleteSet() {
-    // delete set
+    setSetDeleted(true);
+    dispatch(deleteSet(singleSet.id));
   }
 
   function handleToggleModal() {
@@ -94,19 +101,28 @@ export default function SetForm() {
         setLeagueIdField(+value);
         break;
       case "brand":
-        setbBrandIdField(+value);
+        setBrandIdField(+value);
     }
+  }
+
+  // if the set is deleted, first wait for the server to complete the request and then redirect
+  if (setDeleted && !isDeleting) {
+    return <Redirect to={`/admin`} />;
   }
 
   return (
     <EditFormContainer>
       {showConfirmDeleteModal && (
         <ConfirmDeleteModal
-          message={"Are you sure you want to delete?"}
+          message={
+            "This cannot be undone. All cards from this set will be deleted from any users that have them in their collections."
+          }
           handleDelete={handleDeleteSet}
           handleDismiss={handleToggleModal}
+          isDeleting={isDeleting}
         />
       )}
+
       <EditFormLine
         editing={isEditing}
         title="Set Name: "

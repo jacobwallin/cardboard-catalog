@@ -7,9 +7,12 @@ import {
   getSingleSetSuccess,
   updateSetRequest,
   updateSetSuccess,
+  deleteSetRequest,
+  deleteSetSuccess,
 } from "./actions";
 import { SetsActionTypes } from "./types";
 import { postData } from "../../../utils/postData";
+import { response } from "express";
 
 export const fetchAllSetData = (): ThunkAction<
   void,
@@ -75,4 +78,21 @@ export const updateSet = (
     .catch((error) => {
       console.log("ERROR IN UPDATE SET THUNK");
     });
+};
+
+export const deleteSet = (
+  setId: number
+): ThunkAction<void, RootState, unknown, SetsActionTypes> => (dispatch) => {
+  dispatch(deleteSetRequest());
+
+  fetch(`/api/sets/${setId}`, {
+    method: "DELETE",
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((deleteStatus) => {
+      dispatch(deleteSetSuccess(setId));
+    })
+    .catch((error) => console.log(error.message));
 };

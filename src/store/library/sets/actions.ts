@@ -9,6 +9,8 @@ import {
   GET_SINGLE_SET_SUCCESS,
   UPDATE_SET_REQUEST,
   UPDATE_SET_SUCCESS,
+  DELETE_SET_REQUEST,
+  DELETE_SET_SUCCESS,
   CLEAR_LIBRARY,
 } from "./types";
 
@@ -39,6 +41,15 @@ export const updateSetSuccess = (
 ): SetsActionTypes => ({
   type: UPDATE_SET_SUCCESS,
   updatedSet,
+});
+
+export const deleteSetRequest = (): SetsActionTypes => ({
+  type: DELETE_SET_REQUEST,
+});
+
+export const deleteSetSuccess = (setId: number): SetsActionTypes => ({
+  type: DELETE_SET_SUCCESS,
+  setId,
 });
 
 export const clearLibrary = () => ({

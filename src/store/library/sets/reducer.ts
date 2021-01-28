@@ -4,6 +4,7 @@ import {
   GET_ALL_SETS_SUCCESS,
   GET_SINGLE_SET_SUCCESS,
   UPDATE_SET_SUCCESS,
+  DELETE_SET_SUCCESS,
   CLEAR_LIBRARY,
 } from "./types";
 
@@ -57,6 +58,14 @@ const setsReducer = (
               name: action.updatedSet.league.name,
             },
           };
+        }),
+      };
+    case DELETE_SET_SUCCESS:
+      return {
+        ...state,
+        singleSet: initialState.singleSet,
+        allSets: state.allSets.filter((set) => {
+          return set.id !== action.setId;
         }),
       };
     case CLEAR_LIBRARY:
