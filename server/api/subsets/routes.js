@@ -59,23 +59,27 @@ router.get("/:subsetId", async (req, res, next) => {
   }
 });
 
-router.post("/", postSubsetValidate, async (req, res, next) => {
-  const { name, cardQuantity, description, setId } = req.body;
+router.post("/", async (req, res, next) => {
+  const { name, description, setId } = req.body;
+  const cardQuantity = 100;
   try {
-    const createdSubset = await Subset.create({
-      name,
-      cardQuantity,
-      description,
-      setId,
-    });
-    res.json(createdSubset);
+    setTimeout(async () => {
+      const createdSubset = await Subset.create({
+        name,
+        cardQuantity,
+        description,
+        setId,
+      });
+      res.json(createdSubset);
+    }, 3000);
   } catch (error) {
     next(error);
   }
 });
 
 router.put("/:subsetId", async (req, res, next) => {
-  const { name, cardQuantity, description } = req.body;
+  const { name, description } = req.body;
+  const cardQuantity = 100;
 
   try {
     await Subset.update(

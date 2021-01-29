@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllSetData } from "../../store/library/sets/thunks";
 import { RootState } from "../../store";
@@ -43,8 +43,11 @@ export default function AdminSets(props: any) {
   useEffect(() => {
     dispatch(fetchAllSetData());
   }, []);
+  // toggle to show form for creating a new set
+  const [createSet, setCreateSet] = useState(false);
   return (
     <EditPageContainer>
+      <button>CREATE SET</button>
       <WrappedDataTable
         title="All Sets"
         columns={columns}

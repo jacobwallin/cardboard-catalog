@@ -6,6 +6,8 @@ export const UPDATE_SET_REQUEST = "UPDATE_SET_REQUEST";
 export const UPDATE_SET_SUCCESS = "UPDATE_SET_SUCCESS";
 export const DELETE_SET_REQUEST = "DELETE_SET_REQUEST";
 export const DELETE_SET_SUCCESS = "DELETE_SET_SUCCESS";
+export const CREATE_SUBSET_REQUEST = "CREATE_SUBSET_REQUEST";
+export const CREATE_SUBSET_SUCCESS = "CREATE_SUBSET_SUCCESS";
 export const CLEAR_LIBRARY = "CLEAR_LIBRARY";
 
 export interface GetAllSetsRequest {
@@ -57,6 +59,15 @@ export interface UpdateSetSuccess {
   updatedSet: UpdateSetServerResponse;
 }
 
+export interface CreateSubsetRequest {
+  type: typeof CREATE_SUBSET_REQUEST;
+}
+
+export interface CreateSubsetSuccess {
+  type: typeof CREATE_SUBSET_SUCCESS;
+  subset: SubsetSummary;
+}
+
 export interface ClearLibraryAction {
   type: typeof CLEAR_LIBRARY;
 }
@@ -70,6 +81,8 @@ export type SetsActionTypes =
   | UpdateSetSuccess
   | DeleteSetRequest
   | DeleteSetSuccess
+  | CreateSubsetRequest
+  | CreateSubsetSuccess
   | ClearLibraryAction;
 
 export interface SetsState {

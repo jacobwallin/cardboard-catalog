@@ -17,7 +17,7 @@ const LineItemTitle = styled.div`
 
 const LineItemData = styled.div`
   font-weight: normal;
-  width: 75%;
+  padding-right: 25px;
 `;
 
 interface FormLineProps {

@@ -1,6 +1,7 @@
 import {
   SetSummary,
   Set,
+  SubsetSummary,
   UpdateSetServerResponse,
   SetsActionTypes,
   GET_ALL_SETS_REQUEST,
@@ -11,6 +12,8 @@ import {
   UPDATE_SET_SUCCESS,
   DELETE_SET_REQUEST,
   DELETE_SET_SUCCESS,
+  CREATE_SUBSET_REQUEST,
+  CREATE_SUBSET_SUCCESS,
   CLEAR_LIBRARY,
 } from "./types";
 
@@ -50,6 +53,17 @@ export const deleteSetRequest = (): SetsActionTypes => ({
 export const deleteSetSuccess = (setId: number): SetsActionTypes => ({
   type: DELETE_SET_SUCCESS,
   setId,
+});
+
+export const createSubsetRequest = (): SetsActionTypes => ({
+  type: CREATE_SUBSET_REQUEST,
+});
+
+export const createSubsetSuccess = (
+  subset: SubsetSummary
+): SetsActionTypes => ({
+  type: CREATE_SUBSET_SUCCESS,
+  subset,
 });
 
 export const clearLibrary = () => ({

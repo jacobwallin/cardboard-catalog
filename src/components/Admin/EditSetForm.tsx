@@ -125,7 +125,7 @@ export default function SetForm() {
 
       <EditFormLine
         editing={isEditing}
-        title="Set Name: "
+        title="Set Name"
         data={singleSet.name}
         input={
           <input
@@ -140,7 +140,7 @@ export default function SetForm() {
       />
       <EditFormLine
         editing={isEditing}
-        title="Set Year: "
+        title="Set Year"
         data={singleSet.year}
         input={
           <input
@@ -155,7 +155,7 @@ export default function SetForm() {
       />
       <EditFormLine
         editing={isEditing}
-        title="Set Brand: "
+        title="Set Brand"
         data={singleSet.brand.name}
         input={
           <select
@@ -176,7 +176,7 @@ export default function SetForm() {
       />
       <EditFormLine
         editing={isEditing}
-        title="Set League: "
+        title="Set League"
         data={singleSet.league.name}
         input={
           <select
@@ -197,7 +197,7 @@ export default function SetForm() {
       />
       <EditFormLine
         editing={isEditing}
-        title="Set Description: "
+        title="Set Description"
         data={singleSet.description}
         input={
           <textarea

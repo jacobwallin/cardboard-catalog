@@ -9,6 +9,8 @@ import {
   updateSetSuccess,
   deleteSetRequest,
   deleteSetSuccess,
+  createSubsetRequest,
+  createSubsetSuccess,
 } from "./actions";
 import { SetsActionTypes } from "./types";
 import { postData } from "../../../utils/postData";
@@ -95,4 +97,42 @@ export const deleteSet = (
       dispatch(deleteSetSuccess(setId));
     })
     .catch((error) => console.log(error.message));
+};
+
+export const createSubset = (subsetData: {
+  name: string;
+  description: string;
+  setId: number;
+}): ThunkAction<void, RootState, unknown, SetsActionTypes> => (dispatch) => {
+  dispatch(createSubsetRequest());
+
+  fetch(`/api/subsets`, {
+    method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+    body: JSON.stringify(subsetData),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((createdSubset) => {
+      dispatch(
+        createSubsetSuccess({
+          id: createdSubset.id,
+          name: createdSubset.name,
+          description: createdSubset.description,
+          cardQuantity: createdSubset.cardQuantity,
+          setId: createdSubset.setId,
+        })
+      );
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
 };

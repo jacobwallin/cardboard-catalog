@@ -5,6 +5,7 @@ import {
   GET_SINGLE_SET_SUCCESS,
   UPDATE_SET_SUCCESS,
   DELETE_SET_SUCCESS,
+  CREATE_SUBSET_SUCCESS,
   CLEAR_LIBRARY,
 } from "./types";
 
@@ -67,6 +68,14 @@ const setsReducer = (
         allSets: state.allSets.filter((set) => {
           return set.id !== action.setId;
         }),
+      };
+    case CREATE_SUBSET_SUCCESS:
+      return {
+        ...state,
+        singleSet: {
+          ...state.singleSet,
+          subsets: [...state.singleSet.subsets, action.subset],
+        },
       };
     case CLEAR_LIBRARY:
       return initialState;

@@ -77,7 +77,7 @@ export default function EditSubset(props: RouteComponentProps<Params>) {
     dispatch(fetchSubset(+props.match.params.subsetId));
   }, []);
 
-  if (isLoading || subset.series.length === 0) {
+  if (isLoading) {
     return <h1>LOADING DATA</h1>;
   }
   return (
@@ -93,7 +93,8 @@ export default function EditSubset(props: RouteComponentProps<Params>) {
       <WrappedDataTable
         title={`Cards in ${subset.name}`}
         columns={cardsColumns}
-        data={subset.series[0].cards}
+        // send an empty array if there are no series that belong to the subset
+        data={subset.series.length !== 0 ? subset.series[0].cards : []}
         defaultSortField="card_datum.number"
         highlightOnHover
         pagination

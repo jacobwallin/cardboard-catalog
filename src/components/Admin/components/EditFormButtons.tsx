@@ -1,43 +1,17 @@
 import styled from "styled-components";
 import React from "react";
-
-type ButtonStyles = "EDIT" | "SAVE" | "CANCEL" | "DELETE";
-
-const StyledButton = styled.button<{ buttonType: ButtonStyles }>`
-  width: 65px;
-  background: ${(props) => {
-    switch (props.buttonType) {
-      case "EDIT":
-        return "#2e86ab";
-      case "SAVE":
-        return "#758E4F";
-      case "CANCEL":
-        return "#F5F749";
-      case "DELETE":
-        return "#F24236";
-    }
-  }};
-  border: none;
-  padding: 5px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-
-  &:active {
-    opacity: 80%;
-  }
-  &:focus {
-    outline: none !important;
-  }
-`;
+import StyledButton from "./StyledButton";
 
 const FormButtonContainer = styled.div`
   display: flex;
   column-gap: 1em;
+  margin-top: 20px;
 `;
 
 const EditDeleteButtonContainer = styled.div`
   display: flex;
   column-gap: 1em;
+  margin-top: 20px;
   justify-content: space-between;
 `;
 
@@ -55,14 +29,14 @@ export default function EditFormButtons(props: FormButtonProps) {
     <FormButtonContainer>
       <StyledButton
         onClick={props.handleEditStateChange}
-        buttonType="CANCEL"
+        color="YELLOW"
         disabled={props.isUpdating}
       >
         Cancel
       </StyledButton>
       <StyledButton
         onClick={props.handleFormSubmit}
-        buttonType="SAVE"
+        color="GREEN"
         disabled={props.isUpdating || !props.changesMade}
       >
         Save
@@ -70,10 +44,10 @@ export default function EditFormButtons(props: FormButtonProps) {
     </FormButtonContainer>
   ) : (
     <EditDeleteButtonContainer>
-      <StyledButton onClick={props.handleEditStateChange} buttonType="EDIT">
+      <StyledButton onClick={props.handleEditStateChange} color="BLUE">
         Edit
       </StyledButton>
-      <StyledButton onClick={props.handleDelete} buttonType="DELETE">
+      <StyledButton onClick={props.handleDelete} color="RED">
         Delete
       </StyledButton>
     </EditDeleteButtonContainer>
