@@ -1,40 +1,21 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import EditFormLine from "./components/EditFormLine";
-import EditFormContainer from "./components/EditFormContainer";
 import { RootState } from "../../store";
 import { createSubset } from "../../store/library/sets/thunks";
-import styled from "styled-components";
 import { createLoadingSelector } from "../../store/loading/reducer";
-import StyledButton from "./components/StyledButton";
+
+import ModalBackground from "./components/modal/ModalBackground";
+import CreateModalWindow from "./components/modal/CreateModalWindow";
+import StyledTextInput from "./components/form/StyledTextInput";
+import StyledLabel from "./components/form/StyledLabel";
+import StyledTextArea from "./components/form/StyledTextArea";
+import StyledInputContainer from "./components/form/StyledInputContainer";
+import CreateModalButtons from "./components/modal/CreateModalButtons";
+import CreateModalHeader from "./components/modal/CreateModalHeader";
 
 interface Props {
   handleCancel(): any;
 }
-
-const ModalBackground = styled.div`
-  z-index: 2;
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  /* opacity: 0.9; */
-  background: rgba(0, 0, 0, 0.7);
-`;
-
-const ModalWindow = styled.div`
-  position: fixed;
-  left: 50%;
-  top: 30%;
-  transform: translate(-50%, 0);
-  background: white;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-`;
 
 const creatingSubsetSelector = createLoadingSelector(["CREATE_SUBSET"]);
 
@@ -48,13 +29,15 @@ export default function CreateSubsetModal(props: Props) {
     creatingSubsetSelector(state)
   );
   function handleFormSubmit() {
-    dispatch(
-      createSubset({
-        name: nameField,
-        description: descriptionField,
-        setId: set.id,
-      })
-    );
+    if (nameField !== "" && descriptionField !== "") {
+      dispatch(
+        createSubset({
+          name: nameField,
+          description: descriptionField,
+          setId: set.id,
+        })
+      );
+    }
   }
 
   function handleInputChange(
@@ -72,51 +55,35 @@ export default function CreateSubsetModal(props: Props) {
 
   return (
     <ModalBackground>
-      <ModalWindow>
-        <div>CREATE SUBSET</div>
-        <EditFormContainer>
-          <EditFormLine
-            title="Subset Name"
-            data="Subset Name"
-            editing
-            input={
-              <input
-                name="subsetNameField"
-                type="text"
-                onChange={handleInputChange}
-                disabled={creatingSubset}
-              />
-            }
-          />
-          <EditFormLine
-            title="Subset Description"
-            data="Subset Description"
-            editing
-            input={
-              <input
-                name="subsetDescField"
-                type="text"
-                onChange={handleInputChange}
-                disabled={creatingSubset}
-              />
-            }
-          />
-          <StyledButton
-            color="GREEN"
-            onClick={handleFormSubmit}
+      <CreateModalWindow>
+        <CreateModalHeader>CREATE SUBSET</CreateModalHeader>
+        <StyledInputContainer>
+          <StyledLabel htmlFor="subsetNameField">Name</StyledLabel>
+          <StyledTextInput
+            name="subsetNameField"
+            type="text"
+            onChange={handleInputChange}
             disabled={creatingSubset}
-          >
-            Create
-          </StyledButton>
-          <StyledButton
-            color="YELLOW"
-            onClick={props.handleCancel}
+          />
+        </StyledInputContainer>
+        <StyledInputContainer>
+          <StyledLabel htmlFor="subsetDescField">Description</StyledLabel>
+          <StyledTextArea
+            name="subsetDescField"
+            value={descriptionField}
             disabled={creatingSubset}
-          >
-            Cancel
-          </StyledButton>
-        </EditFormContainer>
-      </ModalWindow>
+            onChange={handleInputChange}
+            style={{ height: "200px", width: "100%" }}
+            rows={2}
+            cols={20}
+          />
+        </StyledInputContainer>
+        <CreateModalButtons
+          disabled={creatingSubset}
+          handleCancel={props.handleCancel}
+          handleSubmit={handleFormSubmit}
+        />
+      </CreateModalWindow>
     </ModalBackground>
   );
 }

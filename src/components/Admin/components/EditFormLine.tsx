@@ -11,7 +11,6 @@ const LineItem = styled.div`
 const LineItemTitle = styled.div`
   font-weight: bold;
   font-size: 0.9em;
-  width: 175px;
   padding-bottom: 5px;
 `;
 

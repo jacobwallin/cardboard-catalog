@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { RootState } from "../../store";
@@ -9,6 +9,8 @@ import EditSubsetForm from "./EditSubsetForm";
 import EditLink from "./components/EditLink";
 import EditFormHeader from "./components/EditFormHeader";
 import EditPageContainer from "./components/EditPageContainer";
+import CreateSeriesModal from "./CreateSeriesModal";
+import StyledButton from "./components/StyledButton";
 
 const isLoadingSelector = createLoadingSelector(["GET_SUBSET"]);
 
@@ -66,6 +68,8 @@ const cardsColumns = [
 ];
 
 export default function EditSubset(props: RouteComponentProps<Params>) {
+  const [showCreateSeriesModal, setShowCreateSeriesModal] = useState(false);
+
   const dispatch = useDispatch();
 
   const subset = useSelector(
@@ -77,11 +81,18 @@ export default function EditSubset(props: RouteComponentProps<Params>) {
     dispatch(fetchSubset(+props.match.params.subsetId));
   }, []);
 
+  function toggleCreateSeriesModal() {
+    setShowCreateSeriesModal(!showCreateSeriesModal);
+  }
+
   if (isLoading) {
     return <h1>LOADING DATA</h1>;
   }
   return (
     <EditPageContainer>
+      {showCreateSeriesModal && (
+        <CreateSeriesModal handleCancel={toggleCreateSeriesModal} />
+      )}
       <EditFormHeader text={`Edit ${subset.name} Subset`} />
       <EditSubsetForm />
       <WrappedDataTable
@@ -89,6 +100,11 @@ export default function EditSubset(props: RouteComponentProps<Params>) {
         columns={seriesColumns}
         data={subset.series}
         highlightOnHover
+        actions={
+          <StyledButton color="YELLOW" onClick={toggleCreateSeriesModal}>
+            Create Series
+          </StyledButton>
+        }
       />
       <WrappedDataTable
         title={`Cards in ${subset.name}`}

@@ -23,12 +23,6 @@ const columns = [
     grow: 1,
   },
   {
-    name: "Card Qty",
-    selector: "cardQuantity",
-    sortable: true,
-    grow: 1,
-  },
-  {
     name: "",
     sortable: false,
     cell: (row: any) => <EditLink to={`/admin/edit/subset/${row.id}`} />,
@@ -69,7 +63,7 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
     }
   }, [creatingSubset]);
 
-  const [showCreateSubsetModal, setShowCreateSubsetModal] = useState(true);
+  const [showCreateSubsetModal, setShowCreateSubsetModal] = useState(false);
 
   function toggleCreateSubsetModal() {
     setShowCreateSubsetModal(!showCreateSubsetModal);

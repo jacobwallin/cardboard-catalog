@@ -3,7 +3,9 @@ import styled from "styled-components";
 type ButtonStyles = "BLUE" | "GREEN" | "YELLOW" | "RED";
 
 const StyledButton = styled.button<{ color: ButtonStyles }>`
+  box-sizing: content-box;
   width: 65px;
+
   background: ${(props) => {
     switch (props.color) {
       case "BLUE":
@@ -17,10 +19,12 @@ const StyledButton = styled.button<{ color: ButtonStyles }>`
     }
   }};
   border: none;
-  padding: 5px 10px;
+  padding: 10px 15px;
   border-radius: 3px;
   cursor: pointer;
-
+  &:hover {
+    opacity: 80%;
+  }
   &:active {
     opacity: 80%;
   }

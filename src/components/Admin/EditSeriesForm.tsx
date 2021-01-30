@@ -153,7 +153,7 @@ export default function SeriesForm() {
                     value={attribute.id}
                     onChange={handleAttributeInputChange}
                   />
-                  <label htmlFor="vehicle1">{attribute.name}</label>
+                  <label htmlFor={attribute.name}>{attribute.name}</label>
                 </div>
               );
             })}

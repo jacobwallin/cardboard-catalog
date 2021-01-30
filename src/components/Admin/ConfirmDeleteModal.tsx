@@ -1,16 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const ModalBackground = styled.div`
-  z-index: 2;
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  /* opacity: 0.9; */
-  background: rgba(255, 255, 255, 0.6);
-`;
+import ModalBackground from "./components/modal/ModalBackground";
 
 const ModalWindow = styled.div`
   position: fixed;
