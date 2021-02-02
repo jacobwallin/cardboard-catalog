@@ -10,11 +10,10 @@ const UserCard = db.define(
       autoIncrement: true,
       allowNull: false,
     },
-    quantity: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     serialNumber: {
+      type: DataTypes.INTEGER,
+    },
+    grade: {
       type: DataTypes.INTEGER,
     },
   },

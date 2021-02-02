@@ -6,12 +6,6 @@ const attributes = [
     name: "relic",
   },
   {
-    name: "serialized",
-  },
-  {
-    name: "rookie",
-  },
-  {
     name: "parallel",
   },
   {

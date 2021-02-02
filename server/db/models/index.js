@@ -7,10 +7,11 @@ const Subset = require("./Subset");
 const Series = require("./Series");
 const League = require("./League");
 const Brand = require("./Brand");
-const Attribute = require("./Attribute");
 const Team = require("./Team");
+const Player = require("./Player");
+const GradingCompany = require("./GradingCompany");
 
-// many to many association between cards and attributes using custom through table (super many-to-many)
+// many to many association between cards and usercards using custom through table (super many-to-many)
 UserCard.belongsTo(User);
 User.hasMany(UserCard);
 UserCard.belongsTo(Card);
@@ -60,6 +61,14 @@ CardData.hasMany(Card, {
   },
 });
 
+// one to many between grading company and cards
+Card.belongsTo(GradingCompany);
+GradingCompany.hasMany(Card);
+
+// many to many between carddata and players
+CardData.belongsToMany(Player, { through: "CardDataPlayer" });
+Player.belongsToMany(CardData, { through: "CardDataPlayer" });
+
 // One to many association between subsets and card data
 CardData.belongsTo(Subset, {
   foreignKey: {
@@ -68,10 +77,6 @@ CardData.belongsTo(Subset, {
   onDelete: "CASCADE",
 });
 Subset.hasMany(CardData);
-
-// many to many association between cardRuns and cards
-Series.belongsToMany(Attribute, { through: "series_attribute" });
-Attribute.belongsToMany(Series, { through: "series_attribute" });
 
 // One to many association between teams and cards
 CardData.belongsTo(Team);
@@ -111,6 +116,7 @@ module.exports = {
   Series,
   League,
   Brand,
-  Attribute,
   Team,
+  Player,
+  GradingCompany,
 };

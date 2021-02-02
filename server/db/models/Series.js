@@ -9,8 +9,28 @@ const CardRun = db.define("series", {
   color: {
     type: DataTypes.STRING,
   },
-  serializedTo: {
+  serialized: {
     type: DataTypes.INTEGER,
+  },
+  auto: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  },
+  relic: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  },
+  manufacturedRelic: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  },
+  parallel: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  },
+  shortPrint: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
   },
 });
 
