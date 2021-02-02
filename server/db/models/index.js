@@ -61,13 +61,13 @@ CardData.hasMany(Card, {
   },
 });
 
-// one to many between grading company and cards
-Card.belongsTo(GradingCompany);
-GradingCompany.hasMany(Card);
+// one to many between grading company and user card join
+UserCard.belongsTo(GradingCompany);
+GradingCompany.hasMany(UserCard);
 
-// many to many between carddata and players
-CardData.belongsToMany(Player, { through: "CardDataPlayer" });
-Player.belongsToMany(CardData, { through: "CardDataPlayer" });
+// One to many association between players and card data
+CardData.belongsTo(Player);
+Player.hasMany(CardData);
 
 // One to many association between subsets and card data
 CardData.belongsTo(Subset, {

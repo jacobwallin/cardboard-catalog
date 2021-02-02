@@ -10,7 +10,8 @@ const {
   Brand,
   Team,
   League,
-  Attribute,
+  GradingCompany,
+  Player,
 } = require("../models");
 
 const {
@@ -19,7 +20,7 @@ const {
   brands,
   teams,
   leagues,
-  attributes,
+  gradingCompanies,
 } = require("./seed_data");
 
 const db = require("../db");
@@ -30,9 +31,12 @@ const seed = async () => {
     await User.bulkCreate(users);
     await League.bulkCreate(leagues);
     await Brand.bulkCreate(brands);
-    await Attribute.bulkCreate(attributes);
     await Team.bulkCreate(teams);
     await Set.bulkCreate(sets);
+    await GradingCompany.bulkCreate(gradingCompanies);
+    await Player.bulkCreate(
+      await fetchData("https://my.api.mockaroo.com/player.json?key=128d2830")
+    );
     await Subset.bulkCreate(
       await fetchData("https://my.api.mockaroo.com/subsets.json?key=128d2830")
     );
