@@ -4,7 +4,14 @@ const { validationResult } = require("express-validator");
 
 const { postSubsetValidate } = require("./validation");
 
-const { Subset, Series, Card, CardData, Team } = require("../../db/models");
+const {
+  Subset,
+  Series,
+  Card,
+  CardData,
+  Team,
+  Player,
+} = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -22,18 +29,20 @@ router.get("/:subsetId", async (req, res, next) => {
       include: [
         {
           model: Series,
+        },
+        {
+          model: CardData,
           include: [
+            { model: Team, attributes: ["id", "name"] },
             {
-              model: Card,
-              attributes: ["id", "cardDataId"],
-              include: {
-                model: CardData,
-                attributes: ["id", "name", "number", "rookie"],
-                include: {
-                  model: Team,
-                  attributes: ["name", "id"],
-                },
-              },
+              model: Player,
+              attributes: [
+                "id",
+                "firstName",
+                "lastName",
+                "birthday",
+                "hallOfFame",
+              ],
             },
           ],
         },

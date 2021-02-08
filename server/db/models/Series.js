@@ -8,6 +8,7 @@ const CardRun = db.define("series", {
   },
   color: {
     type: DataTypes.STRING,
+    defaultValue: "#ffffff",
   },
   serialized: {
     type: DataTypes.INTEGER,
