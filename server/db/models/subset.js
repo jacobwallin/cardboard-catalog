@@ -6,10 +6,6 @@ const Subset = db.define("subset", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  cardQuantity: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
   description: {
     type: DataTypes.TEXT,
   },

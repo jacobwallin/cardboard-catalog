@@ -4,14 +4,7 @@ const { validationResult } = require("express-validator");
 
 const { postSubsetValidate } = require("./validation");
 
-const {
-  Subset,
-  Series,
-  Attribute,
-  Card,
-  CardData,
-  Team,
-} = require("../../db/models");
+const { Subset, Series, Card, CardData, Team } = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -29,12 +22,7 @@ router.get("/:subsetId", async (req, res, next) => {
       include: [
         {
           model: Series,
-          attributes: ["id", "name", "color", "serializedTo"],
           include: [
-            {
-              model: Attribute,
-              attributes: ["id", "name"],
-            },
             {
               model: Card,
               attributes: ["id", "cardDataId"],
@@ -61,17 +49,13 @@ router.get("/:subsetId", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   const { name, description, setId } = req.body;
-  const cardQuantity = 100;
   try {
-    setTimeout(async () => {
-      const createdSubset = await Subset.create({
-        name,
-        cardQuantity,
-        description,
-        setId,
-      });
-      res.json(createdSubset);
-    }, 3000);
+    const createdSubset = await Subset.create({
+      name,
+      description,
+      setId,
+    });
+    res.json(createdSubset);
   } catch (error) {
     next(error);
   }
@@ -79,11 +63,10 @@ router.post("/", async (req, res, next) => {
 
 router.put("/:subsetId", async (req, res, next) => {
   const { name, description } = req.body;
-  const cardQuantity = 100;
 
   try {
     await Subset.update(
-      { name, cardQuantity, description },
+      { name, description },
       { where: { id: req.params.subsetId } }
     );
 

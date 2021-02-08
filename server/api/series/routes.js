@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const { Series, Attribute } = require("../../db/models");
+const { Series } = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -13,11 +13,7 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:seriesId", async (req, res, next) => {
   try {
-    const series = await Series.findByPk(req.params.seriesId, {
-      include: {
-        model: Attribute,
-      },
-    });
+    const series = await Series.findByPk(req.params.seriesId, {});
     res.json(series);
   } catch (error) {
     next(error);
@@ -44,9 +40,7 @@ router.post("/", async (req, res, next) => {
 router.put("/:seriesId", async (req, res, next) => {
   const { name, color, serializedTo, attributes } = req.body;
   try {
-    const series = await Series.findByPk(req.params.seriesId, {
-      include: Attribute,
-    });
+    const series = await Series.findByPk(req.params.seriesId);
 
     if (name) series.name = name;
     if (color) series.color = color;
