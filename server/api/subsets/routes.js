@@ -4,14 +4,7 @@ const { validationResult } = require("express-validator");
 
 const { postSubsetValidate } = require("./validation");
 
-const {
-  Subset,
-  Series,
-  Card,
-  CardData,
-  Team,
-  Player,
-} = require("../../db/models");
+const { Subset, Series, CardData, Team, Player } = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
   try {
