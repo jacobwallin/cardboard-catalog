@@ -35,16 +35,37 @@ export interface Series {
   id: number;
   name: string;
   color: string;
-  serializedTo: number | null;
+  serialized: number | null;
+  auto: boolean;
+  relic: boolean;
+  manufacturedRelic: boolean;
+  parallel: boolean;
+  shortPrint: boolean;
   createdAt: string;
   updatedAt: string;
   subsetId: number;
-  attributes: Attribute[];
+  cards: Card[];
 }
 
-export interface Attribute {
+export interface Card {
   id: number;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
+  seriesId: number;
+  cardDataId: number;
+  card_datum: {
+    id: number;
+    name: string;
+    number: string;
+    rookie: boolean;
+    playerId: number;
+    teamId: number;
+    player: {
+      firstName: string;
+      lastName: string;
+      birthday: string;
+      hallOfFame: boolean;
+    };
+    team: {
+      name: string;
+    };
+  };
 }

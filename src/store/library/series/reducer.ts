@@ -9,12 +9,17 @@ const initialState = {
   series: {
     id: 0,
     name: "",
-    color: "",
-    serializedTo: 0,
+    color: "string",
+    serialized: null,
+    auto: false,
+    relic: false,
+    manufacturedRelic: false,
+    parallel: false,
+    shortPrint: false,
     createdAt: "",
     updatedAt: "",
     subsetId: 0,
-    attributes: [],
+    cards: [],
   },
 };
 

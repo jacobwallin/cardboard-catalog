@@ -26,9 +26,13 @@ export const updateSeries = (
   seriesId: number,
   seriesData: {
     name: string;
-    serializedTo: number | null;
+    serialized: number | null;
     color: string;
-    attributes: number[];
+    auto: boolean;
+    relic: boolean;
+    manufacturedRelic: boolean;
+    parallel: boolean;
+    shortPrint: boolean;
   }
 ): ThunkAction<void, RootState, unknown, SeriesActionTypes> => (dispatch) => {
   dispatch(updateSeriesRequest());
