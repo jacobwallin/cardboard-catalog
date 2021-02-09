@@ -8,6 +8,9 @@ const Card = db.define("card", {
     autoIncrement: true,
     allowNull: false,
   },
+  value: {
+    type: DataTypes.DECIMAL,
+  },
 });
 
 module.exports = Card;
