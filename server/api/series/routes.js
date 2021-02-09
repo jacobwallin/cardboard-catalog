@@ -1,6 +1,13 @@
 const router = require("express").Router();
 
-const { Series, Subset, Card, CardData } = require("../../db/models");
+const {
+  Series,
+  Subset,
+  Card,
+  CardData,
+  Player,
+  Team,
+} = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -27,6 +34,13 @@ router.get("/:seriesId", async (req, res, next) => {
             "playerId",
             "subsetId",
             "teamId",
+          ],
+          include: [
+            {
+              model: Player,
+              attributes: ["firstName", "lastName", "birthday", "hallOfFame"],
+            },
+            { model: Team, attributes: ["name"] },
           ],
         },
       },
