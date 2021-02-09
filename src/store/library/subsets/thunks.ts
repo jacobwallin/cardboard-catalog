@@ -26,7 +26,6 @@ export const updateSubset = (
   subsetId: number,
   subsetData: {
     name: string;
-    cardQuantity: number;
     description: string;
   }
 ): ThunkAction<void, RootState, unknown, LibraryActionTypes> => (dispatch) => {

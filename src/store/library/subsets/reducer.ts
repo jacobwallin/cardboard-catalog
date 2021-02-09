@@ -7,15 +7,15 @@ import {
 } from "./types";
 
 const initialState: LibraryState = {
-  singleSubset: {
+  subset: {
     id: 0,
-    cardQuantity: 0,
     name: "",
     description: "",
-    setId: 0,
     createdAt: "",
-    updatedAt: "",
+    updatedAt: "string",
+    setId: 0,
     series: [],
+    card_data: [],
   },
 };
 
@@ -25,11 +25,11 @@ const subsetsReducer = (
 ): LibraryState => {
   switch (action.type) {
     case GET_SUBSET_SUCCESS:
-      return { ...state, singleSubset: action.singleSubset };
+      return { ...state, subset: action.subset };
     case UPDATE_SUBSET_SUCCESS:
       return {
         ...state,
-        singleSubset: { ...state.singleSubset, ...action.updatedSubset },
+        subset: { ...state.subset, ...action.updatedSubset },
       };
     case CLEAR_LIBRARY:
       return initialState;

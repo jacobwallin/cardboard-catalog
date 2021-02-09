@@ -9,9 +9,9 @@ import {
   CLEAR_LIBRARY,
 } from "./types";
 
-export const getSubsetSuccess = (singleSubset: Subset): LibraryActionTypes => ({
+export const getSubsetSuccess = (subset: Subset): LibraryActionTypes => ({
   type: GET_SUBSET_SUCCESS,
-  singleSubset,
+  subset,
 });
 export const getSubsetRequest = (): LibraryActionTypes => ({
   type: GET_SUBSET_REQUEST,

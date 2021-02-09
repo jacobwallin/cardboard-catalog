@@ -9,7 +9,7 @@ export interface GetSubsetRequest {
 }
 export interface GetSubsetSuccess {
   type: typeof GET_SUBSET_SUCCESS;
-  singleSubset: Subset;
+  subset: Subset;
 }
 export interface UpdateSubsetRequest {
   type: typeof UPDATE_SUBSET_REQUEST;
@@ -17,7 +17,6 @@ export interface UpdateSubsetRequest {
 export interface UpdateSubsetServerResponse {
   name: string;
   description: string;
-  cardQuantity: number;
 }
 export interface UpdateSubsetSuccess {
   type: typeof UPDATE_SUBSET_SUCCESS;
@@ -35,44 +34,54 @@ export type LibraryActionTypes =
   | ClearLibraryAction;
 
 export interface LibraryState {
-  singleSubset: Subset;
+  subset: Subset;
 }
 
 export interface Subset {
   id: number;
   name: string;
-  cardQuantity: number;
   description: string;
   createdAt: string;
   updatedAt: string;
   setId: number;
-  series: SeriesSummary[];
+  series: Series[];
+  card_data: CardData[];
 }
 
-interface SeriesSummary {
+interface Series {
   id: number;
   name: string;
   color: string;
-  serializedTo: number | null;
-  attributes: Attributes[];
-  cards: Card[];
+  serialized: number | null;
+  auto: boolean;
+  relic: boolean;
+  manufacturedRelic: boolean;
+  parallel: boolean;
+  shortPrint: boolean;
+  createdAt: string;
+  updatedAt: string;
+  subsetId: number;
 }
 
-interface Attributes {
+export interface CardData {
   id: number;
   name: string;
-}
-
-export interface Card {
-  id: number;
-  cardDataId: number;
-  card_datum: {
+  number: string;
+  rookie: boolean;
+  createdAt: string;
+  updatedAt: string;
+  playerId: number;
+  subsetId: number;
+  teamId: number;
+  team: {
     id: number;
     name: string;
-    number: string;
-    rookie: boolean;
-    team: {
-      name: string;
-    };
+  };
+  player: {
+    id: number;
+    firstName: string;
+    lastName: string;
+    birthday: string;
+    hallOfFame: boolean;
   };
 }
