@@ -58,14 +58,23 @@ export interface Card {
     rookie: boolean;
     playerId: number;
     teamId: number;
-    player: {
-      firstName: string;
-      lastName: string;
-      birthday: string;
-      hallOfFame: boolean;
-    };
+    players: Player[];
     team: {
       name: string;
     };
+  };
+}
+
+interface Player {
+  id: number;
+  firstName: string;
+  lastName: string;
+  birthday: string;
+  hallOfFame: boolean;
+  card_data_player: {
+    cardDatumId: number;
+    playerId: number;
+    createdAt: string;
+    updatedAt: string;
   };
 }

@@ -77,11 +77,19 @@ export interface CardData {
     id: number;
     name: string;
   };
-  player: {
-    id: number;
-    firstName: string;
-    lastName: string;
-    birthday: string;
-    hallOfFame: boolean;
+  player: Player[];
+}
+
+interface Player {
+  id: number;
+  firstName: string;
+  lastName: string;
+  birthday: string;
+  hallOfFame: boolean;
+  card_data_player: {
+    cardDatumId: number;
+    playerId: number;
+    createdAt: string;
+    updatedAt: string;
   };
 }
