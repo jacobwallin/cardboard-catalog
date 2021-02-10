@@ -76,6 +76,11 @@ export default function AddCardsForm() {
     }
   }, [selectedSeriesId]);
 
+  useEffect(() => {
+    // parse card numbers whenever user changes card number field
+    parseCardNumbers();
+  }, [cardNumbers]);
+
   const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     // reset preceding select forms to default before updating year (will react always decide to do this in order??)
     setCardNumbers("");
@@ -237,14 +242,11 @@ export default function AddCardsForm() {
       </div>
 
       <div className="player-card-container">
-        {parseCardNumbers()
-          .found.sort((a, b) => {
+        {validCards
+          .sort((a, b) => {
             // parse to int if possible, otherwise compare as strings
-            const aInt =
-              parseInt(a.card.card_datum.number) || a.card.card_datum.number;
-            const bInt = parseInt(
-              b.card.card_datum.number || b.card.card_datum.number
-            );
+            const aInt = parseInt(a.card_datum.number) || a.card_datum.number;
+            const bInt = parseInt(b.card_datum.number || b.card_datum.number);
             if (aInt < bInt) {
               return -1;
             } else if (aInt === bInt) {
@@ -252,13 +254,13 @@ export default function AddCardsForm() {
             }
             return 1;
           })
-          .map((cardData) => {
+          .map((card) => {
             return (
               <PlayerCard
-                key={cardData.card.id}
-                card={cardData.card}
-                quantity={cardData.quantity}
-                color={cardData.color}
+                key={card.id}
+                card={card}
+                quantity={1}
+                color={series.color}
               />
             );
           })}

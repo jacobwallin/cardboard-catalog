@@ -78,52 +78,26 @@ router.get("/subset/:subsetId", async (req, res, next) => {
   }
 });
 
-router.post("/add", async (req, res) => {
+// TODO: remove hard coded userId
+router.post("/add", async (req, res, next) => {
+  const { cardsToAdd } = req.body;
   try {
-    const userCards = await Promise.all(
-      req.body.map((newCard) => {
-        return UserCard.findOrCreate({
-          where: { cardId: newCard.cardId, userId: 1 },
-          defaults: {
-            quantity: newCard.quantity,
-          },
-        });
+    // bulk create user card entries
+    const userCards = await UserCard.bulkCreate(
+      cardsToAdd.map((cardInfo) => {
+        return {
+          serialNumber: cardInfo.serialNumber,
+          grade: cardInfo.grade,
+          cardId: cardInfo.cardId,
+          gradingCompanyId: cardInfo.gradingCompanyId,
+          userId: 1,
+        };
       })
     );
 
-    const updatedUserCards = await Promise.all(
-      userCards
-        .filter((userCardData) => {
-          const [, created] = userCardData;
-          if (!created) {
-            return true;
-          }
-          return false;
-        })
-        .map((userCardData) => {
-          const [userCard] = userCardData;
-          const quantity = req.body.find(
-            (cardData) => cardData.cardId === userCard.cardId
-          ).quantity;
-
-          return userCard.update({
-            quantity: userCard.quantity + quantity,
-          });
-        })
-    );
-
-    // send the client all created and updated user_card rows
-    const responseData = { created: [], updated: [] };
-
-    responseData.updated = updatedUserCards;
-    responseData.created = userCards
-      .filter((userCard) => userCard[1])
-      .map((userCard) => userCard[0]);
-
-    res.status(201).json(responseData);
+    res.status(201).json(userCards);
   } catch (error) {
-    console.log(error.message);
-    res.sendStatus(500);
+    next(error);
   }
 });
 
