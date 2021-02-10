@@ -112,14 +112,15 @@ export default function AddCardsForm() {
   const handleSubmit = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    // const apiData = parseCardNumbers().found.map((card) => {
-    //   return { cardId: card.card.id, quantity: card.quantity };
-    // });
-    // setSubmitDisabled(true);
-    // postData("/api/collection/add", apiData).then((response) => {
-    //   // clear collection data so it will be re-fetched and updated when user next goes to any collection pages
-    //   dispatch(clearCollection());
-    // });
+    // TODO: this should be done in REDUX
+    const apiData = validCards.map((card) => {
+      return { cardId: card.id };
+    });
+    setSubmitDisabled(true);
+    postData("/api/collection/add", apiData).then((response) => {
+      // clear collection data so it will be re-fetched and updated when user next goes to any collection pages
+      dispatch(clearCollection());
+    });
   };
 
   const parseCardNumbers = () => {
