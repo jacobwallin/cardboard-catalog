@@ -10,13 +10,13 @@ const db = require("../db/db");
 // collection api routes only available to logged in users
 // router.use(isUser);
 
-// get all cards in the user's collection, aggregated by set
 router.get("/", async (req, res, next) => {
   try {
     const userId = 1;
 
+    // this query aggregates all cards in the user's collection by set, counting the amount of distinct cards and total cards per set
     const [results] = await db.query(
-      `SELECT sets.id as "setId", sets.name as "setName", sets.description as "setDescription", sets.year as "year", COUNT(cards.id) as "distinctCards", SUM(user_card.quantity) as "totalCards" FROM user_card INNER JOIN cards ON user_card."cardId" = cards.id AND user_card."userId" = ${userId} INNER JOIN series ON cards."seriesId" = series.id INNER JOIN subsets ON series."subsetId" = subsets.id INNER JOIN sets ON subsets."setId" = sets.id GROUP BY sets.id`
+      `SELECT sets.id as "setId", sets.name as "setName", sets.description as "setDescription", sets.year as "year", COUNT( DISTINCT cards.id) as "distinctCards", COUNT(user_card.id) as "totalCards" FROM user_card INNER JOIN cards ON user_card."cardId" = cards.id AND user_card."userId" = ${userId} INNER JOIN series ON cards."seriesId" = series.id INNER JOIN subsets ON series."subsetId" = subsets.id INNER JOIN sets ON subsets."setId" = sets.id GROUP BY sets.id`
     );
 
     res.json(results);
@@ -28,18 +28,15 @@ router.get("/", async (req, res, next) => {
 // get any cards the user has for a specific set, aggregated by subset
 router.get("/set/:setId", async (req, res, next) => {
   try {
+    //TODO: remove hard coded userId
     const userId = 1;
 
+    // this query aggregates all cards by subset, filtering by the setId and counting the amount of distinct cards and total cards per subset
     const [results] = await db.query(
-      `SELECT subsets.id as "subsetId", subsets.name as "subsetName", subsets.description as "subsetDescription", COUNT(cards.id) as "distinctCards", SUM(user_card.quantity) as "totalCards", subsets."setId" as "setId" FROM user_card INNER JOIN cards ON user_card."cardId" = cards.id AND user_card."userId" = ${userId} INNER JOIN series ON cards."seriesId" = series.id INNER JOIN subsets ON series."subsetId" = subsets.id INNER JOIN sets ON subsets."setId" = sets.id WHERE sets.id = ${req.params.setId} GROUP BY subsets.id `
+      `SELECT subsets.id as "subsetId", subsets.name as "subsetName", subsets.description as "subsetDescription", COUNT(DISTINCT cards.id) as "distinctCards", COUNT(user_card.id) as "totalCards", subsets."setId" as "setId" FROM user_card INNER JOIN cards ON user_card."cardId" = cards.id AND user_card."userId" = ${userId} INNER JOIN series ON cards."seriesId" = series.id INNER JOIN subsets ON series."subsetId" = subsets.id INNER JOIN sets ON subsets."setId" = sets.id WHERE sets.id = ${req.params.setId} GROUP BY subsets.id `
     );
 
-    const responseData = {
-      cardsBySubset: results,
-      setId: +req.params.setId,
-    };
-
-    res.json(responseData);
+    res.json(results);
   } catch (error) {
     res.sendStatus(500);
   }
@@ -49,29 +46,18 @@ router.get("/set/:setId", async (req, res, next) => {
 router.get("/subset/:subsetId", async (req, res, next) => {
   try {
     const cards = await UserCard.findAll({
-      where: { userId: 1, "$card->series.subsetId$": req.params.subsetId },
+      where: { userId: 1, "$card->card_datum.subsetId$": req.params.subsetId },
       include: {
         model: Card,
-        attributes: ["id", "cardDataId", "seriesId"],
-        include: [
-          {
-            model: Series,
-            attributes: ["id", "name", "color", "serializedTo", "subsetId"],
-          },
-          {
-            model: CardData,
-            attributes: ["id", "name", "number", "rookie", "teamId"],
-          },
-        ],
+        attributes: ["id", "value", "seriesId", "cardDataId"],
+        include: {
+          model: CardData,
+          attributes: ["subsetId"],
+        },
       },
     });
 
-    const responseData = {
-      cards: cards,
-      subsetId: +req.params.subsetId,
-    };
-
-    res.json(responseData);
+    res.json(cards);
   } catch (error) {
     console.log(error.message);
     res.sendStatus(500);
