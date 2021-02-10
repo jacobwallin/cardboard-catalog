@@ -25,77 +25,94 @@ router.get("/:cardDataId", async (req, res, next) => {
 // creates a new card data entry, along with a card entry for each series that belongs to the subset
 router.post("/", async (req, res, next) => {
   // create card data and then create a card for every series in set
-  const { name, number, rookie, playerId, teamId, subsetId } = req.body;
+  const { name, number, rookie, playerIds, teamId, subsetId } = req.body;
 
   try {
-    // create new card data entry
-    const newCardData = await CardData.create({
-      name,
-      number,
-      rookie,
-      playerId,
-      teamId,
-      subsetId,
-    });
-
-    // get all series that are part of the subset
-    const allSeries = await Series.findAll({ where: { subsetId: subsetId } });
-
-    // create a card for each series
-    await Promise.all(
-      allSeries.map((series) => {
-        return Card.create({ seriesId: series.id, cardDataId: newCardData.id });
+    // find players by pk and validate before continuing
+    const players = await Promise.all(
+      playerIds.map((id) => {
+        return Player.findByPk(id);
       })
     );
 
-    // send back new created card
-    res.status(201).json(newCardData);
-  } catch (error) {
-    next(error);
-  }
-});
+    // if all player ids are valid, continue, otherwise throw an error
+    if (players.findIndex((player) => player === null) === -1) {
+      // create new card data entry
+      const newCardData = await CardData.create({
+        name,
+        number,
+        rookie,
+        teamId,
+        subsetId,
+      });
+      // add the players to the card data entry
+      await newCardData.addPlayers(players);
 
-// bulk add cards to a subset
-router.post("/bulk", async (req, res, next) => {
-  const { cards, subsetId } = req.body;
+      // get all series that are part of the subset
+      const allSeries = await Series.findAll({ where: { subsetId: subsetId } });
 
-  try {
-    // create new card data entries
-    const newCardData = await Promise.all(
-      cards.map((cardData) =>
-        CardData.create({
-          name: cardData.name,
-          number: cardData.number,
-          rookie: cardData.rookie,
-          playerId: cardData.playerId,
-          teamId: cardData.teamId,
-          subsetId,
+      // create a card for each series
+      await Promise.all(
+        allSeries.map((series) => {
+          return Card.create({
+            seriesId: series.id,
+            cardDataId: newCardData.id,
+          });
         })
-      )
-    );
+      );
 
-    // get all series that are part of the subset
-    const allSeries = await Series.findAll({ where: { subsetId: subsetId } });
-
-    // create a card for each series
-    await Promise.all(
-      allSeries.map((series) => {
-        return Promise.all(
-          newCardData.map((cardData) => {
-            return Card.create({
-              seriesId: series.id,
-              cardDataId: cardData.id,
-            });
-          })
-        );
-      })
-    );
-
-    res.status(201).json(newCardData);
+      // send back new created card
+      res.status(201).json(newCardData);
+    } else {
+      throw new Error("Invalid Player id(s)");
+    }
   } catch (error) {
+    console.log(error.message);
     next(error);
   }
 });
+
+// TODO: get this working
+// bulk add cards to a subset
+// router.post("/bulk", async (req, res, next) => {
+//   const { cards, subsetId } = req.body;
+
+//   try {
+//     // create new card data entries
+//     const newCardData = await Promise.all(
+//       cards.map((cardData) =>
+//         CardData.create({
+//           name: cardData.name,
+//           number: cardData.number,
+//           rookie: cardData.rookie,
+//           teamId: cardData.teamId,
+//           subsetId,
+//         })
+//       )
+//     );
+
+//     // get all series that are part of the subset
+//     const allSeries = await Series.findAll({ where: { subsetId: subsetId } });
+
+//     // create a card for each series
+//     await Promise.all(
+//       allSeries.map((series) => {
+//         return Promise.all(
+//           newCardData.map((cardData) => {
+//             return Card.create({
+//               seriesId: series.id,
+//               cardDataId: cardData.id,
+//             });
+//           })
+//         );
+//       })
+//     );
+
+//     res.status(201).json(newCardData);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 router.put("/:cardId", async (req, res, next) => {
   const { name, number, rookie, playerId, teamId } = req.body;
