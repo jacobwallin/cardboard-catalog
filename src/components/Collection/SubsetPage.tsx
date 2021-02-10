@@ -17,7 +17,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
   const dispatch = useDispatch();
 
   const librarySubset = useSelector(
-    (state: RootState) => state.library.subsets.singleSubset
+    (state: RootState) => state.library.subsets.subset
   );
   const subsetUserCards = useSelector(
     (state: RootState) => state.collection.cardsInSingleSubset

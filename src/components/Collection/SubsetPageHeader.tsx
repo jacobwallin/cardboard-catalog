@@ -11,7 +11,7 @@ interface Props {
 
 export default function SubsetPageHeader(props: Props) {
   const librarySubset = useSelector(
-    (state: RootState) => state.library.subsets.singleSubset
+    (state: RootState) => state.library.subsets.subset
   );
 
   return (

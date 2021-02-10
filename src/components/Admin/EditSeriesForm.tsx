@@ -15,9 +15,6 @@ export default function SeriesForm() {
   const dispatch = useDispatch();
 
   const series = useSelector((state: RootState) => state.library.series.series);
-  const attributes = useSelector(
-    (state: RootState) => state.library.attributes.attributes
-  );
   const isUpdating = useSelector((state: RootState) =>
     isUpdatingSelector(state)
   );
@@ -26,14 +23,12 @@ export default function SeriesForm() {
   const [isEditing, setIsEditing] = useState(false);
   // controlled form data
   const [nameField, setNameField] = useState(series.name);
-  const [colorField, setColorField] = useState(series.color);
-  const [serializedToField, setSerializedToField] = useState(
-    series.serializedTo
-  );
-  // attributes are stored as an array of primary keys of each attribute
-  const [attributesField, setAttributesField] = useState(
-    series.attributes.map((attr) => attr.id)
-  );
+  const [serializedField, setSerializedField] = useState(series.serialized);
+  const [isAuto, setIsAuto] = useState(false);
+  const [isRelic, setIsRelic] = useState(false);
+  const [isManufacturedRelic, setIsManufacturedRelic] = useState(false);
+  const [isParallel, setIsParallel] = useState(false);
+  const [isShortPrint, setIsShortPrint] = useState(false);
 
   // form change handlers
   function handleEditStateChange() {
@@ -44,9 +39,14 @@ export default function SeriesForm() {
     dispatch(
       updateSeries(series.id, {
         name: nameField,
-        color: colorField,
-        serializedTo: serializedToField,
-        attributes: attributesField,
+        // color is not part of the form
+        color: series.color,
+        serialized: serializedField,
+        auto: isAuto,
+        relic: isRelic,
+        manufacturedRelic: isManufacturedRelic,
+        parallel: isParallel,
+        shortPrint: isShortPrint,
       })
     );
   }
@@ -59,12 +59,8 @@ export default function SeriesForm() {
       case "nameField":
         setNameField(value);
         break;
-      case "colorField":
-        console.log("NEW COLOR", value);
-        setColorField(value);
-        break;
-      case "serializedToField":
-        setSerializedToField(+value);
+      case "serializedField":
+        setSerializedField(+value);
         break;
     }
   }
@@ -73,13 +69,6 @@ export default function SeriesForm() {
     event: React.ChangeEvent<HTMLInputElement>
   ) {
     if (event.target.checked) {
-      setAttributesField([...attributesField, +event.target.value]);
-    } else {
-      setAttributesField(
-        attributesField.filter(
-          (attributeId) => attributeId !== +event.target.value
-        )
-      );
     }
   }
 
@@ -100,7 +89,7 @@ export default function SeriesForm() {
           />
         }
       />
-      <EditFormLine
+      {/* <EditFormLine
         editing={isEditing}
         title="Series Color: "
         data={
@@ -122,58 +111,18 @@ export default function SeriesForm() {
             onChange={handleInputChange}
           />
         }
-      />
-      <EditFormLine
-        editing={isEditing}
-        title="Series Attributes: "
-        data={
-          <div>
-            {series.attributes.length > 0
-              ? series.attributes.map((attribute) => {
-                  return <p key={attribute.id}>{attribute.name}</p>;
-                })
-              : "This series has no attributes"}
-          </div>
-        }
-        input={
-          <form>
-            {attributes.map((attribute) => {
-              return (
-                <div key={attribute.id}>
-                  <input
-                    type="checkbox"
-                    // set checked to true if the series currently has the attribute
-                    checked={
-                      attributesField.findIndex(
-                        (att) => att === attribute.id
-                      ) !== -1
-                    }
-                    id={`${attribute.id}`}
-                    name={attribute.name}
-                    value={attribute.id}
-                    onChange={handleAttributeInputChange}
-                  />
-                  <label htmlFor={attribute.name}>{attribute.name}</label>
-                </div>
-              );
-            })}
-          </form>
-        }
-      />
+      /> */}
 
-      {attributesField.findIndex(
-        // TODO: CANNOT BE HARD CODED
-        (attribute) => attribute === 3
-      ) !== -1 && (
+      {serializedField && (
         <EditFormLine
           editing={isEditing}
           title="Serialized To: "
-          data={series.serializedTo}
+          data={series.serialized}
           input={
             <input
               name="serializedToField"
               type="text"
-              value={serializedToField || ""}
+              value={serializedField || ""}
               disabled={isUpdating}
               placeholder="Enter #"
               onChange={handleInputChange}
@@ -186,8 +135,24 @@ export default function SeriesForm() {
         isEditing={isEditing}
         isUpdating={isUpdating}
         changesMade={detectFormChanges(
-          [series.name, series.color, series.attributes.map((attr) => attr.id)],
-          [nameField, colorField, attributesField]
+          [
+            series.name,
+            series.serialized,
+            series.auto,
+            series.relic,
+            series.manufacturedRelic,
+            series.parallel,
+            series.shortPrint,
+          ],
+          [
+            nameField,
+            serializedField,
+            isAuto,
+            isRelic,
+            isManufacturedRelic,
+            isParallel,
+            isShortPrint,
+          ]
         )}
         handleEditStateChange={handleEditStateChange}
         handleFormSubmit={handleFormSubmit}

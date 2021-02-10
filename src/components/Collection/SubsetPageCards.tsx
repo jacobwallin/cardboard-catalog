@@ -10,15 +10,11 @@ interface Props {
 
 export default function SubsetCardsBySeries(props: Props) {
   const librarySubset = useSelector(
-    (state: RootState) => state.library.subsets.singleSubset
+    (state: RootState) => state.library.subsets.subset
   );
   const subsetUserCards = useSelector(
     (state: RootState) => state.collection.cardsInSingleSubset.cards
   );
-
-  const selectedSeries = librarySubset.series.find(
-    (series) => series.id === props.selectedSeriesId
-  )!;
 
   if (props.selectedSeriesId === 0) {
     return (
@@ -39,20 +35,23 @@ export default function SubsetCardsBySeries(props: Props) {
             return 1;
           })
           .map((card) => {
-            let seriesIdx = librarySubset.series.findIndex(
+            let series = librarySubset.series.find(
               (series) => series.id === card.card.seriesId
-            );
-            console.log("SERIES INDEX", seriesIdx);
-            let libCard = librarySubset.series[seriesIdx].cards.find(
+            )!;
+            let libCard = librarySubset.card_data.find(
               (libraryCard) => libraryCard.id === card.card.id
             )!;
 
             return (
               <PlayerCard
                 key={libCard.id}
-                card={libCard}
-                quantity={card.quantity}
-                color={librarySubset.series[seriesIdx].color}
+                cardData={libCard}
+                seriesData={series}
+                quantity={1}
+                serialNumber={null}
+                grade={null}
+                gradingCompany={null}
+                value={null}
               />
             );
           })}
@@ -63,22 +62,7 @@ export default function SubsetCardsBySeries(props: Props) {
   if (props.showAllCards) {
     return (
       <>
-        {selectedSeries.cards.map((card) => {
-          const userCard = subsetUserCards.find((userCard) => {
-            return userCard.card.id === card.id;
-          });
-
-          const cardQty = userCard !== undefined ? userCard.quantity : 0;
-
-          return (
-            <PlayerCard
-              key={card.id}
-              card={card}
-              quantity={cardQty}
-              color={selectedSeries.color}
-            />
-          );
-        })}
+        <div>showing all cards in this series...</div>
       </>
     );
   } else {
@@ -89,16 +73,25 @@ export default function SubsetCardsBySeries(props: Props) {
             (userCard) => userCard.card.seriesId === props.selectedSeriesId
           )
           .map((userCard) => {
-            const libraryCard = selectedSeries.cards.find(
-              (card) => card.id === userCard.card.id
-            )!;
-
             return (
               <PlayerCard
-                key={libraryCard.id}
-                card={libraryCard}
-                quantity={userCard.quantity}
-                color={selectedSeries.color}
+                key={userCard.id}
+                cardData={userCard.card.card_datum}
+                seriesData={
+                  librarySubset.series.find(
+                    (series) => series.id === userCard.card.seriesId
+                  )!
+                }
+                quantity={1}
+                // seriesData: Series;
+                serialNumber={userCard.serialNumber}
+                grade={userCard.grade}
+                gradingCompany={
+                  userCard.grading_company
+                    ? userCard.grading_company.name
+                    : null
+                }
+                value={userCard.card.value}
               />
             );
           })}

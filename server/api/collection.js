@@ -2,7 +2,14 @@ const router = require("express").Router();
 
 const { isUser } = require("../middleware");
 
-const { Card, CardData, Series, UserCard } = require("../db/models");
+const {
+  Card,
+  CardData,
+  UserCard,
+  Player,
+  Team,
+  GradingCompany,
+} = require("../db/models");
 
 const sequelize = require("sequelize");
 const db = require("../db/db");
@@ -47,14 +54,29 @@ router.get("/subset/:subsetId", async (req, res, next) => {
   try {
     const cards = await UserCard.findAll({
       where: { userId: 1, "$card->card_datum.subsetId$": req.params.subsetId },
-      include: {
-        model: Card,
-        attributes: ["id", "value", "seriesId", "cardDataId"],
-        include: {
-          model: CardData,
-          attributes: ["subsetId"],
+      include: [
+        { model: GradingCompany, attributes: ["name"] },
+        {
+          model: Card,
+
+          include: {
+            model: CardData,
+            include: [
+              {
+                model: Player,
+                attributes: [
+                  "id",
+                  "firstName",
+                  "lastName",
+                  "birthday",
+                  "hallOfFame",
+                ],
+              },
+              { model: Team, attributes: ["id", "name"] },
+            ],
+          },
         },
-      },
+      ],
     });
 
     res.json(cards);

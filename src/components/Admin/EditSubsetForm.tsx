@@ -13,7 +13,7 @@ const isUpdatingSelector = createLoadingSelector(["UPDATE_SUBSET"]);
 export default function SubsetFrom() {
   const dispatch = useDispatch();
   const subset = useSelector(
-    (state: RootState) => state.library.subsets.singleSubset
+    (state: RootState) => state.library.subsets.subset
   );
   const isUpdating = useSelector((state: RootState) =>
     isUpdatingSelector(state)
@@ -34,7 +34,6 @@ export default function SubsetFrom() {
       updateSubset(subset.id, {
         name: nameField,
         description: descriptionField,
-        cardQuantity: subset.cardQuantity,
       })
     );
   }

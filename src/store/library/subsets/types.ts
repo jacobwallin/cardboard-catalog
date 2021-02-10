@@ -48,7 +48,7 @@ export interface Subset {
   card_data: CardData[];
 }
 
-interface Series {
+export interface Series {
   id: number;
   name: string;
   color: string;

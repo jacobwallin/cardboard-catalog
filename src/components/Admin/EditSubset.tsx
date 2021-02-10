@@ -34,7 +34,7 @@ const seriesColumns = [
 const cardsColumns = [
   {
     name: "Card Number",
-    selector: "card_datum.number",
+    selector: "number",
     sortFunction: (rowA: any, rowB: any) => {
       // trye to convert to number first and then sort
       if (+rowA && +rowB) return +rowA - +rowB;
@@ -46,18 +46,18 @@ const cardsColumns = [
   },
   {
     name: "Name",
-    selector: "card_datum.name",
+    selector: "name",
     sortable: true,
   },
   {
     name: "Team",
-    selector: "card_datum.team.name",
+    selector: "team.name",
     sortable: true,
   },
   {
     name: "Rookie",
     sortable: false,
-    cell: (row: any) => (row.card_datum.rookie ? "RC" : ""),
+    cell: (row: any) => (row.rookie ? "RC" : ""),
   },
   {
     name: "",
@@ -73,7 +73,7 @@ export default function EditSubset(props: RouteComponentProps<Params>) {
   const dispatch = useDispatch();
 
   const subset = useSelector(
-    (state: RootState) => state.library.subsets.singleSubset
+    (state: RootState) => state.library.subsets.subset
   );
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
 
@@ -109,9 +109,8 @@ export default function EditSubset(props: RouteComponentProps<Params>) {
       <WrappedDataTable
         title={`Cards in ${subset.name}`}
         columns={cardsColumns}
-        // send an empty array if there are no series that belong to the subset
-        data={subset.series.length !== 0 ? subset.series[0].cards : []}
-        defaultSortField="card_datum.number"
+        data={subset.card_data}
+        defaultSortField="number"
         highlightOnHover
         pagination
         paginationPerPage={20}

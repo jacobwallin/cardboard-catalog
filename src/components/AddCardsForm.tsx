@@ -256,14 +256,7 @@ export default function AddCardsForm() {
             return 1;
           })
           .map((card) => {
-            return (
-              <PlayerCard
-                key={card.id}
-                card={card}
-                quantity={1}
-                color={series.color}
-              />
-            );
+            return <div key={card.id}>{card.card_datum.name}</div>;
           })}
       </div>
     </div>

@@ -110,29 +110,50 @@ export interface SubsetCards {
 }
 export interface UserCard {
   id: number;
-  quantity: number;
-  serialNumber: number;
+  serialNumber: number | null;
   createdAt: string;
   updatedAt: string;
   userId: number;
   cardId: number;
+  gradingCompanyId: number | null;
+  grade: number | null;
+  grading_company: {
+    name: string;
+  } | null;
   card: {
     id: number;
+    value: number | null;
     cardDataId: number;
     seriesId: number;
-    series: {
-      id: number;
-      name: string;
-      color: string;
-      serializedTo: number;
-      subsetId: number;
-    };
     card_datum: {
       id: number;
       name: string;
       number: string;
       rookie: boolean;
+      createdAt: string;
+      updatedAt: string;
+      playerId: number;
+      subsetId: number;
       teamId: number;
+      team: {
+        id: number;
+        name: string;
+      };
+      player: Player[];
     };
+  };
+}
+
+interface Player {
+  id: number;
+  firstName: string;
+  lastName: string;
+  birthday: string;
+  hallOfFame: boolean;
+  card_data_player: {
+    cardDatumId: number;
+    playerId: number;
+    createdAt: string;
+    updatedAt: string;
   };
 }
