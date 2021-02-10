@@ -31,37 +31,37 @@ const seed = async () => {
     await db.sync({ force: true });
 
     // bulk create from local seed data
-    await User.bulkCreate(users);
-    await League.bulkCreate(leagues);
-    await Brand.bulkCreate(brands);
-    await Team.bulkCreate(teams);
-    await Set.bulkCreate(sets);
-    await GradingCompany.bulkCreate(gradingCompanies);
+    // await User.bulkCreate(users);
+    // await League.bulkCreate(leagues);
+    // await Brand.bulkCreate(brands);
+    // await Team.bulkCreate(teams);
+    // await Set.bulkCreate(sets);
+    // await GradingCompany.bulkCreate(gradingCompanies);
 
-    // bulk create from Mockaroo API
-    await Player.bulkCreate(
-      await fetchData("https://my.api.mockaroo.com/player.json?key=128d2830")
-    );
-    await Subset.bulkCreate(
-      await fetchData("https://my.api.mockaroo.com/subsets.json?key=128d2830")
-    );
-    await Series.bulkCreate(
-      await fetchData("https://my.api.mockaroo.com/series.json?key=128d2830")
-    );
-    await CardData.bulkCreate(
-      await fetchData(
-        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=0"
-      )
-    );
-    await CardData.bulkCreate(
-      await fetchData(
-        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=50"
-      )
-    );
-    // populate card data and series join table
-    await Card.bulkCreate(createCards());
-    // populate card data and player join table
-    await CardDataPlayer.bulkCreate(createCardDataPlayer());
+    // // bulk create from Mockaroo API
+    // await Player.bulkCreate(
+    //   await fetchData("https://my.api.mockaroo.com/player.json?key=128d2830")
+    // );
+    // await Subset.bulkCreate(
+    //   await fetchData("https://my.api.mockaroo.com/subsets.json?key=128d2830")
+    // );
+    // await Series.bulkCreate(
+    //   await fetchData("https://my.api.mockaroo.com/series.json?key=128d2830")
+    // );
+    // await CardData.bulkCreate(
+    //   await fetchData(
+    //     "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=0"
+    //   )
+    // );
+    // await CardData.bulkCreate(
+    //   await fetchData(
+    //     "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=50"
+    //   )
+    // );
+    // // populate card data and series join table
+    // await Card.bulkCreate(createCards());
+    // // populate card data and player join table
+    // await CardDataPlayer.bulkCreate(createCardDataPlayer());
     console.log("--SEEDING COMPLETE--");
     await db.close();
   } catch (error) {

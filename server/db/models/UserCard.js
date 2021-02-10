@@ -14,7 +14,7 @@ const UserCard = db.define(
       type: DataTypes.INTEGER,
     },
     grade: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL,
     },
   },
   {

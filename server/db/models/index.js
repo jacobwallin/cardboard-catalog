@@ -17,8 +17,9 @@ UserCard.belongsTo(User);
 User.hasMany(UserCard);
 UserCard.belongsTo(Card);
 Card.hasMany(UserCard);
-User.belongsToMany(Card, { through: UserCard });
-Card.belongsToMany(User, { through: UserCard });
+// prevent unique key from being created to allow the same card to be added to the same user multiple times
+User.belongsToMany(Card, { through: { model: UserCard, unique: false } });
+Card.belongsToMany(User, { through: { model: UserCard, unique: false } });
 
 // One to many association between sets and subsets
 Subset.belongsTo(Set, {
