@@ -10,6 +10,7 @@ const Brand = require("./Brand");
 const Team = require("./Team");
 const Player = require("./Player");
 const GradingCompany = require("./GradingCompany");
+const CardDataPlayer = require("./CardDataPlayer");
 
 // many to many association between cards and usercards using custom through table (super many-to-many)
 UserCard.belongsTo(User);
@@ -65,9 +66,9 @@ CardData.hasMany(Card, {
 UserCard.belongsTo(GradingCompany);
 GradingCompany.hasMany(UserCard);
 
-// One to many association between players and card data
-CardData.belongsTo(Player);
-Player.hasMany(CardData);
+// many to many association between players and card data
+Player.belongsToMany(CardData, { through: CardDataPlayer });
+CardData.belongsToMany(Player, { through: CardDataPlayer });
 
 // One to many association between subsets and card data
 CardData.belongsTo(Subset, {
@@ -119,4 +120,5 @@ module.exports = {
   Team,
   Player,
   GradingCompany,
+  CardDataPlayer,
 };

@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import { SetSummary } from "../store/library/sets/types";
-import { Card } from "../store/library/subsets/types";
+import { Card } from "../store/library/series/types";
 import { fetchAllSetData, fetchSet } from "../store/library/sets/thunks";
 import { fetchSubset } from "../store/library/subsets/thunks";
+import { fetchSeriesById } from "../store/library/series/thunks";
 import { clearCollection } from "../store/collection/actions";
 import PlayerCard from "./PlayerCard";
 import { postData } from "../utils/postData";
@@ -37,12 +38,16 @@ export default function AddCardsForm() {
   const [selectedSeriesId, setSelectedSeriesId] = useState(-1);
   const [cardNumbers, setCardNumbers] = useState("");
   const [submitDisabled, setSubmitDisabled] = useState(false);
+  // lists any card numbers entered by the user that are not valid
+  const [invalidCardNumbers, setInvalidCardNumbers] = useState<String[]>([]);
+  const [validCards, setValidCards] = useState<Card[]>([]);
 
   const allSets = useSelector((state: RootState) => state.library.sets.allSets);
   const set = useSelector((state: RootState) => state.library.sets.singleSet);
   const subset = useSelector(
-    (state: RootState) => state.library.subsets.singleSubset
+    (state: RootState) => state.library.subsets.subset
   );
+  const series = useSelector((state: RootState) => state.library.series.series);
 
   const dispatch = useDispatch();
 
@@ -63,6 +68,13 @@ export default function AddCardsForm() {
       dispatch(fetchSubset(selectedSubsetId));
     }
   }, [selectedSubsetId]);
+
+  useEffect(() => {
+    // fetch subset data, but only if a subset is selected
+    if (selectedSeriesId !== -1) {
+      dispatch(fetchSeriesById(selectedSeriesId));
+    }
+  }, [selectedSeriesId]);
 
   const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     // reset preceding select forms to default before updating year (will react always decide to do this in order??)
@@ -95,60 +107,36 @@ export default function AddCardsForm() {
   const handleSubmit = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    const apiData = parseCardNumbers().found.map((card) => {
-      return { cardId: card.card.id, quantity: card.quantity };
-    });
-
-    setSubmitDisabled(true);
-
-    postData("/api/collection/add", apiData).then((response) => {
-      // clear collection data so it will be re-fetched and updated when user next goes to any collection pages
-      dispatch(clearCollection());
-    });
+    // const apiData = parseCardNumbers().found.map((card) => {
+    //   return { cardId: card.card.id, quantity: card.quantity };
+    // });
+    // setSubmitDisabled(true);
+    // postData("/api/collection/add", apiData).then((response) => {
+    //   // clear collection data so it will be re-fetched and updated when user next goes to any collection pages
+    //   dispatch(clearCollection());
+    // });
   };
 
-  const parseCardNumbers = (): {
-    notFound: string[];
-    found: Array<{ card: Card; quantity: number; color: string }>;
-  } => {
+  const parseCardNumbers = () => {
     // parse string
-    const numbers = cardNumbers.split(",").map((cardNum) => cardNum.trim());
+    const parsedCardNumbers = cardNumbers
+      .split(",")
+      .map((cardNum) => cardNum.trim());
     // do not add a card number until there is a trailing comma added to the string
-    numbers.pop();
+    parsedCardNumbers.pop();
 
-    const initialParsedData: {
-      notFound: string[];
-      found: Array<{ card: Card; quantity: number; color: string }>;
-    } = { notFound: [], found: [] };
-
-    // create array of objects containing each card and quantity to add
-    const cards = numbers.reduce((parsedData, cardNum) => {
-      const currentSeries = subset.series.find(
-        (series) => series.id === selectedSeriesId
-      )!;
-      const card = currentSeries.cards.find(
+    parsedCardNumbers.forEach((cardNum) => {
+      const cardFindResult = series.cards.find(
         (card) => card.card_datum.number === cardNum
       );
-      if (card) {
-        const index = parsedData.found.findIndex(
-          (cardsToAdd) => cardsToAdd.card.id === card.id
-        );
-        if (index === -1) {
-          parsedData.found.push({
-            card,
-            quantity: 1,
-            color: currentSeries.color,
-          });
-        } else {
-          parsedData.found[index].quantity++;
-        }
+      if (cardFindResult) {
+        // if the card number is valid, add the card to the array of valid cards
+        setValidCards([...validCards, cardFindResult]);
       } else {
-        parsedData.notFound.push(cardNum);
+        // if invalid, the invalid number is added to state
+        setInvalidCardNumbers([...invalidCardNumbers, cardNum]);
       }
-      return parsedData;
-    }, initialParsedData);
-
-    return cards;
+    });
   };
 
   return (
@@ -243,10 +231,8 @@ export default function AddCardsForm() {
       </div>
 
       <div className="invalid-card-numbers">
-        {parseCardNumbers().notFound.length > 0 && (
-          <p>{`Cannot find card numbers ${parseCardNumbers().notFound.join(
-            ", "
-          )}`}</p>
+        {invalidCardNumbers.length > 0 && (
+          <p>{`Cannot find card numbers ${invalidCardNumbers.join(", ")}`}</p>
         )}
       </div>
 
