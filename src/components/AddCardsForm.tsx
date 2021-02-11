@@ -7,40 +7,74 @@ import { fetchAllSetData, fetchSet } from "../store/library/sets/thunks";
 import { fetchSubset } from "../store/library/subsets/thunks";
 import { fetchSeriesById } from "../store/library/series/thunks";
 import { clearCollection } from "../store/collection/actions";
-import PlayerCard from "./PlayerCard";
-import { postData } from "../utils/postData";
+import AddCardsLine from "./AddCardsLine";
 import styled from "styled-components";
+import StyledButton from "./Admin/components/StyledButton";
 
 import "../styling/addCardsForm.css";
 
-const Select = styled.select`
-  width: 50%;
-  padding: 5px;
-  margin: 5px auto;
-  @media (max-width: 768px) {
+const FormContainer = styled.div`
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  min-width: 250px;
+  @media (max-width: 900px) {
     width: 90%;
   }
 `;
-const TextArea = styled.textarea`
-  width: 50%;
-  margin: 5px auto;
-  resize: none;
-  height: 50px;
+
+const Select = styled.select`
+  height: 40px;
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 20px;
+`;
+
+const Input = styled.input`
+  height: 40px;
+  width: 100px;
+  margin: 0 10px 0 10px;
+  padding-left: 10px;
+  @media (max-width: 768px) {
+    width: 65px;
+  }
 `;
 const SubmitButton = styled.button`
   width: 100px;
 `;
+const SelectCardContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+interface APIData {
+  cardId: number;
+  serialNumber: number | null;
+  grade: number | null;
+  gradingCompanyId: number | null;
+  card: Card;
+}
 
 export default function AddCardsForm() {
+  // CONTROLLED FORM DATA
   const [selectedYear, setSelectedYear] = useState(-1);
   const [selectedSetId, setSelectedSetId] = useState(-1);
   const [selectedSubsetId, setSelectedSubsetId] = useState(-1);
   const [selectedSeriesId, setSelectedSeriesId] = useState(-1);
-  const [cardNumbers, setCardNumbers] = useState("");
+  const [selectedCardId, setSelectedCardId] = useState(-1);
+  const [cardIdField, setCardIdField] = useState("");
+
+  // API DATA
+  const [cardData, setCardData] = useState<APIData[]>([]);
+
   const [submitDisabled, setSubmitDisabled] = useState(false);
-  // lists any card numbers entered by the user that are not valid
-  const [invalidCardNumbers, setInvalidCardNumbers] = useState<String[]>([]);
-  const [validCards, setValidCards] = useState<Card[]>([]);
 
   const allSets = useSelector((state: RootState) => state.library.sets.allSets);
   const set = useSelector((state: RootState) => state.library.sets.singleSet);
@@ -76,83 +110,84 @@ export default function AddCardsForm() {
     }
   }, [selectedSeriesId]);
 
-  useEffect(() => {
-    // parse card numbers whenever user changes card number field
-    parseCardNumbers();
-  }, [cardNumbers]);
+  function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    switch (event.target.name) {
+      case "select-year":
+        setSelectedCardId(-1);
+        setSelectedSeriesId(-1);
+        setSelectedSubsetId(-1);
+        setSelectedSetId(-1);
+        setSelectedYear(+event.target.value);
+        break;
+      case "select-set":
+        setSelectedCardId(-1);
+        setSelectedSeriesId(-1);
+        setSelectedSubsetId(-1);
+        setSelectedSetId(+event.target.value);
+        break;
+      case "select-subset":
+        setSelectedCardId(-1);
+        setSelectedSeriesId(-1);
+        setSelectedSubsetId(+event.target.value);
+        break;
+      case "select-series":
+        setSelectedCardId(-1);
+        setSelectedSeriesId(+event.target.value);
+        break;
+      case "select-card":
+        setSelectedCardId(+event.target.value);
+        setCardIdField(
+          series.cards.find((card) => card.id === +event.target.value)
+            ?.card_datum.number!
+        );
+        break;
+    }
+  }
 
-  const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    // reset preceding select forms to default before updating year (will react always decide to do this in order??)
-    setCardNumbers("");
-    setSelectedSeriesId(-1);
-    setSelectedSubsetId(-1);
-    setSelectedSetId(-1);
-    setSelectedYear(+event.target.value);
-  };
-  const handleSetChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setCardNumbers("");
-    setSelectedSeriesId(-1);
-    setSelectedSubsetId(-1);
-    setSelectedSetId(+event.target.value);
-  };
-  const handleSubsetChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setCardNumbers("");
-    setSelectedSeriesId(-1);
-    setSelectedSubsetId(+event.target.value);
-  };
-  const handleSeriesChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedSeriesId(+event.target.value);
-  };
-  const handleCardNumbersChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setCardNumbers(event.target.value);
-  };
+  function handleInputChange(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    setCardIdField(event.target.value);
+    const card = series.cards.find(
+      (card) => card.card_datum.number === event.target.value
+    );
+    if (card) {
+      setSelectedCardId(card.id);
+    } else {
+      setSelectedCardId(-1);
+    }
+  }
+
+  function handleAddCard() {
+    const card = series.cards.find((card) => card.id === selectedCardId)!;
+    if (card) {
+      const newData = {
+        cardId: selectedCardId,
+        serialNumber: null,
+        grade: null,
+        gradingCompanyId: null,
+        card: card,
+      };
+      setCardData([...cardData, newData]);
+    }
+  }
+
+  function handleDeleteCard(cardIndex: number) {
+    setCardData(cardData.filter((card, index) => index !== cardIndex));
+  }
 
   const handleSubmit = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    // TODO: this should be done in REDUX
-    const apiData = validCards.map((card) => {
-      return { cardId: card.id };
-    });
-    setSubmitDisabled(true);
-    postData("/api/collection/add", apiData).then((response) => {
-      // clear collection data so it will be re-fetched and updated when user next goes to any collection pages
-      dispatch(clearCollection());
-    });
-  };
-
-  const parseCardNumbers = () => {
-    // parse string
-    const parsedCardNumbers = cardNumbers
-      .split(",")
-      .map((cardNum) => cardNum.trim());
-    // do not add a card number until there is a trailing comma added to the string
-    parsedCardNumbers.pop();
-
-    parsedCardNumbers.forEach((cardNum) => {
-      const cardFindResult = series.cards.find(
-        (card) => card.card_datum.number === cardNum
-      );
-      if (cardFindResult) {
-        // if the card number is valid, add the card to the array of valid cards
-        setValidCards([...validCards, cardFindResult]);
-      } else {
-        // if invalid, the invalid number is added to state
-        setInvalidCardNumbers([...invalidCardNumbers, cardNum]);
-      }
-    });
-  };
+  ) => {};
 
   return (
     <div className="add-cards">
-      <div className="add-cards-form">
+      <FormContainer>
         <Select
           value={selectedYear}
           name="select-year"
           id="select-year"
-          onChange={handleYearChange}
+          onChange={handleSelectChange}
         >
           <option value={-1}>Select Year</option>
           {aggregateYears(allSets).map((year) => {
@@ -168,7 +203,7 @@ export default function AddCardsForm() {
           name="select-set"
           id="select-set"
           disabled={selectedYear === -1}
-          onChange={handleSetChange}
+          onChange={handleSelectChange}
         >
           <option value={-1}>Select Set</option>
           {aggregateSets(allSets, selectedYear).map((set) => {
@@ -184,7 +219,7 @@ export default function AddCardsForm() {
           name="select-subset"
           id="select-subset"
           disabled={selectedSetId === -1}
-          onChange={handleSubsetChange}
+          onChange={handleSelectChange}
         >
           <option value={-1}>Select Subset</option>
           {
@@ -204,7 +239,7 @@ export default function AddCardsForm() {
           name="select-series"
           id="select-series"
           disabled={selectedSubsetId === -1}
-          onChange={handleSeriesChange}
+          onChange={handleSelectChange}
         >
           <option value={-1}>Select Series</option>
           {
@@ -219,46 +254,62 @@ export default function AddCardsForm() {
               })
           }
         </Select>
-        <TextArea
-          value={cardNumbers}
-          placeholder="Enter Card Numbers"
-          onChange={handleCardNumbersChange}
-          id="card-numbers"
-          name="card-numbers"
-          disabled={selectedSeriesId === -1}
-        />
+        <SelectCardContainer>
+          <Select
+            value={selectedCardId}
+            name="select-card"
+            id="select-card"
+            disabled={selectedSeriesId === -1}
+            onChange={handleSelectChange}
+          >
+            <option value={-1}>Select Card</option>
+            {series.id === selectedSeriesId &&
+              series.cards.map((card) => {
+                return (
+                  <option key={card.id} value={card.id}>
+                    {`${card.card_datum.number} - ${card.card_datum.name}`}
+                  </option>
+                );
+              })}
+          </Select>
+          <Input
+            type="text"
+            value={cardIdField}
+            placeholder="Card #"
+            onChange={handleInputChange}
+            disabled={selectedSeriesId === -1}
+          />
+
+          <StyledButton
+            color="GREEN"
+            height="40px"
+            disabled={selectedCardId === -1}
+            onClick={handleAddCard}
+          >
+            Add
+          </StyledButton>
+        </SelectCardContainer>
+
         <SubmitButton
           id="submit-cards-button"
           onClick={handleSubmit}
-          disabled={submitDisabled || cardNumbers === ""}
+          disabled={submitDisabled}
         >
           Submit
         </SubmitButton>
-      </div>
-
-      <div className="invalid-card-numbers">
-        {invalidCardNumbers.length > 0 && (
-          <p>{`Cannot find card numbers ${invalidCardNumbers.join(", ")}`}</p>
-        )}
-      </div>
-
-      <div className="player-card-container">
-        {validCards
-          .sort((a, b) => {
-            // parse to int if possible, otherwise compare as strings
-            const aInt = parseInt(a.card_datum.number) || a.card_datum.number;
-            const bInt = parseInt(b.card_datum.number || b.card_datum.number);
-            if (aInt < bInt) {
-              return -1;
-            } else if (aInt === bInt) {
-              return 0;
-            }
-            return 1;
-          })
-          .map((card) => {
-            return <div key={card.id}>{card.card_datum.name}</div>;
-          })}
-      </div>
+        {cardData.map((card, index) => {
+          return (
+            <AddCardsLine
+              key={String(card.cardId) + String(index)}
+              cardNumber={card.card.card_datum.number}
+              cardName={card.card.card_datum.name}
+              serialized={series.serialized !== null}
+              index={index}
+              handleDelete={handleDeleteCard}
+            />
+          );
+        })}
+      </FormContainer>
     </div>
   );
 }

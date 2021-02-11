@@ -1,11 +1,14 @@
 import styled from "styled-components";
+interface ButtonProps {
+  color: "BLUE" | "GREEN" | "YELLOW" | "RED";
+  height?: string;
+  width?: string;
+}
 
-type ButtonStyles = "BLUE" | "GREEN" | "YELLOW" | "RED";
-
-const StyledButton = styled.button<{ color: ButtonStyles }>`
-  box-sizing: content-box;
+const StyledButton = styled.button<ButtonProps>`
+  box-sizing: border-box;
   width: 65px;
-
+  height: ${(props) => props.height};
   background: ${(props) => {
     switch (props.color) {
       case "BLUE":
