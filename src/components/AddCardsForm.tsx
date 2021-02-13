@@ -6,6 +6,7 @@ import { Card } from "../store/library/series/types";
 import { fetchAllSetData, fetchSet } from "../store/library/sets/thunks";
 import { fetchSubset } from "../store/library/subsets/thunks";
 import { fetchSeriesById } from "../store/library/series/thunks";
+import { fetchAllGradingCompanies } from "../store/library/grading_companies/thunks";
 import { clearCollection } from "../store/collection/actions";
 import AddCardsLine from "./AddCardsLine";
 import styled from "styled-components";
@@ -87,6 +88,7 @@ export default function AddCardsForm() {
 
   useEffect(() => {
     dispatch(fetchAllSetData());
+    dispatch(fetchAllGradingCompanies());
   }, []);
 
   useEffect(() => {

@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -47,6 +49,9 @@ interface Props {
 }
 
 export default function AddCardsLine(props: Props) {
+  const gradingCompanies = useSelector(
+    (state: RootState) => state.library.gradingCompanies
+  );
   return (
     <Container>
       <CardNumber>{props.cardNumber}</CardNumber>
@@ -73,7 +78,15 @@ export default function AddCardsLine(props: Props) {
           props.handleGradeChange(props.index, event.target.value);
         }}
       />
-      <select disabled={props.grade === ""}></select>
+      <select disabled={props.grade === ""}>
+        {gradingCompanies.map((gradingComp) => {
+          return (
+            <option key={gradingComp.id} value={gradingComp.id}>
+              {gradingComp.name}
+            </option>
+          );
+        })}
+      </select>
       <button onClick={() => props.handleDelete(props.index)}>Delete</button>
     </Container>
   );
