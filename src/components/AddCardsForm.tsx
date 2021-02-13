@@ -46,7 +46,7 @@ const Input = styled.input`
 const SubmitButton = styled.button`
   width: 100px;
 `;
-const SelectCardContainer = styled.div`
+const SelectCardContainer = styled.form`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -56,9 +56,9 @@ const SelectCardContainer = styled.div`
 
 interface APIData {
   cardId: number;
-  serialNumber: number | null;
-  grade: number | null;
-  gradingCompanyId: number | null;
+  serialNumber: string;
+  grade: string;
+  gradingCompanyId: string;
   card: Card;
 }
 
@@ -158,18 +158,53 @@ export default function AddCardsForm() {
     }
   }
 
-  function handleAddCard() {
+  function handleAddCard(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     const card = series.cards.find((card) => card.id === selectedCardId)!;
     if (card) {
       const newData = {
         cardId: selectedCardId,
-        serialNumber: null,
-        grade: null,
-        gradingCompanyId: null,
+        serialNumber: "",
+        grade: "",
+        gradingCompanyId: "",
         card: card,
       };
       setCardData([...cardData, newData]);
     }
+  }
+
+  function handleSerializedChange(cardIndex: number, serialNumber: string) {
+    setCardData(
+      cardData.map((data, index) => {
+        if (index === cardIndex) {
+          return { ...data, serialNumber };
+        }
+        return data;
+      })
+    );
+  }
+  function handleGradeChange(cardIndex: number, grade: string) {
+    setCardData(
+      cardData.map((data, index) => {
+        if (index === cardIndex) {
+          return { ...data, grade };
+        }
+        return data;
+      })
+    );
+  }
+  function handleGradingCompanyIdChange(
+    cardIndex: number,
+    gradingCompanyId: string
+  ) {
+    setCardData(
+      cardData.map((data, index) => {
+        if (index === cardIndex) {
+          return { ...data, gradingCompanyId };
+        }
+        return data;
+      })
+    );
   }
 
   function handleDeleteCard(cardIndex: number) {
@@ -179,7 +214,6 @@ export default function AddCardsForm() {
   const handleSubmit = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {};
-
   return (
     <div className="add-cards">
       <FormContainer>
@@ -254,7 +288,7 @@ export default function AddCardsForm() {
               })
           }
         </Select>
-        <SelectCardContainer>
+        <SelectCardContainer onSubmit={handleAddCard}>
           <Select
             value={selectedCardId}
             name="select-card"
@@ -272,6 +306,7 @@ export default function AddCardsForm() {
                 );
               })}
           </Select>
+
           <Input
             type="text"
             value={cardIdField}
@@ -281,10 +316,11 @@ export default function AddCardsForm() {
           />
 
           <StyledButton
-            color="GREEN"
+            type="submit"
+            color="BLUE"
             height="40px"
             disabled={selectedCardId === -1}
-            onClick={handleAddCard}
+            // onClick={handleAddCard}
           >
             Add
           </StyledButton>
@@ -297,18 +333,26 @@ export default function AddCardsForm() {
         >
           Submit
         </SubmitButton>
-        {cardData.map((card, index) => {
-          return (
-            <AddCardsLine
-              key={String(card.cardId) + String(index)}
-              cardNumber={card.card.card_datum.number}
-              cardName={card.card.card_datum.name}
-              serialized={series.serialized !== null}
-              index={index}
-              handleDelete={handleDeleteCard}
-            />
-          );
-        })}
+        <div>
+          {cardData.map((card, index) => {
+            return (
+              <AddCardsLine
+                key={String(card.cardId) + String(index)}
+                cardNumber={card.card.card_datum.number}
+                cardName={card.card.card_datum.name}
+                serialized={series.serialized !== null}
+                index={index}
+                serialNumber={card.serialNumber}
+                grade={card.grade}
+                gradingCompanyId={card.gradingCompanyId}
+                handleDelete={handleDeleteCard}
+                handleSerializedChange={handleSerializedChange}
+                handleGradeChange={handleGradeChange}
+                handleGradingCompanyIdChange={handleGradingCompanyIdChange}
+              />
+            );
+          })}
+        </div>
       </FormContainer>
     </div>
   );
