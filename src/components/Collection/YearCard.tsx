@@ -15,7 +15,7 @@ const YearCard: React.FC<Props> = ({ yearData }) => {
     <Link to={`${path}/${yearData.year}`}>
       <div className="year-card">
         <p className="year-card-year">{yearData.year}</p>
-        <p className="year-card-count">{`${yearData.distinctCards} Cards`}</p>
+        <p className="year-card-count">{`${yearData.totalCards} Cards`}</p>
       </div>
     </Link>
   );

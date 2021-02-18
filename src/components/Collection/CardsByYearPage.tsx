@@ -5,11 +5,31 @@ import { createLoadingSelector } from "../../store/loading/reducer";
 import { SetCards } from "../../store/collection/types";
 import { RootState } from "../../store";
 
+import DataTable from "react-data-table-component";
+
 import YearCard from "./YearCard";
 
 import "../../styling/collection.css";
 
 const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
+
+const columns = [
+  {
+    name: "Year",
+    selector: "year",
+    sortable: true,
+  },
+  {
+    name: "Total Cards",
+    selector: "totalCards",
+    sortable: true,
+  },
+  {
+    name: "Unique Cards",
+    selector: "distinctCards",
+    sortable: true,
+  },
+];
 
 const CardsByYearPage = () => {
   const cardsBySet = useSelector(
@@ -31,16 +51,14 @@ const CardsByYearPage = () => {
   }, []);
 
   return (
-    <div id="year-card-container">
-      {isLoading ? (
-        <p>Loading Collection</p>
-      ) : cardsBySet.length === 0 ? (
-        <h2>No Cards In Collection</h2>
-      ) : (
-        aggregateCardsByYear(cardsBySet).map((yearData) => {
-          return <YearCard key={yearData.year} yearData={yearData} />;
-        })
-      )}
+    <div>
+      <DataTable
+        title="Cards By Year"
+        columns={columns}
+        data={aggregateCardsByYear(cardsBySet)}
+        highlightOnHover
+        dense
+      />
     </div>
   );
 };
