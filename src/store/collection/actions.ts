@@ -8,6 +8,8 @@ import {
   GET_CARDS_IN_SINGLE_SUBSET_SUCCESS,
   GET_CARDS_IN_SINGLE_SUBSET_REQUEST,
   GET_CARDS_IN_SINGLE_SUBSET_ERROR,
+  ADD_CARDS_REQUEST,
+  ADD_CARDS_SUCCESS,
   SET_INITIAL_DATA_LOAD,
   CLEAR_COLLECTION,
   SetCards,
@@ -64,6 +66,12 @@ export const getSingleSubsetCardsError = (
 ): CollectionActionTypes => ({
   type: GET_CARDS_IN_SINGLE_SUBSET_ERROR,
   message,
+});
+export const addCardsRequest = (): CollectionActionTypes => ({
+  type: ADD_CARDS_REQUEST,
+});
+export const addCardsSuccess = (): CollectionActionTypes => ({
+  type: ADD_CARDS_SUCCESS,
 });
 
 export const setInitialDataLoad = (status: boolean): CollectionActionTypes => ({

@@ -8,9 +8,11 @@ import { fetchSubset } from "../store/library/subsets/thunks";
 import { fetchSeriesById } from "../store/library/series/thunks";
 import { fetchAllGradingCompanies } from "../store/library/grading_companies/thunks";
 import { clearCollection } from "../store/collection/actions";
+import { addCards } from "../store/collection/thunks";
 import AddCardsLine from "./AddCardsLine";
 import styled from "styled-components";
 import StyledButton from "./Admin/components/StyledButton";
+import { createLoadingSelector } from "../store/loading/reducer";
 
 import "../styling/addCardsForm.css";
 
@@ -59,11 +61,15 @@ interface APIData {
   cardId: number;
   serialNumber: string;
   grade: string;
-  gradingCompanyId: string;
+  gradingCompanyId: number;
   card: Card;
 }
 
+const postingCards = createLoadingSelector(["ADD_CARDS"]);
+
 export default function AddCardsForm() {
+  const dispatch = useDispatch();
+
   // CONTROLLED FORM DATA
   const [selectedYear, setSelectedYear] = useState(-1);
   const [selectedSetId, setSelectedSetId] = useState(-1);
@@ -75,8 +81,7 @@ export default function AddCardsForm() {
   // API DATA
   const [cardData, setCardData] = useState<APIData[]>([]);
 
-  const [submitDisabled, setSubmitDisabled] = useState(false);
-
+  // LIBRARY DATA
   const allSets = useSelector((state: RootState) => state.library.sets.allSets);
   const set = useSelector((state: RootState) => state.library.sets.singleSet);
   const subset = useSelector(
@@ -84,7 +89,8 @@ export default function AddCardsForm() {
   );
   const series = useSelector((state: RootState) => state.library.series.series);
 
-  const dispatch = useDispatch();
+  // LOADING STATUS FOR POSTING CARDS
+  const isPostingCards = useSelector((state: RootState) => postingCards(state));
 
   useEffect(() => {
     dispatch(fetchAllSetData());
@@ -168,7 +174,7 @@ export default function AddCardsForm() {
         cardId: selectedCardId,
         serialNumber: "",
         grade: "",
-        gradingCompanyId: "",
+        gradingCompanyId: -1,
         card: card,
       };
       setCardData([...cardData, newData]);
@@ -197,7 +203,7 @@ export default function AddCardsForm() {
   }
   function handleGradingCompanyIdChange(
     cardIndex: number,
-    gradingCompanyId: string
+    gradingCompanyId: number
   ) {
     setCardData(
       cardData.map((data, index) => {
@@ -215,7 +221,28 @@ export default function AddCardsForm() {
 
   const handleSubmit = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {};
+  ) => {
+    dispatch(
+      addCards(
+        cardData.map((card) => {
+          const newData: any = { cardId: card.cardId };
+          if (card.serialNumber !== "") {
+            newData.serialNumber = +card.serialNumber;
+          }
+          if (card.grade !== "") {
+            newData.grade = +card.grade;
+          }
+          if (card.gradingCompanyId !== -1) {
+            newData.gradingCompanyId = card.gradingCompanyId;
+          }
+          return newData;
+        })
+      )
+    );
+
+    setCardData([]);
+  };
+
   return (
     <div className="add-cards">
       <FormContainer>
@@ -322,7 +349,6 @@ export default function AddCardsForm() {
             color="BLUE"
             height="40px"
             disabled={selectedCardId === -1}
-            // onClick={handleAddCard}
           >
             Add
           </StyledButton>
@@ -331,7 +357,7 @@ export default function AddCardsForm() {
         <SubmitButton
           id="submit-cards-button"
           onClick={handleSubmit}
-          disabled={submitDisabled}
+          disabled={isPostingCards || cardData.length === 0}
         >
           Submit
         </SubmitButton>

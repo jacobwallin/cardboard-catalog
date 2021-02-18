@@ -38,13 +38,13 @@ interface Props {
   index: number;
   serialNumber: string;
   grade: string;
-  gradingCompanyId: string;
+  gradingCompanyId: number;
   handleDelete(cardIndex: number): any;
   handleSerializedChange(cardIndex: number, serialNumber: string): any;
   handleGradeChange(cardIndex: number, grade: string): any;
   handleGradingCompanyIdChange(
     cardIndex: number,
-    gradingCompanyId: string
+    gradingCompanyId: number
   ): any;
 }
 
@@ -78,7 +78,14 @@ export default function AddCardsLine(props: Props) {
           props.handleGradeChange(props.index, event.target.value);
         }}
       />
-      <select disabled={props.grade === ""}>
+      <select
+        disabled={props.grade === ""}
+        value={props.gradingCompanyId}
+        onChange={(event) => {
+          props.handleGradingCompanyIdChange(props.index, +event.target.value);
+        }}
+      >
+        <option value={-1}>Select</option>
         {gradingCompanies.map((gradingComp) => {
           return (
             <option key={gradingComp.id} value={gradingComp.id}>

@@ -11,50 +11,59 @@ export const GET_CARDS_IN_SINGLE_SUBSET_SUCCESS =
   "GET_CARDS_IN_SINGLE_SUBSET_SUCCESS";
 export const GET_CARDS_IN_SINGLE_SUBSET_ERROR =
   "GET_CARDS_IN_SINGLE_SUBSET_ERROR";
+export const ADD_CARDS_REQUEST = "ADD_CARDS_REQUEST";
+export const ADD_CARDS_SUCCESS = "ADD_CARDS_SUCCESS";
 export const SET_INITIAL_DATA_LOAD = "SET_INITIAL_DATA_LOAD";
 export const CLEAR_COLLECTION = "CLEAR_COLLECTION";
 
 // --- ACTIONS ---
 
 // get carrds by set actions
-interface GetCardsBySetRequestAction {
+interface GetCardsBySetRequest {
   type: typeof GET_CARDS_BY_SET_REQUEST;
 }
-interface GetCardsBySetSuccessAction {
+interface GetCardsBySetSuccess {
   type: typeof GET_CARDS_BY_SET_SUCCESS;
   cardsBySet: SetCards[];
 }
-interface GetCardsBySetErrorAction {
+interface GetCardsBySetError {
   type: typeof GET_CARDS_BY_SET_ERROR;
   message: string;
 }
 
 // get cards by subset actions
-interface GetCardsBySubsetRequestAction {
+interface GetCardsBySubsetRequest {
   type: typeof GET_CARDS_BY_SUBSET_REQUEST;
 }
-interface GetCardsBySubsetSuccessAction {
+interface GetCardsBySubsetSuccess {
   type: typeof GET_CARDS_BY_SUBSET_SUCCESS;
   cardsBySubset: SubsetCards[];
   setId: number;
 }
-interface GetCardsBySubsetErrorAction {
+interface GetCardsBySubsetError {
   type: typeof GET_CARDS_BY_SUBSET_ERROR;
   message: string;
 }
 
 // get cards by single subset actions
-interface GetCardsInSingleSubsetRequestAction {
+interface GetCardsInSingleSubsetRequest {
   type: typeof GET_CARDS_IN_SINGLE_SUBSET_REQUEST;
 }
-interface GetCardsInSingleSubsetSuccessAction {
+interface GetCardsInSingleSubsetSuccess {
   type: typeof GET_CARDS_IN_SINGLE_SUBSET_SUCCESS;
   cards: UserCard[];
   subsetId: number;
 }
-interface GetCardsInSingleSubsetErrorAction {
+interface GetCardsInSingleSubsetError {
   type: typeof GET_CARDS_IN_SINGLE_SUBSET_ERROR;
   message: string;
+}
+
+interface AddCardsRequest {
+  type: typeof ADD_CARDS_REQUEST;
+}
+interface AddCardsSuccess {
+  type: typeof ADD_CARDS_SUCCESS;
 }
 
 interface SetInitialDataLoad {
@@ -66,15 +75,17 @@ interface ClearCollectionAction {
 }
 
 export type CollectionActionTypes =
-  | GetCardsBySetSuccessAction
-  | GetCardsBySetRequestAction
-  | GetCardsBySetErrorAction
-  | GetCardsBySubsetSuccessAction
-  | GetCardsBySubsetRequestAction
-  | GetCardsBySubsetErrorAction
-  | GetCardsInSingleSubsetSuccessAction
-  | GetCardsInSingleSubsetRequestAction
-  | GetCardsInSingleSubsetErrorAction
+  | GetCardsBySetSuccess
+  | GetCardsBySetRequest
+  | GetCardsBySetError
+  | GetCardsBySubsetSuccess
+  | GetCardsBySubsetRequest
+  | GetCardsBySubsetError
+  | GetCardsInSingleSubsetSuccess
+  | GetCardsInSingleSubsetRequest
+  | GetCardsInSingleSubsetError
+  | AddCardsRequest
+  | AddCardsSuccess
   | SetInitialDataLoad
   | ClearCollectionAction;
 

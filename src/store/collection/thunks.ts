@@ -5,6 +5,8 @@ import {
   getCardsBySetRequest,
   getCardsBySubsetSuccess,
   getSingleSubsetCardsSuccess,
+  addCardsRequest,
+  addCardsSuccess,
   setInitialDataLoad,
 } from "./actions";
 import { CollectionActionTypes } from "./types";
@@ -56,4 +58,37 @@ export const fetchCardsInSingleSubset = (
       dispatch(getSingleSubsetCardsSuccess(data));
     })
     .catch((err) => console.log("ERROR FETCHING CARDS FOR SINGLE SUBSET"));
+};
+
+interface CardData {
+  cardId: number;
+  serialNumber?: number;
+  grade?: number;
+  gradingCompanyId?: number;
+}
+
+export const addCards = (
+  cardData: CardData[]
+): ThunkAction<void, RootState, unknown, CollectionActionTypes> => (
+  dispatch
+) => {
+  dispatch(addCardsRequest());
+
+  fetch(`/api/collection/add`, {
+    method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+    body: JSON.stringify({ cardsToAdd: cardData }),
+  })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      dispatch(addCardsSuccess());
+    })
+    .catch((error) => console.log("ERROR IN ADD CARDS THUNK"));
 };

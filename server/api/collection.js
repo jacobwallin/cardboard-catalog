@@ -11,7 +11,6 @@ const {
   GradingCompany,
 } = require("../db/models");
 
-const sequelize = require("sequelize");
 const db = require("../db/db");
 
 // collection api routes only available to logged in users
