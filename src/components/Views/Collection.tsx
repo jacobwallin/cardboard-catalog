@@ -13,10 +13,10 @@ export default function Collection() {
     <>
       <PrivateRoute exact path={path} component={CardsByYearPage} />
       <PrivateRoute exact path={`${path}/:year`} component={AllSetsPage} />
-      <PrivateRoute exact path={`${path}/:year/:setId`} component={SetPage} />
+      <PrivateRoute exact path={`${path}/set/:setId`} component={SetPage} />
       <PrivateRoute
         exact
-        path={`${path}/:year/:setId/:subsetId`}
+        path={`${path}/subset/:subsetId`}
         component={SubsetPage}
       />
     </>

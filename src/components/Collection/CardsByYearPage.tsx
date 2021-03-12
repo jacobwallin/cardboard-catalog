@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCardsBySet } from "../../store/collection/thunks";
 import { createLoadingSelector } from "../../store/loading/reducer";
@@ -6,8 +8,6 @@ import { SetCards } from "../../store/collection/types";
 import { RootState } from "../../store";
 
 import DataTable from "react-data-table-component";
-
-import YearCard from "./YearCard";
 
 import "../../styling/collection.css";
 
@@ -18,6 +18,7 @@ const columns = [
     name: "Year",
     selector: "year",
     sortable: true,
+    cell: (row: any) => <Link to={`/collection/${row.year}`}>{row.year}</Link>,
   },
   {
     name: "Total Cards",
@@ -30,6 +31,16 @@ const columns = [
     sortable: true,
   },
 ];
+
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const TableContainer = styled.div`
+  width: 90%;
+`;
 
 const CardsByYearPage = () => {
   const cardsBySet = useSelector(
@@ -51,15 +62,19 @@ const CardsByYearPage = () => {
   }, []);
 
   return (
-    <div>
-      <DataTable
-        title="Cards By Year"
-        columns={columns}
-        data={aggregateCardsByYear(cardsBySet)}
-        highlightOnHover
-        dense
-      />
-    </div>
+    <PageContainer>
+      <h2>My Collection</h2>
+      <TableContainer>
+        <DataTable
+          noHeader
+          progressPending={isLoading}
+          columns={columns}
+          data={aggregateCardsByYear(cardsBySet)}
+          highlightOnHover
+          dense
+        />
+      </TableContainer>
+    </PageContainer>
   );
 };
 
