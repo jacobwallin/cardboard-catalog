@@ -26,7 +26,7 @@ const columns = [
     sortable: true,
   },
   {
-    name: "Unique Cards",
+    name: "Distinct Cards",
     selector: "distinctCards",
     sortable: true,
   },

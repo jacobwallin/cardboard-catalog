@@ -43,7 +43,7 @@ const dataTableColumns = [
     sortable: true,
   },
   {
-    name: "Unique Cards",
+    name: "Distinct Cards",
     selector: "distinctCards",
     sortable: true,
   },
@@ -82,7 +82,8 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
     <PageContainer>
       <h2>{singleSet.name}</h2>
       <ContentContainer>
-        <p>{singleSet.description}</p>
+        <h4>About:</h4>
+        {singleSet.description}
       </ContentContainer>
       <TableContainer>
         <DataTable
