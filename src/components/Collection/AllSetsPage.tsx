@@ -62,7 +62,7 @@ const AllSetsPage: React.FC<RouteComponentProps<TParams>> = (props) => {
 
   return (
     <PageContainer>
-      <h2>{`All Sets for ${props.match.params.year}`}</h2>
+      <h2>{`All Sets in ${props.match.params.year}`}</h2>
       <TableContainer>
         <DataTable
           noHeader

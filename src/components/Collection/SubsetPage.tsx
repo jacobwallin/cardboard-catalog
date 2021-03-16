@@ -1,11 +1,49 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { RootState } from "../../store";
 import { fetchSubset } from "../../store/library/subsets/thunks";
 import { fetchCardsInSingleSubset } from "../../store/collection/thunks";
-import SubsetPageHeader from "./SubsetPageHeader";
-import SubsetPageCards from "./SubsetPageCards";
+import DataTable from "react-data-table-component";
+import {
+  PageContainer,
+  ContentContainer,
+  TableContainer,
+} from "./CommonComponents";
+
+const CardFilterContainer = styled.div`
+  display: flex;
+  width: 90%;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  justify-content: right;
+  margin-bottom: 8px;
+`;
+
+const dataTableColumns = [
+  {
+    name: "Card #",
+    selector: "card.card_datum.number",
+    sortable: true,
+  },
+  {
+    name: "Card Name",
+    selector: "card.card_datum.name",
+    sortable: true,
+  },
+];
+
+const SeriesSelect = styled.select`
+  width: 175px;
+  height: 20px;
+`;
+
+const SelectLabel = styled.div`
+  font-size: 0.8em;
+  font-weight: 700;
+`;
 
 type Params = {
   year: string;
@@ -23,20 +61,16 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
     (state: RootState) => state.collection.cardsInSingleSubset
   );
 
-  let [selectedSeriesId, setSelectedSeriesId] = useState(0);
+  let [selectedSeriesId, setSelectedSeriesId] = useState(-1);
   let [showAllCards, setShowAllCards] = useState(false);
 
   const SUBSET_ID_PARAM = +props.match.params.subsetId;
 
   useEffect(() => {
     // get the complete subset data from the library api and all the user's cards that belong to the subset from the collection api
-    if (
-      librarySubset.id !== SUBSET_ID_PARAM ||
-      subsetUserCards.subsetId !== SUBSET_ID_PARAM
-    ) {
-      dispatch(fetchSubset(SUBSET_ID_PARAM));
-      dispatch(fetchCardsInSingleSubset(SUBSET_ID_PARAM));
-    }
+
+    dispatch(fetchSubset(SUBSET_ID_PARAM));
+    dispatch(fetchCardsInSingleSubset(SUBSET_ID_PARAM));
   }, []);
 
   function handleSeriesChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -48,32 +82,43 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
     setShowAllCards(!showAllCards);
   }
 
-  if (
-    librarySubset.id === SUBSET_ID_PARAM &&
-    subsetUserCards.subsetId === SUBSET_ID_PARAM
-  ) {
-    return (
-      <>
-        <div id="subset-header">
-          <h1 className="subset-name">{librarySubset.name}</h1>
-        </div>
-        <SubsetPageHeader
-          handleSeries={handleSeriesChange}
-          handleShowAll={handleShowAllChange}
-          selectedSeriesId={selectedSeriesId}
-          showAllCards={showAllCards}
+  return (
+    <PageContainer>
+      <h2>{librarySubset.name}</h2>
+      <ContentContainer>
+        {`Total Cards in Collection: `} <br />
+        {`Distinct Cards in Collection: `}
+      </ContentContainer>
+      <h3>Cards in Collection</h3>
+      <CardFilterContainer>
+        <SelectLabel>Filter: </SelectLabel>
+        <SeriesSelect value={selectedSeriesId} onChange={handleSeriesChange}>
+          <option value={-1}>Show All</option>
+          {librarySubset.series.map((series) => {
+            return (
+              <option key={series.id} value={series.id}>
+                {series.name}
+              </option>
+            );
+          })}
+        </SeriesSelect>
+      </CardFilterContainer>
+      <TableContainer>
+        <DataTable
+          dense
+          noHeader
+          // progressPending={isLoading}
+          columns={dataTableColumns}
+          data={subsetUserCards.cards.filter((card) => {
+            return (
+              card.card.seriesId === selectedSeriesId || selectedSeriesId === -1
+            );
+          })}
+          highlightOnHover
         />
-        <div className="player-card-container">
-          <SubsetPageCards
-            showAllCards={showAllCards}
-            selectedSeriesId={selectedSeriesId}
-          />
-        </div>
-      </>
-    );
-  } else {
-    return <div>---LOADING SUBSET DATA---</div>;
-  }
+      </TableContainer>
+    </PageContainer>
+  );
 };
 
 export default SubsetPage;

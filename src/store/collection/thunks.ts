@@ -40,7 +40,7 @@ export const fetchCardsBySubset = (
       return response.json();
     })
     .then((data) => {
-      dispatch(getCardsBySubsetSuccess(data));
+      dispatch(getCardsBySubsetSuccess({ cardsBySubset: data, setId }));
     })
     .catch((err) => console.log("ERROR FETCHING CARDS BY SUBSET"));
 };
@@ -55,7 +55,7 @@ export const fetchCardsInSingleSubset = (
       return response.json();
     })
     .then((data) => {
-      dispatch(getSingleSubsetCardsSuccess(data));
+      dispatch(getSingleSubsetCardsSuccess({ cards: data, subsetId }));
     })
     .catch((err) => console.log("ERROR FETCHING CARDS FOR SINGLE SUBSET"));
 };
