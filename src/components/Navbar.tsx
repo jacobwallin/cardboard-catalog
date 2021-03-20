@@ -19,7 +19,7 @@ export default function Navbar() {
 
   return (
     <div className="navbar">
-      <div id="site-name">Cardboard Collector</div>
+      <div id="site-name">Cardboard Catalog</div>
       {user.id !== 0 ? (
         <>
           {user.isAdmin && (

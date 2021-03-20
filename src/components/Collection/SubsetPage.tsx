@@ -86,8 +86,22 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
     <PageContainer>
       <h2>{librarySubset.name}</h2>
       <ContentContainer>
-        {`Total Cards in Collection: `} <br />
-        {`Distinct Cards in Collection: `}
+        {`Total Cards in Collection: ${subsetUserCards.cards.length}`} <br />
+        {`Distinct Cards in Collection: ${
+          subsetUserCards.cards.reduce((distinctCards: any, card) => {
+            if (distinctCards.length === 0) {
+              return [...distinctCards, card];
+            } else if (
+              distinctCards.findIndex(
+                (distinctCard: any) => card.cardId === distinctCard.cardId
+              ) === -1
+            ) {
+              return [...distinctCards, card];
+            } else {
+              return distinctCards;
+            }
+          }, []).length
+        }`}
       </ContentContainer>
       <h3>Cards in Collection</h3>
       <CardFilterContainer>
