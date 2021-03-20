@@ -7,23 +7,6 @@ body {
   margin: 0;
 }
 
-.navbar {
-  background-color: #80b3ff;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  align-items: center;
-  margin: 0;
-  height: 50px;
-}
-
-#site-name {
-  margin: 0 0 0 10px;
-  flex-grow: 1;
-  font-weight: 600;
-  font-size: 2em;
-}
-
 .navbar-link {
   flex-grow: 0;
   /* height: 40px; */
