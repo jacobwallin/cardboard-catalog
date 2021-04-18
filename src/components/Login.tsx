@@ -3,10 +3,28 @@ import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
+import styled from "styled-components";
 import { RootState } from "../store";
 import { login } from "../store/user/thunks";
 
 import { User } from "../store/user/types";
+
+const LoginFormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const StyledInput = styled.input`
+  width: 80%;
+  height: 30px;
+  padding: 5px;
+  margin: 5px;
+
+  @media only screen and (min-width: 400px) {
+    width: 300px;
+  }
+`;
 
 export const Login: React.FC<Props> = (props) => {
   const [username, setUsername] = useState("");
@@ -23,21 +41,25 @@ export const Login: React.FC<Props> = (props) => {
     <div>
       {user.userData.id === 0 ? (
         <form id="login-form" onSubmit={handleSubmit}>
-          <label htmlFor="username">username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <label htmlFor="username">password:</label>
-          <input
-            type="text"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <input type="submit" />
+          <LoginFormContainer>
+            <h2>Sign In</h2>
+            <StyledInput
+              type="text"
+              placeholder="Email"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+
+            <StyledInput
+              type="text"
+              placeholder="Password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <input type="submit" />
+          </LoginFormContainer>
         </form>
       ) : (
         <Redirect to="/" />

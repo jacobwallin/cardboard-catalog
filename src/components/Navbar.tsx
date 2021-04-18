@@ -79,9 +79,9 @@ const NavMenu = styled.div<NavMenuProps>`
     top: 0;
     right: 0;
     height: 100vh;
-    width: 250px;
+    width: 200px;
     padding-top: 3.5rem;
-    /* transition: transform 0.3s ease-in-out; */
+    transition: transform 0.2s cubic-bezier(0.41, 0.17, 0.88, 0.53);
   }
 `;
 
