@@ -13,7 +13,7 @@ export default function loadingReducer(state: any = {}, action: any) {
     // Store whether a request is happening at the moment or not
     // e.g. will be true when receiving GET_TODOS_REQUEST
     // and false when receiving GET_TODOS_SUCCESS / GET_TODOS_FAILURE
-    [requestName]: requestState === "REQUEST",
+    [requestName]: requestState,
   };
 }
 
@@ -22,7 +22,16 @@ export const createLoadingSelector = (actions: Array<string>) => (
   state: RootState
 ): boolean => {
   return actions.reduce((result: boolean, action) => {
-    if (state.loading[action]) return true;
+    if (state.loading[action] === "REQUEST") return true;
+    return result;
+  }, false);
+};
+
+export const createErrorSelector = (actions: Array<string>) => (
+  state: RootState
+): boolean => {
+  return actions.reduce((result: boolean, action) => {
+    if (state.loading[action] === "FAILURE") return true;
     return result;
   }, false);
 };

@@ -1,6 +1,7 @@
 import {
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
+  GET_USER_FAILURE,
   SET_USER_FETCHED,
   REMOVE_USER,
   UserActionTypes,
@@ -14,6 +15,10 @@ export const getUserRequest = (): UserActionTypes => ({
 export const getUserSuccess = (user: User): UserActionTypes => ({
   type: GET_USER_SUCCESS,
   user: user,
+});
+
+export const getUserFailure = (): UserActionTypes => ({
+  type: GET_USER_FAILURE,
 });
 
 export const setUserFetched = (status: boolean): UserActionTypes => ({

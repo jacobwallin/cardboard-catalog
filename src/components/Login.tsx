@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { RootState } from "../store";
 import { login } from "../store/user/thunks";
+import { createErrorSelector } from "../store/loading/reducer";
 
 import { User } from "../store/user/types";
 
@@ -26,11 +27,47 @@ const StyledInput = styled.input`
   }
 `;
 
+const StyledButton = styled.input`
+  box-sizing: border-box;
+  width: 80px;
+  margin: 15px;
+  color: #fff;
+  background: #3f6ad8;
+  box-shadow: 0 0.125rem 0.625rem rgb(63 106 216 / 40%),
+    0 0.0625rem 0.125rem rgb(63 106 216 / 50%);
+  border: none;
+  padding: 10px 15px;
+  border-radius: 3px;
+  cursor: pointer;
+  &:hover {
+    background: #2955c8;
+  }
+  &:active {
+    background: #2651be;
+  }
+  &:focus {
+    outline: none !important;
+  }
+  &:disabled {
+    opacity: 50%;
+  }
+`;
+
+const LoginErrorMessage = styled.div`
+  color: red;
+  font-size: 0.9em;
+`;
+
+const loginErrorSelector = createErrorSelector(["GET_USER"]);
+
 export const Login: React.FC<Props> = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const user = useSelector((state: RootState) => state.user);
+  const loginError = useSelector((state: RootState) =>
+    loginErrorSelector(state)
+  );
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -52,17 +89,24 @@ export const Login: React.FC<Props> = (props) => {
             />
 
             <StyledInput
-              type="text"
+              type="password"
               placeholder="Password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <input type="submit" />
+            {loginError && (
+              <LoginErrorMessage>Invalid Username/Password</LoginErrorMessage>
+            )}
+            <StyledButton
+              type="submit"
+              value="Log In"
+              disabled={username === "" || password === ""}
+            />
           </LoginFormContainer>
         </form>
       ) : (
-        <Redirect to="/" />
+        <Redirect to="/collection" />
       )}
     </div>
   );

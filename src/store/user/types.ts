@@ -13,15 +13,20 @@ export interface UserState {
 }
 export const GET_USER_REQUEST = "GET_USER_REQUEST";
 export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
+export const GET_USER_FAILURE = "GET_USER_FAILURE";
 export const SET_USER_FETCHED = "SET_USER_FETCHED";
 export const REMOVE_USER = "REMOVE_USER";
 
-export interface GetUserRequestAction {
+export interface GetUserRequest {
   type: typeof GET_USER_REQUEST;
 }
-export interface GetUserSuccessAction {
+export interface GetUserSuccess {
   type: typeof GET_USER_SUCCESS;
   user: User;
+}
+
+export interface GetUserFailure {
+  type: typeof GET_USER_FAILURE;
 }
 
 export interface SetUserFetched {
@@ -34,7 +39,8 @@ export interface RemoveUser {
 }
 
 export type UserActionTypes =
-  | GetUserRequestAction
-  | GetUserSuccessAction
+  | GetUserRequest
+  | GetUserSuccess
+  | GetUserFailure
   | SetUserFetched
   | RemoveUser;
