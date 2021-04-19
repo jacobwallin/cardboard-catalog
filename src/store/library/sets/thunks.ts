@@ -13,8 +13,6 @@ import {
   createSubsetSuccess,
 } from "./actions";
 import { SetsActionTypes } from "./types";
-import { postData } from "../../../utils/postData";
-import { response } from "express";
 
 export const fetchAllSetData = (): ThunkAction<
   void,
