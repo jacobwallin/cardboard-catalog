@@ -1,5 +1,5 @@
-const User = require("./User");
 const Card = require("./Card");
+const User = require("./User");
 const CardData = require("./CardData");
 const UserCard = require("./UserCard");
 const Set = require("./Set");
