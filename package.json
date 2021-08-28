@@ -30,6 +30,7 @@
     "passport-local": "^1.0.0",
     "pg": "^8.3.2",
     "pg-hstore": "^2.3.3",
+    "pg-native": "^3.0.0",
     "react": "^16.13.1",
     "react-data-table-component": "^6.11.5",
     "react-dom": "^16.13.1",

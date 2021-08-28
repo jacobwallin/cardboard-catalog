@@ -55,7 +55,47 @@ const seed = async () => {
     );
     await CardData.bulkCreate(
       await fetchData(
+        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=10"
+      )
+    );
+    await CardData.bulkCreate(
+      await fetchData(
+        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=20"
+      )
+    );
+    await CardData.bulkCreate(
+      await fetchData(
+        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=30"
+      )
+    );
+    await CardData.bulkCreate(
+      await fetchData(
+        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=40"
+      )
+    );
+    await CardData.bulkCreate(
+      await fetchData(
         "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=50"
+      )
+    );
+    await CardData.bulkCreate(
+      await fetchData(
+        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=60"
+      )
+    );
+    await CardData.bulkCreate(
+      await fetchData(
+        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=70"
+      )
+    );
+    await CardData.bulkCreate(
+      await fetchData(
+        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=80"
+      )
+    );
+    await CardData.bulkCreate(
+      await fetchData(
+        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=90"
       )
     );
     // populate card data and series join table
