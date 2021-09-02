@@ -6,8 +6,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import { fetchMe } from "../store/user/thunks";
 
-import "../styling/navbar.css";
-
 const Nav = styled.div`
   background-color: #80b3ff;
   display: flex;

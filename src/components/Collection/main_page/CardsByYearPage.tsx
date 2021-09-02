@@ -6,7 +6,6 @@ import { RootState } from "../../../store";
 import DataTable from "react-data-table-component";
 import { aggregateCardsByYear } from "./aggregateCards";
 import columns from "./dataTableColumns";
-
 import { DataTableContainer, CollectionPageContainer } from "../shared";
 
 const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
