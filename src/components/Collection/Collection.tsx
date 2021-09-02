@@ -12,6 +12,7 @@ export default function Collection() {
   const { path } = useRouteMatch();
   return (
     <CollectionContainer>
+      <h1>My Collection</h1>
       <PrivateRoute exact path={path} component={CardsByYearPage} />
       <PrivateRoute exact path={`${path}/:year`} component={AllSetsPage} />
       <PrivateRoute exact path={`${path}/set/:setId`} component={SetPage} />

@@ -7,10 +7,11 @@ import { fetchSubset } from "../../../store/library/subsets/thunks";
 import { fetchCardsInSingleSubset } from "../../../store/collection/thunks";
 import DataTable from "react-data-table-component";
 import {
-  PageContainer,
+  CollectionPageContainer,
+  DataTableContainer,
   ContentContainer,
-  TableContainer,
-} from "../CommonComponents";
+} from "../shared";
+import columns from "./dataTableColumns";
 
 const CardFilterContainer = styled.div`
   display: flex;
@@ -21,19 +22,6 @@ const CardFilterContainer = styled.div`
   justify-content: right;
   margin-bottom: 8px;
 `;
-
-const dataTableColumns = [
-  {
-    name: "Card #",
-    selector: "card.card_datum.number",
-    sortable: true,
-  },
-  {
-    name: "Card Name",
-    selector: "card.card_datum.name",
-    sortable: true,
-  },
-];
 
 const SeriesSelect = styled.select`
   width: 175px;
@@ -83,7 +71,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
   }
 
   return (
-    <PageContainer>
+    <CollectionPageContainer>
       <h2>{librarySubset.name}</h2>
       <ContentContainer>
         {`Total Cards in Collection: ${subsetUserCards.cards.length}`} <br />
@@ -117,12 +105,12 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
           })}
         </SeriesSelect>
       </CardFilterContainer>
-      <TableContainer>
+      <DataTableContainer>
         <DataTable
           dense
           noHeader
           // progressPending={isLoading}
-          columns={dataTableColumns}
+          columns={columns}
           data={subsetUserCards.cards.filter((card) => {
             return (
               card.card.seriesId === selectedSeriesId || selectedSeriesId === -1
@@ -130,8 +118,8 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
           })}
           highlightOnHover
         />
-      </TableContainer>
-    </PageContainer>
+      </DataTableContainer>
+    </CollectionPageContainer>
   );
 };
 

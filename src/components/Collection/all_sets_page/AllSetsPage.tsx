@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
+import { Redirect, RouteComponentProps } from "react-router-dom";
 import { fetchCardsBySet } from "../../../store/collection/thunks";
 import { RootState } from "../../../store";
 import { createLoadingSelector } from "../../../store/loading/reducer";
@@ -11,6 +11,14 @@ import columns from "./dataTableColumns";
 const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
 
 type TParams = { year: string };
+
+const customStyles = {
+  rows: {
+    style: {
+      minHeight: "72px", // override the row height
+    },
+  },
+};
 
 const AllSetsPage: React.FC<RouteComponentProps<TParams>> = (props) => {
   const dispatch = useDispatch();
@@ -42,7 +50,6 @@ const AllSetsPage: React.FC<RouteComponentProps<TParams>> = (props) => {
             (set) => set.year === +props.match.params.year
           )}
           highlightOnHover
-          dense
         />
       </DataTableContainer>
     </CollectionPageContainer>

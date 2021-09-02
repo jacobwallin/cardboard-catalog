@@ -31,7 +31,6 @@ const CardsByYearPage = () => {
 
   return (
     <CollectionPageContainer>
-      <h2>My Collection</h2>
       <DataTableContainer>
         <DataTable
           noHeader
@@ -39,7 +38,6 @@ const CardsByYearPage = () => {
           columns={columns}
           data={aggregateCardsByYear(cardsBySet)}
           highlightOnHover
-          dense
         />
       </DataTableContainer>
     </CollectionPageContainer>

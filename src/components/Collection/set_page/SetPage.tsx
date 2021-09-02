@@ -7,8 +7,11 @@ import { fetchSet } from "../../../store/library/sets/thunks";
 import { createLoadingSelector } from "../../../store/loading/reducer";
 import DataTable from "react-data-table-component";
 import columns from "./dataTableColumns";
-import { CollectionPageContainer, DataTableContainer } from "../shared";
-import ContentContainer from "./ContentContainer";
+import {
+  CollectionPageContainer,
+  DataTableContainer,
+  ContentContainer,
+} from "../shared";
 
 const loadingSelector = createLoadingSelector([
   "GET_SINGLE_SET",

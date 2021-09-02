@@ -7,16 +7,25 @@ const columns = [
     selector: "year",
     sortable: true,
     cell: (row: any) => <Link to={`/collection/${row.year}`}>{row.year}</Link>,
+    style: {
+      fontSize: "14px",
+    },
   },
   {
     name: "Total Cards",
     selector: "totalCards",
     sortable: true,
+    style: {
+      fontSize: "14px",
+    },
   },
   {
     name: "Distinct Cards",
     selector: "distinctCards",
     sortable: true,
+    style: {
+      fontSize: "14px",
+    },
   },
 ];
 
