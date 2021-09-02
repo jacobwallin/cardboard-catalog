@@ -3,7 +3,7 @@ import { useRouteMatch } from "react-router-dom";
 import PrivateRoute from "../Protected_Routes/PrivateRoute";
 
 import CardsByYearPage from "../Collection/main_page/CardsByYearPage";
-import AllSetsPage from "../Collection/AllSetsPage";
+import AllSetsPage from "../Collection/all_sets_page/AllSetsPage";
 import SetPage from "../Collection/SetPage";
 import SubsetPage from "../Collection/SubsetPage";
 

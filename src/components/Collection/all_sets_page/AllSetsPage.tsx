@@ -1,44 +1,14 @@
 import React, { useEffect } from "react";
-import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { RouteComponentProps, Link } from "react-router-dom";
-import { fetchCardsBySet } from "../../store/collection/thunks";
-import { RootState } from "../../store";
-import { createLoadingSelector } from "../../store/loading/reducer";
+import { RouteComponentProps } from "react-router-dom";
+import { fetchCardsBySet } from "../../../store/collection/thunks";
+import { RootState } from "../../../store";
+import { createLoadingSelector } from "../../../store/loading/reducer";
 import DataTable from "react-data-table-component";
+import { CollectionPageContainer, DataTableContainer } from "../shared";
+import columns from "./dataTableColumns";
 
 const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
-
-const columns = [
-  {
-    name: "Set Name",
-    selector: "setName",
-    sortable: true,
-    cell: (row: any) => (
-      <Link to={`/collection/set/${row.setId}`}>{row.setName}</Link>
-    ),
-  },
-  {
-    name: "Total Cards",
-    selector: "totalCards",
-    sortable: true,
-  },
-  {
-    name: "Distinct Cards",
-    selector: "distinctCards",
-    sortable: true,
-  },
-];
-
-const PageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const TableContainer = styled.div`
-  width: 90%;
-`;
 
 type TParams = { year: string };
 
@@ -61,9 +31,9 @@ const AllSetsPage: React.FC<RouteComponentProps<TParams>> = (props) => {
   }, []);
 
   return (
-    <PageContainer>
+    <CollectionPageContainer>
       <h2>{`All Sets in ${props.match.params.year}`}</h2>
-      <TableContainer>
+      <DataTableContainer>
         <DataTable
           noHeader
           progressPending={isLoading}
@@ -74,8 +44,8 @@ const AllSetsPage: React.FC<RouteComponentProps<TParams>> = (props) => {
           highlightOnHover
           dense
         />
-      </TableContainer>
-    </PageContainer>
+      </DataTableContainer>
+    </CollectionPageContainer>
   );
 };
 
