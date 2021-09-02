@@ -4,9 +4,9 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCardsBySet } from "../../../store/collection/thunks";
 import { createLoadingSelector } from "../../../store/loading/reducer";
-import { SetCards } from "../../../store/collection/types";
 import { RootState } from "../../../store";
 import DataTable from "react-data-table-component";
+import { aggregateCardsByYear } from "./aggregateCards";
 
 import DataTableContainer from "../shared/DataTableContainer";
 
@@ -76,37 +76,3 @@ const CardsByYearPage = () => {
 };
 
 export default CardsByYearPage;
-
-// transform api data to show total cards in collection aggregated by year
-function aggregateCardsByYear(cardsBySet: SetCards[]): Array<{
-  year: number;
-  distinctCards: number;
-  totalCards: number;
-}> {
-  return cardsBySet.reduce(
-    (
-      cardsByYear: Array<{
-        year: number;
-        distinctCards: number;
-        totalCards: number;
-      }>,
-      set
-    ) => {
-      if (
-        cardsByYear.length > 0 &&
-        cardsByYear[cardsByYear.length - 1].year === set.year
-      ) {
-        cardsByYear[cardsByYear.length - 1].distinctCards += +set.distinctCards;
-        cardsByYear[cardsByYear.length - 1].totalCards += +set.totalCards;
-      } else {
-        cardsByYear.push({
-          year: set.year,
-          distinctCards: +set.distinctCards,
-          totalCards: +set.totalCards,
-        });
-      }
-      return cardsByYear;
-    },
-    []
-  );
-}
