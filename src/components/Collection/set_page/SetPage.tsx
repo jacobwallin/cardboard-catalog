@@ -1,53 +1,14 @@
 import React, { useEffect } from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { RootState } from "../../store";
-import { fetchCardsBySubset } from "../../store/collection/thunks";
-import { fetchSet } from "../../store/library/sets/thunks";
-import { createLoadingSelector } from "../../store/loading/reducer";
+import { RootState } from "../../../store";
+import { fetchCardsBySubset } from "../../../store/collection/thunks";
+import { fetchSet } from "../../../store/library/sets/thunks";
+import { createLoadingSelector } from "../../../store/loading/reducer";
 import DataTable from "react-data-table-component";
-
-const PageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const ContentContainer = styled.div`
-  background: white;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 0 0 20px 0;
-  width: 90%;
-`;
-
-const TableContainer = styled.div`
-  width: 90%;
-  border-radius: 5px;
-`;
-
-const dataTableColumns = [
-  {
-    name: "Subset",
-    selector: "name",
-    sortable: true,
-    cell: (row: any) => (
-      <Link to={`/collection/subset/${row.id}`}>{row.name}</Link>
-    ),
-  },
-  {
-    name: "Total Cards",
-    selector: "totalCards",
-    sortable: true,
-  },
-  {
-    name: "Distinct Cards",
-    selector: "distinctCards",
-    sortable: true,
-  },
-];
+import columns from "./dataTableColumns";
+import { CollectionPageContainer, DataTableContainer } from "../shared";
+import ContentContainer from "./ContentContainer";
 
 const loadingSelector = createLoadingSelector([
   "GET_SINGLE_SET",
@@ -79,17 +40,17 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
   }
 
   return (
-    <PageContainer>
+    <CollectionPageContainer>
       <h2>{singleSet.name}</h2>
       <ContentContainer>
         <h4>About:</h4>
         {singleSet.description}
       </ContentContainer>
-      <TableContainer>
+      <DataTableContainer>
         <DataTable
           noHeader
           progressPending={isLoading}
-          columns={dataTableColumns}
+          columns={columns}
           data={singleSet.subsets.map((subset) => {
             const collectionSubsetData = cardsBySubset.subsets.find(
               (collectionSubset) => subset.id === collectionSubset.subsetId
@@ -107,8 +68,8 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
           })}
           highlightOnHover
         />
-      </TableContainer>
-    </PageContainer>
+      </DataTableContainer>
+    </CollectionPageContainer>
   );
 };
 

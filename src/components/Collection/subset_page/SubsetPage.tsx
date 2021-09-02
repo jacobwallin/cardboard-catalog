@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { RootState } from "../../store";
-import { fetchSubset } from "../../store/library/subsets/thunks";
-import { fetchCardsInSingleSubset } from "../../store/collection/thunks";
+import { RootState } from "../../../store";
+import { fetchSubset } from "../../../store/library/subsets/thunks";
+import { fetchCardsInSingleSubset } from "../../../store/collection/thunks";
 import DataTable from "react-data-table-component";
 import {
   PageContainer,
   ContentContainer,
   TableContainer,
-} from "./CommonComponents";
+} from "../CommonComponents";
 
 const CardFilterContainer = styled.div`
   display: flex;

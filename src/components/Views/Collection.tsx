@@ -4,8 +4,8 @@ import PrivateRoute from "../Protected_Routes/PrivateRoute";
 
 import CardsByYearPage from "../Collection/main_page/CardsByYearPage";
 import AllSetsPage from "../Collection/all_sets_page/AllSetsPage";
-import SetPage from "../Collection/SetPage";
-import SubsetPage from "../Collection/SubsetPage";
+import SetPage from "../Collection/set_page/SetPage";
+import SubsetPage from "../Collection/subset_page/SubsetPage";
 
 export default function Collection() {
   const { path } = useRouteMatch();
