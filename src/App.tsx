@@ -1,8 +1,7 @@
 import React from "react";
-
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
 import styled from "styled-components";
+import GlobalStyles from "./globalStyles";
 
 import Navbar from "./components/Navbar";
 import {
@@ -21,6 +20,7 @@ const AppContainer = styled.div`
 function App() {
   return (
     <AppContainer>
+      <GlobalStyles />
       <Router>
         <Navbar />
 
