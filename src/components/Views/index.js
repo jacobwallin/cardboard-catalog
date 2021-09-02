@@ -1,4 +1,4 @@
-import Collection from "./Collection";
+import Collection from "../Collection/Collection";
 import Transactions from "./Transactions";
 import PageNotFound from "./PageNotFound";
 import HomePage from "./HomePage";

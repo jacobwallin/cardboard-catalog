@@ -1,10 +1,9 @@
 import styled from "styled-components";
 
-const PageContainer = styled.div`
-  width: 50%;
+const CollectionContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-export default PageContainer;
+export default CollectionContainer;
