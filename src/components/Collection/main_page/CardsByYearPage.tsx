@@ -10,8 +10,6 @@ import { aggregateCardsByYear } from "./aggregateCards";
 
 import DataTableContainer from "../shared/DataTableContainer";
 
-import "../../../styling/collection.css";
-
 const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
 
 const columns = [
