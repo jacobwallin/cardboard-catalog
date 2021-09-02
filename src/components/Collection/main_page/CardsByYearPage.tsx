@@ -1,41 +1,16 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCardsBySet } from "../../../store/collection/thunks";
 import { createLoadingSelector } from "../../../store/loading/reducer";
 import { RootState } from "../../../store";
 import DataTable from "react-data-table-component";
 import { aggregateCardsByYear } from "./aggregateCards";
+import columns from "./dataTableColumns";
 
-import DataTableContainer from "../shared/DataTableContainer";
+import { DataTableContainer, CollectionPageContainer } from "../shared";
 
 const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
-
-const columns = [
-  {
-    name: "Year",
-    selector: "year",
-    sortable: true,
-    cell: (row: any) => <Link to={`/collection/${row.year}`}>{row.year}</Link>,
-  },
-  {
-    name: "Total Cards",
-    selector: "totalCards",
-    sortable: true,
-  },
-  {
-    name: "Distinct Cards",
-    selector: "distinctCards",
-    sortable: true,
-  },
-];
-
-const PageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
 const CardsByYearPage = () => {
   const cardsBySet = useSelector(
@@ -57,7 +32,7 @@ const CardsByYearPage = () => {
   }, []);
 
   return (
-    <PageContainer>
+    <CollectionPageContainer>
       <h2>My Collection</h2>
       <DataTableContainer>
         <DataTable
@@ -69,7 +44,7 @@ const CardsByYearPage = () => {
           dense
         />
       </DataTableContainer>
-    </PageContainer>
+    </CollectionPageContainer>
   );
 };
 
