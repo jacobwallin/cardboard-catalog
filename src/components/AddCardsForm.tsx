@@ -14,8 +14,6 @@ import styled from "styled-components";
 import StyledButton from "./Admin/components/StyledButton";
 import { createLoadingSelector } from "../store/loading/reducer";
 
-import "../styling/addCardsForm.css";
-
 const FormContainer = styled.div`
   margin: auto;
   display: flex;
