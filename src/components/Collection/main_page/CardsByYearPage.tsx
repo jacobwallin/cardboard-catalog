@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCardsBySet } from "../../../store/collection/thunks";
 import { createLoadingSelector } from "../../../store/loading/reducer";
