@@ -2,7 +2,7 @@ import React from "react";
 import { useRouteMatch } from "react-router-dom";
 import PrivateRoute from "../Protected_Routes/PrivateRoute";
 
-import CardsByYearPage from "../Collection/CardsByYearPage";
+import CardsByYearPage from "../Collection/main_page/CardsByYearPage";
 import AllSetsPage from "../Collection/AllSetsPage";
 import SetPage from "../Collection/SetPage";
 import SubsetPage from "../Collection/SubsetPage";
