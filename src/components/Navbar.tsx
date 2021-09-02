@@ -28,6 +28,22 @@ const SiteName = styled.div`
   }
 `;
 
+const StyledLink = styled(Link)`
+  flex-grow: 0;
+  /* height: 40px; */
+  color: white;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  align-items: flex-start;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 const Hamburger = styled.span`
   display: none;
   position: relative;
@@ -109,28 +125,28 @@ export default function Navbar() {
         <>
           <Hamburger onClick={toggleHamburgerActive} />
           <NavMenu active={hamburgerActive}>
-            <Link
+            <StyledLink
               to="/collection"
               className="navbar-link"
               onClick={toggleHamburgerActive}
             >
               My Collection
-            </Link>
-            <Link
+            </StyledLink>
+            <StyledLink
               to="/transactions"
               className="navbar-link"
               onClick={toggleHamburgerActive}
             >
               Add Cards
-            </Link>
+            </StyledLink>
             {user.isAdmin && (
-              <Link
+              <StyledLink
                 to="/admin"
                 className="navbar-link"
                 onClick={toggleHamburgerActive}
               >
                 Admin
-              </Link>
+              </StyledLink>
             )}
           </NavMenu>
         </>
