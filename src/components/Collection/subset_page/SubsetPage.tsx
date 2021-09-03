@@ -45,7 +45,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
   const librarySubset = useSelector(
     (state: RootState) => state.library.subsets.subset
   );
-  const subsetUserCards = useSelector(
+  const userCardsInSubset = useSelector(
     (state: RootState) => state.collection.cardsInSingleSubset
   );
 
@@ -56,7 +56,6 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
 
   useEffect(() => {
     // get the complete subset data from the library api and all the user's cards that belong to the subset from the collection api
-
     dispatch(fetchSubset(SUBSET_ID_PARAM));
     dispatch(fetchCardsInSingleSubset(SUBSET_ID_PARAM));
   }, []);
@@ -74,21 +73,13 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
     <CollectionPageContainer>
       <h2>{librarySubset.name}</h2>
       <ContentContainer>
-        {`Total Cards in Collection: ${subsetUserCards.cards.length}`} <br />
+        {`Total Cards in Collection: ${userCardsInSubset.cards.length}`} <br />
         {`Distinct Cards in Collection: ${
-          subsetUserCards.cards.reduce((distinctCards: any, card) => {
-            if (distinctCards.length === 0) {
-              return [...distinctCards, card];
-            } else if (
-              distinctCards.findIndex(
-                (distinctCard: any) => card.cardId === distinctCard.cardId
-              ) === -1
-            ) {
-              return [...distinctCards, card];
-            } else {
-              return distinctCards;
-            }
-          }, []).length
+          Object.keys(
+            userCardsInSubset.cards.reduce((uniqueCardsMap: any, card) => {
+              return { ...uniqueCardsMap, [card.cardId]: true };
+            }, {})
+          ).length
         }`}
       </ContentContainer>
       <h3>Cards in Collection</h3>
@@ -111,7 +102,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
           noHeader
           // progressPending={isLoading}
           columns={columns}
-          data={subsetUserCards.cards.filter((card) => {
+          data={userCardsInSubset.cards.filter((card) => {
             return (
               card.card.seriesId === selectedSeriesId || selectedSeriesId === -1
             );
