@@ -7,7 +7,8 @@ const CollectionContainer = styled.div`
   /* border-radius: 10px; */
   border-right: 1px solid lightgrey;
   border-left: 1px solid lightgrey;
-  min-height: 100vh;
+  height: 100%;
+  flex-grow: 1;
   width: 50%;
   display: flex;
   flex-direction: column;

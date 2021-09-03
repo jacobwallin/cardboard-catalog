@@ -4,7 +4,7 @@ const CollectionWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
+  flex-grow: 1;
 `;
 
 export default CollectionWrapper;

@@ -15,6 +15,8 @@ import Login from "./components/Login";
 
 const AppContainer = styled.div`
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 `;
 
 function App() {
