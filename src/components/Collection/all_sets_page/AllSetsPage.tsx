@@ -9,8 +9,10 @@ import {
   CollectionPageContainer,
   DataTableContainer,
   DataTableTitle,
+  CollectionData,
 } from "../shared";
 import columns from "./dataTableColumns";
+import { customStyles } from "../shared/dataTableStyles";
 
 const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
 
@@ -19,9 +21,9 @@ type TParams = { year: string };
 const AllSetsPage: React.FC<RouteComponentProps<TParams>> = (props) => {
   const dispatch = useDispatch();
 
-  const cardsBySet = useSelector(
+  const cardsBySetForYear = useSelector(
     (state: RootState) => state.collection.cardsBySet
-  );
+  ).filter((set) => set.year === +props.match.params.year);
 
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
   const initialDataLoadComplete = useSelector(
@@ -36,16 +38,24 @@ const AllSetsPage: React.FC<RouteComponentProps<TParams>> = (props) => {
 
   return (
     <CollectionPageContainer>
-      <DataTableTitle>{`Sets in ${props.match.params.year}`}</DataTableTitle>
+      <CollectionData
+        totalCards={cardsBySetForYear.reduce((totalCards, set) => {
+          return (totalCards += +set.totalCards);
+        }, 0)}
+        distinctCards={cardsBySetForYear.reduce((totalCards, set) => {
+          return (totalCards += +set.distinctCards);
+        }, 0)}
+      />
+      <DataTableTitle>{`Your Sets from ${props.match.params.year}`}</DataTableTitle>
       <DataTableContainer>
         <DataTable
           noHeader
           progressPending={isLoading}
           columns={columns}
-          data={cardsBySet.filter(
-            (set) => set.year === +props.match.params.year
-          )}
+          data={cardsBySetForYear}
           highlightOnHover
+          theme="grey"
+          customStyles={customStyles}
         />
       </DataTableContainer>
     </CollectionPageContainer>

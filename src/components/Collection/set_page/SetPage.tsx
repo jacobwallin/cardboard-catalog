@@ -12,7 +12,9 @@ import {
   DataTableContainer,
   ContentContainer,
   DataTableTitle,
+  CollectionData,
 } from "../shared";
+import subsetsReducer from "../../../store/library/subsets/reducer";
 
 const loadingSelector = createLoadingSelector([
   "GET_SINGLE_SET",
@@ -50,6 +52,14 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
         <h4>About:</h4>
         {singleSet.description}
       </ContentContainer>
+      <CollectionData
+        totalCards={cardsBySubset.subsets.reduce((totalCards, subset) => {
+          return (totalCards += +subset.totalCards);
+        }, 0)}
+        distinctCards={cardsBySubset.subsets.reduce((totalCards, subset) => {
+          return (totalCards += +subset.distinctCards);
+        }, 0)}
+      />
       <DataTableTitle>{`Subsets in ${singleSet.name}`}</DataTableTitle>
       <DataTableContainer>
         <DataTable

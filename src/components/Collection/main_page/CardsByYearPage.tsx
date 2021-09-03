@@ -6,7 +6,12 @@ import { RootState } from "../../../store";
 import DataTable from "react-data-table-component";
 import { aggregateCardsByYear } from "./aggregateCards";
 import columns from "./dataTableColumns";
-import { DataTableContainer, CollectionPageContainer } from "../shared";
+import {
+  DataTableContainer,
+  CollectionPageContainer,
+  CollectionData,
+  DataTableTitle,
+} from "../shared";
 import { customStyles } from "../shared/dataTableStyles";
 
 const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
@@ -32,6 +37,15 @@ const CardsByYearPage = () => {
 
   return (
     <CollectionPageContainer>
+      <CollectionData
+        totalCards={cardsBySet.reduce((total, set) => {
+          return (total += +set.totalCards);
+        }, 0)}
+        distinctCards={cardsBySet.reduce((total, set) => {
+          return (total += +set.distinctCards);
+        }, 0)}
+      />
+      <DataTableTitle>{`Your Cards by Year`}</DataTableTitle>
       <DataTableContainer>
         <DataTable
           noHeader
