@@ -11,6 +11,7 @@ import {
   CollectionPageContainer,
   DataTableContainer,
   ContentContainer,
+  DataTableTitle,
 } from "../shared";
 
 const loadingSelector = createLoadingSelector([
@@ -49,6 +50,7 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
         <h4>About:</h4>
         {singleSet.description}
       </ContentContainer>
+      <DataTableTitle>{`Subsets in ${singleSet.name}`}</DataTableTitle>
       <DataTableContainer>
         <DataTable
           noHeader

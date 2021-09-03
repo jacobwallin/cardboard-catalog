@@ -5,7 +5,11 @@ import { fetchCardsBySet } from "../../../store/collection/thunks";
 import { RootState } from "../../../store";
 import { createLoadingSelector } from "../../../store/loading/reducer";
 import DataTable from "react-data-table-component";
-import { CollectionPageContainer, DataTableContainer } from "../shared";
+import {
+  CollectionPageContainer,
+  DataTableContainer,
+  DataTableTitle,
+} from "../shared";
 import columns from "./dataTableColumns";
 
 const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
@@ -32,7 +36,7 @@ const AllSetsPage: React.FC<RouteComponentProps<TParams>> = (props) => {
 
   return (
     <CollectionPageContainer>
-      <h2>{`All Sets in ${props.match.params.year}`}</h2>
+      <DataTableTitle>{`Sets in ${props.match.params.year}`}</DataTableTitle>
       <DataTableContainer>
         <DataTable
           noHeader

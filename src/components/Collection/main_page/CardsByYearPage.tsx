@@ -30,17 +30,15 @@ const CardsByYearPage = () => {
   }, []);
 
   return (
-    <CollectionPageContainer>
-      <DataTableContainer>
-        <DataTable
-          noHeader
-          progressPending={isLoading}
-          columns={columns}
-          data={aggregateCardsByYear(cardsBySet)}
-          highlightOnHover
-        />
-      </DataTableContainer>
-    </CollectionPageContainer>
+    <DataTableContainer>
+      <DataTable
+        noHeader
+        progressPending={isLoading}
+        columns={columns}
+        data={aggregateCardsByYear(cardsBySet)}
+        highlightOnHover
+      />
+    </DataTableContainer>
   );
 };
 

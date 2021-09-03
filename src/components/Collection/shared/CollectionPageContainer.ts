@@ -1,7 +1,10 @@
 import styled from "styled-components";
 
 const PageContainer = styled.div`
-  width: 50%;
+  border-radius: 10px;
+  min-height: 50vh;
+  padding: 10px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

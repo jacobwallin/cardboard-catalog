@@ -22,7 +22,7 @@ const columns = [
     grow: 1,
   },
   {
-    name: "Distinct Cards",
+    name: "Unique Cards",
     selector: "distinctCards",
     minWidth: "50px",
     style: tableStyles,
