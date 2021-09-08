@@ -12,6 +12,7 @@ import {
   ContentContainer,
 } from "../shared";
 import columns from "./dataTableColumns";
+import createTableData from "./createTableData";
 
 const CardFilterContainer = styled.div`
   display: flex;
@@ -70,38 +71,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
     setShowAllCards(!showAllCards);
   }
 
-  const userCardsTotals = userCardsInSubset.cards.reduce(
-    (cardTotals: any, card) => {
-      if (cardTotals[card.cardId]) {
-        return { ...cardTotals, [card.cardId]: cardTotals[card.cardId] + 1 };
-      } else {
-        return { ...cardTotals, [card.cardId]: 1 };
-      }
-    },
-    {}
-  );
-
-  // allow 0(1) lookup into card data to create array for DataTable
-  const cardDataHashTable: any = librarySubset.card_data.reduce(
-    (hashTable, cardData) => {
-      return { ...hashTable, [cardData.id]: cardData };
-    },
-    {}
-  );
-
-  const allCardsTableData = librarySubset.series.reduce(
-    (allCards: any, series) => {
-      const cardDataArray = series.cards.map((card) => {
-        return {
-          ...card,
-          cardData: cardDataHashTable[card.cardDataId],
-          quantity: userCardsTotals[card.id] ? userCardsTotals[card.id] : 0,
-        };
-      });
-      return [...allCards, ...cardDataArray];
-    },
-    []
-  );
+  const tableData: any = createTableData(librarySubset, userCardsInSubset);
 
   return (
     <CollectionPageContainer>
@@ -136,7 +106,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
           noHeader
           // progressPending={isLoading}
           columns={columns}
-          data={allCardsTableData.filter((card: any) => card.quantity > 0)}
+          data={tableData}
           highlightOnHover
           pagination
           paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
