@@ -45,6 +45,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
   const librarySubset = useSelector(
     (state: RootState) => state.library.subsets.subset
   );
+
   const userCardsInSubset = useSelector(
     (state: RootState) => state.collection.cardsInSingleSubset
   );
@@ -68,6 +69,39 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
   ) {
     setShowAllCards(!showAllCards);
   }
+
+  const userCardsTotals = userCardsInSubset.cards.reduce(
+    (cardTotals: any, card) => {
+      if (cardTotals[card.cardId]) {
+        return { ...cardTotals, [card.cardId]: cardTotals[card.cardId] + 1 };
+      } else {
+        return { ...cardTotals, [card.cardId]: 1 };
+      }
+    },
+    {}
+  );
+
+  // allow 0(1) lookup into card data to create array for DataTable
+  const cardDataHashTable: any = librarySubset.card_data.reduce(
+    (hashTable, cardData) => {
+      return { ...hashTable, [cardData.id]: cardData };
+    },
+    {}
+  );
+
+  const allCardsTableData = librarySubset.series.reduce(
+    (allCards: any, series) => {
+      const cardDataArray = series.cards.map((card) => {
+        return {
+          ...card,
+          cardData: cardDataHashTable[card.cardDataId],
+          quantity: userCardsTotals[card.id] ? userCardsTotals[card.id] : 0,
+        };
+      });
+      return [...allCards, ...cardDataArray];
+    },
+    []
+  );
 
   return (
     <CollectionPageContainer>
@@ -102,12 +136,11 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
           noHeader
           // progressPending={isLoading}
           columns={columns}
-          data={userCardsInSubset.cards.filter((card) => {
-            return (
-              card.card.seriesId === selectedSeriesId || selectedSeriesId === -1
-            );
-          })}
+          data={allCardsTableData.filter((card: any) => card.quantity > 0)}
           highlightOnHover
+          pagination
+          paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
+          paginationPerPage={20}
         />
       </DataTableContainer>
     </CollectionPageContainer>

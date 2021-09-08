@@ -14,7 +14,7 @@ const CollectionContainer = styled.div`
   @media only screen and (max-width: 1024px) {
     width: 75%;
   }
-  @media only screen and (max-width: 400px) {
+  @media only screen and (max-width: 600px) {
     width: 95%;
   }
 `;

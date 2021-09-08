@@ -61,6 +61,7 @@ export interface Series {
   createdAt: string;
   updatedAt: string;
   subsetId: number;
+  cards: Card[];
 }
 
 export interface CardData {
@@ -70,7 +71,6 @@ export interface CardData {
   rookie: boolean;
   createdAt: string;
   updatedAt: string;
-  playerId: number;
   subsetId: number;
   teamId: number;
   team: {
@@ -78,6 +78,13 @@ export interface CardData {
     name: string;
   };
   player: Player[];
+}
+
+interface Card {
+  id: number;
+  value: number;
+  seriesId: number;
+  cardDataId: number;
 }
 
 interface Player {

@@ -4,7 +4,14 @@ const { validationResult } = require("express-validator");
 
 const { postSubsetValidate } = require("./validation");
 
-const { Subset, Series, CardData, Team, Player } = require("../../db/models");
+const {
+  Subset,
+  Series,
+  CardData,
+  Team,
+  Player,
+  Card,
+} = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -18,31 +25,44 @@ router.get("/", async (req, res, next) => {
 // get card information for a complete subset (includes every series)
 router.get("/:subsetId", async (req, res, next) => {
   try {
+    // had to separate out these queries, combining all joins into one was taking over 6 seconds
     const subset = await Subset.findByPk(req.params.subsetId, {
-      include: [
-        {
-          model: Series,
+      include: {
+        model: Series,
+        include: {
+          model: Card,
+          attributes: ["id", "value", "seriesId", "cardDataId"],
         },
-        {
-          model: CardData,
-          include: [
-            { model: Team, attributes: ["id", "name"] },
-            {
-              model: Player,
-              attributes: [
-                "id",
-                "firstName",
-                "lastName",
-                "birthday",
-                "hallOfFame",
-              ],
-            },
-          ],
-        },
-      ],
+      },
     });
 
-    res.json(subset);
+    const subsetCardData = await Subset.findByPk(req.params.subsetId, {
+      include: {
+        model: CardData,
+        include: [
+          { model: Team, attributes: ["id", "name"] },
+          {
+            model: Player,
+            attributes: [
+              "id",
+              "firstName",
+              "lastName",
+              "birthday",
+              "hallOfFame",
+            ],
+          },
+        ],
+      },
+    });
+
+    // get raw data from Sequelize model instances so data can be combined
+    const subsetObj = subset.get({ plain: true });
+    const subsetCardDataObj = subsetCardData.get({ plain: true });
+
+    // add on card data to the subset data object
+    subsetObj.card_data = subsetCardDataObj.card_data;
+
+    res.json(subsetObj);
   } catch (error) {
     console.log(error.message);
     res.sendStatus(500);
