@@ -16,6 +16,7 @@ import createTableData from "./createTableData";
 import SeriesSelect from "./SeriesSelect";
 import SelectLabel from "./SelectLabel";
 import CardFilterContainer from "./CardFilterContainer";
+import dataTableConditionalStyles from "./dataTableConditionalStyles";
 
 type Params = {
   year: string;
@@ -109,6 +110,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
           pagination
           paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
           paginationPerPage={20}
+          conditionalRowStyles={dataTableConditionalStyles}
         />
       </DataTableContainer>
     </CollectionPageContainer>
