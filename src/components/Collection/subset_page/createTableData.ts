@@ -1,4 +1,4 @@
-import { Subset, CardData } from "../../../store/library/subsets/types";
+import { Subset, CardData, Series } from "../../../store/library/subsets/types";
 import { UserCard } from "../../../store/collection/types";
 
 export interface TableDataPoint {
@@ -8,13 +8,14 @@ export interface TableDataPoint {
   seriesId: number;
   quantity: number;
   cardData: CardData;
+  series: Series;
 }
 
 function createTableData(
   librarySubsetData: Subset,
   userCardData: { cards: UserCard[]; subsetId: number }
 ): TableDataPoint[] {
-  // create hash table with the total quantity of each card user has in collection
+  // create hash table with the id and quantity of each card user has in collection
   interface UserCardTotals {
     [details: number]: number;
   }
@@ -44,8 +45,9 @@ function createTableData(
       const cardDataArray = series.cards.map((card) => {
         return {
           ...card,
-          cardData: cardDataHashTable[card.cardDataId],
           quantity: userCardsTotals[card.id] ? userCardsTotals[card.id] : 0,
+          cardData: cardDataHashTable[card.cardDataId],
+          series: series,
         };
       });
       return [...allCards, ...cardDataArray];
