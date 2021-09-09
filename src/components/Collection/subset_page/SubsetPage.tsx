@@ -9,6 +9,7 @@ import {
   CollectionPageContainer,
   DataTableContainer,
   ContentContainer,
+  DataTableTitle,
 } from "../shared";
 import columns from "./dataTableColumns";
 import createTableData from "./createTableData";
@@ -47,9 +48,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
   function handleSeriesChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setSelectedSeriesId(+event.target.value);
   }
-  function handleShowAllChange(
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) {
+  function handleShowAllChange(event: React.ChangeEvent<HTMLInputElement>) {
     setShowAllCards(!showAllCards);
   }
 
@@ -69,11 +68,18 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
           ).length
         }`}
       </ContentContainer>
-      <h3>Cards in Collection</h3>
+      <CardFilterContainer>
+        <SelectLabel>Show Missing Cards: </SelectLabel>
+        <input
+          type="checkbox"
+          onChange={handleShowAllChange}
+          checked={showAllCards}
+        />
+      </CardFilterContainer>
       <CardFilterContainer>
         <SelectLabel>Filter: </SelectLabel>
         <SeriesSelect value={selectedSeriesId} onChange={handleSeriesChange}>
-          <option value={-1}>Show All Parallel Sets</option>
+          <option value={-1}>Show All Parallels</option>
           {librarySubset.series.map((series) => {
             return (
               <option key={series.id} value={series.id}>
@@ -83,6 +89,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
           })}
         </SeriesSelect>
       </CardFilterContainer>
+      <DataTableTitle>{`Cards in ${librarySubset.name}`}</DataTableTitle>
       <DataTableContainer>
         <DataTable
           dense
