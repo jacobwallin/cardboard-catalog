@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { RootState } from "../../../store";
@@ -13,26 +12,9 @@ import {
 } from "../shared";
 import columns from "./dataTableColumns";
 import createTableData from "./createTableData";
-
-const CardFilterContainer = styled.div`
-  display: flex;
-  width: 90%;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  justify-content: right;
-  margin-bottom: 8px;
-`;
-
-const SeriesSelect = styled.select`
-  width: 175px;
-  height: 20px;
-`;
-
-const SelectLabel = styled.div`
-  font-size: 0.8em;
-  font-weight: 700;
-`;
+import SeriesSelect from "./SeriesSelect";
+import SelectLabel from "./SelectLabel";
+import CardFilterContainer from "./CardFilterContainer";
 
 type Params = {
   year: string;
@@ -71,6 +53,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
     setShowAllCards(!showAllCards);
   }
 
+  // TODO: DataTable wants a string[] ???
   const tableData: any = createTableData(librarySubset, userCardsInSubset);
 
   return (
@@ -78,7 +61,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
       <h2>{librarySubset.name}</h2>
       <ContentContainer>
         {`Total Cards in Collection: ${userCardsInSubset.cards.length}`} <br />
-        {`Distinct Cards in Collection: ${
+        {`Unique Cards in Collection: ${
           Object.keys(
             userCardsInSubset.cards.reduce((uniqueCardsMap: any, card) => {
               return { ...uniqueCardsMap, [card.cardId]: true };
@@ -90,7 +73,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
       <CardFilterContainer>
         <SelectLabel>Filter: </SelectLabel>
         <SeriesSelect value={selectedSeriesId} onChange={handleSeriesChange}>
-          <option value={-1}>Show All</option>
+          <option value={-1}>Show All Parallel Sets</option>
           {librarySubset.series.map((series) => {
             return (
               <option key={series.id} value={series.id}>
@@ -106,7 +89,15 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
           noHeader
           // progressPending={isLoading}
           columns={columns}
-          data={tableData}
+          data={tableData
+            .filter((card: any) => {
+              return (
+                selectedSeriesId === -1 || card.seriesId === selectedSeriesId
+              );
+            })
+            .filter((card: any) => {
+              return showAllCards || card.quantity > 0;
+            })}
           highlightOnHover
           pagination
           paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
