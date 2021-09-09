@@ -25,7 +25,7 @@ let modifiedStyles = { ...tableStyles, fontSize: "13px" };
 const columns = [
   {
     name: "Card #",
-    selector: "cardData.number",
+    selector: (row: TableDataPoint) => row.cardData.number,
     sortable: true,
     style: modifiedStyles,
     grow: 0,
@@ -33,28 +33,28 @@ const columns = [
   },
   {
     name: "Qty",
-    selector: "quantity",
+    selector: (row: TableDataPoint) => row.quantity,
     sortable: true,
     style: modifiedStyles,
     grow: 0,
   },
   {
     name: "Name",
-    selector: "cardData.name",
+    selector: (row: TableDataPoint) => row.cardData.name,
     sortable: true,
     style: modifiedStyles,
     grow: 1,
   },
   {
     name: "Team",
-    selector: "cardData.team.name",
+    selector: (row: TableDataPoint) => row.cardData.team.name,
     sortable: true,
     style: modifiedStyles,
     grow: 1,
   },
   {
     name: "Parallel Set",
-    selector: "series.name",
+    selector: (row: TableDataPoint) => row.series.name,
     sortable: true,
     style: modifiedStyles,
     grow: 1,
