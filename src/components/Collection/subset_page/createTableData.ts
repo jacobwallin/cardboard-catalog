@@ -1,7 +1,7 @@
 import { Subset, CardData } from "../../../store/library/subsets/types";
 import { UserCard } from "../../../store/collection/types";
 
-interface ReturnValue {
+export interface TableDataPoint {
   id: number;
   cardDataId: number;
   value: number;
@@ -13,7 +13,7 @@ interface ReturnValue {
 function createTableData(
   librarySubsetData: Subset,
   userCardData: { cards: UserCard[]; subsetId: number }
-): ReturnValue[] {
+): TableDataPoint[] {
   // create hash table with the total quantity of each card user has in collection
   interface UserCardTotals {
     [details: number]: number;
@@ -40,7 +40,7 @@ function createTableData(
 
   // create the actual data array for the DataTable
   const allCardsTableData = librarySubsetData.series.reduce(
-    (allCards: ReturnValue[], series) => {
+    (allCards: TableDataPoint[], series) => {
       const cardDataArray = series.cards.map((card) => {
         return {
           ...card,

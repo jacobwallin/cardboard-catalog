@@ -1,4 +1,24 @@
 import tableStyles from "../shared/dataTableStyles";
+import { TableDataPoint } from "./createTableData";
+
+const customColumnSort = (rowA: TableDataPoint, rowB: TableDataPoint) => {
+  let a: string | number = rowA.cardData.number;
+  let b: string | number = rowB.cardData.number;
+
+  // convert to number if possible
+  if (+a && +b) {
+    a = +a;
+    b = +b;
+  }
+
+  // compare
+  if (a > b) {
+    return 1;
+  } else if (a > b) {
+    return -1;
+  }
+  return 0;
+};
 
 const columns = [
   {
@@ -7,9 +27,7 @@ const columns = [
     sortable: true,
     style: tableStyles,
     grow: 0,
-    sortFunction: (a: string, b: string) => {
-      return +b - +a;
-    },
+    sortFunction: customColumnSort,
   },
   {
     name: "Qty",
