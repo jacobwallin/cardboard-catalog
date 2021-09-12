@@ -10,51 +10,15 @@ import { fetchAllGradingCompanies } from "../../store/library/grading_companies/
 import { clearCollection } from "../../store/collection/actions";
 import { addCards } from "../../store/collection/thunks";
 import AddCardsLine from "../AddCardsLine";
-import styled from "styled-components";
 import StyledButton from "../Admin/components/StyledButton";
 import { createLoadingSelector } from "../../store/loading/reducer";
-
-const FormContainer = styled.div`
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-  width: 100%;
-  max-width: 800px;
-  min-width: 250px;
-  @media (max-width: 900px) {
-    width: 90%;
-  }
-`;
-
-const Select = styled.select`
-  height: 40px;
-  width: 100%;
-  padding-left: 10px;
-  padding-right: 20px;
-`;
-
-const Input = styled.input`
-  height: 40px;
-  width: 100px;
-  margin: 0 10px 0 10px;
-  padding-left: 10px;
-  @media (max-width: 768px) {
-    width: 65px;
-  }
-`;
-const SubmitButton = styled.button`
-  width: 100px;
-`;
-const SelectCardContainer = styled.form`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-`;
-
+import {
+  FormContainer,
+  Select,
+  Input,
+  SubmitButton,
+  SelectCardContainer,
+} from ".";
 interface APIData {
   cardId: number;
   serialNumber: string;
