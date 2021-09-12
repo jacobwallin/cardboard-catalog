@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store";
-import { SetSummary } from "../store/library/sets/types";
-import { Card } from "../store/library/series/types";
-import { fetchAllSetData, fetchSet } from "../store/library/sets/thunks";
-import { fetchSubset } from "../store/library/subsets/thunks";
-import { fetchSeriesById } from "../store/library/series/thunks";
-import { fetchAllGradingCompanies } from "../store/library/grading_companies/thunks";
-import { clearCollection } from "../store/collection/actions";
-import { addCards } from "../store/collection/thunks";
-import AddCardsLine from "./AddCardsLine";
+import { RootState } from "../../store";
+import { SetSummary } from "../../store/library/sets/types";
+import { Card } from "../../store/library/series/types";
+import { fetchAllSetData, fetchSet } from "../../store/library/sets/thunks";
+import { fetchSubset } from "../../store/library/subsets/thunks";
+import { fetchSeriesById } from "../../store/library/series/thunks";
+import { fetchAllGradingCompanies } from "../../store/library/grading_companies/thunks";
+import { clearCollection } from "../../store/collection/actions";
+import { addCards } from "../../store/collection/thunks";
+import AddCardsLine from "../AddCardsLine";
 import styled from "styled-components";
-import StyledButton from "./Admin/components/StyledButton";
-import { createLoadingSelector } from "../store/loading/reducer";
+import StyledButton from "../Admin/components/StyledButton";
+import { createLoadingSelector } from "../../store/loading/reducer";
 
 const FormContainer = styled.div`
   margin: auto;
