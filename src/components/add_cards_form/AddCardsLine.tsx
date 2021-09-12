@@ -1,7 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../store";
+import { RootState } from "../../store";
 import styled from "styled-components";
+import StyledButton from "../Admin/components/StyledButton";
 
 const Container = styled.div`
   display: flex;
@@ -31,6 +32,10 @@ const StyledInput = styled.input`
   padding: 5px;
 `;
 
+const DeleteButton = styled.button`
+  border: none;
+`;
+
 interface Props {
   cardNumber: string;
   cardName: string;
@@ -54,7 +59,7 @@ export default function AddCardsLine(props: Props) {
   );
   return (
     <Container>
-      <CardNumber>{props.cardNumber}</CardNumber>
+      <CardNumber>{`${props.cardNumber} - `}</CardNumber>
       <CardName>{props.cardName}</CardName>
       {true && (
         <StyledInput
@@ -68,7 +73,6 @@ export default function AddCardsLine(props: Props) {
           }}
         />
       )}
-
       <StyledInput
         type="number"
         name="card-grade"
@@ -94,7 +98,14 @@ export default function AddCardsLine(props: Props) {
           );
         })}
       </select>
-      <button onClick={() => props.handleDelete(props.index)}>Delete</button>
+      <StyledButton
+        color="RED"
+        width="25px"
+        height="25px"
+        onClick={() => props.handleDelete(props.index)}
+      >
+        X
+      </StyledButton>
     </Container>
   );
 }

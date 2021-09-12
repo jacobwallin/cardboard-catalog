@@ -7,8 +7,8 @@ interface ButtonProps {
 
 const StyledButton = styled.button<ButtonProps>`
   box-sizing: border-box;
-  width: 65px;
-  height: ${(props) => props.height};
+  width: ${(props) => props.width || "100%"};
+  height: ${(props) => props.height || "100%"};
   color: #fff;
   background: ${(props) => {
     switch (props.color) {
@@ -25,15 +25,35 @@ const StyledButton = styled.button<ButtonProps>`
   box-shadow: 0 0.125rem 0.625rem rgb(63 106 216 / 40%),
     0 0.0625rem 0.125rem rgb(63 106 216 / 50%);
   border: none;
-  padding: 10px 15px;
   border-radius: 3px;
   cursor: pointer;
   &:hover {
-    /* opacity: 80%; */
-    background: #2955c8;
+    background: ${(props) => {
+      switch (props.color) {
+        case "BLUE":
+          return "#2955c8";
+        case "GREEN":
+          return "#5C7536";
+        case "YELLOW":
+          return "#DCDE30";
+        case "RED":
+          return "#D9291D";
+      }
+    }};
   }
   &:active {
-    background: #2651be;
+    background: ${(props) => {
+      switch (props.color) {
+        case "BLUE":
+          return "#2651be";
+        case "GREEN":
+          return "#294203";
+        case "YELLOW":
+          return "#A9AB00";
+        case "RED":
+          return "#A60000";
+      }
+    }};
   }
   &:focus {
     outline: none !important;
