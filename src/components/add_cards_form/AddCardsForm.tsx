@@ -210,6 +210,7 @@ export default function AddCardsForm() {
   return (
     <div>
       <FormContainer>
+        <h2>Add Cards to Your Collection</h2>
         <Select
           value={selectedYear}
           name="select-year"
