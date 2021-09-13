@@ -119,7 +119,7 @@ export default function Navbar() {
     <Nav>
       <SiteName>Cardboard Catalog</SiteName>
 
-      {user.id !== 0 ? (
+      {user.id !== 0 && (
         <>
           <Hamburger onClick={toggleHamburgerActive} />
           <NavMenu active={hamburgerActive}>
@@ -148,10 +148,6 @@ export default function Navbar() {
             )}
           </NavMenu>
         </>
-      ) : (
-        <Link to="/login" className="navbar-link">
-          Login
-        </Link>
       )}
     </Nav>
   );

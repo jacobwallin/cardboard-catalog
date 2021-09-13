@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { RootState } from "../store";
 import { login } from "../store/user/thunks";
 import { createErrorSelector } from "../store/loading/reducer";
+import StyledButton from "./Admin/components/StyledButton";
 
 import { User } from "../store/user/types";
 
@@ -24,32 +25,6 @@ const StyledInput = styled.input`
 
   @media only screen and (min-width: 400px) {
     width: 300px;
-  }
-`;
-
-const StyledButton = styled.input`
-  box-sizing: border-box;
-  width: 80px;
-  margin: 15px;
-  color: #fff;
-  background: #3f6ad8;
-  box-shadow: 0 0.125rem 0.625rem rgb(63 106 216 / 40%),
-    0 0.0625rem 0.125rem rgb(63 106 216 / 50%);
-  border: none;
-  padding: 10px 15px;
-  border-radius: 3px;
-  cursor: pointer;
-  &:hover {
-    background: #2955c8;
-  }
-  &:active {
-    background: #2651be;
-  }
-  &:focus {
-    outline: none !important;
-  }
-  &:disabled {
-    opacity: 50%;
   }
 `;
 
@@ -99,10 +74,15 @@ export const Login: React.FC<Props> = (props) => {
               <LoginErrorMessage>Invalid Username/Password</LoginErrorMessage>
             )}
             <StyledButton
+              color="BLUE"
               type="submit"
               value="Log In"
+              width="110px"
+              height="40px"
               disabled={username === "" || password === ""}
-            />
+            >
+              Log In
+            </StyledButton>
           </LoginFormContainer>
         </form>
       ) : (
