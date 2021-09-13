@@ -5,6 +5,9 @@ import {
   getUserSuccess,
   getUserFailure,
   setUserFetched,
+  registerUserRequest,
+  registerUserSuccess,
+  registerUserFailure,
   removeUser,
 } from "./actions";
 
@@ -58,6 +61,8 @@ export const register =
     email: string
   ): ThunkAction<void, RootState, unknown, UserActionTypes> =>
   (dispatch) => {
+    dispatch(registerUserRequest());
+
     fetch("/auth/register", {
       method: "POST",
       headers: {
@@ -69,10 +74,12 @@ export const register =
         return response.json();
       })
       .then((user) => {
-        dispatch(getUserSuccess(user));
+        dispatch(registerUserSuccess());
       })
       .catch((err) => {
-        dispatch(getUserFailure());
+        // TODO: REMOVE log
+        console.log("ERROR REGISTERING USER: ", err.message);
+        dispatch(registerUserFailure());
       });
   };
 

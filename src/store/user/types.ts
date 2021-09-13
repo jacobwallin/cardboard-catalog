@@ -41,9 +41,22 @@ export interface RemoveUser {
   type: typeof REMOVE_USER;
 }
 
+export interface RegisterUserRequest {
+  type: typeof REGISTER_REQUEST;
+}
+export interface RegisterUserSuccess {
+  type: typeof REGISTER_SUCCESS;
+}
+export interface RegisterUserFailure {
+  type: typeof REGISTER_FAILURE;
+}
+
 export type UserActionTypes =
   | GetUserRequest
   | GetUserSuccess
   | GetUserFailure
   | SetUserFetched
-  | RemoveUser;
+  | RemoveUser
+  | RegisterUserFailure
+  | RegisterUserSuccess
+  | RegisterUserRequest;
