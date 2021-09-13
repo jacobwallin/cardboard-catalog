@@ -3,57 +3,12 @@ import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { Redirect, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
 import { RootState } from "../../store";
 import { login } from "../../store/user/thunks";
 import { createErrorSelector } from "../../store/loading/reducer";
 import StyledButton from "../Admin/components/StyledButton";
-
 import { User } from "../../store/user/types";
-
-const LoginFormContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const StyledInput = styled.input`
-  width: 80%;
-  height: 30px;
-  padding: 5px;
-  margin: 5px;
-
-  @media only screen and (min-width: 400px) {
-    width: 300px;
-  }
-`;
-
-const LoginWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-`;
-
-const LoginContainer = styled.div`
-  background: #fff;
-  border: 1px solid lightgrey;
-  border-radius: 10px;
-  padding: 50px;
-  margin: 50px;
-  min-width: 300px;
-  @media only screen and (max-width: 600px) {
-    padding: 25px;
-  }
-  @media only screen and (max-width: 450px) {
-    padding: 5px;
-  }
-`;
-
-const LoginErrorMessage = styled.div`
-  color: red;
-  font-size: 0.9em;
-`;
+import * as Styled from "./styled";
 
 const loginErrorSelector = createErrorSelector(["GET_USER"]);
 
@@ -72,14 +27,14 @@ export const Login: React.FC<Props> = (props) => {
   };
 
   return (
-    <LoginWrapper>
-      <LoginContainer>
+    <Styled.LoginWrapper>
+      <Styled.LoginContainer>
         {user.userData.id === 0 ? (
           <>
             <form id="login-form" onSubmit={handleSubmit}>
-              <LoginFormContainer>
+              <Styled.LoginFormContainer>
                 <h2>Sign In</h2>
-                <StyledInput
+                <Styled.StyledInput
                   type="text"
                   placeholder="Email"
                   id="username"
@@ -87,7 +42,7 @@ export const Login: React.FC<Props> = (props) => {
                   onChange={(e) => setUsername(e.target.value)}
                 />
 
-                <StyledInput
+                <Styled.StyledInput
                   type="password"
                   placeholder="Password"
                   id="password"
@@ -95,9 +50,9 @@ export const Login: React.FC<Props> = (props) => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 {loginError && (
-                  <LoginErrorMessage>
+                  <Styled.LoginErrorMessage>
                     Invalid Username/Password
-                  </LoginErrorMessage>
+                  </Styled.LoginErrorMessage>
                 )}
                 <StyledButton
                   color="BLUE"
@@ -108,7 +63,7 @@ export const Login: React.FC<Props> = (props) => {
                 >
                   Log In
                 </StyledButton>
-              </LoginFormContainer>
+              </Styled.LoginFormContainer>
             </form>
             <div>
               <Link to="/register"> Create Account </Link>
@@ -117,8 +72,8 @@ export const Login: React.FC<Props> = (props) => {
         ) : (
           <Redirect to="/collection" />
         )}
-      </LoginContainer>
-    </LoginWrapper>
+      </Styled.LoginContainer>
+    </Styled.LoginWrapper>
   );
 };
 
