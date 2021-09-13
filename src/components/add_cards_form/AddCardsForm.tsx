@@ -16,7 +16,6 @@ import {
   FormContainer,
   Select,
   Input,
-  SubmitButton,
   SelectCardContainer,
   CardDataContainer,
 } from ".";
@@ -207,7 +206,7 @@ export default function AddCardsForm() {
   };
 
   return (
-    <div className="add-cards">
+    <div>
       <FormContainer>
         <Select
           value={selectedYear}
@@ -319,13 +318,17 @@ export default function AddCardsForm() {
           </StyledButton>
         </SelectCardContainer>
 
-        <SubmitButton
+        <StyledButton
           id="submit-cards-button"
           onClick={handleSubmit}
           disabled={isPostingCards || cardData.length === 0}
+          color="GREEN"
+          height="40px"
+          width="130px"
         >
           Submit
-        </SubmitButton>
+        </StyledButton>
+
         <CardDataContainer>
           {cardData.map((card, index) => {
             return (
