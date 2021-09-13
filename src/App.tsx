@@ -11,7 +11,8 @@ import {
   PageNotFound,
   Admin,
 } from "./components/Views";
-import Login from "./components/Login";
+import Login from "./components/login/Login";
+import Register from "./components/login/Register";
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -42,6 +43,9 @@ function App() {
 
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/register">
+            <Register />
           </Route>
 
           <Route path="/404">
