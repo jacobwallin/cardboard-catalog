@@ -48,58 +48,32 @@ const seed = async () => {
     await Series.bulkCreate(
       await fetchData("https://my.api.mockaroo.com/series.json?key=128d2830")
     );
-    await CardData.bulkCreate(
-      await fetchData(
-        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=0"
-      )
-    );
-    await CardData.bulkCreate(
-      await fetchData(
-        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=10"
-      )
-    );
-    await CardData.bulkCreate(
-      await fetchData(
-        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=20"
-      )
-    );
-    await CardData.bulkCreate(
-      await fetchData(
-        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=30"
-      )
-    );
-    await CardData.bulkCreate(
-      await fetchData(
-        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=40"
-      )
-    );
-    await CardData.bulkCreate(
-      await fetchData(
-        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=50"
-      )
-    );
-    await CardData.bulkCreate(
-      await fetchData(
-        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=60"
-      )
-    );
-    await CardData.bulkCreate(
-      await fetchData(
-        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=70"
-      )
-    );
-    await CardData.bulkCreate(
-      await fetchData(
-        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=80"
-      )
-    );
-    await CardData.bulkCreate(
-      await fetchData(
-        "https://my.api.mockaroo.com/card_data.json?key=128d2830&offset=90"
-      )
-    );
+
+    // fetch card data
+    let promises = [];
+    for (let i = 0; i < 10; i++) {
+      promises.push(
+        fetchData(`https://my.api.mockaroo.com/card_data.json?key=128d2830`)
+      );
+    }
+
+    // combine into one array once all data is received
+    const cardData = await Promise.all(promises);
+    let allCardData = cardData.reduce((allCardData, cardDataSet) => {
+      return [...allCardData, ...cardDataSet];
+    });
+
+    // set subsetId, API was not working correctly with this formula
+    allCardData = allCardData.map((cardData, index) => {
+      return { ...cardData, subsetId: Math.floor(index / 100) + 1 };
+    });
+
+    // create all card data in db
+    await CardData.bulkCreate(allCardData);
+
     // populate card data and series join table
     await Card.bulkCreate(createCards());
+
     // populate card data and player join table
     await CardDataPlayer.bulkCreate(createCardDataPlayer());
     console.log("--SEEDING COMPLETE--");
