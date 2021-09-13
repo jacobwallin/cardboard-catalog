@@ -52,11 +52,16 @@ const GradeErrorContainer = styled.div`
 const CardNumber = styled.div`
   flex-grow: 0;
   padding: 0 15px 0 15px;
+  @media only screen and (max-width: 400px) {
+    font-size: 0.8em;
+  }
 `;
 
 const CardName = styled.div`
-  /* width: 200px; */
   flex-grow: 1;
+  @media only screen and (max-width: 400px) {
+    font-size: 0.8em;
+  }
 `;
 
 interface StyledInputProps {
@@ -81,9 +86,17 @@ const GradeLabel = styled.label`
 
 const EnterSNContainer = styled.div`
   height: 100%;
-  /* padding: 0px 10px 0px 10px; */
   padding: 0;
-  width: 76px;
+  width: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const GradedContainer = styled.div`
+  height: 100%;
+  padding: 0;
+  width: 55px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -147,11 +160,11 @@ export default function AddCardsLine(props: Props) {
               error={props.card.serialNumberError}
               htmlFor="SN"
             >
-              {props.card.serialNumberError ? "Invalid S/N" : "Enter Card S/N"}
+              {props.card.serialNumberError ? "Invalid S/N" : "Enter S/N"}
             </SerialNumberLabel>
           </EnterSNContainer>
         )}
-        <EnterSNContainer>
+        <GradedContainer>
           <input
             id="graded"
             type="checkbox"
@@ -160,7 +173,7 @@ export default function AddCardsLine(props: Props) {
             style={{ height: "65%" }}
           />
           <SerialNumberLabel htmlFor="graded">Graded</SerialNumberLabel>
-        </EnterSNContainer>
+        </GradedContainer>
       </CardInfoContainer>
       {addCardGrade && (
         <>

@@ -428,7 +428,7 @@ export default function AddCardsForm() {
         <SubmitContainer>
           <TotalCardsLabel>
             {cardData.length > 0
-              ? `Total Cards to Be Added: ${cardData.length}`
+              ? `Total Cards: ${cardData.length}`
               : "No Cards Selected"}
           </TotalCardsLabel>
           <StyledButton
