@@ -18,6 +18,8 @@ import {
   Input,
   SelectCardContainer,
   CardDataContainer,
+  SubmitContainer,
+  TotalCardsLabel,
 } from ".";
 interface APIData {
   cardId: number;
@@ -317,17 +319,23 @@ export default function AddCardsForm() {
             Add
           </StyledButton>
         </SelectCardContainer>
-
-        <StyledButton
-          id="submit-cards-button"
-          onClick={handleSubmit}
-          disabled={isPostingCards || cardData.length === 0}
-          color="GREEN"
-          height="40px"
-          width="130px"
-        >
-          Submit
-        </StyledButton>
+        <SubmitContainer>
+          <TotalCardsLabel>
+            {cardData.length > 0
+              ? `Total Cards to Be Added: ${cardData.length}`
+              : "No Cards Selected"}
+          </TotalCardsLabel>
+          <StyledButton
+            id="submit-cards-button"
+            onClick={handleSubmit}
+            disabled={isPostingCards || cardData.length === 0}
+            color="GREEN"
+            height="40px"
+            width="130px"
+          >
+            Submit
+          </StyledButton>
+        </SubmitContainer>
 
         <CardDataContainer>
           {cardData.map((card, index) => {

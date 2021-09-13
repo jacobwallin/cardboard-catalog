@@ -13,6 +13,9 @@ const StyledButton = styled.button<ButtonProps>`
   border: none;
   border-radius: 3px;
   cursor: pointer;
+  &:disabled {
+    opacity: 50%;
+  }
   &:focus {
     outline: none !important;
   }
