@@ -258,17 +258,13 @@ export default function AddCardsForm() {
 
     // VALIDATE DATA
     const cardDataWithErrors = cardData.map((data) => {
-      let serialNumberError = false;
-      let gradeError = false;
-      let gradingCompanyError = false;
+      let serialNumberError = data.serialNumberError;
+      let gradeError = data.gradeError;
+      let gradingCompanyError = data.gradingCompanyError;
 
       // make sure a serial number is entered by the user if the series is serialized
       if (series.serialized) {
         if (data.serialNumber === "") {
-          foundError = true;
-          serialNumberError = true;
-        } else if (data.serialNumberError) {
-          // there is already a validation error set in handle change function
           foundError = true;
           serialNumberError = true;
         }

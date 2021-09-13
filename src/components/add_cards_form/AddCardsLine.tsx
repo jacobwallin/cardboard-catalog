@@ -66,7 +66,7 @@ const StyledInput = styled.input<StyledInputProps>`
   width: 60px;
   padding: 5px;
   height: 65%;
-  border: ${(props) => props.error && "2px solid red"};
+  border: ${(props) => props.error && "1px solid red"};
 `;
 
 const SerialNumberLabel = styled.label<StyledInputProps>`
@@ -81,7 +81,9 @@ const GradeLabel = styled.label`
 
 const EnterSNContainer = styled.div`
   height: 100%;
-  padding: 0px 10px 0px 10px;
+  /* padding: 0px 10px 0px 10px; */
+  padding: 0;
+  width: 76px;
   display: flex;
   flex-direction: column;
   align-items: center;
