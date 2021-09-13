@@ -75,7 +75,7 @@ const EnterSNContainer = styled.div`
 interface Props {
   cardNumber: string;
   cardName: string;
-  serialized: number;
+  serialized: number | null;
   index: number;
   serialNumber: string;
   grade: string;

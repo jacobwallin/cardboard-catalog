@@ -3,7 +3,7 @@ const gradingCompanies = [
     name: "PSA",
   },
   {
-    name: "BGC",
+    name: "BGS",
   },
   {
     name: "SGC",

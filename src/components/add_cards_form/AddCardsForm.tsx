@@ -30,114 +30,6 @@ interface APIData {
 
 const postingCards = createLoadingSelector(["ADD_CARDS"]);
 
-const mockCardData: any = [
-  {
-    cardId: 28012,
-    serialNumber: "",
-    grade: "",
-    gradingCompanyId: -1,
-    card: {
-      id: 28012,
-      seriesId: 284,
-      cardDataId: 5603,
-      card_datum: {
-        id: 5603,
-        name: "Burlie Garey",
-        number: "3",
-        rookie: true,
-        subsetId: 57,
-        teamId: 7,
-        players: [
-          {
-            id: 120,
-            firstName: "Pat",
-            lastName: "Bailiss",
-            birthday: "1893-04-22",
-            hallOfFame: false,
-            card_data_player: {
-              cardDatumId: 5603,
-              playerId: 120,
-              createdAt: "2021-08-28T05:37:04.673Z",
-              updatedAt: "2021-08-28T05:37:04.673Z",
-            },
-          },
-        ],
-        team: { name: "Cincinnati Reds" },
-      },
-    },
-  },
-  {
-    cardId: 28012,
-    serialNumber: "",
-    grade: "",
-    gradingCompanyId: -1,
-    card: {
-      id: 28012,
-      seriesId: 284,
-      cardDataId: 5603,
-      card_datum: {
-        id: 5603,
-        name: "Burlie Garey",
-        number: "3",
-        rookie: true,
-        subsetId: 57,
-        teamId: 7,
-        players: [
-          {
-            id: 120,
-            firstName: "Pat",
-            lastName: "Bailiss",
-            birthday: "1893-04-22",
-            hallOfFame: false,
-            card_data_player: {
-              cardDatumId: 5603,
-              playerId: 120,
-              createdAt: "2021-08-28T05:37:04.673Z",
-              updatedAt: "2021-08-28T05:37:04.673Z",
-            },
-          },
-        ],
-        team: { name: "Cincinnati Reds" },
-      },
-    },
-  },
-  {
-    cardId: 28012,
-    serialNumber: "",
-    grade: "",
-    gradingCompanyId: -1,
-    card: {
-      id: 28012,
-      seriesId: 284,
-      cardDataId: 5603,
-      card_datum: {
-        id: 5603,
-        name: "Burlie Garey",
-        number: "3",
-        rookie: true,
-        subsetId: 57,
-        teamId: 7,
-        players: [
-          {
-            id: 120,
-            firstName: "Pat",
-            lastName: "Bailiss",
-            birthday: "1893-04-22",
-            hallOfFame: false,
-            card_data_player: {
-              cardDatumId: 5603,
-              playerId: 120,
-              createdAt: "2021-08-28T05:37:04.673Z",
-              updatedAt: "2021-08-28T05:37:04.673Z",
-            },
-          },
-        ],
-        team: { name: "Cincinnati Reds" },
-      },
-    },
-  },
-];
-
 export default function AddCardsForm() {
   const dispatch = useDispatch();
 
@@ -150,7 +42,7 @@ export default function AddCardsForm() {
   const [cardIdField, setCardIdField] = useState("");
 
   // API DATA
-  const [cardData, setCardData] = useState<APIData[]>(mockCardData);
+  const [cardData, setCardData] = useState<APIData[]>([]);
 
   // LIBRARY DATA
   const allSets = useSelector((state: RootState) => state.library.sets.allSets);
@@ -322,6 +214,7 @@ export default function AddCardsForm() {
           name="select-year"
           id="select-year"
           onChange={handleSelectChange}
+          disabled={cardData.length > 0}
         >
           <option value={-1}>Select Year</option>
           {aggregateYears(allSets).map((year) => {
@@ -336,7 +229,7 @@ export default function AddCardsForm() {
           value={selectedSetId}
           name="select-set"
           id="select-set"
-          disabled={selectedYear === -1}
+          disabled={selectedYear === -1 || cardData.length > 0}
           onChange={handleSelectChange}
         >
           <option value={-1}>Select Set</option>
@@ -352,7 +245,7 @@ export default function AddCardsForm() {
           value={selectedSubsetId}
           name="select-subset"
           id="select-subset"
-          disabled={selectedSetId === -1}
+          disabled={selectedSetId === -1 || cardData.length > 0}
           onChange={handleSelectChange}
         >
           <option value={-1}>Select Subset</option>
@@ -372,7 +265,7 @@ export default function AddCardsForm() {
           value={selectedSeriesId}
           name="select-series"
           id="select-series"
-          disabled={selectedSubsetId === -1}
+          disabled={selectedSubsetId === -1 || cardData.length > 0}
           onChange={handleSelectChange}
         >
           <option value={-1}>Select Series</option>
@@ -440,7 +333,7 @@ export default function AddCardsForm() {
                 key={String(card.cardId) + String(index)}
                 cardNumber={card.card.card_datum.number}
                 cardName={card.card.card_datum.name}
-                serialized={50}
+                serialized={series.serialized}
                 index={index}
                 serialNumber={card.serialNumber}
                 grade={card.grade}
