@@ -257,28 +257,35 @@ export default function AddCardsForm() {
     let foundError = false;
 
     // VALIDATE DATA
-    cardData.forEach((data) => {
+    const cardDataWithErrors = cardData.map((data) => {
+      let serialNumberError = false;
+      let gradeError = false;
+      let gradingCompanyError = false;
+
       // make sure a serial number is entered by the user if the series is serialized
       if (series.serialized) {
         if (data.serialNumber === "") {
-          data.serialNumberError = true;
           foundError = true;
+          serialNumberError = true;
         } else if (data.serialNumberError) {
+          // there is already a validation error set in handle change function
           foundError = true;
+          serialNumberError = true;
         }
       }
       // either both or neither the grade and grading company must be entered
       if (data.grade !== "" || data.gradingCompanyId !== -1) {
         if (data.grade !== "") {
           if (data.gradingCompanyId === -1) {
-            data.gradingCompanyError = true;
+            gradingCompanyError = true;
             foundError = true;
           }
         } else {
-          data.gradeError = true;
+          gradeError = true;
           foundError = true;
         }
       }
+      return { ...data, serialNumberError, gradeError, gradingCompanyError };
     });
 
     setValidationError(foundError);
@@ -304,6 +311,8 @@ export default function AddCardsForm() {
       );
 
       setCardData([]);
+    } else {
+      setCardData(cardDataWithErrors);
     }
   };
 
