@@ -5,6 +5,7 @@ import Select from "./Select";
 import Input from "./Input";
 import SelectCardContainer from "./SelectCardContainer";
 import SubmitButton from "./SubmitButton";
+import CardDataContainer from "./CardDataContainer";
 
 export {
   AddCardsLine,
@@ -13,5 +14,6 @@ export {
   Input,
   SelectCardContainer,
   SubmitButton,
+  CardDataContainer,
 };
 export default AddCardsForm;

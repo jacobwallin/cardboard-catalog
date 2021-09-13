@@ -18,6 +18,7 @@ import {
   Input,
   SubmitButton,
   SelectCardContainer,
+  CardDataContainer,
 } from ".";
 interface APIData {
   cardId: number;
@@ -432,14 +433,14 @@ export default function AddCardsForm() {
         >
           Submit
         </SubmitButton>
-        <div>
+        <CardDataContainer>
           {cardData.map((card, index) => {
             return (
               <AddCardsLine
                 key={String(card.cardId) + String(index)}
                 cardNumber={card.card.card_datum.number}
                 cardName={card.card.card_datum.name}
-                serialized={series.serialized !== null}
+                serialized={50}
                 index={index}
                 serialNumber={card.serialNumber}
                 grade={card.grade}
@@ -451,7 +452,7 @@ export default function AddCardsForm() {
               />
             );
           })}
-        </div>
+        </CardDataContainer>
       </FormContainer>
     </div>
   );

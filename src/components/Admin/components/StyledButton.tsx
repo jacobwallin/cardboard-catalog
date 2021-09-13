@@ -3,13 +3,28 @@ interface ButtonProps {
   color: "BLUE" | "GREEN" | "YELLOW" | "RED";
   height?: string;
   width?: string;
+  fontSize?: string;
 }
 
 const StyledButton = styled.button<ButtonProps>`
   box-sizing: border-box;
   width: ${(props) => props.width || "100%"};
   height: ${(props) => props.height || "100%"};
-  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  &:focus {
+    outline: none !important;
+  }
+  font-size: ${(props) => props.fontSize || "1em"};
+  color: ${(props) => {
+    switch (props.color) {
+      case "YELLOW":
+        return "#000";
+      default:
+        return "#fff";
+    }
+  }};
   background: ${(props) => {
     switch (props.color) {
       case "BLUE":
@@ -22,11 +37,6 @@ const StyledButton = styled.button<ButtonProps>`
         return "#F24236";
     }
   }};
-  box-shadow: 0 0.125rem 0.625rem rgb(63 106 216 / 40%),
-    0 0.0625rem 0.125rem rgb(63 106 216 / 50%);
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
   &:hover {
     background: ${(props) => {
       switch (props.color) {
@@ -55,8 +65,21 @@ const StyledButton = styled.button<ButtonProps>`
       }
     }};
   }
-  &:focus {
-    outline: none !important;
-  }
+  box-shadow: ${(props) => {
+    switch (props.color) {
+      case "BLUE":
+        return `0 0.125rem 0.625rem rgb(63 106 216 / 40%),
+    0 0.0625rem 0.125rem rgb(63 106 216 / 50%);`;
+      case "GREEN":
+        return `0 0.125rem 0.625rem rgb(117 142 79 / 40%),
+    0 0.0625rem 0.125rem rgb(117 142 79 / 50%);`;
+      case "YELLOW":
+        return `0 0.125rem 0.625rem rgb(245 247 73 / 40%),
+    0 0.0625rem 0.125rem rgb(245 247 73 / 50%);`;
+      case "RED":
+        return `0 0.125rem 0.625rem rgb(242 66 54 / 40%),
+    0 0.0625rem 0.125rem rgb(242 66 54 / 50%);`;
+    }
+  }};
 `;
 export default StyledButton;
