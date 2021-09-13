@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import styled from "styled-components";
 import StyledButton from "../Admin/components/StyledButton";
+import { CardFormData } from "./AddCardsForm";
 
 const Container = styled.div`
   display: flex;
@@ -87,16 +88,9 @@ const EnterSNContainer = styled.div`
 `;
 
 interface Props {
-  cardNumber: string;
-  cardName: string;
   serialized: number | null;
   index: number;
-  serialNumber: string;
-  serialNumberError: boolean;
-  gradeError: boolean;
-  gradingCompanyError: boolean;
-  grade: string;
-  gradingCompanyId: number;
+  card: CardFormData;
   handleDelete(cardIndex: number): any;
   handleSerializedChange(cardIndex: number, serialNumber: string): any;
   handleGradeChange(cardIndex: number, grade: string): any;
@@ -130,8 +124,8 @@ export default function AddCardsLine(props: Props) {
         >
           X
         </StyledButton>
-        <CardNumber>{`${props.cardNumber}`}</CardNumber>
-        <CardName>{props.cardName}</CardName>
+        <CardNumber>{`${props.card.card.card_datum.number}`}</CardNumber>
+        <CardName>{props.card.card.card_datum.name}</CardName>
 
         {props.serialized && (
           <EnterSNContainer>
@@ -141,14 +135,17 @@ export default function AddCardsLine(props: Props) {
               inputMode="numeric"
               name="serialized"
               placeholder={`/${props.serialized}`}
-              value={props.serialNumber}
+              value={props.card.serialNumber}
               onChange={(event) => {
                 props.handleSerializedChange(props.index, event.target.value);
               }}
-              error={props.serialNumberError}
+              error={props.card.serialNumberError}
             />
-            <SerialNumberLabel error={props.serialNumberError} htmlFor="SN">
-              {props.serialNumberError ? "Invalid S/N" : "Enter Card S/N"}
+            <SerialNumberLabel
+              error={props.card.serialNumberError}
+              htmlFor="SN"
+            >
+              {props.card.serialNumberError ? "Invalid S/N" : "Enter Card S/N"}
             </SerialNumberLabel>
           </EnterSNContainer>
         )}
@@ -172,7 +169,7 @@ export default function AddCardsLine(props: Props) {
               id="grade"
               name="card-grade"
               placeholder="1-10"
-              value={props.grade}
+              value={props.card.grade}
               onChange={(event) => {
                 props.handleGradeChange(props.index, event.target.value);
               }}
@@ -180,8 +177,8 @@ export default function AddCardsLine(props: Props) {
             <GradeLabel htmlFor="company">Company: </GradeLabel>
             <select
               id="company"
-              disabled={props.grade === ""}
-              value={props.gradingCompanyId}
+              disabled={props.card.grade === ""}
+              value={props.card.gradingCompanyId}
               onChange={(event) => {
                 props.handleGradingCompanyIdChange(
                   props.index,
@@ -199,7 +196,7 @@ export default function AddCardsLine(props: Props) {
               })}
             </select>
           </GradeContainer>
-          {(props.gradeError || props.gradingCompanyError) && (
+          {(props.card.gradeError || props.card.gradingCompanyError) && (
             <GradeErrorContainer>
               <div
                 style={{
@@ -209,7 +206,7 @@ export default function AddCardsLine(props: Props) {
                   textAlign: "center",
                 }}
               >
-                {props.gradeError && "Invalid Grade"}
+                {props.card.gradeError && "Invalid Grade"}
               </div>
               <div
                 style={{
@@ -219,7 +216,7 @@ export default function AddCardsLine(props: Props) {
                   textAlign: "center",
                 }}
               >
-                {props.gradingCompanyError && "Invalid Company"}
+                {props.card.gradingCompanyError && "Invalid Company"}
               </div>
             </GradeErrorContainer>
           )}

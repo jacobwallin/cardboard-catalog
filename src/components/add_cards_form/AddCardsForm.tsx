@@ -21,7 +21,7 @@ import {
   SubmitContainer,
   TotalCardsLabel,
 } from ".";
-interface APIData {
+export interface CardFormData {
   cardId: number;
   serialNumber: string;
   grade: string;
@@ -49,7 +49,7 @@ export default function AddCardsForm() {
   const [validationError, setValidationError] = useState(false);
 
   // API DATA
-  const [cardData, setCardData] = useState<APIData[]>([]);
+  const [cardData, setCardData] = useState<CardFormData[]>([]);
 
   // LIBRARY DATA
   const allSets = useSelector((state: RootState) => state.library.sets.allSets);
@@ -457,16 +457,9 @@ export default function AddCardsForm() {
             return (
               <AddCardsLine
                 key={String(card.cardId) + String(index)}
-                cardNumber={card.card.card_datum.number}
-                cardName={card.card.card_datum.name}
                 serialized={series.serialized}
                 index={index}
-                serialNumber={card.serialNumber}
-                grade={card.grade}
-                gradingCompanyId={card.gradingCompanyId}
-                serialNumberError={card.serialNumberError}
-                gradeError={card.gradeError}
-                gradingCompanyError={card.gradingCompanyError}
+                card={card}
                 clearGradeData={clearGradeData}
                 handleDelete={handleDeleteCard}
                 handleSerializedChange={handleSerializedChange}
