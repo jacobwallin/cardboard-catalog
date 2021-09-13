@@ -36,7 +36,16 @@ const GradeContainer = styled.div`
   padding: 0 10px 0 10px;
   width: 100%;
   height: 30px;
-  border-top: 1 px solid black;
+`;
+
+const GradeErrorContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0 10px 0 10px;
+  width: 100%;
+  height: 20px;
 `;
 
 const CardNumber = styled.div`
@@ -49,15 +58,20 @@ const CardName = styled.div`
   flex-grow: 1;
 `;
 
-const StyledInput = styled.input`
+interface StyledInputProps {
+  error?: boolean;
+}
+const StyledInput = styled.input<StyledInputProps>`
   width: 60px;
   padding: 5px;
   height: 65%;
+  border: ${(props) => props.error && "2px solid red"};
 `;
 
-const SerialNumberLabel = styled.label`
+const SerialNumberLabel = styled.label<StyledInputProps>`
   height: 35%;
   font-size: 0.7em;
+  color: ${(props) => props.error && "red"};
 `;
 const GradeLabel = styled.label`
   font-size: 0.8em;
@@ -78,6 +92,9 @@ interface Props {
   serialized: number | null;
   index: number;
   serialNumber: string;
+  serialNumberError: boolean;
+  gradeError: boolean;
+  gradingCompanyError: boolean;
   grade: string;
   gradingCompanyId: number;
   handleDelete(cardIndex: number): any;
@@ -87,6 +104,7 @@ interface Props {
     cardIndex: number,
     gradingCompanyId: number
   ): any;
+  clearGradeData(cardIndex: number): any;
 }
 
 export default function AddCardsLine(props: Props) {
@@ -96,6 +114,9 @@ export default function AddCardsLine(props: Props) {
   );
 
   function handleGradedChange() {
+    if (addCardGrade) {
+      props.clearGradeData(props.index);
+    }
     setAddCardGrade(!addCardGrade);
   }
   return (
@@ -124,8 +145,11 @@ export default function AddCardsLine(props: Props) {
               onChange={(event) => {
                 props.handleSerializedChange(props.index, event.target.value);
               }}
+              error={props.serialNumberError}
             />
-            <SerialNumberLabel htmlFor="SN">Enter Card S/N</SerialNumberLabel>
+            <SerialNumberLabel error={props.serialNumberError} htmlFor="SN">
+              {props.serialNumberError ? "Invalid S/N" : "Enter Card S/N"}
+            </SerialNumberLabel>
           </EnterSNContainer>
         )}
         <EnterSNContainer>
@@ -140,40 +164,66 @@ export default function AddCardsLine(props: Props) {
         </EnterSNContainer>
       </CardInfoContainer>
       {addCardGrade && (
-        <GradeContainer>
-          <GradeLabel htmlFor="grade">Grade: </GradeLabel>
-          <StyledInput
-            type="number"
-            id="grade"
-            name="card-grade"
-            placeholder="1-10"
-            value={props.grade}
-            onChange={(event) => {
-              props.handleGradeChange(props.index, event.target.value);
-            }}
-          />
-          <GradeLabel htmlFor="company">Company: </GradeLabel>
-          <select
-            id="company"
-            disabled={props.grade === ""}
-            value={props.gradingCompanyId}
-            onChange={(event) => {
-              props.handleGradingCompanyIdChange(
-                props.index,
-                +event.target.value
-              );
-            }}
-          >
-            <option value={-1}>Select</option>
-            {gradingCompanies.map((gradingComp) => {
-              return (
-                <option key={gradingComp.id} value={gradingComp.id}>
-                  {gradingComp.name}
-                </option>
-              );
-            })}
-          </select>
-        </GradeContainer>
+        <>
+          <GradeContainer>
+            <GradeLabel htmlFor="grade">Grade: </GradeLabel>
+            <StyledInput
+              type="number"
+              id="grade"
+              name="card-grade"
+              placeholder="1-10"
+              value={props.grade}
+              onChange={(event) => {
+                props.handleGradeChange(props.index, event.target.value);
+              }}
+            />
+            <GradeLabel htmlFor="company">Company: </GradeLabel>
+            <select
+              id="company"
+              disabled={props.grade === ""}
+              value={props.gradingCompanyId}
+              onChange={(event) => {
+                props.handleGradingCompanyIdChange(
+                  props.index,
+                  +event.target.value
+                );
+              }}
+            >
+              <option value={-1}>Select</option>
+              {gradingCompanies.map((gradingComp) => {
+                return (
+                  <option key={gradingComp.id} value={gradingComp.id}>
+                    {gradingComp.name}
+                  </option>
+                );
+              })}
+            </select>
+          </GradeContainer>
+          {(props.gradeError || props.gradingCompanyError) && (
+            <GradeErrorContainer>
+              <div
+                style={{
+                  width: "100px",
+                  fontSize: "0.7em",
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
+                {props.gradeError && "Invalid Grade"}
+              </div>
+              <div
+                style={{
+                  width: "138px",
+                  fontSize: "0.7em",
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
+                {props.gradingCompanyError && "Invalid Company"}
+              </div>
+            </GradeErrorContainer>
+          )}
+        </>
       )}
     </Container>
   );

@@ -27,6 +27,9 @@ interface APIData {
   grade: string;
   gradingCompanyId: number;
   card: Card;
+  serialNumberError: boolean;
+  gradeError: boolean;
+  gradingCompanyError: boolean;
 }
 
 const postingCards = createLoadingSelector(["ADD_CARDS"]);
@@ -42,6 +45,9 @@ export default function AddCardsForm() {
   const [selectedCardId, setSelectedCardId] = useState(-1);
   const [cardIdField, setCardIdField] = useState("");
 
+  // error message will be displayed to user if form is not filled out correctly
+  const [validationError, setValidationError] = useState(false);
+
   // API DATA
   const [cardData, setCardData] = useState<APIData[]>([]);
 
@@ -52,6 +58,9 @@ export default function AddCardsForm() {
     (state: RootState) => state.library.subsets.subset
   );
   const series = useSelector((state: RootState) => state.library.series.series);
+  const gradingCompanies = useSelector(
+    (state: RootState) => state.library.gradingCompanies
+  );
 
   // LOADING STATUS FOR POSTING CARDS
   const isPostingCards = useSelector((state: RootState) => postingCards(state));
@@ -140,6 +149,9 @@ export default function AddCardsForm() {
         grade: "",
         gradingCompanyId: -1,
         card: card,
+        serialNumberError: false,
+        gradeError: false,
+        gradingCompanyError: false,
       };
       setCardData([...cardData, newData]);
     }
@@ -149,22 +161,44 @@ export default function AddCardsForm() {
     setCardData(
       cardData.map((data, index) => {
         if (index === cardIndex) {
-          return { ...data, serialNumber };
+          let foundError = false;
+          const serialNumberLimit = series.serialized;
+          // check if serialNumber converts to number, and is also in range
+          // check if serialNumberLimit holds a value to prevent warning in VScode
+          if (serialNumberLimit) {
+            if (!+serialNumber) {
+              foundError = true;
+            } else if (+serialNumber < 0 || +serialNumber > serialNumberLimit) {
+              foundError = true;
+            }
+            return { ...data, serialNumber, serialNumberError: foundError };
+          }
+          return data;
         }
         return data;
       })
     );
   }
+
   function handleGradeChange(cardIndex: number, grade: string) {
+    console.log("in handle grade change: ", grade);
     setCardData(
       cardData.map((data, index) => {
         if (index === cardIndex) {
-          return { ...data, grade };
+          console.log("current grade: ", data.grade);
+          let foundError = false;
+          // validate grade converts to number, is between 0-10, and is devisible by 0.5
+          if (!+grade || +grade > 10 || +grade < 0 || +grade % 0.5 !== 0) {
+            foundError = true;
+          }
+          // adjust grade
+          return { ...data, grade: grade, gradeError: foundError };
         }
         return data;
       })
     );
   }
+
   function handleGradingCompanyIdChange(
     cardIndex: number,
     gradingCompanyId: number
@@ -172,7 +206,34 @@ export default function AddCardsForm() {
     setCardData(
       cardData.map((data, index) => {
         if (index === cardIndex) {
-          return { ...data, gradingCompanyId };
+          let foundError = false;
+          // make sure id is valid and matches a pk from database
+          if (
+            gradingCompanies.findIndex(
+              (company) => company.id === gradingCompanyId
+            ) === -1
+          ) {
+            foundError = true;
+          }
+
+          return { ...data, gradingCompanyId, gradingCompanyError: foundError };
+        }
+        return data;
+      })
+    );
+  }
+
+  function clearGradeData(cardIndex: number) {
+    setCardData(
+      cardData.map((data, index) => {
+        if (index === cardIndex) {
+          return {
+            ...data,
+            gradingCompanyId: -1,
+            gradingCompanyError: false,
+            grade: "",
+            gradeError: false,
+          };
         }
         return data;
       })
@@ -186,25 +247,64 @@ export default function AddCardsForm() {
   const handleSubmit = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    dispatch(
-      addCards(
-        cardData.map((card) => {
-          const newData: any = { cardId: card.cardId };
-          if (card.serialNumber !== "") {
-            newData.serialNumber = +card.serialNumber;
-          }
-          if (card.grade !== "") {
-            newData.grade = +card.grade;
-          }
-          if (card.gradingCompanyId !== -1) {
-            newData.gradingCompanyId = card.gradingCompanyId;
-          }
-          return newData;
-        })
-      )
-    );
+    // prevent refresh
+    event.preventDefault();
 
-    setCardData([]);
+    // reset validation error to false
+    setValidationError(false);
+
+    // store if validation error is found since setState does not happen immediately
+    let foundError = false;
+
+    // VALIDATE DATA
+    cardData.forEach((data) => {
+      // make sure a serial number is entered by the user if the series is serialized
+      if (series.serialized) {
+        if (data.serialNumber === "") {
+          data.serialNumberError = true;
+          foundError = true;
+        } else if (data.serialNumberError) {
+          foundError = true;
+        }
+      }
+      // either both or neither the grade and grading company must be entered
+      if (data.grade !== "" || data.gradingCompanyId !== -1) {
+        if (data.grade !== "") {
+          if (data.gradingCompanyId === -1) {
+            data.gradingCompanyError = true;
+            foundError = true;
+          }
+        } else {
+          data.gradeError = true;
+          foundError = true;
+        }
+      }
+    });
+
+    setValidationError(foundError);
+
+    // only dispatch if there were no validation errors
+    if (!foundError) {
+      dispatch(
+        addCards(
+          cardData.map((card) => {
+            const newData: any = { cardId: card.cardId };
+            if (card.serialNumber !== "") {
+              newData.serialNumber = +card.serialNumber;
+            }
+            if (card.grade !== "") {
+              newData.grade = +card.grade;
+            }
+            if (card.gradingCompanyId !== -1) {
+              newData.gradingCompanyId = card.gradingCompanyId;
+            }
+            return newData;
+          })
+        )
+      );
+
+      setCardData([]);
+    }
   };
 
   return (
@@ -338,6 +438,20 @@ export default function AddCardsForm() {
           </StyledButton>
         </SubmitContainer>
 
+        {validationError && (
+          <h6
+            style={{
+              alignSelf: "flex-end",
+              width: "130px",
+              margin: 0,
+              color: "red",
+              textAlign: "center",
+            }}
+          >
+            Fix Errors to Submit
+          </h6>
+        )}
+
         <CardDataContainer>
           {cardData.map((card, index) => {
             return (
@@ -350,6 +464,10 @@ export default function AddCardsForm() {
                 serialNumber={card.serialNumber}
                 grade={card.grade}
                 gradingCompanyId={card.gradingCompanyId}
+                serialNumberError={card.serialNumberError}
+                gradeError={card.gradeError}
+                gradingCompanyError={card.gradingCompanyError}
+                clearGradeData={clearGradeData}
                 handleDelete={handleDeleteCard}
                 handleSerializedChange={handleSerializedChange}
                 handleGradeChange={handleGradeChange}
