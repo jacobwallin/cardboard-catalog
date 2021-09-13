@@ -26,6 +26,8 @@ router.post("/register", (req, res, next) => {
       res.json(user);
     })
     .catch((err) => {
+      // set message to error from database
+      err.message = err.errors[0].message;
       next(err);
     });
 });

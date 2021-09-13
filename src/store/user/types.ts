@@ -15,6 +15,9 @@ export const GET_USER_REQUEST = "GET_USER_REQUEST";
 export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
 export const GET_USER_FAILURE = "GET_USER_FAILURE";
 export const SET_USER_FETCHED = "SET_USER_FETCHED";
+export const REGISTER_REQUEST = "REGISTER_REQUEST";
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
+export const REGISTER_FAILURE = "REGUSTER_FAILURE";
 export const REMOVE_USER = "REMOVE_USER";
 
 export interface GetUserRequest {

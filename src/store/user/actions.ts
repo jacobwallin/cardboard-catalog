@@ -4,6 +4,9 @@ import {
   GET_USER_FAILURE,
   SET_USER_FETCHED,
   REMOVE_USER,
+  REGISTER_FAILURE,
+  REGISTER_REQUEST,
+  REGISTER_SUCCESS,
   UserActionTypes,
   User,
 } from "./types";
@@ -28,4 +31,16 @@ export const setUserFetched = (status: boolean): UserActionTypes => ({
 
 export const removeUser = (): UserActionTypes => ({
   type: REMOVE_USER,
+});
+
+export const registerUserRequest = (): { type: typeof REGISTER_REQUEST } => ({
+  type: REGISTER_REQUEST,
+});
+
+export const registerUserSuccess = (): { type: typeof REGISTER_SUCCESS } => ({
+  type: REGISTER_SUCCESS,
+});
+
+export const registerUserFailure = (): { type: typeof REGISTER_FAILURE } => ({
+  type: REGISTER_FAILURE,
 });
