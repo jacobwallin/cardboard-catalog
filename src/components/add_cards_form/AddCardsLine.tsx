@@ -32,9 +32,11 @@ const GradeContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  width: 150px;
-  height: 35px;
+  justify-content: flex-end;
+  padding: 0 10px 0 10px;
+  width: 100%;
+  height: 30px;
+  border-top: 1 px solid black;
 `;
 
 const CardNumber = styled.div`
@@ -56,6 +58,10 @@ const StyledInput = styled.input`
 const SerialNumberLabel = styled.label`
   height: 35%;
   font-size: 0.7em;
+`;
+const GradeLabel = styled.label`
+  font-size: 0.8em;
+  margin: 0 5px 0 15px;
 `;
 
 const EnterSNContainer = styled.div`
@@ -133,33 +139,42 @@ export default function AddCardsLine(props: Props) {
           <SerialNumberLabel htmlFor="graded">Graded</SerialNumberLabel>
         </EnterSNContainer>
       </CardInfoContainer>
-      {addCardGrade && <GradeContainer></GradeContainer>}
+      {addCardGrade && (
+        <GradeContainer>
+          <GradeLabel htmlFor="grade">Grade: </GradeLabel>
+          <StyledInput
+            type="number"
+            id="grade"
+            name="card-grade"
+            placeholder="1-10"
+            value={props.grade}
+            onChange={(event) => {
+              props.handleGradeChange(props.index, event.target.value);
+            }}
+          />
+          <GradeLabel htmlFor="company">Company: </GradeLabel>
+          <select
+            id="company"
+            disabled={props.grade === ""}
+            value={props.gradingCompanyId}
+            onChange={(event) => {
+              props.handleGradingCompanyIdChange(
+                props.index,
+                +event.target.value
+              );
+            }}
+          >
+            <option value={-1}>Select</option>
+            {gradingCompanies.map((gradingComp) => {
+              return (
+                <option key={gradingComp.id} value={gradingComp.id}>
+                  {gradingComp.name}
+                </option>
+              );
+            })}
+          </select>
+        </GradeContainer>
+      )}
     </Container>
   );
 }
-
-// <StyledInput
-// type="number"
-// name="card-grade"
-// placeholder="grade"
-// value={props.grade}
-// onChange={(event) => {
-//   props.handleGradeChange(props.index, event.target.value);
-// }}
-// />
-// <select
-// disabled={props.grade === ""}
-// value={props.gradingCompanyId}
-// onChange={(event) => {
-//   props.handleGradingCompanyIdChange(props.index, +event.target.value);
-// }}
-// >
-// <option value={-1}>Select</option>
-// {gradingCompanies.map((gradingComp) => {
-//   return (
-//     <option key={gradingComp.id} value={gradingComp.id}>
-//       {gradingComp.name}
-//     </option>
-//   );
-// })}
-// </select>
