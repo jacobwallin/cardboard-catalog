@@ -11,6 +11,8 @@ import {
   removeUser,
 } from "./actions";
 
+import * as actions from "./actions";
+
 export const fetchMe =
   (): ThunkAction<void, RootState, unknown, UserActionTypes> => (dispatch) => {
     fetch("/auth")
@@ -23,7 +25,6 @@ export const fetchMe =
       })
       .catch((err) => {
         dispatch(setUserFetched(true));
-        console.log("ERROR IN FETCH ME THUNK");
       });
   };
 
@@ -56,9 +57,9 @@ export const register =
   (
     username: string,
     password: string,
+    email: string,
     firstName: string,
-    lastName: string,
-    email: string
+    lastName: string
   ): ThunkAction<void, RootState, unknown, UserActionTypes> =>
   (dispatch) => {
     dispatch(registerUserRequest());
@@ -92,4 +93,43 @@ export const logout =
         dispatch(removeUser());
       })
       .catch((err) => console.log("ERROR LOGGING OUT"));
+  };
+
+export const checkUsername =
+  (username: string): ThunkAction<void, RootState, unknown, UserActionTypes> =>
+  (dispatch) => {
+    dispatch(actions.checkUsernameRequest());
+    fetch("/auth/username", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        actions.checkUsernameSuccess(response);
+      })
+      .catch((err) => actions.checkUsernameFailure(err.message));
+  };
+export const checkEmail =
+  (email: string): ThunkAction<void, RootState, unknown, UserActionTypes> =>
+  (dispatch) => {
+    dispatch(actions.checkEmailRequest());
+    fetch("/auth/email", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        actions.checkEmailSuccess(response);
+      })
+      .catch((err) => actions.checkEmailFailure(err.message));
   };

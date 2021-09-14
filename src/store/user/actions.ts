@@ -1,46 +1,60 @@
-import {
-  GET_USER_REQUEST,
-  GET_USER_SUCCESS,
-  GET_USER_FAILURE,
-  SET_USER_FETCHED,
-  REMOVE_USER,
-  REGISTER_FAILURE,
-  REGISTER_REQUEST,
-  REGISTER_SUCCESS,
-  UserActionTypes,
-  User,
-} from "./types";
+import { UserActionTypes } from "./types";
+
+import * as types from "./types";
 
 export const getUserRequest = (): UserActionTypes => ({
-  type: GET_USER_REQUEST,
+  type: types.GET_USER_REQUEST,
 });
 
-export const getUserSuccess = (user: User): UserActionTypes => ({
-  type: GET_USER_SUCCESS,
+export const getUserSuccess = (user: types.User): UserActionTypes => ({
+  type: types.GET_USER_SUCCESS,
   user: user,
 });
 
 export const getUserFailure = (): UserActionTypes => ({
-  type: GET_USER_FAILURE,
+  type: types.GET_USER_FAILURE,
 });
 
 export const setUserFetched = (status: boolean): UserActionTypes => ({
-  type: SET_USER_FETCHED,
+  type: types.SET_USER_FETCHED,
   status,
 });
 
 export const removeUser = (): UserActionTypes => ({
-  type: REMOVE_USER,
+  type: types.REMOVE_USER,
 });
 
-export const registerUserRequest = (): { type: typeof REGISTER_REQUEST } => ({
-  type: REGISTER_REQUEST,
+export const registerUserRequest = (): UserActionTypes => ({
+  type: types.REGISTER_REQUEST,
 });
 
-export const registerUserSuccess = (): { type: typeof REGISTER_SUCCESS } => ({
-  type: REGISTER_SUCCESS,
+export const registerUserSuccess = (): UserActionTypes => ({
+  type: types.REGISTER_SUCCESS,
 });
 
-export const registerUserFailure = (): { type: typeof REGISTER_FAILURE } => ({
-  type: REGISTER_FAILURE,
+export const registerUserFailure = (): UserActionTypes => ({
+  type: types.REGISTER_FAILURE,
+});
+
+export const checkUsernameRequest = (): UserActionTypes => ({
+  type: types.CHECK_USERNAME_REQUEST,
+});
+export const checkUsernameSuccess = (available: boolean): UserActionTypes => ({
+  type: types.CHECK_USERNAME_SUCCESS,
+  available,
+});
+export const checkUsernameFailure = (message: string): UserActionTypes => ({
+  type: types.CHECK_USERNAME_FAILURE,
+  message,
+});
+export const checkEmailRequest = (): UserActionTypes => ({
+  type: types.CHECK_EMAIL_REQUEST,
+});
+export const checkEmailSuccess = (available: boolean): UserActionTypes => ({
+  type: types.CHECK_EMAIL_SUCCESS,
+  available,
+});
+export const checkEmailFailure = (message: string): UserActionTypes => ({
+  type: types.CHECK_EMAIL_FAILURE,
+  message,
 });

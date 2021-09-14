@@ -4,6 +4,8 @@ import {
   GET_USER_SUCCESS,
   SET_USER_FETCHED,
   REMOVE_USER,
+  CHECK_EMAIL_SUCCESS,
+  CHECK_USERNAME_SUCCESS,
 } from "./types";
 
 const initialState: UserState = {
@@ -16,6 +18,8 @@ const initialState: UserState = {
     isAdmin: false,
   },
   userFetched: false,
+  availableEmail: true,
+  availableUsername: true,
 };
 
 export default function userReducer(
@@ -27,6 +31,10 @@ export default function userReducer(
       return { ...state, userData: action.user };
     case SET_USER_FETCHED:
       return { ...state, userFetched: action.status };
+    case CHECK_USERNAME_SUCCESS:
+      return { ...state, availableUsername: action.available };
+    case CHECK_EMAIL_SUCCESS:
+      return { ...state, availableEmail: action.available };
     case REMOVE_USER:
       return initialState;
     default:
