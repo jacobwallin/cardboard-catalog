@@ -110,9 +110,9 @@ export const checkUsername =
         return response.json();
       })
       .then((response) => {
-        actions.checkUsernameSuccess(response);
+        dispatch(actions.checkUsernameSuccess(response));
       })
-      .catch((err) => actions.checkUsernameFailure(err.message));
+      .catch((err) => dispatch(actions.checkUsernameFailure(err.message)));
   };
 export const checkEmail =
   (email: string): ThunkAction<void, RootState, unknown, UserActionTypes> =>
@@ -129,7 +129,7 @@ export const checkEmail =
         return response.json();
       })
       .then((response) => {
-        actions.checkEmailSuccess(response);
+        dispatch(actions.checkEmailSuccess(response));
       })
-      .catch((err) => actions.checkEmailFailure(err.message));
+      .catch((err) => dispatch(actions.checkEmailFailure(err.message)));
   };

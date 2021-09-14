@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { register } from "../../store/user/thunks";
+import { register, checkUsername } from "../../store/user/thunks";
 import { createLoadingSelector } from "../../store/loading/reducer";
 import * as Styled from "./styled";
 import StyledButton from "../Admin/components/StyledButton";
@@ -11,8 +11,6 @@ const isLoadingSelector = createLoadingSelector(["REGISTER"]);
 interface FormState {
   username: string;
   email: string;
-  firstName: string;
-  lastName: string;
   passwordOne: string;
   passwordTwo: string;
 }
@@ -20,11 +18,12 @@ interface FormState {
 export default function Register() {
   const dispatch = useDispatch();
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
+  const usernameAvailable = useSelector(
+    (state: RootState) => state.user.availableUsername
+  );
   const [formState, setFormState] = useState<FormState>({
     username: "",
     email: "",
-    firstName: "",
-    lastName: "",
     passwordOne: "",
     passwordTwo: "",
   });
@@ -41,10 +40,16 @@ export default function Register() {
         formState.username,
         formState.passwordOne,
         formState.email,
-        formState.firstName,
-        formState.lastName
+        "",
+        ""
       )
     );
+  }
+
+  function checkAvailability(event: React.FocusEvent<HTMLInputElement>) {
+    if (event.target.id === "username") {
+      dispatch(checkUsername(formState.username));
+    }
   }
 
   return (
@@ -59,29 +64,14 @@ export default function Register() {
             placeholder="username"
             onChange={handleFormChange}
             disabled={isLoading}
-            onBlur={(e) => console.log("on blue event")}
+            onBlur={checkAvailability}
           />
+          {!usernameAvailable && <div>not available</div>}
           <Styled.StyledInput
             type="email"
             id="email"
             value={formState.email}
             placeholder="email"
-            onChange={handleFormChange}
-            disabled={isLoading}
-          />
-          <Styled.StyledInput
-            type="text"
-            id="firstName"
-            value={formState.firstName}
-            placeholder="first name"
-            onChange={handleFormChange}
-            disabled={isLoading}
-          />
-          <Styled.StyledInput
-            type="text"
-            id="lastName"
-            value={formState.lastName}
-            placeholder="last name"
             onChange={handleFormChange}
             disabled={isLoading}
           />
