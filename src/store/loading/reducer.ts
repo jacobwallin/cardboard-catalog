@@ -8,30 +8,34 @@ export default function loadingReducer(state: any = {}, action: any) {
 
   const [, requestName, requestState] = matches;
 
+  console.log("in loading reducer: ", requestName, "and", requestState);
   return {
     ...state,
-    // Store whether a request is happening at the moment or not
-    // e.g. will be true when receiving GET_TODOS_REQUEST
-    // and false when receiving GET_TODOS_SUCCESS / GET_TODOS_FAILURE
-    [requestName]: requestState,
+
+    // stores request name (e.g. "GET_USER") and then the state (e.g. "SUCCESS")
+    // if the state is failure and an error message exists, the error message will be stored instead
+    [requestName]:
+      requestState === "FAILURE" && action.message
+        ? action.message
+        : requestState,
   };
 }
 
 // returns a selector function that will return true only if the passed actions are not loading
-export const createLoadingSelector = (actions: Array<string>) => (
-  state: RootState
-): boolean => {
-  return actions.reduce((result: boolean, action) => {
-    if (state.loading[action] === "REQUEST") return true;
-    return result;
-  }, false);
-};
+export const createLoadingSelector =
+  (actions: Array<string>) =>
+  (state: RootState): boolean => {
+    return actions.reduce((result: boolean, action) => {
+      if (state.loading[action] === "REQUEST") return true;
+      return result;
+    }, false);
+  };
 
-export const createErrorSelector = (actions: Array<string>) => (
-  state: RootState
-): boolean => {
-  return actions.reduce((result: boolean, action) => {
-    if (state.loading[action] === "FAILURE") return true;
-    return result;
-  }, false);
-};
+export const createErrorSelector =
+  (actions: Array<string>) =>
+  (state: RootState): boolean => {
+    return actions.reduce((result: boolean, action) => {
+      if (state.loading[action] === "FAILURE") return true;
+      return result;
+    }, false);
+  };
