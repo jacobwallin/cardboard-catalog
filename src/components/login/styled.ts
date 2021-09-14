@@ -17,6 +17,13 @@ export const StyledInput = styled.input`
   }
 `;
 
+export const InputLabel = styled.label`
+  align-self: flex-start;
+  font-size: 0.9em;
+  color: #555;
+  margin-left: 15px;
+`;
+
 export const LoginWrapper = styled.div`
   display: flex;
   flex-direction: column;
