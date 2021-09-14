@@ -28,6 +28,7 @@ router.post("/register", (req, res, next) => {
     .catch((err) => {
       // set message to error from database
       err.message = err.errors[0].message;
+      console.log(err.message);
       next(err);
     });
 });
@@ -36,6 +37,32 @@ router.post("/logout", (req, res, next) => {
   req.logout();
   req.session.destroy();
   res.sendStatus(200);
+});
+
+// checks if username is available
+router.post("/username", (req, res, next) => {
+  const { username } = req.body;
+  User.findOne({ where: { username: username } })
+    .then((user) => {
+      if (user) {
+        res.json(true);
+      }
+      res.json(false);
+    })
+    .catch((err) => next(err));
+});
+
+// checks if email is available
+router.post("/email", (req, res, next) => {
+  const { email } = req.body;
+  User.findOne({ where: { email: email } })
+    .then((user) => {
+      if (user) {
+        res.json(true);
+      }
+      res.json(false);
+    })
+    .catch((err) => next(err));
 });
 
 module.exports = router;
