@@ -45,9 +45,9 @@ router.post("/username", (req, res, next) => {
   User.findOne({ where: { username: username } })
     .then((user) => {
       if (user) {
-        res.json(true);
+        res.json(false);
       }
-      res.json(false);
+      res.json(true);
     })
     .catch((err) => next(err));
 });
@@ -58,9 +58,9 @@ router.post("/email", (req, res, next) => {
   User.findOne({ where: { email: email } })
     .then((user) => {
       if (user) {
-        res.json(true);
+        res.json(false);
       }
-      res.json(false);
+      res.json(true);
     })
     .catch((err) => next(err));
 });
