@@ -57,7 +57,7 @@ export default function Register() {
   return (
     <>
       {user.userData.id !== 0 ? (
-        <Redirect to=" /collection" />
+        <Redirect to="/collection" />
       ) : (
         <Styled.LoginWrapper>
           <Styled.LoginContainer>
