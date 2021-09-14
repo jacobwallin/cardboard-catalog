@@ -46,8 +46,9 @@ router.post("/username", (req, res, next) => {
     .then((user) => {
       if (user) {
         res.json(false);
+      } else {
+        res.json(true);
       }
-      res.json(true);
     })
     .catch((err) => next(err));
 });
@@ -59,8 +60,9 @@ router.post("/email", (req, res, next) => {
     .then((user) => {
       if (user) {
         res.json(false);
+      } else {
+        res.json(true);
       }
-      res.json(true);
     })
     .catch((err) => next(err));
 });
