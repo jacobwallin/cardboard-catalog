@@ -27,10 +27,12 @@ export const Login: React.FC<Props> = (props) => {
   };
 
   return (
-    <Styled.LoginWrapper>
-      <Styled.LoginContainer>
-        {user.userData.id === 0 ? (
-          <>
+    <>
+      {user.userData.id !== 0 ? (
+        <Redirect to="/collection" />
+      ) : (
+        <Styled.LoginWrapper>
+          <Styled.LoginContainer>
             <form id="login-form" onSubmit={handleSubmit}>
               <Styled.LoginFormContainer>
                 <h2>Sign In</h2>
@@ -68,12 +70,10 @@ export const Login: React.FC<Props> = (props) => {
             <div>
               <Link to="/register"> Create Account </Link>
             </div>
-          </>
-        ) : (
-          <Redirect to="/collection" />
-        )}
-      </Styled.LoginContainer>
-    </Styled.LoginWrapper>
+          </Styled.LoginContainer>
+        </Styled.LoginWrapper>
+      )}
+    </>
   );
 };
 
