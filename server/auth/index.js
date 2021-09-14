@@ -12,26 +12,33 @@ router.post("/login", passport.authenticate("local"), (req, res, next) => {
   res.json(req.user);
 });
 
-router.post("/register", (req, res, next) => {
-  // explicitly destructure each field to prevent isAdmin or any other data from being sent to db
-  const { firstName, lastName, username, email, password } = req.body;
-  User.create({
-    firstName,
-    lastName,
-    username,
-    email,
-    password,
-  })
-    .then((user) => {
-      res.json(user);
+router.post(
+  "/register",
+  (req, res, next) => {
+    // explicitly destructure each field to prevent isAdmin or any other data from being sent to db
+    const { firstName, lastName, username, email, password } = req.body;
+    User.create({
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
     })
-    .catch((err) => {
-      // set message to error from database
-      err.message = err.errors[0].message;
-      console.log(err.message);
-      next(err);
-    });
-});
+      .then((user) => {
+        next();
+      })
+      .catch((err) => {
+        // set message to error from database
+        err.message = err.errors[0].message;
+        console.log(err.message);
+        next(err);
+      });
+  },
+  passport.authenticate("local"),
+  (req, res, next) => {
+    res.json(req.user);
+  }
+);
 
 router.post("/logout", (req, res, next) => {
   req.logout();
