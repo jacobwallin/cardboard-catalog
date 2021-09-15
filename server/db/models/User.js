@@ -4,13 +4,8 @@ const crypto = require("crypto");
 const { DataTypes } = require("sequelize");
 
 const User = db.define("user", {
-  firstName: {
+  name: {
     type: DataTypes.STRING,
-    allowNull: false,
-  },
-  lastName: {
-    type: DataTypes.STRING,
-    allowNull: false,
   },
   username: {
     type: DataTypes.STRING,

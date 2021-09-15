@@ -2,11 +2,7 @@ const db = require("../db");
 const { DataTypes } = require("sequelize");
 
 const Player = db.define("player", {
-  firstName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  lastName: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false,
   },

@@ -13,6 +13,10 @@ const Set = db.define("set", {
   description: {
     type: DataTypes.TEXT,
   },
+  baseSubsetId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 });
 
 module.exports = Set;
