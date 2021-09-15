@@ -86,6 +86,16 @@ export default function RegisterForm(props: Props) {
       <Styled.LoginContainer>
         <h4>Create Account</h4>
         <Styled.LoginFormContainer>
+          <Styled.UsernameAvailability
+            invisible={
+              formState.username.value === "" ||
+              formState.username.focused ||
+              isCheckingUsername
+            }
+            available={usernameAvailable}
+          >
+            {usernameAvailable ? "username available" : "username taken"}
+          </Styled.UsernameAvailability>
           <Styled.InputContainer>
             <Styled.StyledInput
               type="text"
@@ -105,13 +115,7 @@ export default function RegisterForm(props: Props) {
               username
             </Styled.InputLabel>
           </Styled.InputContainer>
-          {formState.username.value !== "" &&
-            !formState.username.focused &&
-            !isCheckingUsername && (
-              <Styled.UsernameAvailability available={usernameAvailable}>
-                {usernameAvailable ? "username available" : "username taken"}
-              </Styled.UsernameAvailability>
-            )}
+
           <Styled.InputContainer>
             <Styled.StyledInput
               type="email"
@@ -162,6 +166,7 @@ export default function RegisterForm(props: Props) {
               confirm password
             </Styled.InputLabel>
           </Styled.InputContainer>
+          <input type="submit" />
           <StyledButton
             color="BLUE"
             type="submit"

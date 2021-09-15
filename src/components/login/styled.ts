@@ -97,9 +97,13 @@ export const ToggleButton = styled.div`
 
 interface UsernameAvailabilityProps {
   available: boolean;
+  invisible: boolean;
 }
 
 export const UsernameAvailability = styled.div<UsernameAvailabilityProps>`
+  margin-left: 15px;
+  font-size: 0.8em;
   align-self: flex-start;
   color: ${(props) => (props.available === true ? "green" : "red")};
+  color: ${(props) => props.invisible && "#fff"};
 `;
