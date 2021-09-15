@@ -30,13 +30,7 @@ router.get("/:seriesId", async (req, res, next) => {
           include: [
             {
               model: Player,
-              attributes: [
-                "id",
-                "firstName",
-                "lastName",
-                "birthday",
-                "hallOfFame",
-              ],
+              attributes: ["id", "name", "birthday", "hallOfFame"],
             },
             { model: Team, attributes: ["name"] },
           ],
