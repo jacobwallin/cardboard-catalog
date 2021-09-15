@@ -16,10 +16,9 @@ router.post(
   "/register",
   (req, res, next) => {
     // explicitly destructure each field to prevent isAdmin or any other data from being sent to db
-    const { firstName, lastName, username, email, password } = req.body;
+    const { name, username, email, password } = req.body;
     User.create({
-      firstName,
-      lastName,
+      name,
       username,
       email,
       password,

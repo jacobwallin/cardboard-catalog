@@ -1,13 +1,13 @@
 const users = [
   {
-    firstName: "John Smith",
+    name: "John Smith",
     email: "admin@gmail.com",
     username: "admin",
     password: "admin",
     isAdmin: true,
   },
   {
-    firstName: "Jane Doe",
+    name: "Jane Doe",
     email: "user@gmail.com",
     username: "user",
     password: "user",
