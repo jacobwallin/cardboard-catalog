@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router";
 import { RootState } from "../../store";
 import { register, checkUsername } from "../../store/user/thunks";
 import { createLoadingSelector } from "../../store/loading/reducer";
@@ -27,7 +26,6 @@ interface Props {
 
 export default function RegisterForm(props: Props) {
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user);
   const isPosting = useSelector((state: RootState) => isLoadingSelector(state));
   const isCheckingUsername = useSelector((state: RootState) =>
     isCheckingUsernameSelector(state)
