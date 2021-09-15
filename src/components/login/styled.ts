@@ -1,10 +1,38 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+export const LoginWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+`;
+
+export const LoginContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  border: 1px solid lightgrey;
+  border-radius: 10px;
+  padding: 50px 50px 0 50px;
+  margin: 50px;
+  width: 500px;
+  @media only screen and (max-width: 600px) {
+    width: 400px;
+    padding: 25px;
+  }
+  @media only screen and (max-width: 450px) {
+    width: 300px;
+    padding: 5px;
+  }
+`;
+
 export const LoginFormContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 280px;
 `;
 
 export const InputContainer = styled.div`
@@ -25,10 +53,6 @@ export const StyledInput = styled.input`
   &:focus {
     outline: none;
   }
-
-  @media only screen and (min-width: 400px) {
-    width: 300px;
-  }
 `;
 
 interface InputLabelProps {
@@ -46,28 +70,6 @@ export const InputLabel = styled.label<InputLabelProps>`
   font-size: 0.8em;
   color: #555;
   margin-left: 15px;
-`;
-
-export const LoginWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-`;
-
-export const LoginContainer = styled.div`
-  background: #fff;
-  border: 1px solid lightgrey;
-  border-radius: 10px;
-  padding: 50px 50px 0 50px;
-  margin: 50px;
-  min-width: 300px;
-  @media only screen and (max-width: 600px) {
-    padding: 25px;
-  }
-  @media only screen and (max-width: 450px) {
-    padding: 5px;
-  }
 `;
 
 export const LoginErrorMessage = styled.div`
@@ -91,4 +93,13 @@ export const ToggleButton = styled.div`
     text-decoration: underline;
     cursor: pointer;
   }
+`;
+
+interface UsernameAvailabilityProps {
+  available: boolean;
+}
+
+export const UsernameAvailability = styled.div<UsernameAvailabilityProps>`
+  align-self: flex-start;
+  color: ${(props) => (props.available === true ? "green" : "red")};
 `;

@@ -8,6 +8,7 @@ import * as Styled from "./styled";
 import StyledButton from "../Admin/components/StyledButton";
 
 const isLoadingSelector = createLoadingSelector(["REGISTER"]);
+const isCheckingUsernameSelector = createLoadingSelector(["CHECK_USERNAME"]);
 
 interface FormStateInstance {
   value: string;
@@ -27,7 +28,10 @@ interface Props {
 export default function RegisterForm(props: Props) {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
-  const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
+  const isPosting = useSelector((state: RootState) => isLoadingSelector(state));
+  const isCheckingUsername = useSelector((state: RootState) =>
+    isCheckingUsernameSelector(state)
+  );
   const usernameAvailable = useSelector(
     (state: RootState) => state.user.availableUsername
   );
@@ -95,7 +99,7 @@ export default function RegisterForm(props: Props) {
                   value={formState.username.value}
                   placeholder={formState.username.focused ? "" : "username"}
                   onChange={handleFormChange}
-                  disabled={isLoading}
+                  disabled={isPosting}
                   onBlur={(e) => {
                     checkAvailability(e);
                     removeFocusedElement(e);
@@ -107,7 +111,15 @@ export default function RegisterForm(props: Props) {
                   username
                 </Styled.InputLabel>
               </Styled.InputContainer>
-              {!usernameAvailable && <div>not available</div>}
+              {formState.username.value !== "" &&
+                !formState.username.focused &&
+                !isCheckingUsername && (
+                  <Styled.UsernameAvailability available={usernameAvailable}>
+                    {usernameAvailable
+                      ? "username available"
+                      : "username taken"}
+                  </Styled.UsernameAvailability>
+                )}
               <Styled.InputContainer>
                 <Styled.StyledInput
                   type="email"
@@ -117,7 +129,7 @@ export default function RegisterForm(props: Props) {
                   onChange={handleFormChange}
                   onBlur={removeFocusedElement}
                   onFocus={setFocusedElement}
-                  disabled={isLoading}
+                  disabled={isPosting}
                   autoComplete="off"
                 />
                 <Styled.InputLabel displayLabel={formState.email.focused}>
@@ -133,7 +145,7 @@ export default function RegisterForm(props: Props) {
                   onChange={handleFormChange}
                   onBlur={removeFocusedElement}
                   onFocus={setFocusedElement}
-                  disabled={isLoading}
+                  disabled={isPosting}
                   autoComplete="off"
                 />
                 <Styled.InputLabel displayLabel={formState.passwordOne.focused}>
@@ -151,7 +163,7 @@ export default function RegisterForm(props: Props) {
                   onChange={handleFormChange}
                   onBlur={removeFocusedElement}
                   onFocus={setFocusedElement}
-                  disabled={isLoading}
+                  disabled={isPosting}
                   autoComplete="off"
                 />
                 <Styled.InputLabel displayLabel={formState.passwordTwo.focused}>
@@ -164,7 +176,7 @@ export default function RegisterForm(props: Props) {
                 width="150px"
                 height="40px"
                 onClick={handleFormSubmit}
-                disabled={isLoading}
+                disabled={isPosting || isCheckingUsername}
               >
                 Create Account
               </StyledButton>
