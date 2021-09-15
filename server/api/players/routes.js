@@ -21,12 +21,11 @@ router.get("/:playerId", async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
-  const { firstName, lastName, birthday, hallOfFame } = req.body;
+  const { name, birthday, hallOfFame } = req.body;
 
   try {
     const createdPlayer = await Player.create({
-      firstName,
-      lastName,
+      name,
       birthday,
       hallOfFame,
     });
@@ -42,8 +41,7 @@ router.post("/bulk", async (req, res, next) => {
     const createdPlayers = await Promise.all(
       players.map((player) => {
         return Player.create({
-          firstName: player.firstName,
-          lastName: player.lastName,
+          name: player.name,
           birthday: player.birthday,
           hallOfFame: player.hallOfFame,
         });
@@ -56,10 +54,10 @@ router.post("/bulk", async (req, res, next) => {
 });
 
 router.put("/:playerId", async (req, res, next) => {
-  const { firstName, lastName, birthday, hallOfFame } = req.body;
+  const { name, birthday, hallOfFame } = req.body;
   try {
     await Player.update(
-      { firstName, lastName, birthday, hallOfFame },
+      { name, birthday, hallOfFame },
       { where: { id: req.params.playerId } }
     );
     const updatedPlayer = await Player.findByPk(req.params.playerId);

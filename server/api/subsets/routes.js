@@ -43,13 +43,7 @@ router.get("/:subsetId", async (req, res, next) => {
           { model: Team, attributes: ["id", "name"] },
           {
             model: Player,
-            attributes: [
-              "id",
-              "firstName",
-              "lastName",
-              "birthday",
-              "hallOfFame",
-            ],
+            attributes: ["id", "name", "birthday", "hallOfFame"],
           },
         ],
       },
@@ -70,12 +64,13 @@ router.get("/:subsetId", async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
-  const { name, description, setId } = req.body;
+  const { name, description, setId, baseSeriesId } = req.body;
   try {
     const createdSubset = await Subset.create({
       name,
       description,
       setId,
+      baseSeriesId,
     });
     res.json(createdSubset);
   } catch (error) {
@@ -84,11 +79,11 @@ router.post("/", async (req, res, next) => {
 });
 
 router.put("/:subsetId", async (req, res, next) => {
-  const { name, description } = req.body;
+  const { name, description, baseSeriesId } = req.body;
 
   try {
     await Subset.update(
-      { name, description },
+      { name, description, baseSeriesId },
       { where: { id: req.params.subsetId } }
     );
 

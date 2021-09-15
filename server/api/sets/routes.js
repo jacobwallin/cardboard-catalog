@@ -34,6 +34,7 @@ router.get("/:setId", async (req, res, next) => {
         "id",
         "name",
         "year",
+        "baseSubsetId",
         "description",
         "createdAt",
         "updatedAt",
@@ -43,7 +44,7 @@ router.get("/:setId", async (req, res, next) => {
         { model: Brand, attributes: ["id", "name"] },
         {
           model: Subset,
-          attributes: ["id", "name", "description", "setId"],
+          attributes: ["id", "name", "description", "setId", "baseSeriesId"],
         },
       ],
     });
@@ -58,7 +59,8 @@ router.post(
   "/",
   body("description").isString().trim(),
   async (req, res, next) => {
-    const { name, year, description, leagueId, brandId } = req.body;
+    const { name, year, description, leagueId, brandId, baseSubsetId } =
+      req.body;
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -72,6 +74,7 @@ router.post(
         description,
         leagueId,
         brandId,
+        baseSubsetId,
       });
       res.status(201).json(createdSet);
     } catch (error) {
@@ -81,11 +84,11 @@ router.post(
 );
 
 router.put("/:setId", async (req, res, next) => {
-  const { name, year, description, leagueId, brandId } = req.body;
+  const { name, year, description, leagueId, brandId, baseSubsetId } = req.body;
 
   try {
     await Set.update(
-      { name, year, description, leagueId, brandId },
+      { name, year, description, leagueId, brandId, baseSubsetId },
       { where: { id: req.params.setId } }
     );
 
@@ -101,17 +104,14 @@ router.put("/:setId", async (req, res, next) => {
 });
 
 router.delete("/:setId", async (req, res, next) => {
-  setTimeout(() => {
-    res.json(1);
-  }, 5000);
-  // try {
-  //   const deleteSuccess = await Set.destroy({
-  //     where: { id: req.params.setId },
-  //   });
-  //   res.json(deleteSuccess);
-  // } catch (error) {
-  //   res.sendStatus(500);
-  // }
+  try {
+    const deleteSuccess = await Set.destroy({
+      where: { id: req.params.setId },
+    });
+    res.json(deleteSuccess);
+  } catch (error) {
+    res.sendStatus(500);
+  }
 });
 
 module.exports = router;
