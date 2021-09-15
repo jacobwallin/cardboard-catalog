@@ -16,7 +16,11 @@ interface FormState {
   passwordTwo: string;
 }
 
-export default function Register() {
+interface Props {
+  toggleForm(): void;
+}
+
+export default function RegisterForm(props: Props) {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
@@ -98,7 +102,7 @@ export default function Register() {
                 disabled={isLoading}
               />
               <StyledButton
-                color="GREEN"
+                color="BLUE"
                 type="submit"
                 width="150px"
                 height="40px"
@@ -107,6 +111,9 @@ export default function Register() {
               >
                 Create Account
               </StyledButton>
+              <Styled.ToggleButton onClick={props.toggleForm}>
+                Log In
+              </Styled.ToggleButton>
             </Styled.LoginFormContainer>
           </Styled.LoginContainer>
         </Styled.LoginWrapper>

@@ -11,7 +11,7 @@ import * as Styled from "./styled";
 
 const loginErrorSelector = createErrorSelector(["GET_USER"]);
 
-export const Login: React.FC<Props> = (props) => {
+export const LoginForm: React.FC<Props> = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -59,7 +59,9 @@ export const Login: React.FC<Props> = (props) => {
             >
               Log In
             </StyledButton>
-            <Styled.StyledLink to="/lol">Create Account</Styled.StyledLink>
+            <Styled.ToggleButton onClick={props.toggleForm}>
+              Create Account
+            </Styled.ToggleButton>
           </Styled.LoginFormContainer>
         </form>
       </Styled.LoginContainer>
@@ -67,6 +69,9 @@ export const Login: React.FC<Props> = (props) => {
   );
 };
 
+interface PassedProps {
+  toggleForm(): void;
+}
 interface StateProps {
   user: User;
 }
@@ -85,6 +90,6 @@ const mapDispatch = (dispatch: ThunkDispatch<{}, {}, any>): DispatchProps => {
   };
 };
 
-type Props = StateProps & DispatchProps;
+type Props = StateProps & DispatchProps & PassedProps;
 
-export default connect(mapState, mapDispatch)(Login);
+export default connect(mapState, mapDispatch)(LoginForm);

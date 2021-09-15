@@ -60,3 +60,12 @@ export const StyledLink = styled(Link)`
     text-decoration: underline;
   }
 `;
+
+export const ToggleButton = styled.div`
+  color: blue;
+  margin: 25px 0 10px 0;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+`;
