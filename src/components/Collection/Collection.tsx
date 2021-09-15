@@ -1,6 +1,5 @@
 import React from "react";
-import { useRouteMatch } from "react-router-dom";
-import PrivateRoute from "../Protected_Routes/PrivateRoute";
+import { useRouteMatch, Route } from "react-router-dom";
 import CardsByYearPage from "./main_page/CardsByYearPage";
 import AllSetsPage from "./all_sets_page/AllSetsPage";
 import SetPage from "./set_page/SetPage";
@@ -15,14 +14,10 @@ export default function Collection() {
     <CollectionWrapper>
       <CollectionContainer>
         <CollectionHeader />
-        <PrivateRoute exact path={path} component={CardsByYearPage} />
-        <PrivateRoute exact path={`${path}/:year`} component={AllSetsPage} />
-        <PrivateRoute exact path={`${path}/set/:setId`} component={SetPage} />
-        <PrivateRoute
-          exact
-          path={`${path}/subset/:subsetId`}
-          component={SubsetPage}
-        />
+        <Route exact path={path} component={CardsByYearPage} />
+        <Route exact path={`${path}/:year`} component={AllSetsPage} />
+        <Route exact path={`${path}/set/:setId`} component={SetPage} />
+        <Route exact path={`${path}/subset/:subsetId`} component={SubsetPage} />
       </CollectionContainer>
     </CollectionWrapper>
   );

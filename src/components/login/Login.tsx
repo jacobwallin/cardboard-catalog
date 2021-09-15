@@ -65,11 +65,9 @@ export const Login: React.FC<Props> = (props) => {
                 >
                   Log In
                 </StyledButton>
+                <Styled.StyledLink to="/lol">Create Account</Styled.StyledLink>
               </Styled.LoginFormContainer>
             </form>
-            <div>
-              <Link to="/register"> Create Account </Link>
-            </div>
           </Styled.LoginContainer>
         </Styled.LoginWrapper>
       )}
