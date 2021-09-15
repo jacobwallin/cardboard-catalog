@@ -84,109 +84,101 @@ export default function RegisterForm(props: Props) {
   }
 
   return (
-    <>
-      {user.userData.id !== 0 ? (
-        <Redirect to="/collection" />
-      ) : (
-        <Styled.LoginWrapper>
-          <Styled.LoginContainer>
-            <h4>Create Account</h4>
-            <Styled.LoginFormContainer>
-              <Styled.InputContainer>
-                <Styled.StyledInput
-                  type="text"
-                  id="username"
-                  value={formState.username.value}
-                  placeholder={formState.username.focused ? "" : "username"}
-                  onChange={handleFormChange}
-                  disabled={isPosting}
-                  onBlur={(e) => {
-                    checkAvailability(e);
-                    removeFocusedElement(e);
-                  }}
-                  onFocus={setFocusedElement}
-                  autoComplete="off"
-                />
-                <Styled.InputLabel displayLabel={formState.username.focused}>
-                  username
-                </Styled.InputLabel>
-              </Styled.InputContainer>
-              {formState.username.value !== "" &&
-                !formState.username.focused &&
-                !isCheckingUsername && (
-                  <Styled.UsernameAvailability available={usernameAvailable}>
-                    {usernameAvailable
-                      ? "username available"
-                      : "username taken"}
-                  </Styled.UsernameAvailability>
-                )}
-              <Styled.InputContainer>
-                <Styled.StyledInput
-                  type="email"
-                  id="email"
-                  value={formState.email.value}
-                  placeholder={formState.email.focused ? "" : "email"}
-                  onChange={handleFormChange}
-                  onBlur={removeFocusedElement}
-                  onFocus={setFocusedElement}
-                  disabled={isPosting}
-                  autoComplete="off"
-                />
-                <Styled.InputLabel displayLabel={formState.email.focused}>
-                  email
-                </Styled.InputLabel>
-              </Styled.InputContainer>
-              <Styled.InputContainer>
-                <Styled.StyledInput
-                  type="password"
-                  id="passwordOne"
-                  value={formState.passwordOne.value}
-                  placeholder={formState.passwordOne.focused ? "" : "password"}
-                  onChange={handleFormChange}
-                  onBlur={removeFocusedElement}
-                  onFocus={setFocusedElement}
-                  disabled={isPosting}
-                  autoComplete="off"
-                />
-                <Styled.InputLabel displayLabel={formState.passwordOne.focused}>
-                  password
-                </Styled.InputLabel>
-              </Styled.InputContainer>
-              <Styled.InputContainer>
-                <Styled.StyledInput
-                  type="password"
-                  id="passwordTwo"
-                  value={formState.passwordTwo.value}
-                  placeholder={
-                    formState.passwordTwo.focused ? "" : "confirm password"
-                  }
-                  onChange={handleFormChange}
-                  onBlur={removeFocusedElement}
-                  onFocus={setFocusedElement}
-                  disabled={isPosting}
-                  autoComplete="off"
-                />
-                <Styled.InputLabel displayLabel={formState.passwordTwo.focused}>
-                  confirm password
-                </Styled.InputLabel>
-              </Styled.InputContainer>
-              <StyledButton
-                color="BLUE"
-                type="submit"
-                width="150px"
-                height="40px"
-                onClick={handleFormSubmit}
-                disabled={isPosting || isCheckingUsername}
-              >
-                Create Account
-              </StyledButton>
-              <Styled.ToggleButton onClick={props.toggleForm}>
-                Log In
-              </Styled.ToggleButton>
-            </Styled.LoginFormContainer>
-          </Styled.LoginContainer>
-        </Styled.LoginWrapper>
-      )}
-    </>
+    <Styled.LoginWrapper>
+      <Styled.LoginContainer>
+        <h4>Create Account</h4>
+        <Styled.LoginFormContainer>
+          <Styled.InputContainer>
+            <Styled.StyledInput
+              type="text"
+              id="username"
+              value={formState.username.value}
+              placeholder={formState.username.focused ? "" : "username"}
+              onChange={handleFormChange}
+              disabled={isPosting}
+              onBlur={(e) => {
+                checkAvailability(e);
+                removeFocusedElement(e);
+              }}
+              onFocus={setFocusedElement}
+              autoComplete="off"
+            />
+            <Styled.InputLabel displayLabel={formState.username.focused}>
+              username
+            </Styled.InputLabel>
+          </Styled.InputContainer>
+          {formState.username.value !== "" &&
+            !formState.username.focused &&
+            !isCheckingUsername && (
+              <Styled.UsernameAvailability available={usernameAvailable}>
+                {usernameAvailable ? "username available" : "username taken"}
+              </Styled.UsernameAvailability>
+            )}
+          <Styled.InputContainer>
+            <Styled.StyledInput
+              type="email"
+              id="email"
+              value={formState.email.value}
+              placeholder={formState.email.focused ? "" : "email"}
+              onChange={handleFormChange}
+              onBlur={removeFocusedElement}
+              onFocus={setFocusedElement}
+              disabled={isPosting}
+              autoComplete="off"
+            />
+            <Styled.InputLabel displayLabel={formState.email.focused}>
+              email
+            </Styled.InputLabel>
+          </Styled.InputContainer>
+          <Styled.InputContainer>
+            <Styled.StyledInput
+              type="password"
+              id="passwordOne"
+              value={formState.passwordOne.value}
+              placeholder={formState.passwordOne.focused ? "" : "password"}
+              onChange={handleFormChange}
+              onBlur={removeFocusedElement}
+              onFocus={setFocusedElement}
+              disabled={isPosting}
+              autoComplete="off"
+            />
+            <Styled.InputLabel displayLabel={formState.passwordOne.focused}>
+              password
+            </Styled.InputLabel>
+          </Styled.InputContainer>
+          <Styled.InputContainer>
+            <Styled.StyledInput
+              type="password"
+              id="passwordTwo"
+              value={formState.passwordTwo.value}
+              placeholder={
+                formState.passwordTwo.focused ? "" : "confirm password"
+              }
+              onChange={handleFormChange}
+              onBlur={removeFocusedElement}
+              onFocus={setFocusedElement}
+              disabled={isPosting}
+              autoComplete="off"
+            />
+            <Styled.InputLabel displayLabel={formState.passwordTwo.focused}>
+              confirm password
+            </Styled.InputLabel>
+          </Styled.InputContainer>
+          <StyledButton
+            color="BLUE"
+            type="submit"
+            width="150px"
+            height="40px"
+            onClick={handleFormSubmit}
+            disabled={isPosting || isCheckingUsername}
+          >
+            Create Account
+          </StyledButton>
+          <Styled.ToggleButton onClick={props.toggleForm}>
+            Log In
+          </Styled.ToggleButton>
+        </Styled.LoginFormContainer>
+      </Styled.LoginContainer>
+    </Styled.LoginWrapper>
   );
 }
