@@ -11,9 +11,20 @@ import * as Styled from "./styled";
 
 const loginErrorSelector = createErrorSelector(["GET_USER"]);
 
+interface FormStateInstance {
+  value: string;
+  focused: boolean;
+}
+interface FormState {
+  username: FormStateInstance;
+  password: FormStateInstance;
+}
+
 export const LoginForm: React.FC<Props> = (props) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [formState, setFormState] = useState({
+    username: { value: "", focused: false },
+    password: { value: "", focused: false },
+  });
 
   const loginError = useSelector((state: RootState) =>
     loginErrorSelector(state)
@@ -21,8 +32,29 @@ export const LoginForm: React.FC<Props> = (props) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    props.login(username, password);
+    props.login(formState.username.value, formState.password.value);
   };
+
+  function handleFormChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setFormState({
+      ...formState,
+      [event.target.id]: { focused: true, value: event.target.value },
+    });
+  }
+
+  function setFocusedElement(event: React.FocusEvent<HTMLInputElement>) {
+    setFormState({
+      ...formState,
+      [event.target.id]: { value: event.target.value, focused: true },
+    });
+  }
+
+  function removeFocusedElement(event: React.FocusEvent<HTMLInputElement>) {
+    setFormState({
+      ...formState,
+      [event.target.id]: { value: event.target.value, focused: false },
+    });
+  }
 
   return (
     <Styled.LoginWrapper>
@@ -30,21 +62,36 @@ export const LoginForm: React.FC<Props> = (props) => {
         <form id="login-form" onSubmit={handleSubmit}>
           <Styled.LoginFormContainer>
             <h2>Sign In</h2>
-            <Styled.StyledInput
-              type="text"
-              placeholder="Email"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-
-            <Styled.StyledInput
-              type="password"
-              placeholder="Password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <Styled.InputContainer>
+              <Styled.StyledInput
+                type="text"
+                placeholder={formState.username.focused ? "" : "username"}
+                id="username"
+                value={formState.username.value}
+                onChange={handleFormChange}
+                onBlur={removeFocusedElement}
+                onFocus={setFocusedElement}
+                autoComplete="off"
+              />
+              <Styled.InputLabel displayLabel={formState.username.focused}>
+                username
+              </Styled.InputLabel>
+            </Styled.InputContainer>
+            <Styled.InputContainer>
+              <Styled.StyledInput
+                type="password"
+                placeholder={formState.password.focused ? "" : "password"}
+                id="password"
+                value={formState.password.value}
+                onChange={handleFormChange}
+                onBlur={removeFocusedElement}
+                onFocus={setFocusedElement}
+                autoComplete="off"
+              />
+              <Styled.InputLabel displayLabel={formState.password.focused}>
+                password
+              </Styled.InputLabel>
+            </Styled.InputContainer>
             {loginError && (
               <Styled.LoginErrorMessage>
                 Invalid Username/Password

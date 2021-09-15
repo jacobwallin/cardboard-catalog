@@ -9,11 +9,15 @@ import StyledButton from "../Admin/components/StyledButton";
 
 const isLoadingSelector = createLoadingSelector(["REGISTER"]);
 
+interface FormStateInstance {
+  value: string;
+  focused: boolean;
+}
 interface FormState {
-  username: string;
-  email: string;
-  passwordOne: string;
-  passwordTwo: string;
+  username: FormStateInstance;
+  email: FormStateInstance;
+  passwordOne: FormStateInstance;
+  passwordTwo: FormStateInstance;
 }
 
 interface Props {
@@ -28,14 +32,17 @@ export default function RegisterForm(props: Props) {
     (state: RootState) => state.user.availableUsername
   );
   const [formState, setFormState] = useState<FormState>({
-    username: "",
-    email: "",
-    passwordOne: "",
-    passwordTwo: "",
+    username: { value: "", focused: false },
+    email: { value: "", focused: false },
+    passwordOne: { value: "", focused: false },
+    passwordTwo: { value: "", focused: false },
   });
 
   function handleFormChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setFormState({ ...formState, [event.target.id]: event.target.value });
+    setFormState({
+      ...formState,
+      [event.target.id]: { focused: true, value: event.target.value },
+    });
   }
 
   function handleFormSubmit(
@@ -43,9 +50,9 @@ export default function RegisterForm(props: Props) {
   ) {
     dispatch(
       register(
-        formState.username,
-        formState.passwordOne,
-        formState.email,
+        formState.username.value,
+        formState.passwordOne.value,
+        formState.email.value,
         "",
         ""
       )
@@ -54,8 +61,22 @@ export default function RegisterForm(props: Props) {
 
   function checkAvailability(event: React.FocusEvent<HTMLInputElement>) {
     if (event.target.id === "username") {
-      dispatch(checkUsername(formState.username));
+      dispatch(checkUsername(formState.username.value));
     }
+  }
+
+  function setFocusedElement(event: React.FocusEvent<HTMLInputElement>) {
+    setFormState({
+      ...formState,
+      [event.target.id]: { value: event.target.value, focused: true },
+    });
+  }
+
+  function removeFocusedElement(event: React.FocusEvent<HTMLInputElement>) {
+    setFormState({
+      ...formState,
+      [event.target.id]: { value: event.target.value, focused: false },
+    });
   }
 
   return (
@@ -67,40 +88,76 @@ export default function RegisterForm(props: Props) {
           <Styled.LoginContainer>
             <h4>Create Account</h4>
             <Styled.LoginFormContainer>
-              <Styled.StyledInput
-                type="text"
-                id="username"
-                value={formState.username}
-                placeholder="username"
-                onChange={handleFormChange}
-                disabled={isLoading}
-                onBlur={checkAvailability}
-              />
+              <Styled.InputContainer>
+                <Styled.StyledInput
+                  type="text"
+                  id="username"
+                  value={formState.username.value}
+                  placeholder={formState.username.focused ? "" : "username"}
+                  onChange={handleFormChange}
+                  disabled={isLoading}
+                  onBlur={(e) => {
+                    checkAvailability(e);
+                    removeFocusedElement(e);
+                  }}
+                  onFocus={setFocusedElement}
+                  autoComplete="off"
+                />
+                <Styled.InputLabel displayLabel={formState.username.focused}>
+                  username
+                </Styled.InputLabel>
+              </Styled.InputContainer>
               {!usernameAvailable && <div>not available</div>}
-              <Styled.StyledInput
-                type="email"
-                id="email"
-                value={formState.email}
-                placeholder="email"
-                onChange={handleFormChange}
-                disabled={isLoading}
-              />
-              <Styled.StyledInput
-                type="password"
-                id="passwordOne"
-                value={formState.passwordOne}
-                placeholder="password"
-                onChange={handleFormChange}
-                disabled={isLoading}
-              />
-              <Styled.StyledInput
-                type="password"
-                id="passwordTwo"
-                value={formState.passwordTwo}
-                placeholder="confirm password"
-                onChange={handleFormChange}
-                disabled={isLoading}
-              />
+              <Styled.InputContainer>
+                <Styled.StyledInput
+                  type="email"
+                  id="email"
+                  value={formState.email.value}
+                  placeholder={formState.email.focused ? "" : "email"}
+                  onChange={handleFormChange}
+                  onBlur={removeFocusedElement}
+                  onFocus={setFocusedElement}
+                  disabled={isLoading}
+                  autoComplete="off"
+                />
+                <Styled.InputLabel displayLabel={formState.email.focused}>
+                  email
+                </Styled.InputLabel>
+              </Styled.InputContainer>
+              <Styled.InputContainer>
+                <Styled.StyledInput
+                  type="password"
+                  id="passwordOne"
+                  value={formState.passwordOne.value}
+                  placeholder={formState.passwordOne.focused ? "" : "password"}
+                  onChange={handleFormChange}
+                  onBlur={removeFocusedElement}
+                  onFocus={setFocusedElement}
+                  disabled={isLoading}
+                  autoComplete="off"
+                />
+                <Styled.InputLabel displayLabel={formState.passwordOne.focused}>
+                  password
+                </Styled.InputLabel>
+              </Styled.InputContainer>
+              <Styled.InputContainer>
+                <Styled.StyledInput
+                  type="password"
+                  id="passwordTwo"
+                  value={formState.passwordTwo.value}
+                  placeholder={
+                    formState.passwordTwo.focused ? "" : "confirm password"
+                  }
+                  onChange={handleFormChange}
+                  onBlur={removeFocusedElement}
+                  onFocus={setFocusedElement}
+                  disabled={isLoading}
+                  autoComplete="off"
+                />
+                <Styled.InputLabel displayLabel={formState.passwordTwo.focused}>
+                  confirm password
+                </Styled.InputLabel>
+              </Styled.InputContainer>
               <StyledButton
                 color="BLUE"
                 type="submit"

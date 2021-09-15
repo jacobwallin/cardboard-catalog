@@ -7,20 +7,43 @@ export const LoginFormContainer = styled.div`
   align-items: center;
 `;
 
+export const InputContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 10px;
+  position: relative;
+`;
+
 export const StyledInput = styled.input`
-  width: 80%;
-  height: 30px;
-  padding: 5px;
-  margin: 5px;
+  width: 100%;
+  height: 40px;
+  padding: 8px;
+
+  &:focus {
+    outline: none;
+  }
 
   @media only screen and (min-width: 400px) {
     width: 300px;
   }
 `;
 
-export const InputLabel = styled.label`
+interface InputLabelProps {
+  displayLabel: boolean;
+}
+export const InputLabel = styled.label<InputLabelProps>`
+  display: ${(props) => (props.displayLabel === false ? "none" : "block")};
+  position: absolute;
+  height: 15px;
+  top: -7.5px;
+  left: 7px;
+  background: #fff;
+  padding: 0 2px 0 2px;
   align-self: flex-start;
-  font-size: 0.9em;
+  font-size: 0.8em;
   color: #555;
   margin-left: 15px;
 `;
