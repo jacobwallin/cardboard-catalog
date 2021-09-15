@@ -97,7 +97,7 @@ export const LoginForm: React.FC<Props> = (props) => {
                 Invalid Username/Password
               </Styled.LoginErrorMessage>
             )}
-            <StyledButton
+            <Styled.LoginButton
               color="BLUE"
               type="submit"
               value="Log In"
@@ -105,7 +105,7 @@ export const LoginForm: React.FC<Props> = (props) => {
               height="40px"
             >
               Log In
-            </StyledButton>
+            </Styled.LoginButton>
             <Styled.ToggleButton onClick={props.toggleForm}>
               Create Account
             </Styled.ToggleButton>

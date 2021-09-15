@@ -89,7 +89,7 @@ export default function RegisterForm(props: Props) {
   return (
     <Styled.LoginWrapper>
       <Styled.LoginContainer>
-        <h4>Create Account</h4>
+        <h2>Create Account</h2>
         <Styled.LoginFormContainer>
           <Styled.UsernameAvailability
             invisible={
@@ -171,7 +171,7 @@ export default function RegisterForm(props: Props) {
               confirm password
             </Styled.InputLabel>
           </Styled.InputContainer>
-          <StyledButton
+          <Styled.LoginButton
             color="BLUE"
             type="submit"
             width="150px"
@@ -180,7 +180,7 @@ export default function RegisterForm(props: Props) {
             disabled={isPosting || isCheckingUsername}
           >
             Create Account
-          </StyledButton>
+          </Styled.LoginButton>
           <Styled.ToggleButton onClick={props.toggleForm}>
             Log In
           </Styled.ToggleButton>

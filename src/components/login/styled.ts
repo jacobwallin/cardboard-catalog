@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import StyledButton from "../Admin/components/StyledButton";
 import { Link } from "react-router-dom";
 
 export const LoginWrapper = styled.div`
@@ -15,7 +16,7 @@ export const LoginContainer = styled.div`
   background: #fff;
   border: 1px solid lightgrey;
   border-radius: 10px;
-  padding: 50px 50px 0 50px;
+  padding: 25px 50px 0 50px;
   margin: 50px;
   width: 500px;
   @media only screen and (max-width: 600px) {
@@ -70,6 +71,10 @@ export const InputLabel = styled.label<InputLabelProps>`
   font-size: 0.8em;
   color: #555;
   margin-left: 15px;
+`;
+
+export const LoginButton = styled(StyledButton)`
+  margin-top: 25px;s
 `;
 
 export const LoginErrorMessage = styled.div`
