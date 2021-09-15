@@ -63,7 +63,10 @@ export default function RegisterForm(props: Props) {
   }
 
   function checkAvailability(event: React.FocusEvent<HTMLInputElement>) {
-    if (lastCheckedUsername !== formState.username.value) {
+    if (
+      lastCheckedUsername !== formState.username.value &&
+      formState.username.value !== ""
+    ) {
       setLastCheckedUsername(formState.username.value);
       dispatch(checkUsername(formState.username.value));
     }
