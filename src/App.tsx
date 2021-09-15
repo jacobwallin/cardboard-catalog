@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
 import GlobalStyles from "./globalStyles";
 import Navbar from "./components/Navbar";
+import AdminRoute from "./components/Protected_Routes/AdminRoute";
 import {
   HomePage,
   Collection,
@@ -43,9 +44,9 @@ function App() {
               <Route path="/transactions">
                 <Transactions />
               </Route>
-              <Route path="/admin">
+              <AdminRoute path="/admin">
                 <Admin />
-              </Route>
+              </AdminRoute>
               <Route path="/404">
                 <PageNotFound />
               </Route>

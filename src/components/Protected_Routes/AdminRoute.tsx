@@ -14,7 +14,7 @@ export default function AdminRoute({ component: Component, ...rest }: any) {
           return user.userData.isAdmin ? (
             <Component {...props} />
           ) : (
-            <Redirect to="/login" />
+            <Redirect to="/404" />
           );
         }
       }}
