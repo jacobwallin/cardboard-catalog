@@ -166,7 +166,6 @@ export default function RegisterForm(props: Props) {
               confirm password
             </Styled.InputLabel>
           </Styled.InputContainer>
-          <input type="submit" />
           <StyledButton
             color="BLUE"
             type="submit"
