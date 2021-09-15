@@ -39,6 +39,7 @@ export default function RegisterForm(props: Props) {
     passwordOne: { value: "", focused: false },
     passwordTwo: { value: "", focused: false },
   });
+  const [lastCheckedUsername, setLastCheckedUsername] = useState("");
 
   function handleFormChange(event: React.ChangeEvent<HTMLInputElement>) {
     setFormState({
@@ -62,7 +63,8 @@ export default function RegisterForm(props: Props) {
   }
 
   function checkAvailability(event: React.FocusEvent<HTMLInputElement>) {
-    if (event.target.id === "username") {
+    if (lastCheckedUsername !== formState.username.value) {
+      setLastCheckedUsername(formState.username.value);
       dispatch(checkUsername(formState.username.value));
     }
   }

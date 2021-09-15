@@ -62,7 +62,7 @@ export const InputLabel = styled.label<InputLabelProps>`
   display: ${(props) => (props.displayLabel === false ? "none" : "block")};
   position: absolute;
   height: 15px;
-  top: -7.5px;
+  top: -8px;
   left: 7px;
   background: #fff;
   padding: 0 2px 0 2px;
