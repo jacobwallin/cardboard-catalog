@@ -35,7 +35,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
     (state: RootState) => state.collection.cardsInSingleSubset
   );
 
-  let [selectedSeriesId, setSelectedSeriesId] = useState(-1);
+  let [selectedSeriesId, setSelectedSeriesId] = useState(0);
   let [showAllCards, setShowAllCards] = useState(false);
 
   const SUBSET_ID_PARAM = +props.match.params.subsetId;
@@ -45,6 +45,10 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
     dispatch(fetchSubset(SUBSET_ID_PARAM));
     dispatch(fetchCardsInSingleSubset(SUBSET_ID_PARAM));
   }, []);
+
+  useEffect(() => {
+    setSelectedSeriesId(librarySubset.baseSeriesId);
+  }, [librarySubset]);
 
   function handleSeriesChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setSelectedSeriesId(+event.target.value);
@@ -80,7 +84,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
       <CardFilterContainer>
         <SelectLabel>Filter: </SelectLabel>
         <SeriesSelect value={selectedSeriesId} onChange={handleSeriesChange}>
-          <option value={-1}>Show All Parallels</option>
+          <option value={0}>Show All Parallels</option>
           {librarySubset.series.map((series) => {
             return (
               <option key={series.id} value={series.id}>
@@ -100,7 +104,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
           data={tableData
             .filter((card: any) => {
               return (
-                selectedSeriesId === -1 || card.seriesId === selectedSeriesId
+                selectedSeriesId === 0 || card.seriesId === selectedSeriesId
               );
             })
             .filter((card: any) => {
