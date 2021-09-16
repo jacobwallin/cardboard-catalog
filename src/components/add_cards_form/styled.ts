@@ -34,3 +34,18 @@ export const CardDataContainer = styled.div`
   width: 100%;
   align-items: center;
 `;
+
+export const SubmitError = styled.h6`
+  align-self: flex-end;
+  width: 130px;
+  margin: 0;
+  color: red;
+  text-align: center;
+`;
+
+interface PostResultMessageProps {
+  success: boolean;
+}
+export const PostResultMessage = styled.h3<PostResultMessageProps>`
+  color: ${(props) => (props.success ? "green" : "red")};
+`;

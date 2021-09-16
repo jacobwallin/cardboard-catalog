@@ -208,22 +208,17 @@ export default function AddCardsForm() {
         </Styled.SubmitContainer>
 
         {validationError && (
-          <h6
-            style={{
-              alignSelf: "flex-end",
-              width: "130px",
-              margin: 0,
-              color: "red",
-              textAlign: "center",
-            }}
-          >
-            Fix Errors to Submit
-          </h6>
+          <Styled.SubmitError>Fix Errors to Submit</Styled.SubmitError>
         )}
-        {cardsSuccessfullyAdded > 0 && cardData.length === 0 && (
-          <h2>{`${cardsSuccessfullyAdded} cards have been added to your collection.`}</h2>
+        {((cardsSuccessfullyAdded > 0 && cardData.length === 0) ||
+          postingCardsStatus === "FAILURE") && (
+          <Styled.PostResultMessage success={postingCardsStatus !== "FAILURE"}>
+            {postingCardsStatus !== "FAILURE"
+              ? `${cardsSuccessfullyAdded} cards have been added to your collection`
+              : "Error Adding Cards to Collection"}
+          </Styled.PostResultMessage>
         )}
-        {postingCardsStatus === "FAILURE" && <h2>{`ERROR POSTING CARDS`}</h2>}
+
         <Styled.CardDataContainer>
           {cardData.map((card, index) => {
             return (
