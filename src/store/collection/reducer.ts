@@ -6,6 +6,7 @@ import {
   GET_CARDS_IN_SINGLE_SUBSET_SUCCESS,
   CLEAR_COLLECTION,
   SET_INITIAL_DATA_LOAD,
+  ADD_CARDS_SUCCESS,
 } from "./types";
 
 const initialState: CollectionState = {
@@ -44,6 +45,8 @@ export default function collectionReducer(
         initialDataLoadComplete: action.status,
       };
     case CLEAR_COLLECTION:
+      return initialState;
+    case ADD_CARDS_SUCCESS:
       return initialState;
     default:
       return state;
