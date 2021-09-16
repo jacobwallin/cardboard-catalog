@@ -15,6 +15,7 @@ const initialState: SetsState = {
     id: 0,
     name: "",
     year: 0,
+    baseSubsetId: 0,
     description: "",
     createdAt: "",
     updatedAt: "",

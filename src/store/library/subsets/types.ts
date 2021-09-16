@@ -44,6 +44,7 @@ export interface Subset {
   createdAt: string;
   updatedAt: string;
   setId: number;
+  baseSeriesId: number;
   series: Series[];
   card_data: CardData[];
 }

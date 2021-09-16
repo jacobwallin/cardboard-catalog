@@ -133,9 +133,6 @@ export interface UserCard {
   cardId: number;
   gradingCompanyId: number | null;
   grade: number | null;
-  grading_company: {
-    name: string;
-  } | null;
   card: {
     id: number;
     value: number | null;
@@ -151,11 +148,6 @@ export interface UserCard {
       playerId: number;
       subsetId: number;
       teamId: number;
-      team: {
-        id: number;
-        name: string;
-      };
-      player: Player[];
     };
   };
 }

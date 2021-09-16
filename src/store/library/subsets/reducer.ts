@@ -14,6 +14,7 @@ const initialState: LibraryState = {
     createdAt: "",
     updatedAt: "string",
     setId: 0,
+    baseSeriesId: 0,
     series: [],
     card_data: [],
   },

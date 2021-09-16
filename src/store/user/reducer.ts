@@ -11,8 +11,7 @@ import {
 const initialState: UserState = {
   userData: {
     id: 0,
-    firstName: "",
-    lastName: "",
+    name: "",
     username: "",
     email: "",
     isAdmin: false,

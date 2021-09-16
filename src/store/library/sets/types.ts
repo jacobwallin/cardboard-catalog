@@ -109,6 +109,7 @@ export interface Set {
   name: string;
   year: number;
   description: string;
+  baseSubsetId: number;
   createdAt: string;
   updatedAt: string;
   league: {
