@@ -13,6 +13,7 @@ export const GET_CARDS_IN_SINGLE_SUBSET_ERROR =
   "GET_CARDS_IN_SINGLE_SUBSET_ERROR";
 export const ADD_CARDS_REQUEST = "ADD_CARDS_REQUEST";
 export const ADD_CARDS_SUCCESS = "ADD_CARDS_SUCCESS";
+export const ADD_CARDS_FAILURE = "ADD_CARDS_FAILURE";
 export const SET_INITIAL_DATA_LOAD = "SET_INITIAL_DATA_LOAD";
 export const CLEAR_COLLECTION = "CLEAR_COLLECTION";
 
@@ -65,6 +66,9 @@ interface AddCardsRequest {
 interface AddCardsSuccess {
   type: typeof ADD_CARDS_SUCCESS;
 }
+interface AddCardsFailure {
+  type: typeof ADD_CARDS_FAILURE;
+}
 
 interface SetInitialDataLoad {
   type: typeof SET_INITIAL_DATA_LOAD;
@@ -86,6 +90,7 @@ export type CollectionActionTypes =
   | GetCardsInSingleSubsetError
   | AddCardsRequest
   | AddCardsSuccess
+  | AddCardsFailure
   | SetInitialDataLoad
   | ClearCollectionAction;
 

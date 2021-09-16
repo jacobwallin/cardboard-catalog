@@ -10,6 +10,7 @@ import {
   GET_CARDS_IN_SINGLE_SUBSET_ERROR,
   ADD_CARDS_REQUEST,
   ADD_CARDS_SUCCESS,
+  ADD_CARDS_FAILURE,
   SET_INITIAL_DATA_LOAD,
   CLEAR_COLLECTION,
   SetCards,
@@ -72,6 +73,9 @@ export const addCardsRequest = (): CollectionActionTypes => ({
 });
 export const addCardsSuccess = (): CollectionActionTypes => ({
   type: ADD_CARDS_SUCCESS,
+});
+export const addCardsFailure = (): CollectionActionTypes => ({
+  type: ADD_CARDS_FAILURE,
 });
 
 export const setInitialDataLoad = (status: boolean): CollectionActionTypes => ({

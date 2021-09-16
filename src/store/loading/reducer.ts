@@ -39,3 +39,9 @@ export const createErrorSelector =
       return result;
     }, false);
   };
+
+export const createStatusSelector =
+  (action: string) =>
+  (state: RootState): string => {
+    return state.loading[action];
+  };
