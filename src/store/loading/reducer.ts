@@ -8,7 +8,6 @@ export default function loadingReducer(state: any = {}, action: any) {
 
   const [, requestName, requestState] = matches;
 
-  console.log("in loading reducer: ", requestName, "and", requestState);
   return {
     ...state,
 
