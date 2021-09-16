@@ -6,19 +6,15 @@ import { Card } from "../../store/library/series/types";
 import { fetchAllSetData } from "../../store/library/sets/thunks";
 import { fetchAllGradingCompanies } from "../../store/library/grading_companies/thunks";
 import { addCards } from "../../store/collection/thunks";
-import AddCardsLine from "./AddCardsLine";
+import AddCardsLine from "./add_cards_line/AddCardsLine";
 import StyledButton from "../Admin/components/StyledButton";
-import SelectCardForm from "./SelectCardForm";
+import SelectCardForm from "./select_card_form/SelectCardForm";
 import {
   createLoadingSelector,
   createStatusSelector,
 } from "../../store/loading/reducer";
-import {
-  FormContainer,
-  CardDataContainer,
-  SubmitContainer,
-  TotalCardsLabel,
-} from ".";
+
+import * as Styled from "./styled";
 export interface CardFormData {
   cardId: number;
   serialNumber: string;
@@ -230,15 +226,15 @@ export default function AddCardsForm() {
 
   return (
     <div>
-      <FormContainer>
+      <Styled.FormContainer>
         <h2>Add Cards to Your Collection</h2>
         <SelectCardForm cardData={cardData} addCard={addCard} />
-        <SubmitContainer>
-          <TotalCardsLabel>
+        <Styled.SubmitContainer>
+          <Styled.TotalCardsLabel>
             {cardData.length > 0
               ? `Total Cards: ${cardData.length}`
               : "No Cards Selected"}
-          </TotalCardsLabel>
+          </Styled.TotalCardsLabel>
           <StyledButton
             id="submit-cards-button"
             onClick={handleSubmit}
@@ -249,7 +245,7 @@ export default function AddCardsForm() {
           >
             Submit
           </StyledButton>
-        </SubmitContainer>
+        </Styled.SubmitContainer>
 
         {validationError && (
           <h6
@@ -268,7 +264,7 @@ export default function AddCardsForm() {
           <h2>{`${cardsSuccessfullyAdded} cards have been added to your collection.`}</h2>
         )}
         {postingCardsStatus === "FAILURE" && <h2>{`ERROR POSTING CARDS`}</h2>}
-        <CardDataContainer>
+        <Styled.CardDataContainer>
           {cardData.map((card, index) => {
             return (
               <AddCardsLine
@@ -284,8 +280,8 @@ export default function AddCardsForm() {
               />
             );
           })}
-        </CardDataContainer>
-      </FormContainer>
+        </Styled.CardDataContainer>
+      </Styled.FormContainer>
     </div>
   );
 }

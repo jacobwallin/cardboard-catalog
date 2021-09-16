@@ -1,106 +1,9 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store";
-import styled from "styled-components";
-import StyledButton from "../Admin/components/StyledButton";
-import { CardFormData } from "./AddCardsForm";
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  width: 100%;
-  max-width: 600px;
-  border-radius: 5px;
-  background: white;
-  border-bottom: 1px solid lightgrey;
-  box-shadow: 0 0.46875rem 2.1875rem rgb(4 9 20 / 3%),
-    0 0.9375rem 1.40625rem rgb(4 9 20 / 3%),
-    0 0.25rem 0.53125rem rgb(4 9 20 / 5%), 0 0.125rem 0.1875rem rgb(4 9 20 / 3%);
-`;
-
-const CardInfoContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 5px 5px 5px 5px;
-  width: 100%;
-  height: 45px;
-`;
-
-const GradeContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0 10px 0 10px;
-  width: 100%;
-  height: 30px;
-`;
-
-const GradeErrorContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-end;
-  padding: 0 10px 0 10px;
-  width: 100%;
-  height: 20px;
-`;
-
-const CardNumber = styled.div`
-  flex-grow: 0;
-  padding: 0 15px 0 15px;
-  @media only screen and (max-width: 400px) {
-    font-size: 0.8em;
-  }
-`;
-
-const CardName = styled.div`
-  flex-grow: 1;
-  @media only screen and (max-width: 400px) {
-    font-size: 0.8em;
-  }
-`;
-
-interface StyledInputProps {
-  error?: boolean;
-}
-const StyledInput = styled.input<StyledInputProps>`
-  width: 60px;
-  padding: 5px;
-  height: 65%;
-  border: ${(props) => props.error && "1px solid red"};
-`;
-
-const SerialNumberLabel = styled.label<StyledInputProps>`
-  height: 35%;
-  font-size: 0.7em;
-  color: ${(props) => props.error && "red"};
-`;
-const GradeLabel = styled.label`
-  font-size: 0.8em;
-  margin: 0 5px 0 15px;
-`;
-
-const EnterSNContainer = styled.div`
-  height: 100%;
-  padding: 0;
-  width: 60px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const GradedContainer = styled.div`
-  height: 100%;
-  padding: 0;
-  width: 55px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+import { RootState } from "../../../store";
+import StyledButton from "../../Admin/components/StyledButton";
+import { CardFormData } from "../AddCardsForm";
+import * as Styled from "./styled";
 
 interface Props {
   serialized: number | null;
@@ -129,8 +32,8 @@ export default function AddCardsLine(props: Props) {
     setAddCardGrade(!addCardGrade);
   }
   return (
-    <Container>
-      <CardInfoContainer>
+    <Styled.Container>
+      <Styled.CardInfoContainer>
         <StyledButton
           color="RED"
           width="30px"
@@ -139,12 +42,12 @@ export default function AddCardsLine(props: Props) {
         >
           X
         </StyledButton>
-        <CardNumber>{`${props.card.card.card_datum.number}`}</CardNumber>
-        <CardName>{props.card.card.card_datum.name}</CardName>
+        <Styled.CardNumber>{`${props.card.card.card_datum.number}`}</Styled.CardNumber>
+        <Styled.CardName>{props.card.card.card_datum.name}</Styled.CardName>
 
         {props.serialized && (
-          <EnterSNContainer>
-            <StyledInput
+          <Styled.EnterSNContainer>
+            <Styled.StyledInput
               id="SN"
               type="number"
               inputMode="numeric"
@@ -156,15 +59,15 @@ export default function AddCardsLine(props: Props) {
               }}
               error={props.card.serialNumberError}
             />
-            <SerialNumberLabel
+            <Styled.SerialNumberLabel
               error={props.card.serialNumberError}
               htmlFor="SN"
             >
               {props.card.serialNumberError ? "Invalid S/N" : "Enter S/N"}
-            </SerialNumberLabel>
-          </EnterSNContainer>
+            </Styled.SerialNumberLabel>
+          </Styled.EnterSNContainer>
         )}
-        <GradedContainer>
+        <Styled.GradedContainer>
           <input
             id="graded"
             type="checkbox"
@@ -172,14 +75,16 @@ export default function AddCardsLine(props: Props) {
             onChange={handleGradedChange}
             style={{ height: "65%" }}
           />
-          <SerialNumberLabel htmlFor="graded">Graded</SerialNumberLabel>
-        </GradedContainer>
-      </CardInfoContainer>
+          <Styled.SerialNumberLabel htmlFor="graded">
+            Graded
+          </Styled.SerialNumberLabel>
+        </Styled.GradedContainer>
+      </Styled.CardInfoContainer>
       {addCardGrade && (
         <>
-          <GradeContainer>
-            <GradeLabel htmlFor="grade">Grade: </GradeLabel>
-            <StyledInput
+          <Styled.GradeContainer>
+            <Styled.GradeLabel htmlFor="grade">Grade: </Styled.GradeLabel>
+            <Styled.StyledInput
               type="number"
               id="grade"
               name="card-grade"
@@ -189,7 +94,7 @@ export default function AddCardsLine(props: Props) {
                 props.handleGradeChange(props.index, event.target.value);
               }}
             />
-            <GradeLabel htmlFor="company">Company: </GradeLabel>
+            <Styled.GradeLabel htmlFor="company">Company: </Styled.GradeLabel>
             <select
               id="company"
               disabled={props.card.grade === ""}
@@ -210,9 +115,9 @@ export default function AddCardsLine(props: Props) {
                 );
               })}
             </select>
-          </GradeContainer>
+          </Styled.GradeContainer>
           {(props.card.gradeError || props.card.gradingCompanyError) && (
-            <GradeErrorContainer>
+            <Styled.GradeErrorContainer>
               <div
                 style={{
                   width: "100px",
@@ -233,10 +138,10 @@ export default function AddCardsLine(props: Props) {
               >
                 {props.card.gradingCompanyError && "Invalid Company"}
               </div>
-            </GradeErrorContainer>
+            </Styled.GradeErrorContainer>
           )}
         </>
       )}
-    </Container>
+    </Styled.Container>
   );
 }

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../store";
-import { Select, Input, SelectCardContainer } from ".";
-import { CardFormData } from "./AddCardsForm";
-import StyledButton from "../Admin/components/StyledButton";
-import { SetSummary } from "../../store/library/sets/types";
-import { fetchSet } from "../../store/library/sets/thunks";
-import { fetchSubset } from "../../store/library/subsets/thunks";
-import { fetchSeriesById } from "../../store/library/series/thunks";
+import { RootState } from "../../../store";
+import { CardFormData } from "../AddCardsForm";
+import StyledButton from "../../Admin/components/StyledButton";
+import { SetSummary } from "../../../store/library/sets/types";
+import { fetchSet } from "../../../store/library/sets/thunks";
+import { fetchSubset } from "../../../store/library/subsets/thunks";
+import { fetchSeriesById } from "../../../store/library/series/thunks";
+import * as Styled from "./styled";
 
 interface Props {
   addCard(card: CardFormData): void;
@@ -16,7 +16,6 @@ interface Props {
 
 export default function SelectCardForm(props: Props) {
   const dispatch = useDispatch();
-
   const { addCard, cardData } = props;
 
   // CONTROLLED FORM DATA
@@ -90,6 +89,7 @@ export default function SelectCardForm(props: Props) {
         break;
     }
   }
+
   function handleInputChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
@@ -124,7 +124,7 @@ export default function SelectCardForm(props: Props) {
 
   return (
     <>
-      <Select
+      <Styled.Select
         value={selectedYear}
         name="select-year"
         id="select-year"
@@ -139,8 +139,8 @@ export default function SelectCardForm(props: Props) {
             </option>
           );
         })}
-      </Select>
-      <Select
+      </Styled.Select>
+      <Styled.Select
         value={selectedSetId}
         name="select-set"
         id="select-set"
@@ -155,8 +155,8 @@ export default function SelectCardForm(props: Props) {
             </option>
           );
         })}
-      </Select>
-      <Select
+      </Styled.Select>
+      <Styled.Select
         value={selectedSubsetId}
         name="select-subset"
         id="select-subset"
@@ -175,8 +175,8 @@ export default function SelectCardForm(props: Props) {
               );
             })
         }
-      </Select>
-      <Select
+      </Styled.Select>
+      <Styled.Select
         value={selectedSeriesId}
         name="select-series"
         id="select-series"
@@ -195,9 +195,9 @@ export default function SelectCardForm(props: Props) {
               );
             })
         }
-      </Select>
-      <SelectCardContainer onSubmit={handleAddCard}>
-        <Select
+      </Styled.Select>
+      <Styled.SelectCardContainer onSubmit={handleAddCard}>
+        <Styled.Select
           value={selectedCardId}
           name="select-card"
           id="select-card"
@@ -213,9 +213,9 @@ export default function SelectCardForm(props: Props) {
                 </option>
               );
             })}
-        </Select>
+        </Styled.Select>
 
-        <Input
+        <Styled.Input
           type="text"
           value={cardIdField}
           placeholder="Card #"
@@ -232,7 +232,7 @@ export default function SelectCardForm(props: Props) {
         >
           Add
         </StyledButton>
-      </SelectCardContainer>
+      </Styled.SelectCardContainer>
     </>
   );
 }
