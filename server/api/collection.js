@@ -54,25 +54,11 @@ router.get("/subset/:subsetId", async (req, res, next) => {
     const cards = await UserCard.findAll({
       where: { userId: 1, "$card->card_datum.subsetId$": req.params.subsetId },
       include: [
-        { model: GradingCompany, attributes: ["name"] },
         {
           model: Card,
 
           include: {
             model: CardData,
-            include: [
-              {
-                model: Player,
-                attributes: [
-                  "id",
-                  "firstName",
-                  "lastName",
-                  "birthday",
-                  "hallOfFame",
-                ],
-              },
-              { model: Team, attributes: ["id", "name"] },
-            ],
           },
         },
       ],
