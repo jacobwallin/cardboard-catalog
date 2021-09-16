@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { SetSummary } from "../../store/library/sets/types";
 import { Card } from "../../store/library/series/types";
 import { fetchAllSetData } from "../../store/library/sets/thunks";
 import { fetchAllGradingCompanies } from "../../store/library/grading_companies/thunks";
@@ -13,6 +12,7 @@ import {
   createLoadingSelector,
   createStatusSelector,
 } from "../../store/loading/reducer";
+import * as validate from "./validateCardData";
 
 import * as Styled from "./styled";
 export interface CardFormData {
@@ -72,19 +72,14 @@ export default function AddCardsForm() {
     setCardData(
       cardData.map((data, index) => {
         if (index === cardIndex) {
-          let foundError = false;
-          const serialNumberLimit = series.serialized;
-          // check if serialNumber converts to number, and is also in range
-          // check if serialNumberLimit holds a value to prevent warning in VScode
-          if (serialNumberLimit) {
-            if (!+serialNumber) {
-              foundError = true;
-            } else if (+serialNumber < 0 || +serialNumber > serialNumberLimit) {
-              foundError = true;
-            }
-            return { ...data, serialNumber, serialNumberError: foundError };
-          }
-          return data;
+          return {
+            ...data,
+            serialNumber,
+            serialNumberError: validate.serialNumber(
+              serialNumber,
+              series.serialized
+            ),
+          };
         }
         return data;
       })
@@ -96,14 +91,7 @@ export default function AddCardsForm() {
     setCardData(
       cardData.map((data, index) => {
         if (index === cardIndex) {
-          console.log("current grade: ", data.grade);
-          let foundError = false;
-          // validate grade converts to number, is between 0-10, and is devisible by 0.5
-          if (!+grade || +grade > 10 || +grade < 0 || +grade % 0.5 !== 0) {
-            foundError = true;
-          }
-          // adjust grade
-          return { ...data, grade: grade, gradeError: foundError };
+          return { ...data, grade: grade, gradeError: validate.grade(grade) };
         }
         return data;
       })
@@ -117,17 +105,14 @@ export default function AddCardsForm() {
     setCardData(
       cardData.map((data, index) => {
         if (index === cardIndex) {
-          let foundError = false;
-          // make sure id is valid and matches a pk from database
-          if (
-            gradingCompanies.findIndex(
-              (company) => company.id === gradingCompanyId
-            ) === -1
-          ) {
-            foundError = true;
-          }
-
-          return { ...data, gradingCompanyId, gradingCompanyError: foundError };
+          return {
+            ...data,
+            gradingCompanyId,
+            gradingCompanyError: validate.gradingCompany(
+              gradingCompanyId,
+              gradingCompanies
+            ),
+          };
         }
         return data;
       })
@@ -164,41 +149,16 @@ export default function AddCardsForm() {
     // reset validation error to false
     setValidationError(false);
 
-    // store if validation error is found since setState does not happen immediately
-    let foundError = false;
+    // validate data
+    const { errorsFound, validatedCardData } = validate.allCardData(
+      cardData,
+      series.serialized
+    );
 
-    // VALIDATE DATA
-    const cardDataWithErrors = cardData.map((data) => {
-      let serialNumberError = data.serialNumberError;
-      let gradeError = data.gradeError;
-      let gradingCompanyError = data.gradingCompanyError;
-
-      // make sure a serial number is entered by the user if the series is serialized
-      if (series.serialized) {
-        if (data.serialNumber === "") {
-          foundError = true;
-          serialNumberError = true;
-        }
-      }
-      // either both or neither the grade and grading company must be entered
-      if (data.grade !== "" || data.gradingCompanyId !== -1) {
-        if (data.grade !== "") {
-          if (data.gradingCompanyId === -1) {
-            gradingCompanyError = true;
-            foundError = true;
-          }
-        } else {
-          gradeError = true;
-          foundError = true;
-        }
-      }
-      return { ...data, serialNumberError, gradeError, gradingCompanyError };
-    });
-
-    setValidationError(foundError);
+    setValidationError(errorsFound);
 
     // only dispatch if there were no validation errors
-    if (!foundError) {
+    if (!errorsFound) {
       dispatch(
         addCards(
           cardData.map((card) => {
@@ -220,7 +180,7 @@ export default function AddCardsForm() {
       // set how many cards were successfully added to display success message to user
       setCardsSuccessfullyAdded(cardData.length);
     } else {
-      setCardData(cardDataWithErrors);
+      setCardData(validatedCardData);
     }
   };
 
@@ -284,23 +244,4 @@ export default function AddCardsForm() {
       </Styled.FormContainer>
     </div>
   );
-}
-
-// these functions aggregate the API data for each of the select drop down menus
-function aggregateYears(allSets: SetSummary[]): number[] {
-  let yearsArray: number[] = [];
-  allSets.forEach((set) => {
-    if (
-      yearsArray.length === 0 ||
-      yearsArray[yearsArray.length - 1] !== set.year
-    ) {
-      yearsArray.push(set.year);
-    }
-  });
-  return yearsArray;
-}
-function aggregateSets(allSets: SetSummary[], year: number): SetSummary[] {
-  return allSets.filter((set) => {
-    return set.year === year;
-  });
 }
