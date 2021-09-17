@@ -7,5 +7,12 @@ export const AdminWrapper = styled.div`
   justify-content: center;
 `;
 export const AdminContainer = styled.div`
-  width: 95%;
+  width: 65%;
+
+  @media only screen and (max-width: 1250px) {
+    width: 80%;
+  }
+  @media only screen and (max-width: 800px) {
+    width: 95%;
+  }
 `;
