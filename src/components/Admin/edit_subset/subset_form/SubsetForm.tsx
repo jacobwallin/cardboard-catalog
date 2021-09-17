@@ -52,7 +52,7 @@ export default function SubsetFrom() {
       case "nameField":
         setNameField(value);
         break;
-      case "descriptionField":
+      case "description":
         setDescriptionField(value);
         break;
     }
@@ -111,13 +111,15 @@ export default function SubsetFrom() {
         title="Subset Description: "
         data={subset.description}
         input={
-          <input
-            name="descriptionField"
-            type="text"
+          <textarea
+            name="description"
             value={descriptionField}
             disabled={isUpdating}
             placeholder="Enter Subset Description"
             onChange={handleInputChange}
+            style={{ height: "200px", width: "100%" }}
+            rows={2}
+            cols={20}
           />
         }
       />
