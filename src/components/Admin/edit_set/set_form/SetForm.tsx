@@ -153,7 +153,7 @@ export default function SetForm() {
         input={
           <input
             name="yearField"
-            type="text"
+            type="number"
             value={yearField}
             disabled={isUpdating}
             placeholder="Enter Set Year"
