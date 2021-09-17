@@ -19,7 +19,7 @@ interface Props {
   handleSubmit(): any;
 }
 
-export default function CreateModalButtons(props: Props) {
+export default function ModalButtons(props: Props) {
   return (
     <ButtonContainer>
       <StyledButton

@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 
-import ModalBackground from "./components/modal/ModalBackground";
-import CreateModalWindow from "./components/modal/CreateModalWindow";
-import StyledTextInput from "./components/form/StyledTextInput";
-import StyledLabel from "./components/form/StyledLabel";
-import StyledTextArea from "./components/form/StyledTextArea";
-import StyledInputContainer from "./components/form/StyledInputContainer";
-import CreateModalButtons from "./components/modal/CreateModalButtons";
-import CreateModalHeader from "./components/modal/CreateModalHeader";
+import ModalBackground from "./components/modal/Background";
+import CreateModalWindow from "./components/modal/ModalWindow";
+import StyledTextInput from "./components/modal/StyledTextInput";
+import StyledLabel from "./components/modal/StyledLabel";
+import StyledTextArea from "./components/modal/StyledTextArea";
+import StyledInputContainer from "./components/modal/InputContainer";
+import CreateModalButtons from "./components/modal/ModalButtons";
+import CreateModalHeader from "./components/modal/ModalHeader";
 
 import { createLoadingSelector } from "../../store/loading/reducer";
 

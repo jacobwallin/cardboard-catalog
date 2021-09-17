@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import ModalBackground from "./components/modal/ModalBackground";
+import ModalBackground from "./components/modal/Background";
 
 const ModalWindow = styled.div`
   position: fixed;

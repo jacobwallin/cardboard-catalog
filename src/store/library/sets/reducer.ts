@@ -6,6 +6,7 @@ import {
   UPDATE_SET_SUCCESS,
   DELETE_SET_SUCCESS,
   CREATE_SUBSET_SUCCESS,
+  CREATE_SET_SUCCESS,
   CLEAR_LIBRARY,
 } from "./types";
 
@@ -40,6 +41,8 @@ const setsReducer = (
       return { ...state, singleSet: action.singleSet };
     case GET_ALL_SETS_SUCCESS:
       return { ...state, allSets: action.allSets };
+    case CREATE_SET_SUCCESS:
+      return { ...state, allSets: [...state.allSets, action.set] };
     case UPDATE_SET_SUCCESS:
       /// update both the single set and all sets state to reflect updates to a set
       return {

@@ -5,6 +5,8 @@ const StyledLink = styled(Link)`
   background: #5d9bfc;
   padding: 5px 10px;
   border-radius: 3px;
+  text-decoration: none;
+  color: inherit;
   &:hover {
     text-decoration: underline;
   }

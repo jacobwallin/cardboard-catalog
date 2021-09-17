@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-const CreateModalWindow = styled.div`
+const ModalWindow = styled.div`
   position: fixed;
   left: 50%;
-  top: 30%;
+  top: 20%;
   width: 100%;
   max-width: 600px;
   min-width: 250px;
@@ -16,4 +16,4 @@ const CreateModalWindow = styled.div`
   align-items: left;
 `;
 
-export default CreateModalWindow;
+export default ModalWindow;
