@@ -8,21 +8,9 @@ const { Set, Brand, League, Subset } = require("../../db/models");
 router.get("/", async (req, res, next) => {
   try {
     const allSets = await Set.findAll({
-      attributes: [
-        "id",
-        "name",
-        "year",
-        "baseSubsetId",
-        "createdAt",
-        "updatedAt",
-      ],
       order: [
         ["year", "ASC"],
         ["name", "ASC"],
-      ],
-      include: [
-        { model: Brand, attributes: ["id", "name"] },
-        { model: League, attributes: ["id", "name"] },
       ],
     });
 
