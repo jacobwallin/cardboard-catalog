@@ -51,9 +51,7 @@ export default function SetForm() {
   const [descriptionField, setDescriptionField] = useState(
     singleSet.description
   );
-  const [baseSubsetId, setBaseSubsetId] = useState(
-    singleSet.baseSubsetId ? singleSet.baseSubsetId : 0
-  );
+  const [baseSubsetId, setBaseSubsetId] = useState(singleSet.baseSubsetId || 0);
 
   // form change handlers
   function handleEditStateChange() {
@@ -220,6 +218,7 @@ export default function SetForm() {
             disabled={isUpdating}
             onChange={handleSelectChange}
           >
+            <option value={0}>Select Base Subset</option>
             {singleSet.subsets.map((subset) => {
               return (
                 <option key={subset.id} value={subset.id}>

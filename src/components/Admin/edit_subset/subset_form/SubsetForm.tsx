@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import EditFormLine from "./components/EditFormLine";
-import EditFormContainer from "./components/EditFormContainer";
-import EditFormButtons from "./components/EditFormButtons";
-import { RootState } from "../../store";
-import { createLoadingSelector } from "../../store/loading/reducer";
-import { updateSubset } from "../../store/library/subsets/thunks";
-import detectFormChanges from "./detectFormChanges";
+import EditFormLine from "../../components/EditFormLine";
+import EditFormContainer from "../../components/EditFormContainer";
+import EditFormButtons from "../../components/EditFormButtons";
+import { RootState } from "../../../../store";
+import { createLoadingSelector } from "../../../../store/loading/reducer";
+import { updateSubset } from "../../../../store/library/subsets/thunks";
+import detectFormChanges from "../../detectFormChanges";
 
 const isUpdatingSelector = createLoadingSelector(["UPDATE_SUBSET"]);
 
@@ -21,6 +21,7 @@ export default function SubsetFrom() {
 
   const [isEditing, setIsEditing] = useState(false);
   const [nameField, setNameField] = useState(subset.name);
+  const [baseSeriesId, setBaseSeriesId] = useState(subset.baseSeriesId || 0);
   const [descriptionField, setDescriptionField] = useState(subset.description);
 
   useEffect(() => {
@@ -34,6 +35,7 @@ export default function SubsetFrom() {
       updateSubset(subset.id, {
         name: nameField,
         description: descriptionField,
+        baseSubsetId: baseSeriesId === 0 ? null : baseSeriesId,
       })
     );
   }
@@ -56,6 +58,10 @@ export default function SubsetFrom() {
     }
   }
 
+  function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    setBaseSeriesId(+event.target.value);
+  }
+
   return (
     <EditFormContainer>
       <EditFormLine
@@ -71,6 +77,33 @@ export default function SubsetFrom() {
             placeholder="Enter Subset Name"
             onChange={handleInputChange}
           />
+        }
+      />
+      <EditFormLine
+        editing={isEditing}
+        title="Base Series"
+        data={
+          subset.baseSeriesId
+            ? subset.series.find((series) => series.id === subset.baseSeriesId)
+                ?.name
+            : "NOT SELECTED"
+        }
+        input={
+          <select
+            name="baseSubset"
+            value={baseSeriesId}
+            disabled={isUpdating}
+            onChange={handleSelectChange}
+          >
+            <option value={0}>Select Base Series</option>
+            {subset.series.map((series) => {
+              return (
+                <option key={series.id} value={series.id}>
+                  {series.name}
+                </option>
+              );
+            })}
+          </select>
         }
       />
       <EditFormLine
@@ -92,8 +125,8 @@ export default function SubsetFrom() {
         isEditing={isEditing}
         isUpdating={isUpdating}
         changesMade={detectFormChanges(
-          [subset.name, subset.description],
-          [nameField, descriptionField]
+          [subset.name, subset.description, subset.baseSeriesId],
+          [nameField, descriptionField, baseSeriesId]
         )}
         handleEditStateChange={handleEditStateChange}
         handleFormSubmit={handleFormSubmit}

@@ -7,5 +7,5 @@ export const AdminWrapper = styled.div`
   justify-content: center;
 `;
 export const AdminContainer = styled.div`
-  width: 1000px;
+  width: 95%;
 `;

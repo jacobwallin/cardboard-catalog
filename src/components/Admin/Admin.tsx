@@ -3,7 +3,7 @@ import { Route, useRouteMatch } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import AdminSets from "./all-sets/AdminSets";
 import EditSet from "./edit_set/EditSet";
-import EditSubset from "./EditSubset";
+import EditSubset from "./edit_subset/EditSubset";
 import EditSeries from "./EditSeries";
 import EditCard from "./EditCard";
 import * as Styled from "./styled";

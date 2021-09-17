@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { RootState } from "../../store";
-import { fetchSubset } from "../../store/library/subsets/thunks";
-import WrappedDataTable from "./components/WrappedDataTable";
-import { createLoadingSelector } from "../../store/loading/reducer";
-import EditSubsetForm from "./EditSubsetForm";
-import EditLink from "./components/EditLink";
-import EditFormHeader from "./components/EditFormHeader";
-import EditPageContainer from "./components/EditPageContainer";
-import CreateSeriesModal from "./CreateSeriesModal";
-import StyledButton from "./components/StyledButton";
+import { RootState } from "../../../store";
+import { fetchSubset } from "../../../store/library/subsets/thunks";
+import WrappedDataTable from "../components/WrappedDataTable";
+import { createLoadingSelector } from "../../../store/loading/reducer";
+import SubsetForm from "./subset_form/SubsetForm";
+import EditLink from "../components/EditLink";
+import EditFormHeader from "../components/EditFormHeader";
+import EditPageContainer from "../components/EditPageContainer";
+import CreateSeriesModal from "../CreateSeriesModal";
+import StyledButton from "../components/StyledButton";
 
 const isLoadingSelector = createLoadingSelector(["GET_SUBSET"]);
 
@@ -94,7 +94,7 @@ export default function EditSubset(props: RouteComponentProps<Params>) {
         <CreateSeriesModal handleCancel={toggleCreateSeriesModal} />
       )}
       <EditFormHeader text={`Edit ${subset.name} Subset`} />
-      <EditSubsetForm />
+      <SubsetForm />
       <WrappedDataTable
         title={`Series in ${subset.name}`}
         columns={seriesColumns}

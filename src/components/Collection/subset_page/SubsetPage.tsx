@@ -47,7 +47,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
   }, []);
 
   useEffect(() => {
-    setSelectedSeriesId(librarySubset.baseSeriesId);
+    setSelectedSeriesId(librarySubset.baseSeriesId || 0);
   }, [librarySubset]);
 
   function handleSeriesChange(event: React.ChangeEvent<HTMLSelectElement>) {
