@@ -1,6 +1,7 @@
 import {
   GET_BRANDS_REQUEST,
   GET_BRANDS_SUCCESS,
+  GET_BRANDS_FAILURE,
   BrandActionTypes,
   Brand,
 } from "./types";
@@ -12,4 +13,8 @@ export const getBrandsRequest = (): BrandActionTypes => ({
 export const getBrandsSuccess = (allBrands: Brand[]): BrandActionTypes => ({
   type: GET_BRANDS_SUCCESS,
   allBrands,
+});
+
+export const getBrandsFailure = (): BrandActionTypes => ({
+  type: GET_BRANDS_FAILURE,
 });
