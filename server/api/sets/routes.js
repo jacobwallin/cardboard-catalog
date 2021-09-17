@@ -9,8 +9,12 @@ router.get("/", async (req, res, next) => {
   try {
     const allSets = await Set.findAll({
       order: [
-        ["year", "ASC"],
+        ["year", "DESC"],
         ["name", "ASC"],
+      ],
+      include: [
+        { model: League, attributes: ["id", "name"] },
+        { model: Brand, attributes: ["id", "name"] },
       ],
     });
 
@@ -63,13 +67,17 @@ router.post(
     }
 
     try {
-      const createdSet = await Set.create({
+      const newSet = await Set.create({
         name,
         year,
         description,
         leagueId,
         brandId,
         baseSubsetId,
+      });
+
+      const createdSet = await Set.findByPk(newSet.id, {
+        include: [League, Brand],
       });
       res.status(201).json(createdSet);
     } catch (error) {

@@ -8,13 +8,13 @@ const dataTableColumns = [
     sortable: true,
   },
   {
-    name: "Brand",
-    selector: "brand.name",
+    name: "Name",
+    selector: "name",
     sortable: true,
   },
   {
-    name: "Name",
-    selector: "name",
+    name: "Brand",
+    selector: "brand.name",
     sortable: true,
   },
   {

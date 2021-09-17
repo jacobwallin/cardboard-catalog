@@ -8,13 +8,19 @@ export interface SetSummary {
   id: number;
   name: string;
   year: number;
-  brand: {
-    id: number;
-    name: string;
-  };
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  baseSubsetId: number | null;
+  leagueId: number;
+  brandId: number;
   league: {
+    name: String;
     id: number;
+  };
+  brand: {
     name: string;
+    id: number;
   };
 }
 
@@ -110,6 +116,7 @@ export interface UpdateSetServerResponse {
   description: string;
   createdAt: string;
   updatedAt: string;
+  baseSubsetId: number;
   league: {
     id: number;
     name: string;

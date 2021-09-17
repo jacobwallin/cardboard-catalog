@@ -11,6 +11,7 @@ import StyledTextArea from "../../components/modal/StyledTextArea";
 import { createLoadingSelector } from "../../../../store/loading/reducer";
 import { fetchLeagues } from "../../../../store/library/leagues/thunks";
 import { fetchBrands } from "../../../../store/library/brands/thunks";
+import { createSet } from "../../../../store/library/sets/thunks";
 
 const createSetSelector = createLoadingSelector(["CREATE_SET"]);
 
@@ -71,6 +72,7 @@ export default function CreateSetModal(props: Props) {
 
   function handleSubmit() {
     // dispatch thunk to create set
+    dispatch(createSet({ name, year: +year, description, leagueId, brandId }));
   }
   return (
     <ModalBackground>
@@ -101,6 +103,7 @@ export default function CreateSetModal(props: Props) {
           <StyledLabel htmlFor="description">Description</StyledLabel>
           <StyledTextArea
             name="description"
+            id="description"
             value={description}
             disabled={createSetLoading}
             onChange={handleTextInputChange}

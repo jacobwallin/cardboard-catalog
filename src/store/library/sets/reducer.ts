@@ -51,17 +51,16 @@ const setsReducer = (
         allSets: state.allSets.map((set) => {
           if (set.id !== action.updatedSet.id) return set;
           return {
+            ...set,
             id: action.updatedSet.id,
             name: action.updatedSet.name,
             year: action.updatedSet.year,
-            brand: {
-              id: action.updatedSet.brand.id,
-              name: action.updatedSet.brand.name,
-            },
-            league: {
-              id: action.updatedSet.league.id,
-              name: action.updatedSet.league.name,
-            },
+            description: action.updatedSet.description,
+            baseSubsetId: action.updatedSet.baseSubsetId,
+            leagueId: action.updatedSet.league.id,
+            brandId: action.updatedSet.brand.id,
+            league: action.updatedSet.league,
+            brand: action.updatedSet.brand,
           };
         }),
       };

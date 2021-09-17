@@ -31,20 +31,17 @@ export const fetchSet =
   };
 
 export const createSet =
-  (
-    setId: number,
-    setData: {
-      name: string;
-      year: number;
-      description: string;
-      leagueId: number;
-      brandId: number;
-    }
-  ): ThunkAction<void, RootState, unknown, SetsActionTypes> =>
+  (setData: {
+    name: string;
+    year: number;
+    description: string;
+    leagueId: number;
+    brandId: number;
+  }): ThunkAction<void, RootState, unknown, SetsActionTypes> =>
   (dispatch) => {
     dispatch(actions.createSetRequest());
 
-    fetch(`/api/sets/${setId}`, {
+    fetch(`/api/sets`, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -60,6 +57,7 @@ export const createSet =
         return response.json();
       })
       .then((updatedSet) => {
+        console.log("SERVER RESONSE: ", updatedSet);
         dispatch(actions.createSetSuccess(updatedSet));
       })
       .catch((error) => {
