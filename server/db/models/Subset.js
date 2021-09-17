@@ -11,7 +11,6 @@ const Subset = db.define("subset", {
   },
   baseSeriesId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
   },
 });
 

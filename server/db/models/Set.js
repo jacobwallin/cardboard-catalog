@@ -15,7 +15,6 @@ const Set = db.define("set", {
   },
   baseSubsetId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
   },
 });
 
