@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
-import { createSubset } from "../../store/library/sets/thunks";
-import { createLoadingSelector } from "../../store/loading/reducer";
+import { RootState } from "../../../../store";
+import { createSubset } from "../../../../store/library/sets/thunks";
+import { createLoadingSelector } from "../../../../store/loading/reducer";
 
-import ModalBackground from "./components/modal/Background";
-import CreateModalWindow from "./components/modal/ModalWindow";
-import StyledTextInput from "./components/modal/StyledTextInput";
-import StyledLabel from "./components/modal/StyledLabel";
-import StyledTextArea from "./components/modal/StyledTextArea";
-import StyledInputContainer from "./components/modal/InputContainer";
-import CreateModalButtons from "./components/modal/ModalButtons";
-import CreateModalHeader from "./components/modal/ModalHeader";
+import ModalBackground from "../../components/modal/Background";
+import CreateModalWindow from "../../components/modal/ModalWindow";
+import StyledTextInput from "../../components/modal/StyledTextInput";
+import StyledLabel from "../../components/modal/StyledLabel";
+import StyledTextArea from "../../components/modal/StyledTextArea";
+import StyledInputContainer from "../../components/modal/InputContainer";
+import CreateModalButtons from "../../components/modal/ModalButtons";
+import CreateModalHeader from "../../components/modal/ModalHeader";
 
 interface Props {
   handleCancel(): any;

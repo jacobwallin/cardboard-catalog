@@ -6,7 +6,7 @@ import { fetchSeriesById } from "../../store/library/series/thunks";
 import { createLoadingSelector } from "../../store/loading/reducer";
 import EditSeriesForm from "./EditSeriesForm";
 import EditFormHeader from "./components/EditFormHeader";
-import EditPageContainer from "./components/EditPageContainer";
+import AdminPageContainer from "./components/AdminPageContainer";
 
 const isLoadingSelector = createLoadingSelector([
   "GET_ATTRIBUTES",
@@ -32,9 +32,9 @@ export default function EditSeries(props: RouteComponentProps<Params>) {
   }
 
   return (
-    <EditPageContainer>
+    <AdminPageContainer>
       <EditFormHeader text={`Edit ${series.name} Series`} />
       <EditSeriesForm />
-    </EditPageContainer>
+    </AdminPageContainer>
   );
 }

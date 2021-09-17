@@ -8,8 +8,8 @@ import { createLoadingSelector } from "../../../store/loading/reducer";
 import SubsetForm from "./subset_form/SubsetForm";
 import EditLink from "../components/EditLink";
 import EditFormHeader from "../components/EditFormHeader";
-import EditPageContainer from "../components/EditPageContainer";
-import CreateSeriesModal from "../CreateSeriesModal";
+import AdminPageContainer from "../components/AdminPageContainer";
+import CreateSeriesModal from "./series_modal/CreateSeriesModal";
 import StyledButton from "../components/StyledButton";
 
 const isLoadingSelector = createLoadingSelector(["GET_SUBSET"]);
@@ -68,7 +68,7 @@ const cardsColumns = [
 ];
 
 export default function EditSubset(props: RouteComponentProps<Params>) {
-  const [showCreateSeriesModal, setShowCreateSeriesModal] = useState(false);
+  const [showCreateSeriesModal, setShowCreateSeriesModal] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -89,7 +89,7 @@ export default function EditSubset(props: RouteComponentProps<Params>) {
     return <h1>LOADING DATA</h1>;
   }
   return (
-    <EditPageContainer>
+    <AdminPageContainer>
       {showCreateSeriesModal && (
         <CreateSeriesModal handleCancel={toggleCreateSeriesModal} />
       )}
@@ -116,6 +116,6 @@ export default function EditSubset(props: RouteComponentProps<Params>) {
         paginationPerPage={20}
         dense
       />
-    </EditPageContainer>
+    </AdminPageContainer>
   );
 }

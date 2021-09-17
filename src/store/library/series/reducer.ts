@@ -1,7 +1,7 @@
 import {
   SeriesActionTypes,
   SeriesState,
-  GET_SERIES_BY_ID_SUCCESS,
+  GET_SERIES_SUCCESS,
   UPDATE_SERIES_SUCCESS,
 } from "./types";
 
@@ -28,7 +28,7 @@ export default function seriesReducer(
   action: SeriesActionTypes
 ) {
   switch (action.type) {
-    case GET_SERIES_BY_ID_SUCCESS:
+    case GET_SERIES_SUCCESS:
       return { ...state, series: action.series };
     case UPDATE_SERIES_SUCCESS:
       return { ...state, series: action.updatedSeries };

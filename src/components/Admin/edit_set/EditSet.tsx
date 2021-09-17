@@ -10,9 +10,9 @@ import SetForm from "./set_form/SetForm";
 import WrappedDataTable from "../components/WrappedDataTable";
 import { createLoadingSelector } from "../../../store/loading/reducer";
 
-import CreateSubsetModal from "../CreateSubsetModal";
+import CreateSubsetModal from "./subset_modal/CreateSubsetModal";
 import EditFormHeader from "../components/EditFormHeader";
-import EditPageContainer from "../components/EditPageContainer";
+import AdminPageContainer from "../components/AdminPageContainer";
 import StyledButton from "../components/StyledButton";
 
 const columns = [
@@ -70,7 +70,7 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
   }
 
   return (
-    <EditPageContainer>
+    <AdminPageContainer>
       {!isLoading && (
         <>
           <EditFormHeader text={`Edit ${singleSet.name} Set`} />
@@ -91,6 +91,6 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
           )}
         </>
       )}
-    </EditPageContainer>
+    </AdminPageContainer>
   );
 }

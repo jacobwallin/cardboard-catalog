@@ -8,7 +8,7 @@ import { fetchAllTeams } from "../../store/library/teams/thunks";
 import { fetchCardById } from "../../store/library/card/thunks";
 
 import EditFormHeader from "./components/EditFormHeader";
-import EditPageContainer from "./components/EditPageContainer";
+import AdminPageContainer from "./components/AdminPageContainer";
 
 const isLoadingSelector = createLoadingSelector([
   "GET_CARD_BY_ID",
@@ -35,9 +35,9 @@ export default function EditCard(props: RouteComponentProps<Params>) {
   }
 
   return (
-    <EditPageContainer>
+    <AdminPageContainer>
       <EditFormHeader text={`Edit ${card.name} Card`} />
       <EditCardForm cardId={+props.match.params.cardId} />
-    </EditPageContainer>
+    </AdminPageContainer>
   );
 }
