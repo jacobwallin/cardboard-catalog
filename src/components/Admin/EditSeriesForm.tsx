@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/index";
 import { createLoadingSelector } from "../../store/loading/reducer";
 import { updateSeries } from "../../store/library/series/thunks";
-import detectFormChanges from "../../utils/detectFormChanges";
+import detectFormChanges from "./detectFormChanges";
 
 import EditFormLine from "./components/EditFormLine";
 import EditFormContainer from "./components/EditFormContainer";

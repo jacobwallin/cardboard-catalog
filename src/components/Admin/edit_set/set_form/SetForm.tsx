@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../store";
-import { updateSet, deleteSet } from "../../store/library/sets/thunks";
-import { createLoadingSelector } from "../../store/loading/reducer";
-import detectFormChanges from "../../utils/detectFormChanges";
+import { RootState } from "../../../../store";
+import { updateSet, deleteSet } from "../../../../store/library/sets/thunks";
+import { createLoadingSelector } from "../../../../store/loading/reducer";
+import detectFormChanges from "../../detectFormChanges";
 
-import EditFormLine from "./components/EditFormLine";
-import EditFormContainer from "./components/EditFormContainer";
-import EditFormButtons from "./components/EditFormButtons";
-import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import EditFormLine from "../../components/EditFormLine";
+import EditFormContainer from "../../components/EditFormContainer";
+import EditFormButtons from "../../components/EditFormButtons";
+import ConfirmDeleteModal from "../../ConfirmDeleteModal";
 
 const isUpdatingSelector = createLoadingSelector(["UPDATE_SET"]);
 const isDeletingSelector = createLoadingSelector(["DELETE_SET"]);
@@ -51,6 +51,9 @@ export default function SetForm() {
   const [descriptionField, setDescriptionField] = useState(
     singleSet.description
   );
+  const [baseSubsetId, setBaseSubsetId] = useState(
+    singleSet.baseSubsetId ? singleSet.baseSubsetId : 0
+  );
 
   // form change handlers
   function handleEditStateChange() {
@@ -65,6 +68,7 @@ export default function SetForm() {
         description: descriptionField,
         leagueId: leagueIdField,
         brandId: brandIdField,
+        baseSubsetId: baseSubsetId === 0 ? null : baseSubsetId,
       })
     );
   }
@@ -102,6 +106,10 @@ export default function SetForm() {
         break;
       case "brand":
         setBrandIdField(+value);
+        break;
+      case "baseSubset":
+        setBaseSubsetId(+value);
+        break;
     }
   }
 
@@ -197,6 +205,33 @@ export default function SetForm() {
       />
       <EditFormLine
         editing={isEditing}
+        title="Base Subset"
+        data={
+          singleSet.baseSubsetId
+            ? singleSet.subsets.find(
+                (subset) => subset.id === singleSet.baseSubsetId!
+              )?.name
+            : "NOT SELECTED"
+        }
+        input={
+          <select
+            name="baseSubset"
+            value={baseSubsetId}
+            disabled={isUpdating}
+            onChange={handleSelectChange}
+          >
+            {singleSet.subsets.map((subset) => {
+              return (
+                <option key={subset.id} value={subset.id}>
+                  {subset.name}
+                </option>
+              );
+            })}
+          </select>
+        }
+      />
+      <EditFormLine
+        editing={isEditing}
         title="Set Description"
         data={singleSet.description}
         input={
@@ -212,6 +247,7 @@ export default function SetForm() {
           />
         }
       />
+
       <EditFormButtons
         isEditing={isEditing}
         isUpdating={isUpdating}
@@ -222,8 +258,16 @@ export default function SetForm() {
             singleSet.league.id,
             singleSet.brand.id,
             singleSet.year,
+            singleSet.baseSubsetId,
           ],
-          [nameField, descriptionField, leagueIdField, brandIdField, yearField]
+          [
+            nameField,
+            descriptionField,
+            leagueIdField,
+            brandIdField,
+            yearField,
+            baseSubsetId,
+          ]
         )}
         handleEditStateChange={handleEditStateChange}
         handleFormSubmit={handleFormSubmit}

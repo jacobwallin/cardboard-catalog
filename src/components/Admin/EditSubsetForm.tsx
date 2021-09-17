@@ -6,7 +6,7 @@ import EditFormButtons from "./components/EditFormButtons";
 import { RootState } from "../../store";
 import { createLoadingSelector } from "../../store/loading/reducer";
 import { updateSubset } from "../../store/library/subsets/thunks";
-import detectFormChanges from "../../utils/detectFormChanges";
+import detectFormChanges from "./detectFormChanges";
 
 const isUpdatingSelector = createLoadingSelector(["UPDATE_SUBSET"]);
 

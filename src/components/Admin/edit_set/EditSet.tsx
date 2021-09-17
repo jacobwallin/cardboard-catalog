@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchSet } from "../../store/library/sets/thunks";
-import { fetchBrands } from "../../store/library/brands/thunks";
-import { fetchLeagues } from "../../store/library/leagues/thunks";
-import { RootState } from "../../store";
-import EditLink from "./components/EditLink";
-import EditSetForm from "./EditSetForm";
-import WrappedDataTable from "./components/WrappedDataTable";
-import { createLoadingSelector } from "../../store/loading/reducer";
+import { fetchSet } from "../../../store/library/sets/thunks";
+import { fetchBrands } from "../../../store/library/brands/thunks";
+import { fetchLeagues } from "../../../store/library/leagues/thunks";
+import { RootState } from "../../../store";
+import EditLink from "../components/EditLink";
+import SetForm from "./set_form/SetForm";
+import WrappedDataTable from "../components/WrappedDataTable";
+import { createLoadingSelector } from "../../../store/loading/reducer";
 
-import CreateSubsetModal from "./CreateSubsetModal";
-import EditFormHeader from "./components/EditFormHeader";
-import EditPageContainer from "./components/EditPageContainer";
-import StyledButton from "./components/StyledButton";
+import CreateSubsetModal from "../CreateSubsetModal";
+import EditFormHeader from "../components/EditFormHeader";
+import EditPageContainer from "../components/EditPageContainer";
+import StyledButton from "../components/StyledButton";
 
 const columns = [
   {
@@ -74,7 +74,7 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
       {!isLoading && (
         <>
           <EditFormHeader text={`Edit ${singleSet.name} Set`} />
-          <EditSetForm />
+          <SetForm />
           <WrappedDataTable
             title={`Subsets in ${singleSet.name}`}
             columns={columns}

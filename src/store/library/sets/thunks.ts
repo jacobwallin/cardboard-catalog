@@ -74,6 +74,7 @@ export const updateSet =
       description: string;
       leagueId: number;
       brandId: number;
+      baseSubsetId: number | null;
     }
   ): ThunkAction<void, RootState, unknown, SetsActionTypes> =>
   (dispatch) => {

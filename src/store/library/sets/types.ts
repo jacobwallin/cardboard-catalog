@@ -29,7 +29,7 @@ export interface Set {
   name: string;
   year: number;
   description: string;
-  baseSubsetId: number;
+  baseSubsetId: number | null;
   createdAt: string;
   updatedAt: string;
   league: {

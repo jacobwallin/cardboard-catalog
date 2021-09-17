@@ -17,7 +17,7 @@ export default function AdminSets(props: any) {
     dispatch(fetchAllSetData());
   }, []);
   // toggle to show form for creating a new set
-  const [createSet, setCreateSet] = useState(true);
+  const [createSet, setCreateSet] = useState(false);
   function toggleModal() {
     setCreateSet(!createSet);
   }
