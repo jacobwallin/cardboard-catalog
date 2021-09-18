@@ -7,7 +7,7 @@ import {
 } from "./actions";
 import { BrandActionTypes } from "./types";
 
-export const fetchBrands =
+export const fetchAllBrands =
   (): ThunkAction<void, RootState, unknown, BrandActionTypes> => (dispatch) => {
     dispatch(getBrandsRequest());
     fetch("/api/brands")

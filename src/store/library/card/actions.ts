@@ -1,19 +1,24 @@
 import {
-  GET_CARD_BY_ID_REQUEST,
-  GET_CARD_BY_ID_SUCCESS,
+  GET_CARD_REQUEST,
+  GET_CARD_SUCCESS,
+  GET_CARD_FAILURE,
   UPDATE_CARD_REQUEST,
   UPDATE_CARD_SUCCESS,
+  UPDATE_CARD_FAILURE,
   CardActionTypes,
   CardState,
 } from "./types";
 
-export const getCardByIdRequest = (): CardActionTypes => ({
-  type: GET_CARD_BY_ID_REQUEST,
+export const getCardRequest = (): CardActionTypes => ({
+  type: GET_CARD_REQUEST,
 });
 
-export const getCardByIdSuccess = (card: CardState): CardActionTypes => ({
-  type: GET_CARD_BY_ID_SUCCESS,
+export const getCardSuccess = (card: CardState): CardActionTypes => ({
+  type: GET_CARD_SUCCESS,
   card,
+});
+export const getCardFailure = (): CardActionTypes => ({
+  type: GET_CARD_FAILURE,
 });
 
 export const updateCardRequest = (): CardActionTypes => ({
@@ -23,4 +28,7 @@ export const updateCardRequest = (): CardActionTypes => ({
 export const updateCardSuccess = (updatedCard: CardState): CardActionTypes => ({
   type: UPDATE_CARD_SUCCESS,
   updatedCard,
+});
+export const updateCardFailure = (): CardActionTypes => ({
+  type: UPDATE_CARD_FAILURE,
 });

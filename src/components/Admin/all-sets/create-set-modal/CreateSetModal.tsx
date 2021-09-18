@@ -10,7 +10,7 @@ import StyledTextInput from "../../components/modal/StyledTextInput";
 import StyledTextArea from "../../components/modal/StyledTextArea";
 import { createLoadingSelector } from "../../../../store/loading/reducer";
 import { fetchLeagues } from "../../../../store/library/leagues/thunks";
-import { fetchBrands } from "../../../../store/library/brands/thunks";
+import { fetchAllBrands } from "../../../../store/library/brands/thunks";
 import { createSet } from "../../../../store/library/sets/thunks";
 
 const createSetSelector = createLoadingSelector(["CREATE_SET"]);
@@ -24,7 +24,7 @@ export default function CreateSetModal(props: Props) {
 
   useEffect(() => {
     dispatch(fetchLeagues());
-    dispatch(fetchBrands());
+    dispatch(fetchAllBrands());
   }, []);
 
   const createSetLoading = useSelector((state: RootState) =>

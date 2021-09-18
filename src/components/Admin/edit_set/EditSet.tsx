@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSet } from "../../../store/library/sets/thunks";
-import { fetchBrands } from "../../../store/library/brands/thunks";
+import { fetchAllBrands } from "../../../store/library/brands/thunks";
 import { fetchLeagues } from "../../../store/library/leagues/thunks";
 import { RootState } from "../../../store";
 import EditLink from "../components/EditLink";
@@ -52,7 +52,7 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
 
   useEffect(() => {
     dispatch(fetchSet(+props.match.params.setId));
-    dispatch(fetchBrands());
+    dispatch(fetchAllBrands());
     dispatch(fetchLeagues());
   }, []);
 

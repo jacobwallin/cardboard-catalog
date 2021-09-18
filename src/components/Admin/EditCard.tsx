@@ -5,7 +5,7 @@ import { RootState } from "../../store";
 import EditCardForm from "./EditCardForm";
 import { createLoadingSelector } from "../../store/loading/reducer";
 import { fetchAllTeams } from "../../store/library/teams/thunks";
-import { fetchCardById } from "../../store/library/card/thunks";
+import { fetchCard } from "../../store/library/card/thunks";
 
 import EditFormHeader from "./components/EditFormHeader";
 import AdminPageContainer from "./components/AdminPageContainer";
@@ -24,7 +24,7 @@ export default function EditCard(props: RouteComponentProps<Params>) {
 
   useEffect(() => {
     dispatch(fetchAllTeams());
-    dispatch(fetchCardById(+props.match.params.cardId));
+    dispatch(fetchCard(+props.match.params.cardId));
   }, []);
 
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));

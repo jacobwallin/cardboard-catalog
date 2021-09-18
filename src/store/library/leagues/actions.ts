@@ -1,16 +1,20 @@
 import {
-  GET_LEAGUES_REQUEST,
-  GET_LEAGUES_SUCCESS,
+  GET_ALL_LEAGUES_REQUEST,
+  GET_ALL_LEAGUES_SUCCESS,
+  GET_ALL_LEAGUES_FAILURE,
   LeaguesActionTypes,
   League,
 } from "./types";
 
-export const getLeaguesRequest = (): LeaguesActionTypes => ({
-  type: GET_LEAGUES_REQUEST,
+export const getAllLeaguesRequest = (): LeaguesActionTypes => ({
+  type: GET_ALL_LEAGUES_REQUEST,
 });
-export const getLeaguesSuccess = (
+export const getAllLeaguesSuccess = (
   allLeagues: League[]
 ): LeaguesActionTypes => ({
-  type: GET_LEAGUES_SUCCESS,
+  type: GET_ALL_LEAGUES_SUCCESS,
   allLeagues,
+});
+export const getAllLeaguesFailure = (): LeaguesActionTypes => ({
+  type: GET_ALL_LEAGUES_FAILURE,
 });

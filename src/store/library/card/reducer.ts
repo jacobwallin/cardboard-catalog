@@ -1,7 +1,7 @@
 import {
   CardState,
   CardActionTypes,
-  GET_CARD_BY_ID_SUCCESS,
+  GET_CARD_SUCCESS,
   UPDATE_CARD_SUCCESS,
 } from "./types";
 
@@ -28,7 +28,7 @@ export default function cardReducer(
   action: CardActionTypes
 ) {
   switch (action.type) {
-    case GET_CARD_BY_ID_SUCCESS:
+    case GET_CARD_SUCCESS:
       return action.card;
     case UPDATE_CARD_SUCCESS:
       return action.updatedCard;
