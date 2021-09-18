@@ -17,10 +17,9 @@ const initialState = {
   team: {
     id: 0,
     name: "",
-    createdAt: "",
-    updatedAt: "",
     leagueId: 0,
   },
+  players: [],
 };
 
 export default function cardReducer(

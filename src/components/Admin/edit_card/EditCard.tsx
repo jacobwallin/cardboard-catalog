@@ -37,7 +37,7 @@ export default function EditCard(props: RouteComponentProps<Params>) {
   return (
     <AdminPageContainer>
       <EditFormHeader text={`Edit ${card.name} Card`} />
-      <EditCardForm cardId={+props.match.params.cardId} />
+      <EditCardForm cardDataId={+props.match.params.cardId} />
     </AdminPageContainer>
   );
 }

@@ -4,10 +4,12 @@ import * as actions from "./actions";
 import { CardActionTypes } from "./types";
 
 export const fetchCard =
-  (cardId: number): ThunkAction<void, RootState, unknown, CardActionTypes> =>
+  (
+    cardDataId: number
+  ): ThunkAction<void, RootState, unknown, CardActionTypes> =>
   (dispatch) => {
     dispatch(actions.getCardRequest());
-    fetch(`/api/cards/${cardId}`)
+    fetch(`/api/carddata/${cardDataId}`)
       .then((response) => {
         return response.json();
       })
@@ -21,17 +23,18 @@ export const fetchCard =
 
 export const updateCard =
   (
-    cardId: number,
+    cardDataId: number,
     cardData: {
       name: string;
       number: string;
       rookie: boolean;
       teamId: number;
+      playerIds: number[];
     }
   ): ThunkAction<void, RootState, unknown, CardActionTypes> =>
   (dispatch) => {
     dispatch(actions.updateCardRequest());
-    fetch(`/api/cards/${cardId}`, {
+    fetch(`/api/carddata/${cardDataId}`, {
       method: "PUT",
       mode: "cors",
       cache: "no-cache",

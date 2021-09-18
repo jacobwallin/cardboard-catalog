@@ -11,9 +11,21 @@ export interface CardState {
   team: {
     id: number;
     name: string;
+    leagueId: number;
+  };
+  players: Player[];
+}
+
+interface Player {
+  id: number;
+  name: string;
+  birthday: string;
+  hallOfFame: boolean;
+  card_data_player: {
+    cardDatumId: number;
+    playerId: number;
     createdAt: string;
     updatedAt: string;
-    leagueId: number;
   };
 }
 

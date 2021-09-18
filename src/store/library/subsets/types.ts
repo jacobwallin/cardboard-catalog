@@ -31,6 +31,12 @@ export interface Series {
   cards: Card[];
 }
 
+interface Card {
+  id: number;
+  value: number;
+  seriesId: number;
+  cardDataId: number;
+}
 export interface CardData {
   id: number;
   name: string;
@@ -47,17 +53,9 @@ export interface CardData {
   player: Player[];
 }
 
-interface Card {
-  id: number;
-  value: number;
-  seriesId: number;
-  cardDataId: number;
-}
-
 interface Player {
   id: number;
-  firstName: string;
-  lastName: string;
+  name: string;
   birthday: string;
   hallOfFame: boolean;
   card_data_player: {

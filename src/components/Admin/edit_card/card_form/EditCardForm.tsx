@@ -11,7 +11,7 @@ import EditFormButtons from "../../components/EditFormButtons";
 const isUpdatingSelector = createLoadingSelector(["UPDATE_CARD"]);
 
 interface Props {
-  cardId: number;
+  cardDataId: number;
 }
 
 export default function EditCardForm(props: Props) {
@@ -70,96 +70,95 @@ export default function EditCardForm(props: Props) {
 
   function handleFormSubmit() {
     dispatch(
-      updateCard(props.cardId, {
+      updateCard(props.cardDataId, {
         name: nameField,
         number: numberField,
         rookie: rookieField,
         teamId: teamIdField,
+        playerIds: [],
       })
     );
   }
 
   return (
-    <div>
-      <EditFormContainer>
-        <EditFormLine
-          title="Card Name: "
-          data={card.name}
-          editing={isEditing}
-          input={
-            <input
-              name="nameField"
-              type="text"
-              value={nameField}
-              disabled={isUpdating}
-              placeholder="Enter Card Name"
-              onChange={handleInputChange}
-            />
-          }
-        />
-        <EditFormLine
-          title="Card Number: "
-          data={card.number}
-          editing={isEditing}
-          input={
-            <input
-              name="numberField"
-              type="text"
-              value={numberField}
-              disabled={isUpdating}
-              placeholder="Enter Card Number"
-              onChange={handleInputChange}
-            />
-          }
-        />
-        <EditFormLine
-          editing={isEditing}
-          title="Team: "
-          data={card.team.name}
-          input={
-            <select
-              name="team"
-              value={teamIdField}
-              disabled={isUpdating}
-              onChange={handleSelectChange}
-            >
-              {teams.map((team) => {
-                return (
-                  <option key={team.id} value={team.id}>
-                    {team.name}
-                  </option>
-                );
-              })}
-            </select>
-          }
-        />
-        <EditFormLine
-          editing={isEditing}
-          title="Rookie Card: "
-          data={card.rookie === true ? "YES" : "NO"}
-          input={
-            <select
-              name="rookie"
-              value={rookieField === true ? "YES" : "NO"}
-              disabled={isUpdating}
-              onChange={handleSelectChange}
-            >
-              <option value={"YES"}>YES</option>
-              <option value={"NO"}>NO</option>
-            </select>
-          }
-        />
-        <EditFormButtons
-          isEditing={isEditing}
-          isUpdating={isUpdating}
-          handleEditStateChange={handleEditStateChange}
-          handleFormSubmit={handleFormSubmit}
-          changesMade={detectFormChanges(
-            [nameField, numberField, rookieField, teamIdField],
-            [card.name, card.number, card.rookie, card.teamId]
-          )}
-        />
-      </EditFormContainer>
-    </div>
+    <EditFormContainer>
+      <EditFormLine
+        title="Card Name: "
+        data={card.name}
+        editing={isEditing}
+        input={
+          <input
+            name="nameField"
+            type="text"
+            value={nameField}
+            disabled={isUpdating}
+            placeholder="Enter Card Name"
+            onChange={handleInputChange}
+          />
+        }
+      />
+      <EditFormLine
+        title="Card Number: "
+        data={card.number}
+        editing={isEditing}
+        input={
+          <input
+            name="numberField"
+            type="text"
+            value={numberField}
+            disabled={isUpdating}
+            placeholder="Enter Card Number"
+            onChange={handleInputChange}
+          />
+        }
+      />
+      <EditFormLine
+        editing={isEditing}
+        title="Team: "
+        data={card.team.name}
+        input={
+          <select
+            name="team"
+            value={teamIdField}
+            disabled={isUpdating}
+            onChange={handleSelectChange}
+          >
+            {teams.map((team) => {
+              return (
+                <option key={team.id} value={team.id}>
+                  {team.name}
+                </option>
+              );
+            })}
+          </select>
+        }
+      />
+      <EditFormLine
+        editing={isEditing}
+        title="Rookie Card: "
+        data={card.rookie === true ? "YES" : "NO"}
+        input={
+          <select
+            name="rookie"
+            value={rookieField === true ? "YES" : "NO"}
+            disabled={isUpdating}
+            onChange={handleSelectChange}
+          >
+            <option value={"YES"}>YES</option>
+            <option value={"NO"}>NO</option>
+          </select>
+        }
+      />
+      <EditFormButtons
+        isEditing={isEditing}
+        isUpdating={isUpdating}
+        handleEditStateChange={handleEditStateChange}
+        handleFormSubmit={handleFormSubmit}
+        changesMade={detectFormChanges(
+          [nameField, numberField, rookieField, teamIdField],
+          [card.name, card.number, card.rookie, card.teamId]
+        )}
+      />
+    </EditFormContainer>
   );
 }
