@@ -4,7 +4,7 @@ const { Card, CardData, Player, Team } = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
   try {
-    const allCards = await Card.findAll();
+    const allCards = await Card.count();
     res.json(allCards);
   } catch (error) {
     next(error);
