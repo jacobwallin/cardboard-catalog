@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../store/index";
-import { updateCard } from "../../store/library/card/thunks";
-import { createLoadingSelector } from "../../store/loading/reducer";
-import detectFormChanges from "./detectFormChanges";
-import EditFormLine from "./components/EditFormLine";
-import EditFormContainer from "./components/EditFormContainer";
-import EditFormButtons from "./components/EditFormButtons";
+import { RootState } from "../../../../store/index";
+import { updateCard } from "../../../../store/library/card/thunks";
+import { createLoadingSelector } from "../../../../store/loading/reducer";
+import detectFormChanges from "../../detectFormChanges";
+import EditFormLine from "../../components/EditFormLine";
+import EditFormContainer from "../../components/EditFormContainer";
+import EditFormButtons from "../../components/EditFormButtons";
 
 const isUpdatingSelector = createLoadingSelector(["UPDATE_CARD"]);
 

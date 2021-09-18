@@ -6,11 +6,15 @@ import { fetchSubset } from "../../../store/library/subsets/thunks";
 import WrappedDataTable from "../components/WrappedDataTable";
 import { createLoadingSelector } from "../../../store/loading/reducer";
 import SubsetForm from "./subset_form/SubsetForm";
-import EditLink from "../components/EditLink";
 import EditFormHeader from "../components/EditFormHeader";
 import AdminPageContainer from "../components/AdminPageContainer";
 import CreateSeriesModal from "./series_modal/CreateSeriesModal";
 import StyledButton from "../components/StyledButton";
+
+import {
+  cardsDataTableColumns,
+  seriesDataTableColumns,
+} from "./dataTableColumns";
 
 const isLoadingSelector = createLoadingSelector(["GET_SUBSET"]);
 
@@ -18,57 +22,8 @@ interface Params {
   subsetId: string;
 }
 
-const seriesColumns = [
-  {
-    name: "Name",
-    selector: "name",
-    sortable: true,
-  },
-  {
-    name: "",
-    sortable: false,
-    cell: (row: any) => <EditLink to={`/admin/edit/series/${row.id}`} />,
-    grow: 0,
-  },
-];
-const cardsColumns = [
-  {
-    name: "Card Number",
-    selector: "number",
-    sortFunction: (rowA: any, rowB: any) => {
-      // trye to convert to number first and then sort
-      if (+rowA && +rowB) return +rowA - +rowB;
-      // if card number is not a number (contains characters), sort with string value
-      if (rowA < rowB) return -1;
-      return 1;
-    },
-    sortable: false,
-  },
-  {
-    name: "Name",
-    selector: "name",
-    sortable: true,
-  },
-  {
-    name: "Team",
-    selector: "team.name",
-    sortable: true,
-  },
-  {
-    name: "Rookie",
-    sortable: false,
-    cell: (row: any) => (row.rookie ? "RC" : ""),
-  },
-  {
-    name: "",
-    sortable: false,
-    cell: (row: any) => <EditLink to={`/admin/edit/card/${row.cardDataId}`} />,
-    grow: 0,
-  },
-];
-
 export default function EditSubset(props: RouteComponentProps<Params>) {
-  const [showCreateSeriesModal, setShowCreateSeriesModal] = useState(true);
+  const [showCreateSeriesModal, setShowCreateSeriesModal] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -97,7 +52,7 @@ export default function EditSubset(props: RouteComponentProps<Params>) {
       <SubsetForm />
       <WrappedDataTable
         title={`Series in ${subset.name}`}
-        columns={seriesColumns}
+        columns={seriesDataTableColumns}
         data={subset.series}
         highlightOnHover
         actions={
@@ -108,9 +63,8 @@ export default function EditSubset(props: RouteComponentProps<Params>) {
       />
       <WrappedDataTable
         title={`Cards in ${subset.name}`}
-        columns={cardsColumns}
+        columns={cardsDataTableColumns}
         data={subset.card_data}
-        defaultSortField="number"
         highlightOnHover
         pagination
         paginationPerPage={20}

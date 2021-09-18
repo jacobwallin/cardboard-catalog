@@ -5,7 +5,7 @@ import AdminSets from "./all-sets/AdminSets";
 import EditSet from "./edit_set/EditSet";
 import EditSubset from "./edit_subset/EditSubset";
 import EditSeries from "./edit-series/EditSeries";
-import EditCard from "./EditCard";
+import EditCard from "./edit_card/EditCard";
 import * as Styled from "./styled";
 
 export default function Admin() {

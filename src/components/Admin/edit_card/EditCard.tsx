@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { RootState } from "../../store";
-import EditCardForm from "./EditCardForm";
-import { createLoadingSelector } from "../../store/loading/reducer";
-import { fetchAllTeams } from "../../store/library/teams/thunks";
-import { fetchCard } from "../../store/library/card/thunks";
+import { RootState } from "../../../store";
+import EditCardForm from "./card_form/EditCardForm";
+import { createLoadingSelector } from "../../../store/loading/reducer";
+import { fetchAllTeams } from "../../../store/library/teams/thunks";
+import { fetchCard } from "../../../store/library/card/thunks";
 
-import EditFormHeader from "./components/EditFormHeader";
-import AdminPageContainer from "./components/AdminPageContainer";
+import EditFormHeader from "../components/EditFormHeader";
+import AdminPageContainer from "../components/AdminPageContainer";
 
 const isLoadingSelector = createLoadingSelector([
   "GET_CARD_BY_ID",
