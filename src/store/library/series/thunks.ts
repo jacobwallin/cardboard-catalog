@@ -25,7 +25,6 @@ export const updateSeries =
     seriesData: {
       name: string;
       serialized: number | null;
-      color: string;
       auto: boolean;
       relic: boolean;
       manufacturedRelic: boolean;

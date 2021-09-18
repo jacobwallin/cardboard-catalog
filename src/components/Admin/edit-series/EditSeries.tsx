@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { RootState } from "../../store";
-import { fetchSeriesById } from "../../store/library/series/thunks";
-import { createLoadingSelector } from "../../store/loading/reducer";
-import EditSeriesForm from "./EditSeriesForm";
-import EditFormHeader from "./components/EditFormHeader";
-import AdminPageContainer from "./components/AdminPageContainer";
+import { RootState } from "../../../store";
+import { fetchSeriesById } from "../../../store/library/series/thunks";
+import { createLoadingSelector } from "../../../store/loading/reducer";
+import EditSeriesForm from "./series_form/EditSeriesForm";
+import EditFormHeader from "../components/EditFormHeader";
+import AdminPageContainer from "../components/AdminPageContainer";
 
 const isLoadingSelector = createLoadingSelector([
   "GET_ATTRIBUTES",
@@ -34,7 +34,7 @@ export default function EditSeries(props: RouteComponentProps<Params>) {
   return (
     <AdminPageContainer>
       <EditFormHeader text={`Edit ${series.name} Series`} />
-      <EditSeriesForm />
+      {!isLoading && <EditSeriesForm />}
     </AdminPageContainer>
   );
 }
