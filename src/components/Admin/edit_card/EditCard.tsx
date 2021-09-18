@@ -10,10 +10,7 @@ import { fetchCard } from "../../../store/library/card/thunks";
 import EditFormHeader from "../components/EditFormHeader";
 import AdminPageContainer from "../components/AdminPageContainer";
 
-const isLoadingSelector = createLoadingSelector([
-  "GET_CARD_BY_ID",
-  "GET_ALL_TEAMS",
-]);
+const isLoadingSelector = createLoadingSelector(["GET_CARD", "GET_ALL_TEAMS"]);
 
 interface Params {
   cardId: string;

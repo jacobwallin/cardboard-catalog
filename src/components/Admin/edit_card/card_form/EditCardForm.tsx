@@ -7,6 +7,8 @@ import detectFormChanges from "../../detectFormChanges";
 import EditFormLine from "../../components/EditFormLine";
 import EditFormContainer from "../../components/EditFormContainer";
 import EditFormButtons from "../../components/EditFormButtons";
+import * as Styled from "./styled";
+import StyledButton from "../../components/StyledButton";
 
 const isUpdatingSelector = createLoadingSelector(["UPDATE_CARD"]);
 
@@ -25,6 +27,8 @@ export default function EditCardForm(props: Props) {
     isUpdatingSelector(state)
   );
 
+  useEffect(() => {}, []);
+
   useEffect(() => {
     if (!isUpdating) {
       setIsEditing(false);
@@ -36,6 +40,7 @@ export default function EditCardForm(props: Props) {
   const [numberField, setNumberField] = useState(card.number);
   const [rookieField, setRookieField] = useState(card.rookie);
   const [teamIdField, setTeamIdField] = useState(card.teamId);
+  const [players, setPlayers] = useState(card.players);
 
   function handleEditStateChange() {
     setIsEditing(!isEditing);
@@ -68,6 +73,10 @@ export default function EditCardForm(props: Props) {
     }
   }
 
+  function deletePlayer(id: number) {
+    setPlayers(players.filter((player) => player.id !== id));
+  }
+
   function handleFormSubmit() {
     dispatch(
       updateCard(props.cardDataId, {
@@ -75,7 +84,7 @@ export default function EditCardForm(props: Props) {
         number: numberField,
         rookie: rookieField,
         teamId: teamIdField,
-        playerIds: [],
+        playerIds: players.map((player) => player.id),
       })
     );
   }
@@ -149,14 +158,59 @@ export default function EditCardForm(props: Props) {
           </select>
         }
       />
+      <EditFormLine
+        editing={isEditing}
+        title="Players: "
+        data={card.players.map((player) => {
+          return <div key={player.id}>{player.name}</div>;
+        })}
+        input={
+          <Styled.PlayersContainer>
+            <Styled.AddPlayerContainer>
+              <Styled.AddPlayer>Add: </Styled.AddPlayer>
+              <Styled.PlayerSelect></Styled.PlayerSelect>
+              <StyledButton color="BLUE" height="25px" width="50px">
+                Add
+              </StyledButton>
+            </Styled.AddPlayerContainer>
+            {players.map((player) => {
+              return (
+                <Styled.CurrentPlayersContainer key={player.id}>
+                  <StyledButton
+                    color="RED"
+                    height="25px"
+                    width="25px"
+                    onClick={() => deletePlayer(player.id)}
+                  >
+                    x
+                  </StyledButton>
+                  <Styled.PlayerName>{player.name}</Styled.PlayerName>
+                </Styled.CurrentPlayersContainer>
+              );
+            })}
+          </Styled.PlayersContainer>
+        }
+      />
       <EditFormButtons
         isEditing={isEditing}
         isUpdating={isUpdating}
         handleEditStateChange={handleEditStateChange}
         handleFormSubmit={handleFormSubmit}
         changesMade={detectFormChanges(
-          [nameField, numberField, rookieField, teamIdField],
-          [card.name, card.number, card.rookie, card.teamId]
+          [
+            nameField,
+            numberField,
+            rookieField,
+            teamIdField,
+            players.map((player) => player.id),
+          ],
+          [
+            card.name,
+            card.number,
+            card.rookie,
+            card.teamId,
+            card.players.map((player) => player.id),
+          ]
         )}
       />
     </EditFormContainer>
