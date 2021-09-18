@@ -1,5 +1,6 @@
 import {
   Subset,
+  Series,
   UpdateSubsetServerResponse,
   LibraryActionTypes,
   GET_SUBSET_REQUEST,
@@ -8,6 +9,9 @@ import {
   UPDATE_SUBSET_REQUEST,
   UPDATE_SUBSET_SUCCESS,
   UPDATE_SUBSET_FAILURE,
+  CREATE_SERIES_SUCCESS,
+  CREATE_SERIES_REQUEST,
+  CREATE_SERIES_FAILURE,
   CLEAR_LIBRARY,
 } from "./types";
 
@@ -38,4 +42,15 @@ export const updateSubsetFailure = (): LibraryActionTypes => ({
 
 export const clearLibrary = () => ({
   type: CLEAR_LIBRARY,
+});
+
+export const createSeriesRequest = (): LibraryActionTypes => ({
+  type: CREATE_SERIES_REQUEST,
+});
+export const createSeriesSuccess = (series: Series): LibraryActionTypes => ({
+  type: CREATE_SERIES_SUCCESS,
+  series,
+});
+export const createSeriesFaillure = (): LibraryActionTypes => ({
+  type: CREATE_SERIES_FAILURE,
 });

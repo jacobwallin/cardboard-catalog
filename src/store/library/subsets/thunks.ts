@@ -52,3 +52,38 @@ export const updateSubset =
         actions.updateSubsetFailure();
       });
   };
+
+export const createSeries =
+  (seriesData: {
+    subsetId: number;
+    serialized: number | null;
+    parallel: boolean;
+    shortPrint: boolean;
+    auto: boolean;
+    relic: boolean;
+    manufacturedRelic: boolean;
+  }): ThunkAction<void, RootState, unknown, LibraryActionTypes> =>
+  (dispatch) => {
+    dispatch(actions.createSeriesRequest());
+    fetch(`/api/series`, {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify(seriesData),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((createdSeries) => {
+        dispatch(actions.createSeriesSuccess(createdSeries));
+      })
+      .catch((error) => {
+        dispatch(actions.createSeriesFaillure());
+      });
+  };

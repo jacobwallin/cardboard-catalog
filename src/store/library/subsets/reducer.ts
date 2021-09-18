@@ -3,6 +3,7 @@ import {
   LibraryActionTypes,
   GET_SUBSET_SUCCESS,
   UPDATE_SUBSET_SUCCESS,
+  CREATE_SERIES_SUCCESS,
   CLEAR_LIBRARY,
 } from "./types";
 
@@ -31,6 +32,14 @@ const subsetsReducer = (
       return {
         ...state,
         subset: { ...state.subset, ...action.updatedSubset },
+      };
+    case CREATE_SERIES_SUCCESS:
+      return {
+        ...state,
+        subset: {
+          ...state.subset,
+          series: [...state.subset.series, action.series],
+        },
       };
     case CLEAR_LIBRARY:
       return initialState;
