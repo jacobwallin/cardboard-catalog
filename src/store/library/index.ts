@@ -8,6 +8,7 @@ import seriesReducer from "./series/reducer";
 import cardReducer from "./card/reducer";
 import teamsReducer from "./teams/reducer";
 import gradingCompaniesReducer from "./grading_companies/reducer";
+import playersReducer from "./players/reducer";
 
 const libraryReducer = combineReducers({
   sets: setsReducer,
@@ -18,6 +19,7 @@ const libraryReducer = combineReducers({
   card: cardReducer,
   teams: teamsReducer,
   gradingCompanies: gradingCompaniesReducer,
+  players: playersReducer,
 });
 
 export default libraryReducer;

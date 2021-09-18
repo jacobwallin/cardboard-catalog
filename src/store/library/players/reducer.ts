@@ -9,5 +9,7 @@ export default function playersReducer(
   switch (action.type) {
     case types.GET_ALL_PLAYERS_SUCCESS:
       return action.players;
+    default:
+      return state;
   }
 }
