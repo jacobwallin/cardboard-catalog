@@ -1,4 +1,4 @@
-// REDUCER STATE
+// STATE
 export interface SetsState {
   allSets: SetSummary[];
   singleSet: Set;
@@ -72,7 +72,7 @@ export const CREATE_SET_SUCCESS = "CREATE_SET_SUCCESS";
 export const CREATE_SET_FAILURE = "CREATE_SET_FAILURE";
 export const CLEAR_LIBRARY = "CLEAR_LIBRARY";
 
-// ACTION CREATOR TYPES
+// ACTION CREATORS
 export interface GetAllSetsRequest {
   type: typeof GET_ALL_SETS_REQUEST;
 }

@@ -1,43 +1,4 @@
-export const GET_SERIES_REQUEST = "GET_SERIES_REQUEST";
-export const GET_SERIES_SUCCESS = "GET_SERIES_SUCCESS";
-export const GET_SERIES_FAILURE = "GET_SERIES_FAILURE";
-export const UPDATE_SERIES_REQUEST = "UPDATE_SERIES_REQUEST";
-export const UPDATE_SERIES_SUCCESS = "UPDATE_SERIES_SUCCESS";
-export const UPDATE_SERIES_FAILURE = "UPDATE_SERIES_FAILURE";
-export const CREATE_SERIES_REQUEST = "CREATE_SERIES_REQUEST";
-export const CREATE_SERIES_SUCCESS = "CREATE_SERIES_SUCCESS";
-export const CREATE_SERIES_FAILURE = "CREATE_SERIES_FAILURE";
-
-interface GetSeriesRequest {
-  type: typeof GET_SERIES_REQUEST;
-}
-interface GetSeriesSuccess {
-  type: typeof GET_SERIES_SUCCESS;
-  series: Series;
-}
-interface GetSeriesFailure {
-  type: typeof GET_SERIES_FAILURE;
-}
-
-interface UpdateSeriesRequest {
-  type: typeof UPDATE_SERIES_REQUEST;
-}
-interface UpdateSeriesSuccess {
-  type: typeof UPDATE_SERIES_SUCCESS;
-  updatedSeries: Series;
-}
-interface UpdateSeriesFailure {
-  type: typeof UPDATE_SERIES_FAILURE;
-}
-
-export type SeriesActionTypes =
-  | GetSeriesRequest
-  | GetSeriesSuccess
-  | GetSeriesFailure
-  | UpdateSeriesRequest
-  | UpdateSeriesSuccess
-  | UpdateSeriesFailure;
-
+// STATE
 export interface SeriesState {
   series: Series;
 }
@@ -89,3 +50,42 @@ interface Player {
     updatedAt: string;
   };
 }
+
+// ACTION TYPES
+export const GET_SERIES_REQUEST = "GET_SERIES_REQUEST";
+export const GET_SERIES_SUCCESS = "GET_SERIES_SUCCESS";
+export const GET_SERIES_FAILURE = "GET_SERIES_FAILURE";
+export const UPDATE_SERIES_REQUEST = "UPDATE_SERIES_REQUEST";
+export const UPDATE_SERIES_SUCCESS = "UPDATE_SERIES_SUCCESS";
+export const UPDATE_SERIES_FAILURE = "UPDATE_SERIES_FAILURE";
+
+// ACTION CREATORS
+interface GetSeriesRequest {
+  type: typeof GET_SERIES_REQUEST;
+}
+interface GetSeriesSuccess {
+  type: typeof GET_SERIES_SUCCESS;
+  series: Series;
+}
+interface GetSeriesFailure {
+  type: typeof GET_SERIES_FAILURE;
+}
+
+interface UpdateSeriesRequest {
+  type: typeof UPDATE_SERIES_REQUEST;
+}
+interface UpdateSeriesSuccess {
+  type: typeof UPDATE_SERIES_SUCCESS;
+  updatedSeries: Series;
+}
+interface UpdateSeriesFailure {
+  type: typeof UPDATE_SERIES_FAILURE;
+}
+
+export type SeriesActionTypes =
+  | GetSeriesRequest
+  | GetSeriesSuccess
+  | GetSeriesFailure
+  | UpdateSeriesRequest
+  | UpdateSeriesSuccess
+  | UpdateSeriesFailure;

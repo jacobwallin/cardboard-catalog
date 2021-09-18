@@ -1,17 +1,4 @@
-export const GET_ALL_TEAMS_REQUEST = "GET_ALL_TEAMS_REQUEST";
-export const GET_ALL_TEAMS_SUCCESS = "GET_ALL_TEAMS_SUCCESS";
-
-interface GetAllTeamsRequest {
-  type: typeof GET_ALL_TEAMS_REQUEST;
-}
-
-interface GetAllTeamsSuccess {
-  type: typeof GET_ALL_TEAMS_SUCCESS;
-  allTeams: TeamsState;
-}
-
-export type TeamsActionTypes = GetAllTeamsRequest | GetAllTeamsSuccess;
-
+// STATE
 export type TeamsState = Team[];
 
 export interface Team {
@@ -27,3 +14,25 @@ export interface Team {
     updatedAt: string;
   };
 }
+
+// ACTION TYPES
+export const GET_ALL_TEAMS_REQUEST = "GET_ALL_TEAMS_REQUEST";
+export const GET_ALL_TEAMS_SUCCESS = "GET_ALL_TEAMS_SUCCESS";
+export const GET_ALL_TEAMS_FAILURE = "GET_ALL_TEAMS_FAILURE";
+
+// ACTION CREATORS
+interface GetAllTeamsRequest {
+  type: typeof GET_ALL_TEAMS_REQUEST;
+}
+interface GetAllTeamsSuccess {
+  type: typeof GET_ALL_TEAMS_SUCCESS;
+  allTeams: TeamsState;
+}
+interface GetAllTeamsFailure {
+  type: typeof GET_ALL_TEAMS_FAILURE;
+}
+
+export type TeamsActionTypes =
+  | GetAllTeamsRequest
+  | GetAllTeamsSuccess
+  | GetAllTeamsFailure;
