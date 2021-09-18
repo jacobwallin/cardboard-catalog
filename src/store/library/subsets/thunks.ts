@@ -56,6 +56,7 @@ export const updateSubset =
 export const createSeries =
   (seriesData: {
     subsetId: number;
+    name: string;
     serialized: number | null;
     parallel: boolean;
     shortPrint: boolean;

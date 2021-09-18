@@ -6,10 +6,11 @@ import ModalBackground from "../../components/modal/Background";
 import CreateModalWindow from "../../components/modal/ModalWindow";
 import StyledTextInput from "../../components/modal/StyledTextInput";
 import StyledLabel from "../../components/modal/StyledLabel";
-import StyledTextArea from "../../components/modal/StyledTextArea";
 import StyledInputContainer from "../../components/modal/InputContainer";
 import CreateModalButtons from "../../components/modal/ModalButtons";
 import CreateModalHeader from "../../components/modal/ModalHeader";
+
+import { createSeries } from "../../../../store/library/subsets/thunks";
 
 import { createLoadingSelector } from "../../../../store/loading/reducer";
 
@@ -23,8 +24,8 @@ export default function CreateSeriesModal(props: Props) {
   const dispatch = useDispatch();
 
   // FORM DATA
-  const [nameField, setNameField] = useState("");
-  const [serialized, setSerialized] = useState<number | undefined>(undefined);
+  const [name, setName] = useState("");
+  const [serialized, setSerialized] = useState<number | null>(null);
   const [auto, setAuto] = useState(false);
   const [relic, setRelic] = useState(false);
   const [manufacturedRelic, setManufacturedRelic] = useState(false);
@@ -34,9 +35,24 @@ export default function CreateSeriesModal(props: Props) {
   const isCreating = useSelector((state: RootState) =>
     isCreatingSelector(state)
   );
+  const subset = useSelector(
+    (state: RootState) => state.library.subsets.subset
+  );
 
   function handleFormSubmit() {
     // post to server
+    dispatch(
+      createSeries({
+        subsetId: subset.id,
+        name,
+        serialized,
+        auto,
+        relic,
+        manufacturedRelic,
+        parallel,
+        shortPrint,
+      })
+    );
   }
 
   function handleInputChange(
@@ -44,7 +60,7 @@ export default function CreateSeriesModal(props: Props) {
   ) {
     switch (event.target.name) {
       case "seriesNameField":
-        setNameField(event.target.value);
+        setName(event.target.value);
         break;
       case "seriesserialized":
         setSerialized(+event.target.value);
@@ -76,7 +92,7 @@ export default function CreateSeriesModal(props: Props) {
           <StyledTextInput
             name="seriesNameField"
             type="text"
-            value={nameField}
+            value={name}
             onChange={handleInputChange}
           />
         </StyledInputContainer>
