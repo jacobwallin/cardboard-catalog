@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../../store/index";
 import { createLoadingSelector } from "../../../../store/loading/reducer";
@@ -18,17 +18,26 @@ export default function SeriesForm() {
   const isUpdating = useSelector((state: RootState) =>
     isUpdatingSelector(state)
   );
+  useEffect(() => {
+    if (!isUpdating) {
+      setIsEditing(false);
+    }
+  }, [isUpdating]);
 
   // toggles between showing current series info and the form to edit it
   const [isEditing, setIsEditing] = useState(false);
   // controlled form data
   const [name, setName] = useState(series.name);
-  const [serialized, setSerialized] = useState(series.serialized);
-  const [auto, setAuto] = useState(false);
-  const [relic, setRelic] = useState(false);
-  const [manufacturedRelic, setManufacturedRelic] = useState(false);
-  const [parallel, setParallel] = useState(false);
-  const [shortPrint, setShortPrint] = useState(false);
+  const [serialized, setSerialized] = useState<string>(
+    series.serialized === null ? "" : series.serialized.toString()
+  );
+  const [auto, setAuto] = useState(series.auto);
+  const [relic, setRelic] = useState(series.relic);
+  const [manufacturedRelic, setManufacturedRelic] = useState(
+    series.manufacturedRelic
+  );
+  const [parallel, setParallel] = useState(series.parallel);
+  const [shortPrint, setShortPrint] = useState(series.shortPrint);
 
   // form change handlers
   function handleEditStateChange() {
@@ -39,7 +48,7 @@ export default function SeriesForm() {
     dispatch(
       updateSeries(series.id, {
         name,
-        serialized,
+        serialized: serialized === "" ? null : +serialized,
         auto,
         relic,
         manufacturedRelic,
@@ -57,20 +66,26 @@ export default function SeriesForm() {
       case "nameField":
         setName(value);
         break;
-      case "serializedField":
-        setSerialized(+value);
+      case "serialized":
+        setSerialized(value);
+        break;
+      case "parallel":
+        setParallel(!parallel);
+        break;
+      case "shortPrint":
+        setShortPrint(!shortPrint);
+        break;
+      case "auto":
+        setAuto(!auto);
+        break;
+      case "relic":
+        setRelic(!relic);
+        break;
+      case "manufacturedRelic":
+        setManufacturedRelic(!manufacturedRelic);
         break;
     }
   }
-
-  function handleAttributeInputChange(
-    event: React.ChangeEvent<HTMLInputElement>
-  ) {
-    if (event.target.checked) {
-    }
-  }
-
-  console.log("SERiAL:", serialized);
 
   return (
     <EditFormContainer>
@@ -89,18 +104,87 @@ export default function SeriesForm() {
           />
         }
       />
-
       <EditFormLine
         editing={isEditing}
         title="Serialized To: "
-        data={series.serialized}
+        data={series.serialized || "Not Serialized"}
         input={
           <input
-            name="serializedToField"
-            type="text"
-            value={serialized || ""}
+            name="serialized"
+            type="number"
+            value={serialized}
             disabled={isUpdating}
             placeholder="Enter #"
+            onChange={handleInputChange}
+          />
+        }
+      />
+      <EditFormLine
+        editing={isEditing}
+        title="Parallel: "
+        data={series.parallel ? "Yes" : "No"}
+        input={
+          <input
+            name="parallel"
+            type="checkbox"
+            checked={parallel}
+            disabled={isUpdating}
+            onChange={handleInputChange}
+          />
+        }
+      />
+      <EditFormLine
+        editing={isEditing}
+        title="Short Print: "
+        data={series.shortPrint ? "Yes" : "No"}
+        input={
+          <input
+            name="shortPrint"
+            type="checkbox"
+            checked={shortPrint}
+            disabled={isUpdating}
+            onChange={handleInputChange}
+          />
+        }
+      />
+      <EditFormLine
+        editing={isEditing}
+        title="Auto: "
+        data={series.auto ? "Yes" : "No"}
+        input={
+          <input
+            name="auto"
+            type="checkbox"
+            checked={auto}
+            disabled={isUpdating}
+            onChange={handleInputChange}
+          />
+        }
+      />
+      <EditFormLine
+        editing={isEditing}
+        title="Relic: "
+        data={series.relic ? "Yes" : "No"}
+        input={
+          <input
+            name="relic"
+            type="checkbox"
+            checked={relic}
+            disabled={isUpdating}
+            onChange={handleInputChange}
+          />
+        }
+      />
+      <EditFormLine
+        editing={isEditing}
+        title="Manufactured Relic: "
+        data={series.manufacturedRelic ? "Yes" : "No"}
+        input={
+          <input
+            name="manufacturedRelic"
+            type="checkbox"
+            checked={manufacturedRelic}
+            disabled={isUpdating}
             onChange={handleInputChange}
           />
         }
@@ -112,7 +196,7 @@ export default function SeriesForm() {
         changesMade={detectFormChanges(
           [
             series.name,
-            series.serialized,
+            series.serialized ? series.serialized.toString() : "",
             series.auto,
             series.relic,
             series.manufacturedRelic,

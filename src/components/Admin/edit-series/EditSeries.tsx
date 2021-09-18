@@ -10,7 +10,7 @@ import AdminPageContainer from "../components/AdminPageContainer";
 
 const isLoadingSelector = createLoadingSelector([
   "GET_ATTRIBUTES",
-  "GET_SERIES_BY_ID",
+  "GET_SERIES",
 ]);
 
 interface Params {
@@ -34,7 +34,7 @@ export default function EditSeries(props: RouteComponentProps<Params>) {
   return (
     <AdminPageContainer>
       <EditFormHeader text={`Edit ${series.name} Series`} />
-      {!isLoading && <EditSeriesForm />}
+      <EditSeriesForm />
     </AdminPageContainer>
   );
 }

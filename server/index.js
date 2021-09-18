@@ -33,7 +33,7 @@ app.use(
   (req) => {
     setTimeout(() => {
       req.next();
-    }, 1000);
+    }, 500);
   },
   require("./api")
 );
