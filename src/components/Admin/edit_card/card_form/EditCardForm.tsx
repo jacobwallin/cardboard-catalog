@@ -103,10 +103,14 @@ export default function EditCardForm(props: Props) {
 
   function addPlayer() {
     if (selectedPlayerId !== 0) {
-      const playerToAdd = allPlayers.find(
-        (player) => player.id === selectedPlayerId
-      )!;
-      setPlayers([...players, playerToAdd]);
+      if (
+        players.findIndex((player) => player.id === selectedPlayerId) === -1
+      ) {
+        const playerToAdd = allPlayers.find(
+          (player) => player.id === selectedPlayerId
+        )!;
+        setPlayers([...players, playerToAdd]);
+      }
     }
   }
 
@@ -203,6 +207,7 @@ export default function EditCardForm(props: Props) {
               type="text"
               name="playerFilter"
               placeholder="Filter Players"
+              autoComplete="off"
               value={playerFilter}
               onChange={handleInputChange}
             />
