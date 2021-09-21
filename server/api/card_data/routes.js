@@ -115,19 +115,31 @@ router.post("/", async (req, res, next) => {
 // });
 
 router.put("/:cardId", async (req, res, next) => {
-  const { name, number, rookie, playerId, teamId } = req.body;
+  const { name, number, rookie, playerIds, teamId } = req.body;
 
   try {
-    await CardData.update(
-      { name, number, rookie, playerId, teamId },
-      { where: { id: req.params.cardId } }
-    );
-
-    const updatedCard = await CardData.findByPk(req.params.cardId, {
-      include: Team,
+    // get card data instance
+    const cardData = await CardData.findByPk(req.params.cardId, {
+      include: [Team, Player],
     });
+    // update values locally
+    cardData.name = name;
+    cardData.number = number;
+    cardData.rookie = rookie;
+    cardData.teamId = teamId;
+    // save new values to db
+    await cardData.save();
 
-    res.json(updatedCard);
+    // get all players
+    const currentPlayers = await cardData.getPlayers();
+    // remove all
+    await cardData.removePlayers(currentPlayers);
+    // re-add
+    await cardData.addPlayers(playerIds);
+    // reload to get new players
+    await cardData.reload();
+
+    res.json(cardData);
   } catch (error) {
     next(error);
   }
