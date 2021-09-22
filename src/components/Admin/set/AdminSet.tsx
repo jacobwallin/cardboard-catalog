@@ -11,7 +11,7 @@ import { createLoadingSelector } from "../../../store/loading/reducer";
 import CreateSubsetModal from "./subset_modal/CreateSubsetModal";
 import EditFormHeader from "../components/EditFormHeader";
 import AdminPageContainer from "../components/AdminPageContainer";
-import StyledButton from "../components/StyledButton";
+import CreateButton from "../components/CreateButton";
 
 const columns = [
   {
@@ -73,9 +73,9 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
             data={singleSet.subsets}
             highlightOnHover
             actions={
-              <StyledButton color="YELLOW" onClick={toggleCreateSubsetModal}>
+              <CreateButton onClick={toggleCreateSubsetModal}>
                 Create Subset
-              </StyledButton>
+              </CreateButton>
             }
           />
           {showCreateSubsetModal && (

@@ -2,10 +2,10 @@ import React from "react";
 import { Route, useRouteMatch } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import AdminSets from "./all-sets/AdminSets";
-import EditSet from "./set/AdminSet";
-import EditSubset from "./subset/EditSubset";
-import EditSeries from "./series/EditSeries";
-import EditCard from "./card/AdminCard";
+import AdminSet from "./set/AdminSet";
+import AdminSubset from "./subset/AdminSubset";
+import AdminSeries from "./series/EditSeries";
+import AdminCard from "./card/AdminCard";
 import * as Styled from "./styled";
 
 export default function Admin() {
@@ -17,21 +17,21 @@ export default function Admin() {
       <Styled.AdminWrapper>
         <Styled.AdminContainer>
           <Route exact path={path} component={AdminSets} />
-          <Route exact path={`${path}/edit/set/:setId`} component={EditSet} />
+          <Route exact path={`${path}/edit/set/:setId`} component={AdminSet} />
           <Route
             exact
             path={`${path}/edit/subset/:subsetId`}
-            component={EditSubset}
+            component={AdminSubset}
           />
           <Route
             exact
             path={`${path}/edit/series/:seriesId`}
-            component={EditSeries}
+            component={AdminSeries}
           />
           <Route
             exact
             path={`${path}/edit/card/:cardId`}
-            component={EditCard}
+            component={AdminCard}
           />
           <Route exact path={`${path}/teams`} component={() => <p>teams</p>} />
           <Route

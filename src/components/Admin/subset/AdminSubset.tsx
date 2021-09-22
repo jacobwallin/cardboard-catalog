@@ -23,7 +23,7 @@ interface Params {
   subsetId: string;
 }
 
-export default function EditSubset(props: RouteComponentProps<Params>) {
+export default function AdminSubset(props: RouteComponentProps<Params>) {
   const [showCreateSeriesModal, setShowCreateSeriesModal] = useState(false);
   const [showCreateCardModal, setShowCreateCardModal] = useState(false);
 
