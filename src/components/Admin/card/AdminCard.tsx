@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { RootState } from "../../../store";
-import EditCardForm from "./edit_card/EditCard";
+import EditCard from "./edit_card/EditCard";
 import { createLoadingSelector } from "../../../store/loading/reducer";
 import { fetchAllTeams } from "../../../store/library/teams/thunks";
 import { fetchCard } from "../../../store/library/card/thunks";
@@ -16,7 +16,7 @@ interface Params {
   cardId: string;
 }
 
-export default function EditCard(props: RouteComponentProps<Params>) {
+export default function AdminCard(props: RouteComponentProps<Params>) {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function EditCard(props: RouteComponentProps<Params>) {
   return (
     <AdminPageContainer>
       <EditFormHeader text={`Edit ${card.name} Card`} />
-      <EditCardForm cardDataId={+props.match.params.cardId} />
+      <EditCard cardDataId={+props.match.params.cardId} />
     </AdminPageContainer>
   );
 }

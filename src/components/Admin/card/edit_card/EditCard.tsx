@@ -18,7 +18,7 @@ interface Props {
   cardDataId: number;
 }
 
-export default function EditCardForm(props: Props) {
+export default function EditCard(props: Props) {
   const dispatch = useDispatch();
 
   const card = useSelector((state: RootState) => state.library.card);
