@@ -88,3 +88,13 @@ export const createSeries =
         dispatch(actions.createSeriesFaillure());
       });
   };
+
+export const createCard =
+  (
+    name: string,
+    number: string,
+    rookie: boolean,
+    teamId: number,
+    playerIds: number[]
+  ): ThunkAction<void, RootState, unknown, LibraryActionTypes> =>
+  (dispatch) => {};

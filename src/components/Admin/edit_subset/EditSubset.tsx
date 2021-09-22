@@ -9,6 +9,7 @@ import SubsetForm from "./subset_form/SubsetForm";
 import EditFormHeader from "../components/EditFormHeader";
 import AdminPageContainer from "../components/AdminPageContainer";
 import CreateSeriesModal from "./series_modal/CreateSeriesModal";
+import CreateCardModal from "./card_modal/CreateCardModal";
 import StyledButton from "../components/StyledButton";
 
 import {
@@ -24,6 +25,7 @@ interface Params {
 
 export default function EditSubset(props: RouteComponentProps<Params>) {
   const [showCreateSeriesModal, setShowCreateSeriesModal] = useState(false);
+  const [showCreateCardModal, setShowCreateCardModal] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -39,6 +41,9 @@ export default function EditSubset(props: RouteComponentProps<Params>) {
   function toggleCreateSeriesModal() {
     setShowCreateSeriesModal(!showCreateSeriesModal);
   }
+  function toggleCreateCardModal() {
+    setShowCreateCardModal(!showCreateCardModal);
+  }
 
   if (isLoading) {
     return <h1>LOADING DATA</h1>;
@@ -48,6 +53,9 @@ export default function EditSubset(props: RouteComponentProps<Params>) {
       {showCreateSeriesModal && (
         <CreateSeriesModal handleCancel={toggleCreateSeriesModal} />
       )}
+      {showCreateCardModal && (
+        <CreateCardModal handleCancel={toggleCreateCardModal} />
+      )}
       <EditFormHeader text={`Edit ${subset.name} Subset`} />
       <SubsetForm />
       <WrappedDataTable
@@ -56,7 +64,11 @@ export default function EditSubset(props: RouteComponentProps<Params>) {
         data={subset.series}
         highlightOnHover
         actions={
-          <StyledButton color="YELLOW" onClick={toggleCreateSeriesModal}>
+          <StyledButton
+            color="GREEN"
+            onClick={toggleCreateSeriesModal}
+            width="200px"
+          >
             Create Series
           </StyledButton>
         }
@@ -69,6 +81,15 @@ export default function EditSubset(props: RouteComponentProps<Params>) {
         pagination
         paginationPerPage={20}
         dense
+        actions={
+          <StyledButton
+            color="GREEN"
+            onClick={toggleCreateCardModal}
+            width="200px"
+          >
+            Create Card
+          </StyledButton>
+        }
       />
     </AdminPageContainer>
   );
