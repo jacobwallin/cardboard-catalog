@@ -2,9 +2,9 @@ import React from "react";
 import { Route, useRouteMatch } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import AdminSets from "./all-sets/AdminSets";
-import EditSet from "./edit_set/EditSet";
-import EditSubset from "./edit_subset/EditSubset";
-import EditSeries from "./edit-series/EditSeries";
+import EditSet from "./set/EditSet";
+import EditSubset from "./subset/EditSubset";
+import EditSeries from "./series/EditSeries";
 import EditCard from "./card/AdminCard";
 import * as Styled from "./styled";
 
