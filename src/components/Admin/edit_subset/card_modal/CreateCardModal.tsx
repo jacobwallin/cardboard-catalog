@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { createCard } from "../../../../store/library/subsets/thunks";
 import ModalBackground from "../../components/modal/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
-import CardForm from "../../edit_card/card_form/CardForm";
+import CardForm from "../../card/edit_card/CardForm";
 
 interface Props {
   handleCancel(): void;

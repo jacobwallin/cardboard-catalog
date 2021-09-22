@@ -137,7 +137,7 @@ export default function CardForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Card Name:</FieldTitle>
+        <FieldTitle>Card Number:</FieldTitle>
         <FieldData>
           <input
             name="numberField"
@@ -150,7 +150,7 @@ export default function CardForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Card Name:</FieldTitle>
+        <FieldTitle>Card Team:</FieldTitle>
         <FieldData>
           <select name="team" value={teamId} onChange={handleSelectChange}>
             {teams.map((team) => {
@@ -164,7 +164,7 @@ export default function CardForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Card Name:</FieldTitle>
+        <FieldTitle>Rookie Card:</FieldTitle>
         <FieldData>
           <select
             name="rookie"
@@ -178,7 +178,7 @@ export default function CardForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Card Name:</FieldTitle>
+        <FieldTitle>Player(s) on Card:</FieldTitle>
         <FieldData>
           <Styled.PlayersContainer>
             <Styled.PlayerFilter
@@ -249,7 +249,9 @@ export default function CardForm(props: Props) {
       <FormButtons
         handleCancel={props.handleCancel}
         handleSubmit={handleSubmit}
-        disabled={false}
+        disabled={
+          name === "" || number === "" || teamId === 0 || players.length === 0
+        }
       />
     </FormContainer>
   );

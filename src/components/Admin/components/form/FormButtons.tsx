@@ -17,11 +17,7 @@ interface FormButtonProps {
 export default function EditFormButtons(props: FormButtonProps) {
   return (
     <FormButtonContainer>
-      <StyledButton
-        onClick={props.handleCancel}
-        color="YELLOW"
-        disabled={props.disabled}
-      >
+      <StyledButton onClick={props.handleCancel} color="YELLOW">
         Cancel
       </StyledButton>
       <StyledButton
