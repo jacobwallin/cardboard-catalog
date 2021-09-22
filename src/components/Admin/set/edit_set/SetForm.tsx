@@ -48,12 +48,22 @@ export default function SetForm(props: Props) {
   );
 
   // controlled form data
-  const [name, setName] = useState(singleSet.name);
-  const [year, setYear] = useState(singleSet.year.toString());
-  const [brandId, setBrandId] = useState(singleSet.brand.id);
-  const [leagueId, setLeagueId] = useState(singleSet.league.id);
-  const [description, setDescription] = useState(singleSet.description);
-  const [baseSubsetId, setBaseSubsetId] = useState(singleSet.baseSubsetId || 0);
+  const [name, setName] = useState(props.createNew ? "" : singleSet.name);
+  const [year, setYear] = useState(
+    props.createNew ? "" : singleSet.year.toString()
+  );
+  const [brandId, setBrandId] = useState(
+    props.createNew ? 0 : singleSet.brand.id
+  );
+  const [leagueId, setLeagueId] = useState(
+    props.createNew ? 0 : singleSet.league.id
+  );
+  const [description, setDescription] = useState(
+    props.createNew ? "" : singleSet.description
+  );
+  const [baseSubsetId, setBaseSubsetId] = useState(
+    props.createNew ? 0 : singleSet.baseSubsetId || 0
+  );
 
   function handleSubmit() {
     props.handleSubmit(
@@ -161,25 +171,27 @@ export default function SetForm(props: Props) {
           </select>
         </FieldData>
       </FieldContainer>
-      <FieldContainer>
-        <FieldTitle>Base Subset:</FieldTitle>
-        <FieldData>
-          <select
-            name="baseSubset"
-            value={baseSubsetId}
-            onChange={handleSelectChange}
-          >
-            <option value={0}>Select Base Subset</option>
-            {singleSet.subsets.map((subset) => {
-              return (
-                <option key={subset.id} value={subset.id}>
-                  {subset.name}
-                </option>
-              );
-            })}
-          </select>
-        </FieldData>
-      </FieldContainer>
+      {!props.createNew && (
+        <FieldContainer>
+          <FieldTitle>Base Subset:</FieldTitle>
+          <FieldData>
+            <select
+              name="baseSubset"
+              value={baseSubsetId}
+              onChange={handleSelectChange}
+            >
+              <option value={0}>Select Base Subset</option>
+              {singleSet.subsets.map((subset) => {
+                return (
+                  <option key={subset.id} value={subset.id}>
+                    {subset.name}
+                  </option>
+                );
+              })}
+            </select>
+          </FieldData>
+        </FieldContainer>
+      )}
       <FieldContainer>
         <FieldTitle>Set Description:</FieldTitle>
         <FieldData>
