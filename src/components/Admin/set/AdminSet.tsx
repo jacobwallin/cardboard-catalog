@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSet } from "../../../store/library/sets/thunks";
-import { fetchAllBrands } from "../../../store/library/brands/thunks";
-import { fetchLeagues } from "../../../store/library/leagues/thunks";
 import { RootState } from "../../../store";
 import EditLink from "../components/EditLink";
-import SetForm from "./set_form/SetForm";
+import EditSet from "./edit_set/EditSet";
 import WrappedDataTable from "../components/WrappedDataTable";
 import { createLoadingSelector } from "../../../store/loading/reducer";
 
@@ -30,11 +28,7 @@ const columns = [
   },
 ];
 
-const isLoadingSelector = createLoadingSelector([
-  "GET_SINGLE_SET",
-  "GET_BRANDS",
-  "GET_LEAGUES",
-]);
+const isLoadingSelector = createLoadingSelector(["GET_SINGLE_SET"]);
 const creatingSubsetSelector = createLoadingSelector(["CREATE_SUBSET"]);
 interface Params {
   setId: string;
@@ -52,8 +46,6 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
 
   useEffect(() => {
     dispatch(fetchSet(+props.match.params.setId));
-    dispatch(fetchAllBrands());
-    dispatch(fetchLeagues());
   }, []);
 
   // hide create subset modal once the server has completed the post request
@@ -74,7 +66,7 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
       {!isLoading && (
         <>
           <EditFormHeader text={`Edit ${singleSet.name} Set`} />
-          <SetForm />
+          <EditSet setId={+props.match.params.setId} />
           <WrappedDataTable
             title={`Subsets in ${singleSet.name}`}
             columns={columns}

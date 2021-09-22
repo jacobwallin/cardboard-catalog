@@ -2,7 +2,7 @@ import React from "react";
 import { Route, useRouteMatch } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import AdminSets from "./all-sets/AdminSets";
-import EditSet from "./set/EditSet";
+import EditSet from "./set/AdminSet";
 import EditSubset from "./subset/EditSubset";
 import EditSeries from "./series/EditSeries";
 import EditCard from "./card/AdminCard";

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import ModalBackground from "./components/modal/Background";
+import ModalBackground from "./modal/Background";
 
 const ModalWindow = styled.div`
   position: fixed;
@@ -48,27 +48,29 @@ const ModalLoadingIndicator = styled.div`
 
 interface Props {
   message: string;
-  isDeleting: boolean;
-  handleDelete: any;
-  handleDismiss: any;
+  deleteStatus: string;
+  handleDelete(): void;
+  handleDismiss(): void;
 }
 
 export default function ConfirmDeleteModal(props: Props) {
   // modal window will either display a popup to let the user confirm deletion, or a loading indicator if deletion is in progress
   return (
     <ModalBackground>
-      {props.isDeleting ? (
-        <ModalLoadingIndicator>{`Deleting...`}</ModalLoadingIndicator>
-      ) : (
-        <ModalWindow>
-          <ModalPrimaryMessage>
-            Are you sure you want to delete?
-          </ModalPrimaryMessage>
-          <ModalSecondaryMessage>{props.message}</ModalSecondaryMessage>
-          <button onClick={props.handleDismiss}>Cancel</button>
-          <button onClick={props.handleDelete}>Delete</button>
-        </ModalWindow>
-      )}
+      <ModalWindow>
+        {props.deleteStatus === "REQUEST" ? (
+          <ModalLoadingIndicator>{`Deleting...`}</ModalLoadingIndicator>
+        ) : (
+          <>
+            <ModalPrimaryMessage>
+              Are you sure you want to delete?
+            </ModalPrimaryMessage>
+            <ModalSecondaryMessage>{props.message}</ModalSecondaryMessage>
+            <button onClick={props.handleDismiss}>Cancel</button>
+            <button onClick={props.handleDelete}>Delete</button>
+          </>
+        )}
+      </ModalWindow>
     </ModalBackground>
   );
 }
