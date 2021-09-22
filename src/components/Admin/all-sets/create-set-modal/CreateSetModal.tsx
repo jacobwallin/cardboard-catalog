@@ -67,7 +67,7 @@ export default function CreateSetModal(props: Props) {
           handleSubmit={handleSubmit}
           handleCancel={props.handleCancel}
         />
-        {createSetStatus === "FAILURE" && (
+        {setCreated && createSetStatus === "FAILURE" && (
           <ErrorMessage>Error Creating Set</ErrorMessage>
         )}
       </ModalWindow>
