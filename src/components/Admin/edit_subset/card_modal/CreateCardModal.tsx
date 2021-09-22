@@ -23,6 +23,7 @@ export default function CreateCardModal(props: Props) {
   return (
     <ModalBackground>
       <ModalWindow>
+        <h3 style={{ textAlign: "center" }}>Add New Card to Subset</h3>
         <CardForm
           createNew={true}
           handleCancel={props.handleCancel}
