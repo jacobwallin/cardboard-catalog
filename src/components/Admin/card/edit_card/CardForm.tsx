@@ -163,6 +163,7 @@ export default function CardForm(props: Props) {
             onChange={handleSelectChange}
             disabled={loadingInitialData}
           >
+            <option value={0}>Select Team</option>
             {teams.map((team) => {
               return (
                 <option key={team.id} value={team.id}>
@@ -261,10 +262,7 @@ export default function CardForm(props: Props) {
         handleSubmit={handleSubmit}
         disabled={
           props.createNew
-            ? name === "" ||
-              number === "" ||
-              teamId === 0 ||
-              players.length === 0
+            ? name === "" || number === "" || teamId === 0
             : !detectFormChanges(
                 [name, number, teamId, rookie],
                 [card.name, card.number, card.teamId, card.rookie]
