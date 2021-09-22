@@ -3,30 +3,28 @@ import StyledButton from "../StyledButton";
 import ButtonContainer from "./ButtonContainer";
 
 interface FormButtonProps {
-  disabled: boolean;
-  handleCancel(): void;
-  handleSubmit(): void;
+  handleEdit(): void;
+  handleDelete(): void;
 }
 
 export default function EditFormButtons(props: FormButtonProps) {
   return (
     <ButtonContainer>
       <StyledButton
-        onClick={props.handleCancel}
-        color="YELLOW"
+        onClick={props.handleEdit}
+        color="BLUE"
         width="110px"
         height="30px"
       >
-        Cancel
+        Edit
       </StyledButton>
       <StyledButton
-        onClick={props.handleSubmit}
-        color="GREEN"
-        disabled={props.disabled}
+        onClick={props.handleDelete}
+        color="RED"
         width="110px"
         height="30px"
       >
-        Save
+        Delete
       </StyledButton>
     </ButtonContainer>
   );

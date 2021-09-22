@@ -11,6 +11,7 @@ import FormContainer from "../../components/form/FormContainer";
 import FormButtons from "../../components/form/FormButtons";
 import StyledButton from "../../components/StyledButton";
 import { createLoadingSelector } from "../../../../store/loading/reducer";
+import detectFormChanges from "../../detectFormChanges";
 import * as Styled from "./styled";
 
 const loadingSelector = createLoadingSelector([
@@ -44,8 +45,8 @@ export default function CardForm(props: Props) {
   // set the initial values to card state if the form is being used to edit a card data
   const [name, setName] = useState(props.createNew ? "" : card.name);
   const [number, setNumber] = useState(props.createNew ? "" : card.number);
-  const [rookie, setRookie] = useState(props.createNew ? "" : card.rookie);
-  const [teamId, setTeamId] = useState(props.createNew ? "" : card.teamId);
+  const [rookie, setRookie] = useState(props.createNew ? false : card.rookie);
+  const [teamId, setTeamId] = useState(props.createNew ? 0 : card.teamId);
   const [players, setPlayers] = useState<PlayersState>(
     props.createNew
       ? []
@@ -69,7 +70,13 @@ export default function CardForm(props: Props) {
   }, []);
 
   function handleSubmit() {
-    // props.handleSubmit(name, number, rookie, teamId,)
+    props.handleSubmit(
+      name,
+      number,
+      rookie,
+      teamId,
+      players.map((player) => player.id)
+    );
   }
 
   function handleInputChange(
@@ -130,7 +137,6 @@ export default function CardForm(props: Props) {
             name="nameField"
             type="text"
             value={name}
-            disabled={loadingInitialData}
             placeholder="Enter Card Name"
             onChange={handleInputChange}
           />
@@ -143,7 +149,6 @@ export default function CardForm(props: Props) {
             name="numberField"
             type="text"
             value={number}
-            disabled={loadingInitialData}
             placeholder="Enter Card Number"
             onChange={handleInputChange}
           />
@@ -152,7 +157,12 @@ export default function CardForm(props: Props) {
       <FieldContainer>
         <FieldTitle>Card Team:</FieldTitle>
         <FieldData>
-          <select name="team" value={teamId} onChange={handleSelectChange}>
+          <select
+            name="team"
+            value={teamId}
+            onChange={handleSelectChange}
+            disabled={loadingInitialData}
+          >
             {teams.map((team) => {
               return (
                 <option key={team.id} value={team.id}>
@@ -169,7 +179,6 @@ export default function CardForm(props: Props) {
           <select
             name="rookie"
             value={rookie === true ? "YES" : "NO"}
-            disabled={loadingInitialData}
             onChange={handleSelectChange}
           >
             <option value={"YES"}>YES</option>
@@ -194,6 +203,7 @@ export default function CardForm(props: Props) {
                 name="selectedPlayerId"
                 value={selectedPlayerId}
                 onChange={handleSelectChange}
+                disabled={loadingInitialData}
               >
                 <option value={0}>Select Player</option>
                 {allPlayers
@@ -250,7 +260,15 @@ export default function CardForm(props: Props) {
         handleCancel={props.handleCancel}
         handleSubmit={handleSubmit}
         disabled={
-          name === "" || number === "" || teamId === 0 || players.length === 0
+          props.createNew
+            ? name === "" ||
+              number === "" ||
+              teamId === 0 ||
+              players.length === 0
+            : !detectFormChanges(
+                [name, number, teamId, rookie],
+                [card.name, card.number, card.teamId, card.rookie]
+              )
         }
       />
     </FormContainer>
