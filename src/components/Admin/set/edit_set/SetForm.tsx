@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
-import { fetchAllBrands } from "../../../../store/library/brands/thunks";
-import { fetchLeagues } from "../../../../store/library/leagues/thunks";
 import detectFormChanges from "../../detectFormChanges";
 
 import FieldContainer from "../../components/form/FieldContainer";
@@ -34,8 +32,6 @@ interface Props {
 }
 
 export default function SetForm(props: Props) {
-  const dispatch = useDispatch();
-
   const singleSet = useSelector(
     (state: RootState) => state.library.sets.singleSet
   );
@@ -71,11 +67,6 @@ export default function SetForm(props: Props) {
     );
   }
 
-  useEffect(() => {
-    dispatch(fetchAllBrands());
-    dispatch(fetchLeagues());
-  }, []);
-
   function handleInputChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
@@ -87,7 +78,7 @@ export default function SetForm(props: Props) {
       case "year":
         setYear(value);
         break;
-      case "descriptionField":
+      case "description":
         setDescription(value);
     }
   }
@@ -108,7 +99,7 @@ export default function SetForm(props: Props) {
   }
 
   return (
-    <FormContainer>
+    <>
       <FieldContainer>
         <FieldTitle>Set Name:</FieldTitle>
         <FieldData>
@@ -194,7 +185,7 @@ export default function SetForm(props: Props) {
         <FieldTitle>Set Description:</FieldTitle>
         <FieldData>
           <textarea
-            name="descriptionFieldField"
+            name="description"
             value={description}
             placeholder="Enter Set Description"
             onChange={handleInputChange}
@@ -218,12 +209,13 @@ export default function SetForm(props: Props) {
                   singleSet.league.id,
                   singleSet.brand.id,
                   singleSet.year,
-                  singleSet.baseSubsetId,
+                  singleSet.baseSubsetId || 0,
                 ],
-                [name, description, leagueId, brandId, year, baseSubsetId]
+                [name, description, leagueId, brandId, +year, baseSubsetId]
               ))
         }
       />
-    </FormContainer>
+      {}
+    </>
   );
 }

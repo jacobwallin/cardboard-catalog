@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { RootState } from "../../../../store";
 import { updateSet, deleteSet } from "../../../../store/library/sets/thunks";
+import { fetchAllBrands } from "../../../../store/library/brands/thunks";
+import { fetchLeagues } from "../../../../store/library/leagues/thunks";
 import SetForm from "./SetForm";
 import FieldContainer from "../../components/form/FieldContainer";
 import FieldTitle from "../../components/form/FieldTitle";
@@ -10,12 +12,13 @@ import FieldData from "../../components/form/FieldData";
 import FormContainer from "../../components/form/FormContainer";
 import EditDeleteButtons from "../../components/form/EditDeleteButtons";
 import ConfirmDeleteModal from "../../components/ConfirmDeleteModal";
+import ErrorMessage from "../../components/form/ErrorMessage";
 import {
   createLoadingSelector,
   createStatusSelector,
 } from "../../../../store/loading/reducer";
 
-const updatingSetSelector = createLoadingSelector(["UPDATE_SET"]);
+const updatingSetSelector = createStatusSelector("UPDATE_SET");
 const deletingSetSelector = createStatusSelector("DELETE_SET");
 
 interface Props {
@@ -40,9 +43,15 @@ export default function EditSet(props: Props) {
     deletingSetSelector(state)
   );
 
+  // load data needed for form
+  useEffect(() => {
+    dispatch(fetchAllBrands());
+    dispatch(fetchLeagues());
+  }, []);
+
   // if loading status of updating set changes to success, hide the form
   useEffect(() => {
-    if (!updatingSet) {
+    if (updatingSet === "SUCCESS") {
       setShowForm(false);
     }
   }, [updatingSet]);
@@ -85,7 +94,7 @@ export default function EditSet(props: Props) {
   }
 
   return (
-    <>
+    <FormContainer>
       {showDeleteModal && (
         <ConfirmDeleteModal
           deleteStatus={deletingSetStatus}
@@ -101,7 +110,7 @@ export default function EditSet(props: Props) {
           handleCancel={toggleForm}
         />
       ) : (
-        <FormContainer>
+        <>
           <FieldContainer>
             <FieldTitle>Set Name:</FieldTitle>
             <FieldData>{set.name}</FieldData>
@@ -135,8 +144,11 @@ export default function EditSet(props: Props) {
             handleEdit={toggleForm}
             handleDelete={toggleDeleteModal}
           />
-        </FormContainer>
+        </>
       )}
-    </>
+      {updatingSet === "FAILURE" && (
+        <ErrorMessage>Error Updating Set</ErrorMessage>
+      )}
+    </FormContainer>
   );
 }
