@@ -45,11 +45,11 @@ export interface CardData {
   createdAt: string;
   updatedAt: string;
   subsetId: number;
-  teamId: number;
+  teamId: number | null;
   team: {
     id: number;
     name: string;
-  };
+  } | null;
   player: Player[];
 }
 

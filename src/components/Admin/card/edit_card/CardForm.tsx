@@ -26,7 +26,7 @@ interface Props {
     name: string,
     number: string,
     rookie: boolean,
-    teamId: number,
+    teamId: number | undefined,
     playerIds: number[]
   ): void;
 }
@@ -46,7 +46,9 @@ export default function CardForm(props: Props) {
   const [name, setName] = useState(props.createNew ? "" : card.name);
   const [number, setNumber] = useState(props.createNew ? "" : card.number);
   const [rookie, setRookie] = useState(props.createNew ? false : card.rookie);
-  const [teamId, setTeamId] = useState(props.createNew ? 0 : card.teamId);
+  const [teamId, setTeamId] = useState(
+    !props.createNew && card.teamId ? card.teamId : undefined
+  );
   const [players, setPlayers] = useState<PlayersState>(
     props.createNew
       ? []
@@ -163,7 +165,7 @@ export default function CardForm(props: Props) {
             onChange={handleSelectChange}
             disabled={loadingInitialData}
           >
-            <option value={0}>Select Team</option>
+            <option value={undefined}>Select Team</option>
             {teams.map((team) => {
               return (
                 <option key={team.id} value={team.id}>
@@ -262,7 +264,7 @@ export default function CardForm(props: Props) {
         handleSubmit={handleSubmit}
         disabled={
           props.createNew
-            ? name === "" || number === "" || teamId === 0
+            ? name === "" || number === ""
             : !detectFormChanges(
                 [name, number, teamId, rookie],
                 [card.name, card.number, card.teamId, card.rookie]

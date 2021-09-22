@@ -40,7 +40,7 @@ export default function EditCard(props: Props) {
     name: string,
     number: string,
     rookie: boolean,
-    teamId: number,
+    teamId: number | undefined,
     playerIds: number[]
   ) {
     dispatch(
@@ -72,7 +72,9 @@ export default function EditCard(props: Props) {
           </FieldContainer>
           <FieldContainer>
             <FieldTitle>Team:</FieldTitle>
-            <FieldData>{card.team.name}</FieldData>
+            <FieldData>
+              {card.team ? card.team.name : "No Team Assigned"}
+            </FieldData>
           </FieldContainer>
           <FieldContainer>
             <FieldTitle>Rookie:</FieldTitle>

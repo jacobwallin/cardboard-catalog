@@ -47,8 +47,22 @@ export const cardsDataTableColumns = [
   },
   {
     name: "Team",
-    selector: (row: CardData) => row.team.name,
     sortable: true,
+    sortFunction: (rowA: CardData, rowB: CardData) => {
+      let a: string | null = rowA.team ? rowA.team.name : null;
+      let b: string | null = rowB.team ? rowB.team.name : null;
+
+      if (a === null) return -1;
+      if (b === null) return 1;
+
+      if (a < b) {
+        return 1;
+      } else if (a > b) {
+        return -1;
+      }
+      return 0;
+    },
+    cell: (row: CardData) => (row.team ? row.team.name : "-"),
   },
   {
     name: "Rookie",

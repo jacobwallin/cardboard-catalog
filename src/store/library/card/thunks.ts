@@ -28,7 +28,7 @@ export const updateCard =
       name: string;
       number: string;
       rookie: boolean;
-      teamId: number;
+      teamId: number | undefined;
       playerIds: number[];
     }
   ): ThunkAction<void, RootState, unknown, CardActionTypes> =>

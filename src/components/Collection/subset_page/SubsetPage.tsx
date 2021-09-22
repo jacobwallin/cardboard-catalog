@@ -115,6 +115,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
           paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
           paginationPerPage={20}
           conditionalRowStyles={dataTableConditionalStyles}
+          defaultSortField={"Card #"}
         />
       </DataTableContainer>
     </CollectionPageContainer>

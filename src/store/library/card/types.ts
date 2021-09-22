@@ -7,12 +7,12 @@ export interface CardState {
   createdAt: string;
   updatedAt: string;
   subsetId: number;
-  teamId: number;
+  teamId: number | null;
   team: {
     id: number;
     name: string;
     leagueId: number;
-  };
+  } | null;
   players: Player[];
 }
 

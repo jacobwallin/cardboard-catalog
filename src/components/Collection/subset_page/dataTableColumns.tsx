@@ -47,7 +47,8 @@ const columns = [
   },
   {
     name: "Team",
-    selector: (row: TableDataPoint) => row.cardData.team.name,
+    cell: (row: TableDataPoint) =>
+      row.cardData.team ? row.cardData.team.name : "-",
     sortable: true,
     style: modifiedStyles,
     grow: 1,
