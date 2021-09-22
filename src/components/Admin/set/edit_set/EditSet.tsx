@@ -13,10 +13,7 @@ import FormContainer from "../../components/form/FormContainer";
 import EditDeleteButtons from "../../components/form/EditDeleteButtons";
 import ConfirmDeleteModal from "../../components/ConfirmDeleteModal";
 import ErrorMessage from "../../components/form/ErrorMessage";
-import {
-  createLoadingSelector,
-  createStatusSelector,
-} from "../../../../store/loading/reducer";
+import { createStatusSelector } from "../../../../store/loading/reducer";
 
 const updatingSetSelector = createStatusSelector("UPDATE_SET");
 const deletingSetSelector = createStatusSelector("DELETE_SET");
