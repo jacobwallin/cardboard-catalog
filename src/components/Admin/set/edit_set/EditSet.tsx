@@ -91,7 +91,7 @@ export default function EditSet(props: Props) {
   }
 
   return (
-    <FormContainer>
+    <>
       {showDeleteModal && (
         <ConfirmDeleteModal
           deleteStatus={deletingSetStatus}
@@ -107,7 +107,7 @@ export default function EditSet(props: Props) {
           handleCancel={toggleForm}
         />
       ) : (
-        <>
+        <FormContainer>
           <FieldContainer>
             <FieldTitle>Set Name:</FieldTitle>
             <FieldData>{set.name}</FieldData>
@@ -141,11 +141,11 @@ export default function EditSet(props: Props) {
             handleEdit={toggleForm}
             handleDelete={toggleDeleteModal}
           />
-        </>
+        </FormContainer>
       )}
       {updatingSet === "FAILURE" && (
         <ErrorMessage>Error Updating Set</ErrorMessage>
       )}
-    </FormContainer>
+    </>
   );
 }

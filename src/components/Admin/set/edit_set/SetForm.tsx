@@ -7,10 +7,11 @@ import FieldContainer from "../../components/form/FieldContainer";
 import FieldTitle from "../../components/form/FieldTitle";
 import FieldData from "../../components/form/FieldData";
 import FormButtons from "../../components/form/FormButtons";
+import FormContainer from "../../components/form/FormContainer";
 
 import { createLoadingSelector } from "../../../../store/loading/reducer";
 
-const updatingSetSelector = createLoadingSelector(["UPDATE_SET"]);
+const updatingSetSelector = createLoadingSelector(["UPDATE_SET", "CREATE_SET"]);
 
 const loadingSelector = createLoadingSelector([
   "GET_ALL_LEAGUES",
@@ -108,7 +109,7 @@ export default function SetForm(props: Props) {
   }
 
   return (
-    <>
+    <FormContainer>
       <FieldContainer>
         <FieldTitle>Set Name:</FieldTitle>
         <FieldData>
@@ -142,6 +143,7 @@ export default function SetForm(props: Props) {
             onChange={handleSelectChange}
             disabled={loadingInitialData}
           >
+            <option value={0}>Select Brand</option>
             {brands.map((brand) => {
               return (
                 <option key={brand.id} value={brand.id}>
@@ -161,6 +163,7 @@ export default function SetForm(props: Props) {
             onChange={handleSelectChange}
             disabled={loadingInitialData}
           >
+            <option value={0}>Select League</option>
             {leagues.map((league) => {
               return (
                 <option key={league.id} value={league.id}>
@@ -212,7 +215,7 @@ export default function SetForm(props: Props) {
         disabled={
           updatingSet ||
           (props.createNew
-            ? name === "" || year === ""
+            ? name === "" || year === "" || brandId === 0 || leagueId === 0
             : !detectFormChanges(
                 [
                   singleSet.name,
@@ -227,6 +230,6 @@ export default function SetForm(props: Props) {
         }
       />
       {}
-    </>
+    </FormContainer>
   );
 }

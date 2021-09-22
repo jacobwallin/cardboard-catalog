@@ -37,6 +37,7 @@ export const createSet =
     description: string;
     leagueId: number;
     brandId: number;
+    baseSubsetId: number | null;
   }): ThunkAction<void, RootState, unknown, SetsActionTypes> =>
   (dispatch) => {
     dispatch(actions.createSetRequest());
@@ -57,7 +58,6 @@ export const createSet =
         return response.json();
       })
       .then((updatedSet) => {
-        console.log("SERVER RESONSE: ", updatedSet);
         dispatch(actions.createSetSuccess(updatedSet));
       })
       .catch((error) => {
