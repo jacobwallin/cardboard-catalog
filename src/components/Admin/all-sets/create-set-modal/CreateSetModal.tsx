@@ -29,12 +29,6 @@ export default function CreateSetModal(props: Props) {
     dispatch(fetchAllBrands());
   }, []);
 
-  useEffect(() => {
-    if (setCreated && createSetStatus === "SUCCESS") {
-      props.handleCancel();
-    }
-  }, [createSetStatus, setCreated, props]);
-
   function handleSubmit(
     name: string,
     year: number,
