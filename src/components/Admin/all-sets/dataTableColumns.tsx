@@ -1,5 +1,5 @@
 import React from "react";
-import StyledLink from "../../Collection/shared/StyledLink";
+import EditLink from "../components/EditLink";
 
 const dataTableColumns = [
   {
@@ -25,9 +25,7 @@ const dataTableColumns = [
   {
     name: "",
     sortable: false,
-    cell: (row: any) => (
-      <StyledLink to={`/admin/edit/set/${row.id}`}>Edit</StyledLink>
-    ),
+    cell: (row: any) => <EditLink to={`/admin/edit/set/${row.id}`} />,
     grow: 0,
   },
 ];
