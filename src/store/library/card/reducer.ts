@@ -3,6 +3,7 @@ import {
   CardActionTypes,
   GET_CARD_SUCCESS,
   UPDATE_CARD_SUCCESS,
+  DELETE_CARD_SUCCESS,
 } from "./types";
 
 const initialState = {
@@ -31,6 +32,8 @@ export default function cardReducer(
       return action.card;
     case UPDATE_CARD_SUCCESS:
       return action.updatedCard;
+    case DELETE_CARD_SUCCESS:
+      return initialState;
     default:
       return state;
   }

@@ -56,3 +56,21 @@ export const updateCard =
         dispatch(actions.updateCardFailure());
       });
   };
+
+export const deleteCard =
+  (
+    cardDataId: number
+  ): ThunkAction<void, RootState, unknown, CardActionTypes> =>
+  (dispatch) => {
+    dispatch(actions.deleteCardRequest());
+    fetch(`/api/carddata/${cardDataId}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((deleteStatus) => {
+        dispatch(actions.deleteCardSuccess());
+      })
+      .catch((error) => dispatch(actions.deleteCardSuccess()));
+  };

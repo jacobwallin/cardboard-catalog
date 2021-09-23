@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { RootState } from "../../../../store/index";
-import { updateCard } from "../../../../store/library/card/thunks";
-import { createLoadingSelector } from "../../../../store/loading/reducer";
+import { updateCard, deleteCard } from "../../../../store/library/card/thunks";
+import {
+  createLoadingSelector,
+  createStatusSelector,
+} from "../../../../store/loading/reducer";
 import CardForm from "./CardForm";
 import FieldContainer from "../../components/form/FieldContainer";
 import FieldTitle from "../../components/form/FieldTitle";
 import FieldData from "../../components/form/FieldData";
 import FormContainer from "../../components/form/FormContainer";
 import EditDeleteButtons from "../../components/form/EditDeleteButtons";
+import ConfirmDeleteModal from "../../components/ConfirmDeleteModal";
 
 const isUpdatingSelector = createLoadingSelector(["UPDATE_CARD"]);
+const deletingCardSelector = createStatusSelector("DELETE_CARD");
 
 interface Props {
   cardDataId: number;
@@ -20,9 +26,15 @@ export default function EditCard(props: Props) {
   const dispatch = useDispatch();
 
   const [isEditing, setIsEditing] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [cardDeleted, setCardDeleted] = useState(false);
+  const [subsetId, setSubsetId] = useState(0);
 
   const isUpdating = useSelector((state: RootState) =>
     isUpdatingSelector(state)
+  );
+  const deleteCardStatus = useSelector((state: RootState) =>
+    deletingCardSelector(state)
   );
   const card = useSelector((state: RootState) => state.library.card);
 
@@ -34,6 +46,9 @@ export default function EditCard(props: Props) {
 
   function handleEditStateChange() {
     setIsEditing(!isEditing);
+  }
+  function toggleDeleteModal() {
+    setShowDeleteModal(!showDeleteModal);
   }
 
   function handleFormSubmit(
@@ -49,11 +64,26 @@ export default function EditCard(props: Props) {
   }
 
   function handleDelete() {
-    // DELETE CARD
+    setCardDeleted(true);
+    setSubsetId(card.subsetId);
+    dispatch(deleteCard(props.cardDataId));
+  }
+
+  // re-direct if the card is succesfully deleted
+  if (cardDeleted && deleteCardStatus === "SUCCESS") {
+    return <Redirect to={`/admin/edit/subset/${subsetId}`} />;
   }
 
   return (
     <>
+      {showDeleteModal && (
+        <ConfirmDeleteModal
+          deleteStatus={deleteCardStatus}
+          handleDelete={handleDelete}
+          handleDismiss={toggleDeleteModal}
+          message="This will delete this card from all parallel series in the subset. Any cards will be deleted from user's collections as well."
+        />
+      )}
       {isEditing ? (
         <CardForm
           createNew={false}
@@ -91,7 +121,7 @@ export default function EditCard(props: Props) {
 
           <EditDeleteButtons
             handleEdit={handleEditStateChange}
-            handleDelete={handleDelete}
+            handleDelete={toggleDeleteModal}
           />
         </FormContainer>
       )}

@@ -36,6 +36,9 @@ export const GET_CARD_FAILURE = "GET_CARD_FAILURE";
 export const UPDATE_CARD_REQUEST = "UPDATE_CARD_REQUEST";
 export const UPDATE_CARD_SUCCESS = "UPDATE_CARD_SUCCESS";
 export const UPDATE_CARD_FAILURE = "UPDATE_CARD_FAILURE";
+export const DELETE_CARD_REQUEST = "DELETE_CARD_REQUEST";
+export const DELETE_CARD_SUCCESS = "DELETE_CARD_SUCCESS";
+export const DELETE_CARD_FAILURE = "DELETE_CARD_FAILURE";
 
 // ACTION CREATORS
 interface GetCardRequest {
@@ -60,10 +63,23 @@ interface UpdateCardFailure {
   type: typeof UPDATE_CARD_FAILURE;
 }
 
+interface DeleteCardRequest {
+  type: typeof DELETE_CARD_REQUEST;
+}
+interface DeleteCardSuccess {
+  type: typeof DELETE_CARD_SUCCESS;
+}
+interface DeleteCardFailure {
+  type: typeof DELETE_CARD_FAILURE;
+}
+
 export type CardActionTypes =
   | GetCardRequest
   | GetCardSuccess
   | GetCardFailure
   | UpdateCardRequest
   | UpdateCardSuccess
-  | UpdateCardFailure;
+  | UpdateCardFailure
+  | DeleteCardRequest
+  | DeleteCardSuccess
+  | DeleteCardFailure;

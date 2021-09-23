@@ -5,6 +5,9 @@ import {
   UPDATE_CARD_REQUEST,
   UPDATE_CARD_SUCCESS,
   UPDATE_CARD_FAILURE,
+  DELETE_CARD_REQUEST,
+  DELETE_CARD_SUCCESS,
+  DELETE_CARD_FAILURE,
   CardActionTypes,
   CardState,
 } from "./types";
@@ -31,4 +34,14 @@ export const updateCardSuccess = (updatedCard: CardState): CardActionTypes => ({
 });
 export const updateCardFailure = (): CardActionTypes => ({
   type: UPDATE_CARD_FAILURE,
+});
+
+export const deleteCardRequest = (): CardActionTypes => ({
+  type: DELETE_CARD_REQUEST,
+});
+export const deleteCardSuccess = (): CardActionTypes => ({
+  type: DELETE_CARD_SUCCESS,
+});
+export const deleteCardFailure = (): CardActionTypes => ({
+  type: DELETE_CARD_FAILURE,
 });
