@@ -57,7 +57,7 @@ export const updateSeries =
       });
   };
 
-export const deleteCard =
+export const deleteSeries =
   (
     seriesId: number
   ): ThunkAction<void, RootState, unknown, SeriesActionTypes> =>
