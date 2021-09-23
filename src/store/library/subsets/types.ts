@@ -73,6 +73,9 @@ export const GET_SUBSET_FAILURE = "GET_SUBSET_FAILURE";
 export const UPDATE_SUBSET_REQUEST = "UPDATE_SUBSET_REQUEST";
 export const UPDATE_SUBSET_SUCCESS = "UPDATE_SUBSET_SUCCESS";
 export const UPDATE_SUBSET_FAILURE = "UPDATE_SUBSET_FAILURE";
+export const DELETE_SUBSET_REQUEST = "DELETE_SUBSET_REQUEST";
+export const DELETE_SUBSET_SUCCESS = "DELETE_SUBSET_SUCCESS";
+export const DELETE_SUBSET_FAILURE = "DELETE_SUBSET_FAILURE";
 export const CREATE_SERIES_REQUEST = "CREATE_SERIES_REQUEST";
 export const CREATE_SERIES_SUCCESS = "CREATE_SERIES_SUCCESS";
 export const CREATE_SERIES_FAILURE = "CREATE_SERIES_FAILURE";
@@ -103,6 +106,15 @@ interface UpdateSubsetSuccess {
 interface UpdateSubsetFailure {
   type: typeof UPDATE_SUBSET_FAILURE;
 }
+interface DeleteSubsetRequest {
+  type: typeof DELETE_SUBSET_REQUEST;
+}
+interface DeleteSubsetSuccess {
+  type: typeof DELETE_SUBSET_SUCCESS;
+}
+interface DeleteSubsetFailure {
+  type: typeof DELETE_SUBSET_FAILURE;
+}
 interface CreateSeriesRequest {
   type: typeof CREATE_SERIES_REQUEST;
 }
@@ -117,13 +129,16 @@ interface ClearLibraryAction {
   type: typeof CLEAR_LIBRARY;
 }
 
-export type LibraryActionTypes =
+export type SubsetActionTypes =
   | GetSubsetRequest
   | GetSubsetSuccess
   | GetSubsetFailure
   | UpdateSubsetRequest
   | UpdateSubsetSuccess
   | UpdateSubsetFailure
+  | DeleteSubsetRequest
+  | DeleteSubsetSuccess
+  | DeleteSubsetFailure
   | CreateSeriesRequest
   | CreateSeriesSuccess
   | CreateSeriesFailure

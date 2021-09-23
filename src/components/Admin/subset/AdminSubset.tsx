@@ -5,7 +5,7 @@ import { RootState } from "../../../store";
 import { fetchSubset } from "../../../store/library/subsets/thunks";
 import WrappedDataTable from "../components/WrappedDataTable";
 import { createLoadingSelector } from "../../../store/loading/reducer";
-import SubsetForm from "./subset_form/SubsetForm";
+import EditSubset from "./subset_form/EditSubset";
 import EditFormHeader from "../components/EditFormHeader";
 import AdminPageContainer from "../components/AdminPageContainer";
 import CreateSeriesModal from "./series_modal/CreateSeriesModal";
@@ -57,7 +57,7 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
         <CreateCardModal handleCancel={toggleCreateCardModal} />
       )}
       <EditFormHeader text={`Edit ${subset.name} Subset`} />
-      <SubsetForm />
+      <EditSubset subsetId={+props.match.params.subsetId} />
       <WrappedDataTable
         title={`Series in ${subset.name}`}
         columns={seriesDataTableColumns}

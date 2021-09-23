@@ -1,6 +1,6 @@
 import {
   LibraryState,
-  LibraryActionTypes,
+  SubsetActionTypes,
   GET_SUBSET_SUCCESS,
   UPDATE_SUBSET_SUCCESS,
   CREATE_SERIES_SUCCESS,
@@ -23,7 +23,7 @@ const initialState: LibraryState = {
 
 const subsetsReducer = (
   state = initialState,
-  action: LibraryActionTypes
+  action: SubsetActionTypes
 ): LibraryState => {
   switch (action.type) {
     case GET_SUBSET_SUCCESS:

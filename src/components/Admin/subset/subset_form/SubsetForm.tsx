@@ -1,17 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import EditFormLine from "../../components/EditFormLine";
-import EditFormContainer from "../../components/EditFormContainer";
-import EditFormButtons from "../../components/EditFormButtons";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
 import { createLoadingSelector } from "../../../../store/loading/reducer";
-import { updateSubset } from "../../../../store/library/subsets/thunks";
 import detectFormChanges from "../../detectFormChanges";
+import FieldContainer from "../../components/form/FieldContainer";
+import FieldTitle from "../../components/form/FieldTitle";
+import FieldData from "../../components/form/FieldData";
+import FormButtons from "../../components/form/FormButtons";
+import FormContainer from "../../components/form/FormContainer";
 
 const isUpdatingSelector = createLoadingSelector(["UPDATE_SUBSET"]);
 
-export default function SubsetFrom() {
-  const dispatch = useDispatch();
+interface Props {
+  createNew: boolean;
+  handleSubmit(
+    name: string,
+    description: string,
+    baseSeriesId: number | null
+  ): void;
+  handleCancel(): void;
+}
+
+export default function SubsetForm(props: Props) {
   const subset = useSelector(
     (state: RootState) => state.library.subsets.subset
   );
@@ -19,29 +29,16 @@ export default function SubsetFrom() {
     isUpdatingSelector(state)
   );
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [nameField, setNameField] = useState(subset.name);
+  const [name, setName] = useState(subset.name);
   const [baseSeriesId, setBaseSeriesId] = useState(subset.baseSeriesId || 0);
-  const [descriptionField, setDescriptionField] = useState(subset.description);
-
-  useEffect(() => {
-    if (!isUpdating) {
-      setIsEditing(false);
-    }
-  }, [isUpdating]);
+  const [description, setDescription] = useState(subset.description);
 
   function handleFormSubmit() {
-    dispatch(
-      updateSubset(subset.id, {
-        name: nameField,
-        description: descriptionField,
-        baseSubsetId: baseSeriesId === 0 ? null : baseSeriesId,
-      })
+    props.handleSubmit(
+      name,
+      description,
+      baseSeriesId === 0 ? null : baseSeriesId
     );
-  }
-
-  function handleEditStateChange() {
-    setIsEditing(!isEditing);
   }
 
   function handleInputChange(
@@ -49,11 +46,11 @@ export default function SubsetFrom() {
   ) {
     const { value } = event.target;
     switch (event.target.name) {
-      case "nameField":
-        setNameField(value);
+      case "name":
+        setName(value);
         break;
       case "description":
-        setDescriptionField(value);
+        setDescription(value);
         break;
     }
   }
@@ -63,57 +60,47 @@ export default function SubsetFrom() {
   }
 
   return (
-    <EditFormContainer>
-      <EditFormLine
-        editing={isEditing}
-        title="Subset Name: "
-        data={subset.name}
-        input={
+    <FormContainer>
+      <FieldContainer>
+        <FieldTitle>Subset Name:</FieldTitle>
+        <FieldData>
           <input
-            name="nameField"
+            name="name"
             type="text"
-            value={nameField}
-            disabled={isUpdating}
+            value={name}
             placeholder="Enter Subset Name"
             onChange={handleInputChange}
           />
-        }
-      />
-      <EditFormLine
-        editing={isEditing}
-        title="Base Series"
-        data={
-          subset.baseSeriesId
-            ? subset.series.find((series) => series.id === subset.baseSeriesId)
-                ?.name
-            : "NOT SELECTED"
-        }
-        input={
-          <select
-            name="baseSubset"
-            value={baseSeriesId}
-            disabled={isUpdating}
-            onChange={handleSelectChange}
-          >
-            <option value={0}>Select Base Series</option>
-            {subset.series.map((series) => {
-              return (
-                <option key={series.id} value={series.id}>
-                  {series.name}
-                </option>
-              );
-            })}
-          </select>
-        }
-      />
-      <EditFormLine
-        editing={isEditing}
-        title="Subset Description: "
-        data={subset.description}
-        input={
+        </FieldData>
+      </FieldContainer>
+      {!props.createNew && (
+        <FieldContainer>
+          <FieldTitle>Base Series:</FieldTitle>
+          <FieldData>
+            <select
+              name="baseSeriesId"
+              value={baseSeriesId}
+              disabled={isUpdating}
+              onChange={handleSelectChange}
+            >
+              <option value={0}>Select Base Series</option>
+              {subset.series.map((series) => {
+                return (
+                  <option key={series.id} value={series.id}>
+                    {series.name}
+                  </option>
+                );
+              })}
+            </select>
+          </FieldData>
+        </FieldContainer>
+      )}
+      <FieldContainer>
+        <FieldTitle>Subset Description:</FieldTitle>
+        <FieldData>
           <textarea
             name="description"
-            value={descriptionField}
+            value={description}
             disabled={isUpdating}
             placeholder="Enter Subset Description"
             onChange={handleInputChange}
@@ -121,18 +108,21 @@ export default function SubsetFrom() {
             rows={2}
             cols={20}
           />
+        </FieldData>
+      </FieldContainer>
+      <FormButtons
+        disabled={
+          isUpdating ||
+          (props.createNew
+            ? name === ""
+            : !detectFormChanges(
+                [subset.name, subset.description, subset.baseSeriesId || 0],
+                [name, description, baseSeriesId]
+              ))
         }
+        handleCancel={props.handleCancel}
+        handleSubmit={handleFormSubmit}
       />
-      <EditFormButtons
-        isEditing={isEditing}
-        isUpdating={isUpdating}
-        changesMade={detectFormChanges(
-          [subset.name, subset.description, subset.baseSeriesId],
-          [nameField, descriptionField, baseSeriesId]
-        )}
-        handleEditStateChange={handleEditStateChange}
-        handleFormSubmit={handleFormSubmit}
-      />
-    </EditFormContainer>
+    </FormContainer>
   );
 }

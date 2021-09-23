@@ -79,7 +79,10 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
             }
           />
           {showCreateSubsetModal && (
-            <CreateSubsetModal handleCancel={toggleCreateSubsetModal} />
+            <CreateSubsetModal
+              handleCancel={toggleCreateSubsetModal}
+              setId={+props.match.params.setId}
+            />
           )}
         </>
       )}

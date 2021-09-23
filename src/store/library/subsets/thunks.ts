@@ -1,12 +1,12 @@
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../index";
 import * as actions from "./actions";
-import { LibraryActionTypes } from "./types";
+import { SubsetActionTypes } from "./types";
 
 export const fetchSubset =
   (
     subsetId: number
-  ): ThunkAction<void, RootState, unknown, LibraryActionTypes> =>
+  ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {
     dispatch(actions.getSubsetRequest());
     fetch(`/api/subsets/${subsetId}`)
@@ -25,9 +25,9 @@ export const updateSubset =
     subsetData: {
       name: string;
       description: string;
-      baseSubsetId: number | null;
+      baseSeriesId: number | null;
     }
-  ): ThunkAction<void, RootState, unknown, LibraryActionTypes> =>
+  ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {
     dispatch(actions.updateSubsetRequest());
     fetch(`/api/subsets/${subsetId}`, {
@@ -53,6 +53,25 @@ export const updateSubset =
       });
   };
 
+export const deleteSubset =
+  (
+    subsetId: number
+  ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
+  (dispatch) => {
+    dispatch(actions.deleteSubsetRequest());
+
+    fetch(`/api/subsets/${subsetId}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((deleteStatus) => {
+        dispatch(actions.deleteSubsetSuccess());
+      })
+      .catch((error) => dispatch(actions.deleteSubsetFailure()));
+  };
+
 export const createSeries =
   (seriesData: {
     subsetId: number;
@@ -63,7 +82,7 @@ export const createSeries =
     auto: boolean;
     relic: boolean;
     manufacturedRelic: boolean;
-  }): ThunkAction<void, RootState, unknown, LibraryActionTypes> =>
+  }): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {
     dispatch(actions.createSeriesRequest());
     fetch(`/api/series`, {
@@ -96,5 +115,5 @@ export const createCard =
     rookie: boolean,
     teamId: number,
     playerIds: number[]
-  ): ThunkAction<void, RootState, unknown, LibraryActionTypes> =>
+  ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {};
