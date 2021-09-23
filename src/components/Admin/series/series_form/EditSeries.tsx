@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { RootState } from "../../../../store/index";
-import { updateSeries } from "../../../../store/library/series/thunks";
+import {
+  updateSeries,
+  deleteSeries,
+} from "../../../../store/library/series/thunks";
 import {
   createLoadingSelector,
   createStatusSelector,
@@ -70,7 +73,7 @@ export default function EditCard(props: Props) {
   function handleDelete() {
     setSeriesDeleted(true);
     setSubsetId(series.subsetId);
-    // dispatch(deleteCard(props.cardDataId));
+    dispatch(deleteSeries(props.seriesId));
   }
 
   // re-direct if the card is succesfully deleted
