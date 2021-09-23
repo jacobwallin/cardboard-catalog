@@ -109,11 +109,36 @@ export const createSeries =
   };
 
 export const createCard =
-  (
-    name: string,
-    number: string,
-    rookie: boolean,
-    teamId: number,
-    playerIds: number[]
-  ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
-  (dispatch) => {};
+  (cardData: {
+    subsetId: number;
+    name: string;
+    number: string;
+    rookie: boolean;
+    teamId: number;
+    playerIds: number[];
+  }): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
+  (dispatch) => {
+    dispatch(actions.createCardRequest());
+
+    fetch(`/api/carddata`, {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify(cardData),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((createdCard) => {
+        dispatch(actions.createCardSuccess(createdCard));
+      })
+      .catch((error) => {
+        dispatch(actions.createCardFailure());
+      });
+  };

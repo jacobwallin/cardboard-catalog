@@ -1,6 +1,7 @@
 import {
   Subset,
   Series,
+  CardData,
   UpdateSubsetServerResponse,
   SubsetActionTypes,
   GET_SUBSET_REQUEST,
@@ -15,6 +16,9 @@ import {
   CREATE_SERIES_SUCCESS,
   CREATE_SERIES_REQUEST,
   CREATE_SERIES_FAILURE,
+  CREATE_CARD_REQUEST,
+  CREATE_CARD_SUCCESS,
+  CREATE_CARD_FAILURE,
   CLEAR_LIBRARY,
 } from "./types";
 
@@ -66,4 +70,15 @@ export const createSeriesSuccess = (series: Series): SubsetActionTypes => ({
 });
 export const createSeriesFaillure = (): SubsetActionTypes => ({
   type: CREATE_SERIES_FAILURE,
+});
+
+export const createCardRequest = (): SubsetActionTypes => ({
+  type: CREATE_CARD_REQUEST,
+});
+export const createCardSuccess = (card: CardData): SubsetActionTypes => ({
+  type: CREATE_CARD_SUCCESS,
+  card,
+});
+export const createCardFailure = (): SubsetActionTypes => ({
+  type: CREATE_CARD_FAILURE,
 });

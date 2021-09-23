@@ -4,6 +4,7 @@ import {
   GET_SUBSET_SUCCESS,
   UPDATE_SUBSET_SUCCESS,
   CREATE_SERIES_SUCCESS,
+  CREATE_CARD_SUCCESS,
   CLEAR_LIBRARY,
 } from "./types";
 
@@ -39,6 +40,14 @@ const subsetsReducer = (
         subset: {
           ...state.subset,
           series: [...state.subset.series, action.series],
+        },
+      };
+    case CREATE_CARD_SUCCESS:
+      return {
+        ...state,
+        subset: {
+          ...state.subset,
+          card_data: [...state.subset.card_data, action.card],
         },
       };
     case CLEAR_LIBRARY:

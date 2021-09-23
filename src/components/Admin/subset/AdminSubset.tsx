@@ -18,6 +18,8 @@ import {
 } from "./dataTableColumns";
 
 const isLoadingSelector = createLoadingSelector(["GET_SUBSET"]);
+const creatingCardSelector = createLoadingSelector(["CREATE_CARD"]);
+const creatingSeriesSelector = createLoadingSelector(["CREATE_SERIES"]);
 
 interface Params {
   subsetId: string;
@@ -33,10 +35,28 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
     (state: RootState) => state.library.subsets.subset
   );
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
+  const creatingCard = useSelector((state: RootState) =>
+    creatingCardSelector(state)
+  );
+  const creatingSeries = useSelector((state: RootState) =>
+    creatingSeriesSelector(state)
+  );
 
   useEffect(() => {
     dispatch(fetchSubset(+props.match.params.subsetId));
   }, []);
+
+  // hide either modal once a card or series has been created
+  useEffect(() => {
+    if (!creatingCard) {
+      setShowCreateCardModal(false);
+    }
+  }, [creatingCard]);
+  useEffect(() => {
+    if (!creatingSeries) {
+      setShowCreateSeriesModal(false);
+    }
+  }, [creatingSeries]);
 
   function toggleCreateSeriesModal() {
     setShowCreateSeriesModal(!showCreateSeriesModal);
@@ -54,7 +74,10 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
         <CreateSeriesModal handleCancel={toggleCreateSeriesModal} />
       )}
       {showCreateCardModal && (
-        <CreateCardModal handleCancel={toggleCreateCardModal} />
+        <CreateCardModal
+          handleCancel={toggleCreateCardModal}
+          subsetId={+props.match.params.subsetId}
+        />
       )}
       <EditFormHeader text={`Edit ${subset.name} Subset`} />
       <EditSubset subsetId={+props.match.params.subsetId} />

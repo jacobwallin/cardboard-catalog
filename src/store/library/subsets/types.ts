@@ -79,6 +79,9 @@ export const DELETE_SUBSET_FAILURE = "DELETE_SUBSET_FAILURE";
 export const CREATE_SERIES_REQUEST = "CREATE_SERIES_REQUEST";
 export const CREATE_SERIES_SUCCESS = "CREATE_SERIES_SUCCESS";
 export const CREATE_SERIES_FAILURE = "CREATE_SERIES_FAILURE";
+export const CREATE_CARD_REQUEST = "CREATE_CARD_REQUEST";
+export const CREATE_CARD_SUCCESS = "CREATE_CARD_SUCCESS";
+export const CREATE_CARD_FAILURE = "CREATE_CARD_FAILURE";
 export const CLEAR_LIBRARY = "CLEAR_LIBRARY";
 
 // ACTION CREATORS
@@ -125,6 +128,16 @@ interface CreateSeriesSuccess {
 interface CreateSeriesFailure {
   type: typeof CREATE_SERIES_FAILURE;
 }
+interface CreateCardRequest {
+  type: typeof CREATE_CARD_REQUEST;
+}
+interface CreateCardSuccess {
+  type: typeof CREATE_CARD_SUCCESS;
+  card: CardData;
+}
+interface CreateCardFailure {
+  type: typeof CREATE_CARD_FAILURE;
+}
 interface ClearLibraryAction {
   type: typeof CLEAR_LIBRARY;
 }
@@ -142,4 +155,7 @@ export type SubsetActionTypes =
   | CreateSeriesRequest
   | CreateSeriesSuccess
   | CreateSeriesFailure
+  | CreateCardRequest
+  | CreateCardSuccess
+  | CreateCardFailure
   | ClearLibraryAction;

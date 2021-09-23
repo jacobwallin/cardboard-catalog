@@ -7,6 +7,7 @@ import CardForm from "../../card/edit_card/CardForm";
 
 interface Props {
   handleCancel(): void;
+  subsetId: number;
 }
 export default function CreateCardModal(props: Props) {
   const dispatch = useDispatch();
@@ -18,7 +19,16 @@ export default function CreateCardModal(props: Props) {
     teamId: number,
     playerIds: number[]
   ) {
-    dispatch(createCard(name, number, rookie, teamId, playerIds));
+    dispatch(
+      createCard({
+        subsetId: props.subsetId,
+        name,
+        number,
+        rookie,
+        teamId,
+        playerIds,
+      })
+    );
   }
   return (
     <ModalBackground>

@@ -48,6 +48,10 @@ router.post("/", async (req, res, next) => {
       // add the players to the card data entry
       await newCardData.addPlayers(players);
 
+      const cardDataWithJoins = await CardData.findByPk(newCardData.id, {
+        include: [Team, Player],
+      });
+
       // get all series that are part of the subset
       const allSeries = await Series.findAll({ where: { subsetId: subsetId } });
 
@@ -62,7 +66,7 @@ router.post("/", async (req, res, next) => {
       );
 
       // send back new created card
-      res.status(201).json(newCardData);
+      res.status(201).json(cardDataWithJoins);
     } else {
       throw new Error("Invalid Player id(s)");
     }
