@@ -11,6 +11,7 @@ import AdminPageContainer from "../components/AdminPageContainer";
 import CreateSeriesModal from "./series_modal/CreateSeriesModal";
 import CreateCardModal from "./card_modal/CreateCardModal";
 import StyledButton from "../components/StyledButton";
+import CreateButton from "../components/CreateButton";
 
 import {
   cardsDataTableColumns,
@@ -87,13 +88,9 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
         data={subset.series}
         highlightOnHover
         actions={
-          <StyledButton
-            color="GREEN"
-            onClick={toggleCreateSeriesModal}
-            width="200px"
-          >
+          <CreateButton onClick={toggleCreateSeriesModal}>
             Create Series
-          </StyledButton>
+          </CreateButton>
         }
       />
       <WrappedDataTable
@@ -105,13 +102,9 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
         paginationPerPage={20}
         dense
         actions={
-          <StyledButton
-            color="GREEN"
-            onClick={toggleCreateCardModal}
-            width="200px"
-          >
+          <CreateButton onClick={toggleCreateCardModal}>
             Create Card
-          </StyledButton>
+          </CreateButton>
         }
       />
     </AdminPageContainer>
