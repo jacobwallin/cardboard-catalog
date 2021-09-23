@@ -7,6 +7,7 @@ import DataTable from "react-data-table-component";
 import dataTableColumns from "./dataTableColumns";
 import AdminPageContainer from "../components/AdminPageContainer";
 import StyledButton from "../components/StyledButton";
+import CreateButton from "../components/CreateButton";
 import * as Styled from "./styled";
 import { createStatusSelector } from "../../../store/loading/reducer";
 
@@ -43,13 +44,9 @@ export default function AdminSets(props: any) {
       <Styled.Header>Manage Set Library</Styled.Header>
       <Styled.TableHeader>
         <h3>Sets</h3>
-        <StyledButton
-          color="GREEN"
-          width="125px"
-          onClick={() => setCreateSet(true)}
-        >
-          CREATE SET
-        </StyledButton>
+        <CreateButton onClick={() => setCreateSet(true)}>
+          Create Set
+        </CreateButton>
       </Styled.TableHeader>
       <Styled.TableWrapper>
         <DataTable

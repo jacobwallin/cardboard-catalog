@@ -13,13 +13,13 @@ const StyledButton = styled.button<ButtonProps>`
   border: none;
   border-radius: 3px;
   cursor: pointer;
+  font-size: ${(props) => props.fontSize || "0.9em"};
   &:disabled {
     opacity: 50%;
   }
   &:focus {
     outline: none !important;
   }
-  font-size: ${(props) => props.fontSize || "1em"};
   color: ${(props) => {
     switch (props.color) {
       case "YELLOW":
