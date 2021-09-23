@@ -19,6 +19,11 @@ const loadingSelector = createLoadingSelector([
   "GET_ALL_TEAMS",
 ]);
 
+const cardLoadingSelector = createLoadingSelector([
+  "UPDATE_CARD",
+  "CREATE_CARD",
+]);
+
 interface Props {
   createNew: boolean;
   handleCancel(): void;
@@ -40,6 +45,9 @@ export default function CardForm(props: Props) {
   const allPlayers = useSelector((state: RootState) => state.library.players);
   const loadingInitialData = useSelector((state: RootState) =>
     loadingSelector(state)
+  );
+  const isLoading = useSelector((state: RootState) =>
+    cardLoadingSelector(state)
   );
 
   // set the initial values to card state if the form is being used to edit a card data
@@ -263,12 +271,13 @@ export default function CardForm(props: Props) {
         handleCancel={props.handleCancel}
         handleSubmit={handleSubmit}
         disabled={
-          props.createNew
+          isLoading ||
+          (props.createNew
             ? name === "" || number === ""
             : !detectFormChanges(
                 [name, number, teamId, rookie],
                 [card.name, card.number, card.teamId, card.rookie]
-              )
+              ))
         }
       />
     </FormContainer>
