@@ -56,3 +56,21 @@ export const updateSeries =
         dispatch(actions.updateSeriesFailure());
       });
   };
+
+export const deleteCard =
+  (
+    seriesId: number
+  ): ThunkAction<void, RootState, unknown, SeriesActionTypes> =>
+  (dispatch) => {
+    dispatch(actions.deleteSeriesRequest());
+    fetch(`/api/series/${seriesId}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((deleteStatus) => {
+        dispatch(actions.deleteSeriesSuccess());
+      })
+      .catch((error) => dispatch(actions.deleteSeriesSuccess()));
+  };

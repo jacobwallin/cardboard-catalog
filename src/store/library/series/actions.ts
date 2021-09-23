@@ -5,6 +5,9 @@ import {
   UPDATE_SERIES_REQUEST,
   UPDATE_SERIES_SUCCESS,
   UPDATE_SERIES_FAILURE,
+  DELETE_SERIES_REQUEST,
+  DELETE_SERIES_SUCCESS,
+  DELETE_SERIES_FAILURE,
   SeriesActionTypes,
   Series,
 } from "./types";
@@ -31,4 +34,14 @@ export const updateSeriesSuccess = (
 });
 export const updateSeriesFailure = (): SeriesActionTypes => ({
   type: UPDATE_SERIES_FAILURE,
+});
+
+export const deleteSeriesRequest = (): SeriesActionTypes => ({
+  type: DELETE_SERIES_REQUEST,
+});
+export const deleteSeriesSuccess = (): SeriesActionTypes => ({
+  type: DELETE_SERIES_SUCCESS,
+});
+export const deleteSeriesFailure = (): SeriesActionTypes => ({
+  type: DELETE_SERIES_FAILURE,
 });

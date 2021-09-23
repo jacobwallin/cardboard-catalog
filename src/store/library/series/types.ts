@@ -58,6 +58,9 @@ export const GET_SERIES_FAILURE = "GET_SERIES_FAILURE";
 export const UPDATE_SERIES_REQUEST = "UPDATE_SERIES_REQUEST";
 export const UPDATE_SERIES_SUCCESS = "UPDATE_SERIES_SUCCESS";
 export const UPDATE_SERIES_FAILURE = "UPDATE_SERIES_FAILURE";
+export const DELETE_SERIES_REQUEST = "DELETE_SERIES_REQUEST";
+export const DELETE_SERIES_SUCCESS = "DELETE_SERIES_SUCCESS";
+export const DELETE_SERIES_FAILURE = "DELETE_SERIES_FAILURE";
 
 // ACTION CREATORS
 interface GetSeriesRequest {
@@ -82,10 +85,23 @@ interface UpdateSeriesFailure {
   type: typeof UPDATE_SERIES_FAILURE;
 }
 
+interface DeleteSeriesRequest {
+  type: typeof DELETE_SERIES_REQUEST;
+}
+interface DeleteSeriesSuccess {
+  type: typeof DELETE_SERIES_SUCCESS;
+}
+interface DeleteSeriesFailure {
+  type: typeof DELETE_SERIES_FAILURE;
+}
+
 export type SeriesActionTypes =
   | GetSeriesRequest
   | GetSeriesSuccess
   | GetSeriesFailure
   | UpdateSeriesRequest
   | UpdateSeriesSuccess
-  | UpdateSeriesFailure;
+  | UpdateSeriesFailure
+  | DeleteSeriesRequest
+  | DeleteSeriesSuccess
+  | DeleteSeriesFailure;

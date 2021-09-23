@@ -3,6 +3,7 @@ import {
   SeriesState,
   GET_SERIES_SUCCESS,
   UPDATE_SERIES_SUCCESS,
+  DELETE_SERIES_SUCCESS,
 } from "./types";
 
 const initialState = {
@@ -32,6 +33,8 @@ export default function seriesReducer(
       return { ...state, series: action.series };
     case UPDATE_SERIES_SUCCESS:
       return { ...state, series: action.updatedSeries };
+    case DELETE_SERIES_SUCCESS:
+      return initialState;
     default:
       return state;
   }
