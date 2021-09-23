@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar";
 import AdminSets from "./all-sets/AdminSets";
 import AdminSet from "./set/AdminSet";
 import AdminSubset from "./subset/AdminSubset";
-import AdminSeries from "./series/EditSeries";
+import AdminSeries from "./series/AdminSeries";
 import AdminCard from "./card/AdminCard";
 import * as Styled from "./styled";
 

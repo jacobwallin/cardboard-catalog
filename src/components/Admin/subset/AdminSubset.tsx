@@ -10,7 +10,6 @@ import EditFormHeader from "../components/EditFormHeader";
 import AdminPageContainer from "../components/AdminPageContainer";
 import CreateSeriesModal from "./series_modal/CreateSeriesModal";
 import CreateCardModal from "./card_modal/CreateCardModal";
-import StyledButton from "../components/StyledButton";
 import CreateButton from "../components/CreateButton";
 
 import {
@@ -72,7 +71,10 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
   return (
     <AdminPageContainer>
       {showCreateSeriesModal && (
-        <CreateSeriesModal handleCancel={toggleCreateSeriesModal} />
+        <CreateSeriesModal
+          subsetId={+props.match.params.subsetId}
+          handleCancel={toggleCreateSeriesModal}
+        />
       )}
       {showCreateCardModal && (
         <CreateCardModal

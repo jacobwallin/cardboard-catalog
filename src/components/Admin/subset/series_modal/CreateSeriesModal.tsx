@@ -1,166 +1,43 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../../../store";
-
-import ModalBackground from "../../components/modal/Background";
-import CreateModalWindow from "../../components/modal/ModalWindow";
-import StyledTextInput from "../../components/modal/StyledTextInput";
-import StyledLabel from "../../components/modal/StyledLabel";
-import StyledInputContainer from "../../components/modal/InputContainer";
-import CreateModalButtons from "../../components/modal/ModalButtons";
-import CreateModalHeader from "../../components/modal/ModalHeader";
-
+import React from "react";
+import { useDispatch } from "react-redux";
 import { createSeries } from "../../../../store/library/subsets/thunks";
-
-import { createLoadingSelector } from "../../../../store/loading/reducer";
-
-const isCreatingSelector = createLoadingSelector(["CREATE_SERIES"]);
+import ModalBackground from "../../components/modal/Background";
+import ModalWindow from "../../components/modal/ModalWindow";
+import SeriesForm from "../../series/series_form/SeriesForm";
 
 interface Props {
-  handleCancel(): any;
+  handleCancel(): void;
+  subsetId: number;
 }
-
-export default function CreateSeriesModal(props: Props) {
+export default function CreateCardModal(props: Props) {
   const dispatch = useDispatch();
 
-  // FORM DATA
-  const [name, setName] = useState("");
-  const [serialized, setSerialized] = useState<number | null>(null);
-  const [auto, setAuto] = useState(false);
-  const [relic, setRelic] = useState(false);
-  const [manufacturedRelic, setManufacturedRelic] = useState(false);
-  const [parallel, setParallel] = useState(false);
-  const [shortPrint, setShortPrint] = useState(false);
-
-  const isCreating = useSelector((state: RootState) =>
-    isCreatingSelector(state)
-  );
-  const subset = useSelector(
-    (state: RootState) => state.library.subsets.subset
-  );
-
-  function handleFormSubmit() {
-    // post to server
+  function handleFormSubmit(seriesData: {
+    name: string;
+    serialized: number | null;
+    auto: boolean;
+    relic: boolean;
+    manufacturedRelic: boolean;
+    parallel: boolean;
+    shortPrint: boolean;
+  }) {
     dispatch(
       createSeries({
-        subsetId: subset.id,
-        name,
-        serialized,
-        auto,
-        relic,
-        manufacturedRelic,
-        parallel,
-        shortPrint,
+        subsetId: props.subsetId,
+        ...seriesData,
       })
     );
   }
-
-  function handleInputChange(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
-    switch (event.target.name) {
-      case "seriesNameField":
-        setName(event.target.value);
-        break;
-      case "seriesserialized":
-        setSerialized(+event.target.value);
-        break;
-      case "parallel":
-        setParallel(!parallel);
-        break;
-      case "shortPrint":
-        setShortPrint(!shortPrint);
-        break;
-      case "auto":
-        setAuto(!auto);
-        break;
-      case "relic":
-        setRelic(!relic);
-        break;
-      case "manufacturedRelic":
-        setManufacturedRelic(!manufacturedRelic);
-        break;
-    }
-  }
-
   return (
     <ModalBackground>
-      <CreateModalWindow>
-        <CreateModalHeader>CREATE SERIES</CreateModalHeader>
-        <StyledInputContainer>
-          <StyledLabel>Name</StyledLabel>
-          <StyledTextInput
-            name="seriesNameField"
-            type="text"
-            value={name}
-            onChange={handleInputChange}
-          />
-        </StyledInputContainer>
-
-        <StyledInputContainer>
-          <StyledLabel>Serialized To</StyledLabel>
-          <StyledTextInput
-            name="seriesserialized"
-            type="number"
-            value={serialized || ""}
-            onChange={handleInputChange}
-          />
-        </StyledInputContainer>
-
-        <StyledInputContainer>
-          <StyledLabel htmlFor="parallel">Parallel</StyledLabel>
-          <input
-            name="parallel"
-            type="checkbox"
-            checked={parallel}
-            onChange={handleInputChange}
-          />
-        </StyledInputContainer>
-        <StyledInputContainer>
-          <StyledLabel htmlFor="shortPrint">Short Print</StyledLabel>
-          <input
-            name="shortPrint"
-            type="checkbox"
-            checked={shortPrint}
-            onChange={handleInputChange}
-          />
-        </StyledInputContainer>
-        <StyledInputContainer>
-          <StyledLabel htmlFor="auto">Auto</StyledLabel>
-          <input
-            name="auto"
-            type="checkbox"
-            checked={auto}
-            onChange={handleInputChange}
-          />
-        </StyledInputContainer>
-        <StyledInputContainer>
-          <StyledLabel htmlFor="relic">Relic</StyledLabel>
-          <input
-            name="relic"
-            type="checkbox"
-            checked={relic}
-            onChange={handleInputChange}
-          />
-        </StyledInputContainer>
-        <StyledInputContainer>
-          <StyledLabel htmlFor="manufacturedRelic">
-            Manufactured Relic
-          </StyledLabel>
-          <input
-            name="manufacturedRelic"
-            type="checkbox"
-            checked={manufacturedRelic}
-            onChange={handleInputChange}
-          />
-        </StyledInputContainer>
-
-        <CreateModalButtons
-          disabled={isCreating}
-          handleSubmit={handleFormSubmit}
+      <ModalWindow>
+        <h3 style={{ textAlign: "center" }}>Create New Series</h3>
+        <SeriesForm
+          createNew={true}
           handleCancel={props.handleCancel}
+          handleSubmit={handleFormSubmit}
         />
-      </CreateModalWindow>
+      </ModalWindow>
     </ModalBackground>
   );
 }

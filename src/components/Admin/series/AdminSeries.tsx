@@ -4,7 +4,7 @@ import { RouteComponentProps } from "react-router-dom";
 import { RootState } from "../../../store";
 import { fetchSeriesById } from "../../../store/library/series/thunks";
 import { createLoadingSelector } from "../../../store/loading/reducer";
-import EditSeriesForm from "./series_form/EditSeriesForm";
+import EditSeries from "./series_form/EditSeries";
 import EditFormHeader from "../components/EditFormHeader";
 import AdminPageContainer from "../components/AdminPageContainer";
 
@@ -17,7 +17,7 @@ interface Params {
   seriesId: string;
 }
 
-export default function EditSeries(props: RouteComponentProps<Params>) {
+export default function AdminSeries(props: RouteComponentProps<Params>) {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function EditSeries(props: RouteComponentProps<Params>) {
   return (
     <AdminPageContainer>
       <EditFormHeader text={`Edit ${series.name} Series`} />
-      <EditSeriesForm />
+      <EditSeries seriesId={+props.match.params.seriesId} />
     </AdminPageContainer>
   );
 }
