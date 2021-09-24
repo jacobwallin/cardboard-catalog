@@ -5,6 +5,7 @@ export const AdminWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  flex-grow: 1;
 `;
 export const AdminContainer = styled.div`
   width: 65%;
