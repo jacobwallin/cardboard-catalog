@@ -7,7 +7,7 @@ import { RootState } from "../store";
 import { fetchMe } from "../store/user/thunks";
 
 const Nav = styled.div`
-  background-color: #80b3ff;
+  background-color: #3f6ad8;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
