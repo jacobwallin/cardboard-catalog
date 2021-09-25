@@ -7,7 +7,7 @@ import { RootState } from "../store";
 import { fetchMe } from "../store/user/thunks";
 
 const Nav = styled.div`
-  background-color: #3f6ad8;
+  background-color: rgb(0, 74, 206);
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
@@ -18,10 +18,11 @@ const Nav = styled.div`
 
 const SiteName = styled.div`
   margin: 0 0 0 10px;
+  color: white;
   flex-grow: 1;
   font-weight: 600;
-  font-size: 2em;
-  @media only screen and (max-width: 700px) {
+  font-size: 1.4em;
+  @media only screen and (max-width: 800px) {
     font-size: 1.5em;
   }
 `;
@@ -35,6 +36,7 @@ const StyledLink = styled(Link)`
   margin: 10px;
   text-decoration: none;
   font-weight: bold;
+  font-size: 1rem;
   align-items: flex-start;
 
   &:hover {
@@ -42,10 +44,11 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const Hamburger = styled.span`
+const Hamburger = styled.span<NavMenuProps>`
   display: none;
   position: relative;
   z-index: 20;
+  margin-right: 10px;
 
   &:before,
   &:after,
@@ -64,15 +67,28 @@ const Hamburger = styled.span`
 
   &:before {
     bottom: 9px;
+    transform: ${({ active }) => active && "translate(0px, 9px);"};
+    transition: transform 0.15s cubic-bezier(0.41, 0.17, 0.88, 0.53);
   }
 
   &:after {
     top: 9px;
+    transform: ${({ active }) => active && "translate(0px, -9px);"};
+    transition: transform 0.15s cubic-bezier(0.41, 0.17, 0.88, 0.53);
   }
 
-  @media only screen and (max-width: 700px) {
+  @media only screen and (max-width: 800px) {
     display: block;
   }
+`;
+
+const HamburgerTouchArea = styled.div`
+  position: absolute;
+  height: 50px;
+  width: 55px;
+  top: 0;
+  right: 0;
+  z-index: 3;
 `;
 
 interface NavMenuProps {
@@ -84,9 +100,9 @@ const NavMenu = styled.div<NavMenuProps>`
   flex-direction: row;
   z-index: 2;
 
-  @media only screen and (max-width: 700px) {
+  @media only screen and (max-width: 800px) {
     flex-direction: column;
-    background-color: #a8abad;
+    background-color: rgb(0, 74, 206);
     position: fixed;
     transform: ${({ active }) =>
       active ? "translateX(0)" : "translateX(100%)"};
@@ -95,7 +111,7 @@ const NavMenu = styled.div<NavMenuProps>`
     height: 100vh;
     width: 200px;
     padding-top: 3.5rem;
-    transition: transform 0.2s cubic-bezier(0.41, 0.17, 0.88, 0.53);
+    transition: transform 0.15s cubic-bezier(0.41, 0.17, 0.88, 0.53);
   }
 `;
 
@@ -121,7 +137,8 @@ export default function Navbar() {
 
       {user.id !== 0 && (
         <>
-          <Hamburger onClick={toggleHamburgerActive} />
+          <HamburgerTouchArea onClick={toggleHamburgerActive} />
+          <Hamburger active={hamburgerActive} />
           <NavMenu active={hamburgerActive}>
             <StyledLink
               to="/collection"

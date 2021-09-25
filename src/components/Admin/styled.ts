@@ -6,6 +6,17 @@ export const AdminWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   flex-grow: 1;
+
+  @media only screen and (max-width: 800px) {
+    flex-direction: column;
+  }
+`;
+export const AdminInnerWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-grow: 1;
 `;
 export const AdminContainer = styled.div`
   width: 65%;

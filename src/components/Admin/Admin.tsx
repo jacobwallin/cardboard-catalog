@@ -14,7 +14,7 @@ export default function Admin() {
   return (
     <Styled.AdminWrapper>
       <Sidebar />
-      <Styled.AdminWrapper>
+      <Styled.AdminInnerWrapper>
         <Styled.AdminContainer>
           <Route exact path={path} component={AdminSets} />
           <Route exact path={`${path}/edit/set/:setId`} component={AdminSet} />
@@ -45,7 +45,7 @@ export default function Admin() {
             component={() => <p>brands</p>}
           />
         </Styled.AdminContainer>
-      </Styled.AdminWrapper>
+      </Styled.AdminInnerWrapper>
     </Styled.AdminWrapper>
   );
 }
