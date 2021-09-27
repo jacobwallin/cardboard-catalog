@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
 
@@ -14,6 +14,25 @@ const SidebarContainer = styled.div`
     width: 100%;
     height: 40px;
     align-items: center;
+  }
+`;
+
+interface Mobile {
+  visible: boolean;
+}
+
+const LinkContainer = styled.div<Mobile>`
+  display: flex;
+  flex-direction: column;
+
+  @media only screen and (max-width: 800px) {
+    display: ${({ visible }) => !visible && "none"};
+    position: absolute;
+    background: white;
+    top: 90px;
+    z-index: 3;
+    width: 220px;
+    box-shadow: 0 10px 20px -5px rgba(16, 16, 16, 0.2);
   }
 `;
 
@@ -37,12 +56,12 @@ const StyledAdminLink = styled(Link)`
   &:active {
     background: #bbb;
   }
-  @media only screen and (max-width: 800px) {
+  /* @media only screen and (max-width: 800px) {
     display: none;
-  }
+  } */
 `;
 
-const AdminPanelHeader = styled.div`
+const AdminPanelHeader = styled.div<Mobile>`
   color: white;
   align-self: center;
   font-size: 1.2rem;
@@ -50,6 +69,11 @@ const AdminPanelHeader = styled.div`
   margin-top: 20px;
   margin-bottom: 10px;
   @media only screen and (max-width: 800px) {
+    &::after {
+      content: " >";
+      font-size: 0.9rem;
+      transform: rotate(0.25turn);
+    }
     margin: 0px;
     padding-left: 20px;
   }
@@ -57,21 +81,33 @@ const AdminPanelHeader = styled.div`
 
 export default function Sidebar() {
   const { path } = useRouteMatch();
+  const [showAdminMenuOnMobile, setShowAdminMenuOnMobile] = useState(false);
+
+  function toggleAdminMenuOnMobile() {
+    setShowAdminMenuOnMobile(!showAdminMenuOnMobile);
+  }
   return (
     <SidebarContainer>
-      <AdminPanelHeader>Admin</AdminPanelHeader>
-      <StyledAdminLink to={`${path}/`}>
-        Set Library<span>&gt;</span>
-      </StyledAdminLink>
-      <StyledAdminLink to={`${path}/teams`}>
-        Player Library<span>&gt;</span>
-      </StyledAdminLink>
-      <StyledAdminLink to={`${path}/attributes`}>
-        Users<span>&gt;</span>
-      </StyledAdminLink>
-      <StyledAdminLink to={`${path}/brands`}>
-        Other Data<span>&gt;</span>
-      </StyledAdminLink>
+      <AdminPanelHeader
+        visible={showAdminMenuOnMobile}
+        onClick={toggleAdminMenuOnMobile}
+      >
+        Admin
+      </AdminPanelHeader>
+      <LinkContainer visible={showAdminMenuOnMobile}>
+        <StyledAdminLink to={`${path}/`}>
+          Set Library<span>&gt;</span>
+        </StyledAdminLink>
+        <StyledAdminLink to={`${path}/teams`}>
+          Player Library<span>&gt;</span>
+        </StyledAdminLink>
+        <StyledAdminLink to={`${path}/attributes`}>
+          Users<span>&gt;</span>
+        </StyledAdminLink>
+        <StyledAdminLink to={`${path}/brands`}>
+          Other Data<span>&gt;</span>
+        </StyledAdminLink>
+      </LinkContainer>
     </SidebarContainer>
   );
 }

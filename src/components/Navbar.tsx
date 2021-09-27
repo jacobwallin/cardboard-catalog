@@ -36,7 +36,7 @@ const StyledLink = styled(Link)`
   margin: 10px;
   text-decoration: none;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 0.9rem;
   align-items: flex-start;
 
   &:hover {
@@ -83,12 +83,16 @@ const Hamburger = styled.span<NavMenuProps>`
 `;
 
 const HamburgerTouchArea = styled.div`
+  display: none;
   position: absolute;
   height: 50px;
   width: 55px;
   top: 0;
   right: 0;
   z-index: 3;
+  @media only screen and (max-width: 800px) {
+    display: block;
+  }
 `;
 
 interface NavMenuProps {
@@ -145,7 +149,7 @@ export default function Navbar() {
               className="navbar-link"
               onClick={toggleHamburgerActive}
             >
-              My Collection
+              Collection
             </StyledLink>
             <StyledLink
               to="/transactions"
