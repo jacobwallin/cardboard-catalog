@@ -4,7 +4,7 @@ import { RootState } from "./store";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
 import GlobalStyles from "./globalStyles";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navbar/Navbar";
 import AdminRoute from "./components/Protected_Routes/AdminRoute";
 import {
   HomePage,

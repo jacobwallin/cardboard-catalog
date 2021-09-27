@@ -35,7 +35,7 @@ export default function userReducer(
     case CHECK_EMAIL_SUCCESS:
       return { ...state, availableEmail: action.available };
     case REMOVE_USER:
-      return initialState;
+      return { ...initialState, userFetched: true };
     default:
       return state;
   }

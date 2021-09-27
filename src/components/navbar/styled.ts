@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../store";
-import { fetchMe } from "../store/user/thunks";
 
-const Nav = styled.div`
+export const Nav = styled.div`
   background-color: rgb(0, 74, 206);
   display: flex;
   flex-wrap: wrap;
@@ -16,7 +11,7 @@ const Nav = styled.div`
   height: 50px;
 `;
 
-const SiteName = styled.div`
+export const SiteName = styled.div`
   margin: 0 0 0 10px;
   color: white;
   flex-grow: 1;
@@ -27,7 +22,7 @@ const SiteName = styled.div`
   }
 `;
 
-const StyledLink = styled(Link)`
+export const StyledLink = styled(Link)`
   flex-grow: 0;
   /* height: 40px; */
   color: white;
@@ -41,10 +36,11 @@ const StyledLink = styled(Link)`
 
   &:hover {
     text-decoration: underline;
+    cursor: pointer;
   }
 `;
 
-const Hamburger = styled.span<NavMenuProps>`
+export const Hamburger = styled.span<NavMenuProps>`
   display: none;
   position: relative;
   z-index: 20;
@@ -82,7 +78,7 @@ const Hamburger = styled.span<NavMenuProps>`
   }
 `;
 
-const HamburgerTouchArea = styled.div`
+export const HamburgerTouchArea = styled.div`
   display: none;
   position: absolute;
   height: 50px;
@@ -99,7 +95,7 @@ interface NavMenuProps {
   active: boolean;
 }
 
-const NavMenu = styled.div<NavMenuProps>`
+export const NavMenu = styled.div<NavMenuProps>`
   display: flex;
   flex-direction: row;
   z-index: 2;
@@ -118,58 +114,3 @@ const NavMenu = styled.div<NavMenuProps>`
     transition: transform 0.15s cubic-bezier(0.41, 0.17, 0.88, 0.53);
   }
 `;
-
-export default function Navbar() {
-  const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user.userData);
-
-  useEffect(() => {
-    if (user.id === 0) {
-      dispatch(fetchMe());
-    }
-  }, []);
-
-  const [hamburgerActive, setHamburgerActive] = useState(false);
-
-  function toggleHamburgerActive() {
-    setHamburgerActive(!hamburgerActive);
-  }
-
-  return (
-    <Nav>
-      <SiteName>Cardboard Catalog</SiteName>
-
-      {user.id !== 0 && (
-        <>
-          <HamburgerTouchArea onClick={toggleHamburgerActive} />
-          <Hamburger active={hamburgerActive} />
-          <NavMenu active={hamburgerActive}>
-            <StyledLink
-              to="/collection"
-              className="navbar-link"
-              onClick={toggleHamburgerActive}
-            >
-              Collection
-            </StyledLink>
-            <StyledLink
-              to="/transactions"
-              className="navbar-link"
-              onClick={toggleHamburgerActive}
-            >
-              Add Cards
-            </StyledLink>
-            {user.isAdmin && (
-              <StyledLink
-                to="/admin"
-                className="navbar-link"
-                onClick={toggleHamburgerActive}
-              >
-                Admin
-              </StyledLink>
-            )}
-          </NavMenu>
-        </>
-      )}
-    </Nav>
-  );
-}
