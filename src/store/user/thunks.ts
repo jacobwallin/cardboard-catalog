@@ -58,8 +58,7 @@ export const register =
     username: string,
     password: string,
     email: string,
-    firstName: string,
-    lastName: string
+    name: string
   ): ThunkAction<void, RootState, unknown, UserActionTypes> =>
   (dispatch) => {
     dispatch(registerUserRequest());
@@ -69,7 +68,7 @@ export const register =
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password, email, firstName, lastName }),
+      body: JSON.stringify({ username, password, email, name }),
     })
       .then((response) => {
         return response.json();

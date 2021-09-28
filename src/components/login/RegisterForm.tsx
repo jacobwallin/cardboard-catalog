@@ -55,7 +55,6 @@ export default function RegisterForm(props: Props) {
         formState.username.value,
         formState.passwordOne.value,
         formState.email.value,
-        "",
         ""
       )
     );
