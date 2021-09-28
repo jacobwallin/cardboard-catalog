@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { login } from "../../store/user/thunks";
 import { createErrorSelector } from "../../store/loading/reducer";
-import StyledButton from "../Admin/components/StyledButton";
 import { User } from "../../store/user/types";
 import * as Styled from "./styled";
 

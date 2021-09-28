@@ -4,7 +4,6 @@ import { RootState } from "../../store";
 import { register, checkUsername } from "../../store/user/thunks";
 import { createLoadingSelector } from "../../store/loading/reducer";
 import * as Styled from "./styled";
-import StyledButton from "../Admin/components/StyledButton";
 
 const isLoadingSelector = createLoadingSelector(["REGISTER"]);
 const isCheckingUsernameSelector = createLoadingSelector(["CHECK_USERNAME"]);
