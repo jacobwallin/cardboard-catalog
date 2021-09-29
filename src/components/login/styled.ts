@@ -46,10 +46,12 @@ export const InputContainer = styled.div`
   position: relative;
 `;
 
-export const StyledInput = styled.input`
+export const StyledInput = styled.input<{ error: boolean; valid: boolean }>`
   width: 100%;
   height: 40px;
   padding: 8px;
+  border: ${(props) => props.error && "1px solid red"};
+  border: ${(props) => props.valid && "1px solid green"};
 
   &:focus {
     outline: none;
@@ -100,15 +102,13 @@ export const ToggleButton = styled.div`
   }
 `;
 
-interface UsernameAvailabilityProps {
-  available: boolean;
-  invisible: boolean;
+interface ValidationMessageProps {
+  error: boolean;
 }
 
-export const UsernameAvailability = styled.div<UsernameAvailabilityProps>`
+export const ValidationMessage = styled.div<ValidationMessageProps>`
   margin-left: 15px;
   font-size: 0.8em;
   align-self: flex-start;
-  color: ${(props) => (props.available === true ? "green" : "red")};
-  color: ${(props) => props.invisible && "#fff"};
+  color: ${(props) => (props.error === true ? "red" : "green")};
 `;

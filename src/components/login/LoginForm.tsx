@@ -71,6 +71,8 @@ export const LoginForm: React.FC<Props> = (props) => {
                 onBlur={removeFocusedElement}
                 onFocus={setFocusedElement}
                 autoComplete="off"
+                error={false}
+                valid={false}
               />
               <Styled.InputLabel displayLabel={formState.username.focused}>
                 username
@@ -86,6 +88,8 @@ export const LoginForm: React.FC<Props> = (props) => {
                 onBlur={removeFocusedElement}
                 onFocus={setFocusedElement}
                 autoComplete="off"
+                error={false}
+                valid={false}
               />
               <Styled.InputLabel displayLabel={formState.password.focused}>
                 password
