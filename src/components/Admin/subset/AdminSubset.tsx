@@ -82,7 +82,7 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
           subsetId={+props.match.params.subsetId}
         />
       )}
-      <EditFormHeader text={`Edit ${subset.name} Subset`} />
+      <EditFormHeader text={`${subset.name} Subset`} />
       <EditSubset subsetId={+props.match.params.subsetId} />
       <WrappedDataTable
         title={`Series in ${subset.name}`}

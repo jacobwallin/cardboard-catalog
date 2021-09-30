@@ -65,7 +65,7 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
     <AdminPageContainer>
       {!isLoading && (
         <>
-          <EditFormHeader text={`Edit ${singleSet.name} Set`} />
+          <EditFormHeader text={`${singleSet.name} Set`} />
           <EditSet setId={+props.match.params.setId} />
           <WrappedDataTable
             title={`Subsets in ${singleSet.name}`}

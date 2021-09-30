@@ -33,7 +33,7 @@ export default function AdminSeries(props: RouteComponentProps<Params>) {
 
   return (
     <AdminPageContainer>
-      <EditFormHeader text={`Edit ${series.name} Series`} />
+      <EditFormHeader text={`${series.name} Series`} />
       <EditSeries seriesId={+props.match.params.seriesId} />
     </AdminPageContainer>
   );
