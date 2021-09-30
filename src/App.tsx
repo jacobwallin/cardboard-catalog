@@ -36,7 +36,7 @@ function App() {
           ) : (
             <Switch>
               <Route exact path="/">
-                <HomePage />
+                <Collection />
               </Route>
               <Route path="/collection">
                 <Collection />
