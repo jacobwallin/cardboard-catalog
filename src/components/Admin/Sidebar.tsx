@@ -69,13 +69,14 @@ const AdminPanelHeader = styled.div<Mobile>`
   margin-top: 20px;
   margin-bottom: 10px;
   @media only screen and (max-width: 800px) {
-    &::after {
-      content: " >";
-      font-size: 0.9rem;
-      transform: rotate(0.25turn);
-    }
     margin: 0px;
-    padding-left: 20px;
+    margin-left: 20px;
+    padding: 5px;
+    border-radius: 5px;
+    &:hover {
+      cursor: pointer;
+      background-color: #888;
+    }
   }
 `;
 
@@ -98,14 +99,8 @@ export default function Sidebar() {
         <StyledAdminLink to={`${path}/`}>
           Set Library<span>&gt;</span>
         </StyledAdminLink>
-        <StyledAdminLink to={`${path}/teams`}>
+        <StyledAdminLink to={`${path}/players`}>
           Player Library<span>&gt;</span>
-        </StyledAdminLink>
-        <StyledAdminLink to={`${path}/attributes`}>
-          Users<span>&gt;</span>
-        </StyledAdminLink>
-        <StyledAdminLink to={`${path}/brands`}>
-          Other Data<span>&gt;</span>
         </StyledAdminLink>
       </LinkContainer>
     </SidebarContainer>

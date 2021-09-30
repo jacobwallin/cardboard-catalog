@@ -33,16 +33,12 @@ export default function Admin() {
             path={`${path}/edit/card/:cardId`}
             component={AdminCard}
           />
-          <Route exact path={`${path}/teams`} component={() => <p>teams</p>} />
           <Route
             exact
-            path={`${path}/attributes`}
-            component={() => <p>attributes</p>}
-          />
-          <Route
-            exact
-            path={`${path}/brands`}
-            component={() => <p>brands</p>}
+            path={`${path}/players`}
+            component={() => (
+              <h2 style={{ textAlign: "center" }}>COMING SOON</h2>
+            )}
           />
         </Styled.AdminContainer>
       </Styled.AdminInnerWrapper>
