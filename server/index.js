@@ -5,6 +5,8 @@ const app = express();
 const session = require("express-session");
 const passport = require("passport");
 
+const { isUser } = require("./middleware");
+
 require("./config/passport");
 
 require("dotenv").config();
@@ -28,7 +30,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/api", require("./api"));
+// api protected for registered users only
+app.use("/api", isUser, require("./api"));
 app.use("/auth", require("./auth"));
 
 app.get("/*", (req, res) => {

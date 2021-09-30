@@ -1,5 +1,7 @@
 const router = require("express").Router();
 
+const { isAdmin } = require("../../middleware");
+
 const { GradingCompany } = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
@@ -20,7 +22,7 @@ router.get("/:companyId", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", isAdmin, async (req, res, next) => {
   const { name } = req.body;
   try {
     const createdGradingCompany = await GradingCompany.create({ name });
@@ -30,7 +32,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.put("/:companyId", async (req, res, next) => {
+router.put("/:companyId", isAdmin, async (req, res, next) => {
   const { name } = req.body;
   try {
     await GradingCompany.update(
@@ -46,7 +48,7 @@ router.put("/:companyId", async (req, res, next) => {
   }
 });
 
-router.delete("/:companyId", async (req, res, next) => {
+router.delete("/:companyId", isAdmin, async (req, res, next) => {
   try {
     const deleteStatus = await GradingCompany.destroy({
       where: { id: req.params.companyId },

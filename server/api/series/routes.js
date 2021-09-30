@@ -1,5 +1,7 @@
 const router = require("express").Router();
 
+const { isAdmin } = require("../../middleware");
+
 const {
   Series,
   Subset,
@@ -43,7 +45,7 @@ router.get("/:seriesId", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", isAdmin, async (req, res, next) => {
   const {
     name,
     color,
@@ -92,7 +94,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.put("/:seriesId", async (req, res, next) => {
+router.put("/:seriesId", isAdmin, async (req, res, next) => {
   const {
     name,
     color,
@@ -126,7 +128,7 @@ router.put("/:seriesId", async (req, res, next) => {
   }
 });
 
-router.delete("/:seriesId", async (req, res, next) => {
+router.delete("/:seriesId", isAdmin, async (req, res, next) => {
   try {
     const deleteSuccess = await Series.destroy({
       where: { id: req.params.seriesId },

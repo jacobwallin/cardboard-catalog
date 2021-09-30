@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const { body, validationResult } = require("express-validator");
+const { isAdmin } = require("../../middleware");
 
 const { Set, Brand, League, Subset } = require("../../db/models");
 
@@ -54,39 +54,29 @@ router.get("/:setId", async (req, res, next) => {
   }
 });
 
-router.post(
-  "/",
-  body("description").isString().trim(),
-  async (req, res, next) => {
-    const { name, year, description, leagueId, brandId, baseSubsetId } =
-      req.body;
+router.post("/", isAdmin, async (req, res, next) => {
+  const { name, year, description, leagueId, brandId, baseSubsetId } = req.body;
 
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+  try {
+    const newSet = await Set.create({
+      name,
+      year,
+      description,
+      leagueId,
+      brandId,
+      baseSubsetId,
+    });
 
-    try {
-      const newSet = await Set.create({
-        name,
-        year,
-        description,
-        leagueId,
-        brandId,
-        baseSubsetId,
-      });
-
-      const createdSet = await Set.findByPk(newSet.id, {
-        include: [League, Brand],
-      });
-      res.status(201).json(createdSet);
-    } catch (error) {
-      res.sendStatus(500);
-    }
+    const createdSet = await Set.findByPk(newSet.id, {
+      include: [League, Brand],
+    });
+    res.status(201).json(createdSet);
+  } catch (error) {
+    res.sendStatus(500);
   }
-);
+});
 
-router.put("/:setId", async (req, res, next) => {
+router.put("/:setId", isAdmin, async (req, res, next) => {
   const { name, year, description, leagueId, brandId, baseSubsetId } = req.body;
 
   try {
@@ -106,7 +96,7 @@ router.put("/:setId", async (req, res, next) => {
   }
 });
 
-router.delete("/:setId", async (req, res, next) => {
+router.delete("/:setId", isAdmin, async (req, res, next) => {
   try {
     const deleteSuccess = await Set.destroy({
       where: { id: req.params.setId },

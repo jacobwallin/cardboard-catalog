@@ -1,5 +1,7 @@
 const router = require("express").Router();
 
+const { isAdmin } = require("../../middleware");
+
 const { Card, CardData, Team, Player, Series } = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
@@ -22,8 +24,7 @@ router.get("/:cardDataId", async (req, res, next) => {
   }
 });
 
-// creates a new card data entry, along with a card entry for each series that belongs to the subset
-router.post("/", async (req, res, next) => {
+router.post("/", isAdmin, async (req, res, next) => {
   // create card data and then create a card for every series in set
   const { name, number, rookie, playerIds, teamId, subsetId } = req.body;
 
@@ -118,7 +119,7 @@ router.post("/", async (req, res, next) => {
 //   }
 // });
 
-router.put("/:cardId", async (req, res, next) => {
+router.put("/:cardId", isAdmin, async (req, res, next) => {
   const { name, number, rookie, playerIds, teamId } = req.body;
 
   try {
@@ -149,7 +150,7 @@ router.put("/:cardId", async (req, res, next) => {
   }
 });
 
-router.delete("/:cardId", async (req, res, next) => {
+router.delete("/:cardId", isAdmin, async (req, res, next) => {
   // delete card data entry (delete will cascade and delete cards that belong the the card data)
   const deleteStatus = await CardData.destroy({
     where: { id: req.params.cardId },

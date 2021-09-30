@@ -1,8 +1,6 @@
 const router = require("express").Router();
 
-const { validationResult } = require("express-validator");
-
-const { postSubsetValidate } = require("./validation");
+const { isAdmin } = require("../../middleware");
 
 const {
   Subset,
@@ -63,7 +61,7 @@ router.get("/:subsetId", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", isAdmin, async (req, res, next) => {
   const { name, description, setId, baseSeriesId } = req.body;
   try {
     const createdSubset = await Subset.create({
@@ -78,7 +76,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.put("/:subsetId", async (req, res, next) => {
+router.put("/:subsetId", isAdmin, async (req, res, next) => {
   const { name, description, baseSeriesId } = req.body;
 
   try {
@@ -94,7 +92,7 @@ router.put("/:subsetId", async (req, res, next) => {
   }
 });
 
-router.delete("/:subsetId", async (req, res, next) => {
+router.delete("/:subsetId", isAdmin, async (req, res, next) => {
   try {
     const deleteSuccess = await Subset.destroy({
       where: { id: req.params.subsetId },

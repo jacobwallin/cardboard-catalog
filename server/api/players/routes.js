@@ -1,5 +1,7 @@
 const router = require("express").Router();
 
+const { isAdmin } = require("../../middleware");
+
 const { Player } = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
@@ -20,7 +22,7 @@ router.get("/:playerId", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", isAdmin, async (req, res, next) => {
   const { name, birthday, hallOfFame } = req.body;
 
   try {
@@ -35,7 +37,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.post("/bulk", async (req, res, next) => {
+router.post("/bulk", isAdmin, async (req, res, next) => {
   const { players } = req.body;
   try {
     const createdPlayers = await Promise.all(
@@ -53,7 +55,7 @@ router.post("/bulk", async (req, res, next) => {
   }
 });
 
-router.put("/:playerId", async (req, res, next) => {
+router.put("/:playerId", isAdmin, async (req, res, next) => {
   const { name, birthday, hallOfFame } = req.body;
   try {
     await Player.update(
@@ -67,7 +69,7 @@ router.put("/:playerId", async (req, res, next) => {
   }
 });
 
-router.delete("/:playerId", async (req, res, next) => {
+router.delete("/:playerId", isAdmin, async (req, res, next) => {
   try {
     const deleteStatus = await Player.destroy({
       where: { id: req.params.playerId },
