@@ -9,6 +9,8 @@ import {
   ADD_CARDS_SUCCESS,
 } from "./types";
 
+import { RemoveUser, REMOVE_USER } from "../user/types";
+
 const initialState: CollectionState = {
   cardsBySet: [],
   cardsBySubset: {
@@ -24,7 +26,7 @@ const initialState: CollectionState = {
 
 export default function collectionReducer(
   state = initialState,
-  action: CollectionActionTypes
+  action: CollectionActionTypes | RemoveUser
 ): CollectionState {
   switch (action.type) {
     case GET_CARDS_BY_SET_SUCCESS:
@@ -47,6 +49,9 @@ export default function collectionReducer(
     case CLEAR_COLLECTION:
       return initialState;
     case ADD_CARDS_SUCCESS:
+      return initialState;
+    // collection clears when user logs out
+    case REMOVE_USER:
       return initialState;
     default:
       return state;
