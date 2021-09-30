@@ -95,7 +95,10 @@ export default function Sidebar() {
       >
         Admin
       </AdminPanelHeader>
-      <LinkContainer visible={showAdminMenuOnMobile}>
+      <LinkContainer
+        visible={showAdminMenuOnMobile}
+        onClick={toggleAdminMenuOnMobile}
+      >
         <StyledAdminLink to={`${path}/`}>
           Set Library<span>&gt;</span>
         </StyledAdminLink>
