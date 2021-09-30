@@ -46,7 +46,6 @@ export default function Navbar() {
             >
               Add Cards
             </Styled.StyledLink>
-            <LogoutButton />
             {user.isAdmin && (
               <Styled.StyledLink
                 to="/admin"
@@ -56,6 +55,7 @@ export default function Navbar() {
                 Admin
               </Styled.StyledLink>
             )}
+            <LogoutButton />
           </Styled.NavMenu>
         </>
       )}
