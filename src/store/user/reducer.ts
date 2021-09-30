@@ -3,6 +3,7 @@ import {
   UserActionTypes,
   GET_USER_SUCCESS,
   SET_USER_FETCHED,
+  REGISTER_SUCCESS,
   REMOVE_USER,
   CHECK_EMAIL_SUCCESS,
   CHECK_USERNAME_SUCCESS,
@@ -30,6 +31,8 @@ export default function userReducer(
       return { ...state, userData: action.user };
     case SET_USER_FETCHED:
       return { ...state, userFetched: action.status };
+    case REGISTER_SUCCESS:
+      return { ...state, userData: action.user };
     case CHECK_USERNAME_SUCCESS:
       return { ...state, availableUsername: action.available };
     case CHECK_EMAIL_SUCCESS:

@@ -28,8 +28,9 @@ export const registerUserRequest = (): UserActionTypes => ({
   type: types.REGISTER_REQUEST,
 });
 
-export const registerUserSuccess = (): UserActionTypes => ({
+export const registerUserSuccess = (user: types.User): UserActionTypes => ({
   type: types.REGISTER_SUCCESS,
+  user,
 });
 
 export const registerUserFailure = (): UserActionTypes => ({

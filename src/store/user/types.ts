@@ -56,6 +56,7 @@ export interface RegisterUserRequest {
 }
 export interface RegisterUserSuccess {
   type: typeof REGISTER_SUCCESS;
+  user: User;
 }
 export interface RegisterUserFailure {
   type: typeof REGISTER_FAILURE;

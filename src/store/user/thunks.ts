@@ -74,7 +74,7 @@ export const register =
         return response.json();
       })
       .then((user) => {
-        dispatch(registerUserSuccess());
+        dispatch(registerUserSuccess(user));
       })
       .catch((err) => {
         // TODO: REMOVE log
