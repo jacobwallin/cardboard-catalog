@@ -28,15 +28,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(
-  "/api",
-  (req) => {
-    setTimeout(() => {
-      req.next();
-    }, 500);
-  },
-  require("./api")
-);
+app.use("/api", require("./api"));
 app.use("/auth", require("./auth"));
 
 app.get("/*", (req, res) => {
