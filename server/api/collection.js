@@ -2,23 +2,16 @@ const router = require("express").Router();
 
 const { isUser } = require("../middleware");
 
-const {
-  Card,
-  CardData,
-  UserCard,
-  Player,
-  Team,
-  GradingCompany,
-} = require("../db/models");
+const { Card, CardData, UserCard } = require("../db/models");
 
 const db = require("../db/db");
 
 // collection api routes only available to logged in users
-// router.use(isUser);
+router.use(isUser);
 
 router.get("/", async (req, res, next) => {
   try {
-    const userId = 1;
+    const userId = req.user.id;
 
     // this query aggregates all cards in the user's collection by set, counting the amount of distinct cards and total cards per set
     const [results] = await db.query(
@@ -34,8 +27,7 @@ router.get("/", async (req, res, next) => {
 // get any cards the user has for a specific set, aggregated by subset
 router.get("/set/:setId", async (req, res, next) => {
   try {
-    //TODO: remove hard coded userId
-    const userId = 1;
+    const userId = req.user.id;
 
     // this query aggregates all cards by subset, filtering by the setId and counting the amount of distinct cards and total cards per subset
     const [results] = await db.query(
@@ -48,11 +40,15 @@ router.get("/set/:setId", async (req, res, next) => {
   }
 });
 
-// get all cards the user has for a specific subset
 router.get("/subset/:subsetId", async (req, res, next) => {
+  const userId = req.user.id;
+  // get all cards the user has for a specific subset
   try {
     const cards = await UserCard.findAll({
-      where: { userId: 1, "$card->card_datum.subsetId$": req.params.subsetId },
+      where: {
+        userId: userId,
+        "$card->card_datum.subsetId$": req.params.subsetId,
+      },
       include: [
         {
           model: Card,
@@ -71,9 +67,9 @@ router.get("/subset/:subsetId", async (req, res, next) => {
   }
 });
 
-// TODO: remove hard coded userId
 router.post("/add", async (req, res, next) => {
   const { cardsToAdd } = req.body;
+  const userId = req.user.id;
   try {
     // bulk create user card entries
     const userCards = await UserCard.bulkCreate(
@@ -83,7 +79,7 @@ router.post("/add", async (req, res, next) => {
           grade: cardInfo.grade,
           cardId: cardInfo.cardId,
           gradingCompanyId: cardInfo.gradingCompanyId,
-          userId: 1,
+          userId: userId,
         };
       })
     );
