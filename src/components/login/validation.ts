@@ -12,7 +12,7 @@ export const constraints = {
     },
     length: {
       minimum: 3,
-      maximum: 5,
+      maximum: 32,
       message: "must be between 3 and 32 characters",
     },
   },

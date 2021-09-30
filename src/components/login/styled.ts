@@ -76,7 +76,7 @@ export const InputLabel = styled.label<InputLabelProps>`
 `;
 
 export const LoginButton = styled(StyledButton)`
-  margin-top: 25px;s
+  margin-top: 25px;
 `;
 
 export const LoginErrorMessage = styled.div`
@@ -111,4 +111,10 @@ export const ValidationMessage = styled.div<ValidationMessageProps>`
   font-size: 0.8em;
   align-self: flex-start;
   color: ${(props) => (props.error === true ? "red" : "green")};
+`;
+
+export const SubmitError = styled.div`
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 10px;
 `;

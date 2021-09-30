@@ -14,6 +14,7 @@ interface FormStateInstance {
   value: string;
   focused: boolean;
   error: boolean;
+  valid: boolean;
   errorMessage: string;
 }
 interface FormState {
@@ -36,52 +37,116 @@ export default function RegisterForm(props: Props) {
   const usernameAvailable = useSelector(
     (state: RootState) => state.user.availableUsername
   );
+  const [submitError, setSubmitError] = useState(false);
   const [formState, setFormState] = useState<FormState>({
-    username: { value: "", focused: false, error: false, errorMessage: "" },
-    email: { value: "", focused: false, error: false, errorMessage: "" },
-    password: { value: "", focused: false, error: false, errorMessage: "" },
+    username: {
+      value: "",
+      focused: false,
+      error: false,
+      valid: false,
+      errorMessage: "",
+    },
+    email: {
+      value: "",
+      focused: false,
+      error: false,
+      valid: false,
+      errorMessage: "",
+    },
+    password: {
+      value: "",
+      focused: false,
+      error: false,
+      valid: false,
+      errorMessage: "",
+    },
     confirmPassword: {
       value: "",
       focused: false,
       error: false,
+      valid: false,
       errorMessage: "",
     },
   });
   const [lastCheckedUsername, setLastCheckedUsername] = useState("");
 
-  function handleFormChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setFormState({
-      ...formState,
-      [event.target.id]: { focused: true, value: event.target.value },
-    });
-  }
-
   function handleFormSubmit(
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) {
-    dispatch(
-      register(
-        formState.username.value,
-        formState.password.value,
-        formState.email.value,
-        ""
-      )
+    event.preventDefault();
+    let validation = validate(
+      {
+        username: formState.username.value,
+        email: formState.email.value,
+        password: formState.password.value,
+        confirmPassword: formState.confirmPassword.value,
+      },
+      constraints
     );
+
+    if (!validation) {
+      setSubmitError(false);
+      dispatch(
+        register(
+          formState.username.value,
+          formState.password.value,
+          formState.email.value,
+          ""
+        )
+      );
+    } else {
+      setSubmitError(true);
+    }
+  }
+
+  function handleFormChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setFormState({
+      ...formState,
+      [event.target.id]: {
+        value: event.target.value,
+        focused: true,
+        error: false,
+        valid: false,
+        errorMessage: "",
+      },
+    });
   }
 
   function setFocusedElement(event: React.FocusEvent<HTMLInputElement>) {
-    setFormState({
-      ...formState,
-      [event.target.id]: { value: event.target.value, focused: true },
-    });
+    switch (event.target.id) {
+      case "username":
+        setFormState({
+          ...formState,
+          username: { ...formState.username, focused: true },
+        });
+        break;
+      case "email":
+        setFormState({
+          ...formState,
+          email: { ...formState.email, focused: true },
+        });
+        break;
+      case "password":
+        setFormState({
+          ...formState,
+          password: { ...formState.password, focused: true },
+        });
+        break;
+      case "confirmPassword":
+        setFormState({
+          ...formState,
+          confirmPassword: { ...formState.confirmPassword, focused: true },
+        });
+        break;
+    }
   }
 
   // validate each field when the onBlur event occurs
   function handleBlur(event: React.FocusEvent<HTMLInputElement>) {
-    let validationResponse: { [key: string]: string[] } | undefined = undefined;
-    let validationMessage = "";
-
     if (event.target.value !== "") {
+      let validationResponse: { [key: string]: string[] } | undefined =
+        undefined;
+      let validationMessage = "";
       switch (event.target.id) {
         case "username":
           validationResponse = validate(
@@ -91,6 +156,7 @@ export default function RegisterForm(props: Props) {
           if (validationResponse) {
             validationMessage = validationResponse.username[0];
           } else {
+            // only check username with server if there is no validation errors, and username is not blank
             if (
               lastCheckedUsername !== formState.username.value &&
               formState.username.value !== ""
@@ -109,28 +175,39 @@ export default function RegisterForm(props: Props) {
             validationMessage = validationResponse.email[0];
           break;
         case "password":
+          // first validate password
           validationResponse = validate(
             {
               password: formState.password.value,
-              confirmPassword: formState.confirmPassword.value,
             },
             constraints
           );
-
           if (validationResponse) {
-            if (validationResponse.password) {
-              validationMessage = validationResponse.password[0];
-            }
-            if (formState.confirmPassword.value.length > 0) {
-              console.log(validationResponse);
-              // set error on confirm password if it has a value and doesn't match anymore
+            validationMessage = validationResponse.password[0];
+          }
+
+          // then validate confirm password (as long as a value is present) since it's status will have changed if password was changed
+          if (formState.confirmPassword.value.length > 0) {
+            let confirmPasswordValidate = validate(
+              {
+                password: formState.password.value,
+                confirmPassword: formState.confirmPassword.value,
+              },
+              constraints
+            );
+
+            if (
+              confirmPasswordValidate &&
+              confirmPasswordValidate.confirmPassword
+            ) {
               setFormState({
                 ...formState,
                 confirmPassword: {
                   value: formState.confirmPassword.value,
                   focused: formState.confirmPassword.focused,
                   error: true,
-                  errorMessage: validationResponse.confirmPassword[0],
+                  valid: false,
+                  errorMessage: confirmPasswordValidate.confirmPassword[0],
                 },
               });
             }
@@ -149,19 +226,19 @@ export default function RegisterForm(props: Props) {
           }
           break;
       }
+      let target = event.target;
+
+      setFormState((previousState) => ({
+        ...previousState,
+        [target.id]: {
+          value: target.value,
+          focused: false,
+          valid: validationMessage === "",
+          error: validationMessage !== "",
+          errorMessage: validationMessage,
+        },
+      }));
     }
-
-    let target = event.target;
-
-    setFormState((previousState) => ({
-      ...previousState,
-      [target.id]: {
-        value: target.value,
-        focused: false,
-        error: validationMessage !== "",
-        errorMessage: validationMessage,
-      },
-    }));
   }
 
   return (
@@ -178,17 +255,11 @@ export default function RegisterForm(props: Props) {
                 placeholder={formState.username.focused ? "" : "username"}
                 onChange={handleFormChange}
                 disabled={isPosting}
-                onBlur={(e) => {
-                  handleBlur(e);
-                }}
+                onBlur={handleBlur}
                 onFocus={setFocusedElement}
                 autoComplete="off"
-                error={formState.username.error}
-                valid={
-                  formState.username.value.length > 0 &&
-                  !formState.username.error &&
-                  !formState.username.focused
-                }
+                error={formState.username.error || !usernameAvailable}
+                valid={formState.username.error && usernameAvailable}
               />
               <Styled.InputLabel
                 displayLabel={
@@ -225,11 +296,7 @@ export default function RegisterForm(props: Props) {
                 disabled={isPosting}
                 autoComplete="off"
                 error={formState.email.error}
-                valid={
-                  formState.email.value.length > 0 &&
-                  !formState.email.error &&
-                  !formState.email.focused
-                }
+                valid={formState.email.valid}
               />
               <Styled.InputLabel
                 displayLabel={
@@ -254,11 +321,7 @@ export default function RegisterForm(props: Props) {
                 disabled={isPosting}
                 autoComplete="off"
                 error={formState.password.error}
-                valid={
-                  formState.password.value.length > 0 &&
-                  !formState.password.error &&
-                  !formState.password.focused
-                }
+                valid={formState.password.valid}
               />
               <Styled.InputLabel
                 displayLabel={
@@ -288,11 +351,7 @@ export default function RegisterForm(props: Props) {
                 disabled={isPosting}
                 autoComplete="off"
                 error={formState.confirmPassword.error}
-                valid={
-                  formState.confirmPassword.value.length > 0 &&
-                  !formState.confirmPassword.error &&
-                  !formState.confirmPassword.focused
-                }
+                valid={formState.confirmPassword.valid}
               />
               <Styled.InputLabel
                 displayLabel={
@@ -318,6 +377,9 @@ export default function RegisterForm(props: Props) {
             >
               Create Account
             </Styled.LoginButton>
+            <Styled.SubmitError>
+              {submitError && "Form Not Completed"}
+            </Styled.SubmitError>
             <Styled.ToggleButton onClick={props.toggleForm}>
               Log In
             </Styled.ToggleButton>
