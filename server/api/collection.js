@@ -126,10 +126,22 @@ router.get("/filter", async (req, res, next) => {
       include: [
         {
           model: Card,
+          attributes: ["id", "value", "seriesId", "cardDataId"],
           include: [
             {
               model: CardData,
-              include: Player,
+              attributes: [
+                "id",
+                "name",
+                "number",
+                "rookie",
+                "subsetId",
+                "teamId",
+              ],
+              include: {
+                model: Player,
+                attributes: ["id", "name", "birthday", "hallOfFame"],
+              },
             },
             {
               model: Series,
