@@ -1,8 +1,17 @@
 const router = require("express").Router();
+const { Op } = require("sequelize");
 
 const { isUser } = require("../middleware");
 
-const { Card, CardData, UserCard } = require("../db/models");
+const {
+  Card,
+  CardData,
+  UserCard,
+  GradingCompany,
+  Player,
+  Series,
+  Subset,
+} = require("../db/models");
 
 const db = require("../db/db");
 
@@ -85,6 +94,54 @@ router.post("/add", async (req, res, next) => {
     );
 
     res.status(201).json(userCards);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/filter", async (req, res, next) => {
+  console.log("USER ID: ", req.user.id);
+
+  // sort by card name
+  let playerSort = [Card, CardData, "name", "ASC"];
+  // sort by date added
+  let createdSort = ["createdAt", "ASC"];
+
+  let cardIdFilter = {
+    "$card.id$": { [Op.eq]: 18512 },
+  };
+
+  let playerFilter = {
+    "$card.card_datum.players.id$": { [Op.eq]: 90 },
+  };
+
+  try {
+    const userCards = await UserCard.findAndCountAll({
+      // where: { userId: req.user.id },
+      where: {
+        userId: req.user.id,
+      },
+      limit: 1,
+      offset: 0,
+      include: [
+        {
+          model: Card,
+          include: [
+            {
+              model: CardData,
+              include: Player,
+            },
+            {
+              model: Series,
+              include: Subset,
+            },
+          ],
+        },
+        GradingCompany,
+      ],
+      order: [createdSort],
+    });
+    res.json(userCards);
   } catch (error) {
     next(error);
   }
