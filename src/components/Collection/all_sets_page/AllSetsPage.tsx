@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { fetchCardsBySet } from "../../../store/collection/thunks";
+import { fetchCardsBySet } from "../../../store/collection/browse/thunks";
 import { RootState } from "../../../store";
 import { createLoadingSelector } from "../../../store/loading/reducer";
 import DataTable from "react-data-table-component";
@@ -22,12 +22,12 @@ const AllSetsPage: React.FC<RouteComponentProps<TParams>> = (props) => {
   const dispatch = useDispatch();
 
   const cardsBySetForYear = useSelector(
-    (state: RootState) => state.collection.cardsBySet
+    (state: RootState) => state.collection.browse.cardsBySet
   ).filter((set) => set.year === +props.match.params.year);
 
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
   const initialDataLoadComplete = useSelector(
-    (state: RootState) => state.collection.initialDataLoadComplete
+    (state: RootState) => state.collection.browse.initialDataLoadComplete
   );
 
   useEffect(() => {

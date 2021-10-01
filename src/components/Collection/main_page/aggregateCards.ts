@@ -1,4 +1,4 @@
-import { SetCards } from "../../../store/collection/types";
+import { SetCards } from "../../../store/collection/browse/types";
 
 // transform api data to show total cards in collection aggregated by year
 export function aggregateCardsByYear(cardsBySet: SetCards[]): Array<{

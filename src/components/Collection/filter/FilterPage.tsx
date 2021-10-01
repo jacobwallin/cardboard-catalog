@@ -1,5 +1,18 @@
 import React from "react";
+import DataTable from "react-data-table-component";
+
+import {
+  CollectionPageContainer,
+  DataTableContainer,
+  ContentContainer,
+  DataTableTitle,
+  CollectionData,
+} from "../shared";
 
 export default function FilterPage() {
-  return <div>This is the collection filter page</div>;
+  return (
+    <CollectionPageContainer>
+      <DataTableContainer></DataTableContainer>
+    </CollectionPageContainer>
+  );
 }

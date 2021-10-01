@@ -9,7 +9,7 @@ import {
   ADD_CARDS_SUCCESS,
 } from "./types";
 
-import { RemoveUser, REMOVE_USER } from "../user/types";
+import { RemoveUser, REMOVE_USER } from "../../user/types";
 
 const initialState: CollectionState = {
   cardsBySet: [],

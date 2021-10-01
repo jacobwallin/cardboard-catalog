@@ -1,5 +1,5 @@
 import { ThunkAction } from "redux-thunk";
-import { RootState } from "../index";
+import { RootState } from "../../index";
 import {
   getCardsBySetSuccess,
   getCardsBySetRequest,

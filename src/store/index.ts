@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { createLogger } from "redux-logger";
-import collectionReducer from "./collection/reducer";
+import collectionReducer from "./collection/";
 import userReducer from "./user/reducer";
 import libraryReducer from "./library";
 import loadingReducer from "./loading/reducer";

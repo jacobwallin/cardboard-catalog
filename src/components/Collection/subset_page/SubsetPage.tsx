@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { RootState } from "../../../store";
 import { fetchSubset } from "../../../store/library/subsets/thunks";
-import { fetchCardsInSingleSubset } from "../../../store/collection/thunks";
+import { fetchCardsInSingleSubset } from "../../../store/collection/browse/thunks";
 import DataTable from "react-data-table-component";
 import {
   CollectionPageContainer,
@@ -32,7 +32,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
   );
 
   const userCardsInSubset = useSelector(
-    (state: RootState) => state.collection.cardsInSingleSubset
+    (state: RootState) => state.collection.browse.cardsInSingleSubset
   );
 
   let [selectedSeriesId, setSelectedSeriesId] = useState(0);
