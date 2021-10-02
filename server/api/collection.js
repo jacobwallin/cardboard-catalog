@@ -116,13 +116,15 @@ router.get("/filter", async (req, res, next) => {
   };
 
   try {
+    const limit = req.query.limit;
+    const offset = (req.query.page - 1) * limit;
+
     const userCards = await UserCard.findAndCountAll({
-      // where: { userId: req.user.id },
       where: {
         userId: req.user.id,
       },
-      limit: 1,
-      offset: 0,
+      limit: limit,
+      offset: offset,
       include: [
         {
           model: Card,
