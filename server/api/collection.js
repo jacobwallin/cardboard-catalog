@@ -143,7 +143,7 @@ router.get("/filter", async (req, res, next) => {
               model: Series,
               include: {
                 model: Subset,
-                attributes: ["id", "name", "baseSeriesId"],
+                attributes: ["id", "name", "baseSeriesId", "setId"],
                 include: {
                   model: Set,
                   attributes: [
