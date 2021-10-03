@@ -11,6 +11,7 @@ const {
   Player,
   Series,
   Subset,
+  Set,
 } = require("../db/models");
 
 const db = require("../db/db");
@@ -103,28 +104,21 @@ router.get("/filter", async (req, res, next) => {
   console.log("USER ID: ", req.user.id);
 
   // sort by card name
-  let playerSort = [Card, CardData, "name", "ASC"];
-  // sort by date added
-  let createdSort = ["createdAt", "ASC"];
+  // let playerSort = [Card, CardData, "name", "ASC"];
 
-  let cardIdFilter = {
-    "$card.id$": { [Op.eq]: 18512 },
-  };
+  // let cardIdFilter = {
+  //   "$card.id$": { [Op.eq]: 18512 },
+  // };
 
-  let playerFilter = {
-    "$card.card_datum.players.id$": { [Op.eq]: 90 },
-  };
+  // let playerFilter = {
+  //   "$card.card_datum.players.id$": { [Op.eq]: 90 },
+  // };
 
   try {
-    const limit = req.query.limit;
-    const offset = (req.query.page - 1) * limit;
-
     const userCards = await UserCard.findAndCountAll({
       where: {
         userId: req.user.id,
       },
-      limit: limit,
-      offset: offset,
       include: [
         {
           model: Card,
@@ -147,13 +141,27 @@ router.get("/filter", async (req, res, next) => {
             },
             {
               model: Series,
-              include: Subset,
+              include: {
+                model: Subset,
+                attributes: ["id", "name", "baseSeriesId"],
+                include: {
+                  model: Set,
+                  attributes: [
+                    "id",
+                    "name",
+                    "baseSubsetId",
+                    "year",
+                    "leagueId",
+                    "brandId",
+                  ],
+                },
+              },
             },
           ],
         },
         GradingCompany,
       ],
-      order: [createdSort],
+      order: [["createdAt", "ASC"]],
     });
     res.json(userCards);
   } catch (error) {
