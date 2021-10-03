@@ -6,7 +6,7 @@ import {
 
 const initialState = {
   count: 0,
-  cards: [],
+  rows: [],
 };
 
 export default function cardReducer(

@@ -4,12 +4,10 @@ import * as actions from "./actions";
 import { FilterCollectionActions } from "./types";
 
 export const fetchCards =
-  (
-    queryString: string
-  ): ThunkAction<void, RootState, unknown, FilterCollectionActions> =>
+  (): ThunkAction<void, RootState, unknown, FilterCollectionActions> =>
   (dispatch) => {
     dispatch(actions.getCardsRequest());
-    fetch(`/api/collection/filter/${queryString}`)
+    fetch(`/api/collection/filter/`)
       .then((response) => {
         return response.json();
       })

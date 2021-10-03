@@ -1,7 +1,7 @@
 // STATE
 export interface FilterCollectionState {
   count: number;
-  cards: UserCard[];
+  rows: UserCard[];
 }
 
 export interface UserCard {
@@ -50,11 +50,18 @@ interface Series {
 interface Subset {
   id: number;
   name: string;
-  description: string;
   baseSeriesId: number;
-  createdAt: string;
-  updatedAt: string;
   setId: number;
+  set: Set;
+}
+
+interface Set {
+  id: number;
+  name: string;
+  baseSubsetId: number;
+  year: number;
+  leagueId: number;
+  brandId: number;
 }
 
 interface Player {
