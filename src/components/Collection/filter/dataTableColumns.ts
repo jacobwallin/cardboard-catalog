@@ -8,8 +8,7 @@ const columns = [
     sortable: true,
     style: tableStyles,
     compact: true,
-    // minWidth: "50px",
-    // grow: 1,
+    grow: 1,
   },
   {
     name: "Name",
@@ -17,13 +16,16 @@ const columns = [
     sortable: true,
     style: tableStyles,
     compact: true,
+    grow: 2,
   },
   {
     name: "Set",
     selector: (row: UserCard) => row.card.series.subset.set.name,
+
     sortable: true,
     style: tableStyles,
     compact: true,
+    grow: 2,
   },
   {
     name: "Subset",
@@ -31,6 +33,16 @@ const columns = [
     sortable: true,
     style: tableStyles,
     compact: true,
+    grow: 2,
+  },
+  {
+    name: "Date Added",
+    selector: (row: UserCard) => row.createdAt,
+    cell: (row: UserCard) => row.createdAt.slice(0, 10),
+    sortable: true,
+    style: tableStyles,
+    compact: true,
+    grow: 1,
   },
 ];
 
