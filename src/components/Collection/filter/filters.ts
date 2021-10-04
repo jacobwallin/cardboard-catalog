@@ -1,109 +1,31 @@
 export interface Filters {
-  year: {
-    filter: boolean;
-    value: number;
-  };
-  setId: {
-    filter: boolean;
-    value: number;
-  };
-  subsetId: {
-    filter: boolean;
-    value: number;
-  };
-  seriesId: {
-    filter: boolean;
-    value: number;
-  };
-  teamId: {
-    filter: boolean;
-    value: number;
-  };
-  playerId: {
-    filter: boolean;
-    value: number;
-  };
-  serialized: {
-    filter: boolean;
-    value: boolean;
-  };
-  rookie: {
-    filter: boolean;
-    value: boolean;
-  };
-  auto: {
-    filter: boolean;
-    value: boolean;
-  };
-  relic: {
-    filter: boolean;
-    value: boolean;
-  };
-  manufacturedRelic: {
-    filter: boolean;
-    value: boolean;
-  };
-  parallel: {
-    filter: boolean;
-    value: boolean;
-  };
-  shortPrint: {
-    filter: boolean;
-    value: boolean;
-  };
+  year: number;
+  setId: number;
+  subsetId: number;
+  seriesId: number;
+  teamId: number;
+  playerId: number;
+  serialized: boolean;
+  rookie: boolean;
+  auto: boolean;
+  relic: boolean;
+  manufacturedRelic: boolean;
+  parallel: boolean;
+  shortPrint: boolean;
 }
 
 export const initialFilters = {
-  year: {
-    filter: false,
-    value: 0,
-  },
-  setId: {
-    filter: false,
-    value: 0,
-  },
-  subsetId: {
-    filter: false,
-    value: 0,
-  },
-  seriesId: {
-    filter: false,
-    value: 0,
-  },
-  teamId: {
-    filter: false,
-    value: 0,
-  },
-  playerId: {
-    filter: false,
-    value: 0,
-  },
-  serialized: {
-    filter: false,
-    value: false,
-  },
-  rookie: {
-    filter: false,
-    value: false,
-  },
-  auto: {
-    filter: false,
-    value: false,
-  },
-  relic: {
-    filter: false,
-    value: false,
-  },
-  manufacturedRelic: {
-    filter: false,
-    value: false,
-  },
-  parallel: {
-    filter: false,
-    value: false,
-  },
-  shortPrint: {
-    filter: false,
-    value: false,
-  },
+  year: 0,
+  setId: 0,
+  subsetId: 0,
+  seriesId: 0,
+  teamId: 0,
+  playerId: 0,
+  serialized: false,
+  rookie: false,
+  auto: false,
+  relic: false,
+  manufacturedRelic: false,
+  parallel: false,
+  shortPrint: false,
 };

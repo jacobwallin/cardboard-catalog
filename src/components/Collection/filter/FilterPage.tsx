@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
@@ -51,11 +51,6 @@ export default function FilterPage() {
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [playerSearch, setPlayerSearch] = useState("");
 
-  const filteredCards = useMemo(
-    () => filterCards(cards, filters),
-    [cards, filters]
-  );
-
   function playerSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
     setPlayerSearch(event.target.value);
   }
@@ -65,19 +60,13 @@ export default function FilterPage() {
       case "year":
         setFilters({
           ...filters,
-          year: {
-            filter: +event.target.value !== 0,
-            value: +event.target.value,
-          },
+          year: +event.target.value,
         });
         break;
       case "set":
         setFilters({
           ...filters,
-          setId: {
-            filter: +event.target.value !== 0,
-            value: +event.target.value,
-          },
+          setId: +event.target.value,
         });
         break;
     }
@@ -90,19 +79,13 @@ export default function FilterPage() {
       case "team":
         setFilters({
           ...filters,
-          teamId: {
-            filter: +event.target.value !== 0,
-            value: +event.target.value,
-          },
+          teamId: +event.target.value,
         });
         break;
       case "player":
         setFilters({
           ...filters,
-          playerId: {
-            filter: +event.target.value !== 0,
-            value: +event.target.value,
-          },
+          playerId: +event.target.value,
         });
         break;
     }
@@ -111,10 +94,7 @@ export default function FilterPage() {
   function cardAttributeChange(event: React.ChangeEvent<HTMLInputElement>) {
     setFilters({
       ...filters,
-      [event.target.id]: {
-        filter: event.target.checked,
-        value: event.target.checked,
-      },
+      [event.target.id]: event.target.checked,
     });
   }
 
@@ -266,7 +246,7 @@ export default function FilterPage() {
       <DataTableContainer>
         <DataTable
           columns={columns}
-          data={filteredCards}
+          data={filterCards(cards, filters)}
           dense
           progressPending={loadingCards}
           pagination
