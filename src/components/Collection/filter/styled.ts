@@ -50,5 +50,4 @@ export const Checkbox = styled.input`
 
 export const TextInput = styled.input`
   width: 125px;
-  margin-bottom: 2px;
 `;
