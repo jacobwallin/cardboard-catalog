@@ -49,12 +49,16 @@ export default function FilterPage() {
   );
 
   const [filters, setFilters] = useState<Filters>(initialFilters);
-  const [isAuto, setIsAuto] = useState(false);
+  const [playerSearch, setPlayerSearch] = useState("");
 
   const filteredCards = useMemo(
     () => filterCards(cards, filters),
     [cards, filters]
   );
+
+  function playerSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setPlayerSearch(event.target.value);
+  }
 
   function setFiltersChange(event: React.ChangeEvent<HTMLSelectElement>) {
     switch (event.target.id) {
@@ -84,7 +88,6 @@ export default function FilterPage() {
   ) {
     switch (event.target.id) {
       case "team":
-        console.log("TEAM FILTER: ", event.target.value);
         setFilters({
           ...filters,
           teamId: {
@@ -168,17 +171,29 @@ export default function FilterPage() {
               })}
             </Styled.Select>
           </Styled.Filter>
+          <Styled.TextInput
+            id="playerSearch"
+            type="text"
+            placeholder="player search"
+            onChange={playerSearchChange}
+          />
           <Styled.Filter>
             <Styled.Label htmlFor="player">Player: </Styled.Label>
             <Styled.Select id="player" onChange={teamPlayerFiltersChange}>
               <option value={0}>Select</option>
-              {players.map((player) => {
-                return (
-                  <option key={player.id} value={player.id}>
-                    {player.name}
-                  </option>
-                );
-              })}
+              {players
+                .filter((player) => {
+                  return player.name
+                    .toLowerCase()
+                    .includes(playerSearch.toLowerCase());
+                })
+                .map((player) => {
+                  return (
+                    <option key={player.id} value={player.id}>
+                      {player.name}
+                    </option>
+                  );
+                })}
             </Styled.Select>
           </Styled.Filter>
         </Styled.FilterSection>

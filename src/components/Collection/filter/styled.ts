@@ -35,7 +35,7 @@ export const Filter = styled.div`
 `;
 
 export const Select = styled.select`
-  width: 110px;
+  width: 125px;
 `;
 
 export const Label = styled.label`
@@ -46,4 +46,10 @@ export const Label = styled.label`
 export const Checkbox = styled.input`
   width: 12px;
   height: 12px;
+`;
+
+export const TextInput = styled.input`
+  width: 125px;
+  align-self: flex-end;
+  margin-bottom: 2px;
 `;
