@@ -84,6 +84,7 @@ export default function FilterPage() {
   ) {
     switch (event.target.id) {
       case "team":
+        console.log("TEAM FILTER: ", event.target.value);
         setFilters({
           ...filters,
           teamId: {

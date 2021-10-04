@@ -39,7 +39,7 @@ export function filterCards(cards: UserCard[], filters: Filters): UserCard[] {
     );
   }
   // PLAYER
-  if (filters.teamId.filter) {
+  if (filters.playerId.filter) {
     filteredCards = filteredCards.filter((card) => {
       // check if the selected player belongs to the card (some returns false if array is empty)
       return card.card.card_datum.players.some(
