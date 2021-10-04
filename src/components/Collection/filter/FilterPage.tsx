@@ -171,12 +171,15 @@ export default function FilterPage() {
               })}
             </Styled.Select>
           </Styled.Filter>
-          <Styled.TextInput
-            id="playerSearch"
-            type="text"
-            placeholder="player search"
-            onChange={playerSearchChange}
-          />
+          <Styled.Filter>
+            <Styled.Label htmlFor="playerSearch">Search: </Styled.Label>
+            <Styled.TextInput
+              id="playerSearch"
+              type="text"
+              placeholder="player name"
+              onChange={playerSearchChange}
+            />
+          </Styled.Filter>
           <Styled.Filter>
             <Styled.Label htmlFor="player">Player: </Styled.Label>
             <Styled.Select id="player" onChange={teamPlayerFiltersChange}>
