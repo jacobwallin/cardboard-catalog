@@ -143,10 +143,9 @@ export default function RegisterForm(props: Props) {
 
   // validate each field when the onBlur event occurs
   function handleBlur(event: React.FocusEvent<HTMLInputElement>) {
+    let validationResponse: { [key: string]: string[] } | undefined = undefined;
+    let validationMessage = "";
     if (event.target.value !== "") {
-      let validationResponse: { [key: string]: string[] } | undefined =
-        undefined;
-      let validationMessage = "";
       switch (event.target.id) {
         case "username":
           validationResponse = validate(
@@ -226,19 +225,18 @@ export default function RegisterForm(props: Props) {
           }
           break;
       }
-      let target = event.target;
-
-      setFormState((previousState) => ({
-        ...previousState,
-        [target.id]: {
-          value: target.value,
-          focused: false,
-          valid: validationMessage === "",
-          error: validationMessage !== "",
-          errorMessage: validationMessage,
-        },
-      }));
     }
+    let target = event.target;
+    setFormState((previousState) => ({
+      ...previousState,
+      [target.id]: {
+        value: target.value,
+        focused: false,
+        valid: validationMessage === "" && target.value !== "",
+        error: validationMessage !== "",
+        errorMessage: validationMessage,
+      },
+    }));
   }
 
   return (
@@ -259,7 +257,7 @@ export default function RegisterForm(props: Props) {
                 onFocus={setFocusedElement}
                 autoComplete="off"
                 error={formState.username.error || !usernameAvailable}
-                valid={formState.username.error && usernameAvailable}
+                valid={formState.username.valid && usernameAvailable}
               />
               <Styled.InputLabel
                 displayLabel={
