@@ -27,6 +27,7 @@ const FilterBrowse = styled.div`
 const StyledLink = styled(Link)<{ location: "LEFT" | "RIGHT" }>`
   width: 80px;
   height: 25px;
+  font-size: 0.9rem;
   line-height: 25px;
   text-align: center;
   text-decoration: none;

@@ -13,15 +13,10 @@ import { createLoadingSelector } from "../../../store/loading/reducer";
 import { Filters, initialFilters } from "./filters";
 import { filterCards } from "./filterCards";
 
-import {
-  CollectionPageContainer,
-  DataTableContainer,
-  ContentContainer,
-  DataTableTitle,
-  CollectionData,
-} from "../shared";
+import { CollectionPageContainer, DataTableContainer } from "../shared";
 
 import * as Styled from "./styled";
+import StyledButton from "../../Admin/components/StyledButton";
 
 const loadingCardsSelector = createLoadingSelector(["GET_CARDS"]);
 
@@ -44,6 +39,8 @@ export default function FilterPage() {
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [playerSearch, setPlayerSearch] = useState("");
 
+  const filteredCards = filterCards(cards, filters);
+
   useEffect(() => {
     dispatch(fetchCardsBySet());
     dispatch(fetchAllPlayers());
@@ -55,6 +52,10 @@ export default function FilterPage() {
       dispatch(fetchCards());
     }
   }, [cards]);
+
+  function resetFilters() {
+    setFilters(initialFilters);
+  }
 
   function playerSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
     setPlayerSearch(event.target.value);
@@ -247,12 +248,16 @@ export default function FilterPage() {
           </Styled.Filter>
         </Styled.FilterSection>
       </Styled.FiltersContainer>
-
+      <Styled.TableHeader>
+        <Styled.CardTotal>{`Total Cards: ${filteredCards.length}`}</Styled.CardTotal>
+        <Styled.Reset onClick={resetFilters}>Reset Filters</Styled.Reset>
+      </Styled.TableHeader>
       <DataTableContainer>
         <DataTable
           columns={columns}
-          data={filterCards(cards, filters)}
+          data={filteredCards}
           dense
+          noHeader
           progressPending={loadingCards}
           pagination
           paginationPerPage={25}

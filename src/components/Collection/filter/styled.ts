@@ -51,3 +51,36 @@ export const Checkbox = styled.input`
 export const TextInput = styled.input`
   width: 125px;
 `;
+
+export const TableHeader = styled.div`
+  width: 100%;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 25px;
+`;
+
+export const CardTotal = styled.div`
+  font-size: 1rem;
+  font-weight: 600;
+`;
+
+export const Reset = styled.div`
+  width: 125px;
+  height: 25px;
+  font-size: 0.9rem;
+  line-height: 25px;
+  text-align: center;
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+  background-color: #f24236;
+  border-radius: 3px;
+  &:hover {
+    background-color: #d9291d;
+  }
+  &:active {
+    background-color: #a60000;
+  }
+`;
