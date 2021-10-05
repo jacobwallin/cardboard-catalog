@@ -16,7 +16,6 @@ import { filterCards } from "./filterCards";
 import { CollectionPageContainer, DataTableContainer } from "../shared";
 
 import * as Styled from "./styled";
-import StyledButton from "../../Admin/components/StyledButton";
 
 const loadingCardsSelector = createLoadingSelector(["GET_CARDS"]);
 
@@ -111,7 +110,11 @@ export default function FilterPage() {
           <Styled.SectionHeader>Set</Styled.SectionHeader>
           <Styled.Filter>
             <Styled.Label htmlFor="year">Year: </Styled.Label>
-            <Styled.Select id="year" onChange={setFiltersChange}>
+            <Styled.Select
+              id="year"
+              value={filters.year}
+              onChange={setFiltersChange}
+            >
               <option value={0}>Select</option>]
               {Object.keys(
                 cardsBySet.reduce((years: any, set) => {
@@ -130,7 +133,11 @@ export default function FilterPage() {
           </Styled.Filter>
           <Styled.Filter>
             <Styled.Label htmlFor="set">Set: </Styled.Label>
-            <Styled.Select id="set" onChange={setFiltersChange}>
+            <Styled.Select
+              id="set"
+              value={filters.setId}
+              onChange={setFiltersChange}
+            >
               <option value={0}>Select</option>]
               {cardsBySet.map((set) => {
                 return (
@@ -146,7 +153,11 @@ export default function FilterPage() {
           <Styled.SectionHeader>Team/Player</Styled.SectionHeader>
           <Styled.Filter>
             <Styled.Label htmlFor="team">Team: </Styled.Label>
-            <Styled.Select id="team" onChange={teamPlayerFiltersChange}>
+            <Styled.Select
+              id="team"
+              value={filters.teamId}
+              onChange={teamPlayerFiltersChange}
+            >
               <option value={0}>Select</option>
               {teams.map((team) => {
                 return (
@@ -162,6 +173,7 @@ export default function FilterPage() {
             <Styled.TextInput
               id="playerSearch"
               type="text"
+              value={playerSearch}
               placeholder="player name"
               onChange={playerSearchChange}
             />
@@ -192,6 +204,7 @@ export default function FilterPage() {
             <Styled.Label htmlFor="rookie">Rookie: </Styled.Label>
             <Styled.Checkbox
               id="rookie"
+              checked={filters.rookie}
               type="checkbox"
               onChange={cardAttributeChange}
             />
@@ -200,6 +213,7 @@ export default function FilterPage() {
             <Styled.Label htmlFor="serialized">Serialized: </Styled.Label>
             <Styled.Checkbox
               id="serialized"
+              checked={filters.serialized}
               type="checkbox"
               onChange={cardAttributeChange}
             />
@@ -208,6 +222,7 @@ export default function FilterPage() {
             <Styled.Label htmlFor="auto">Auto: </Styled.Label>
             <Styled.Checkbox
               id="auto"
+              checked={filters.auto}
               type="checkbox"
               onChange={cardAttributeChange}
             />
@@ -216,6 +231,7 @@ export default function FilterPage() {
             <Styled.Label htmlFor="relic">Relic: </Styled.Label>
             <Styled.Checkbox
               id="relic"
+              checked={filters.relic}
               type="checkbox"
               onChange={cardAttributeChange}
             />
@@ -226,6 +242,7 @@ export default function FilterPage() {
             </Styled.Label>
             <Styled.Checkbox
               id="manufacturedRelic"
+              checked={filters.manufacturedRelic}
               type="checkbox"
               onChange={cardAttributeChange}
             />
@@ -234,6 +251,7 @@ export default function FilterPage() {
             <Styled.Label htmlFor="parallel">Parallel: </Styled.Label>
             <Styled.Checkbox
               id="parallel"
+              checked={filters.parallel}
               type="checkbox"
               onChange={cardAttributeChange}
             />
@@ -242,6 +260,7 @@ export default function FilterPage() {
             <Styled.Label htmlFor="shortPrint">Short Print: </Styled.Label>
             <Styled.Checkbox
               id="shortPrint"
+              checked={filters.shortPrint}
               type="checkbox"
               onChange={cardAttributeChange}
             />
