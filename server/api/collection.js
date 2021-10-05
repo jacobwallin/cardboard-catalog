@@ -12,6 +12,7 @@ const {
   Series,
   Subset,
   Set,
+  Team,
 } = require("../db/models");
 
 const db = require("../db/db");
@@ -134,10 +135,16 @@ router.get("/filter", async (req, res, next) => {
                 "subsetId",
                 "teamId",
               ],
-              include: {
-                model: Player,
-                attributes: ["id", "name", "birthday", "hallOfFame"],
-              },
+              include: [
+                {
+                  model: Player,
+                  attributes: ["id", "name", "birthday", "hallOfFame"],
+                },
+                {
+                  model: Team,
+                  attributes: ["name"],
+                },
+              ],
             },
             {
               model: Series,

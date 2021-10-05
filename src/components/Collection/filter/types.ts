@@ -29,3 +29,23 @@ export const initialFilters = {
   parallel: false,
   shortPrint: false,
 };
+
+export interface TableColumns {
+  cardNumber: boolean;
+  cardName: boolean;
+  setName: boolean;
+  subsetName: boolean;
+  dateAdded: boolean;
+  team: boolean;
+  players: boolean;
+}
+
+export const initialTableColumns = {
+  cardNumber: true,
+  cardName: true,
+  setName: true,
+  subsetName: true,
+  dateAdded: true,
+  team: false,
+  players: false,
+};

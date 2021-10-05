@@ -8,8 +8,13 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
   margin-top: 10px;
+  @media only screen and (max-width: 450px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const StyledHeader = styled.div`
@@ -22,6 +27,7 @@ const StyledHeader = styled.div`
 const FilterBrowse = styled.div`
   display: flex;
   flex-direction: row;
+  margin-left: 10px;
 `;
 
 const StyledLink = styled(Link)<{ location: "LEFT" | "RIGHT" }>`

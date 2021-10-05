@@ -26,6 +26,9 @@ export interface UserCard {
       rookie: boolean;
       subsetId: number;
       teamId: number;
+      team: {
+        name: string;
+      };
       players: Player[];
     };
   };

@@ -1,4 +1,4 @@
-import { Filters } from "./filters";
+import { Filters } from "./types";
 import { UserCard } from "../../../store/collection/filter/types";
 
 export function filterCards(cards: UserCard[], filters: Filters): UserCard[] {

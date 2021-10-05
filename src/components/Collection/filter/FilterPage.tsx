@@ -9,12 +9,17 @@ import { fetchAllTeams } from "../../../store/library/teams/thunks";
 import DataTable from "react-data-table-component";
 import columns from "./dataTableColumns";
 import { createLoadingSelector } from "../../../store/loading/reducer";
+import { createPdf } from "../../../utils/createPdf";
 
-import { Filters, initialFilters } from "./filters";
+import {
+  Filters,
+  initialFilters,
+  TableColumns,
+  initialTableColumns,
+} from "./types";
 import { filterCards } from "./filterCards";
 
 import { CollectionPageContainer, DataTableContainer } from "../shared";
-
 import * as Styled from "./styled";
 
 const loadingCardsSelector = createLoadingSelector(["GET_CARDS"]);
@@ -23,9 +28,6 @@ export default function FilterPage() {
   const dispatch = useDispatch();
 
   const cards = useSelector((state: RootState) => state.collection.filter.rows);
-  const cardCount = useSelector(
-    (state: RootState) => state.collection.filter.count
-  );
   const players = useSelector((state: RootState) => state.library.players);
   const teams = useSelector((state: RootState) => state.library.teams);
   const cardsBySet = useSelector(
@@ -36,7 +38,10 @@ export default function FilterPage() {
   );
 
   const [filters, setFilters] = useState<Filters>(initialFilters);
+  const [shownColumns, setShownColumns] =
+    useState<TableColumns>(initialTableColumns);
   const [playerSearch, setPlayerSearch] = useState("");
+  const [showColumnsMenu, setShowColumnsMenu] = useState(false);
 
   const filteredCards = filterCards(cards, filters);
 
@@ -103,8 +108,16 @@ export default function FilterPage() {
     });
   }
 
+  function shownColumnsChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setShownColumns({
+      ...shownColumns,
+      [event.target.id]: event.target.checked,
+    });
+  }
+
   return (
     <CollectionPageContainer>
+      <Styled.PageHeader>Filter / Search</Styled.PageHeader>
       <Styled.FiltersContainer>
         <Styled.FilterSection>
           <Styled.SectionHeader>Set</Styled.SectionHeader>
@@ -169,7 +182,7 @@ export default function FilterPage() {
             </Styled.Select>
           </Styled.Filter>
           <Styled.Filter>
-            <Styled.Label htmlFor="playerSearch">Search: </Styled.Label>
+            <Styled.Label htmlFor="playerSearch">Find: </Styled.Label>
             <Styled.TextInput
               id="playerSearch"
               type="text"
@@ -267,13 +280,77 @@ export default function FilterPage() {
           </Styled.Filter>
         </Styled.FilterSection>
       </Styled.FiltersContainer>
+      <Styled.ResetPdfButtons>
+        <Styled.Pdf>Download PDF</Styled.Pdf>
+        <Styled.Reset onClick={resetFilters}>Reset Filters</Styled.Reset>
+      </Styled.ResetPdfButtons>
       <Styled.TableHeader>
         <Styled.CardTotal>{`Total Cards: ${filteredCards.length}`}</Styled.CardTotal>
-        <Styled.Reset onClick={resetFilters}>Reset Filters</Styled.Reset>
+        <Styled.TableColumns
+          onClick={(e) => setShowColumnsMenu(!showColumnsMenu)}
+        >
+          table columns
+        </Styled.TableColumns>
+        <Styled.SelectColumns show={showColumnsMenu}>
+          <Styled.ShowColumn>
+            <Styled.Label htmlFor="cardNumber">Card #: </Styled.Label>
+            <Styled.Checkbox
+              id="cardNumber"
+              checked={shownColumns.cardNumber}
+              type="checkbox"
+              onChange={shownColumnsChange}
+            />
+          </Styled.ShowColumn>
+          <Styled.ShowColumn>
+            <Styled.Label htmlFor="cardName">Card Name: </Styled.Label>
+            <Styled.Checkbox
+              id="cardName"
+              checked={shownColumns.cardName}
+              type="checkbox"
+              onChange={shownColumnsChange}
+            />
+          </Styled.ShowColumn>
+          <Styled.ShowColumn>
+            <Styled.Label htmlFor="team">Team: </Styled.Label>
+            <Styled.Checkbox
+              id="team"
+              checked={shownColumns.team}
+              type="checkbox"
+              onChange={shownColumnsChange}
+            />
+          </Styled.ShowColumn>
+          <Styled.ShowColumn>
+            <Styled.Label htmlFor="setName">Set: </Styled.Label>
+            <Styled.Checkbox
+              id="setName"
+              checked={shownColumns.setName}
+              type="checkbox"
+              onChange={shownColumnsChange}
+            />
+          </Styled.ShowColumn>
+          <Styled.ShowColumn>
+            <Styled.Label htmlFor="subsetName">Subset: </Styled.Label>
+            <Styled.Checkbox
+              id="subsetName"
+              checked={shownColumns.subsetName}
+              type="checkbox"
+              onChange={shownColumnsChange}
+            />
+          </Styled.ShowColumn>
+          <Styled.ShowColumn>
+            <Styled.Label htmlFor="dateAdded">Date Added: </Styled.Label>
+            <Styled.Checkbox
+              id="dateAdded"
+              checked={shownColumns.dateAdded}
+              type="checkbox"
+              onChange={shownColumnsChange}
+            />
+          </Styled.ShowColumn>
+        </Styled.SelectColumns>
       </Styled.TableHeader>
       <DataTableContainer>
         <DataTable
-          columns={columns}
+          columns={columns(shownColumns)}
           data={filteredCards}
           dense
           noHeader
