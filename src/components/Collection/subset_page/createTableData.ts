@@ -1,5 +1,5 @@
 import { Subset, CardData, Series } from "../../../store/library/subsets/types";
-import { UserCard } from "../../../store/collection/types";
+import { UserCard } from "../../../store/collection/browse/types";
 
 export interface TableDataPoint {
   id: number;

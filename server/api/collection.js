@@ -1,8 +1,19 @@
 const router = require("express").Router();
+const { Op } = require("sequelize");
 
 const { isUser } = require("../middleware");
 
-const { Card, CardData, UserCard } = require("../db/models");
+const {
+  Card,
+  CardData,
+  UserCard,
+  GradingCompany,
+  Player,
+  Series,
+  Subset,
+  Set,
+  Team,
+} = require("../db/models");
 
 const db = require("../db/db");
 
@@ -85,6 +96,81 @@ router.post("/add", async (req, res, next) => {
     );
 
     res.status(201).json(userCards);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/filter", async (req, res, next) => {
+  console.log("USER ID: ", req.user.id);
+
+  // sort by card name
+  // let playerSort = [Card, CardData, "name", "ASC"];
+
+  // let cardIdFilter = {
+  //   "$card.id$": { [Op.eq]: 18512 },
+  // };
+
+  // let playerFilter = {
+  //   "$card.card_datum.players.id$": { [Op.eq]: 90 },
+  // };
+
+  try {
+    const userCards = await UserCard.findAndCountAll({
+      where: {
+        userId: req.user.id,
+      },
+      include: [
+        {
+          model: Card,
+          attributes: ["id", "value", "seriesId", "cardDataId"],
+          include: [
+            {
+              model: CardData,
+              attributes: [
+                "id",
+                "name",
+                "number",
+                "rookie",
+                "subsetId",
+                "teamId",
+              ],
+              include: [
+                {
+                  model: Player,
+                  attributes: ["id", "name", "birthday", "hallOfFame"],
+                },
+                {
+                  model: Team,
+                  attributes: ["name"],
+                },
+              ],
+            },
+            {
+              model: Series,
+              include: {
+                model: Subset,
+                attributes: ["id", "name", "baseSeriesId", "setId"],
+                include: {
+                  model: Set,
+                  attributes: [
+                    "id",
+                    "name",
+                    "baseSubsetId",
+                    "year",
+                    "leagueId",
+                    "brandId",
+                  ],
+                },
+              },
+            },
+          ],
+        },
+        GradingCompany,
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+    res.json(userCards);
   } catch (error) {
     next(error);
   }

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { RootState } from "../../../store";
-import { fetchCardsBySubset } from "../../../store/collection/thunks";
+import { fetchCardsBySubset } from "../../../store/collection/browse/thunks";
 import { fetchSet } from "../../../store/library/sets/thunks";
 import { createLoadingSelector } from "../../../store/loading/reducer";
 import DataTable from "react-data-table-component";
@@ -14,7 +14,6 @@ import {
   DataTableTitle,
   CollectionData,
 } from "../shared";
-import subsetsReducer from "../../../store/library/subsets/reducer";
 
 const loadingSelector = createLoadingSelector([
   "GET_SINGLE_SET",
@@ -29,7 +28,7 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state: RootState) => loadingSelector(state));
   const cardsBySubset = useSelector(
-    (state: RootState) => state.collection.cardsBySubset
+    (state: RootState) => state.collection.browse.cardsBySubset
   );
   const singleSet = useSelector(
     (state: RootState) => state.library.sets.singleSet
