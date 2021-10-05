@@ -62,7 +62,7 @@ function CollectionHeader() {
       <StyledHeader>Your Collection</StyledHeader>
       <FilterBrowse>
         <StyledLink to="/collection/filter" location="LEFT">
-          Filter
+          Search
         </StyledLink>
         <StyledLink to="/collection" location="RIGHT">
           Browse
