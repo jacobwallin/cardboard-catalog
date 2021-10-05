@@ -28,13 +28,6 @@ const loadingCardsSelector = createLoadingSelector(["GET_CARDS"]);
 export default function FilterPage() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchCards());
-    dispatch(fetchCardsBySet());
-    dispatch(fetchAllPlayers());
-    dispatch(fetchAllTeams());
-  }, []);
-
   const cards = useSelector((state: RootState) => state.collection.filter.rows);
   const cardCount = useSelector(
     (state: RootState) => state.collection.filter.count
@@ -50,6 +43,18 @@ export default function FilterPage() {
 
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [playerSearch, setPlayerSearch] = useState("");
+
+  useEffect(() => {
+    dispatch(fetchCardsBySet());
+    dispatch(fetchAllPlayers());
+    dispatch(fetchAllTeams());
+  }, []);
+
+  useEffect(() => {
+    if (cards.length === 0) {
+      dispatch(fetchCards());
+    }
+  }, [cards]);
 
   function playerSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
     setPlayerSearch(event.target.value);
