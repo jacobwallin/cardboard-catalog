@@ -17,11 +17,24 @@ function createPdfData(
   const checkboxSvg = `<svg width="10" height="10"><rect x="1" y="2" width="5" height="5" rx="1" stroke-width="1" stroke="#000" fill="#fff" /></svg>`;
 
   const cardData = cards.map((card) => {
+    let setPrintout = card.card.series.subset.set.name;
+
+    if (
+      card.card.series.subset.id === card.card.series.subset.set.baseSubsetId
+    ) {
+      setPrintout += "Base Set";
+    } else {
+      setPrintout += card.card.series.subset.name;
+      if (card.card.series.id !== card.card.series.subset.baseSeriesId) {
+        setPrintout += card.card.series.name;
+      }
+    }
+
     return [
       { svg: checkboxSvg },
       card.card.card_datum.number,
       card.card.card_datum.name,
-      card.card.series.subset.set.name,
+      setPrintout,
     ];
   });
 
