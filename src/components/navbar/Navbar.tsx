@@ -40,13 +40,6 @@ export default function Navbar() {
               Collection
             </Styled.StyledLink>
             <Styled.StyledLink
-              to="/collection/filter"
-              className="navbar-link"
-              onClick={toggleHamburgerActive}
-            >
-              Filter
-            </Styled.StyledLink>
-            <Styled.StyledLink
               to="/transactions"
               className="navbar-link"
               onClick={toggleHamburgerActive}
