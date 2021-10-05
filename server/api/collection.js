@@ -161,7 +161,7 @@ router.get("/filter", async (req, res, next) => {
         },
         GradingCompany,
       ],
-      order: [["createdAt", "ASC"]],
+      order: [["createdAt", "DESC"]],
     });
     res.json(userCards);
   } catch (error) {
