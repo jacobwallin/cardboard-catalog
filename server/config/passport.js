@@ -1,13 +1,14 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const { User } = require("../db/models");
+const { Op } = require("sequelize");
 
 const strategy = new LocalStrategy(
   { usernameField: "username", passwordField: "password" },
   (username, password, done) => {
     User.findOne({
       where: {
-        username: username,
+        [Op.or]: [{ username: username }, { email: username }],
       },
     })
       .then((user) => {

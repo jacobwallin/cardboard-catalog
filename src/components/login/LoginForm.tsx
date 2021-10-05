@@ -64,7 +64,9 @@ export const LoginForm: React.FC<Props> = (props) => {
             <Styled.InputContainer>
               <Styled.StyledInput
                 type="text"
-                placeholder={formState.username.focused ? "" : "username"}
+                placeholder={
+                  formState.username.focused ? "" : "username / email"
+                }
                 id="username"
                 value={formState.username.value}
                 onChange={handleFormChange}
