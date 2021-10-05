@@ -22,7 +22,6 @@ function columns(selectedCols: {
       sortable: true,
       style: tableStyles,
       compact: true,
-      grow: 1,
     });
   }
 
@@ -34,7 +33,6 @@ function columns(selectedCols: {
       sortable: true,
       style: tableStyles,
       compact: true,
-      grow: 2,
     });
   }
 
@@ -46,7 +44,6 @@ function columns(selectedCols: {
       sortable: true,
       style: tableStyles,
       compact: true,
-      grow: 1,
     });
   }
 
@@ -58,7 +55,6 @@ function columns(selectedCols: {
       sortable: true,
       style: tableStyles,
       compact: true,
-      grow: 2,
     });
   }
 
@@ -70,7 +66,6 @@ function columns(selectedCols: {
       sortable: true,
       style: tableStyles,
       compact: true,
-      grow: 2,
     });
   }
 
@@ -83,7 +78,6 @@ function columns(selectedCols: {
       sortable: true,
       style: tableStyles,
       compact: true,
-      grow: 1,
     });
   }
 

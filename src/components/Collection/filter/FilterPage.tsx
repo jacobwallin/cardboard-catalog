@@ -10,6 +10,7 @@ import DataTable from "react-data-table-component";
 import columns from "./dataTableColumns";
 import { createLoadingSelector } from "../../../store/loading/reducer";
 import { createPdf } from "../../../utils/createPdf";
+import createPdfData from "./createPdfData";
 
 import {
   Filters,
@@ -281,7 +282,13 @@ export default function FilterPage() {
         </Styled.FilterSection>
       </Styled.FiltersContainer>
       <Styled.ResetPdfButtons>
-        <Styled.Pdf>Download PDF</Styled.Pdf>
+        <Styled.Pdf
+          onClick={(e) =>
+            createPdf(createPdfData(filteredCards, shownColumns, "TEST"))
+          }
+        >
+          Download PDF
+        </Styled.Pdf>
         <Styled.Reset onClick={resetFilters}>Reset Filters</Styled.Reset>
       </Styled.ResetPdfButtons>
       <Styled.TableHeader>
@@ -356,8 +363,8 @@ export default function FilterPage() {
           noHeader
           progressPending={loadingCards}
           pagination
-          paginationPerPage={25}
-          paginationRowsPerPageOptions={[10, 25, 50]}
+          paginationPerPage={20}
+          paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
         />
       </DataTableContainer>
     </CollectionPageContainer>
