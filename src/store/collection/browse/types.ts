@@ -74,7 +74,7 @@ interface SetInitialDataLoad {
   type: typeof SET_INITIAL_DATA_LOAD;
   status: boolean;
 }
-interface ClearCollectionAction {
+export interface ClearCollectionAction {
   type: typeof CLEAR_COLLECTION;
 }
 
