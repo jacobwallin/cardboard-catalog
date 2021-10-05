@@ -284,7 +284,7 @@ export default function FilterPage() {
       <Styled.ResetPdfButtons>
         <Styled.Pdf
           onClick={(e) =>
-            createPdf(createPdfData(filteredCards, shownColumns, "TEST"))
+            createPdf(createPdfData(filteredCards, shownColumns, "Checklist"))
           }
         >
           Download PDF
