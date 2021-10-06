@@ -8,7 +8,10 @@ import { fetchAllPlayers } from "../../../store/library/players/thunks";
 import { fetchAllTeams } from "../../../store/library/teams/thunks";
 import DataTable from "react-data-table-component";
 import columns from "./dataTableColumns";
-import { createLoadingSelector } from "../../../store/loading/reducer";
+import {
+  createLoadingSelector,
+  createStatusSelector,
+} from "../../../store/loading/reducer";
 import { createPdf } from "../../../utils/createPdf";
 import createPdfData from "./createPdfData";
 
@@ -24,6 +27,7 @@ import { CollectionPageContainer, DataTableContainer } from "../shared";
 import * as Styled from "./styled";
 
 const loadingCardsSelector = createLoadingSelector(["GET_CARDS"]);
+const fetchCardsStatusSelector = createStatusSelector("GET_CARDS");
 
 export default function FilterPage() {
   const dispatch = useDispatch();
@@ -36,6 +40,9 @@ export default function FilterPage() {
   );
   const loadingCards = useSelector((state: RootState) =>
     loadingCardsSelector(state)
+  );
+  const fetchCardsStatus = useSelector((state: RootState) =>
+    fetchCardsStatusSelector(state)
   );
 
   const [filters, setFilters] = useState<Filters>(initialFilters);
@@ -53,10 +60,10 @@ export default function FilterPage() {
   }, []);
 
   useEffect(() => {
-    if (cards.length === 0) {
+    if (cards.length === 0 && !fetchCardsStatus) {
       dispatch(fetchCards());
     }
-  }, [cards]);
+  }, [cards, fetchCardsStatus]);
 
   function resetFilters() {
     setFilters(initialFilters);
