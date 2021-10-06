@@ -17,13 +17,14 @@ export function aggregateCardsByYear(cardsBySet: SetCards[]): Array<{
     ) => {
       if (
         cardsByYear.length > 0 &&
-        cardsByYear[cardsByYear.length - 1].year === set.year
+        cardsByYear[cardsByYear.length - 1].year ===
+          +set.release_date.slice(0, 4)
       ) {
         cardsByYear[cardsByYear.length - 1].distinctCards += +set.distinctCards;
         cardsByYear[cardsByYear.length - 1].totalCards += +set.totalCards;
       } else {
         cardsByYear.push({
-          year: set.year,
+          year: +set.release_date.slice(0, 4),
           distinctCards: +set.distinctCards,
           totalCards: +set.totalCards,
         });

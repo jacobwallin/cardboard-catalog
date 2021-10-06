@@ -111,7 +111,7 @@ export interface SetCards {
   setId: number;
   setName: string;
   setDescription: string;
-  year: number;
+  release_date: string;
   distinctCards: string;
   totalCards: string;
 }

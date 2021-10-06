@@ -23,7 +23,7 @@ interface Props {
   handleCancel(): void;
   handleSubmit(
     name: string,
-    year: number,
+    release_date: string,
     description: string,
     leagueId: number,
     brandId: number,
@@ -50,8 +50,8 @@ export default function SetForm(props: Props) {
 
   // controlled form data
   const [name, setName] = useState(props.createNew ? "" : singleSet.name);
-  const [year, setYear] = useState(
-    props.createNew ? "" : singleSet.year.toString()
+  const [releaseDate, setReleaseDate] = useState(
+    props.createNew ? "" : singleSet.release_date
   );
   const [brandId, setBrandId] = useState(
     props.createNew ? 0 : singleSet.brand.id
@@ -69,7 +69,7 @@ export default function SetForm(props: Props) {
   function handleSubmit() {
     props.handleSubmit(
       name,
-      +year,
+      releaseDate,
       description,
       leagueId,
       brandId,
@@ -85,8 +85,8 @@ export default function SetForm(props: Props) {
       case "name":
         setName(value);
         break;
-      case "year":
-        setYear(value);
+      case "releaseDate":
+        setReleaseDate(value);
         break;
       case "description":
         setDescription(value);
@@ -126,10 +126,10 @@ export default function SetForm(props: Props) {
         <FieldTitle>Set Year:</FieldTitle>
         <FieldData>
           <input
-            name="year"
-            type="number"
-            value={year}
-            placeholder="Enter Set Year"
+            name="releaseDate"
+            type="date"
+            value={releaseDate}
+            placeholder=""
             onChange={handleInputChange}
           />
         </FieldData>
@@ -215,17 +215,27 @@ export default function SetForm(props: Props) {
         disabled={
           updatingSet ||
           (props.createNew
-            ? name === "" || year === "" || brandId === 0 || leagueId === 0
+            ? name === "" ||
+              releaseDate === "" ||
+              brandId === 0 ||
+              leagueId === 0
             : !detectFormChanges(
                 [
                   singleSet.name,
                   singleSet.description,
                   singleSet.league.id,
                   singleSet.brand.id,
-                  singleSet.year,
+                  singleSet.release_date,
                   singleSet.baseSubsetId || 0,
                 ],
-                [name, description, leagueId, brandId, +year, baseSubsetId]
+                [
+                  name,
+                  description,
+                  leagueId,
+                  brandId,
+                  releaseDate,
+                  baseSubsetId,
+                ]
               ))
         }
       />

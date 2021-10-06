@@ -7,7 +7,7 @@ export interface SetsState {
 export interface SetSummary {
   id: number;
   name: string;
-  year: number;
+  release_date: string;
   description: string;
   createdAt: string;
   updatedAt: string;
@@ -27,7 +27,7 @@ export interface SetSummary {
 export interface Set {
   id: number;
   name: string;
-  year: number;
+  release_date: string;
   description: string;
   baseSubsetId: number | null;
   createdAt: string;
@@ -46,7 +46,7 @@ export interface Set {
 export interface SubsetSummary {
   id: number;
   name: string;
-  cardQuantity: number;
+  baseSubsetId: number | null;
   description: string;
   setId: number;
 }
@@ -112,7 +112,7 @@ export interface UpdateSetRequest {
 export interface UpdateSetServerResponse {
   id: number;
   name: string;
-  year: number;
+  release_date: string;
   description: string;
   createdAt: string;
   updatedAt: string;

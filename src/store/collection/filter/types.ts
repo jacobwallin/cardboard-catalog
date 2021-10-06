@@ -62,7 +62,7 @@ interface Set {
   id: number;
   name: string;
   baseSubsetId: number;
-  year: number;
+  release_date: string;
   leagueId: number;
   brandId: number;
 }

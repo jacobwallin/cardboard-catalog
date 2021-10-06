@@ -62,7 +62,7 @@ export default function EditSet(props: Props) {
 
   function handleSubmit(
     name: string,
-    year: number,
+    release_date: string,
     description: string,
     leagueId: number,
     brandId: number,
@@ -71,7 +71,7 @@ export default function EditSet(props: Props) {
     dispatch(
       updateSet(props.setId, {
         name,
-        year,
+        release_date,
         description,
         leagueId,
         brandId,
@@ -113,8 +113,8 @@ export default function EditSet(props: Props) {
             <FieldData>{set.name}</FieldData>
           </FieldContainer>
           <FieldContainer>
-            <FieldTitle>Set Year:</FieldTitle>
-            <FieldData>{set.year}</FieldData>
+            <FieldTitle>Set Release Date:</FieldTitle>
+            <FieldData>{set.release_date}</FieldData>
           </FieldContainer>
           <FieldContainer>
             <FieldTitle>Set Brand:</FieldTitle>

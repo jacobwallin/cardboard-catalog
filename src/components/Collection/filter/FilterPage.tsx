@@ -139,8 +139,8 @@ export default function FilterPage() {
               <option value={0}>Select</option>]
               {Object.keys(
                 cardsBySet.reduce((years: any, set) => {
-                  if (years[set.year]) return years;
-                  years[set.year] = true;
+                  if (years[set.release_date.slice(0, 4)]) return years;
+                  years[set.release_date.slice(0, 4)] = true;
                   return years;
                 }, {})
               ).map((year) => {

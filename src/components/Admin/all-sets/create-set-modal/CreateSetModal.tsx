@@ -31,7 +31,7 @@ export default function CreateSetModal(props: Props) {
 
   function handleSubmit(
     name: string,
-    year: number,
+    release_date: string,
     description: string,
     leagueId: number,
     brandId: number,
@@ -44,7 +44,7 @@ export default function CreateSetModal(props: Props) {
     dispatch(
       createSet({
         name,
-        year: year,
+        release_date,
         description,
         leagueId,
         brandId,

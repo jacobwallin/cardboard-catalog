@@ -102,8 +102,6 @@ router.post("/add", async (req, res, next) => {
 });
 
 router.get("/filter", async (req, res, next) => {
-  console.log("USER ID: ", req.user.id);
-
   // sort by card name
   // let playerSort = [Card, CardData, "name", "ASC"];
 
@@ -157,7 +155,7 @@ router.get("/filter", async (req, res, next) => {
                     "id",
                     "name",
                     "baseSubsetId",
-                    "year",
+                    "release_date",
                     "leagueId",
                     "brandId",
                   ],

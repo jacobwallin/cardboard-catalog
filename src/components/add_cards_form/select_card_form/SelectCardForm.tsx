@@ -243,15 +243,15 @@ function aggregateYears(allSets: SetSummary[]): number[] {
   allSets.forEach((set) => {
     if (
       yearsArray.length === 0 ||
-      yearsArray[yearsArray.length - 1] !== set.year
+      yearsArray[yearsArray.length - 1] !== +set.release_date.slice(0, 4)
     ) {
-      yearsArray.push(set.year);
+      yearsArray.push(+set.release_date.slice(0, 4));
     }
   });
   return yearsArray;
 }
 function aggregateSets(allSets: SetSummary[], year: number): SetSummary[] {
   return allSets.filter((set) => {
-    return set.year === year;
+    return +set.release_date.slice(0, 4) === year;
   });
 }

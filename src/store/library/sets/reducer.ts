@@ -15,7 +15,7 @@ const initialState: SetsState = {
   singleSet: {
     id: 0,
     name: "",
-    year: 0,
+    release_date: "",
     baseSubsetId: 0,
     description: "",
     createdAt: "",
@@ -54,7 +54,7 @@ const setsReducer = (
             ...set,
             id: action.updatedSet.id,
             name: action.updatedSet.name,
-            year: action.updatedSet.year,
+            release_date: action.updatedSet.release_date,
             description: action.updatedSet.description,
             baseSubsetId: action.updatedSet.baseSubsetId,
             leagueId: action.updatedSet.league.id,

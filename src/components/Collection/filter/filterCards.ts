@@ -7,7 +7,8 @@ export function filterCards(cards: UserCard[], filters: Filters): UserCard[] {
   // YEAR
   if (filters.year !== 0) {
     filteredCards = filteredCards.filter(
-      (card) => card.card.series.subset.set.year === filters.year
+      (card) =>
+        +card.card.series.subset.set.release_date.slice(0, 4) === filters.year
     );
   }
   // SET

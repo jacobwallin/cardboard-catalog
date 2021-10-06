@@ -33,7 +33,7 @@ export const fetchSet =
 export const createSet =
   (setData: {
     name: string;
-    year: number;
+    release_date: string;
     description: string;
     leagueId: number;
     brandId: number;
@@ -70,7 +70,7 @@ export const updateSet =
     setId: number,
     setData: {
       name: string;
-      year: number;
+      release_date: string;
       description: string;
       leagueId: number;
       brandId: number;
@@ -150,8 +150,8 @@ export const createSubset =
             id: createdSubset.id,
             name: createdSubset.name,
             description: createdSubset.description,
-            cardQuantity: createdSubset.cardQuantity,
             setId: createdSubset.setId,
+            baseSubsetId: null,
           })
         );
       })

@@ -1,7 +1,7 @@
 const sets = [
   {
     name: "2021 Set 1",
-    year: 2021,
+    release_date: "2021-01-01",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus magna ipsum, posuere nec leo eu, rutrum dapibus orci. Cras consequat sem placerat, rhoncus mauris vitae, viverra metus. Pellentesque vitae semper dui. Quisque vel dui lorem. Mauris quis convallis purus. In quis diam finibus, vehicula mi a, gravida ipsum. Etiam nulla eros, bibendum sit amet massa quis, imperdiet suscipit dui. Etiam suscipit eget orci sed suscipit. Cras maximus orci ac ipsum ornare, sed vulputate mi gravida.",
     leagueId: 1,
@@ -10,7 +10,7 @@ const sets = [
   },
   {
     name: "2021 Set 2",
-    year: 2021,
+    release_date: "2021-01-01",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus magna ipsum, posuere nec leo eu, rutrum dapibus orci. Cras consequat sem placerat, rhoncus mauris vitae, viverra metus. Pellentesque vitae semper dui. Quisque vel dui lorem. Mauris quis convallis purus. In quis diam finibus, vehicula mi a, gravida ipsum. Etiam nulla eros, bibendum sit amet massa quis, imperdiet suscipit dui. Etiam suscipit eget orci sed suscipit. Cras maximus orci ac ipsum ornare, sed vulputate mi gravida.",
     leagueId: 1,
@@ -19,7 +19,7 @@ const sets = [
   },
   {
     name: "2021 Set 3",
-    year: 2021,
+    release_date: "2021-01-01",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus magna ipsum, posuere nec leo eu, rutrum dapibus orci. Cras consequat sem placerat, rhoncus mauris vitae, viverra metus. Pellentesque vitae semper dui. Quisque vel dui lorem. Mauris quis convallis purus. In quis diam finibus, vehicula mi a, gravida ipsum. Etiam nulla eros, bibendum sit amet massa quis, imperdiet suscipit dui. Etiam suscipit eget orci sed suscipit. Cras maximus orci ac ipsum ornare, sed vulputate mi gravida.",
     leagueId: 1,
@@ -28,7 +28,7 @@ const sets = [
   },
   {
     name: "2021 Set 4",
-    year: 2021,
+    release_date: "2021-01-01",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus magna ipsum, posuere nec leo eu, rutrum dapibus orci. Cras consequat sem placerat, rhoncus mauris vitae, viverra metus. Pellentesque vitae semper dui. Quisque vel dui lorem. Mauris quis convallis purus. In quis diam finibus, vehicula mi a, gravida ipsum. Etiam nulla eros, bibendum sit amet massa quis, imperdiet suscipit dui. Etiam suscipit eget orci sed suscipit. Cras maximus orci ac ipsum ornare, sed vulputate mi gravida.",
     leagueId: 1,
@@ -37,7 +37,7 @@ const sets = [
   },
   {
     name: "2021 Set 5",
-    year: 2021,
+    release_date: "2021-01-01",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus magna ipsum, posuere nec leo eu, rutrum dapibus orci. Cras consequat sem placerat, rhoncus mauris vitae, viverra metus. Pellentesque vitae semper dui. Quisque vel dui lorem. Mauris quis convallis purus. In quis diam finibus, vehicula mi a, gravida ipsum. Etiam nulla eros, bibendum sit amet massa quis, imperdiet suscipit dui. Etiam suscipit eget orci sed suscipit. Cras maximus orci ac ipsum ornare, sed vulputate mi gravida.",
     leagueId: 1,
@@ -46,7 +46,7 @@ const sets = [
   },
   {
     name: "2020 Set 1",
-    year: 2020,
+    release_date: "2020-01-01",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus magna ipsum, posuere nec leo eu, rutrum dapibus orci. Cras consequat sem placerat, rhoncus mauris vitae, viverra metus. Pellentesque vitae semper dui. Quisque vel dui lorem. Mauris quis convallis purus. In quis diam finibus, vehicula mi a, gravida ipsum. Etiam nulla eros, bibendum sit amet massa quis, imperdiet suscipit dui. Etiam suscipit eget orci sed suscipit. Cras maximus orci ac ipsum ornare, sed vulputate mi gravida.",
     leagueId: 1,
@@ -55,7 +55,7 @@ const sets = [
   },
   {
     name: "2020 Set 2",
-    year: 2020,
+    release_date: "2020-01-01",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus magna ipsum, posuere nec leo eu, rutrum dapibus orci. Cras consequat sem placerat, rhoncus mauris vitae, viverra metus. Pellentesque vitae semper dui. Quisque vel dui lorem. Mauris quis convallis purus. In quis diam finibus, vehicula mi a, gravida ipsum. Etiam nulla eros, bibendum sit amet massa quis, imperdiet suscipit dui. Etiam suscipit eget orci sed suscipit. Cras maximus orci ac ipsum ornare, sed vulputate mi gravida.",
     leagueId: 1,
@@ -64,7 +64,7 @@ const sets = [
   },
   {
     name: "2020 Set 3",
-    year: 2020,
+    release_date: "2020-01-01",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus magna ipsum, posuere nec leo eu, rutrum dapibus orci. Cras consequat sem placerat, rhoncus mauris vitae, viverra metus. Pellentesque vitae semper dui. Quisque vel dui lorem. Mauris quis convallis purus. In quis diam finibus, vehicula mi a, gravida ipsum. Etiam nulla eros, bibendum sit amet massa quis, imperdiet suscipit dui. Etiam suscipit eget orci sed suscipit. Cras maximus orci ac ipsum ornare, sed vulputate mi gravida.",
     leagueId: 1,
@@ -73,7 +73,7 @@ const sets = [
   },
   {
     name: "2020 Set 4",
-    year: 2020,
+    release_date: "2020-01-01",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus magna ipsum, posuere nec leo eu, rutrum dapibus orci. Cras consequat sem placerat, rhoncus mauris vitae, viverra metus. Pellentesque vitae semper dui. Quisque vel dui lorem. Mauris quis convallis purus. In quis diam finibus, vehicula mi a, gravida ipsum. Etiam nulla eros, bibendum sit amet massa quis, imperdiet suscipit dui. Etiam suscipit eget orci sed suscipit. Cras maximus orci ac ipsum ornare, sed vulputate mi gravida.",
     leagueId: 1,
@@ -82,7 +82,7 @@ const sets = [
   },
   {
     name: "2020 Set 5",
-    year: 2020,
+    release_date: "2020-01-01",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus magna ipsum, posuere nec leo eu, rutrum dapibus orci. Cras consequat sem placerat, rhoncus mauris vitae, viverra metus. Pellentesque vitae semper dui. Quisque vel dui lorem. Mauris quis convallis purus. In quis diam finibus, vehicula mi a, gravida ipsum. Etiam nulla eros, bibendum sit amet massa quis, imperdiet suscipit dui. Etiam suscipit eget orci sed suscipit. Cras maximus orci ac ipsum ornare, sed vulputate mi gravida.",
     leagueId: 1,
@@ -91,7 +91,7 @@ const sets = [
   },
   {
     name: "2019 Set 1",
-    year: 2019,
+    release_date: "2019-01-01",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus magna ipsum, posuere nec leo eu, rutrum dapibus orci. Cras consequat sem placerat, rhoncus mauris vitae, viverra metus. Pellentesque vitae semper dui. Quisque vel dui lorem. Mauris quis convallis purus. In quis diam finibus, vehicula mi a, gravida ipsum. Etiam nulla eros, bibendum sit amet massa quis, imperdiet suscipit dui. Etiam suscipit eget orci sed suscipit. Cras maximus orci ac ipsum ornare, sed vulputate mi gravida.",
     leagueId: 1,
@@ -100,7 +100,7 @@ const sets = [
   },
   {
     name: "2019 Set 2",
-    year: 2019,
+    release_date: "2019-01-01",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus magna ipsum, posuere nec leo eu, rutrum dapibus orci. Cras consequat sem placerat, rhoncus mauris vitae, viverra metus. Pellentesque vitae semper dui. Quisque vel dui lorem. Mauris quis convallis purus. In quis diam finibus, vehicula mi a, gravida ipsum. Etiam nulla eros, bibendum sit amet massa quis, imperdiet suscipit dui. Etiam suscipit eget orci sed suscipit. Cras maximus orci ac ipsum ornare, sed vulputate mi gravida.",
     leagueId: 1,
@@ -109,7 +109,7 @@ const sets = [
   },
   {
     name: "2019 Set 3",
-    year: 2019,
+    release_date: "2019-01-01",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus magna ipsum, posuere nec leo eu, rutrum dapibus orci. Cras consequat sem placerat, rhoncus mauris vitae, viverra metus. Pellentesque vitae semper dui. Quisque vel dui lorem. Mauris quis convallis purus. In quis diam finibus, vehicula mi a, gravida ipsum. Etiam nulla eros, bibendum sit amet massa quis, imperdiet suscipit dui. Etiam suscipit eget orci sed suscipit. Cras maximus orci ac ipsum ornare, sed vulputate mi gravida.",
     leagueId: 1,
@@ -118,7 +118,7 @@ const sets = [
   },
   {
     name: "2019 Set 4",
-    year: 2019,
+    release_date: "2019-01-01",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus magna ipsum, posuere nec leo eu, rutrum dapibus orci. Cras consequat sem placerat, rhoncus mauris vitae, viverra metus. Pellentesque vitae semper dui. Quisque vel dui lorem. Mauris quis convallis purus. In quis diam finibus, vehicula mi a, gravida ipsum. Etiam nulla eros, bibendum sit amet massa quis, imperdiet suscipit dui. Etiam suscipit eget orci sed suscipit. Cras maximus orci ac ipsum ornare, sed vulputate mi gravida.",
     leagueId: 1,
@@ -127,7 +127,7 @@ const sets = [
   },
   {
     name: "2019 Set 5",
-    year: 2019,
+    release_date: "2019-01-01",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus magna ipsum, posuere nec leo eu, rutrum dapibus orci. Cras consequat sem placerat, rhoncus mauris vitae, viverra metus. Pellentesque vitae semper dui. Quisque vel dui lorem. Mauris quis convallis purus. In quis diam finibus, vehicula mi a, gravida ipsum. Etiam nulla eros, bibendum sit amet massa quis, imperdiet suscipit dui. Etiam suscipit eget orci sed suscipit. Cras maximus orci ac ipsum ornare, sed vulputate mi gravida.",
     leagueId: 1,
@@ -136,7 +136,7 @@ const sets = [
   },
   {
     name: "2018 Set 1",
-    year: 2018,
+    release_date: "2018-01-01",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus magna ipsum, posuere nec leo eu, rutrum dapibus orci. Cras consequat sem placerat, rhoncus mauris vitae, viverra metus. Pellentesque vitae semper dui. Quisque vel dui lorem. Mauris quis convallis purus. In quis diam finibus, vehicula mi a, gravida ipsum. Etiam nulla eros, bibendum sit amet massa quis, imperdiet suscipit dui. Etiam suscipit eget orci sed suscipit. Cras maximus orci ac ipsum ornare, sed vulputate mi gravida.",
     leagueId: 1,
@@ -145,7 +145,7 @@ const sets = [
   },
   {
     name: "2018 Set 2",
-    year: 2018,
+    release_date: "2018-01-01",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus magna ipsum, posuere nec leo eu, rutrum dapibus orci. Cras consequat sem placerat, rhoncus mauris vitae, viverra metus. Pellentesque vitae semper dui. Quisque vel dui lorem. Mauris quis convallis purus. In quis diam finibus, vehicula mi a, gravida ipsum. Etiam nulla eros, bibendum sit amet massa quis, imperdiet suscipit dui. Etiam suscipit eget orci sed suscipit. Cras maximus orci ac ipsum ornare, sed vulputate mi gravida.",
     leagueId: 1,
@@ -154,7 +154,7 @@ const sets = [
   },
   {
     name: "2018 Set 3",
-    year: 2018,
+    release_date: "2018-01-01",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus magna ipsum, posuere nec leo eu, rutrum dapibus orci. Cras consequat sem placerat, rhoncus mauris vitae, viverra metus. Pellentesque vitae semper dui. Quisque vel dui lorem. Mauris quis convallis purus. In quis diam finibus, vehicula mi a, gravida ipsum. Etiam nulla eros, bibendum sit amet massa quis, imperdiet suscipit dui. Etiam suscipit eget orci sed suscipit. Cras maximus orci ac ipsum ornare, sed vulputate mi gravida.",
     leagueId: 1,
@@ -163,7 +163,7 @@ const sets = [
   },
   {
     name: "2018 Set 4",
-    year: 2018,
+    release_date: "2018-01-01",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus magna ipsum, posuere nec leo eu, rutrum dapibus orci. Cras consequat sem placerat, rhoncus mauris vitae, viverra metus. Pellentesque vitae semper dui. Quisque vel dui lorem. Mauris quis convallis purus. In quis diam finibus, vehicula mi a, gravida ipsum. Etiam nulla eros, bibendum sit amet massa quis, imperdiet suscipit dui. Etiam suscipit eget orci sed suscipit. Cras maximus orci ac ipsum ornare, sed vulputate mi gravida.",
     leagueId: 1,
@@ -172,7 +172,7 @@ const sets = [
   },
   {
     name: "2018 Set 5",
-    year: 2018,
+    release_date: "2018-01-01",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus magna ipsum, posuere nec leo eu, rutrum dapibus orci. Cras consequat sem placerat, rhoncus mauris vitae, viverra metus. Pellentesque vitae semper dui. Quisque vel dui lorem. Mauris quis convallis purus. In quis diam finibus, vehicula mi a, gravida ipsum. Etiam nulla eros, bibendum sit amet massa quis, imperdiet suscipit dui. Etiam suscipit eget orci sed suscipit. Cras maximus orci ac ipsum ornare, sed vulputate mi gravida.",
     leagueId: 1,
