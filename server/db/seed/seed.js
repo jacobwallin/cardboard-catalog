@@ -58,25 +58,26 @@ const seed = async () => {
     }
 
     // combine into one array once all data is received
-    const cardData = await Promise.all(promises);
-    let allCardData = cardData.reduce((allCardData, cardDataSet) => {
-      return [...allCardData, ...cardDataSet];
-    });
+    let cardData = await fetchData(
+      `https://my.api.mockaroo.com/card_data.json?key=128d2830`
+    );
 
     // set subsetId, API was not working correctly with this formula
-    allCardData = allCardData.map((cardData, index) => {
-      return { ...cardData, subsetId: Math.floor(index / 100) + 1 };
+    cardData = cardData.map((cardData, index) => {
+      return { ...cardData, subsetId: Math.floor(index / 50) + 1 };
     });
 
     // create all card data in db
-    await CardData.bulkCreate(allCardData);
+    await CardData.bulkCreate(cardData);
 
     // populate card data and series join table
     await Card.bulkCreate(createCards());
 
     // populate card data and player join table
     await CardDataPlayer.bulkCreate(createCardDataPlayer());
+
     console.log("--SEEDING COMPLETE--");
+
     await db.close();
   } catch (error) {
     db.close();
@@ -87,20 +88,19 @@ const seed = async () => {
 // creates card_data to series join table
 const createCards = () => {
   const cards = [];
-  for (let i = 1; i <= 10000; i++) {
-    const endingSeries = Math.ceil(i / 100) * 5;
-    for (let j = 0; j < 5; j++) {
+  for (let i = 1; i <= 450; i++) {
+    const endingSeries = Math.ceil(i / 50) + 3;
+    for (let j = 0; j < 3; j++) {
       cards.push({ seriesId: endingSeries - j, cardDataId: i });
     }
   }
-
   return cards;
 };
 
 // creates card_data to player join table
 const createCardDataPlayer = () => {
   const cardDataPlayerJoins = [];
-  for (let i = 1; i <= 10000; i++) {
+  for (let i = 1; i <= 450; i++) {
     let playerId = Math.ceil(Math.random() * 500);
     cardDataPlayerJoins.push({ cardDatumId: i, playerId });
   }

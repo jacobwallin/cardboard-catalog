@@ -9,7 +9,7 @@ const leagues = [
     name: "NBA",
   },
   {
-    name: "NCAA Football",
+    name: "NCAAF",
   },
 ];
 
