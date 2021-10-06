@@ -3,13 +3,13 @@ import EditLink from "../components/EditLink";
 
 const dataTableColumns = [
   {
-    name: "Release Date",
-    selector: "release_date",
+    name: "Name",
+    selector: "name",
     sortable: true,
   },
   {
-    name: "Name",
-    selector: "name",
+    name: "Release Date",
+    selector: "release_date",
     sortable: true,
   },
   {
