@@ -6,8 +6,8 @@ const Set = db.define("set", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  year: {
-    type: DataTypes.INTEGER,
+  release_date: {
+    type: DataTypes.DATEONLY,
     allowNull: false,
   },
   description: {

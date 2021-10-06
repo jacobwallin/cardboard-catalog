@@ -9,7 +9,7 @@ router.get("/", async (req, res, next) => {
   try {
     const allSets = await Set.findAll({
       order: [
-        ["year", "DESC"],
+        ["release_date", "DESC"],
         ["name", "ASC"],
       ],
       include: [
@@ -32,7 +32,7 @@ router.get("/:setId", async (req, res, next) => {
       attributes: [
         "id",
         "name",
-        "year",
+        "release_date",
         "baseSubsetId",
         "description",
         "createdAt",
@@ -55,12 +55,13 @@ router.get("/:setId", async (req, res, next) => {
 });
 
 router.post("/", isAdmin, async (req, res, next) => {
-  const { name, year, description, leagueId, brandId, baseSubsetId } = req.body;
+  const { name, release_date, description, leagueId, brandId, baseSubsetId } =
+    req.body;
 
   try {
     const newSet = await Set.create({
       name,
-      year,
+      release_date,
       description,
       leagueId,
       brandId,
@@ -77,11 +78,12 @@ router.post("/", isAdmin, async (req, res, next) => {
 });
 
 router.put("/:setId", isAdmin, async (req, res, next) => {
-  const { name, year, description, leagueId, brandId, baseSubsetId } = req.body;
+  const { name, release_date, description, leagueId, brandId, baseSubsetId } =
+    req.body;
 
   try {
     await Set.update(
-      { name, year, description, leagueId, brandId, baseSubsetId },
+      { name, release_date, description, leagueId, brandId, baseSubsetId },
       { where: { id: req.params.setId } }
     );
 
