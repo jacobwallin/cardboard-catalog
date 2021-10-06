@@ -15,11 +15,15 @@ const CardDataPlayer = require("./CardDataPlayer");
 // many to many association between cards and usercards using custom through table (super many-to-many)
 UserCard.belongsTo(User);
 User.hasMany(UserCard);
-UserCard.belongsTo(Card);
-Card.hasMany(UserCard);
+UserCard.belongsTo(Card, {
+  onDelete: "CASCADE",
+});
+Card.hasMany(UserCard, {
+  onDelete: "CASCADE",
+});
 // prevent unique key from being created to allow the same card to be added to the same user multiple times
-User.belongsToMany(Card, { through: { model: UserCard, unique: false } });
-Card.belongsToMany(User, { through: { model: UserCard, unique: false } });
+// User.belongsToMany(Card, { through: { model: UserCard, unique: false } });
+// Card.belongsToMany(User, { through: { model: UserCard, unique: false } });
 
 // One to many association between sets and subsets
 Subset.belongsTo(Set, {
