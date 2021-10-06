@@ -3,8 +3,8 @@ import EditLink from "../components/EditLink";
 
 const dataTableColumns = [
   {
-    name: "Year",
-    selector: "year",
+    name: "Release Date",
+    selector: "release_date",
     sortable: true,
   },
   {
