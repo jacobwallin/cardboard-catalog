@@ -46,6 +46,14 @@ export const cardsDataTableColumns = [
     sortable: true,
   },
   {
+    name: "Player(s)",
+    sortable: false,
+    cell: (row: CardData) =>
+      row.players.length > 0
+        ? row.players.map((player) => player.name + " ")
+        : "",
+  },
+  {
     name: "Team",
     sortable: true,
     sortFunction: (rowA: CardData, rowB: CardData) => {

@@ -50,7 +50,7 @@ export interface CardData {
     id: number;
     name: string;
   } | null;
-  player: Player[];
+  players: Player[];
 }
 
 interface Player {

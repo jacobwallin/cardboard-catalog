@@ -275,8 +275,20 @@ export default function CardForm(props: Props) {
           (props.createNew
             ? name === "" || number === ""
             : !detectFormChanges(
-                [name, number, teamId, rookie],
-                [card.name, card.number, card.teamId, card.rookie]
+                [
+                  name,
+                  number,
+                  teamId,
+                  rookie,
+                  players.map((player) => player.id),
+                ],
+                [
+                  card.name,
+                  card.number,
+                  card.teamId,
+                  card.rookie,
+                  card.players.map((player) => player.id),
+                ]
               ))
         }
       />
