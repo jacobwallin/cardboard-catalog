@@ -141,18 +141,6 @@ export default function CardForm(props: Props) {
   return (
     <FormContainer>
       <FieldContainer>
-        <FieldTitle>Card Name:</FieldTitle>
-        <FieldData>
-          <input
-            name="nameField"
-            type="text"
-            value={name}
-            placeholder="Enter Card Name"
-            onChange={handleInputChange}
-          />
-        </FieldData>
-      </FieldContainer>
-      <FieldContainer>
         <FieldTitle>Card Number:</FieldTitle>
         <FieldData>
           <input
@@ -160,6 +148,18 @@ export default function CardForm(props: Props) {
             type="text"
             value={number}
             placeholder="Enter Card Number"
+            onChange={handleInputChange}
+          />
+        </FieldData>
+      </FieldContainer>
+      <FieldContainer>
+        <FieldTitle>Card Name:</FieldTitle>
+        <FieldData>
+          <input
+            name="nameField"
+            type="text"
+            value={name}
+            placeholder="Enter Card Name"
             onChange={handleInputChange}
           />
         </FieldData>

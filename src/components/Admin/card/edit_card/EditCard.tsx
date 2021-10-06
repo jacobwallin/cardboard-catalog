@@ -93,12 +93,12 @@ export default function EditCard(props: Props) {
       ) : (
         <FormContainer>
           <FieldContainer>
-            <FieldTitle>Card Name:</FieldTitle>
-            <FieldData>{card.name}</FieldData>
-          </FieldContainer>
-          <FieldContainer>
             <FieldTitle>Card Number:</FieldTitle>
             <FieldData>{card.number}</FieldData>
+          </FieldContainer>
+          <FieldContainer>
+            <FieldTitle>Card Name:</FieldTitle>
+            <FieldData>{card.name}</FieldData>
           </FieldContainer>
           <FieldContainer>
             <FieldTitle>Team:</FieldTitle>
