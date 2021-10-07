@@ -23,13 +23,14 @@ router.get("/:playerId", async (req, res, next) => {
 });
 
 router.post("/", isAdmin, async (req, res, next) => {
-  const { name, birthday, hallOfFame } = req.body;
+  const { name, birthday, hallOfFame, url } = req.body;
 
   try {
     const createdPlayer = await Player.create({
       name,
       birthday,
       hallOfFame,
+      url,
     });
     res.json(createdPlayer);
   } catch (error) {
@@ -46,6 +47,7 @@ router.post("/bulk", isAdmin, async (req, res, next) => {
           name: player.name,
           birthday: player.birthday,
           hallOfFame: player.hallOfFame,
+          url: player.url,
         });
       })
     );

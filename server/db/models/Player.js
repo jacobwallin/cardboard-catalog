@@ -14,6 +14,9 @@ const Player = db.define("player", {
     type: DataTypes.BOOLEAN,
     allowNull: false,
   },
+  url: {
+    type: DataTypes.STRING,
+  },
 });
 
 module.exports = Player;

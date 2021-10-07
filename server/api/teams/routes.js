@@ -11,4 +11,14 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.post("/", async (req, res, next) => {
+  const { name, leagueId } = req.body;
+  try {
+    const newTeam = await Team.create({ name, leagueId });
+    res.json(newTeam);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

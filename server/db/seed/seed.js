@@ -35,8 +35,8 @@ const seed = async () => {
     await League.bulkCreate(leagues);
     await Brand.bulkCreate(brands);
     await Team.bulkCreate(teams);
-    await Set.bulkCreate(sets);
     await GradingCompany.bulkCreate(gradingCompanies);
+    await Set.bulkCreate(sets);
 
     // bulk create from Mockaroo API
     await Player.bulkCreate(
