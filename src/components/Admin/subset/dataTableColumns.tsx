@@ -9,6 +9,18 @@ export const seriesDataTableColumns = [
     sortable: true,
   },
   {
+    name: "Serialized To",
+    selector: (row: Series) => row.serialized,
+    cell: (row: Series) => (row.serialized ? row.serialized : "-"),
+    sortable: true,
+  },
+  {
+    name: "Parallel",
+    selector: (row: Series) => row.parallel,
+    cell: (row: Series) => (row.parallel ? "yes" : "-"),
+    sortable: true,
+  },
+  {
     name: "",
     sortable: false,
     cell: (row: Series) => <EditLink to={`/admin/edit/series/${row.id}`} />,

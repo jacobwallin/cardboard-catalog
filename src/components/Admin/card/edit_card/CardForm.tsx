@@ -79,6 +79,13 @@ export default function CardForm(props: Props) {
     dispatch(fetchAllTeams());
   }, []);
 
+  // automatically prefill card name to player name
+  useEffect(() => {
+    if (players.length === 1) {
+      setName(players[0].name);
+    }
+  }, [players]);
+
   function handleSubmit() {
     props.handleSubmit(
       name,
@@ -153,51 +160,6 @@ export default function CardForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Card Name:</FieldTitle>
-        <FieldData>
-          <input
-            name="nameField"
-            type="text"
-            value={name}
-            placeholder="Enter Card Name"
-            onChange={handleInputChange}
-          />
-        </FieldData>
-      </FieldContainer>
-      <FieldContainer>
-        <FieldTitle>Card Team:</FieldTitle>
-        <FieldData>
-          <select
-            name="team"
-            value={teamId}
-            onChange={handleSelectChange}
-            disabled={loadingInitialData}
-          >
-            <option value={undefined}>Select Team</option>
-            {teams.map((team) => {
-              return (
-                <option key={team.id} value={team.id}>
-                  {team.name}
-                </option>
-              );
-            })}
-          </select>
-        </FieldData>
-      </FieldContainer>
-      <FieldContainer>
-        <FieldTitle>Rookie Card:</FieldTitle>
-        <FieldData>
-          <select
-            name="rookie"
-            value={rookie === true ? "YES" : "NO"}
-            onChange={handleSelectChange}
-          >
-            <option value={"YES"}>YES</option>
-            <option value={"NO"}>NO</option>
-          </select>
-        </FieldData>
-      </FieldContainer>
-      <FieldContainer>
         <FieldTitle>Player(s) on Card:</FieldTitle>
         <FieldData>
           <Styled.PlayersContainer>
@@ -265,6 +227,61 @@ export default function CardForm(props: Props) {
               );
             })}
           </Styled.PlayersContainer>
+        </FieldData>
+      </FieldContainer>
+      <FieldContainer>
+        <FieldTitle>Card Name:</FieldTitle>
+        <FieldData>
+          <input
+            name="nameField"
+            type="text"
+            value={name}
+            placeholder="Enter Card Name"
+            onChange={handleInputChange}
+          />
+        </FieldData>
+      </FieldContainer>
+      <FieldContainer>
+        <FieldTitle>Card Team:</FieldTitle>
+        <FieldData>
+          <select
+            name="team"
+            value={teamId}
+            onChange={handleSelectChange}
+            disabled={loadingInitialData}
+          >
+            <option value={undefined}>Select Team</option>
+            {teams
+              .sort((teamA, teamB) => {
+                if (teamA.name < teamB.name) {
+                  return -1;
+                }
+                if (teamA.name > teamB.name) {
+                  return 1;
+                }
+                return 0;
+              })
+              .map((team) => {
+                return (
+                  <option key={team.id} value={team.id}>
+                    {team.name}
+                  </option>
+                );
+              })}
+          </select>
+        </FieldData>
+      </FieldContainer>
+      <FieldContainer>
+        <FieldTitle>Rookie Card:</FieldTitle>
+        <FieldData>
+          <select
+            name="rookie"
+            value={rookie === true ? "YES" : "NO"}
+            onChange={handleSelectChange}
+          >
+            <option value={"YES"}>YES</option>
+            <option value={"NO"}>NO</option>
+          </select>
         </FieldData>
       </FieldContainer>
       <FormButtons

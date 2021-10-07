@@ -85,9 +85,12 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
       <EditFormHeader text={`${subset.name} Subset`} />
       <EditSubset subsetId={+props.match.params.subsetId} />
       <WrappedDataTable
-        title={`Series in ${subset.name}`}
+        title={`Series`}
         columns={seriesDataTableColumns}
         data={subset.series}
+        dense
+        pagination
+        paginationPerPage={10}
         highlightOnHover
         actions={
           <CreateButton onClick={toggleCreateSeriesModal}>
@@ -96,7 +99,7 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
         }
       />
       <WrappedDataTable
-        title={`Cards in ${subset.name}`}
+        title={`Cards`}
         columns={cardsDataTableColumns}
         data={subset.card_data}
         highlightOnHover
