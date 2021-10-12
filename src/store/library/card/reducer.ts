@@ -11,6 +11,7 @@ const initialState = {
   name: "",
   number: "",
   rookie: false,
+  note: "",
   createdAt: "",
   updatedAt: "",
   subsetId: 0,

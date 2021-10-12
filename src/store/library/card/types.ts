@@ -4,6 +4,7 @@ export interface CardState {
   name: string;
   number: string;
   rookie: boolean;
+  note: string;
   createdAt: string;
   updatedAt: string;
   subsetId: number;

@@ -56,10 +56,18 @@ export default function EditCard(props: Props) {
     number: string,
     rookie: boolean,
     teamId: number | undefined,
+    note: string,
     playerIds: number[]
   ) {
     dispatch(
-      updateCard(props.cardDataId, { name, number, rookie, teamId, playerIds })
+      updateCard(props.cardDataId, {
+        name,
+        number,
+        rookie,
+        teamId,
+        playerIds,
+        note,
+      })
     );
   }
 
@@ -113,10 +121,16 @@ export default function EditCard(props: Props) {
           <FieldContainer>
             <FieldTitle>Players:</FieldTitle>
             <FieldData>
-              {card.players.map((player) => {
-                return <div key={player.id}>{player.name}</div>;
-              })}
+              {card.players.length > 0
+                ? card.players.map((player) => {
+                    return <div key={player.id}>{player.name}</div>;
+                  })
+                : "No players belong to this card."}
             </FieldData>
+          </FieldContainer>
+          <FieldContainer>
+            <FieldTitle>Note:</FieldTitle>
+            <FieldData>{card.note}</FieldData>
           </FieldContainer>
 
           <EditDeleteButtons

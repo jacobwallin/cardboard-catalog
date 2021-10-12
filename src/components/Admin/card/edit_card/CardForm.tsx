@@ -32,6 +32,7 @@ interface Props {
     number: string,
     rookie: boolean,
     teamId: number | undefined,
+    note: string,
     playerIds: number[]
   ): void;
 }
@@ -57,6 +58,7 @@ export default function CardForm(props: Props) {
   const [teamId, setTeamId] = useState(
     !props.createNew && card.teamId ? card.teamId : undefined
   );
+  const [note, setNote] = useState(props.createNew ? "" : card.note);
   const [players, setPlayers] = useState<PlayersState>(
     props.createNew
       ? []
@@ -92,6 +94,7 @@ export default function CardForm(props: Props) {
       number,
       rookie,
       teamId,
+      note,
       players.map((player) => player.id)
     );
   }
@@ -108,6 +111,9 @@ export default function CardForm(props: Props) {
         break;
       case "playerFilter":
         setPlayerFilter(event.target.value);
+        break;
+      case "note":
+        setNote(event.target.value);
         break;
     }
   }
@@ -148,7 +154,7 @@ export default function CardForm(props: Props) {
   return (
     <FormContainer>
       <FieldContainer>
-        <FieldTitle>Card Number:</FieldTitle>
+        <FieldTitle>Number:</FieldTitle>
         <FieldData>
           <input
             name="numberField"
@@ -230,7 +236,7 @@ export default function CardForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Card Name:</FieldTitle>
+        <FieldTitle>Name:</FieldTitle>
         <FieldData>
           <input
             name="nameField"
@@ -242,7 +248,7 @@ export default function CardForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Card Team:</FieldTitle>
+        <FieldTitle>Team:</FieldTitle>
         <FieldData>
           <select
             name="team"
@@ -272,7 +278,7 @@ export default function CardForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Rookie Card:</FieldTitle>
+        <FieldTitle>Rookie:</FieldTitle>
         <FieldData>
           <select
             name="rookie"
@@ -282,6 +288,18 @@ export default function CardForm(props: Props) {
             <option value={"YES"}>YES</option>
             <option value={"NO"}>NO</option>
           </select>
+        </FieldData>
+      </FieldContainer>
+      <FieldContainer>
+        <FieldTitle>Note:</FieldTitle>
+        <FieldData>
+          <input
+            name="note"
+            type="text"
+            value={note}
+            placeholder="Enter Note"
+            onChange={handleInputChange}
+          />
         </FieldData>
       </FieldContainer>
       <FormButtons

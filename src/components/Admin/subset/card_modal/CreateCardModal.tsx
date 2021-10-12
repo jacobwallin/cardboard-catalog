@@ -17,6 +17,7 @@ export default function CreateCardModal(props: Props) {
     number: string,
     rookie: boolean,
     teamId: number,
+    note: string,
     playerIds: number[]
   ) {
     dispatch(
@@ -26,6 +27,7 @@ export default function CreateCardModal(props: Props) {
         number,
         rookie,
         teamId,
+        note,
         playerIds,
       })
     );
