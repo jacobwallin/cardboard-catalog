@@ -14,7 +14,7 @@ require("dotenv").config();
 app.use(morgan("dev"));
 
 app.use(express.static(path.join(__dirname, "..", "build")));
-app.use(express.json());
+app.use(express.json({ limit: 200000 }));
 
 app.use(
   session({
