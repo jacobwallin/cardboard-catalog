@@ -37,7 +37,7 @@ router.post("/", isAdmin, async (req, res, next) => {
     );
 
     // if all player ids are valid, continue, otherwise throw an error
-    if (players.findIndex((player) => player === null) === -1) {
+    if (!players.some((player) => player === null)) {
       // create new card data entry
       const newCardData = await CardData.create({
         name,
@@ -73,52 +73,70 @@ router.post("/", isAdmin, async (req, res, next) => {
       throw new Error("Invalid Player id(s)");
     }
   } catch (error) {
-    console.log(error.message);
     next(error);
   }
 });
 
-// TODO: get this working
 // bulk add cards to a subset
-// router.post("/bulk", async (req, res, next) => {
-//   const { cards, subsetId } = req.body;
+router.post("/bulk", async (req, res, next) => {
+  const { cards } = req.body;
+  console.log("WHAT DID WE GET??", req.body);
+  try {
+    const createdCards = await Promise.all(
+      cards.map(async (card) => {
+        const { name, number, rookie, note, playerIds, teamId, subsetId } =
+          card;
 
-//   try {
-//     // create new card data entries
-//     const newCardData = await Promise.all(
-//       cards.map((cardData) =>
-//         CardData.create({
-//           name: cardData.name,
-//           number: cardData.number,
-//           rookie: cardData.rookie,
-//           teamId: cardData.teamId,
-//           subsetId,
-//         })
-//       )
-//     );
+        // find players by pk and validate before continuing
+        const players = await Promise.all(
+          playerIds.map((id) => {
+            return Player.findByPk(id);
+          })
+        );
 
-//     // get all series that are part of the subset
-//     const allSeries = await Series.findAll({ where: { subsetId: subsetId } });
+        // if all player ids are valid, continue, otherwise throw an error
+        if (!players.some((player) => player === null)) {
+          // create new card data entry
+          const newCardData = await CardData.create({
+            name,
+            number,
+            rookie,
+            note,
+            teamId,
+            subsetId,
+          });
+          // add the players to the card data entry
+          await newCardData.addPlayers(players);
 
-//     // create a card for each series
-//     await Promise.all(
-//       allSeries.map((series) => {
-//         return Promise.all(
-//           newCardData.map((cardData) => {
-//             return Card.create({
-//               seriesId: series.id,
-//               cardDataId: cardData.id,
-//             });
-//           })
-//         );
-//       })
-//     );
+          // get all series that are part of the subset
+          const allSeries = await Series.findAll({
+            where: { subsetId: subsetId },
+          });
 
-//     res.status(201).json(newCardData);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+          // create a card for each series
+          await Promise.all(
+            allSeries.map((series) => {
+              return Card.create({
+                seriesId: series.id,
+                cardDataId: newCardData.id,
+              });
+            })
+          );
+
+          return CardData.findByPk(newCardData.id, {
+            include: [Team, Player],
+          });
+        } else {
+          throw new Error("Invalid Player id(s)");
+        }
+      })
+    );
+
+    res.json(createdCards);
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.put("/:cardId", isAdmin, async (req, res, next) => {
   const { name, number, rookie, playerIds, teamId } = req.body;
