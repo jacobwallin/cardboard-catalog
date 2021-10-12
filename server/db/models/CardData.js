@@ -14,6 +14,11 @@ const CardData = db.define("card_data", {
     type: DataTypes.BOOLEAN,
     allowNull: false,
   },
+  note: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+    defaultValue: "",
+  },
 });
 
 module.exports = CardData;

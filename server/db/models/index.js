@@ -12,6 +12,8 @@ const Player = require("./Player");
 const GradingCompany = require("./GradingCompany");
 const CardDataPlayer = require("./CardDataPlayer");
 
+const db = require("../db");
+
 // many to many association between cards and usercards using custom through table (super many-to-many)
 UserCard.belongsTo(User);
 User.hasMany(UserCard);
@@ -111,6 +113,8 @@ Set.belongsTo(Brand, {
   },
 });
 Brand.hasMany(Set);
+
+db.sync({ alter: true });
 
 module.exports = {
   User,

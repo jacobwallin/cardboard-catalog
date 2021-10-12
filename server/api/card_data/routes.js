@@ -26,7 +26,7 @@ router.get("/:cardDataId", async (req, res, next) => {
 
 router.post("/", isAdmin, async (req, res, next) => {
   // create card data and then create a card for every series in set
-  const { name, number, rookie, playerIds, teamId, subsetId } = req.body;
+  const { name, number, rookie, note, playerIds, teamId, subsetId } = req.body;
 
   try {
     // find players by pk and validate before continuing
@@ -43,6 +43,7 @@ router.post("/", isAdmin, async (req, res, next) => {
         name,
         number,
         rookie,
+        note,
         teamId,
         subsetId,
       });
