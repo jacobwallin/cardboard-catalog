@@ -87,7 +87,6 @@ export default function AddCardsForm() {
   }
 
   function handleGradeChange(cardIndex: number, grade: string) {
-    console.log("in handle grade change: ", grade);
     setCardData(
       cardData.map((data, index) => {
         if (index === cardIndex) {
