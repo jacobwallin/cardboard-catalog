@@ -6,8 +6,8 @@ export default function CreateButton(props: any) {
     <StyledButton
       {...props}
       color="GREEN"
-      height="30px"
-      width="130px"
+      height="27px"
+      width="120px"
       fontSize=".9rem"
     />
   );

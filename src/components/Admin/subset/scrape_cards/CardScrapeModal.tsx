@@ -8,11 +8,17 @@ import CardForm from "../../card/edit_card/CardForm";
 import ModalBackground from "../../components/modal/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
 import { CardFormData } from "./parseCards";
-import { createLoadingSelector } from "../../../../store/loading/reducer";
+import {
+  createLoadingSelector,
+  createStatusSelector,
+} from "../../../../store/loading/reducer";
+import GrayButton from "./GrayButton";
+import * as Styled from "./styled";
 
 import parseCards from "./parseCards";
 
 const creatingCardSelector = createLoadingSelector(["CREATE_CARD"]);
+const creatingCardStatusSelector = createStatusSelector("CREATE_CARD");
 
 interface Props {
   handleCancel(): void;
@@ -33,6 +39,9 @@ export default function CardScrapeModal(props: Props) {
   const creatingCard = useSelector((state: RootState) =>
     creatingCardSelector(state)
   );
+  const creatingCardStatus = useSelector((state: RootState) =>
+    creatingCardStatusSelector(state)
+  );
 
   function textAreaChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     setScrapedCards(event.target.value);
@@ -47,7 +56,7 @@ export default function CardScrapeModal(props: Props) {
     }
   }
 
-  function handleFormCancel() {
+  function removeCurrentCard() {
     // remove card data from scraped cards
     setParsedCards(parsedCards.filter((card, idx) => idx !== currentCardIdx));
   }
@@ -73,7 +82,7 @@ export default function CardScrapeModal(props: Props) {
       })
     );
 
-    // move on to next card
+    setCreatedCardIdx(currentCardIdx);
   }
 
   function nextCard() {
@@ -88,6 +97,18 @@ export default function CardScrapeModal(props: Props) {
     }
   }
 
+  function handleKeyPress(event: React.KeyboardEvent<HTMLButtonElement>) {
+    console.log(event.key);
+  }
+
+  useEffect(() => {
+    if (creatingCardStatus === "SUCCESS" && createdCardIdx !== -1) {
+      // remove card form data if card is successfully created in db
+      setParsedCards(parsedCards.filter((card, idx) => idx !== createdCardIdx));
+      setCreatedCardIdx(-1);
+    }
+  }, [creatingCardStatus, createdCardIdx, parsedCards]);
+
   useEffect(() => {
     dispatch(fetchAllPlayers());
     dispatch(fetchAllTeams());
@@ -98,42 +119,49 @@ export default function CardScrapeModal(props: Props) {
       <ModalWindow>
         {showForm && parsedCards.length > 0 ? (
           <>
-            <h3>{`${parsedCards.length} Cards Found`}</h3>
+            <Styled.Header>{`Card ${currentCardIdx + 1} of ${
+              parsedCards.length
+            }`}</Styled.Header>
             <CardForm
               createNew={false}
               bulkAddData={parsedCards[currentCardIdx]}
-              handleCancel={handleFormCancel}
+              handleCancel={removeCurrentCard}
               handleSubmit={handleFormSubmit}
             />
-            <button disabled={currentCardIdx === 0} onClick={previousCard}>
-              Previous
-            </button>
-            <button
-              disabled={currentCardIdx >= parsedCards.length - 1}
-              onClick={nextCard}
-            >
-              Next
-            </button>
+            <Styled.Footer>
+              <GrayButton onClick={props.handleCancel}>Close</GrayButton>
+              <GrayButton
+                disabled={currentCardIdx === 0}
+                onClick={previousCard}
+                onKeyDown={handleKeyPress}
+              >
+                Previous
+              </GrayButton>
+              <GrayButton
+                disabled={currentCardIdx >= parsedCards.length - 1}
+                onClick={nextCard}
+                onKeyDown={handleKeyPress}
+              >
+                Next
+              </GrayButton>
+            </Styled.Footer>
           </>
         ) : (
           <>
-            <textarea
+            <Styled.Header>{`Bulk Add Cards to Subset`}</Styled.Header>
+            <Styled.TextArea
               rows={10}
               value={scrapedCards}
               onChange={textAreaChange}
-              style={{ height: "200px", width: "100%" }}
+              placeholder="paste card data here"
             />
-            <button onClick={parseData}>Parse Data</button>
+            <Styled.Footer>
+              <GrayButton onClick={props.handleCancel}>Close</GrayButton>
+              <GrayButton onClick={parseData}>Parse Data</GrayButton>
+            </Styled.Footer>
           </>
         )}
-        <button onClick={props.handleCancel}>Close</button>
       </ModalWindow>
     </ModalBackground>
   );
 }
-
-// first show textarea and parse button
-
-// if valid cards are found, display prefilled form for each
-// submit button on form creates card, cancel button removes it from array
-// need buttons to step through array of potential cards

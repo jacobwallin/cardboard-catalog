@@ -1,6 +1,6 @@
 import styled from "styled-components";
 interface ButtonProps {
-  color: "BLUE" | "GREEN" | "YELLOW" | "RED";
+  color: "BLUE" | "GREEN" | "YELLOW" | "RED" | "GRAY";
   height?: string;
   width?: string;
   fontSize?: string;
@@ -38,6 +38,8 @@ const StyledButton = styled.button<ButtonProps>`
         return "#E6E600";
       case "RED":
         return "#CE2200";
+      case "GRAY":
+        return "#999999";
     }
   }};
   &:hover {
@@ -51,6 +53,8 @@ const StyledButton = styled.button<ButtonProps>`
           return "#CDCD00";
         case "RED":
           return "#B50900";
+        case "GRAY":
+          return "#808080";
       }
     }};
   }
@@ -65,6 +69,8 @@ const StyledButton = styled.button<ButtonProps>`
           return "#9A9A00";
         case "RED":
           return "#820000";
+        case "GRAY":
+          return "#4D4D4D";
       }
     }};
   }
@@ -82,6 +88,9 @@ const StyledButton = styled.button<ButtonProps>`
       case "RED":
         return `0 0.125rem 0.625rem rgb(206 34 0 / 40%),
     0 0.0625rem 0.125rem rgb(206 34 0 / 50%);`;
+      case "GRAY":
+        return `0 0.125rem 0.625rem rgb(204 204 204 / 40%),
+    0 0.0625rem 0.125rem rgb(204 204 204 / 50%);`;
     }
   }};
 `;

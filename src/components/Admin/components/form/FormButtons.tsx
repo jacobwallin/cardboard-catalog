@@ -15,7 +15,7 @@ export default function EditFormButtons(props: FormButtonProps) {
         onClick={props.handleCancel}
         color="YELLOW"
         width="110px"
-        height="30px"
+        height="27px"
       >
         Cancel
       </StyledButton>
@@ -24,7 +24,7 @@ export default function EditFormButtons(props: FormButtonProps) {
         color="GREEN"
         disabled={props.disabled}
         width="110px"
-        height="30px"
+        height="27px"
       >
         Save
       </StyledButton>

@@ -13,16 +13,16 @@ export default function EditFormButtons(props: FormButtonProps) {
       <StyledButton
         onClick={props.handleEdit}
         color="BLUE"
-        width="110px"
-        height="30px"
+        width="100px"
+        height="27px"
       >
         Edit
       </StyledButton>
       <StyledButton
         onClick={props.handleDelete}
         color="RED"
-        width="110px"
-        height="30px"
+        width="100px"
+        height="27px"
       >
         Delete
       </StyledButton>
