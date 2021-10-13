@@ -68,6 +68,7 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
           <EditFormHeader text={`${singleSet.name}`} />
           <EditSet setId={+props.match.params.setId} />
           <WrappedDataTable
+            dense
             title={`Subsets`}
             columns={columns}
             data={singleSet.subsets}

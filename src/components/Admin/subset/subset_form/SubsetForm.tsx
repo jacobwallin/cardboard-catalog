@@ -29,9 +29,13 @@ export default function SubsetForm(props: Props) {
     isUpdatingSelector(state)
   );
 
-  const [name, setName] = useState(subset.name);
-  const [baseSeriesId, setBaseSeriesId] = useState(subset.baseSeriesId || 0);
-  const [description, setDescription] = useState(subset.description);
+  const [name, setName] = useState(props.createNew ? "" : subset.name);
+  const [baseSeriesId, setBaseSeriesId] = useState(
+    props.createNew ? 0 : subset.baseSeriesId || 0
+  );
+  const [description, setDescription] = useState(
+    props.createNew ? "" : subset.description
+  );
 
   function handleFormSubmit() {
     props.handleSubmit(
