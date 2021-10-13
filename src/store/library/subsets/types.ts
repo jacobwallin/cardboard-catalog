@@ -41,6 +41,7 @@ export interface CardData {
   id: number;
   name: string;
   number: string;
+  note: string;
   rookie: boolean;
   createdAt: string;
   updatedAt: string;

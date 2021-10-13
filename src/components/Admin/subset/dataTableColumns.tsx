@@ -58,6 +58,11 @@ export const cardsDataTableColumns = [
     sortable: true,
   },
   {
+    name: "Note",
+    selector: (row: CardData) => row.note,
+    sortable: true,
+  },
+  {
     name: "Player(s)",
     sortable: false,
     cell: (row: CardData) =>
