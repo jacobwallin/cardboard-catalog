@@ -63,6 +63,7 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
       <DataTableContainer>
         <DataTable
           noHeader
+          dense
           progressPending={isLoading}
           columns={columns}
           data={singleSet.subsets.map((subset) => {
