@@ -23,11 +23,12 @@ router.get("/:playerId", async (req, res, next) => {
 });
 
 router.post("/", isAdmin, async (req, res, next) => {
-  const { name, birthday, hallOfFame, url } = req.body;
+  const { name, fullName, birthday, hallOfFame, url } = req.body;
 
   try {
     const createdPlayer = await Player.create({
       name,
+      fullName,
       birthday,
       hallOfFame,
       url,
@@ -45,6 +46,7 @@ router.post("/bulk", isAdmin, async (req, res, next) => {
       players.map((player) => {
         return Player.create({
           name: player.name,
+          fullName: player.fullName,
           birthday: player.birthday,
           hallOfFame: player.hallOfFame,
           url: player.url,
@@ -58,10 +60,10 @@ router.post("/bulk", isAdmin, async (req, res, next) => {
 });
 
 router.put("/:playerId", isAdmin, async (req, res, next) => {
-  const { name, birthday, hallOfFame } = req.body;
+  const { name, fullName, birthday, hallOfFame } = req.body;
   try {
     await Player.update(
-      { name, birthday, hallOfFame },
+      { name, fullName, birthday, hallOfFame },
       { where: { id: req.params.playerId } }
     );
     const updatedPlayer = await Player.findByPk(req.params.playerId);

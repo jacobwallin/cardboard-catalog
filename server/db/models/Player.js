@@ -6,6 +6,10 @@ const Player = db.define("player", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  fullName: {
+    type: DataTypes.STRING,
+    // allowNull: false,
+  },
   birthday: {
     type: DataTypes.DATEONLY,
     allowNull: false,
