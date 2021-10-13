@@ -8,7 +8,7 @@ const Player = db.define("player", {
   },
   fullName: {
     type: DataTypes.STRING,
-    // allowNull: false,
+    allowNull: false,
   },
   birthday: {
     type: DataTypes.DATEONLY,
