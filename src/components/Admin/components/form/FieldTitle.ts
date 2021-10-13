@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 const FieldTitle = styled.div`
-  font-weight: bold;
-  font-size: 0.9em;
+  font-weight: 600;
+  font-size: 0.8em;
   padding-bottom: 5px;
 `;
 

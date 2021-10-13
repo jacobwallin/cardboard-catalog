@@ -1,7 +1,7 @@
 // STATE
 export type PlayersState = Player[];
 
-interface Player {
+export interface Player {
   id: number;
   name: string;
   birthday: string;

@@ -10,6 +10,7 @@ import EditFormHeader from "../components/EditFormHeader";
 import AdminPageContainer from "../components/AdminPageContainer";
 import CreateSeriesModal from "./series_modal/CreateSeriesModal";
 import CreateCardModal from "./card_modal/CreateCardModal";
+import CardScrapeModal from "./scrape_cards/CardScrapeModal";
 import CreateButton from "../components/CreateButton";
 
 import {
@@ -28,6 +29,7 @@ interface Params {
 export default function AdminSubset(props: RouteComponentProps<Params>) {
   const [showCreateSeriesModal, setShowCreateSeriesModal] = useState(false);
   const [showCreateCardModal, setShowCreateCardModal] = useState(false);
+  const [showScrapeCardModal, setShowScrapeCardModal] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -64,6 +66,9 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
   function toggleCreateCardModal() {
     setShowCreateCardModal(!showCreateCardModal);
   }
+  function toggleScrapeCardModal() {
+    setShowScrapeCardModal(!showScrapeCardModal);
+  }
 
   if (isLoading) {
     return <h1>LOADING DATA</h1>;
@@ -79,6 +84,12 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
       {showCreateCardModal && (
         <CreateCardModal
           handleCancel={toggleCreateCardModal}
+          subsetId={+props.match.params.subsetId}
+        />
+      )}
+      {showScrapeCardModal && (
+        <CardScrapeModal
+          handleCancel={toggleScrapeCardModal}
           subsetId={+props.match.params.subsetId}
         />
       )}
@@ -107,9 +118,14 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
         paginationPerPage={20}
         dense
         actions={
-          <CreateButton onClick={toggleCreateCardModal}>
-            Create Card
-          </CreateButton>
+          <>
+            <CreateButton onClick={toggleScrapeCardModal}>
+              Bulk Add
+            </CreateButton>
+            <CreateButton onClick={toggleCreateCardModal}>
+              Create Card
+            </CreateButton>
+          </>
         }
       />
     </AdminPageContainer>

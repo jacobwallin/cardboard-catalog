@@ -114,7 +114,7 @@ export const createCard =
     name: string;
     number: string;
     rookie: boolean;
-    teamId: number;
+    teamId: number | null;
     note: string;
     playerIds: number[];
   }): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>

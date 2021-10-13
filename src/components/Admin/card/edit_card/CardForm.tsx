@@ -26,6 +26,14 @@ const cardLoadingSelector = createLoadingSelector([
 
 interface Props {
   createNew: boolean;
+  bulkAddData?: {
+    name: string;
+    number: string;
+    rookie: boolean;
+    note: string;
+    teamId: number | undefined;
+    players: PlayersState;
+  };
   handleCancel(): void;
   handleSubmit(
     name: string,
@@ -87,6 +95,17 @@ export default function CardForm(props: Props) {
       setName(players[0].name);
     }
   }, [players]);
+
+  useEffect(() => {
+    if (props.bulkAddData) {
+      const data = props.bulkAddData;
+      setName(data.name);
+      setNumber(data.number);
+      setRookie(data.rookie);
+      setTeamId(data.teamId);
+      setPlayers(data.players);
+    }
+  }, [props.bulkAddData]);
 
   function handleSubmit() {
     props.handleSubmit(

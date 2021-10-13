@@ -7,7 +7,7 @@ export default function CreateButton(props: any) {
       {...props}
       color="GREEN"
       height="30px"
-      width="150px"
+      width="130px"
       fontSize=".9rem"
     />
   );

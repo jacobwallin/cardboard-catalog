@@ -31,26 +31,26 @@ const StyledButton = styled.button<ButtonProps>`
   background: ${(props) => {
     switch (props.color) {
       case "BLUE":
-        return "#3f6ad8";
+        return "#004ACE";
       case "GREEN":
-        return "#758E4F";
+        return "#009900";
       case "YELLOW":
-        return "#F5F749";
+        return "#E6E600";
       case "RED":
-        return "#F24236";
+        return "#CE2200";
     }
   }};
   &:hover {
     background: ${(props) => {
       switch (props.color) {
         case "BLUE":
-          return "#2955c8";
+          return "#0031B5";
         case "GREEN":
-          return "#5C7536";
+          return "#008000";
         case "YELLOW":
-          return "#DCDE30";
+          return "#CDCD00";
         case "RED":
-          return "#D9291D";
+          return "#B50900";
       }
     }};
   }
@@ -58,30 +58,30 @@ const StyledButton = styled.button<ButtonProps>`
     background: ${(props) => {
       switch (props.color) {
         case "BLUE":
-          return "#2651be";
+          return "#000082";
         case "GREEN":
-          return "#294203";
+          return "#004D00";
         case "YELLOW":
-          return "#A9AB00";
+          return "#9A9A00";
         case "RED":
-          return "#A60000";
+          return "#820000";
       }
     }};
   }
   box-shadow: ${(props) => {
     switch (props.color) {
       case "BLUE":
-        return `0 0.125rem 0.625rem rgb(63 106 216 / 40%),
-    0 0.0625rem 0.125rem rgb(63 106 216 / 50%);`;
+        return `0 0.125rem 0.625rem rgb(0 74 206 / 40%),
+    0 0.0625rem 0.125rem rgb(0 74 206 / 50%);`;
       case "GREEN":
-        return `0 0.125rem 0.625rem rgb(117 142 79 / 40%),
-    0 0.0625rem 0.125rem rgb(117 142 79 / 50%);`;
+        return `0 0.125rem 0.625rem rgb(0 153 0 / 40%),
+    0 0.0625rem 0.125rem rgb(0 153 0 / 50%);`;
       case "YELLOW":
-        return `0 0.125rem 0.625rem rgb(245 247 73 / 40%),
-    0 0.0625rem 0.125rem rgb(245 247 73 / 50%);`;
+        return `0 0.125rem 0.625rem rgb(230 230 0 / 40%),
+    0 0.0625rem 0.125rem rgb(230 230 0 / 50%);`;
       case "RED":
-        return `0 0.125rem 0.625rem rgb(242 66 54 / 40%),
-    0 0.0625rem 0.125rem rgb(242 66 54 / 50%);`;
+        return `0 0.125rem 0.625rem rgb(206 34 0 / 40%),
+    0 0.0625rem 0.125rem rgb(206 34 0 / 50%);`;
     }
   }};
 `;
