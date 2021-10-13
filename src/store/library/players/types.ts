@@ -4,6 +4,7 @@ export type PlayersState = Player[];
 export interface Player {
   id: number;
   name: string;
+  fullName: string;
   birthday: string;
   hallOfFame: boolean;
   createdAt: string;

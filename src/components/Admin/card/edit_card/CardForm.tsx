@@ -74,6 +74,7 @@ export default function CardForm(props: Props) {
           return {
             id: player.id,
             name: player.name,
+            fullName: player.fullName,
             birthday: player.birthday,
             hallOfFame: player.hallOfFame,
             createdAt: "",

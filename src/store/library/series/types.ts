@@ -39,8 +39,8 @@ export interface Card {
 
 interface Player {
   id: number;
-  firstName: string;
-  lastName: string;
+  name: string;
+  fullName: string;
   birthday: string;
   hallOfFame: boolean;
   card_data_player: {

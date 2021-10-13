@@ -20,6 +20,7 @@ export interface CardState {
 interface Player {
   id: number;
   name: string;
+  fullName: string;
   birthday: string;
   hallOfFame: boolean;
   card_data_player: {
