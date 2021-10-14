@@ -14,6 +14,8 @@ import {
   Admin,
 } from "./components/Views";
 import Login from "./components/login/Login";
+import SetPage from "./components/Collection/set_page/SetPage";
+import SubsetPage from "./components/Collection/subset_page/SubsetPage";
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -41,6 +43,9 @@ function App() {
               <Route path="/collection">
                 <Collection />
               </Route>
+              {/* TODO: change to render components as child components and use hooks */}
+              <Route exact path={`/set/:setId`} component={SetPage} />
+              <Route exact path={`/subset/:subsetId`} component={SubsetPage} />
               <Route path="/transactions">
                 <Transactions />
               </Route>

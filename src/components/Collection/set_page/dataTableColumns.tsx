@@ -8,9 +8,7 @@ const columns = [
     name: "Subset",
     selector: "name",
     sortable: true,
-    cell: (row: any) => (
-      <Link to={`/collection/subset/${row.id}`}>{row.name}</Link>
-    ),
+    cell: (row: any) => <Link to={`/subset/${row.id}`}>{row.name}</Link>,
     minWidth: "50px",
     style: tableStyles,
     grow: 2,
@@ -34,9 +32,7 @@ const columns = [
   {
     name: "",
     sortable: false,
-    cell: (row: any) => (
-      <StyledLink to={`/collection/subset/${row.id}`}>View</StyledLink>
-    ),
+    cell: (row: any) => <StyledLink to={`/subset/${row.id}`}>View</StyledLink>,
     maxWidth: "80px",
     minWidth: "80px",
   },

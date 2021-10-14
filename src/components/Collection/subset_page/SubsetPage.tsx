@@ -11,6 +11,8 @@ import {
   ContentContainer,
   DataTableTitle,
 } from "../shared";
+import CollectionWrapper from "../CollectionWrapper";
+import CollectionContainer from "../CollectionContainer";
 import columns from "./dataTableColumns";
 import createTableData from "./createTableData";
 import SeriesSelect from "./SeriesSelect";
@@ -35,8 +37,10 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
     (state: RootState) => state.collection.browse.cardsInSingleSubset
   );
 
-  let [selectedSeriesId, setSelectedSeriesId] = useState(0);
-  let [showAllCards, setShowAllCards] = useState(false);
+  const [showCollection, setShowCollection] = useState(false);
+  const [selectedSeriesId, setSelectedSeriesId] = useState(0);
+  const [showAllCards, setShowAllCards] = useState(false);
+  const [checklistToggleSelect, setChecklistToggleSelect] = useState(false);
 
   const SUBSET_ID_PARAM = +props.match.params.subsetId;
 
@@ -61,68 +65,79 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
   const tableData: any = createTableData(librarySubset, userCardsInSubset);
 
   return (
-    <CollectionPageContainer>
-      <h2>{librarySubset.name}</h2>
-      <ContentContainer>
-        {`Total Cards in Collection: ${userCardsInSubset.cards.length}`} <br />
-        {`Unique Cards in Collection: ${
-          Object.keys(
-            userCardsInSubset.cards.reduce((uniqueCardsMap: any, card) => {
-              return { ...uniqueCardsMap, [card.cardId]: true };
-            }, {})
-          ).length
-        }`}
-      </ContentContainer>
-      <CardFilterContainer>
-        <SelectLabel>Show Missing Cards: </SelectLabel>
-        <input
-          type="checkbox"
-          onChange={handleShowAllChange}
-          checked={showAllCards}
-        />
-      </CardFilterContainer>
-      <CardFilterContainer>
-        <SelectLabel>Filter: </SelectLabel>
-        <SeriesSelect value={selectedSeriesId} onChange={handleSeriesChange}>
-          <option value={0}>Show All Parallels</option>
-          {librarySubset.series.map((series) => {
-            return (
-              <option key={series.id} value={series.id}>
-                {series.name}
-              </option>
-            );
-          })}
-        </SeriesSelect>
-      </CardFilterContainer>
-      <DataTableTitle>{`Cards in ${librarySubset.name}`}</DataTableTitle>
-      <DataTableContainer>
-        <DataTable
-          dense
-          noHeader
-          // progressPending={isLoading}
-          columns={columns}
-          data={tableData
-            .filter((card: any) => {
-              return (
-                selectedSeriesId === 0 || card.seriesId === selectedSeriesId
-              );
-            })
-            .filter((card: any) => {
-              return showAllCards || card.quantity > 0;
-            })}
-          highlightOnHover
-          pagination
-          paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
-          paginationPerPage={20}
-          conditionalRowStyles={dataTableConditionalStyles}
-          defaultSortField={"Card #"}
-          selectableRows
-          onSelectedRowsChange={({ selectedRows }) => {
-            console.log(selectedRows);
-          }}
-        />
-      </DataTableContainer>
-    </CollectionPageContainer>
+    <CollectionWrapper>
+      <CollectionContainer>
+        <CollectionPageContainer>
+          <h2>{librarySubset.name}</h2>
+          <ContentContainer>
+            {`Total Cards in Collection: ${userCardsInSubset.cards.length}`}{" "}
+            <br />
+            {`Unique Cards in Collection: ${
+              Object.keys(
+                userCardsInSubset.cards.reduce((uniqueCardsMap: any, card) => {
+                  return { ...uniqueCardsMap, [card.cardId]: true };
+                }, {})
+              ).length
+            }`}
+          </ContentContainer>
+          <CardFilterContainer>
+            <SelectLabel>Show Missing Cards: </SelectLabel>
+            <input
+              type="checkbox"
+              onChange={handleShowAllChange}
+              checked={showAllCards}
+            />
+          </CardFilterContainer>
+          <CardFilterContainer>
+            <SelectLabel>Select Parallel Set: </SelectLabel>
+            <SeriesSelect
+              value={selectedSeriesId}
+              onChange={handleSeriesChange}
+            >
+              <option value={0}>Show All Parallels</option>
+              {librarySubset.series.map((series) => {
+                return (
+                  <option key={series.id} value={series.id}>
+                    {series.name}
+                  </option>
+                );
+              })}
+            </SeriesSelect>
+          </CardFilterContainer>
+          <DataTableContainer>
+            <DataTable
+              dense
+              title="Cards"
+              actions={
+                <button
+                  onClick={(e) =>
+                    setChecklistToggleSelect(!checklistToggleSelect)
+                  }
+                >
+                  {" "}
+                  Add Cards to Collection
+                </button>
+              }
+              columns={columns}
+              data={tableData.filter((card: any) => {
+                return (
+                  selectedSeriesId === 0 || card.seriesId === selectedSeriesId
+                );
+              })}
+              highlightOnHover
+              pagination
+              paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
+              paginationPerPage={20}
+              defaultSortField={"Card #"}
+              selectableRows={checklistToggleSelect}
+              onSelectedRowsChange={({ selectedRows }) => {
+                console.log(selectedRows);
+              }}
+            />
+          </DataTableContainer>
+        </CollectionPageContainer>
+      </CollectionContainer>
+    </CollectionWrapper>
   );
 };
 

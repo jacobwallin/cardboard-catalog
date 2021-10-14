@@ -14,6 +14,8 @@ import {
   DataTableTitle,
   CollectionData,
 } from "../shared";
+import CollectionWrapper from "../CollectionWrapper";
+import CollectionContainer from "../CollectionContainer";
 
 const loadingSelector = createLoadingSelector([
   "GET_SINGLE_SET",
@@ -45,46 +47,53 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
   }
 
   return (
-    <CollectionPageContainer>
-      <h2>{singleSet.name}</h2>
-      <ContentContainer>
-        <h4>About:</h4>
-        {singleSet.description}
-      </ContentContainer>
-      <CollectionData
-        totalCards={cardsBySubset.subsets.reduce((totalCards, subset) => {
-          return (totalCards += +subset.totalCards);
-        }, 0)}
-        distinctCards={cardsBySubset.subsets.reduce((totalCards, subset) => {
-          return (totalCards += +subset.distinctCards);
-        }, 0)}
-      />
-      <DataTableTitle>{`Subsets in ${singleSet.name}`}</DataTableTitle>
-      <DataTableContainer>
-        <DataTable
-          noHeader
-          dense
-          progressPending={isLoading}
-          columns={columns}
-          data={singleSet.subsets.map((subset) => {
-            const collectionSubsetData = cardsBySubset.subsets.find(
-              (collectionSubset) => subset.id === collectionSubset.subsetId
-            );
-            return {
-              name: subset.name,
-              id: subset.id,
-              totalCards: collectionSubsetData
-                ? collectionSubsetData.totalCards
-                : 0,
-              distinctCards: collectionSubsetData
-                ? collectionSubsetData.distinctCards
-                : 0,
-            };
-          })}
-          highlightOnHover
-        />
-      </DataTableContainer>
-    </CollectionPageContainer>
+    <CollectionWrapper>
+      <CollectionContainer>
+        <CollectionPageContainer>
+          <h2>{singleSet.name}</h2>
+          <ContentContainer>
+            <h4>About:</h4>
+            {singleSet.description}
+          </ContentContainer>
+          <CollectionData
+            totalCards={cardsBySubset.subsets.reduce((totalCards, subset) => {
+              return (totalCards += +subset.totalCards);
+            }, 0)}
+            distinctCards={cardsBySubset.subsets.reduce(
+              (totalCards, subset) => {
+                return (totalCards += +subset.distinctCards);
+              },
+              0
+            )}
+          />
+          <DataTableTitle>{`Subsets in ${singleSet.name}`}</DataTableTitle>
+          <DataTableContainer>
+            <DataTable
+              noHeader
+              dense
+              progressPending={isLoading}
+              columns={columns}
+              data={singleSet.subsets.map((subset) => {
+                const collectionSubsetData = cardsBySubset.subsets.find(
+                  (collectionSubset) => subset.id === collectionSubset.subsetId
+                );
+                return {
+                  name: subset.name,
+                  id: subset.id,
+                  totalCards: collectionSubsetData
+                    ? collectionSubsetData.totalCards
+                    : 0,
+                  distinctCards: collectionSubsetData
+                    ? collectionSubsetData.distinctCards
+                    : 0,
+                };
+              })}
+              highlightOnHover
+            />
+          </DataTableContainer>
+        </CollectionPageContainer>
+      </CollectionContainer>
+    </CollectionWrapper>
   );
 };
 

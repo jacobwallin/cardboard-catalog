@@ -32,13 +32,6 @@ const columns = [
     sortFunction: customColumnSort,
   },
   {
-    name: "Qty",
-    selector: (row: TableDataPoint) => row.quantity,
-    sortable: true,
-    style: modifiedStyles,
-    grow: 0,
-  },
-  {
     name: "Name",
     selector: (row: TableDataPoint) => row.cardData.name,
     sortable: true,
