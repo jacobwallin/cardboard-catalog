@@ -101,6 +101,26 @@ router.post("/add", async (req, res, next) => {
   }
 });
 
+router.post("/delete/bulk", async (req, res, next) => {
+  const { userCardIds } = req.body;
+
+  try {
+    const deleteTotals = await Promise.all(
+      userCardIds.map((id) => {
+        return UserCard.destroy({
+          where: {
+            id: id,
+          },
+        });
+      })
+    );
+    // return total number of deleted instances
+    res.json(deleteTotals.length);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/filter", async (req, res, next) => {
   // sort by card name
   // let playerSort = [Card, CardData, "name", "ASC"];
