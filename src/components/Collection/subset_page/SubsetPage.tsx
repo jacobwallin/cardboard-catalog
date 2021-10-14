@@ -14,9 +14,6 @@ import CollectionWrapper from "../../shared/CollectionWrapper";
 import CollectionContainer from "../../shared/CollectionContainer";
 import columns from "./dataTableColumns";
 import createTableData from "./createTableData";
-import SeriesSelect from "./SeriesSelect";
-import SelectLabel from "./SelectLabel";
-import CardFilterContainer from "./CardFilterContainer";
 // import dataTableConditionalStyles from "./dataTableConditionalStyles";
 import SubsetHeader from "../header/SubsetHeader";
 import StyledButton from "../../Admin/components/StyledButton";
@@ -24,6 +21,8 @@ import ModalWindow from "../../Admin/components/modal/ModalWindow";
 import Background from "../../shared/Background";
 import { TableDataPoint } from "./createTableData";
 import AddCardsForm, { CardFormData } from "../../add_cards_form/AddCardsForm";
+
+import * as Styled from "./styled";
 
 type Params = {
   year: string;
@@ -106,6 +105,15 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
           <Background>
             <ModalWindow>
               <AddCardsForm formData={addCardFormData} />
+              <StyledButton
+                color="GRAY"
+                height="25px"
+                width="100px"
+                fontSize="13px"
+                onClick={(e) => setShowAddCardForm(!showAddCardForm)}
+              >
+                Close
+              </StyledButton>
             </ModalWindow>
           </Background>
         )}
@@ -126,26 +134,17 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
               ).length
             }`}
           </ContentContainer>
-          <CardFilterContainer>
-            <SelectLabel>Show Missing Cards: </SelectLabel>
+          <Styled.CardFilterContainer>
+            <Styled.SelectLabel>Show Missing Cards: </Styled.SelectLabel>
             <input
               type="checkbox"
               onChange={handleShowAllChange}
               checked={showAllCards}
             />
-          </CardFilterContainer>
-          <CardFilterContainer>
-            <StyledButton
-              color="GREEN"
-              height="25px"
-              width="100px"
-              fontSize="13px"
-              onClick={(e) => setShowAddCardForm(!showAddCardForm)}
-            >
-              Add Cards
-            </StyledButton>
-            <SelectLabel>Select Parallel Set: </SelectLabel>
-            <SeriesSelect
+          </Styled.CardFilterContainer>
+          <Styled.CardFilterContainer>
+            <Styled.SelectLabel>Select Parallel Set: </Styled.SelectLabel>
+            <Styled.SeriesSelect
               value={selectedSeriesId}
               onChange={handleSeriesChange}
             >
@@ -157,9 +156,26 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
                   </option>
                 );
               })}
-            </SeriesSelect>
-          </CardFilterContainer>
-
+            </Styled.SeriesSelect>
+          </Styled.CardFilterContainer>
+          {addCardFormData.length > 0 && (
+            <Styled.AddCardsContainer>
+              <Styled.AddCardsTotal>
+                {`${addCardFormData.length} ${
+                  addCardFormData.length > 1 ? "Cards" : "Card"
+                } Ready to Add`}
+              </Styled.AddCardsTotal>
+              <StyledButton
+                color="GREEN"
+                height="25px"
+                width="100px"
+                fontSize="13px"
+                onClick={(e) => setShowAddCardForm(!showAddCardForm)}
+              >
+                Add
+              </StyledButton>
+            </Styled.AddCardsContainer>
+          )}
           <DataTableContainer>
             <DataTable
               dense
