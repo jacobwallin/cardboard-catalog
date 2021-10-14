@@ -11,14 +11,15 @@ import {
   ContentContainer,
   DataTableTitle,
 } from "../shared";
-import CollectionWrapper from "../CollectionWrapper";
-import CollectionContainer from "../CollectionContainer";
+import CollectionWrapper from "../../shared/CollectionWrapper";
+import CollectionContainer from "../../shared/CollectionContainer";
 import columns from "./dataTableColumns";
 import createTableData from "./createTableData";
 import SeriesSelect from "./SeriesSelect";
 import SelectLabel from "./SelectLabel";
 import CardFilterContainer from "./CardFilterContainer";
 import dataTableConditionalStyles from "./dataTableConditionalStyles";
+import SubsetHeader from "../header/SubsetHeader";
 
 type Params = {
   year: string;
@@ -67,8 +68,12 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
   return (
     <CollectionWrapper>
       <CollectionContainer>
+        <SubsetHeader
+          title={librarySubset.name}
+          handleBrowseClick={() => {}}
+          handleCollectionClick={() => {}}
+        />
         <CollectionPageContainer>
-          <h2>{librarySubset.name}</h2>
           <ContentContainer>
             {`Total Cards in Collection: ${userCardsInSubset.cards.length}`}{" "}
             <br />

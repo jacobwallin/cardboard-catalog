@@ -14,8 +14,9 @@ import {
   DataTableTitle,
   CollectionData,
 } from "../shared";
-import CollectionWrapper from "../CollectionWrapper";
-import CollectionContainer from "../CollectionContainer";
+import CollectionWrapper from "../../shared/CollectionWrapper";
+import CollectionContainer from "../../shared/CollectionContainer";
+import SetHeader from "../header/SetHeader";
 
 const loadingSelector = createLoadingSelector([
   "GET_SINGLE_SET",
@@ -49,8 +50,8 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
   return (
     <CollectionWrapper>
       <CollectionContainer>
+        <SetHeader title={singleSet.name} />
         <CollectionPageContainer>
-          <h2>{singleSet.name}</h2>
           <ContentContainer>
             <h4>About:</h4>
             {singleSet.description}

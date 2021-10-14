@@ -1,8 +1,6 @@
 import styled from "styled-components";
-import React from "react";
-import { Link } from "react-router-dom";
 
-const Container = styled.div`
+export const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -17,20 +15,20 @@ const Container = styled.div`
   }
 `;
 
-const StyledHeader = styled.div`
+export const StyledHeader = styled.div`
   font-size: 1.7em;
   font-weight: 600;
   margin-left: 10px;
   color: #5a9bfd;
 `;
 
-const FilterBrowse = styled.div`
+export const FilterBrowse = styled.div`
   display: flex;
   flex-direction: row;
   margin-left: 10px;
 `;
 
-const StyledLink = styled(Link)<{ location: "LEFT" | "RIGHT" }>`
+export const StyledLink = styled.div<{ location: "LEFT" | "RIGHT" }>`
   width: 80px;
   height: 25px;
   font-size: 0.9rem;
@@ -41,6 +39,7 @@ const StyledLink = styled(Link)<{ location: "LEFT" | "RIGHT" }>`
   background-color: #5a9bfd;
   &:hover {
     background-color: #4182e4;
+    cursor: pointer;
   }
   &:active {
     background-color: #0e4fb1;
@@ -55,21 +54,3 @@ const StyledLink = styled(Link)<{ location: "LEFT" | "RIGHT" }>`
   border-bottom-right-radius: ${(props) =>
     props.location === "RIGHT" && "13px"};
 `;
-
-function CollectionHeader() {
-  return (
-    <Container>
-      <StyledHeader>Your Collection</StyledHeader>
-      <FilterBrowse>
-        <StyledLink to="/collection/filter" location="LEFT">
-          Search
-        </StyledLink>
-        <StyledLink to="/collection" location="RIGHT">
-          Browse
-        </StyledLink>
-      </FilterBrowse>
-    </Container>
-  );
-}
-
-export default CollectionHeader;
