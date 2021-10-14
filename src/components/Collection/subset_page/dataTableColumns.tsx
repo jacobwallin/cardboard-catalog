@@ -20,7 +20,7 @@ const customColumnSort = (rowA: TableDataPoint, rowB: TableDataPoint) => {
   return 0;
 };
 
-let modifiedStyles = { ...tableStyles, fontSize: "13px" };
+let modifiedStyles = { ...tableStyles, fontSize: "12px" };
 
 const columns = [
   {
@@ -28,7 +28,7 @@ const columns = [
     selector: (row: TableDataPoint) => row.cardData.number,
     sortable: true,
     style: modifiedStyles,
-    grow: 0,
+    grow: 1,
     sortFunction: customColumnSort,
   },
   {
@@ -36,7 +36,7 @@ const columns = [
     selector: (row: TableDataPoint) => row.cardData.name,
     sortable: true,
     style: modifiedStyles,
-    grow: 1,
+    grow: 2,
   },
   {
     name: "Team",
@@ -44,14 +44,14 @@ const columns = [
       row.cardData.team ? row.cardData.team.name : "-",
     sortable: true,
     style: modifiedStyles,
-    grow: 1,
+    grow: 2,
   },
   {
     name: "Parallel Set",
     selector: (row: TableDataPoint) => row.series.name,
     sortable: true,
     style: modifiedStyles,
-    grow: 1,
+    grow: 2,
   },
 ];
 

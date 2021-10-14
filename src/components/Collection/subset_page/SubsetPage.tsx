@@ -105,15 +105,17 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
           <Background>
             <ModalWindow>
               <AddCardsForm formData={addCardFormData} />
-              <StyledButton
-                color="GRAY"
-                height="25px"
-                width="100px"
-                fontSize="13px"
-                onClick={(e) => setShowAddCardForm(!showAddCardForm)}
-              >
-                Close
-              </StyledButton>
+              <Styled.CloseButtonWrapper style={{ alignSelf: "center" }}>
+                <StyledButton
+                  color="GRAY"
+                  height="25px"
+                  width="100px"
+                  fontSize="13px"
+                  onClick={(e) => setShowAddCardForm(!showAddCardForm)}
+                >
+                  Close
+                </StyledButton>
+              </Styled.CloseButtonWrapper>
             </ModalWindow>
           </Background>
         )}

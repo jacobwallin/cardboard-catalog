@@ -64,7 +64,7 @@ export default function AddCardsForm(props: Props) {
   // reset card data only if post to server is successfull
   // data will remain if there is a server error so user can re-submit
   useEffect(() => {
-    if (postingCardsStatus === "SUCCESS") {
+    if (postingCardsStatus === "SUCCESS" && cardsSuccessfullyAdded > 0) {
       setCardData([]);
     }
   }, [postingCardsStatus]);

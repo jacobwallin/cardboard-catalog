@@ -35,3 +35,24 @@ export const AddCardsTotal = styled.div`
   font-size: 0.8rem;
   font-weight: bold;
 `;
+
+export const ModalWindow = styled.div`
+  position: fixed;
+  left: 50%;
+  top: 15%;
+  width: 100%;
+  max-width: 600px;
+  min-width: 250px;
+  transform: translate(-50%, 0);
+  background: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+export const CloseButtonWrapper = styled.div`
+  align-self: center;
+  margin: 15px;
+`;
