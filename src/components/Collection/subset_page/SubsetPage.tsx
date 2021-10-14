@@ -9,7 +9,6 @@ import {
   CollectionPageContainer,
   DataTableContainer,
   ContentContainer,
-  DataTableTitle,
 } from "../shared";
 import CollectionWrapper from "../../shared/CollectionWrapper";
 import CollectionContainer from "../../shared/CollectionContainer";
@@ -20,6 +19,7 @@ import SelectLabel from "./SelectLabel";
 import CardFilterContainer from "./CardFilterContainer";
 import dataTableConditionalStyles from "./dataTableConditionalStyles";
 import SubsetHeader from "../header/SubsetHeader";
+import StyledButton from "../../Admin/components/StyledButton";
 
 type Params = {
   year: string;
@@ -109,19 +109,23 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
               })}
             </SeriesSelect>
           </CardFilterContainer>
+
           <DataTableContainer>
             <DataTable
               dense
-              title="Cards"
+              title="Checklist"
               actions={
-                <button
+                <StyledButton
+                  color={checklistToggleSelect ? "YELLOW" : "BLUE"}
+                  height="25px"
+                  width="100px"
+                  fontSize="13px"
                   onClick={(e) =>
                     setChecklistToggleSelect(!checklistToggleSelect)
                   }
                 >
-                  {" "}
-                  Add Cards to Collection
-                </button>
+                  {checklistToggleSelect ? "Cancel" : "Add Cards"}
+                </StyledButton>
               }
               columns={columns}
               data={tableData.filter((card: any) => {

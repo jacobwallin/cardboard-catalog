@@ -56,6 +56,10 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
             <h4>About:</h4>
             {singleSet.description}
           </ContentContainer>
+          <ContentContainer>
+            <h4>Release Date:</h4>
+            {singleSet.release_date}
+          </ContentContainer>
           <CollectionData
             totalCards={cardsBySubset.subsets.reduce((totalCards, subset) => {
               return (totalCards += +subset.totalCards);
