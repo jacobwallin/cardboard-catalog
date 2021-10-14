@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { createSubset } from "../../../../store/library/sets/thunks";
 
-import ModalBackground from "../../components/modal/Background";
+import ModalBackground from "../../../shared/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
 import SubsetForm from "../../subset/subset_form/SubsetForm";
 

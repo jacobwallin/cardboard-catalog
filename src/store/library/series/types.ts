@@ -27,13 +27,17 @@ export interface Card {
     id: number;
     name: string;
     number: string;
+    note: string;
     rookie: boolean;
-    playerId: number;
-    teamId: number;
+    createdAt: string;
+    updatedAt: string;
+    subsetId: number;
+    teamId: number | null;
     players: Player[];
     team: {
+      id: number;
       name: string;
-    };
+    } | null;
   };
 }
 

@@ -17,9 +17,13 @@ import createTableData from "./createTableData";
 import SeriesSelect from "./SeriesSelect";
 import SelectLabel from "./SelectLabel";
 import CardFilterContainer from "./CardFilterContainer";
-import dataTableConditionalStyles from "./dataTableConditionalStyles";
+// import dataTableConditionalStyles from "./dataTableConditionalStyles";
 import SubsetHeader from "../header/SubsetHeader";
 import StyledButton from "../../Admin/components/StyledButton";
+import ModalWindow from "../../Admin/components/modal/ModalWindow";
+import Background from "../../shared/Background";
+import { TableDataPoint } from "./createTableData";
+import AddCardsForm, { CardFormData } from "../../add_cards_form/AddCardsForm";
 
 type Params = {
   year: string;
@@ -41,7 +45,11 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
   const [showCollection, setShowCollection] = useState(false);
   const [selectedSeriesId, setSelectedSeriesId] = useState(0);
   const [showAllCards, setShowAllCards] = useState(false);
+  // toggles showing checkboxes to select cards to add to collection
   const [checklistToggleSelect, setChecklistToggleSelect] = useState(false);
+  // toggles add card form modal when user wants to add cards to collection
+  const [showAddCardForm, setShowAddCardForm] = useState(false);
+  const [addCardFormData, setAddCardFormData] = useState<CardFormData[]>([]);
 
   const SUBSET_ID_PARAM = +props.match.params.subsetId;
 
@@ -62,12 +70,45 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
     setShowAllCards(!showAllCards);
   }
 
+  interface Stuff {
+    allSelected: boolean;
+    selectedCount: number;
+    selectedRows: Array<TableDataPoint>;
+  }
+  function addSelectedCardsChange(stuff: Stuff) {
+    const formData: CardFormData[] = stuff.selectedRows.map((row) => {
+      return {
+        cardId: row.id,
+        serialNumber: "",
+        grade: "",
+        gradingCompanyId: -1,
+        serialNumberError: false,
+        gradeError: false,
+        gradingCompanyError: false,
+        card: {
+          id: row.id,
+          seriesId: row.seriesId,
+          cardDataId: row.cardDataId,
+          card_datum: row.cardData,
+        },
+      };
+    });
+    setAddCardFormData(formData);
+  }
+
   // TODO: DataTable wants a string[] ???
   const tableData: any = createTableData(librarySubset, userCardsInSubset);
 
   return (
     <CollectionWrapper>
       <CollectionContainer>
+        {showAddCardForm && (
+          <Background>
+            <ModalWindow>
+              <AddCardsForm formData={addCardFormData} />
+            </ModalWindow>
+          </Background>
+        )}
         <SubsetHeader
           title={librarySubset.name}
           handleBrowseClick={() => {}}
@@ -94,6 +135,15 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
             />
           </CardFilterContainer>
           <CardFilterContainer>
+            <StyledButton
+              color="GREEN"
+              height="25px"
+              width="100px"
+              fontSize="13px"
+              onClick={(e) => setShowAddCardForm(!showAddCardForm)}
+            >
+              Add Cards
+            </StyledButton>
             <SelectLabel>Select Parallel Set: </SelectLabel>
             <SeriesSelect
               value={selectedSeriesId}
@@ -139,9 +189,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
               paginationPerPage={20}
               defaultSortField={"Card #"}
               selectableRows={checklistToggleSelect}
-              onSelectedRowsChange={({ selectedRows }) => {
-                console.log(selectedRows);
-              }}
+              onSelectedRowsChange={addSelectedCardsChange}
             />
           </DataTableContainer>
         </CollectionPageContainer>

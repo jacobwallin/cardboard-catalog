@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store";
-import ModalBackground from "../../components/modal/Background";
+import ModalBackground from "../../../shared/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
 import ErrorMessage from "../../components/form/ErrorMessage";
 import { createStatusSelector } from "../../../../store/loading/reducer";

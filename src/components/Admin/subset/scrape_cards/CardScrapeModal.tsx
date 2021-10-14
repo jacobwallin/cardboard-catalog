@@ -5,7 +5,7 @@ import { fetchAllPlayers } from "../../../../store/library/players/thunks";
 import { fetchAllTeams } from "../../../../store/library/teams/thunks";
 import { createCard } from "../../../../store/library/subsets/thunks";
 import CardForm from "../../card/edit_card/CardForm";
-import ModalBackground from "../../components/modal/Background";
+import ModalBackground from "../../../shared/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
 import { CardFormData } from "./parseCards";
 import {

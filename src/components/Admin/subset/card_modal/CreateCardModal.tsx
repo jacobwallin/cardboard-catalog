@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { createCard } from "../../../../store/library/subsets/thunks";
-import ModalBackground from "../../components/modal/Background";
+import ModalBackground from "../../../shared/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
 import CardForm from "../../card/edit_card/CardForm";
 

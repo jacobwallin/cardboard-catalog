@@ -29,7 +29,10 @@ export interface CardFormData {
 const postingCards = createLoadingSelector(["ADD_CARDS"]);
 const postingCardsStatusSelector = createStatusSelector("ADD_CARDS");
 
-export default function AddCardsForm() {
+interface Props {
+  formData?: CardFormData[];
+}
+export default function AddCardsForm(props: Props) {
   const dispatch = useDispatch();
 
   // error message will be displayed to user if form is not filled out correctly
@@ -37,7 +40,9 @@ export default function AddCardsForm() {
   const [cardsSuccessfullyAdded, setCardsSuccessfullyAdded] = useState(0);
 
   // API DATA
-  const [cardData, setCardData] = useState<CardFormData[]>([]);
+  const [cardData, setCardData] = useState<CardFormData[]>(
+    props.formData ? props.formData : []
+  );
 
   // LIBRARY DATA
   const series = useSelector((state: RootState) => state.library.series.series);
@@ -187,7 +192,9 @@ export default function AddCardsForm() {
     <div>
       <Styled.FormContainer>
         <h2>Add Cards to Your Collection</h2>
-        <SelectCardForm cardData={cardData} addCard={addCard} />
+        {!props.formData && (
+          <SelectCardForm cardData={cardData} addCard={addCard} />
+        )}
         <Styled.SubmitContainer>
           <Styled.TotalCardsLabel>
             {cardData.length > 0

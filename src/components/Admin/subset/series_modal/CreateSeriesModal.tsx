@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { createSeries } from "../../../../store/library/subsets/thunks";
-import ModalBackground from "../../components/modal/Background";
+import ModalBackground from "../../../shared/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
 import SeriesForm from "../../series/series_form/SeriesForm";
 
