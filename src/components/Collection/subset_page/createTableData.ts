@@ -16,6 +16,7 @@ function createTableData(
   userCardData: { cards: UserCard[]; subsetId: number }
 ): TableDataPoint[] {
   // create hash table with the id and quantity of each card user has in collection
+
   interface UserCardTotals {
     [details: number]: number;
   }

@@ -7,17 +7,17 @@ export const SeriesSelect = styled.select`
 
 export const SelectLabel = styled.div`
   font-size: 0.8em;
-  font-weight: 700;
+  font-weight: 500;
 `;
 
-export const CardFilterContainer = styled.div`
+export const SelectParallel = styled.div`
   display: flex;
-  width: 90%;
+  width: 100%;
   flex-direction: row;
   align-items: center;
   gap: 10px;
-  justify-content: right;
-  margin-bottom: 8px;
+  justify-content: left;
+  margin-bottom: 0px;
 `;
 
 export const AddCardsContainer = styled.div`
