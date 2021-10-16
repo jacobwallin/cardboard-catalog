@@ -7,7 +7,7 @@ import { fetchCardsInSingleSubset } from "../../../store/collection/browse/thunk
 
 import CollectionWrapper from "../../shared/CollectionWrapper";
 import CollectionContainer from "../../shared/CollectionContainer";
-import createTableData from "./createTableData";
+import { createTableData, createUserCardTableData } from "./createTableData";
 // import dataTableConditionalStyles from "./dataTableConditionalStyles";
 import SubsetHeader from "../header/SubsetHeader";
 import BrowseSubset from "./browse/BrowseSubset";
@@ -37,7 +37,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
   );
   const loading = useSelector((state: RootState) => loadingSelector(state));
 
-  const [showCollection, setShowCollection] = useState(false);
+  const [showCollection, setShowCollection] = useState(true);
 
   useEffect(() => {
     // get the complete subset data from the library api and all the user's cards that belong to the subset from the collection api
@@ -55,6 +55,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
 
   // DataTable wants a string[] ???
   const tableData: any = createTableData(librarySubset, userCardsInSubset);
+  const idk: any = createUserCardTableData(librarySubset, userCardsInSubset);
 
   return (
     <CollectionWrapper>
@@ -68,7 +69,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
           (!showCollection ? (
             <BrowseSubset tableData={tableData} />
           ) : (
-            <CollectionSubset tableData={tableData} />
+            <CollectionSubset tableData={tableData} userCardTableData={idk} />
           ))}
       </CollectionContainer>
     </CollectionWrapper>

@@ -11,6 +11,9 @@ import {
   ADD_CARDS_REQUEST,
   ADD_CARDS_SUCCESS,
   ADD_CARDS_FAILURE,
+  DELETE_CARDS_REQUEST,
+  DELETE_CARDS_SUCCESS,
+  DELETE_CARDS_FAILURE,
   SET_INITIAL_DATA_LOAD,
   CLEAR_COLLECTION,
   SetCards,
@@ -76,6 +79,18 @@ export const addCardsSuccess = (): CollectionActionTypes => ({
 });
 export const addCardsFailure = (): CollectionActionTypes => ({
   type: ADD_CARDS_FAILURE,
+});
+export const deleteCardsRequest = (): CollectionActionTypes => ({
+  type: DELETE_CARDS_REQUEST,
+});
+export const deleteCardsSuccess = (
+  userCardIds: number[]
+): CollectionActionTypes => ({
+  type: DELETE_CARDS_SUCCESS,
+  userCardIds,
+});
+export const deleteCardsFailure = (): CollectionActionTypes => ({
+  type: DELETE_CARDS_FAILURE,
 });
 
 export const setInitialDataLoad = (status: boolean): CollectionActionTypes => ({

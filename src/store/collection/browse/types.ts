@@ -14,6 +14,9 @@ export const GET_CARDS_IN_SINGLE_SUBSET_ERROR =
 export const ADD_CARDS_REQUEST = "ADD_CARDS_REQUEST";
 export const ADD_CARDS_SUCCESS = "ADD_CARDS_SUCCESS";
 export const ADD_CARDS_FAILURE = "ADD_CARDS_FAILURE";
+export const DELETE_CARDS_REQUEST = "DELETE_CARDS_REQUEST";
+export const DELETE_CARDS_SUCCESS = "DELETE_CARDS_SUCCESS";
+export const DELETE_CARDS_FAILURE = "DELETE_CARDS_FAILURE";
 export const SET_INITIAL_DATA_LOAD = "SET_INITIAL_DATA_LOAD";
 export const CLEAR_COLLECTION = "CLEAR_COLLECTION";
 
@@ -70,6 +73,17 @@ interface AddCardsFailure {
   type: typeof ADD_CARDS_FAILURE;
 }
 
+interface DeleteCardsRequest {
+  type: typeof DELETE_CARDS_REQUEST;
+}
+interface DeleteCardsSuccess {
+  type: typeof DELETE_CARDS_SUCCESS;
+  userCardIds: number[];
+}
+interface DeleteCardsFailure {
+  type: typeof DELETE_CARDS_FAILURE;
+}
+
 interface SetInitialDataLoad {
   type: typeof SET_INITIAL_DATA_LOAD;
   status: boolean;
@@ -91,6 +105,9 @@ export type CollectionActionTypes =
   | AddCardsRequest
   | AddCardsSuccess
   | AddCardsFailure
+  | DeleteCardsRequest
+  | DeleteCardsSuccess
+  | DeleteCardsFailure
   | SetInitialDataLoad
   | ClearCollectionAction;
 

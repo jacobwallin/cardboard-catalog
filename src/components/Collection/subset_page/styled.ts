@@ -10,6 +10,12 @@ export const SelectLabel = styled.div`
   font-weight: 500;
 `;
 
+export const PageTitle = styled.div`
+  font-size: 1.4rem;
+  margin-bottom: 30px;
+  font-weight: 600;
+`;
+
 export const SelectParallel = styled.div`
   display: flex;
   width: 100%;
@@ -52,7 +58,25 @@ export const ModalWindow = styled.div`
   align-items: center;
 `;
 
+export const ConfirmDeleteButtons = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+  gap: 30px;
+  margin: 15px;
+`;
 export const CloseButtonWrapper = styled.div`
   align-self: center;
   margin: 15px;
+`;
+
+export const ConfirmDeleteTitle = styled.div`
+  text-align: center;
+  padding: 20px;
+  font-size: 1.3rem;
+`;
+
+export const DeleteConfirmMessage = styled.div`
+  text-align: center;
+  padding: 30px 0 30px 0;
 `;

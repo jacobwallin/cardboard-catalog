@@ -7,6 +7,7 @@ import {
   CLEAR_COLLECTION,
   SET_INITIAL_DATA_LOAD,
   ADD_CARDS_SUCCESS,
+  DELETE_CARDS_SUCCESS,
 } from "./types";
 
 import { RemoveUser, REMOVE_USER } from "../../user/types";
@@ -50,6 +51,16 @@ export default function collectionReducer(
       return initialState;
     case ADD_CARDS_SUCCESS:
       return initialState;
+    case DELETE_CARDS_SUCCESS:
+      return {
+        ...initialState,
+        cardsInSingleSubset: {
+          subsetId: state.cardsInSingleSubset.subsetId,
+          cards: state.cardsInSingleSubset.cards.filter(
+            (userCard) => !action.userCardIds.some((id) => id === userCard.id)
+          ),
+        },
+      };
     // collection clears when user logs out
     case REMOVE_USER:
       return initialState;

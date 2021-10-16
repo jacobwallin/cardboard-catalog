@@ -66,6 +66,7 @@ export default function BrowseSubset(props: Props) {
 
   return (
     <CollectionPageContainer>
+      <Styled.PageTitle>Set Checklist</Styled.PageTitle>
       {showAddCardForm && (
         <Background>
           <ModalWindow>
@@ -125,7 +126,7 @@ export default function BrowseSubset(props: Props) {
           title="Checklist"
           actions={
             <StyledButton
-              color={checklistToggleSelect ? "YELLOW" : "BLUE"}
+              color={checklistToggleSelect ? "YELLOW" : "GRAY"}
               height="25px"
               width="100px"
               fontSize="13px"

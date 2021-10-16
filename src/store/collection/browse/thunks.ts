@@ -10,6 +10,7 @@ import {
   addCardsFailure,
   setInitialDataLoad,
 } from "./actions";
+import * as actions from "./actions";
 import { CollectionActionTypes } from "./types";
 
 export const fetchCardsBySet =
@@ -88,4 +89,30 @@ export const addCards =
         dispatch(addCardsSuccess());
       })
       .catch((error) => dispatch(addCardsFailure()));
+  };
+
+export const deleteCards =
+  (
+    userCardIds: number[]
+  ): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
+  (dispatch) => {
+    dispatch(actions.deleteCardsRequest());
+
+    fetch(`/api/collection/delete/bulk`, {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({ userCardIds }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        dispatch(actions.deleteCardsSuccess(userCardIds));
+      })
+      .catch((error) => dispatch(actions.deleteCardsFailure()));
   };
