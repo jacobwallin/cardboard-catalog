@@ -187,7 +187,7 @@ export default function CollectionSubset(props: Props) {
         </Styled.AddCardsContainer>
       )}
       <DataTableContainer>
-        {deleteCardsToggle ? (
+        {deleteCardsToggle && (
           <DataTable
             dense
             actions={
@@ -212,7 +212,8 @@ export default function CollectionSubset(props: Props) {
             selectableRows
             onSelectedRowsChange={addSelectedCardsChange}
           />
-        ) : (
+        )}
+        {!deleteCardsToggle && (
           <DataTable
             dense
             actions={
