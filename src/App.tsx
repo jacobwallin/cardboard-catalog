@@ -13,6 +13,7 @@ import {
   PageNotFound,
   Admin,
 } from "./components/Views";
+import Browse from "./components/browse/Browse";
 import Login from "./components/login/Login";
 import SetPage from "./components/Collection/set_page/SetPage";
 import SubsetPage from "./components/Collection/subset_page/SubsetPage";
@@ -46,6 +47,9 @@ function App() {
               {/* TODO: change to render components as child components and use hooks */}
               <Route exact path={`/set/:setId`} component={SetPage} />
               <Route exact path={`/subset/:subsetId`} component={SubsetPage} />
+              <Route path="/browse">
+                <Browse />
+              </Route>
               <Route path="/transactions">
                 <Transactions />
               </Route>

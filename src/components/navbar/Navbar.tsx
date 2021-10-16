@@ -44,7 +44,14 @@ export default function Navbar() {
               className="navbar-link"
               onClick={toggleHamburgerActive}
             >
-              Add Cards
+              Quick Add
+            </Styled.StyledLink>
+            <Styled.StyledLink
+              to="/browse"
+              className="navbar-link"
+              onClick={toggleHamburgerActive}
+            >
+              Browse
             </Styled.StyledLink>
             {user.isAdmin && (
               <Styled.StyledLink
