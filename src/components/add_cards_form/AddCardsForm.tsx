@@ -5,8 +5,6 @@ import { Card } from "../../store/library/series/types";
 import { fetchAllSetData } from "../../store/library/sets/thunks";
 import { fetchAllGradingCompanies } from "../../store/library/grading_companies/thunks";
 import { addCards } from "../../store/collection/browse/thunks";
-import CollectionWrapper from "../shared/CollectionWrapper";
-import CollectionContainer from "../shared/CollectionContainer";
 import AddCardsLine from "./add_cards_line/AddCardsLine";
 import StyledButton from "../Admin/components/StyledButton";
 import SelectCardForm from "./select_card_form/SelectCardForm";
@@ -191,64 +189,58 @@ export default function AddCardsForm(props: Props) {
   };
 
   return (
-    <CollectionWrapper>
-      <CollectionContainer>
-        <Styled.FormContainer>
-          <h2>Add Cards to Your Collection</h2>
-          {!props.formData && (
-            <SelectCardForm cardData={cardData} addCard={addCard} />
-          )}
-          <Styled.SubmitContainer>
-            <Styled.TotalCardsLabel>
-              {cardData.length > 0
-                ? `Total Cards: ${cardData.length}`
-                : "No Cards Selected"}
-            </Styled.TotalCardsLabel>
-            <StyledButton
-              id="submit-cards-button"
-              onClick={handleSubmit}
-              disabled={isPostingCards || cardData.length === 0}
-              color="GREEN"
-              height="40px"
-              width="130px"
-            >
-              Submit
-            </StyledButton>
-          </Styled.SubmitContainer>
+    <Styled.FormContainer>
+      <h2>Add Cards to Your Collection</h2>
+      {!props.formData && (
+        <SelectCardForm cardData={cardData} addCard={addCard} />
+      )}
+      <Styled.SubmitContainer>
+        <Styled.TotalCardsLabel>
+          {cardData.length > 0
+            ? `Total Cards: ${cardData.length}`
+            : "No Cards Selected"}
+        </Styled.TotalCardsLabel>
+        <StyledButton
+          id="submit-cards-button"
+          onClick={handleSubmit}
+          disabled={isPostingCards || cardData.length === 0}
+          color="GREEN"
+          height="40px"
+          width="130px"
+        >
+          Submit
+        </StyledButton>
+      </Styled.SubmitContainer>
 
-          {validationError && (
-            <Styled.SubmitError>Fix Errors to Submit</Styled.SubmitError>
-          )}
-          {((cardsSuccessfullyAdded > 0 && cardData.length === 0) ||
-            postingCardsStatus === "FAILURE") && (
-            <Styled.PostResultMessage
-              success={postingCardsStatus !== "FAILURE"}
-            >
-              {postingCardsStatus !== "FAILURE"
-                ? `${cardsSuccessfullyAdded} cards have been added to your collection`
-                : "Error Adding Cards to Collection"}
-            </Styled.PostResultMessage>
-          )}
+      {validationError && (
+        <Styled.SubmitError>Fix Errors to Submit</Styled.SubmitError>
+      )}
+      {((cardsSuccessfullyAdded > 0 && cardData.length === 0) ||
+        postingCardsStatus === "FAILURE") && (
+        <Styled.PostResultMessage success={postingCardsStatus !== "FAILURE"}>
+          {postingCardsStatus !== "FAILURE"
+            ? `${cardsSuccessfullyAdded} cards have been added to your collection`
+            : "Error Adding Cards to Collection"}
+        </Styled.PostResultMessage>
+      )}
 
-          <Styled.CardDataContainer>
-            {cardData.map((card, index) => {
-              return (
-                <AddCardsLine
-                  key={String(card.cardId) + String(index)}
-                  serialized={series.serialized}
-                  index={index}
-                  card={card}
-                  clearGradeData={clearGradeData}
-                  handleDelete={handleDeleteCard}
-                  handleSerializedChange={handleSerializedChange}
-                  handleGradeChange={handleGradeChange}
-                  handleGradingCompanyIdChange={handleGradingCompanyIdChange}
-                />
-              );
-            })}
-          </Styled.CardDataContainer>
-        </Styled.FormContainer>
-      </CollectionContainer>
-    </CollectionWrapper>
+      <Styled.CardDataContainer>
+        {cardData.map((card, index) => {
+          return (
+            <AddCardsLine
+              key={String(card.cardId) + String(index)}
+              serialized={series.serialized}
+              index={index}
+              card={card}
+              clearGradeData={clearGradeData}
+              handleDelete={handleDeleteCard}
+              handleSerializedChange={handleSerializedChange}
+              handleGradeChange={handleGradeChange}
+              handleGradingCompanyIdChange={handleGradingCompanyIdChange}
+            />
+          );
+        })}
+      </Styled.CardDataContainer>
+    </Styled.FormContainer>
   );
 }
