@@ -64,6 +64,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
           title={librarySubset.name}
           handleBrowseClick={showChecklistClicked}
           handleCollectionClick={showCollectionClicked}
+          collectionSelected={showCollection}
         />
         {!loading &&
           (!showCollection ? (

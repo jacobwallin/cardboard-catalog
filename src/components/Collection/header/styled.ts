@@ -29,7 +29,10 @@ export const FilterBrowse = styled.div`
   margin-left: 10px;
 `;
 
-export const StyledLink = styled.div<{ location: "LEFT" | "RIGHT" }>`
+export const StyledLink = styled.div<{
+  location: "LEFT" | "RIGHT";
+  selected: boolean;
+}>`
   width: 80px;
   height: 25px;
   font-size: 0.9rem;
@@ -37,7 +40,7 @@ export const StyledLink = styled.div<{ location: "LEFT" | "RIGHT" }>`
   text-align: center;
   text-decoration: none;
   color: white;
-  background-color: #5a9bfd;
+  background-color: ${(props) => (props.selected ? "#4182e4" : "#5a9bfd")};
   &:hover {
     background-color: #4182e4;
     cursor: pointer;
@@ -48,7 +51,7 @@ export const StyledLink = styled.div<{ location: "LEFT" | "RIGHT" }>`
   &:visited {
     color: white;
   }
-  border-left: ${(props) => props.location === "RIGHT" && "1px solid grey"};
+  border-left: ${(props) => props.location === "RIGHT" && "1px solid #5a9bfd"};
   border-top-left-radius: ${(props) => props.location === "LEFT" && "13px"};
   border-bottom-left-radius: ${(props) => props.location === "LEFT" && "13px"};
   border-top-right-radius: ${(props) => props.location === "RIGHT" && "13px"};
