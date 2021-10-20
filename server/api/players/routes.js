@@ -55,6 +55,10 @@ router.post("/bulk", isAdmin, async (req, res, next) => {
     );
     res.json(createdPlayers);
   } catch (error) {
+    if (error.errors && error.errors[0].message === "name must be unique") {
+      error.message = `Player ${error.errors[0].value} already exists.`;
+    }
+
     next(error);
   }
 });
