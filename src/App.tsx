@@ -50,7 +50,7 @@ function App() {
               <Route path="/browse">
                 <Browse />
               </Route>
-              <Route path="/transactions">
+              <Route path="/add">
                 <Transactions />
               </Route>
               <AdminRoute path="/admin">
