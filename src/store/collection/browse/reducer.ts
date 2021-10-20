@@ -50,7 +50,13 @@ export default function collectionReducer(
     case CLEAR_COLLECTION:
       return initialState;
     case ADD_CARDS_SUCCESS:
-      return initialState;
+      return {
+        ...initialState,
+        cardsInSingleSubset: {
+          cards: [...state.cardsInSingleSubset.cards, ...action.newCards],
+          subsetId: state.cardsInSingleSubset.subsetId,
+        },
+      };
     case DELETE_CARDS_SUCCESS:
       return {
         ...initialState,

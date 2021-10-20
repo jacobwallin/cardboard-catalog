@@ -54,7 +54,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
 
   // DataTable wants a string[] ???
   const tableData: any = createTableData(librarySubset, userCardsInSubset);
-  const idk: any = createUserCardTableData(librarySubset, userCardsInSubset);
+  const idk: any = createUserCardTableData(tableData, userCardsInSubset);
 
   return (
     <CollectionWrapper>

@@ -63,7 +63,7 @@ router.get("/subset/:subsetId", async (req, res, next) => {
       include: [
         {
           model: Card,
-
+          attributes: [],
           include: {
             model: CardData,
           },

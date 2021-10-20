@@ -68,6 +68,7 @@ interface AddCardsRequest {
 }
 interface AddCardsSuccess {
   type: typeof ADD_CARDS_SUCCESS;
+  newCards: UserCard[];
 }
 interface AddCardsFailure {
   type: typeof ADD_CARDS_FAILURE;
@@ -150,35 +151,4 @@ export interface UserCard {
   cardId: number;
   gradingCompanyId: number | null;
   grade: number | null;
-  card: {
-    id: number;
-    value: number | null;
-    cardDataId: number;
-    seriesId: number;
-    card_datum: {
-      id: number;
-      name: string;
-      number: string;
-      rookie: boolean;
-      createdAt: string;
-      updatedAt: string;
-      playerId: number;
-      subsetId: number;
-      teamId: number;
-    };
-  };
-}
-
-interface Player {
-  id: number;
-  firstName: string;
-  lastName: string;
-  birthday: string;
-  hallOfFame: boolean;
-  card_data_player: {
-    cardDatumId: number;
-    playerId: number;
-    createdAt: string;
-    updatedAt: string;
-  };
 }

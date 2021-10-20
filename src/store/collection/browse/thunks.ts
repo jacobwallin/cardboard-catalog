@@ -85,8 +85,8 @@ export const addCards =
       body: JSON.stringify({ cardsToAdd: cardData }),
     })
       .then((response) => response.json())
-      .then((responseJson) => {
-        dispatch(addCardsSuccess());
+      .then((newCards) => {
+        dispatch(addCardsSuccess(newCards));
       })
       .catch((error) => dispatch(addCardsFailure()));
   };

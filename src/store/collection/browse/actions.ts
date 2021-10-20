@@ -74,8 +74,11 @@ export const getSingleSubsetCardsError = (
 export const addCardsRequest = (): CollectionActionTypes => ({
   type: ADD_CARDS_REQUEST,
 });
-export const addCardsSuccess = (): CollectionActionTypes => ({
+export const addCardsSuccess = (
+  newCards: UserCard[]
+): CollectionActionTypes => ({
   type: ADD_CARDS_SUCCESS,
+  newCards,
 });
 export const addCardsFailure = (): CollectionActionTypes => ({
   type: ADD_CARDS_FAILURE,
