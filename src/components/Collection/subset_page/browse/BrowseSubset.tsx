@@ -123,7 +123,6 @@ export default function BrowseSubset(props: Props) {
       <DataTableContainer>
         <DataTable
           dense
-          title="Checklist"
           actions={
             <StyledButton
               color={checklistToggleSelect ? "YELLOW" : "GRAY"}

@@ -14,6 +14,7 @@ export const PageTitle = styled.div`
   font-size: 1.4rem;
   margin-bottom: 30px;
   font-weight: 600;
+  align-self: flex-start;
 `;
 
 export const SelectParallel = styled.div`

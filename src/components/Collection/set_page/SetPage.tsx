@@ -43,10 +43,6 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
     dispatch(fetchSet(setId));
   }, []);
 
-  if (isLoading) {
-    return <h1>LOADING</h1>;
-  }
-
   return (
     <CollectionWrapper>
       <CollectionContainer>
