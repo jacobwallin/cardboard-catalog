@@ -16,7 +16,7 @@ import { customStyles } from "../shared/dataTableStyles";
 
 const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
 
-const CardsByYearPage = () => {
+const SelectYear = () => {
   const cardsBySet = useSelector(
     (state: RootState) => state.collection.browse.cardsBySet
   );
@@ -62,4 +62,4 @@ const CardsByYearPage = () => {
   );
 };
 
-export default CardsByYearPage;
+export default SelectYear;

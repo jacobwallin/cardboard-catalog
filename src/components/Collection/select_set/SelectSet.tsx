@@ -18,7 +18,7 @@ const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
 
 type TParams = { year: string };
 
-const AllSetsPage: React.FC<RouteComponentProps<TParams>> = (props) => {
+const SelectSet: React.FC<RouteComponentProps<TParams>> = (props) => {
   const dispatch = useDispatch();
 
   const cardsBySetForYear = useSelector(
@@ -63,4 +63,4 @@ const AllSetsPage: React.FC<RouteComponentProps<TParams>> = (props) => {
   );
 };
 
-export default AllSetsPage;
+export default SelectSet;

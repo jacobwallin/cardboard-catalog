@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouteMatch, Route, Switch, Redirect } from "react-router-dom";
-import CardsByYearPage from "./main_page/CardsByYearPage";
-import AllSetsPage from "./all_sets_page/AllSetsPage";
+import SelectYear from "./select_year/SelectYear";
+import SelectSet from "./select_set/SelectSet";
 import CollectionHeader from "./header/CollectionHeader";
 import FilterPage from "./filter/FilterPage";
 import CollectionWrapper from "../shared/CollectionWrapper";
@@ -14,9 +14,9 @@ export default function Collection() {
       <CollectionContainer>
         <CollectionHeader title="Your Collection" />
         <Switch>
-          <Route exact path={path} component={CardsByYearPage} />
+          <Route exact path={path} component={SelectYear} />
           <Route exact path={`${path}/filter`} component={FilterPage} />
-          <Route exact path={`${path}/:year`} component={AllSetsPage} />
+          <Route exact path={`${path}/:year`} component={SelectSet} />
           <Route>
             <Redirect to="/404" />
           </Route>
