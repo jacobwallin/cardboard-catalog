@@ -12,7 +12,6 @@ import {
   CollectionData,
 } from "../shared";
 import columns from "./dataTableColumns";
-import { customStyles } from "../shared/dataTableStyles";
 
 const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
 
@@ -55,7 +54,6 @@ const SelectSet: React.FC<RouteComponentProps<TParams>> = (props) => {
           data={cardsBySetForYear}
           highlightOnHover
           theme="grey"
-          customStyles={customStyles}
           dense
         />
       </DataTableContainer>

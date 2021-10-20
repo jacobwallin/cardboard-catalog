@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
 import React from "react";
+import SubtleLink from "../../shared/SubtleLink";
 import tableStyles from "../shared/dataTableStyles";
 import StyledLink from "../shared/StyledLink";
 
@@ -8,7 +8,9 @@ const columns = [
     name: "Year",
     selector: "year",
     sortable: true,
-    cell: (row: any) => <Link to={`/collection/${row.year}`}>{row.year}</Link>,
+    cell: (row: any) => (
+      <SubtleLink to={`/collection/${row.year}`}>{row.year}</SubtleLink>
+    ),
     minWidth: "50px",
     style: tableStyles,
     grow: 2,

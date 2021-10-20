@@ -12,7 +12,6 @@ import {
   CollectionData,
   DataTableTitle,
 } from "../shared";
-import { customStyles } from "../shared/dataTableStyles";
 
 const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
 
@@ -54,7 +53,6 @@ const SelectYear = () => {
           data={aggregateCardsByYear(cardsBySet)}
           highlightOnHover
           theme="grey"
-          customStyles={customStyles}
           dense
         />
       </DataTableContainer>

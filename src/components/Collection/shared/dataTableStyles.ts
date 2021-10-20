@@ -20,10 +20,6 @@ createTheme("grey", {
     hover: "rgba(0,0,0,.08)",
     disabled: "rgba(0,0,0,.12)",
   },
-  highlightOnHover: {
-    default: "#d3d3d3",
-    text: "rgba(0, 0, 0, 0.87)",
-  },
 });
 
 export const tableStyles = {
