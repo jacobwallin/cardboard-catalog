@@ -75,10 +75,12 @@ export const addCardsRequest = (): CollectionActionTypes => ({
   type: ADD_CARDS_REQUEST,
 });
 export const addCardsSuccess = (
-  newCards: UserCard[]
+  newCards: UserCard[],
+  subsetId: number
 ): CollectionActionTypes => ({
   type: ADD_CARDS_SUCCESS,
   newCards,
+  subsetId,
 });
 export const addCardsFailure = (): CollectionActionTypes => ({
   type: ADD_CARDS_FAILURE,

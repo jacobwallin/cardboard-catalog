@@ -70,7 +70,7 @@ export default function BrowseSubset(props: Props) {
       {showAddCardForm && (
         <Background>
           <ModalWindow>
-            <AddCardsForm formData={addCardFormData} />
+            <AddCardsForm formData={addCardFormData} subsetId={subset.id} />
             <Styled.CloseButtonWrapper style={{ alignSelf: "center" }}>
               <StyledButton
                 color="GRAY"

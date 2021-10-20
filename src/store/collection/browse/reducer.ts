@@ -50,13 +50,17 @@ export default function collectionReducer(
     case CLEAR_COLLECTION:
       return initialState;
     case ADD_CARDS_SUCCESS:
-      return {
-        ...initialState,
-        cardsInSingleSubset: {
-          cards: [...state.cardsInSingleSubset.cards, ...action.newCards],
-          subsetId: state.cardsInSingleSubset.subsetId,
-        },
-      };
+      // if subsetId matches (this means cards were added from subset page and not quick add), append cards
+      if (state.cardsInSingleSubset.subsetId === action.subsetId) {
+        return {
+          ...initialState,
+          cardsInSingleSubset: {
+            cards: [...state.cardsInSingleSubset.cards, ...action.newCards],
+            subsetId: state.cardsInSingleSubset.subsetId,
+          },
+        };
+      }
+      return initialState;
     case DELETE_CARDS_SUCCESS:
       return {
         ...initialState,

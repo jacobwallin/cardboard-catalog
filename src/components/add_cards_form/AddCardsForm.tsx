@@ -31,6 +31,7 @@ const postingCardsStatusSelector = createStatusSelector("ADD_CARDS");
 
 interface Props {
   formData?: CardFormData[];
+  subsetId?: number;
 }
 export default function AddCardsForm(props: Props) {
   const dispatch = useDispatch();
@@ -177,7 +178,8 @@ export default function AddCardsForm(props: Props) {
               newData.gradingCompanyId = card.gradingCompanyId;
             }
             return newData;
-          })
+          }),
+          props.subsetId || 0
         )
       );
 

@@ -69,6 +69,7 @@ interface AddCardsRequest {
 interface AddCardsSuccess {
   type: typeof ADD_CARDS_SUCCESS;
   newCards: UserCard[];
+  subsetId: number;
 }
 interface AddCardsFailure {
   type: typeof ADD_CARDS_FAILURE;

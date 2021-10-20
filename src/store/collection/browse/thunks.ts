@@ -67,7 +67,8 @@ interface CardData {
 
 export const addCards =
   (
-    cardData: CardData[]
+    cardData: CardData[],
+    subsetId: number
   ): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
   (dispatch) => {
     dispatch(addCardsRequest());
@@ -86,7 +87,7 @@ export const addCards =
     })
       .then((response) => response.json())
       .then((newCards) => {
-        dispatch(addCardsSuccess(newCards));
+        dispatch(addCardsSuccess(newCards, subsetId));
       })
       .catch((error) => dispatch(addCardsFailure()));
   };
