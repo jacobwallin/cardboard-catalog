@@ -12,6 +12,7 @@ import CreateSeriesModal from "./series_modal/CreateSeriesModal";
 import CreateCardModal from "./card_modal/CreateCardModal";
 import CardScrapeModal from "./scrape_cards/CardScrapeModal";
 import CreateButton from "../components/CreateButton";
+import { cardDataSort } from "./dataTableColumns";
 
 import {
   cardsDataTableColumns,
@@ -112,7 +113,8 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
       <WrappedDataTable
         title={`Cards`}
         columns={cardsDataTableColumns}
-        data={subset.card_data}
+        data={subset.card_data.sort(cardDataSort).reverse()}
+        defaultSortFieldId={1}
         highlightOnHover
         pagination
         paginationPerPage={20}

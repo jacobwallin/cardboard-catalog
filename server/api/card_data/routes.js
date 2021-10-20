@@ -139,7 +139,7 @@ router.post("/bulk", async (req, res, next) => {
 });
 
 router.put("/:cardId", isAdmin, async (req, res, next) => {
-  const { name, number, rookie, playerIds, teamId } = req.body;
+  const { name, number, rookie, playerIds, teamId, note } = req.body;
 
   try {
     // get card data instance
@@ -151,6 +151,7 @@ router.put("/:cardId", isAdmin, async (req, res, next) => {
     cardData.number = number;
     cardData.rookie = rookie;
     cardData.teamId = teamId;
+    cardData.note = note;
     // save new values to db
     await cardData.save();
 

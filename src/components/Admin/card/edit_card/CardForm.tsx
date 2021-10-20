@@ -336,6 +336,7 @@ export default function CardForm(props: Props) {
                   teamId,
                   rookie,
                   players.map((player) => player.id),
+                  note,
                 ],
                 [
                   card.name,
@@ -343,6 +344,7 @@ export default function CardForm(props: Props) {
                   card.teamId,
                   card.rookie,
                   card.players.map((player) => player.id),
+                  card.note,
                 ]
               ))
         }
