@@ -15,5 +15,6 @@ export default function aggregateByYear(sets: SetSummary[]): TableRow[] {
 
   return Object.keys(years)
     .sort()
+    .reverse()
     .map((yearString) => ({ year: +yearString }));
 }
