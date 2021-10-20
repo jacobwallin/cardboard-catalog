@@ -7,14 +7,11 @@ const CollectionContainer = styled.div`
   border-left: 1px solid lightgrey;
   height: 100%;
   flex-grow: 1;
-  width: 50%;
+  width: 1000px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  @media only screen and (max-width: 1024px) {
-    width: 75%;
-  }
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1050px) {
     width: 95%;
   }
 `;
