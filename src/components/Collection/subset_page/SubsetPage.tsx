@@ -37,7 +37,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
   );
   const loading = useSelector((state: RootState) => loadingSelector(state));
 
-  const [showCollection, setShowCollection] = useState(true);
+  const [showCollection, setShowCollection] = useState(false);
 
   useEffect(() => {
     // get the complete subset data from the library api and all the user's cards that belong to the subset from the collection api
