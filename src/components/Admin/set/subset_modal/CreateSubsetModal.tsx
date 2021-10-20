@@ -20,7 +20,7 @@ export default function CreateSubsetModal(props: Props) {
   return (
     <ModalBackground>
       <ModalWindow>
-        <h3 style={{ textAlign: "center" }}>Add New Subset</h3>
+        <h3 style={{ textAlign: "center" }}>Create Subset</h3>
         <SubsetForm
           createNew={true}
           handleCancel={props.handleCancel}

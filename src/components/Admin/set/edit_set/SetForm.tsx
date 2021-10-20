@@ -111,7 +111,7 @@ export default function SetForm(props: Props) {
   return (
     <FormContainer>
       <FieldContainer>
-        <FieldTitle>Set Name:</FieldTitle>
+        <FieldTitle>Name:</FieldTitle>
         <FieldData>
           <input
             name="name"
@@ -123,7 +123,7 @@ export default function SetForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Set Year:</FieldTitle>
+        <FieldTitle>Release Date:</FieldTitle>
         <FieldData>
           <input
             name="releaseDate"
@@ -135,7 +135,7 @@ export default function SetForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Set Brand:</FieldTitle>
+        <FieldTitle>Brand:</FieldTitle>
         <FieldData>
           <select
             name="brand"
@@ -155,7 +155,7 @@ export default function SetForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Set League:</FieldTitle>
+        <FieldTitle>League:</FieldTitle>
         <FieldData>
           <select
             name="league"
@@ -196,7 +196,7 @@ export default function SetForm(props: Props) {
         </FieldContainer>
       )}
       <FieldContainer>
-        <FieldTitle>Set Description:</FieldTitle>
+        <FieldTitle>Description:</FieldTitle>
         <FieldData>
           <textarea
             name="description"

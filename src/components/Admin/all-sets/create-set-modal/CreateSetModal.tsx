@@ -56,6 +56,7 @@ export default function CreateSetModal(props: Props) {
   return (
     <ModalBackground>
       <ModalWindow>
+        <h3 style={{ textAlign: "center" }}>Create Set</h3>
         <SetForm
           createNew={true}
           handleSubmit={handleSubmit}

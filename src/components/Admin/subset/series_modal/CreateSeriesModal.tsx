@@ -31,7 +31,7 @@ export default function CreateCardModal(props: Props) {
   return (
     <ModalBackground>
       <ModalWindow>
-        <h3 style={{ textAlign: "center" }}>Create New Series</h3>
+        <h3 style={{ textAlign: "center" }}>Create Series</h3>
         <SeriesForm
           createNew={true}
           handleCancel={props.handleCancel}
