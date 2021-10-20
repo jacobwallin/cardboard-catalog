@@ -5,6 +5,7 @@ import { RootState } from "../../../store";
 import DataTable from "react-data-table-component";
 import { CollectionPageContainer } from "../../Collection/shared";
 import dataTableColumns from "./dataTableColumns";
+import DateTableTitle from "../../shared/DataTableTitle";
 
 export default function SelectSet() {
   // year url param
@@ -13,8 +14,9 @@ export default function SelectSet() {
 
   return (
     <CollectionPageContainer>
+      <DateTableTitle>{`Sets from ${year}`}</DateTableTitle>
       <DataTable
-        title={`Sets from ${year}`}
+        noHeader
         data={sets.filter((set) => set.release_date.slice(0, 4) === year)}
         columns={dataTableColumns}
         dense

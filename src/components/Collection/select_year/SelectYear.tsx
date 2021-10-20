@@ -45,7 +45,7 @@ const SelectYear = () => {
           return (total += +set.distinctCards);
         }, 0)}
       />
-      <DataTableTitle>{`Your Cards by Year`}</DataTableTitle>
+      <DataTableTitle>Select Year</DataTableTitle>
       <DataTableContainer>
         <DataTable
           noHeader

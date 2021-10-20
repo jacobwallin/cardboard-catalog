@@ -46,7 +46,7 @@ const SelectSet: React.FC<RouteComponentProps<TParams>> = (props) => {
           return (totalCards += +set.distinctCards);
         }, 0)}
       />
-      <DataTableTitle>{`Your Sets from ${props.match.params.year}`}</DataTableTitle>
+      <DataTableTitle>{`Sets from ${props.match.params.year}`}</DataTableTitle>
       <DataTableContainer>
         <DataTable
           noHeader
