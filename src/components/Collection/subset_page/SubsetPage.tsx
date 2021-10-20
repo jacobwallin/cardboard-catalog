@@ -8,7 +8,6 @@ import { fetchCardsInSingleSubset } from "../../../store/collection/browse/thunk
 import CollectionWrapper from "../../shared/CollectionWrapper";
 import CollectionContainer from "../../shared/CollectionContainer";
 import { createTableData, createUserCardTableData } from "./createTableData";
-// import dataTableConditionalStyles from "./dataTableConditionalStyles";
 import SubsetHeader from "../header/SubsetHeader";
 import BrowseSubset from "./browse/BrowseSubset";
 import CollectionSubset from "./collection/CollectionSubset";
@@ -61,7 +60,8 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
     <CollectionWrapper>
       <CollectionContainer>
         <SubsetHeader
-          title={librarySubset.name}
+          title={librarySubset.set.name}
+          subTitle={librarySubset.name}
           handleBrowseClick={showChecklistClicked}
           handleCollectionClick={showCollectionClicked}
           collectionSelected={showCollection}

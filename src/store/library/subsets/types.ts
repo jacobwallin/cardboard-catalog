@@ -11,8 +11,20 @@ export interface Subset {
   updatedAt: string;
   setId: number;
   baseSeriesId: number | null;
+  set: Set;
   series: Series[];
   card_data: CardData[];
+}
+
+export interface Set {
+  id: number;
+  name: string;
+  release_date: string;
+  baseSubsetId: number | null;
+  createdAt: string;
+  updatedAt: string;
+  leagueId: number;
+  brandId: number;
 }
 
 export interface Series {

@@ -3,7 +3,7 @@ import * as Styled from "./styled";
 
 interface Props {
   title: string;
-  subTitle?: string;
+  subTitle: string;
   collectionSelected: boolean;
   handleBrowseClick(): void;
   handleCollectionClick(): void;
@@ -12,7 +12,10 @@ interface Props {
 export default function SubsetHeader(props: Props) {
   return (
     <Styled.Container>
-      <Styled.StyledHeader>{props.title}</Styled.StyledHeader>
+      <Styled.TitlesContainer>
+        <Styled.StyledHeader>{props.title}</Styled.StyledHeader>
+        <Styled.StyledSubHeader>{props.subTitle}</Styled.StyledSubHeader>
+      </Styled.TitlesContainer>
       <Styled.FilterBrowse>
         <Styled.StyledLink
           onClick={props.handleBrowseClick}

@@ -9,6 +9,7 @@ const {
   Team,
   Player,
   Card,
+  Set,
 } = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
@@ -25,13 +26,16 @@ router.get("/:subsetId", async (req, res, next) => {
   try {
     // had to separate out these queries, combining all joins into one was taking over 6 seconds
     const subset = await Subset.findByPk(req.params.subsetId, {
-      include: {
-        model: Series,
-        include: {
-          model: Card,
-          attributes: ["id", "value", "seriesId", "cardDataId"],
+      include: [
+        {
+          model: Series,
+          include: {
+            model: Card,
+            attributes: ["id", "value", "seriesId", "cardDataId"],
+          },
         },
-      },
+        { model: Set },
+      ],
     });
 
     const subsetCardData = await Subset.findByPk(req.params.subsetId, {
