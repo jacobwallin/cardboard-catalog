@@ -55,6 +55,7 @@ const CardsByYearPage = () => {
           highlightOnHover
           theme="grey"
           customStyles={customStyles}
+          dense
         />
       </DataTableContainer>
     </CollectionPageContainer>

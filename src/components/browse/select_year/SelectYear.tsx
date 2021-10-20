@@ -20,6 +20,7 @@ export default function SelectYear() {
         data={aggregateByYear(sets)}
         columns={dataTableColumns}
         dense
+        highlightOnHover
       />
     </CollectionPageContainer>
   );

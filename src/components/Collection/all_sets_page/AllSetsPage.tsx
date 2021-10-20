@@ -56,6 +56,7 @@ const AllSetsPage: React.FC<RouteComponentProps<TParams>> = (props) => {
           highlightOnHover
           theme="grey"
           customStyles={customStyles}
+          dense
         />
       </DataTableContainer>
     </CollectionPageContainer>

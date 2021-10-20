@@ -18,6 +18,7 @@ export default function SelectSet() {
         data={sets.filter((set) => set.release_date.slice(0, 4) === year)}
         columns={dataTableColumns}
         dense
+        highlightOnHover
       />
     </CollectionPageContainer>
   );
