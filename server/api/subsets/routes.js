@@ -91,11 +91,11 @@ router.post("/", isAdmin, async (req, res, next) => {
 });
 
 router.put("/:subsetId", isAdmin, async (req, res, next) => {
-  const { name, description, baseSeriesId } = req.body;
+  const { name, description } = req.body;
 
   try {
     await Subset.update(
-      { name, description, baseSeriesId },
+      { name, description },
       { where: { id: req.params.subsetId } }
     );
 
