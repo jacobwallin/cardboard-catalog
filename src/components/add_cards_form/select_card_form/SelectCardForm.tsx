@@ -8,7 +8,7 @@ import { fetchSet } from "../../../store/library/sets/thunks";
 import { fetchSubset } from "../../../store/library/subsets/thunks";
 import { fetchSeriesById } from "../../../store/library/series/thunks";
 import * as Styled from "./styled";
-import { CardActionArea } from "@material-ui/core";
+import sortCardNumbers from "../../../utils/sortCardNumbers";
 
 interface Props {
   addCard(card: CardFormData): void;
@@ -209,17 +209,10 @@ export default function SelectCardForm(props: Props) {
           {series.id === selectedSeriesId &&
             series.cards
               .sort((cardA, cardB) => {
-                const cardNumA = cardA.card_datum.number;
-                const cardNumB = cardB.card_datum.number;
-                if (+cardNumA && +cardNumB) {
-                  return +cardNumA - +cardNumB;
-                }
-                if (cardNumA < cardNumB) {
-                  return 1;
-                } else if (cardNumA > cardNumB) {
-                  return -1;
-                }
-                return 0;
+                return sortCardNumbers(
+                  cardA.card_datum.number,
+                  cardB.card_datum.number
+                );
               })
               .map((card) => {
                 return (

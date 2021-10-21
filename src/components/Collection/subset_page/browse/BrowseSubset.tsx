@@ -16,6 +16,7 @@ import AddCardsForm, {
   CardFormData,
 } from "../../../add_cards_form/AddCardsForm";
 import * as Styled from "../styled";
+import sortCardNumbers from "../../../../utils/sortCardNumbers";
 
 interface Props {
   tableData: any[];
@@ -135,14 +136,19 @@ export default function BrowseSubset(props: Props) {
             </StyledButton>
           }
           columns={columns}
-          data={props.tableData.filter((card: any) => {
-            return selectedSeriesId === 0 || card.seriesId === selectedSeriesId;
-          })}
+          data={props.tableData
+            .filter((card: any) => {
+              return (
+                selectedSeriesId === 0 || card.seriesId === selectedSeriesId
+              );
+            })
+            .sort((a, b) => {
+              return sortCardNumbers(a.cardData.number, b.cardData.number);
+            })}
           highlightOnHover
           pagination
           paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
           paginationPerPage={20}
-          defaultSortField={"Card #"}
           selectableRows={checklistToggleSelect}
           onSelectedRowsChange={addSelectedCardsChange}
         />
