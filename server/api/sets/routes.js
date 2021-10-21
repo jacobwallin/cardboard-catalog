@@ -67,8 +67,6 @@ router.post("/", isAdmin, async (req, res, next) => {
       brandId,
     });
 
-    console.log("new set id:", newSet.id);
-
     // create initial base subset and base series
     let baseSubset = await Subset.create({
       name: "Base Set",

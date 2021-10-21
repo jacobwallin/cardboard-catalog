@@ -60,7 +60,6 @@ router.get("/:subsetId", async (req, res, next) => {
 
     res.json(subsetObj);
   } catch (error) {
-    console.log(error.message);
     res.sendStatus(500);
   }
 });
@@ -68,12 +67,24 @@ router.get("/:subsetId", async (req, res, next) => {
 router.post("/", isAdmin, async (req, res, next) => {
   const { name, description, setId, baseSeriesId } = req.body;
   try {
+    // create new subset
     const createdSubset = await Subset.create({
       name,
       description,
       setId,
       baseSeriesId,
     });
+
+    // create initial base series
+    let baseSeries = await Series.create({
+      name: "Base Set",
+      subsetId: createdSubset.id,
+    });
+
+    // set base series id and save
+    createdSubset.baseSeriesId = baseSeries.id;
+    await createdSubset.save();
+
     res.json(createdSubset);
   } catch (error) {
     next(error);
