@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const StyledLink = styled(Link)`
+export const StyledLink = styled(Link)`
   background: rgb(60, 134, 255);
   padding: 5px 10px;
   border-radius: 3px;
@@ -10,6 +10,7 @@ const StyledLink = styled(Link)`
   color: black;
   &:hover {
     text-decoration: underline;
+    cursor: pointer;
   }
 `;
 

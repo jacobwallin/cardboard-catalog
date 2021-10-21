@@ -92,10 +92,10 @@ export default function CardForm(props: Props) {
 
   // automatically prefill card name to player name
   useEffect(() => {
-    if (players.length === 1) {
+    if (players.length === 1 && !props.bulkAddData) {
       setName(players[0].name);
     }
-  }, [players]);
+  }, [players, props.bulkAddData]);
 
   useEffect(() => {
     if (props.bulkAddData) {

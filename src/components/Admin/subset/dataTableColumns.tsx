@@ -1,5 +1,5 @@
 import React from "react";
-import EditLink from "../components/EditLink";
+import EditLink, { StyledLink } from "../components/EditLink";
 import { CardData, Series } from "../../../store/library/subsets/types";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
 
@@ -29,63 +29,71 @@ export const seriesDataTableColumns = [
   },
 ];
 
-export const cardsDataTableColumns = [
-  {
-    name: "Card Number",
-    selector: (row: CardData) => row.number,
-    sortFunction: (rowA: CardData, rowB: CardData) => {
-      return sortCardNumbers(rowA.number, rowB.number);
+export function cardsDataTableColumns(
+  editToggle: (cardDataId: CardData) => void
+) {
+  return [
+    {
+      name: "Card Number",
+      selector: (row: CardData) => row.number,
+      sortFunction: (rowA: CardData, rowB: CardData) => {
+        return sortCardNumbers(rowA.number, rowB.number);
+      },
+      sortable: true,
     },
-    sortable: true,
-  },
-  {
-    name: "Name",
-    selector: (row: CardData) => row.name,
-    sortable: true,
-  },
-  {
-    name: "Note",
-    selector: (row: CardData) => row.note,
-    sortable: true,
-  },
-  {
-    name: "Player(s)",
-    sortable: false,
-    cell: (row: CardData) =>
-      row.players.length > 0
-        ? row.players.map((player) => player.name + " ")
-        : "",
-  },
-  {
-    name: "Team",
-    sortable: true,
-    selector: (row: CardData) => row.team,
-    sortFunction: (rowA: CardData, rowB: CardData) => {
-      let a: string | null = rowA.team ? rowA.team.name : null;
-      let b: string | null = rowB.team ? rowB.team.name : null;
-
-      if (a === null) return -1;
-      if (b === null) return 1;
-
-      if (a < b) {
-        return 1;
-      } else if (a > b) {
-        return -1;
-      }
-      return 0;
+    {
+      name: "Name",
+      selector: (row: CardData) => row.name,
+      sortable: true,
     },
-    cell: (row: CardData) => (row.team ? row.team.name : "-"),
-  },
-  {
-    name: "Rookie",
-    selector: (row: CardData) => row.rookie,
-    sortable: true,
-    cell: (row: CardData) => (row.rookie ? "RC" : ""),
-  },
-  {
-    name: "",
-    sortable: false,
-    cell: (row: CardData) => <EditLink to={`/admin/edit/card/${row.id}`} />,
-    grow: 0,
-  },
-];
+    {
+      name: "Note",
+      selector: (row: CardData) => row.note,
+      sortable: true,
+    },
+    {
+      name: "Player(s)",
+      sortable: false,
+      cell: (row: CardData) =>
+        row.players.length > 0
+          ? row.players.map((player) => player.name + " ")
+          : "",
+    },
+    {
+      name: "Team",
+      sortable: true,
+      selector: (row: CardData) => row.team,
+      sortFunction: (rowA: CardData, rowB: CardData) => {
+        let a: string | null = rowA.team ? rowA.team.name : null;
+        let b: string | null = rowB.team ? rowB.team.name : null;
+
+        if (a === null) return -1;
+        if (b === null) return 1;
+
+        if (a < b) {
+          return 1;
+        } else if (a > b) {
+          return -1;
+        }
+        return 0;
+      },
+      cell: (row: CardData) => (row.team ? row.team.name : "-"),
+    },
+    {
+      name: "Rookie",
+      selector: (row: CardData) => row.rookie,
+      sortable: true,
+      cell: (row: CardData) => (row.rookie ? "RC" : ""),
+    },
+    {
+      name: "",
+      sortable: false,
+      cell: (row: CardData) => (
+        <StyledLink as="div" onClick={() => editToggle(row)}>
+          Edit
+        </StyledLink>
+      ),
+      grow: 0,
+    },
+  ];
+}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { RootState } from "../../../store";
+import { CardData } from "../../../store/library/subsets/types";
 import { fetchSubset } from "../../../store/library/subsets/thunks";
 import WrappedDataTable from "../components/WrappedDataTable";
 import { createLoadingSelector } from "../../../store/loading/reducer";
@@ -10,6 +11,7 @@ import AdminPageContainer from "../components/AdminPageContainer";
 import CreateSeriesModal from "./series_modal/CreateSeriesModal";
 import CreateCardModal from "./card_modal/CreateCardModal";
 import CardScrapeModal from "./scrape_cards/CardScrapeModal";
+import EditCardModal from "./edit_card_modal/EditCardModal";
 import CreateButton from "../components/CreateButton";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
 import * as Styled from "./styled";
@@ -22,6 +24,7 @@ import {
 const isLoadingSelector = createLoadingSelector(["GET_SUBSET"]);
 const creatingCardSelector = createLoadingSelector(["CREATE_CARD"]);
 const creatingSeriesSelector = createLoadingSelector(["CREATE_SERIES"]);
+const updatingCardSelector = createLoadingSelector(["UPDATE_CARD"]);
 
 interface Params {
   subsetId: string;
@@ -31,6 +34,9 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
   const [showCreateSeriesModal, setShowCreateSeriesModal] = useState(false);
   const [showCreateCardModal, setShowCreateCardModal] = useState(false);
   const [showScrapeCardModal, setShowScrapeCardModal] = useState(false);
+  const [editCardData, setEditCardData] = useState<CardData | undefined>(
+    undefined
+  );
 
   const dispatch = useDispatch();
 
@@ -40,6 +46,9 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
   const creatingCard = useSelector((state: RootState) =>
     creatingCardSelector(state)
+  );
+  const updatingCard = useSelector((state: RootState) =>
+    updatingCardSelector(state)
   );
   const creatingSeries = useSelector((state: RootState) =>
     creatingSeriesSelector(state)
@@ -60,6 +69,11 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
       setShowCreateSeriesModal(false);
     }
   }, [creatingSeries]);
+  useEffect(() => {
+    if (!updatingCard) {
+      setEditCardData(undefined);
+    }
+  }, [updatingCard]);
 
   function toggleCreateSeriesModal() {
     setShowCreateSeriesModal(!showCreateSeriesModal);
@@ -69,6 +83,12 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
   }
   function toggleScrapeCardModal() {
     setShowScrapeCardModal(!showScrapeCardModal);
+  }
+  function showEditCardModal(cardData: CardData) {
+    setEditCardData(cardData);
+  }
+  function hideEditCardModal() {
+    setEditCardData(undefined);
   }
 
   const baseSeries = subset.series.find((series) => {
@@ -93,6 +113,12 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
         <CardScrapeModal
           handleCancel={toggleScrapeCardModal}
           subsetId={+props.match.params.subsetId}
+        />
+      )}
+      {editCardData && (
+        <EditCardModal
+          cardData={editCardData}
+          handleCancel={hideEditCardModal}
         />
       )}
       <Styled.Header> {`${subset.name}`} </Styled.Header>
@@ -129,7 +155,7 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
       />
       <WrappedDataTable
         title={`Cards`}
-        columns={cardsDataTableColumns}
+        columns={cardsDataTableColumns(showEditCardModal)}
         data={subset.card_data.sort((a, b) => {
           return sortCardNumbers(a.number, b.number);
         })}
