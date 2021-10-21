@@ -1,5 +1,4 @@
 import { UserCard } from "../../../store/collection/filter/types";
-import { TDocumentDefinitions } from "pdfmake/interfaces";
 
 function createPdfData(
   cards: UserCard[],
