@@ -5,6 +5,8 @@ import {
   UPDATE_SUBSET_SUCCESS,
   CREATE_SERIES_SUCCESS,
   CREATE_CARD_SUCCESS,
+  UPDATE_CARD_SUCCESS,
+  DELETE_CARD_SUCCESS,
   CLEAR_LIBRARY,
 } from "./types";
 
@@ -58,6 +60,27 @@ const subsetsReducer = (
         subset: {
           ...state.subset,
           card_data: [...state.subset.card_data, action.card],
+        },
+      };
+    case UPDATE_CARD_SUCCESS:
+      return {
+        subset: {
+          ...state.subset,
+          card_data: state.subset.card_data.map((cardData) => {
+            if (cardData.id === action.updatedCard.id) {
+              return action.updatedCard;
+            }
+            return cardData;
+          }),
+        },
+      };
+    case DELETE_CARD_SUCCESS:
+      return {
+        subset: {
+          ...state.subset,
+          card_data: state.subset.card_data.filter(
+            (cardData) => cardData.id !== action.cardDataId
+          ),
         },
       };
     case CLEAR_LIBRARY:

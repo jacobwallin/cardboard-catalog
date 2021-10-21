@@ -142,3 +142,58 @@ export const createCard =
         dispatch(actions.createCardFailure());
       });
   };
+
+export const updateCard =
+  (
+    cardDataId: number,
+    cardData: {
+      name: string;
+      number: string;
+      rookie: boolean;
+      teamId: number | undefined;
+      note: string;
+      playerIds: number[];
+    }
+  ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
+  (dispatch) => {
+    dispatch(actions.updateCardRequest());
+    fetch(`/api/carddata/${cardDataId}`, {
+      method: "PUT",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify(cardData),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((updatedCard) => {
+        dispatch(actions.updateCardSuccess(updatedCard));
+      })
+      .catch((error) => {
+        dispatch(actions.updateCardFailure());
+      });
+  };
+
+export const deleteCard =
+  (
+    cardDataId: number
+  ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
+  (dispatch) => {
+    dispatch(actions.deleteCardRequest());
+    fetch(`/api/carddata/${cardDataId}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((deleteStatus) => {
+        dispatch(actions.deleteCardSuccess());
+      })
+      .catch((error) => dispatch(actions.deleteCardSuccess()));
+  };

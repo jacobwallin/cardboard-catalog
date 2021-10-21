@@ -19,6 +19,12 @@ import {
   CREATE_CARD_REQUEST,
   CREATE_CARD_SUCCESS,
   CREATE_CARD_FAILURE,
+  UPDATE_CARD_FAILURE,
+  UPDATE_CARD_REQUEST,
+  UPDATE_CARD_SUCCESS,
+  DELETE_CARD_FAILURE,
+  DELETE_CARD_REQUEST,
+  DELETE_CARD_SUCCESS,
   CLEAR_LIBRARY,
 } from "./types";
 
@@ -81,4 +87,29 @@ export const createCardSuccess = (card: CardData): SubsetActionTypes => ({
 });
 export const createCardFailure = (): SubsetActionTypes => ({
   type: CREATE_CARD_FAILURE,
+});
+
+export const updateCardRequest = (): SubsetActionTypes => ({
+  type: UPDATE_CARD_REQUEST,
+});
+
+export const updateCardSuccess = (
+  updatedCard: CardData
+): SubsetActionTypes => ({
+  type: UPDATE_CARD_SUCCESS,
+  updatedCard,
+});
+export const updateCardFailure = (): SubsetActionTypes => ({
+  type: UPDATE_CARD_FAILURE,
+});
+
+export const deleteCardRequest = (): SubsetActionTypes => ({
+  type: DELETE_CARD_REQUEST,
+});
+export const deleteCardSuccess = (cardDataId: number): SubsetActionTypes => ({
+  type: DELETE_CARD_SUCCESS,
+  cardDataId,
+});
+export const deleteCardFailure = (): SubsetActionTypes => ({
+  type: DELETE_CARD_FAILURE,
 });
