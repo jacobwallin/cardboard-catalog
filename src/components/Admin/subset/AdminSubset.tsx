@@ -6,7 +6,6 @@ import { fetchSubset } from "../../../store/library/subsets/thunks";
 import WrappedDataTable from "../components/WrappedDataTable";
 import { createLoadingSelector } from "../../../store/loading/reducer";
 import EditSubset from "./subset_form/EditSubset";
-import EditFormHeader from "../components/EditFormHeader";
 import AdminPageContainer from "../components/AdminPageContainer";
 import CreateSeriesModal from "./series_modal/CreateSeriesModal";
 import CreateCardModal from "./card_modal/CreateCardModal";
