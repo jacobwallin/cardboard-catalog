@@ -193,7 +193,7 @@ export const deleteCard =
         return response.json();
       })
       .then((deleteStatus) => {
-        dispatch(actions.deleteCardSuccess());
+        dispatch(actions.deleteCardSuccess(cardDataId));
       })
-      .catch((error) => dispatch(actions.deleteCardSuccess()));
+      .catch((error) => dispatch(actions.deleteCardFailure()));
   };
