@@ -34,8 +34,7 @@ export default function CreateSetModal(props: Props) {
     release_date: string,
     description: string,
     leagueId: number,
-    brandId: number,
-    baseSubsetId: number | null
+    brandId: number
   ) {
     // this will dismiss modal once reequest is successful from server
     setSetCreated(true);
@@ -48,7 +47,6 @@ export default function CreateSetModal(props: Props) {
         description,
         leagueId,
         brandId,
-        baseSubsetId,
       })
     );
   }

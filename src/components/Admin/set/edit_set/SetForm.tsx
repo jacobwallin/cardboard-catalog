@@ -26,8 +26,7 @@ interface Props {
     release_date: string,
     description: string,
     leagueId: number,
-    brandId: number,
-    baseSubsetId: number | null
+    brandId: number
   ): void;
 }
 
@@ -62,19 +61,9 @@ export default function SetForm(props: Props) {
   const [description, setDescription] = useState(
     props.createNew ? "" : singleSet.description
   );
-  const [baseSubsetId, setBaseSubsetId] = useState(
-    props.createNew ? 0 : singleSet.baseSubsetId || 0
-  );
 
   function handleSubmit() {
-    props.handleSubmit(
-      name,
-      releaseDate,
-      description,
-      leagueId,
-      brandId,
-      baseSubsetId === 0 ? null : baseSubsetId
-    );
+    props.handleSubmit(name, releaseDate, description, leagueId, brandId);
   }
 
   function handleInputChange(
@@ -101,9 +90,6 @@ export default function SetForm(props: Props) {
         break;
       case "brand":
         setBrandId(+value);
-        break;
-      case "baseSubset":
-        setBaseSubsetId(+value);
         break;
     }
   }
@@ -174,27 +160,6 @@ export default function SetForm(props: Props) {
           </select>
         </FieldData>
       </FieldContainer>
-      {!props.createNew && (
-        <FieldContainer>
-          <FieldTitle>Base Subset:</FieldTitle>
-          <FieldData>
-            <select
-              name="baseSubset"
-              value={baseSubsetId}
-              onChange={handleSelectChange}
-            >
-              <option value={0}>Select Base Subset</option>
-              {singleSet.subsets.map((subset) => {
-                return (
-                  <option key={subset.id} value={subset.id}>
-                    {subset.name}
-                  </option>
-                );
-              })}
-            </select>
-          </FieldData>
-        </FieldContainer>
-      )}
       <FieldContainer>
         <FieldTitle>Description:</FieldTitle>
         <FieldData>
@@ -226,16 +191,8 @@ export default function SetForm(props: Props) {
                   singleSet.league.id,
                   singleSet.brand.id,
                   singleSet.release_date,
-                  singleSet.baseSubsetId || 0,
                 ],
-                [
-                  name,
-                  description,
-                  leagueId,
-                  brandId,
-                  releaseDate,
-                  baseSubsetId,
-                ]
+                [name, description, leagueId, brandId, releaseDate]
               ))
         }
       />

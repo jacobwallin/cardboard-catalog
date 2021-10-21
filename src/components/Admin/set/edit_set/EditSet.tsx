@@ -65,8 +65,7 @@ export default function EditSet(props: Props) {
     release_date: string,
     description: string,
     leagueId: number,
-    brandId: number,
-    baseSubsetId: number | null
+    brandId: number
   ) {
     dispatch(
       updateSet(props.setId, {
@@ -75,7 +74,6 @@ export default function EditSet(props: Props) {
         description,
         leagueId,
         brandId,
-        baseSubsetId,
       })
     );
   }
@@ -123,15 +121,6 @@ export default function EditSet(props: Props) {
           <FieldContainer>
             <FieldTitle>Set League:</FieldTitle>
             <FieldData>{set.league.name}</FieldData>
-          </FieldContainer>
-          <FieldContainer>
-            <FieldTitle>Base Subset:</FieldTitle>
-            <FieldData>
-              {set.baseSubsetId
-                ? set.subsets.find((subset) => subset.id === set.baseSubsetId!)
-                    ?.name
-                : "NOT SELECTED"}
-            </FieldData>
           </FieldContainer>
           <FieldContainer>
             <FieldTitle>Set Description:</FieldTitle>

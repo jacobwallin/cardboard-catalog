@@ -37,7 +37,6 @@ export const createSet =
     description: string;
     leagueId: number;
     brandId: number;
-    baseSubsetId: number | null;
   }): ThunkAction<void, RootState, unknown, SetsActionTypes> =>
   (dispatch) => {
     dispatch(actions.createSetRequest());
@@ -74,7 +73,6 @@ export const updateSet =
       description: string;
       leagueId: number;
       brandId: number;
-      baseSubsetId: number | null;
     }
   ): ThunkAction<void, RootState, unknown, SetsActionTypes> =>
   (dispatch) => {
