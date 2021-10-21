@@ -13,6 +13,7 @@ import CreateCardModal from "./card_modal/CreateCardModal";
 import CardScrapeModal from "./scrape_cards/CardScrapeModal";
 import CreateButton from "../components/CreateButton";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
+import * as Styled from "./styled";
 
 import {
   cardsDataTableColumns,
@@ -95,7 +96,8 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
           subsetId={+props.match.params.subsetId}
         />
       )}
-      <EditFormHeader text={`${subset.name} Subset`} />
+      <Styled.Header> {`${subset.name}`} </Styled.Header>
+      <Styled.SubHeader>{`${subset.set.name}`}</Styled.SubHeader>
       <EditSubset subsetId={+props.match.params.subsetId} />
       <WrappedDataTable
         title={`Base Set`}
@@ -105,7 +107,7 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
         highlightOnHover
       />
       <WrappedDataTable
-        title={`Series`}
+        title={`Parallels`}
         columns={seriesDataTableColumns}
         data={subset.series
           .filter((series) => {
