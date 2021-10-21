@@ -8,6 +8,7 @@ import { fetchSet } from "../../../store/library/sets/thunks";
 import { fetchSubset } from "../../../store/library/subsets/thunks";
 import { fetchSeriesById } from "../../../store/library/series/thunks";
 import * as Styled from "./styled";
+import { CardActionArea } from "@material-ui/core";
 
 interface Props {
   addCard(card: CardFormData): void;
@@ -206,13 +207,27 @@ export default function SelectCardForm(props: Props) {
         >
           <option value={-1}>Select Card</option>
           {series.id === selectedSeriesId &&
-            series.cards.map((card) => {
-              return (
-                <option key={card.id} value={card.id}>
-                  {`${card.card_datum.number} - ${card.card_datum.name}`}
-                </option>
-              );
-            })}
+            series.cards
+              .sort((cardA, cardB) => {
+                const cardNumA = cardA.card_datum.number;
+                const cardNumB = cardB.card_datum.number;
+                if (+cardNumA && +cardNumB) {
+                  return +cardNumA - +cardNumB;
+                }
+                if (cardNumA < cardNumB) {
+                  return 1;
+                } else if (cardNumA > cardNumB) {
+                  return -1;
+                }
+                return 0;
+              })
+              .map((card) => {
+                return (
+                  <option key={card.id} value={card.id}>
+                    {`${card.card_datum.number} - ${card.card_datum.name}`}
+                  </option>
+                );
+              })}
         </Styled.Select>
 
         <Styled.Input
