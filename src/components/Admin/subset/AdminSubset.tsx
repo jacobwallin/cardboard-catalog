@@ -124,7 +124,7 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
         highlightOnHover
         actions={
           <CreateButton onClick={toggleCreateSeriesModal}>
-            Create Series
+            Create Parallel
           </CreateButton>
         }
       />
