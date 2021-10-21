@@ -2,7 +2,7 @@ const router = require("express").Router();
 
 const { isAdmin } = require("../../middleware");
 
-const { Set, Brand, League, Subset } = require("../../db/models");
+const { Set, Brand, League, Subset, Series } = require("../../db/models");
 
 // get a summary of all sets in the library
 router.get("/", async (req, res, next) => {
@@ -55,24 +55,43 @@ router.get("/:setId", async (req, res, next) => {
 });
 
 router.post("/", isAdmin, async (req, res, next) => {
-  const { name, release_date, description, leagueId, brandId, baseSubsetId } =
-    req.body;
+  const { name, release_date, description, leagueId, brandId } = req.body;
 
   try {
-    const newSet = await Set.create({
+    // create new set
+    let newSet = await Set.create({
       name,
       release_date,
       description,
       leagueId,
       brandId,
-      baseSubsetId,
     });
 
+    console.log("new set id:", newSet.id);
+
+    // create initial base subset and base series
+    let baseSubset = await Subset.create({
+      name: "Base Set",
+      setId: newSet.id,
+    });
+    let baseSeries = await Series.create({
+      name: "Base Set",
+      subsetId: baseSubset.id,
+    });
+
+    // set base series and subset ids and save
+    baseSubset.baseSeriesId = baseSeries.id;
+    await baseSubset.save();
+    newSet.baseSubsetId = baseSubset.id;
+    await newSet.save();
+
+    // eager load created set to include league and brand
     const createdSet = await Set.findByPk(newSet.id, {
       include: [League, Brand],
     });
     res.status(201).json(createdSet);
   } catch (error) {
+    console.log(error);
     res.sendStatus(500);
   }
 });

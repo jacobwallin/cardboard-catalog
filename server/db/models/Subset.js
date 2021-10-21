@@ -8,6 +8,7 @@ const Subset = db.define("subset", {
   },
   description: {
     type: DataTypes.TEXT,
+    defaultValue: "",
   },
   baseSeriesId: {
     type: DataTypes.INTEGER,
