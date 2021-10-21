@@ -1,6 +1,7 @@
 import React from "react";
 import EditLink from "../components/EditLink";
 import { CardData, Series } from "../../../store/library/subsets/types";
+import sortCardNumbers from "../../../utils/sortCardNumbers";
 
 export const seriesDataTableColumns = [
   {
@@ -28,30 +29,13 @@ export const seriesDataTableColumns = [
   },
 ];
 
-export function cardDataSort(cardDataA: CardData, cardDataB: CardData) {
-  let a: string | number = cardDataA.number;
-  let b: string | number = cardDataB.number;
-
-  // convert to number if possible
-  if (+a && +b) {
-    a = +a;
-    b = +b;
-  }
-
-  // compare
-  if (a < b) {
-    return 1;
-  } else if (a > b) {
-    return -1;
-  }
-  return 0;
-}
-
 export const cardsDataTableColumns = [
   {
     name: "Card Number",
     selector: (row: CardData) => row.number,
-    sortFunction: cardDataSort,
+    sortFunction: (rowA: CardData, rowB: CardData) => {
+      return sortCardNumbers(rowA.number, rowB.number);
+    },
     sortable: true,
   },
   {
