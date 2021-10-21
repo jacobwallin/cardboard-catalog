@@ -4,14 +4,19 @@ import { RouteComponentProps } from "react-router-dom";
 import { RootState } from "../../../store";
 import { CardData } from "../../../store/library/subsets/types";
 import { fetchSubset } from "../../../store/library/subsets/thunks";
+import { deleteCard } from "../../../store/library/subsets/thunks";
 import WrappedDataTable from "../components/WrappedDataTable";
-import { createLoadingSelector } from "../../../store/loading/reducer";
+import {
+  createLoadingSelector,
+  createStatusSelector,
+} from "../../../store/loading/reducer";
 import EditSubset from "./subset_form/EditSubset";
 import AdminPageContainer from "../components/AdminPageContainer";
 import CreateSeriesModal from "./series_modal/CreateSeriesModal";
 import CreateCardModal from "./card_modal/CreateCardModal";
 import CardScrapeModal from "./scrape_cards/CardScrapeModal";
 import EditCardModal from "./edit_card_modal/EditCardModal";
+import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
 import CreateButton from "../components/CreateButton";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
 import * as Styled from "./styled";
@@ -21,10 +26,14 @@ import {
   seriesDataTableColumns,
 } from "./dataTableColumns";
 
-const isLoadingSelector = createLoadingSelector(["GET_SUBSET"]);
-const creatingCardSelector = createLoadingSelector(["CREATE_CARD"]);
-const creatingSeriesSelector = createLoadingSelector(["CREATE_SERIES"]);
-const updatingCardSelector = createLoadingSelector(["UPDATE_CARD"]);
+const pageLoadingSelector = createLoadingSelector(["GET_SUBSET"]);
+const modalLoadingSelector = createLoadingSelector([
+  "CREATE_CARD",
+  "CREATE_SERIES",
+  "UPDATE_CARD",
+  "DELETE_CARD",
+]);
+const deletingCardSelector = createStatusSelector("DELETE_CARD");
 
 interface Params {
   subsetId: string;
@@ -37,22 +46,22 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
   const [editCardData, setEditCardData] = useState<CardData | undefined>(
     undefined
   );
-
+  const [deleteCardId, setDeleteCardId] = useState(0);
   const dispatch = useDispatch();
 
   const subset = useSelector(
     (state: RootState) => state.library.subsets.subset
   );
-  const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
-  const creatingCard = useSelector((state: RootState) =>
-    creatingCardSelector(state)
+  const loadingPage = useSelector((state: RootState) =>
+    pageLoadingSelector(state)
   );
-  const updatingCard = useSelector((state: RootState) =>
-    updatingCardSelector(state)
+  const loadingChanges = useSelector((state: RootState) =>
+    modalLoadingSelector(state)
   );
-  const creatingSeries = useSelector((state: RootState) =>
-    creatingSeriesSelector(state)
-  );
+
+  const deletingCardStatus = useSelector((state: RootState) => {
+    return deletingCardSelector(state);
+  });
 
   useEffect(() => {
     dispatch(fetchSubset(+props.match.params.subsetId));
@@ -60,20 +69,13 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
 
   // hide either modal once a card or series has been created
   useEffect(() => {
-    if (!creatingCard) {
+    if (!loadingChanges) {
       setShowCreateCardModal(false);
-    }
-  }, [creatingCard]);
-  useEffect(() => {
-    if (!creatingSeries) {
       setShowCreateSeriesModal(false);
-    }
-  }, [creatingSeries]);
-  useEffect(() => {
-    if (!updatingCard) {
       setEditCardData(undefined);
+      setDeleteCardId(0);
     }
-  }, [updatingCard]);
+  }, [loadingChanges]);
 
   function toggleCreateSeriesModal() {
     setShowCreateSeriesModal(!showCreateSeriesModal);
@@ -89,6 +91,12 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
   }
   function hideEditCardModal() {
     setEditCardData(undefined);
+  }
+  function handleDeleteClick(cardData: CardData) {
+    setDeleteCardId(cardData.id);
+  }
+  function deleteCardData() {
+    dispatch(deleteCard(deleteCardId));
   }
 
   const baseSeries = subset.series.find((series) => {
@@ -119,6 +127,14 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
         <EditCardModal
           cardData={editCardData}
           handleCancel={hideEditCardModal}
+        />
+      )}
+      {deleteCardId !== 0 && (
+        <ConfirmDeleteModal
+          handleDelete={deleteCardData}
+          handleDismiss={() => setDeleteCardId(0)}
+          message="This will delete the card from any user's collections that have it."
+          deleteStatus={deletingCardStatus}
         />
       )}
       <Styled.Header> {`${subset.name}`} </Styled.Header>
@@ -155,7 +171,7 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
       />
       <WrappedDataTable
         title={`Cards`}
-        columns={cardsDataTableColumns(showEditCardModal)}
+        columns={cardsDataTableColumns(showEditCardModal, handleDeleteClick)}
         data={subset.card_data.sort((a, b) => {
           return sortCardNumbers(a.number, b.number);
         })}

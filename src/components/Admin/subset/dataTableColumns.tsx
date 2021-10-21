@@ -1,5 +1,6 @@
 import React from "react";
 import EditLink, { StyledLink } from "../components/EditLink";
+import StyledButton from "../components/StyledButton";
 import { CardData, Series } from "../../../store/library/subsets/types";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
 
@@ -30,7 +31,8 @@ export const seriesDataTableColumns = [
 ];
 
 export function cardsDataTableColumns(
-  editToggle: (cardDataId: CardData) => void
+  editToggle: (cardData: CardData) => void,
+  deleteCard: (cardData: CardData) => void
 ) {
   return [
     {
@@ -89,9 +91,19 @@ export function cardsDataTableColumns(
       name: "",
       sortable: false,
       cell: (row: CardData) => (
-        <StyledLink as="div" onClick={() => editToggle(row)}>
-          Edit
-        </StyledLink>
+        <>
+          <StyledLink as="div" onClick={() => editToggle(row)}>
+            Edit
+          </StyledLink>
+          <StyledButton
+            color="RED"
+            width="25px"
+            height="25px"
+            onClick={() => deleteCard(row)}
+          >
+            X
+          </StyledButton>
+        </>
       ),
       grow: 0,
     },
