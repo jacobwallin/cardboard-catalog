@@ -115,6 +115,7 @@ export default function EditSubset(props: Props) {
           <EditDeleteButtons
             handleEdit={toggleForm}
             handleDelete={toggleDeleteModal}
+            hideDelete={subset.set.baseSubsetId === subset.id}
           />
         </FormContainer>
       )}
