@@ -75,6 +75,7 @@ export const cardsDataTableColumns = [
   {
     name: "Team",
     sortable: true,
+    selector: (row: CardData) => row.team,
     sortFunction: (rowA: CardData, rowB: CardData) => {
       let a: string | null = rowA.team ? rowA.team.name : null;
       let b: string | null = rowB.team ? rowB.team.name : null;
