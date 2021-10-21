@@ -110,7 +110,6 @@ router.delete("/:subsetId", isAdmin, async (req, res, next) => {
   try {
     // find subset
     const subset = await Subset.findByPk(req.params.subsetId);
-    console.log("WTF is this?", subset);
 
     if (subset) {
       // get set that subset to be deleted belongs to

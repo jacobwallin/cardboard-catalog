@@ -138,6 +138,19 @@ router.put("/:seriesId", isAdmin, async (req, res, next) => {
 
 router.delete("/:seriesId", isAdmin, async (req, res, next) => {
   try {
+    // find series
+    const series = await Series.findByPk(req.params.seriesId);
+
+    if (series) {
+      // get set that subset to be deleted belongs to
+      const subset = await Subset.findByPk(series.subsetId);
+
+      // if the subset is the set's base subset, susbet cannot be deleted
+      if (subset.baseSeriesId === series.id) {
+        throw new Error("Cannot delete base series!");
+      }
+    }
+
     const deleteSuccess = await Series.destroy({
       where: { id: req.params.seriesId },
     });
