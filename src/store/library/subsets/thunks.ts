@@ -25,7 +25,6 @@ export const updateSubset =
     subsetData: {
       name: string;
       description: string;
-      baseSeriesId: number | null;
     }
   ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {

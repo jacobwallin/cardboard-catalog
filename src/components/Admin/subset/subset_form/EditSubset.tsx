@@ -64,12 +64,8 @@ export default function EditSubset(props: Props) {
     dispatch(deleteSubset(props.subsetId));
   }
 
-  function handleSubmit(
-    name: string,
-    description: string,
-    baseSeriesId: number | null
-  ) {
-    dispatch(updateSubset(props.subsetId, { name, description, baseSeriesId }));
+  function handleSubmit(name: string, description: string) {
+    dispatch(updateSubset(props.subsetId, { name, description }));
   }
 
   // re-direct to set that the subset belonged to after deletion
@@ -95,21 +91,11 @@ export default function EditSubset(props: Props) {
       ) : (
         <FormContainer>
           <FieldContainer>
-            <FieldTitle>Subset Name:</FieldTitle>
+            <FieldTitle>Name:</FieldTitle>
             <FieldData>{subset.name}</FieldData>
           </FieldContainer>
           <FieldContainer>
-            <FieldTitle>Base Series:</FieldTitle>
-            <FieldData>
-              {subset.baseSeriesId
-                ? subset.series.find(
-                    (series) => series.id === subset.baseSeriesId
-                  )?.name
-                : "NOT SELECTED"}
-            </FieldData>
-          </FieldContainer>
-          <FieldContainer>
-            <FieldTitle>Subset Description:</FieldTitle>
+            <FieldTitle>Description:</FieldTitle>
             <FieldData>{subset.description}</FieldData>
           </FieldContainer>
           <EditDeleteButtons

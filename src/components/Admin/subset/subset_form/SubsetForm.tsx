@@ -13,11 +13,7 @@ const isUpdatingSelector = createLoadingSelector(["UPDATE_SUBSET"]);
 
 interface Props {
   createNew: boolean;
-  handleSubmit(
-    name: string,
-    description: string,
-    baseSeriesId: number | null
-  ): void;
+  handleSubmit(name: string, description: string): void;
   handleCancel(): void;
 }
 
@@ -30,19 +26,13 @@ export default function SubsetForm(props: Props) {
   );
 
   const [name, setName] = useState(props.createNew ? "" : subset.name);
-  const [baseSeriesId, setBaseSeriesId] = useState(
-    props.createNew ? 0 : subset.baseSeriesId || 0
-  );
+
   const [description, setDescription] = useState(
     props.createNew ? "" : subset.description
   );
 
   function handleFormSubmit() {
-    props.handleSubmit(
-      name,
-      description,
-      baseSeriesId === 0 ? null : baseSeriesId
-    );
+    props.handleSubmit(name, description);
   }
 
   function handleInputChange(
@@ -59,10 +49,6 @@ export default function SubsetForm(props: Props) {
     }
   }
 
-  function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    setBaseSeriesId(+event.target.value);
-  }
-
   return (
     <FormContainer>
       <FieldContainer>
@@ -77,28 +63,6 @@ export default function SubsetForm(props: Props) {
           />
         </FieldData>
       </FieldContainer>
-      {!props.createNew && (
-        <FieldContainer>
-          <FieldTitle>Base Series:</FieldTitle>
-          <FieldData>
-            <select
-              name="baseSeriesId"
-              value={baseSeriesId}
-              disabled={isUpdating}
-              onChange={handleSelectChange}
-            >
-              <option value={0}>Select Base Series</option>
-              {subset.series.map((series) => {
-                return (
-                  <option key={series.id} value={series.id}>
-                    {series.name}
-                  </option>
-                );
-              })}
-            </select>
-          </FieldData>
-        </FieldContainer>
-      )}
       <FieldContainer>
         <FieldTitle>Subset Description:</FieldTitle>
         <FieldData>
@@ -120,8 +84,8 @@ export default function SubsetForm(props: Props) {
           (props.createNew
             ? name === ""
             : !detectFormChanges(
-                [subset.name, subset.description, subset.baseSeriesId || 0],
-                [name, description, baseSeriesId]
+                [subset.name, subset.description],
+                [name, description]
               ))
         }
         handleCancel={props.handleCancel}
