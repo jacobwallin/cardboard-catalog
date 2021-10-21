@@ -1,3 +1,4 @@
+import React from "react";
 import tableStyles from "../../shared/dataTableStyles";
 import { TableDataPoint } from "../createTableData";
 import { DeleteTableDataPoint } from "../createTableData";
@@ -42,6 +43,12 @@ export const columns = [
   {
     name: "Name",
     selector: (row: TableDataPoint) => row.cardData.name,
+    cell: (row: TableDataPoint) => (
+      <div>
+        <div>{row.cardData.name}</div>
+        <div style={{ color: "gray" }}>{row.cardData.note}</div>
+      </div>
+    ),
     sortable: true,
     style: modifiedStyles,
     grow: 2,
@@ -104,6 +111,12 @@ export const deleteColumns = [
   {
     name: "Name",
     selector: (row: DeleteTableDataPoint) => row.card.cardData.name,
+    cell: (row: DeleteTableDataPoint) => (
+      <div>
+        <div>{row.card.cardData.name}</div>
+        <div style={{ color: "gray" }}>{row.card.cardData.note}</div>
+      </div>
+    ),
     sortable: true,
     style: modifiedStyles,
     grow: 2,

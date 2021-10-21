@@ -1,3 +1,4 @@
+import React from "react";
 import tableStyles from "../../shared/dataTableStyles";
 import { TableDataPoint } from "../createTableData";
 
@@ -34,6 +35,12 @@ const columns = [
   {
     name: "Name",
     selector: (row: TableDataPoint) => row.cardData.name,
+    cell: (row: TableDataPoint) => (
+      <div>
+        <div>{row.cardData.name}</div>
+        <div style={{ color: "gray" }}>{row.cardData.note}</div>
+      </div>
+    ),
     sortable: true,
     style: modifiedStyles,
     grow: 2,

@@ -6,11 +6,7 @@ import DataTable from "react-data-table-component";
 import { columns, deleteColumns } from "./dataTableColumns";
 import dataTableConditionalStyles from "./dataTableConditionalStyles";
 import { DeleteTableDataPoint } from "../createTableData";
-import {
-  CollectionPageContainer,
-  DataTableContainer,
-  ContentContainer,
-} from "../../shared";
+import { CollectionPageContainer, DataTableContainer } from "../../shared";
 import ModalWindow from "../../../Admin/components/modal/ModalWindow";
 import Background from "../../../shared/Background";
 import StyledButton from "../../../Admin/components/StyledButton";
