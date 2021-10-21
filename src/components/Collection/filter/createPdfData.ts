@@ -38,8 +38,6 @@ function createPdfData(
     ];
   });
 
-  console.log(cardData);
-
   var definitions = {
     content: [
       { text: title, style: "header" },

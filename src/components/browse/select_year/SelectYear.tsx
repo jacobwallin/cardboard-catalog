@@ -12,8 +12,6 @@ export default function SelectYear() {
 
   const tableData = aggregateByYear(sets);
 
-  console.log(tableData);
-
   return (
     <CollectionPageContainer>
       <DateTableTitle>Select Year</DateTableTitle>

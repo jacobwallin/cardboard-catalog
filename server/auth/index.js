@@ -29,7 +29,6 @@ router.post(
       .catch((err) => {
         // set message to error from database
         err.message = err.errors[0].message;
-        console.log(err.message);
         next(err);
       });
   },

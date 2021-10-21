@@ -20,7 +20,6 @@ router.get("/", async (req, res, next) => {
 
     res.json(allSets);
   } catch (error) {
-    console.log(error.message);
     res.sendStatus(500);
   }
 });
@@ -89,7 +88,6 @@ router.post("/", isAdmin, async (req, res, next) => {
     });
     res.status(201).json(createdSet);
   } catch (error) {
-    console.log(error);
     res.sendStatus(500);
   }
 });
@@ -110,7 +108,6 @@ router.put("/:setId", isAdmin, async (req, res, next) => {
 
     res.json(updatedSet);
   } catch (error) {
-    console.log(error.message);
     res.sendStatus(500);
   }
 });

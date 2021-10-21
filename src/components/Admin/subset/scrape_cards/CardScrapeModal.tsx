@@ -97,10 +97,6 @@ export default function CardScrapeModal(props: Props) {
     }
   }
 
-  function handleKeyPress(event: React.KeyboardEvent<HTMLButtonElement>) {
-    console.log(event.key);
-  }
-
   useEffect(() => {
     if (creatingCardStatus === "SUCCESS" && createdCardIdx !== -1) {
       // remove card form data if card is successfully created in db
@@ -133,14 +129,12 @@ export default function CardScrapeModal(props: Props) {
               <GrayButton
                 disabled={currentCardIdx === 0}
                 onClick={previousCard}
-                onKeyDown={handleKeyPress}
               >
                 Previous
               </GrayButton>
               <GrayButton
                 disabled={currentCardIdx >= parsedCards.length - 1}
                 onClick={nextCard}
-                onKeyDown={handleKeyPress}
               >
                 Next
               </GrayButton>

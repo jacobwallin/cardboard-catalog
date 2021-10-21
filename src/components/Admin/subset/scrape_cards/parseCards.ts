@@ -98,7 +98,5 @@ export default function parseCards(
     })
     .filter((cardDatum) => cardDatum.name !== "remove");
 
-  console.log(cardData);
-
   return cardData;
 }

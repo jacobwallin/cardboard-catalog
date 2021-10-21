@@ -80,7 +80,6 @@ router.post("/", isAdmin, async (req, res, next) => {
 // bulk add cards to a subset
 router.post("/bulk", async (req, res, next) => {
   const { cards } = req.body;
-  console.log("WHAT DID WE GET??", req.body);
   try {
     const createdCards = await Promise.all(
       cards.map(async (card) => {

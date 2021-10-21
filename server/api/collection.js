@@ -73,7 +73,6 @@ router.get("/subset/:subsetId", async (req, res, next) => {
 
     res.json(cards);
   } catch (error) {
-    console.log(error.message);
     res.sendStatus(500);
   }
 });
