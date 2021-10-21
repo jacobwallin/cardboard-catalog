@@ -71,9 +71,10 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
     setShowScrapeCardModal(!showScrapeCardModal);
   }
 
-  if (isLoading) {
-    return <h1>LOADING DATA</h1>;
-  }
+  const baseSeries = subset.series.find((series) => {
+    return subset.baseSeriesId === series.id;
+  });
+
   return (
     <AdminPageContainer>
       {showCreateSeriesModal && (
@@ -97,9 +98,24 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
       <EditFormHeader text={`${subset.name} Subset`} />
       <EditSubset subsetId={+props.match.params.subsetId} />
       <WrappedDataTable
+        title={`Base Set`}
+        columns={seriesDataTableColumns}
+        data={baseSeries ? [baseSeries] : []}
+        dense
+        highlightOnHover
+      />
+      <WrappedDataTable
         title={`Series`}
         columns={seriesDataTableColumns}
-        data={subset.series}
+        data={subset.series
+          .filter((series) => {
+            return series.id !== subset.baseSeriesId;
+          })
+          .sort((a, b) => {
+            if (a.name < b.name) return -1;
+            if (a.name > b.name) return 1;
+            return 0;
+          })}
         dense
         pagination
         paginationPerPage={10}

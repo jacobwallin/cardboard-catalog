@@ -73,6 +73,7 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
           <EditSet setId={+props.match.params.setId} />
           <WrappedDataTable
             dense
+            highlightOnHover
             title={`Base Set`}
             columns={columns}
             data={baseSubset ? [baseSubset] : []}
