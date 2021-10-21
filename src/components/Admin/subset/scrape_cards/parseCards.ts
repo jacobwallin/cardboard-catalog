@@ -32,7 +32,7 @@ export default function parseCards(
   }
 
   let cardData = parsedCards
-    .map((cardDatum) => {
+    .map((parsedCard) => {
       let data: CardFormData = {
         number: "",
         name: "",
@@ -42,19 +42,19 @@ export default function parseCards(
         players: [],
       };
 
-      let locator = cardDatum.indexOf(" ");
+      let locator = parsedCard.indexOf(" ");
       if (locator !== -1) {
         // parse out card number
-        data.number = cardDatum.slice(0, locator);
-        cardDatum = cardDatum.slice(locator).trim();
+        data.number = parsedCard.slice(0, locator);
+        parsedCard = parsedCard.slice(locator).trim();
 
-        locator = cardDatum.indexOf("-");
+        locator = parsedCard.indexOf("-");
         if (locator !== -1) {
           // parse out card name
-          data.name = cardDatum.slice(0, locator).trim();
-          cardDatum = cardDatum.slice(locator + 1).trim();
+          data.name = parsedCard.slice(0, locator).trim();
+          parsedCard = parsedCard.slice(locator + 1).trim();
 
-          // TODO:  check if name matches a player or team
+          // check if name matches a player or team
           var team = teams.find((team) => team.name === data.name);
           if (team) {
             data.teamId = team.id;
@@ -65,24 +65,24 @@ export default function parseCards(
             }
           }
 
-          if (cardDatum.length > 0) {
+          if (parsedCard.length > 0) {
             // if it was a team card (team name was card name), return data
             if (team) {
               return data;
             }
 
             // see if remaining string matches team name
-            team = teams.find((team) => team.name === cardDatum);
+            team = teams.find((team) => team.name === parsedCard);
             if (team) {
               data.teamId = team.id;
             } else {
               // slice of last portion of string and see if it is rookie, and check team name again
-              const lastSpaceIdx = cardDatum.lastIndexOf(" ");
-              if (cardDatum.slice(lastSpaceIdx + 1) === "RC") {
+              const lastSpaceIdx = parsedCard.lastIndexOf(" ");
+              if (parsedCard.slice(lastSpaceIdx + 1) === "RC") {
                 data.rookie = true;
               }
               team = teams.find(
-                (team) => team.name === cardDatum.slice(0, lastSpaceIdx)
+                (team) => team.name === parsedCard.slice(0, lastSpaceIdx)
               );
               if (team) {
                 data.teamId = team.id;
@@ -96,7 +96,7 @@ export default function parseCards(
       data.name = "remove";
       return data;
     })
-    .filter((cardDatum) => cardDatum.name !== "remove");
+    .filter((parsedCard) => parsedCard.name !== "remove");
 
   return cardData;
 }
