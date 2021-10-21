@@ -132,6 +132,7 @@ export default function EditCard(props: Props) {
           <EditDeleteButtons
             handleEdit={handleEditStateChange}
             handleDelete={toggleDeleteModal}
+            hideDelete={series.subset.baseSeriesId === series.id}
           />
         </FormContainer>
       )}
