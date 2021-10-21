@@ -65,14 +65,13 @@ router.get("/:subsetId", async (req, res, next) => {
 });
 
 router.post("/", isAdmin, async (req, res, next) => {
-  const { name, description, setId, baseSeriesId } = req.body;
+  const { name, description, setId } = req.body;
   try {
     // create new subset
     const createdSubset = await Subset.create({
       name,
       description,
       setId,
-      baseSeriesId,
     });
 
     // create initial base series
