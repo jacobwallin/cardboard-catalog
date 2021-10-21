@@ -61,6 +61,10 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
     setShowCreateSubsetModal(!showCreateSubsetModal);
   }
 
+  const baseSubset = singleSet.subsets.find((subset) => {
+    return subset.id === singleSet.baseSubsetId;
+  });
+
   return (
     <AdminPageContainer>
       {!isLoading && (
@@ -69,9 +73,23 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
           <EditSet setId={+props.match.params.setId} />
           <WrappedDataTable
             dense
+            title={`Base Set`}
+            columns={columns}
+            data={baseSubset ? [baseSubset] : []}
+          />
+          <WrappedDataTable
+            dense
             title={`Subsets`}
             columns={columns}
-            data={singleSet.subsets}
+            data={singleSet.subsets
+              .filter((subset) => {
+                return subset.id !== singleSet.baseSubsetId;
+              })
+              .sort((a, b) => {
+                if (a.name < b.name) return -1;
+                if (a.name > b.name) return 1;
+                return 0;
+              })}
             highlightOnHover
             actions={
               <CreateButton onClick={toggleCreateSubsetModal}>
