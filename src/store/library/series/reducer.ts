@@ -20,6 +20,15 @@ const initialState = {
     createdAt: "",
     updatedAt: "",
     subsetId: 0,
+    subset: {
+      id: 0,
+      name: "",
+      description: "",
+      baseSeriesId: 0,
+      createdAt: "",
+      updatedAt: "",
+      setId: 0,
+    },
     cards: [],
   },
 };

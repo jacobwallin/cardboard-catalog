@@ -23,20 +23,29 @@ router.get("/", async (req, res, next) => {
 router.get("/:seriesId", async (req, res, next) => {
   try {
     const series = await Series.findByPk(req.params.seriesId, {
-      include: {
-        model: Card,
-        attributes: ["id", "seriesId", "cardDataId"],
-        include: {
-          model: CardData,
-          include: [
-            {
-              model: Player,
-              attributes: ["id", "name", "fullName", "birthday", "hallOfFame"],
-            },
-            { model: Team },
-          ],
+      include: [
+        {
+          model: Card,
+          attributes: ["id", "seriesId", "cardDataId"],
+          include: {
+            model: CardData,
+            include: [
+              {
+                model: Player,
+                attributes: [
+                  "id",
+                  "name",
+                  "fullName",
+                  "birthday",
+                  "hallOfFame",
+                ],
+              },
+              { model: Team },
+            ],
+          },
         },
-      },
+        { model: Subset },
+      ],
     });
     res.json(series);
   } catch (error) {

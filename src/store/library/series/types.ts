@@ -16,7 +16,18 @@ export interface Series {
   createdAt: string;
   updatedAt: string;
   subsetId: number;
+  subset: Subset;
   cards: Card[];
+}
+
+export interface Subset {
+  id: number;
+  name: string;
+  description: string;
+  baseSeriesId: number;
+  createdAt: string;
+  updatedAt: string;
+  setId: number;
 }
 
 export interface Card {
