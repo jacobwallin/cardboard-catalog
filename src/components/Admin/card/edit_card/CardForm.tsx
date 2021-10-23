@@ -77,6 +77,7 @@ export default function CardForm(props: Props) {
             fullName: player.fullName,
             birthday: player.birthday,
             hallOfFame: player.hallOfFame,
+            url: "",
             createdAt: "",
             updatedAt: "",
           };
@@ -262,7 +263,7 @@ export default function CardForm(props: Props) {
                     width="25px"
                     onClick={() => deletePlayer(player.id)}
                   >
-                    x
+                    X
                   </StyledButton>
                   <Styled.PlayerName>{player.name}</Styled.PlayerName>
                 </Styled.CurrentPlayersContainer>

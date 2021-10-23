@@ -7,6 +7,7 @@ export interface Player {
   fullName: string;
   birthday: string;
   hallOfFame: boolean;
+  url: string;
   createdAt: string;
   updatedAt: string;
 }
