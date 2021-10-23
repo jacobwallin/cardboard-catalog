@@ -18,6 +18,7 @@ import CardScrapeModal from "./scrape_cards/CardScrapeModal";
 import EditCardModal from "./edit_card_modal/EditCardModal";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
 import CreateButton from "../components/CreateButton";
+import { NoDataMessage } from "../../shared/NoDataMessage";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
 import * as Styled from "./styled";
 
@@ -163,6 +164,9 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
         pagination
         paginationPerPage={10}
         highlightOnHover
+        noDataComponent={
+          <NoDataMessage>There are no parallels in this set.</NoDataMessage>
+        }
         actions={
           <CreateButton onClick={toggleCreateSeriesModal}>
             Create Parallel
@@ -180,6 +184,9 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
         pagination
         paginationPerPage={20}
         dense
+        noDataComponent={
+          <NoDataMessage>No cards have been added to this set.</NoDataMessage>
+        }
         actions={
           <>
             <CreateButton onClick={toggleScrapeCardModal}>
