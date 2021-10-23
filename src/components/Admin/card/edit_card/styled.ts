@@ -49,3 +49,13 @@ export const NoPlayers = styled.div`
   font-size: 0.9rem;
   margin: 10px;
 `;
+
+export const PlayerAddFail = styled.div`
+  color: red;
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+`;
+
+export const PlayerAddSuccess = styled(PlayerAddFail)`
+  color: green;
+`;

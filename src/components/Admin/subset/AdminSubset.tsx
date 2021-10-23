@@ -41,6 +41,7 @@ interface Params {
 }
 
 export default function AdminSubset(props: RouteComponentProps<Params>) {
+  const dispatch = useDispatch();
   const [showCreateSeriesModal, setShowCreateSeriesModal] = useState(false);
   const [showCreateCardModal, setShowCreateCardModal] = useState(false);
   const [showScrapeCardModal, setShowScrapeCardModal] = useState(false);
@@ -48,7 +49,6 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
     undefined
   );
   const [deleteCardId, setDeleteCardId] = useState(0);
-  const dispatch = useDispatch();
 
   const subset = useSelector(
     (state: RootState) => state.library.subsets.subset

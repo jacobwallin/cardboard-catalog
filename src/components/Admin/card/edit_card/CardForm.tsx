@@ -97,6 +97,7 @@ export default function CardForm(props: Props) {
   const [playerFilter, setPlayerFilter] = useState("");
   const [selectedPlayerId, setSelectedPlayerId] = useState(0);
   const [playerScrapeUrl, setPlayerScrapeUrl] = useState("");
+  const [showPlayerAddedMessage, setShowPlayerAddedMessage] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAllPlayers());
@@ -194,6 +195,7 @@ export default function CardForm(props: Props) {
   }
 
   function scrapePlayer() {
+    setShowPlayerAddedMessage(true);
     dispatch(scrapeNewPlayer(playerScrapeUrl));
   }
 
@@ -233,10 +235,17 @@ export default function CardForm(props: Props) {
                 Create Player
               </StyledButton>
             </Styled.AddPlayerContainer>
-            <div>
-              {(scrapePlayerStatus === "SUCCESS" && "Player added") ||
-                (scrapePlayerStatus === "FAILURE" && "Player not added")}
-            </div>
+            {scrapePlayerStatus === "SUCCESS" &&
+              showPlayerAddedMessage === true && (
+                <Styled.PlayerAddSuccess>
+                  Player Added Successfully
+                </Styled.PlayerAddSuccess>
+              )}
+            {scrapePlayerStatus === "FAILURE" &&
+              showPlayerAddedMessage === true && (
+                <Styled.PlayerAddFail>Error Adding Player</Styled.PlayerAddFail>
+              )}
+
             <Styled.AddPlayerContainer>
               <Styled.PlayerFilter
                 type="text"

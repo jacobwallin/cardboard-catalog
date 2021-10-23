@@ -36,7 +36,6 @@ export const scrapeNewPlayer =
       body: url,
     })
       .then((response) => {
-        response.json().then((ouchie) => console.log(ouchie));
         if (response.status === 500) throw new Error("ouchie");
 
         return response.json();
