@@ -63,6 +63,41 @@ router.post("/bulk", isAdmin, async (req, res, next) => {
   }
 });
 
+router.post("/scrape", isAdmin, async (req, res, next) => {
+  const { url } = req.body;
+
+  // validate url
+  const valid =
+    /^https?:\/\/www.baseball-reference.com\/players\/[a-z]\/\w{7}\d{2}.shtml/.test(
+      url
+    );
+
+  if (valid) {
+    try {
+      const playerData = await require("./scrape")(url);
+
+      console.log(playerData);
+
+      const createdPlayer = await Player.create({
+        name: playerData.name,
+        fullName: playerData.fullName,
+        birthday: playerData.birthday,
+        hallOfFame: playerData.hallOfFame,
+        url,
+      });
+
+      res.json(createdPlayer);
+    } catch (error) {
+      if (error.errors && error.errors[0].message === "name must be unique") {
+        error.message = `Player ${error.errors[0].value} already exists.`;
+      }
+      next(error);
+    }
+  } else {
+    next(new Error("Invalid URL"));
+  }
+});
+
 router.put("/:playerId", isAdmin, async (req, res, next) => {
   const { name, fullName, birthday, hallOfFame } = req.body;
   try {
