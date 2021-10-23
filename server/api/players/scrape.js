@@ -43,7 +43,6 @@ const scrapePlayerData = (url) => {
       fullNameIdx + fullNameEnd - 2
     );
 
-    console.log("SCRAPE! ", name, fullName);
     return { name, fullName, birthday, hallOfFame, url };
   });
 };

@@ -64,7 +64,7 @@ router.post("/bulk", isAdmin, async (req, res, next) => {
 });
 
 router.post("/scrape", isAdmin, async (req, res, next) => {
-  const { url } = req.body;
+  const url = req.body;
 
   // validate url
   const valid =
@@ -75,8 +75,6 @@ router.post("/scrape", isAdmin, async (req, res, next) => {
   if (valid) {
     try {
       const playerData = await require("./scrape")(url);
-
-      console.log(playerData);
 
       const createdPlayer = await Player.create({
         name: playerData.name,
