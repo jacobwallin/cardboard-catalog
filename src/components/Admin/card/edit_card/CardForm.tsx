@@ -122,6 +122,30 @@ export default function CardForm(props: Props) {
     }
   }, [props.bulkAddData]);
 
+  useEffect(() => {
+    if (playerFilter === "") {
+      setSelectedPlayerId(0);
+    } else {
+      const playersFound = allPlayers
+        .filter((player) => {
+          return player.name.toLowerCase().includes(playerFilter.toLowerCase());
+        })
+        .sort((playerA, playerB) => {
+          if (playerA.name < playerB.name) {
+            return -1;
+          }
+          if (playerA.name > playerB.name) {
+            return 1;
+          }
+          return 0;
+        });
+
+      if (playersFound.length > 0) {
+        setSelectedPlayerId(playersFound[0].id);
+      }
+    }
+  }, [playerFilter, allPlayers]);
+
   function handleSubmit() {
     props.handleSubmit(
       name,
