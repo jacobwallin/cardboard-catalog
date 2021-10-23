@@ -51,7 +51,11 @@ export default function parseCards(
         locator = parsedCard.indexOf("-");
         if (locator !== -1) {
           // parse out card name
-          data.name = parsedCard.slice(0, locator).trim();
+          data.name = parsedCard
+            .slice(0, locator)
+            .trim()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
           parsedCard = parsedCard.slice(locator + 1).trim();
 
           // check if name matches a player or team
