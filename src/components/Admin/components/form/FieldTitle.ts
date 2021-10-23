@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 const FieldTitle = styled.div`
   font-weight: 600;
-  font-size: 0.8em;
-  padding-bottom: 5px;
+  font-size: 1em;
+  margin-top: 13px;
 `;
 
 export default FieldTitle;

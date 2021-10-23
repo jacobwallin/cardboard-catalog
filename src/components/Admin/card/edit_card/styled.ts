@@ -18,21 +18,34 @@ export const AddPlayerContainer = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  margin: 0px 10px 10px 0;
+  gap: 10px;
 `;
 export const AddPlayer = styled.div``;
 
 export const PlayerFilter = styled.input`
   width: 175px;
   height: 25px;
-  margin: 0px 10px 0 0;
 `;
 
 export const PlayerSelect = styled.select`
   width: 175px;
   height: 25px;
-  margin: 10px 10px 10px 0;
 `;
 
 export const PlayerName = styled.div`
   margin-left: 10px;
+  a {
+    color: black;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;
+
+export const NoPlayers = styled.div`
+  color: gray;
+  font-size: 0.9rem;
+  margin: 10px;
 `;

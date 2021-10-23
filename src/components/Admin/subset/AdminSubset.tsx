@@ -71,7 +71,7 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
   // hide either modal once a card or series has been created
   useEffect(() => {
     if (!loadingChanges) {
-      setShowCreateCardModal(false);
+      setShowCreateCardModal(true);
       setShowCreateSeriesModal(false);
       setEditCardData(undefined);
       setDeleteCardId(0);

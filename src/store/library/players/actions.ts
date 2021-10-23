@@ -12,3 +12,16 @@ export const getAllPlayersSuccess = (
 export const getAllPlayersFailure = (): types.PlayerActionCreators => ({
   type: types.GET_ALL_PLAYERS_FAILURE,
 });
+
+export const createPlayerRequest = (): types.PlayerActionCreators => ({
+  type: types.CREATE_PLAYER_REQUEST,
+});
+export const createPlayerSuccess = (
+  player: types.Player
+): types.PlayerActionCreators => ({
+  type: types.CREATE_PLAYER_SUCCESS,
+  player,
+});
+export const createPlayerFailure = (): types.PlayerActionCreators => ({
+  type: types.CREATE_PLAYER_FAILURE,
+});

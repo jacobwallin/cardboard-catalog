@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../../store";
 import { PlayersState } from "../../../../store/library/players/types";
-import { fetchAllPlayers } from "../../../../store/library/players/thunks";
+import {
+  fetchAllPlayers,
+  scrapeNewPlayer,
+} from "../../../../store/library/players/thunks";
 import { fetchAllTeams } from "../../../../store/library/teams/thunks";
 import FieldContainer from "../../components/form/FieldContainer";
 import FieldTitle from "../../components/form/FieldTitle";
@@ -10,7 +13,10 @@ import FieldData from "../../components/form/FieldData";
 import FormContainer from "../../components/form/FormContainer";
 import FormButtons from "../../components/form/FormButtons";
 import StyledButton from "../../components/StyledButton";
-import { createLoadingSelector } from "../../../../store/loading/reducer";
+import {
+  createLoadingSelector,
+  createStatusSelector,
+} from "../../../../store/loading/reducer";
 import detectFormChanges from "../../detectFormChanges";
 import * as Styled from "./styled";
 
@@ -23,6 +29,8 @@ const cardLoadingSelector = createLoadingSelector([
   "UPDATE_CARD",
   "CREATE_CARD",
 ]);
+
+const scrapePlayerStatusSelector = createStatusSelector("CREATE_PLAYER");
 
 interface Props {
   createNew: boolean;
@@ -58,6 +66,9 @@ export default function CardForm(props: Props) {
   const isLoading = useSelector((state: RootState) =>
     cardLoadingSelector(state)
   );
+  const scrapePlayerStatus = useSelector((state: RootState) =>
+    scrapePlayerStatusSelector(state)
+  );
 
   // set the initial values to card state if the form is being used to edit a card data
   const [name, setName] = useState(props.createNew ? "" : card.name);
@@ -85,6 +96,7 @@ export default function CardForm(props: Props) {
   );
   const [playerFilter, setPlayerFilter] = useState("");
   const [selectedPlayerId, setSelectedPlayerId] = useState(0);
+  const [playerScrapeUrl, setPlayerScrapeUrl] = useState("");
 
   useEffect(() => {
     dispatch(fetchAllPlayers());
@@ -133,6 +145,9 @@ export default function CardForm(props: Props) {
       case "playerFilter":
         setPlayerFilter(event.target.value);
         break;
+      case "scrapeUrl":
+        setPlayerScrapeUrl(event.target.value);
+        break;
       case "note":
         setNote(event.target.value);
         break;
@@ -178,10 +193,14 @@ export default function CardForm(props: Props) {
     setSelectedPlayerId(0);
   }
 
+  function scrapePlayer() {
+    dispatch(scrapeNewPlayer(playerScrapeUrl));
+  }
+
   return (
     <FormContainer>
       <FieldContainer>
-        <FieldTitle>Number:</FieldTitle>
+        <FieldTitle>Number</FieldTitle>
         <FieldData>
           <input
             name="numberField"
@@ -193,9 +212,31 @@ export default function CardForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Player(s) on Card:</FieldTitle>
+        <FieldTitle>Player(s) on Card</FieldTitle>
         <FieldData>
           <Styled.PlayersContainer>
+            <Styled.AddPlayerContainer>
+              <Styled.PlayerFilter
+                type="text"
+                name="scrapeUrl"
+                placeholder="Enter Baseball Reference URL"
+                autoComplete="off"
+                value={playerScrapeUrl}
+                onChange={handleInputChange}
+              />
+              <StyledButton
+                color="GRAY"
+                height="25px"
+                width="125px"
+                onClick={scrapePlayer}
+              >
+                Create Player
+              </StyledButton>
+            </Styled.AddPlayerContainer>
+            <div>
+              {(scrapePlayerStatus === "SUCCESS" && "Player added") ||
+                (scrapePlayerStatus === "FAILURE" && "Player not added")}
+            </div>
             <Styled.AddPlayerContainer>
               <Styled.PlayerFilter
                 type="text"
@@ -254,26 +295,36 @@ export default function CardForm(props: Props) {
                 Add
               </StyledButton>
             </Styled.AddPlayerContainer>
-            {players.map((player) => {
-              return (
-                <Styled.CurrentPlayersContainer key={player.id}>
-                  <StyledButton
-                    color="RED"
-                    height="25px"
-                    width="25px"
-                    onClick={() => deletePlayer(player.id)}
-                  >
-                    X
-                  </StyledButton>
-                  <Styled.PlayerName>{player.name}</Styled.PlayerName>
-                </Styled.CurrentPlayersContainer>
-              );
-            })}
+            {players.length > 0 ? (
+              players.map((player) => {
+                return (
+                  <Styled.CurrentPlayersContainer key={player.id}>
+                    <StyledButton
+                      color="RED"
+                      height="25px"
+                      width="25px"
+                      onClick={() => deletePlayer(player.id)}
+                    >
+                      X
+                    </StyledButton>
+                    <Styled.PlayerName>
+                      <a href={player.url} target="_blank" rel="noopener">
+                        {player.name}
+                      </a>
+                    </Styled.PlayerName>
+                  </Styled.CurrentPlayersContainer>
+                );
+              })
+            ) : (
+              <Styled.NoPlayers>
+                No players have been added to this card.
+              </Styled.NoPlayers>
+            )}
           </Styled.PlayersContainer>
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Name:</FieldTitle>
+        <FieldTitle>Card Name</FieldTitle>
         <FieldData>
           <input
             name="nameField"
@@ -285,7 +336,7 @@ export default function CardForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Team:</FieldTitle>
+        <FieldTitle>Team</FieldTitle>
         <FieldData>
           <select
             name="team"
@@ -315,7 +366,7 @@ export default function CardForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Rookie:</FieldTitle>
+        <FieldTitle>Rookie</FieldTitle>
         <FieldData>
           <select
             name="rookie"
@@ -328,7 +379,7 @@ export default function CardForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Note:</FieldTitle>
+        <FieldTitle>Note</FieldTitle>
         <FieldData>
           <input
             name="note"
