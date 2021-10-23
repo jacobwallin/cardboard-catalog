@@ -128,7 +128,9 @@ router.put("/:seriesId", isAdmin, async (req, res, next) => {
       { where: { id: req.params.seriesId } }
     );
 
-    const updatedSeries = await Series.findByPk(req.params.seriesId);
+    const updatedSeries = await Series.findByPk(req.params.seriesId, {
+      include: Subset,
+    });
 
     res.json(updatedSeries);
   } catch (error) {
