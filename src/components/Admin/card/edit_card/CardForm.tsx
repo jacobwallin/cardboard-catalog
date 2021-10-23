@@ -230,9 +230,23 @@ export default function CardForm(props: Props) {
         <FieldData>
           <input
             name="numberField"
+            autoComplete="off"
             type="text"
             value={number}
-            placeholder="Enter Card Number"
+            placeholder="Enter Number"
+            onChange={handleInputChange}
+          />
+        </FieldData>
+      </FieldContainer>
+      <FieldContainer>
+        <FieldTitle>Card Name</FieldTitle>
+        <FieldData>
+          <input
+            name="nameField"
+            autoComplete="off"
+            type="text"
+            value={name}
+            placeholder="Enter Card Name"
             onChange={handleInputChange}
           />
         </FieldData>
@@ -357,18 +371,6 @@ export default function CardForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Card Name</FieldTitle>
-        <FieldData>
-          <input
-            name="nameField"
-            type="text"
-            value={name}
-            placeholder="Enter Card Name"
-            onChange={handleInputChange}
-          />
-        </FieldData>
-      </FieldContainer>
-      <FieldContainer>
         <FieldTitle>Team</FieldTitle>
         <FieldData>
           <select
@@ -417,6 +419,7 @@ export default function CardForm(props: Props) {
           <input
             name="note"
             type="text"
+            autoComplete="off"
             value={note}
             placeholder="Enter Note"
             onChange={handleInputChange}
