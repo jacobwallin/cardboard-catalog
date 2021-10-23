@@ -219,7 +219,7 @@ export default function CardForm(props: Props) {
               <Styled.PlayerFilter
                 type="text"
                 name="scrapeUrl"
-                placeholder="Enter Baseball Reference URL"
+                placeholder="Baseball Reference URL"
                 autoComplete="off"
                 value={playerScrapeUrl}
                 onChange={handleInputChange}
