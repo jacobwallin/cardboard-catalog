@@ -171,6 +171,12 @@ export default function CardForm(props: Props) {
       }
     }
   }
+
+  function clearPlayerFilter() {
+    setPlayerFilter("");
+    setSelectedPlayerId(0);
+  }
+
   return (
     <FormContainer>
       <FieldContainer>
@@ -189,14 +195,24 @@ export default function CardForm(props: Props) {
         <FieldTitle>Player(s) on Card:</FieldTitle>
         <FieldData>
           <Styled.PlayersContainer>
-            <Styled.PlayerFilter
-              type="text"
-              name="playerFilter"
-              placeholder="Filter Players"
-              autoComplete="off"
-              value={playerFilter}
-              onChange={handleInputChange}
-            />
+            <Styled.AddPlayerContainer>
+              <Styled.PlayerFilter
+                type="text"
+                name="playerFilter"
+                placeholder="Filter Players"
+                autoComplete="off"
+                value={playerFilter}
+                onChange={handleInputChange}
+              />
+              <StyledButton
+                color="GRAY"
+                height="25px"
+                width="50px"
+                onClick={clearPlayerFilter}
+              >
+                Clear
+              </StyledButton>
+            </Styled.AddPlayerContainer>
             <Styled.AddPlayerContainer>
               <Styled.PlayerSelect
                 name="selectedPlayerId"

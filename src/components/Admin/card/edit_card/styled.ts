@@ -24,7 +24,7 @@ export const AddPlayer = styled.div``;
 export const PlayerFilter = styled.input`
   width: 175px;
   height: 25px;
-  margin: 10px 10px 0 0;
+  margin: 0px 10px 0 0;
 `;
 
 export const PlayerSelect = styled.select`
