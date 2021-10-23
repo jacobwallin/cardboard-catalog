@@ -48,7 +48,7 @@ export default function parseCards(
         data.number = parsedCard.slice(0, locator);
         parsedCard = parsedCard.slice(locator).trim();
 
-        locator = parsedCard.indexOf("-");
+        locator = parsedCard.indexOf(" -");
         if (locator !== -1) {
           // parse out card name
           data.name = parsedCard
@@ -56,7 +56,7 @@ export default function parseCards(
             .trim()
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "");
-          parsedCard = parsedCard.slice(locator + 1).trim();
+          parsedCard = parsedCard.slice(locator + 2).trim();
 
           // check if name matches a player or team
           var team = teams.find((team) => team.name === data.name);
