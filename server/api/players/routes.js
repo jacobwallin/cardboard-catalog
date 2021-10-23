@@ -68,7 +68,7 @@ router.post("/scrape", isAdmin, async (req, res, next) => {
 
   // validate url
   const valid =
-    /^https?:\/\/www.baseball-reference.com\/players\/[a-z]\/\w{7}\d{2}.shtml/.test(
+    /^https?:\/\/www.baseball-reference.com\/players\/[a-z]\/\w{4,7}\d{2}.shtml/.test(
       url
     );
 
