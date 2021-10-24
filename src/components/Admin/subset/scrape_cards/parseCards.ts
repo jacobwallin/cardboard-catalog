@@ -63,7 +63,11 @@ export default function parseCards(
           if (team) {
             data.teamId = team.id;
           } else {
-            var player = players.find((player) => player.name === data.name);
+            var player = players.find(
+              (player) =>
+                player.name.replace(".", "").replace("-", " ") ===
+                data.name.replace(".", "").replace("-", " ")
+            );
             if (player) {
               data.players = [player];
             }
