@@ -38,6 +38,11 @@ const CardRun = db.define("series", {
     allowNull: false,
     defaultValue: false,
   },
+  refractor: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
 });
 
 module.exports = CardRun;
