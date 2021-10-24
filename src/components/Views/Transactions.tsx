@@ -5,15 +5,16 @@ import AddCardsForm from "../add_cards_form/AddCardsForm";
 
 import CollectionWrapper from "../shared/CollectionWrapper";
 import CollectionContainer from "../shared/CollectionContainer";
+import QuickAddHeader from "../Collection/header/QuickAddHeader";
 
 export default function Transactions() {
   const { path } = useRouteMatch();
   return (
     <CollectionWrapper>
       <CollectionContainer>
-        <Route exact path={path}>
-          <AddCardsForm />
-        </Route>
+        <QuickAddHeader title="Quick Add Form" />
+
+        <AddCardsForm />
       </CollectionContainer>
     </CollectionWrapper>
   );

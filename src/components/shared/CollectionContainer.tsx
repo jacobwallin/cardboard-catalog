@@ -12,7 +12,8 @@ const CollectionContainer = styled.div`
   flex-direction: column;
   align-items: center;
   @media only screen and (max-width: 1050px) {
-    width: 95%;
+    width: 100%;
+    border: none;
   }
 `;
 

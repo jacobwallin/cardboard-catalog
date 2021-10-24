@@ -19,11 +19,11 @@ export const FormContainer = styled.div`
   flex-direction: column;
   gap: 10px;
   align-items: center;
-  width: 100%;
+  width: 600px;
   max-width: 800px;
   min-width: 250px;
-  @media (max-width: 900px) {
-    width: 90%;
+  @media (max-width: 800px) {
+    width: 95%;
   }
 `;
 

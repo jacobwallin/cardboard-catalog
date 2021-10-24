@@ -8,6 +8,7 @@ import { addCards } from "../../store/collection/browse/thunks";
 import AddCardsLine from "./add_cards_line/AddCardsLine";
 import StyledButton from "../Admin/components/StyledButton";
 import SelectCardForm from "./select_card_form/SelectCardForm";
+
 import {
   createLoadingSelector,
   createStatusSelector,
@@ -192,7 +193,6 @@ export default function AddCardsForm(props: Props) {
 
   return (
     <Styled.FormContainer>
-      <h2>Add Cards to Your Collection</h2>
       {!props.formData && (
         <SelectCardForm cardData={cardData} addCard={addCard} />
       )}
