@@ -23,6 +23,30 @@ export const seriesDataTableColumns = [
     sortable: true,
   },
   {
+    name: "Auto",
+    selector: (row: Series) => row.auto,
+    cell: (row: Series) => (row.auto ? "yes" : "-"),
+    sortable: true,
+  },
+  {
+    name: "Relic",
+    selector: (row: Series) => row.relic,
+    cell: (row: Series) => (row.relic ? "yes" : "-"),
+    sortable: true,
+  },
+  {
+    name: "Short Print",
+    selector: (row: Series) => row.shortPrint,
+    cell: (row: Series) => (row.shortPrint ? "yes" : "-"),
+    sortable: true,
+  },
+  {
+    name: "Man. Relic",
+    selector: (row: Series) => row.manufacturedRelic,
+    cell: (row: Series) => (row.manufacturedRelic ? "yes" : "-"),
+    sortable: true,
+  },
+  {
     name: "",
     sortable: false,
     cell: (row: Series) => <EditLink to={`/admin/edit/series/${row.id}`} />,

@@ -96,6 +96,8 @@ export default function parseCards(
             return data;
           }
         }
+        data.name = parsedCard;
+        return data;
       }
       data.name = "remove";
       return data;
