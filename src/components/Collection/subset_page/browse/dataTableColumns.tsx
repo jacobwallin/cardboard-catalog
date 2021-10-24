@@ -25,12 +25,13 @@ let modifiedStyles = { ...tableStyles, fontSize: "12px" };
 
 const columns = [
   {
-    name: "Card #",
+    name: "#",
     selector: (row: TableDataPoint) => row.cardData.number,
     sortable: true,
     style: modifiedStyles,
     grow: 1,
     sortFunction: customColumnSort,
+    minWidth: "auto",
   },
   {
     name: "Name",
