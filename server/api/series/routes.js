@@ -61,13 +61,14 @@ router.post("/", isAdmin, async (req, res, next) => {
     auto,
     relic,
     manufacturedRelic,
-    parallel,
+    refractor,
     shortPrint,
     subsetId,
   } = req.body;
 
   try {
     // create new series
+    // parallel is automatically set to true as all series are parallels except for base series which is created automatically at subset creation
     const createdSeries = await Series.create({
       name,
       color,
@@ -75,9 +76,10 @@ router.post("/", isAdmin, async (req, res, next) => {
       auto,
       relic,
       manufacturedRelic,
-      parallel,
+      refractor,
       shortPrint,
       subsetId,
+      parallel: true,
     });
 
     // get the parent subset with associated card data
@@ -110,7 +112,7 @@ router.put("/:seriesId", isAdmin, async (req, res, next) => {
     auto,
     relic,
     manufacturedRelic,
-    parallel,
+    refractor,
     shortPrint,
   } = req.body;
   try {
@@ -122,7 +124,7 @@ router.put("/:seriesId", isAdmin, async (req, res, next) => {
         auto,
         relic,
         manufacturedRelic,
-        parallel,
+        refractor,
         shortPrint,
       },
       { where: { id: req.params.seriesId } }
