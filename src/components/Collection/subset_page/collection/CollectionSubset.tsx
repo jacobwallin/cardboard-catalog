@@ -10,9 +10,11 @@ import { CollectionPageContainer, DataTableContainer } from "../../shared";
 import ModalWindow from "../../../Admin/components/modal/ModalWindow";
 import Background from "../../../shared/Background";
 import StyledButton from "../../../Admin/components/StyledButton";
+import { NoDataMessage } from "../../../shared/NoDataMessage";
 import * as Styled from "../styled";
 
 import { createStatusSelector } from "../../../../store/loading/reducer";
+import { table } from "console";
 const deleteStatusSelector = createStatusSelector("DELETE_CARDS");
 
 interface Props {
@@ -207,21 +209,30 @@ export default function CollectionSubset(props: Props) {
             clearSelectedRows={toggleCleared}
             selectableRows
             onSelectedRowsChange={addSelectedCardsChange}
+            noDataComponent={
+              <NoDataMessage>
+                You don't have any cards from this set in your collection.
+              </NoDataMessage>
+            }
           />
         )}
         {!deleteCardsToggle && (
           <DataTable
             dense
             actions={
-              <StyledButton
-                color="GRAY"
-                height="25px"
-                width="110px"
-                fontSize="13px"
-                onClick={toggleDeleteChecklist}
-              >
-                Delete Cards
-              </StyledButton>
+              props.tableData.filter((card: any) => {
+                return card.quantity > 0;
+              }).length > 0 && (
+                <StyledButton
+                  color="GRAY"
+                  height="25px"
+                  width="110px"
+                  fontSize="13px"
+                  onClick={toggleDeleteChecklist}
+                >
+                  Delete Cards
+                </StyledButton>
+              )
             }
             columns={columns}
             data={props.tableData
@@ -239,6 +250,11 @@ export default function CollectionSubset(props: Props) {
             paginationPerPage={20}
             defaultSortField={"Card #"}
             conditionalRowStyles={dataTableConditionalStyles}
+            noDataComponent={
+              <NoDataMessage>
+                You don't have any cards from this set in your collection.
+              </NoDataMessage>
+            }
           />
         )}
       </DataTableContainer>

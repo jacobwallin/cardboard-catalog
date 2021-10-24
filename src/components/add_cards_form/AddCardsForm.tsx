@@ -4,7 +4,7 @@ import { RootState } from "../../store";
 import { Card } from "../../store/library/series/types";
 import { fetchAllSetData } from "../../store/library/sets/thunks";
 import { fetchAllGradingCompanies } from "../../store/library/grading_companies/thunks";
-import { addCards } from "../../store/collection/browse/thunks";
+import { quickAddCards } from "../../store/collection/browse/thunks";
 import AddCardsLine from "./add_cards_line/AddCardsLine";
 import StyledButton from "../Admin/components/StyledButton";
 import SelectCardForm from "./select_card_form/SelectCardForm";
@@ -166,7 +166,7 @@ export default function AddCardsForm(props: Props) {
     // only dispatch if there were no validation errors
     if (!errorsFound) {
       dispatch(
-        addCards(
+        quickAddCards(
           cardData.map((card) => {
             const newData: any = { cardId: card.cardId };
             if (card.serialNumber !== "") {

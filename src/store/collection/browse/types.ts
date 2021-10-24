@@ -14,6 +14,9 @@ export const GET_CARDS_IN_SINGLE_SUBSET_ERROR =
 export const ADD_CARDS_REQUEST = "ADD_CARDS_REQUEST";
 export const ADD_CARDS_SUCCESS = "ADD_CARDS_SUCCESS";
 export const ADD_CARDS_FAILURE = "ADD_CARDS_FAILURE";
+export const QUICK_ADD_REQUEST = "QUICK_ADD_REQUEST";
+export const QUICK_ADD_SUCCESS = "QUICK_ADD_SUCCESS";
+export const QUICK_ADD_FAILURE = "QUICK_ADD_FAILURE";
 export const DELETE_CARDS_REQUEST = "DELETE_CARDS_REQUEST";
 export const DELETE_CARDS_SUCCESS = "DELETE_CARDS_SUCCESS";
 export const DELETE_CARDS_FAILURE = "DELETE_CARDS_FAILURE";
@@ -75,6 +78,16 @@ interface AddCardsFailure {
   type: typeof ADD_CARDS_FAILURE;
 }
 
+interface QuickAddRequest {
+  type: typeof QUICK_ADD_REQUEST;
+}
+interface QuickAddSuccess {
+  type: typeof QUICK_ADD_SUCCESS;
+}
+interface QuickAddFailure {
+  type: typeof QUICK_ADD_FAILURE;
+}
+
 interface DeleteCardsRequest {
   type: typeof DELETE_CARDS_REQUEST;
 }
@@ -107,6 +120,9 @@ export type CollectionActionTypes =
   | AddCardsRequest
   | AddCardsSuccess
   | AddCardsFailure
+  | QuickAddRequest
+  | QuickAddSuccess
+  | QuickAddFailure
   | DeleteCardsRequest
   | DeleteCardsSuccess
   | DeleteCardsFailure
