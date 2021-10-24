@@ -168,13 +168,22 @@ export default function SelectCardForm(props: Props) {
         {
           // only render drop down options once the correct subset has been fetched from API
           set.id === selectedSetId &&
-            set.subsets.map((subset) => {
-              return (
-                <option key={subset.id} value={subset.id}>
-                  {subset.name}
-                </option>
-              );
-            })
+            set.subsets
+              .sort((subsetA, subsetB) => {
+                if (subsetA.id === set.baseSubsetId) return -1;
+                if (subsetB.id === set.baseSubsetId) return 1;
+
+                if (subsetA.name < subsetB.name) return -1;
+                if (subsetA.name > subsetB.name) return 1;
+                return 0;
+              })
+              .map((subset) => {
+                return (
+                  <option key={subset.id} value={subset.id}>
+                    {subset.name}
+                  </option>
+                );
+              })
         }
       </Styled.Select>
       <Styled.Select
@@ -184,17 +193,26 @@ export default function SelectCardForm(props: Props) {
         disabled={selectedSubsetId === -1 || cardData.length > 0}
         onChange={handleSelectChange}
       >
-        <option value={-1}>Select Series</option>
+        <option value={-1}>Select Parallel</option>
         {
           // only render drop down options once the correct subset has been fetched from API
           subset.id === selectedSubsetId &&
-            subset.series.map((series) => {
-              return (
-                <option key={series.id} value={series.id}>
-                  {series.name}
-                </option>
-              );
-            })
+            subset.series
+              .sort((seriesA, seriesB) => {
+                if (seriesA.id === subset.baseSeriesId) return -1;
+                if (seriesB.id === subset.baseSeriesId) return 1;
+
+                if (seriesA.name < seriesB.name) return -1;
+                if (seriesA.name > seriesB.name) return 1;
+                return 0;
+              })
+              .map((series) => {
+                return (
+                  <option key={series.id} value={series.id}>
+                    {series.name}
+                  </option>
+                );
+              })
         }
       </Styled.Select>
       <Styled.SelectCardContainer onSubmit={handleAddCard}>
