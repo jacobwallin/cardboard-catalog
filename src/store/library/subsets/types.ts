@@ -36,6 +36,7 @@ export interface Series {
   relic: boolean;
   manufacturedRelic: boolean;
   parallel: boolean;
+  refractor: boolean;
   shortPrint: boolean;
   createdAt: string;
   updatedAt: string;

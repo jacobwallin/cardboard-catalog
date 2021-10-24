@@ -11,6 +11,7 @@ export interface Series {
   auto: boolean;
   relic: boolean;
   manufacturedRelic: boolean;
+  refractor: boolean;
   parallel: boolean;
   shortPrint: boolean;
   createdAt: string;

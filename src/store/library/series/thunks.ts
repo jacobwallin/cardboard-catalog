@@ -28,7 +28,7 @@ export const updateSeries =
       auto: boolean;
       relic: boolean;
       manufacturedRelic: boolean;
-      parallel: boolean;
+      refractor: boolean;
       shortPrint: boolean;
     }
   ): ThunkAction<void, RootState, unknown, SeriesActionTypes> =>

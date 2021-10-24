@@ -76,7 +76,7 @@ export const createSeries =
     subsetId: number;
     name: string;
     serialized: number | null;
-    parallel: boolean;
+    refractor: boolean;
     shortPrint: boolean;
     auto: boolean;
     relic: boolean;

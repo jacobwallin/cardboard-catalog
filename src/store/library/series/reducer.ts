@@ -16,6 +16,7 @@ const initialState = {
     relic: false,
     manufacturedRelic: false,
     parallel: false,
+    refractor: false,
     shortPrint: false,
     createdAt: "",
     updatedAt: "",
