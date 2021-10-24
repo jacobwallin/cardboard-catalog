@@ -34,13 +34,27 @@ export const seriesDataTableColumns = [
   {
     name: "Relic",
     selector: (row: Series) => row.relic,
-    cell: (row: Series) => (row.relic ? "yes" : "-"),
+    cell: (row: Series) =>
+      row.relic ? (
+        <Styled.SvgWrapper>
+          <Checkmark />
+        </Styled.SvgWrapper>
+      ) : (
+        "-"
+      ),
     sortable: true,
   },
   {
     name: "Short Print",
     selector: (row: Series) => row.shortPrint,
-    cell: (row: Series) => (row.shortPrint ? "yes" : "-"),
+    cell: (row: Series) =>
+      row.shortPrint ? (
+        <Styled.SvgWrapper>
+          <Checkmark />
+        </Styled.SvgWrapper>
+      ) : (
+        "-"
+      ),
     sortable: true,
   },
   {
@@ -59,7 +73,14 @@ export const seriesDataTableColumns = [
   {
     name: "Man. Relic",
     selector: (row: Series) => row.manufacturedRelic,
-    cell: (row: Series) => (row.manufacturedRelic ? "yes" : "-"),
+    cell: (row: Series) =>
+      row.manufacturedRelic ? (
+        <Styled.SvgWrapper>
+          <Checkmark />
+        </Styled.SvgWrapper>
+      ) : (
+        "-"
+      ),
     sortable: true,
   },
   {
