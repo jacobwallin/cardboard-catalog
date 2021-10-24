@@ -3,6 +3,8 @@ import EditLink, { StyledLink } from "../components/EditLink";
 import StyledButton from "../components/StyledButton";
 import { CardData, Series } from "../../../store/library/subsets/types";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
+import { ReactComponent as Checkmark } from "./checkmark.svg";
+import * as Styled from "./styled";
 
 export const seriesDataTableColumns = [
   {
@@ -19,7 +21,14 @@ export const seriesDataTableColumns = [
   {
     name: "Auto",
     selector: (row: Series) => row.auto,
-    cell: (row: Series) => (row.auto ? "yes" : "-"),
+    cell: (row: Series) =>
+      row.auto ? (
+        <Styled.SvgWrapper>
+          <Checkmark />
+        </Styled.SvgWrapper>
+      ) : (
+        "-"
+      ),
     sortable: true,
   },
   {
@@ -37,7 +46,14 @@ export const seriesDataTableColumns = [
   {
     name: "Refractor",
     selector: (row: Series) => row.refractor,
-    cell: (row: Series) => (row.refractor ? "yes" : "-"),
+    cell: (row: Series) =>
+      row.refractor ? (
+        <Styled.SvgWrapper>
+          <Checkmark />
+        </Styled.SvgWrapper>
+      ) : (
+        "-"
+      ),
     sortable: true,
   },
   {

@@ -11,3 +11,8 @@ export const SubHeader = styled.div`
   font-size: 1.1.rem;
   margin-bottom: 20px;
 `;
+
+export const SvgWrapper = styled.div`
+  width: 20px;
+  height: 20px;
+`;
