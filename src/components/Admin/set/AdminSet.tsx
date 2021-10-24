@@ -80,7 +80,7 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
           />
           <WrappedDataTable
             dense
-            title={`Subsets`}
+            title={`Other Sets`}
             columns={columns}
             data={singleSet.subsets
               .filter((subset) => {
