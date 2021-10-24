@@ -11,7 +11,7 @@ const columns = [
     cell: (row: SetSummary) => (
       <SubtleLink to={`/set/${row.id}`}>{row.name}</SubtleLink>
     ),
-    minWidth: "50px",
+    minWidth: "150px",
     grow: 2,
   },
 
@@ -19,11 +19,13 @@ const columns = [
     name: "Brand",
     selector: (row: SetSummary) => row.brand.name,
     sortable: true,
+    grow: 1,
   },
   {
     name: "Release Date",
     selector: (row: SetSummary) => row.release_date,
     sortable: true,
+    grow: 1,
   },
 
   {
@@ -34,6 +36,7 @@ const columns = [
     ),
     maxWidth: "80px",
     minWidth: "80px",
+    grow: 1,
   },
 ];
 
