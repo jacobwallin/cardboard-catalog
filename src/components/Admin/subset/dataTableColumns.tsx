@@ -17,12 +17,6 @@ export const seriesDataTableColumns = [
     sortable: true,
   },
   {
-    name: "Parallel",
-    selector: (row: Series) => row.parallel,
-    cell: (row: Series) => (row.parallel ? "yes" : "-"),
-    sortable: true,
-  },
-  {
     name: "Auto",
     selector: (row: Series) => row.auto,
     cell: (row: Series) => (row.auto ? "yes" : "-"),
@@ -38,6 +32,12 @@ export const seriesDataTableColumns = [
     name: "Short Print",
     selector: (row: Series) => row.shortPrint,
     cell: (row: Series) => (row.shortPrint ? "yes" : "-"),
+    sortable: true,
+  },
+  {
+    name: "Refractor",
+    selector: (row: Series) => row.refractor,
+    cell: (row: Series) => (row.refractor ? "yes" : "-"),
     sortable: true,
   },
   {

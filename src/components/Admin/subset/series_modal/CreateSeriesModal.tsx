@@ -18,7 +18,7 @@ export default function CreateCardModal(props: Props) {
     auto: boolean;
     relic: boolean;
     manufacturedRelic: boolean;
-    parallel: boolean;
+    refractor: boolean;
     shortPrint: boolean;
   }) {
     dispatch(

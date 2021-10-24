@@ -60,7 +60,7 @@ export default function EditCard(props: Props) {
     auto: boolean;
     relic: boolean;
     manufacturedRelic: boolean;
-    parallel: boolean;
+    refractor: boolean;
     shortPrint: boolean;
   }) {
     dispatch(
@@ -110,8 +110,8 @@ export default function EditCard(props: Props) {
             </FieldData>
           </FieldContainer>
           <FieldContainer>
-            <FieldTitle>Parallel:</FieldTitle>
-            <FieldData>{series.parallel ? "Yes" : "No"}</FieldData>
+            <FieldTitle>Refractor:</FieldTitle>
+            <FieldData>{series.refractor ? "Yes" : "No"}</FieldData>
           </FieldContainer>
           <FieldContainer>
             <FieldTitle>Short Print:</FieldTitle>

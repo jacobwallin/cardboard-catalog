@@ -24,7 +24,7 @@ interface Props {
     auto: boolean;
     relic: boolean;
     manufacturedRelic: boolean;
-    parallel: boolean;
+    refractor: boolean;
     shortPrint: boolean;
   }): void;
 }
@@ -48,8 +48,8 @@ export default function SeriesForm(props: Props) {
   const [manufacturedRelic, setManufacturedRelic] = useState(
     props.createNew ? false : series.manufacturedRelic
   );
-  const [parallel, setParallel] = useState(
-    props.createNew ? false : series.parallel
+  const [refractor, setRefractor] = useState(
+    props.createNew ? false : series.refractor
   );
   const [shortPrint, setShortPrint] = useState(
     props.createNew ? false : series.shortPrint
@@ -62,7 +62,7 @@ export default function SeriesForm(props: Props) {
       auto,
       relic,
       manufacturedRelic,
-      parallel,
+      refractor,
       shortPrint,
     });
   }
@@ -78,8 +78,8 @@ export default function SeriesForm(props: Props) {
       case "serialized":
         setSerialized(value);
         break;
-      case "parallel":
-        setParallel(!parallel);
+      case "refractor":
+        setRefractor(!refractor);
         break;
       case "shortPrint":
         setShortPrint(!shortPrint);
@@ -123,12 +123,12 @@ export default function SeriesForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Parallel:</FieldTitle>
+        <FieldTitle>Refractor:</FieldTitle>
         <FieldData>
           <input
-            name="parallel"
+            name="refractor"
             type="checkbox"
-            checked={parallel}
+            checked={refractor}
             onChange={handleInputChange}
           />
         </FieldData>
@@ -191,7 +191,7 @@ export default function SeriesForm(props: Props) {
                   series.auto,
                   series.relic,
                   series.manufacturedRelic,
-                  series.parallel,
+                  series.refractor,
                   series.shortPrint,
                 ],
                 [
@@ -200,7 +200,7 @@ export default function SeriesForm(props: Props) {
                   auto,
                   relic,
                   manufacturedRelic,
-                  parallel,
+                  refractor,
                   shortPrint,
                 ]
               ))
