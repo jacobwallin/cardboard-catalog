@@ -3,6 +3,7 @@ import styled from "styled-components";
 const CollectionContainer = styled.div`
   background: white;
   padding: 10px;
+  padding-bottom: 50px;
   border-right: 1px solid lightgrey;
   border-left: 1px solid lightgrey;
   height: 100%;

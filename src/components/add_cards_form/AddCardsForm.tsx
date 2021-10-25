@@ -27,8 +27,8 @@ export interface CardFormData {
   gradingCompanyError: boolean;
 }
 
-const postingCards = createLoadingSelector(["ADD_CARDS"]);
-const postingCardsStatusSelector = createStatusSelector("ADD_CARDS");
+const postingCards = createLoadingSelector(["QUICK_ADD"]);
+const postingCardsStatusSelector = createStatusSelector("QUICK_ADD");
 
 interface Props {
   formData?: CardFormData[];
