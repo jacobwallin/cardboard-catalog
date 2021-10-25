@@ -28,7 +28,7 @@ const columns = [
     name: "#",
     selector: (row: TableDataPoint) => row.cardData.number,
     sortable: true,
-    style: modifiedStyles,
+    // style: modifiedStyles,
     grow: 1,
     sortFunction: customColumnSort,
     minWidth: "auto",
@@ -43,7 +43,7 @@ const columns = [
       </div>
     ),
     sortable: true,
-    style: modifiedStyles,
+    // style: modifiedStyles,
     grow: 2,
   },
   {
@@ -51,14 +51,14 @@ const columns = [
     cell: (row: TableDataPoint) =>
       row.cardData.team ? row.cardData.team.name : "-",
     sortable: true,
-    style: modifiedStyles,
+    // style: modifiedStyles,
     grow: 2,
   },
   {
     name: "Parallel Set",
     selector: (row: TableDataPoint) => row.series.name,
     sortable: true,
-    style: modifiedStyles,
+    // style: modifiedStyles,
     grow: 2,
   },
 ];

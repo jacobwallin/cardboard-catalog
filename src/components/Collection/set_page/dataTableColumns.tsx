@@ -14,21 +14,14 @@ const columns = [
     grow: 2,
   },
   {
-    name: "Total Cards",
+    name: "Cards",
     selector: "totalCards",
     sortable: true,
     minWidth: "50px",
     style: tableStyles,
-    grow: 1,
+    grow: 0,
   },
-  {
-    name: "Distinct Cards",
-    selector: "distinctCards",
-    sortable: true,
-    minWidth: "50px",
-    style: tableStyles,
-    grow: 1,
-  },
+
   {
     name: "",
     sortable: false,

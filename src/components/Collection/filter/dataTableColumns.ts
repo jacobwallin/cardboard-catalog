@@ -17,11 +17,12 @@ function columns(selectedCols: {
   // CARD #
   if (selectedCols.cardNumber) {
     cols.push({
-      name: "Card #",
+      name: "#",
       selector: (row: UserCard) => row.card.card_datum.number,
       sortable: true,
       style: tableStyles,
       compact: true,
+      minWidth: "auto",
     });
   }
 

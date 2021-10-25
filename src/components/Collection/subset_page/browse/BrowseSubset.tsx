@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
 import DataTable from "react-data-table-component";
 import columns from "./dataTableColumns";
 import { TableDataPoint } from "../createTableData";
-import {
-  CollectionPageContainer,
-  DataTableContainer,
-  ContentContainer,
-} from "../../shared";
+import { CollectionPageContainer, DataTableContainer } from "../../shared";
 import ModalWindow from "../../../Admin/components/modal/ModalWindow";
 import Background from "../../../shared/Background";
 import StyledButton from "../../../Admin/components/StyledButton";
@@ -151,8 +148,39 @@ export default function BrowseSubset(props: Props) {
           paginationPerPage={20}
           selectableRows={checklistToggleSelect}
           onSelectedRowsChange={addSelectedCardsChange}
+          customStyles={customStyles}
         />
       </DataTableContainer>
     </CollectionPageContainer>
   );
 }
+
+var customStyles = {
+  // rows: {
+  //     style: {
+  //         minHeight: '72px', // override the row height
+  //     },
+  // },
+  rows: {
+    style: {
+      fontSize: "12px",
+      // color: "red",
+    },
+    // denseStyle: {
+    //   minHeight: "25px",
+    // },
+  },
+  headCells: {
+    style: {
+      paddingLeft: "5px", // override the cell padding for head cells
+      paddingRight: "5px",
+    },
+  },
+  cells: {
+    style: {
+      paddingLeft: "5px", // override the cell padding for data cells
+      paddingRight: "5px",
+      minWidth: "auto",
+    },
+  },
+};

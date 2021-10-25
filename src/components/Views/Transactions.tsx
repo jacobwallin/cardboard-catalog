@@ -12,7 +12,7 @@ export default function Transactions() {
   return (
     <CollectionWrapper>
       <CollectionContainer>
-        <QuickAddHeader title="Quick Add Form" />
+        <QuickAddHeader title="Add to Your Collection" />
 
         <AddCardsForm />
       </CollectionContainer>
