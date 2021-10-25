@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import StyledButton from "../../Admin/components/StyledButton";
@@ -25,12 +25,20 @@ export default function AddCardsLine(props: Props) {
     (state: RootState) => state.library.gradingCompanies
   );
 
+  // automatically select graded if a card is deleted and the card prop changes
+  useEffect(() => {
+    if (props.card.grade !== "") {
+      setAddCardGrade(true);
+    }
+  }, [props.card.grade]);
+
   function handleGradedChange() {
     if (addCardGrade) {
       props.clearGradeData(props.index);
     }
     setAddCardGrade(!addCardGrade);
   }
+
   return (
     <Styled.Container>
       <Styled.CardInfoContainer>
