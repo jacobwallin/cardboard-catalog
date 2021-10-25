@@ -67,7 +67,9 @@ export const ConfirmDeleteButtons = styled.div`
   margin: 15px;
 `;
 export const CloseButtonWrapper = styled.div`
-  align-self: center;
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
   margin: 15px;
 `;
 
