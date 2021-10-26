@@ -19,35 +19,27 @@ export const fetchCardsBySet =
   };
 
 export const fetchCardsBySubset =
-  (
-    setId: number
-  ): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
+  (setId: number): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
   (dispatch) => {
     fetch(`/api/collection/set/${setId}`)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        dispatch(
-          actions.getCardsBySubsetSuccess({ cardsBySubset: data, setId })
-        );
+        dispatch(actions.getCardsBySubsetSuccess({ cardsBySubset: data, setId }));
       })
       .catch((err) => console.log("ERROR FETCHING CARDS BY SUBSET"));
   };
 
 export const fetchCardsInSingleSubset =
-  (
-    subsetId: number
-  ): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
+  (subsetId: number): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
   (dispatch) => {
     fetch(`/api/collection/subset/${subsetId}`)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        dispatch(
-          actions.getSingleSubsetCardsSuccess({ cards: data, subsetId })
-        );
+        dispatch(actions.getSingleSubsetCardsSuccess({ cards: data, subsetId }));
       })
       .catch((err) => console.log("ERROR FETCHING CARDS FOR SINGLE SUBSET"));
   };
@@ -86,37 +78,8 @@ export const addCards =
       .catch((error) => dispatch(actions.addCardsFailure()));
   };
 
-export const quickAddCards =
-  (
-    cardData: CardData[],
-    subsetId: number
-  ): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
-  (dispatch) => {
-    dispatch(actions.quickAddRequest());
-
-    fetch(`/api/collection/add`, {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify({ cardsToAdd: cardData }),
-    })
-      .then((response) => response.json())
-      .then(() => {
-        dispatch(actions.quickAddSuccess());
-      })
-      .catch((error) => dispatch(actions.quickAddFailure()));
-  };
-
 export const deleteCards =
-  (
-    userCardIds: number[]
-  ): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
+  (userCardIds: number[]): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
   (dispatch) => {
     dispatch(actions.deleteCardsRequest());
 

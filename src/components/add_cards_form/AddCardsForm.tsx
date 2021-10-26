@@ -4,15 +4,12 @@ import { RootState } from "../../store";
 import { Card } from "../../store/library/series/types";
 import { fetchAllSetData } from "../../store/library/sets/thunks";
 import { fetchAllGradingCompanies } from "../../store/library/grading_companies/thunks";
-import { quickAddCards } from "../../store/collection/browse/thunks";
+import { addCards } from "../../store/collection/browse/thunks";
 import AddCardsLine from "./add_cards_line/AddCardsLine";
 import StyledButton from "../Admin/components/StyledButton";
 import SelectCardForm from "./select_card_form/SelectCardForm";
 
-import {
-  createLoadingSelector,
-  createStatusSelector,
-} from "../../store/loading/reducer";
+import { createLoadingSelector, createStatusSelector } from "../../store/loading/reducer";
 import * as validate from "./validateCardData";
 
 import * as Styled from "./styled";
@@ -27,7 +24,7 @@ export interface CardFormData {
   gradingCompanyError: boolean;
 }
 
-const postingCards = createLoadingSelector(["QUICK_ADD"]);
+const postingCards = createLoadingSelector(["ADD_CARDS"]);
 const postingCardsStatusSelector = createStatusSelector("QUICK_ADD");
 
 interface Props {
@@ -42,21 +39,15 @@ export default function AddCardsForm(props: Props) {
   const [cardsSuccessfullyAdded, setCardsSuccessfullyAdded] = useState(0);
 
   // API DATA
-  const [cardData, setCardData] = useState<CardFormData[]>(
-    props.formData ? props.formData : []
-  );
+  const [cardData, setCardData] = useState<CardFormData[]>(props.formData ? props.formData : []);
 
   // LIBRARY DATA
   const series = useSelector((state: RootState) => state.library.series.series);
-  const gradingCompanies = useSelector(
-    (state: RootState) => state.library.gradingCompanies
-  );
+  const gradingCompanies = useSelector((state: RootState) => state.library.gradingCompanies);
 
   // LOADING STATUS FOR POSTING CARDS
   const isPostingCards = useSelector((state: RootState) => postingCards(state));
-  const postingCardsStatus = useSelector((state: RootState) =>
-    postingCardsStatusSelector(state)
-  );
+  const postingCardsStatus = useSelector((state: RootState) => postingCardsStatusSelector(state));
 
   useEffect(() => {
     dispatch(fetchAllSetData());
@@ -82,10 +73,7 @@ export default function AddCardsForm(props: Props) {
           return {
             ...data,
             serialNumber,
-            serialNumberError: validate.serialNumber(
-              serialNumber,
-              series.serialized
-            ),
+            serialNumberError: validate.serialNumber(serialNumber, series.serialized),
           };
         }
         return data;
@@ -104,20 +92,14 @@ export default function AddCardsForm(props: Props) {
     );
   }
 
-  function handleGradingCompanyIdChange(
-    cardIndex: number,
-    gradingCompanyId: number
-  ) {
+  function handleGradingCompanyIdChange(cardIndex: number, gradingCompanyId: number) {
     setCardData(
       cardData.map((data, index) => {
         if (index === cardIndex) {
           return {
             ...data,
             gradingCompanyId,
-            gradingCompanyError: validate.gradingCompany(
-              gradingCompanyId,
-              gradingCompanies
-            ),
+            gradingCompanyError: validate.gradingCompany(gradingCompanyId, gradingCompanies),
           };
         }
         return data;
@@ -146,9 +128,7 @@ export default function AddCardsForm(props: Props) {
     setCardData(cardData.filter((card, index) => index !== cardIndex));
   }
 
-  const handleSubmit = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     // prevent refresh
     event.preventDefault();
 
@@ -156,33 +136,27 @@ export default function AddCardsForm(props: Props) {
     setValidationError(false);
 
     // validate data
-    const { errorsFound, validatedCardData } = validate.allCardData(
-      cardData,
-      series.serialized
-    );
+    const { errorsFound, validatedCardData } = validate.allCardData(cardData, series.serialized);
 
     setValidationError(errorsFound);
 
     // only dispatch if there were no validation errors
     if (!errorsFound) {
-      dispatch(
-        quickAddCards(
-          cardData.map((card) => {
-            const newData: any = { cardId: card.cardId };
-            if (card.serialNumber !== "") {
-              newData.serialNumber = +card.serialNumber;
-            }
-            if (card.grade !== "") {
-              newData.grade = +card.grade;
-            }
-            if (card.gradingCompanyId !== -1) {
-              newData.gradingCompanyId = card.gradingCompanyId;
-            }
-            return newData;
-          }),
-          props.subsetId || 0
-        )
-      );
+      const postData = cardData.map((card) => {
+        const newData: any = { cardId: card.cardId };
+        if (card.serialNumber !== "") {
+          newData.serialNumber = +card.serialNumber;
+        }
+        if (card.grade !== "") {
+          newData.grade = +card.grade;
+        }
+        if (card.gradingCompanyId !== -1) {
+          newData.gradingCompanyId = card.gradingCompanyId;
+        }
+        return newData;
+      });
+
+      dispatch(addCards(postData, props.subsetId || 0));
 
       // set how many cards were successfully added to display success message to user
       setCardsSuccessfullyAdded(cardData.length);
@@ -193,14 +167,10 @@ export default function AddCardsForm(props: Props) {
 
   return (
     <Styled.FormContainer>
-      {!props.formData && (
-        <SelectCardForm cardData={cardData} addCard={addCard} />
-      )}
+      {!props.formData && <SelectCardForm cardData={cardData} addCard={addCard} />}
       <Styled.SubmitContainer>
         <Styled.TotalCardsLabel>
-          {cardData.length > 0
-            ? `Total Cards: ${cardData.length}`
-            : "No Cards Selected"}
+          {cardData.length > 0 ? `Total Cards: ${cardData.length}` : "No Cards Selected"}
         </Styled.TotalCardsLabel>
         <StyledButton
           id="submit-cards-button"
@@ -214,9 +184,7 @@ export default function AddCardsForm(props: Props) {
         </StyledButton>
       </Styled.SubmitContainer>
 
-      {validationError && (
-        <Styled.SubmitError>Fix Errors to Submit</Styled.SubmitError>
-      )}
+      {validationError && <Styled.SubmitError>Fix Errors to Submit</Styled.SubmitError>}
       {((cardsSuccessfullyAdded > 0 && cardData.length === 0) ||
         postingCardsStatus === "FAILURE") && (
         <Styled.PostResultMessage success={postingCardsStatus !== "FAILURE"}>

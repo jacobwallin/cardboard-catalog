@@ -8,7 +8,6 @@ import {
   SET_INITIAL_DATA_LOAD,
   ADD_CARDS_SUCCESS,
   DELETE_CARDS_SUCCESS,
-  QUICK_ADD_SUCCESS,
 } from "./types";
 
 import { RemoveUser, REMOVE_USER } from "../../user/types";
@@ -61,9 +60,6 @@ export default function collectionReducer(
           },
         };
       }
-      return initialState;
-    case QUICK_ADD_SUCCESS:
-      // clear state when user adds cards from quick add form since collection will have to be re-fetched
       return initialState;
     case DELETE_CARDS_SUCCESS:
       return {
