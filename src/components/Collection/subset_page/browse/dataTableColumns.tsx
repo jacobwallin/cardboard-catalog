@@ -21,8 +21,6 @@ const customColumnSort = (rowA: TableDataPoint, rowB: TableDataPoint) => {
   return 0;
 };
 
-let modifiedStyles = { ...tableStyles, fontSize: "12px" };
-
 const columns = [
   {
     name: "#",
@@ -48,8 +46,7 @@ const columns = [
   },
   {
     name: "Team",
-    cell: (row: TableDataPoint) =>
-      row.cardData.team ? row.cardData.team.name : "-",
+    cell: (row: TableDataPoint) => (row.cardData.team ? row.cardData.team.name : "-"),
     sortable: true,
     // style: modifiedStyles,
     grow: 2,

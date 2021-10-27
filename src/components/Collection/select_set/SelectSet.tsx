@@ -32,15 +32,18 @@ const SelectSet: React.FC<RouteComponentProps<TParams>> = (props) => {
 
   return (
     <Shared.CollectionPageContainer>
-      <Shared.TotalCards
-        totalCards={cardsBySetForYear.reduce((totalCards, set) => {
-          return (totalCards += +set.totalCards);
-        }, 0)}
-      />
-      <Shared.DataTableTitle>{`Sets from ${props.match.params.year}`}</Shared.DataTableTitle>
       <Shared.DataTableContainer>
         <DataTable
-          noHeader
+          title={
+            <Shared.DataTableTitle>{`Sets from ${props.match.params.year}`}</Shared.DataTableTitle>
+          }
+          actions={
+            <Shared.TotalCards
+              totalCards={cardsBySetForYear.reduce((totalCards, set) => {
+                return (totalCards += +set.totalCards);
+              }, 0)}
+            />
+          }
           progressPending={isLoading}
           columns={columns}
           data={cardsBySetForYear}

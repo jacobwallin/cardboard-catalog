@@ -29,15 +29,16 @@ const SelectYear = () => {
 
   return (
     <Shared.CollectionPageContainer>
-      <Shared.TotalCards
-        totalCards={cardsBySet.reduce((total, set) => {
-          return (total += +set.totalCards);
-        }, 0)}
-      />
-      <Shared.DataTableTitle>Select Year</Shared.DataTableTitle>
       <Shared.DataTableContainer>
         <DataTable
-          noHeader
+          title={<Shared.DataTableTitle>Select Year</Shared.DataTableTitle>}
+          actions={
+            <Shared.TotalCards
+              totalCards={cardsBySet.reduce((total, set) => {
+                return (total += +set.totalCards);
+              }, 0)}
+            />
+          }
           progressPending={isLoading}
           columns={columns}
           data={aggregateCardsByYear(cardsBySet)}

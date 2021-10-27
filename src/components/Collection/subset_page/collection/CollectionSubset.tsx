@@ -23,16 +23,10 @@ interface Props {
 }
 export default function CollectionSubset(props: Props) {
   const dispatch = useDispatch();
-  const subset = useSelector(
-    (state: RootState) => state.library.subsets.subset
-  );
-  const deleteRequestStatus = useSelector((state: RootState) =>
-    deleteStatusSelector(state)
-  );
+  const subset = useSelector((state: RootState) => state.library.subsets.subset);
+  const deleteRequestStatus = useSelector((state: RootState) => deleteStatusSelector(state));
 
-  const [selectedSeriesId, setSelectedSeriesId] = useState(
-    subset.baseSeriesId || 1
-  );
+  const [selectedSeriesId, setSelectedSeriesId] = useState(subset.baseSeriesId || 1);
   const [showAllCards, setShowAllCards] = useState(false);
   // toggles showing checkboxes to select cards to add to collection
   const [deleteCardsToggle, setDeleteCardsToggle] = useState(false);
@@ -95,9 +89,7 @@ export default function CollectionSubset(props: Props) {
       {showAddCardForm && (
         <Background>
           <ModalWindow>
-            <Styled.ConfirmDeleteTitle>
-              Confirm Delete
-            </Styled.ConfirmDeleteTitle>
+            <Styled.ConfirmDeleteTitle>Confirm Delete</Styled.ConfirmDeleteTitle>
             {deleteRequestStatus === "SUCCESS" && numCardsDeleted > 0 ? (
               <Styled.DeleteConfirmMessage>{`${numCardsDeleted} ${
                 numCardsDeleted > 1 ? "cards have" : "card has"
@@ -143,28 +135,8 @@ export default function CollectionSubset(props: Props) {
       )}
 
       <Styled.SelectParallel>
-        <Styled.SelectLabel>Select Parallel Set: </Styled.SelectLabel>
-        <Styled.SeriesSelect
-          value={selectedSeriesId}
-          onChange={handleSeriesChange}
-        >
-          <option value={0}>Show All Parallels</option>
-          {subset.series.map((series) => {
-            return (
-              <option key={series.id} value={series.id}>
-                {series.name}
-              </option>
-            );
-          })}
-        </Styled.SeriesSelect>
-      </Styled.SelectParallel>
-      <Styled.SelectParallel>
-        <Styled.SelectLabel>Show Missing Cards: </Styled.SelectLabel>
-        <input
-          type="checkbox"
-          onChange={handleShowAllChange}
-          checked={showAllCards}
-        />
+        <Styled.SelectLabel>Show All: </Styled.SelectLabel>
+        <input type="checkbox" onChange={handleShowAllChange} checked={showAllCards} />
       </Styled.SelectParallel>
       {selectedCardIds.length > 0 && (
         <Styled.AddCardsContainer>
@@ -218,6 +190,21 @@ export default function CollectionSubset(props: Props) {
         )}
         {!deleteCardsToggle && (
           <DataTable
+            title={
+              <Styled.SelectParallel>
+                <Styled.SelectLabel>Select Parallel Set</Styled.SelectLabel>
+                <Styled.SeriesSelect value={selectedSeriesId} onChange={handleSeriesChange}>
+                  <option value={0}>Show All Parallels</option>
+                  {subset.series.map((series) => {
+                    return (
+                      <option key={series.id} value={series.id}>
+                        {series.name}
+                      </option>
+                    );
+                  })}
+                </Styled.SeriesSelect>
+              </Styled.SelectParallel>
+            }
             dense
             actions={
               props.tableData.filter((card: any) => {
@@ -237,9 +224,7 @@ export default function CollectionSubset(props: Props) {
             columns={columns}
             data={props.tableData
               .filter((card: any) => {
-                return (
-                  selectedSeriesId === 0 || card.seriesId === selectedSeriesId
-                );
+                return selectedSeriesId === 0 || card.seriesId === selectedSeriesId;
               })
               .filter((card: any) => {
                 return showAllCards || card.quantity > 0;

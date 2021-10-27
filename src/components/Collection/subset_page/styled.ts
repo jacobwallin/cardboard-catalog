@@ -1,30 +1,30 @@
 import styled from "styled-components";
 
-export const SeriesSelect = styled.select`
-  width: 150px;
-  height: 20px;
-`;
-
-export const SelectLabel = styled.div`
-  font-size: 0.8em;
-  font-weight: 500;
-`;
-
 export const PageTitle = styled.div`
-  font-size: 1.4rem;
-  margin-bottom: 30px;
+  font-size: 1.5rem;
+  margin: 20px 0 30px 0;
   font-weight: 600;
   align-self: flex-start;
 `;
 
 export const SelectParallel = styled.div`
   display: flex;
-  width: 100%;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  justify-content: left;
+  flex-direction: column;
+  align-items: right;
+  justify-content: right;
   margin-bottom: 0px;
+  gap: 2px;
+  align-self: flex-start;
+`;
+
+export const SeriesSelect = styled.select`
+  width: 150px;
+  height: 20px;
+`;
+
+export const SelectLabel = styled.div`
+  font-size: 12px;
+  font-weight: 600;
 `;
 
 export const AddCardsContainer = styled.div`

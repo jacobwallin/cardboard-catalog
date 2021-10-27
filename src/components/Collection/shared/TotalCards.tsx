@@ -2,14 +2,12 @@ import React from "react";
 import styled from "styled-components";
 
 const Title = styled.div`
-  font-size: 1rem;
-  font-weight: 600;
-  width: 100%;
-  margin: 15px 0 30px 0;
+  font-size: 0.9rem;
+  font-weight: 400;
 `;
 
 const NumCards = styled.span`
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 400;
 `;
 

@@ -8,30 +8,20 @@ const columns = [
     name: "Set Name",
     selector: "setName",
     sortable: true,
-    cell: (row: any) => (
-      <SubtleLink to={`/set/${row.setId}`}>{row.setName}</SubtleLink>
-    ),
+    cell: (row: any) => <SubtleLink to={`/set/${row.setId}`}>{row.setName}</SubtleLink>,
     minWidth: "50px",
     style: tableStyles,
     grow: 2,
   },
   {
-    name: "Total Cards",
+    name: "Cards",
     selector: "totalCards",
     sortable: true,
-    minWidth: "50px",
+    minWidth: "75px",
+    maxWidth: "75px",
     style: tableStyles,
-    grow: 1,
   },
-  {
-    name: "Unique Cards",
-    selector: "distinctCards",
-    sortable: true,
-    minWidth: "50px",
-    style: tableStyles,
-    grow: 1,
-    hide: 350,
-  },
+
   {
     name: "",
     sortable: false,

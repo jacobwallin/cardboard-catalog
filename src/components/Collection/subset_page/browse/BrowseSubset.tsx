@@ -79,19 +79,7 @@ export default function BrowseSubset(props: Props) {
       )}
       {!showAddCardForm && (
         <>
-          <Styled.SelectParallel>
-            <Styled.SelectLabel>Select Parallel Set: </Styled.SelectLabel>
-            <Styled.SeriesSelect value={selectedSeriesId} onChange={handleSeriesChange}>
-              <option value={0}>Show All Parallels</option>
-              {subset.series.map((series) => {
-                return (
-                  <option key={series.id} value={series.id}>
-                    {series.name}
-                  </option>
-                );
-              })}
-            </Styled.SeriesSelect>
-          </Styled.SelectParallel>
+          <Styled.PageTitle>Set Checklist</Styled.PageTitle>
           {addCardFormData.length > 0 && (
             <Styled.AddCardsContainer>
               <Styled.AddCardsTotal>
@@ -113,7 +101,21 @@ export default function BrowseSubset(props: Props) {
           <DataTableContainer>
             <DataTable
               dense
-              title="Checklist"
+              title={
+                <Styled.SelectParallel>
+                  <Styled.SelectLabel>Select Parallel Set</Styled.SelectLabel>
+                  <Styled.SeriesSelect value={selectedSeriesId} onChange={handleSeriesChange}>
+                    <option value={0}>Show All Parallels</option>
+                    {subset.series.map((series) => {
+                      return (
+                        <option key={series.id} value={series.id}>
+                          {series.name}
+                        </option>
+                      );
+                    })}
+                  </Styled.SeriesSelect>
+                </Styled.SelectParallel>
+              }
               actions={
                 <StyledButton
                   color={checklistToggleSelect ? "YELLOW" : "GRAY"}
@@ -162,6 +164,11 @@ var customStyles = {
     // denseStyle: {
     //   minHeight: "25px",
     // },
+  },
+  subHeader: {
+    style: {
+      minHeight: "40px",
+    },
   },
   headCells: {
     style: {
