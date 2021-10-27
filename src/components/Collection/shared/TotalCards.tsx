@@ -8,7 +8,7 @@ const Title = styled.div`
 
 const NumCards = styled.span`
   font-size: 0.9rem;
-  font-weight: 400;
+  font-weight: 600;
 `;
 
 export default function TotalCards(props: { totalCards: number }) {
