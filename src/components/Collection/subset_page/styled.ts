@@ -83,3 +83,11 @@ export const DeleteConfirmMessage = styled.div`
   text-align: center;
   padding: 30px 0 30px 0;
 `;
+
+export const TableHeader = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;

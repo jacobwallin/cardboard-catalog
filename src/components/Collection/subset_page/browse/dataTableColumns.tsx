@@ -1,5 +1,4 @@
 import React from "react";
-import tableStyles from "../../shared/dataTableStyles";
 import { TableDataPoint } from "../createTableData";
 import CardNumber from "../CardNumber";
 

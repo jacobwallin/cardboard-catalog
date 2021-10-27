@@ -4,7 +4,7 @@ import { RootState } from "../../../../store";
 import DataTable from "react-data-table-component";
 import columns from "./dataTableColumns";
 import { TableDataPoint } from "../createTableData";
-import { CollectionPageContainer, DataTableContainer } from "../../shared";
+import { CollectionPageContainer } from "../../shared";
 import StyledButton from "../../../Admin/components/StyledButton";
 import AddCardsForm, { CardFormData } from "../../../add_cards_form/AddCardsForm";
 import * as Styled from "../styled";
@@ -21,6 +21,7 @@ export default function BrowseSubset(props: Props) {
   const [checklistToggleSelect, setChecklistToggleSelect] = useState(false);
   // toggles add card form modal when user wants to add cards to collection
   const [showAddCardForm, setShowAddCardForm] = useState(false);
+  const [clearSelected, setClearSelected] = useState(true);
   const [addCardFormData, setAddCardFormData] = useState<CardFormData[]>([]);
 
   function handleSeriesChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -32,6 +33,11 @@ export default function BrowseSubset(props: Props) {
       setAddCardFormData([]);
     }
   }, [showAddCardForm]);
+
+  function toggleCheckboxes() {
+    setChecklistToggleSelect(!checklistToggleSelect);
+    setClearSelected(!clearSelected);
+  }
 
   interface Stuff {
     allSelected: boolean;
@@ -98,67 +104,65 @@ export default function BrowseSubset(props: Props) {
               </StyledButton>
             </Styled.AddCardsContainer>
           )}
-          <DataTableContainer>
-            <DataTable
-              dense
-              title={
-                <Styled.SelectParallel>
-                  <Styled.SelectLabel>Select Parallel Set</Styled.SelectLabel>
-                  <Styled.SeriesSelect value={selectedSeriesId} onChange={handleSeriesChange}>
-                    <option value={0}>Show All Parallels</option>
-                    {subset.series
-                      .sort((a, b) => {
-                        if (a.id === subset.baseSeriesId) return -1;
-                        if (b.id === subset.baseSeriesId) return 1;
+          <Styled.TableHeader>
+            <Styled.SelectParallel>
+              <Styled.SelectLabel>Select Parallel Set</Styled.SelectLabel>
+              <Styled.SeriesSelect value={selectedSeriesId} onChange={handleSeriesChange}>
+                <option value={0}>Show All Parallels</option>
+                {subset.series
+                  .sort((a, b) => {
+                    if (a.id === subset.baseSeriesId) return -1;
+                    if (b.id === subset.baseSeriesId) return 1;
 
-                        let aSer = a.serialized || Infinity;
-                        let bSer = b.serialized || Infinity;
-                        if (aSer < bSer) return 1;
-                        if (aSer > bSer) return -1;
+                    let aSer = a.serialized || Infinity;
+                    let bSer = b.serialized || Infinity;
+                    if (aSer < bSer) return 1;
+                    if (aSer > bSer) return -1;
 
-                        if (a.name < b.name) return -1;
-                        if (a.name > b.name) return 1;
-                        return 0;
-                      })
-                      .map((series) => {
-                        return (
-                          <option key={series.id} value={series.id}>
-                            {series.name}
-                            {series.serialized && ` /${series.serialized}`}
-                          </option>
-                        );
-                      })}
-                  </Styled.SeriesSelect>
-                </Styled.SelectParallel>
-              }
-              actions={
-                <StyledButton
-                  color={checklistToggleSelect ? "YELLOW" : "GRAY"}
-                  height="25px"
-                  width="100px"
-                  fontSize="13px"
-                  onClick={(e) => setChecklistToggleSelect(!checklistToggleSelect)}
-                >
-                  {checklistToggleSelect ? "Cancel" : "Add Cards"}
-                </StyledButton>
-              }
-              columns={columns}
-              data={props.tableData
-                .filter((card: any) => {
-                  return selectedSeriesId === 0 || card.seriesId === selectedSeriesId;
-                })
-                .sort((a, b) => {
-                  return sortCardNumbers(a.cardData.number, b.cardData.number);
-                })}
-              highlightOnHover
-              pagination
-              paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
-              paginationPerPage={20}
-              selectableRows={checklistToggleSelect}
-              onSelectedRowsChange={addSelectedCardsChange}
-              customStyles={customStyles}
-            />
-          </DataTableContainer>
+                    if (a.name < b.name) return -1;
+                    if (a.name > b.name) return 1;
+                    return 0;
+                  })
+                  .map((series) => {
+                    return (
+                      <option key={series.id} value={series.id}>
+                        {series.name}
+                        {series.serialized && ` /${series.serialized}`}
+                      </option>
+                    );
+                  })}
+              </Styled.SeriesSelect>
+            </Styled.SelectParallel>
+            <StyledButton
+              color={checklistToggleSelect ? "YELLOW" : "GRAY"}
+              height="25px"
+              width="100px"
+              fontSize="13px"
+              onClick={toggleCheckboxes}
+            >
+              {checklistToggleSelect ? "Cancel" : "Add Cards"}
+            </StyledButton>
+          </Styled.TableHeader>
+          <DataTable
+            noHeader
+            dense
+            columns={columns}
+            data={props.tableData
+              .filter((card: any) => {
+                return selectedSeriesId === 0 || card.seriesId === selectedSeriesId;
+              })
+              .sort((a, b) => {
+                return sortCardNumbers(a.cardData.number, b.cardData.number);
+              })}
+            highlightOnHover
+            pagination
+            paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
+            paginationPerPage={20}
+            selectableRows={checklistToggleSelect}
+            onSelectedRowsChange={addSelectedCardsChange}
+            clearSelectedRows={clearSelected}
+            customStyles={customStyles}
+          />
         </>
       )}
     </CollectionPageContainer>
