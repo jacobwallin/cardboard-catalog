@@ -1,4 +1,5 @@
 import { UserCard } from "../../../store/collection/filter/types";
+import { getFullSetName } from "./dataTableColumns";
 
 function createPdfData(
   cards: UserCard[],
@@ -6,7 +7,6 @@ function createPdfData(
     cardNumber: boolean;
     cardName: boolean;
     setName: boolean;
-    subsetName: boolean;
     dateAdded: boolean;
     team: boolean;
     players: boolean;
@@ -16,18 +16,7 @@ function createPdfData(
   const checkboxSvg = `<svg width="10" height="10"><rect x="1" y="2" width="5" height="5" rx="1" stroke-width="1" stroke="#000" fill="#fff" /></svg>`;
 
   const cardData = cards.map((card) => {
-    let setPrintout = card.card.series.subset.set.name;
-
-    if (
-      card.card.series.subset.id === card.card.series.subset.set.baseSubsetId
-    ) {
-      setPrintout += "Base Set";
-    } else {
-      setPrintout += card.card.series.subset.name;
-      if (card.card.series.id !== card.card.series.subset.baseSeriesId) {
-        setPrintout += card.card.series.name;
-      }
-    }
+    let setPrintout = getFullSetName(card);
 
     return [
       { svg: checkboxSvg },

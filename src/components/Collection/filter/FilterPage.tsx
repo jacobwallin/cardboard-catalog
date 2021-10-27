@@ -306,15 +306,6 @@ export default function FilterPage() {
             />
           </Styled.ShowColumn>
           <Styled.ShowColumn>
-            <Styled.Label htmlFor="subsetName">Subset: </Styled.Label>
-            <Styled.Checkbox
-              id="subsetName"
-              checked={shownColumns.subsetName}
-              type="checkbox"
-              onChange={shownColumnsChange}
-            />
-          </Styled.ShowColumn>
-          <Styled.ShowColumn>
             <Styled.Label htmlFor="dateAdded">Date Added: </Styled.Label>
             <Styled.Checkbox
               id="dateAdded"

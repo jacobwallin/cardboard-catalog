@@ -34,7 +34,6 @@ export interface TableColumns {
   cardNumber: boolean;
   cardName: boolean;
   setName: boolean;
-  subsetName: boolean;
   dateAdded: boolean;
   team: boolean;
   players: boolean;

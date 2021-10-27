@@ -1,13 +1,11 @@
 import tableStyles from "../shared/dataTableStyles";
 import { UserCard } from "../../../store/collection/filter/types";
-import { TableColumns } from "./styled";
 import { IDataTableColumn } from "react-data-table-component";
 
 function columns(selectedCols: {
   cardNumber: boolean;
   cardName: boolean;
   setName: boolean;
-  subsetName: boolean;
   dateAdded: boolean;
   team: boolean;
   players: boolean;
@@ -53,17 +51,17 @@ function columns(selectedCols: {
     cols.push({
       name: "Set",
       selector: (row: UserCard) => row.card.series.subset.set.name,
-      sortable: true,
-      style: tableStyles,
-      compact: true,
-    });
-  }
-
-  // SUBSET NAME
-  if (selectedCols.subsetName) {
-    cols.push({
-      name: "Subset",
-      selector: (row: UserCard) => row.card.series.subset.name,
+      cell: (row) => {
+        let setName = getFullSetName(row);
+        return setName;
+      },
+      sortFunction: (rowA, rowB) => {
+        let setNameA = getFullSetName(rowA);
+        let setNameB = getFullSetName(rowB);
+        if (setNameA > setNameB) return -1;
+        if (setNameA < setNameB) return 1;
+        return 0;
+      },
       sortable: true,
       style: tableStyles,
       compact: true,
@@ -83,6 +81,17 @@ function columns(selectedCols: {
   }
 
   return cols;
+}
+
+export function getFullSetName(row: UserCard): string {
+  let fullName = row.card.series.subset.set.name;
+  if (row.card.series.subset.id !== row.card.series.subset.set.baseSubsetId) {
+    fullName = fullName.concat(" ", row.card.series.subset.name);
+    if (row.card.series.id !== row.card.series.subset.baseSeriesId) {
+      fullName = fullName.concat(" ", row.card.series.name);
+    }
+  }
+  return fullName;
 }
 
 export default columns;
