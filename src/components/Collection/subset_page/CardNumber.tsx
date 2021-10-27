@@ -23,7 +23,12 @@ const Serialized = styled.div`
 
 const ShortPrint = styled.div`
   color: blue;
-  font-size: 10px;
+  font-size: 11px;
+`;
+
+const ManuRelic = styled.div`
+  color: green;
+  font-size: 11px;
 `;
 
 const Svg = styled.div`
@@ -37,6 +42,7 @@ interface Props {
   shortPrint: boolean;
   auto: boolean;
   relic: boolean;
+  manufacturedRelic: boolean;
 }
 
 export default function CardNumber(props: Props) {
@@ -60,6 +66,7 @@ export default function CardNumber(props: Props) {
             <img src={JerseyIcon} alt="relic" title="relic" />
           </Svg>
         )}
+        {props.manufacturedRelic && <ManuRelic title="manufactured relic">MR</ManuRelic>}
       </Attributes>
     </Container>
   );

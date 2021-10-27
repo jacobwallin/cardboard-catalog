@@ -1,5 +1,5 @@
 import { UserCard } from "../../../store/collection/filter/types";
-import { getFullSetName } from "./dataTableColumns";
+import { getFullSetName } from "./columns";
 
 function createPdfData(
   cards: UserCard[],

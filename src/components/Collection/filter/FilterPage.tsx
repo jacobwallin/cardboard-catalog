@@ -7,7 +7,7 @@ import { fetchCardsBySet } from "../../../store/collection/browse/thunks";
 import { fetchAllPlayers } from "../../../store/library/players/thunks";
 import { fetchAllTeams } from "../../../store/library/teams/thunks";
 import DataTable from "react-data-table-component";
-import columns from "./dataTableColumns";
+import { columns } from "./columns";
 import { createLoadingSelector, createStatusSelector } from "../../../store/loading/reducer";
 import { createPdf } from "../../../utils/createPdf";
 import createPdfData from "./createPdfData";

@@ -1,8 +1,10 @@
+import React from "react";
 import tableStyles from "../shared/dataTableStyles";
 import { UserCard } from "../../../store/collection/filter/types";
 import { IDataTableColumn } from "react-data-table-component";
+import CardNumber from "../subset_page/CardNumber";
 
-function columns(selectedCols: {
+export function columns(selectedCols: {
   cardNumber: boolean;
   cardName: boolean;
   setName: boolean;
@@ -17,6 +19,16 @@ function columns(selectedCols: {
     cols.push({
       name: "#",
       selector: (row: UserCard) => row.card.card_datum.number,
+      cell: (row: UserCard) => (
+        <CardNumber
+          number={row.card.card_datum.number}
+          serialized={row.card.series.serialized}
+          shortPrint={row.card.series.shortPrint}
+          auto={row.card.series.auto}
+          relic={row.card.series.relic}
+          manufacturedRelic={row.card.series.manufacturedRelic}
+        />
+      ),
       sortable: true,
       style: tableStyles,
       compact: true,

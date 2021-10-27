@@ -27,17 +27,16 @@ const columns = [
     name: "#",
     selector: (row: TableDataPoint) => row.cardData.number,
     sortable: true,
-    cell: (row: TableDataPoint) => {
-      return (
-        <CardNumber
-          number={row.cardData.number}
-          serialized={row.series.serialized}
-          shortPrint={row.series.shortPrint}
-          auto={row.series.auto}
-          relic={row.series.relic}
-        />
-      );
-    },
+    cell: (row: TableDataPoint) => (
+      <CardNumber
+        number={row.cardData.number}
+        serialized={row.series.serialized}
+        shortPrint={row.series.shortPrint}
+        auto={row.series.auto}
+        relic={row.series.relic}
+        manufacturedRelic={row.series.manufacturedRelic}
+      />
+    ),
     grow: 1,
     sortFunction: customColumnSort,
     minWidth: "auto",
