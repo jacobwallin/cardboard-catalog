@@ -20,7 +20,6 @@ function columns(selectedCols: {
       sortable: true,
       style: tableStyles,
       compact: true,
-      minWidth: "auto",
     });
   }
 
@@ -50,21 +49,12 @@ function columns(selectedCols: {
   if (selectedCols.setName) {
     cols.push({
       name: "Set",
-      selector: (row: UserCard) => row.card.series.subset.set.name,
-      cell: (row) => {
-        let setName = getFullSetName(row);
-        return setName;
-      },
-      sortFunction: (rowA, rowB) => {
-        let setNameA = getFullSetName(rowA);
-        let setNameB = getFullSetName(rowB);
-        if (setNameA > setNameB) return -1;
-        if (setNameA < setNameB) return 1;
-        return 0;
-      },
+      selector: (row: UserCard) => getFullSetName(row),
       sortable: true,
       style: tableStyles,
       compact: true,
+      wrap: true,
+      grow: 4,
     });
   }
 
@@ -77,6 +67,7 @@ function columns(selectedCols: {
       sortable: true,
       style: tableStyles,
       compact: true,
+      grow: 0,
     });
   }
 

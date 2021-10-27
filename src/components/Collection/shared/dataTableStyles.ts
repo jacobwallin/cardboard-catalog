@@ -23,7 +23,7 @@ createTheme("grey", {
 });
 
 export const tableStyles = {
-  fontSize: "14px",
+  fontSize: "12px",
 };
 
 export const customStyles = {
