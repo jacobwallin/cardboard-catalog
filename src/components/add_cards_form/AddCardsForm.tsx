@@ -25,7 +25,7 @@ export interface CardFormData {
 }
 
 const postingCards = createLoadingSelector(["ADD_CARDS"]);
-const postingCardsStatusSelector = createStatusSelector("QUICK_ADD");
+const postingCardsStatusSelector = createStatusSelector("ADD_CARDS");
 
 interface Props {
   formData?: CardFormData[];
