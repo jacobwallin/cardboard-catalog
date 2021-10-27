@@ -30,11 +30,11 @@ export default function CollectionSubset(props: Props) {
   const [showAllCards, setShowAllCards] = useState(false);
   // toggles showing checkboxes to select cards to add to collection
   const [deleteCardsToggle, setDeleteCardsToggle] = useState(false);
+  const [clearSelected, setClearSelected] = useState(true);
   // toggles add card form modal when user wants to add cards to collection
   const [showAddCardForm, setShowAddCardForm] = useState(false);
   const [selectedCardIds, setSelectedCardIds] = useState<number[]>([]);
 
-  const [toggleCleared, setToggleCleared] = useState(false);
   const [numCardsDeleted, setNumCardsDeleted] = useState(0);
 
   function handleSeriesChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -44,7 +44,7 @@ export default function CollectionSubset(props: Props) {
   useEffect(() => {
     if (deleteRequestStatus === "SUCCESS") {
       setNumCardsDeleted(selectedCardIds.length);
-      setToggleCleared(true);
+      setClearSelected(true);
     }
   }, [deleteRequestStatus]);
 
@@ -54,8 +54,8 @@ export default function CollectionSubset(props: Props) {
     selectedRows: Array<DeleteTableDataPoint>;
   }
   function addSelectedCardsChange(stuff: Stuff) {
-    if (toggleCleared) {
-      setToggleCleared(false);
+    if (clearSelected) {
+      setClearSelected(false);
     }
     setSelectedCardIds(
       stuff.selectedRows.map((row) => {
@@ -74,6 +74,9 @@ export default function CollectionSubset(props: Props) {
 
   function toggleDeleteChecklist() {
     setDeleteCardsToggle(!deleteCardsToggle);
+    if (deleteCardsToggle) {
+      setSelectedCardIds([]);
+    }
   }
 
   function toggleConfirmDeleteModal() {
@@ -141,9 +144,7 @@ export default function CollectionSubset(props: Props) {
       {selectedCardIds.length > 0 && (
         <Styled.AddCardsContainer>
           <Styled.AddCardsTotal>
-            {`${selectedCardIds.length} ${
-              selectedCardIds.length > 1 ? "Cards" : "Card"
-            } Ready to Delete`}
+            {`${selectedCardIds.length} ${selectedCardIds.length > 1 ? "Cards" : "Card"} Selected`}
           </Styled.AddCardsTotal>
           <StyledButton
             color="RED"
@@ -156,21 +157,56 @@ export default function CollectionSubset(props: Props) {
           </StyledButton>
         </Styled.AddCardsContainer>
       )}
+
+      <Styled.TableHeader>
+        <Styled.SelectParallel>
+          <Styled.SelectLabel>Select Parallel Set</Styled.SelectLabel>
+          <Styled.SeriesSelect value={selectedSeriesId} onChange={handleSeriesChange}>
+            <option value={0}>Show All Parallels</option>
+            {subset.series
+              .sort((a, b) => {
+                if (a.id === subset.baseSeriesId) return -1;
+                if (b.id === subset.baseSeriesId) return 1;
+
+                let aSer = a.serialized || Infinity;
+                let bSer = b.serialized || Infinity;
+                if (aSer < bSer) return 1;
+                if (aSer > bSer) return -1;
+
+                if (a.name < b.name) return -1;
+                if (a.name > b.name) return 1;
+                return 0;
+              })
+              .map((series) => {
+                return (
+                  <option key={series.id} value={series.id}>
+                    {series.name}
+                    {series.serialized && ` /${series.serialized}`}
+                  </option>
+                );
+              })}
+          </Styled.SeriesSelect>
+        </Styled.SelectParallel>
+        {props.tableData.filter((card: any) => {
+          return card.quantity > 0;
+        }).length > 0 && (
+          <StyledButton
+            color={deleteCardsToggle ? "YELLOW" : "GRAY"}
+            height="25px"
+            width="100px"
+            fontSize="13px"
+            onClick={toggleDeleteChecklist}
+          >
+            {deleteCardsToggle ? "Cancel" : "Delete"}
+          </StyledButton>
+        )}
+      </Styled.TableHeader>
+
       <DataTableContainer>
         {deleteCardsToggle && (
           <DataTable
+            noHeader
             dense
-            actions={
-              <StyledButton
-                color="YELLOW"
-                height="25px"
-                width="110px"
-                fontSize="13px"
-                onClick={toggleDeleteChecklist}
-              >
-                Cancel
-              </StyledButton>
-            }
             columns={deleteColumns}
             data={props.userCardTableData}
             highlightOnHover
@@ -178,9 +214,9 @@ export default function CollectionSubset(props: Props) {
             paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
             paginationPerPage={20}
             defaultSortField={"Card #"}
-            clearSelectedRows={toggleCleared}
             selectableRows
             onSelectedRowsChange={addSelectedCardsChange}
+            clearSelectedRows={clearSelected}
             noDataComponent={
               <NoDataMessage>
                 You don't have any cards from this set in your collection.
@@ -190,52 +226,8 @@ export default function CollectionSubset(props: Props) {
         )}
         {!deleteCardsToggle && (
           <DataTable
-            title={
-              <Styled.SelectParallel>
-                <Styled.SelectLabel>Select Parallel Set</Styled.SelectLabel>
-                <Styled.SeriesSelect value={selectedSeriesId} onChange={handleSeriesChange}>
-                  <option value={0}>Show All Parallels</option>
-                  {subset.series
-                    .sort((a, b) => {
-                      if (a.id === subset.baseSeriesId) return -1;
-                      if (b.id === subset.baseSeriesId) return 1;
-
-                      let aSer = a.serialized || Infinity;
-                      let bSer = b.serialized || Infinity;
-                      if (aSer < bSer) return 1;
-                      if (aSer > bSer) return -1;
-
-                      if (a.name < b.name) return -1;
-                      if (a.name > b.name) return 1;
-                      return 0;
-                    })
-                    .map((series) => {
-                      return (
-                        <option key={series.id} value={series.id}>
-                          {series.name}
-                          {series.serialized && ` /${series.serialized}`}
-                        </option>
-                      );
-                    })}
-                </Styled.SeriesSelect>
-              </Styled.SelectParallel>
-            }
+            noHeader
             dense
-            actions={
-              props.tableData.filter((card: any) => {
-                return card.quantity > 0;
-              }).length > 0 && (
-                <StyledButton
-                  color="GRAY"
-                  height="25px"
-                  width="110px"
-                  fontSize="13px"
-                  onClick={toggleDeleteChecklist}
-                >
-                  Delete Cards
-                </StyledButton>
-              )
-            }
             columns={columns}
             data={props.tableData
               .filter((card: any) => {
