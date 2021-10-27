@@ -195,13 +195,28 @@ export default function CollectionSubset(props: Props) {
                 <Styled.SelectLabel>Select Parallel Set</Styled.SelectLabel>
                 <Styled.SeriesSelect value={selectedSeriesId} onChange={handleSeriesChange}>
                   <option value={0}>Show All Parallels</option>
-                  {subset.series.map((series) => {
-                    return (
-                      <option key={series.id} value={series.id}>
-                        {series.name}
-                      </option>
-                    );
-                  })}
+                  {subset.series
+                    .sort((a, b) => {
+                      if (a.id === subset.baseSeriesId) return -1;
+                      if (b.id === subset.baseSeriesId) return 1;
+
+                      let aSer = a.serialized || Infinity;
+                      let bSer = b.serialized || Infinity;
+                      if (aSer < bSer) return 1;
+                      if (aSer > bSer) return -1;
+
+                      if (a.name < b.name) return -1;
+                      if (a.name > b.name) return 1;
+                      return 0;
+                    })
+                    .map((series) => {
+                      return (
+                        <option key={series.id} value={series.id}>
+                          {series.name}
+                          {series.serialized && ` /${series.serialized}`}
+                        </option>
+                      );
+                    })}
                 </Styled.SeriesSelect>
               </Styled.SelectParallel>
             }

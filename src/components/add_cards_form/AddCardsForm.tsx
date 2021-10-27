@@ -170,7 +170,7 @@ export default function AddCardsForm(props: Props) {
       {!props.formData && <SelectCardForm cardData={cardData} addCard={addCard} />}
       <Styled.SubmitContainer>
         <Styled.TotalCardsLabel>
-          {cardData.length > 0 ? `Total Cards: ${cardData.length}` : "No Cards Selected"}
+          {cardData.length > 0 && `Total Cards: ${cardData.length}`}
         </Styled.TotalCardsLabel>
         <StyledButton
           id="submit-cards-button"
@@ -189,7 +189,9 @@ export default function AddCardsForm(props: Props) {
         postingCardsStatus === "FAILURE") && (
         <Styled.PostResultMessage success={postingCardsStatus !== "FAILURE"}>
           {postingCardsStatus !== "FAILURE"
-            ? `${cardsSuccessfullyAdded} cards have been added to your collection`
+            ? cardsSuccessfullyAdded > 1
+              ? `${cardsSuccessfullyAdded} cards have been added to your collection`
+              : `${cardsSuccessfullyAdded} card has been added to your collection`
             : "Error Adding Cards to Collection"}
         </Styled.PostResultMessage>
       )}
