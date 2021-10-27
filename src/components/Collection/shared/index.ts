@@ -1,7 +1,8 @@
 import DataTableContainer from "./DataTableContainer";
 import CollectionPageContainer from "./CollectionPageContainer";
 import ContentContainer from "./ContentContainer";
-import DataTableTitle from "../../shared/DataTableTitle";
+import DataTableHeader from "../../shared/DataTableHeader";
+import DataTableTitle from "./DataTableTitle";
 import CollectionData from "./CollectionData";
 import ContentTitle from "./ContentTitle";
 import ContentData from "./ContentData";
@@ -11,6 +12,7 @@ export {
   DataTableContainer,
   CollectionPageContainer,
   ContentContainer,
+  DataTableHeader,
   DataTableTitle,
   CollectionData,
   ContentData,
