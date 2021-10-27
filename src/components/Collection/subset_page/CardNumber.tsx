@@ -1,0 +1,66 @@
+import React from "react";
+import styled from "styled-components";
+import SignatureIcon from "./signature.svg";
+import JerseyIcon from "./jersey2.svg";
+
+const Container = styled.div`
+  white-space: nowrap;
+`;
+
+const Number = styled.div``;
+
+const Attributes = styled.div`
+  /* white-space: "nowrap"; */
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+`;
+
+const Serialized = styled.div`
+  color: #daa520;
+  font-size: 11px;
+`;
+
+const ShortPrint = styled.div`
+  color: blue;
+  font-size: 10px;
+`;
+
+const Svg = styled.div`
+  width: 12px;
+  height: 12px;
+`;
+
+interface Props {
+  number: string;
+  serialized: number | null;
+  shortPrint: boolean;
+  auto: boolean;
+  relic: boolean;
+}
+
+export default function CardNumber(props: Props) {
+  return (
+    <Container>
+      <Number>{props.number}</Number>
+      <Attributes>
+        {props.serialized && (
+          <Serialized
+            title={`serialized to ${props.serialized}`}
+          >{`/${props.serialized}`}</Serialized>
+        )}
+        {props.shortPrint && <ShortPrint title="short print">SP</ShortPrint>}
+        {props.auto && (
+          <Svg>
+            <img src={SignatureIcon} alt="auto" title="auto" />
+          </Svg>
+        )}
+        {props.relic && (
+          <Svg>
+            <img src={JerseyIcon} alt="relic" title="relic" />
+          </Svg>
+        )}
+      </Attributes>
+    </Container>
+  );
+}

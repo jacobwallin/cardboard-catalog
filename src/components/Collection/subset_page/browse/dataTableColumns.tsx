@@ -1,6 +1,7 @@
 import React from "react";
 import tableStyles from "../../shared/dataTableStyles";
 import { TableDataPoint } from "../createTableData";
+import CardNumber from "../CardNumber";
 
 const customColumnSort = (rowA: TableDataPoint, rowB: TableDataPoint) => {
   let a: string | number = rowA.cardData.number;
@@ -26,7 +27,17 @@ const columns = [
     name: "#",
     selector: (row: TableDataPoint) => row.cardData.number,
     sortable: true,
-    // style: modifiedStyles,
+    cell: (row: TableDataPoint) => {
+      return (
+        <CardNumber
+          number={row.cardData.number}
+          serialized={row.series.serialized}
+          shortPrint={row.series.shortPrint}
+          auto={row.series.auto}
+          relic={row.series.relic}
+        />
+      );
+    },
     grow: 1,
     sortFunction: customColumnSort,
     minWidth: "auto",
