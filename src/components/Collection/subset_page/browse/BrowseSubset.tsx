@@ -6,9 +6,7 @@ import columns from "./dataTableColumns";
 import { TableDataPoint } from "../createTableData";
 import { CollectionPageContainer, DataTableContainer } from "../../shared";
 import StyledButton from "../../../Admin/components/StyledButton";
-import AddCardsForm, {
-  CardFormData,
-} from "../../../add_cards_form/AddCardsForm";
+import AddCardsForm, { CardFormData } from "../../../add_cards_form/AddCardsForm";
 import * as Styled from "../styled";
 import sortCardNumbers from "../../../../utils/sortCardNumbers";
 
@@ -16,13 +14,9 @@ interface Props {
   tableData: any[];
 }
 export default function BrowseSubset(props: Props) {
-  const subset = useSelector(
-    (state: RootState) => state.library.subsets.subset
-  );
+  const subset = useSelector((state: RootState) => state.library.subsets.subset);
 
-  const [selectedSeriesId, setSelectedSeriesId] = useState(
-    subset.baseSeriesId || 1
-  );
+  const [selectedSeriesId, setSelectedSeriesId] = useState(subset.baseSeriesId || 1);
   // toggles showing checkboxes to select cards to add to collection
   const [checklistToggleSelect, setChecklistToggleSelect] = useState(false);
   // toggles add card form modal when user wants to add cards to collection
@@ -85,13 +79,9 @@ export default function BrowseSubset(props: Props) {
       )}
       {!showAddCardForm && (
         <>
-          <Styled.PageTitle>Set Checklist</Styled.PageTitle>
           <Styled.SelectParallel>
             <Styled.SelectLabel>Select Parallel Set: </Styled.SelectLabel>
-            <Styled.SeriesSelect
-              value={selectedSeriesId}
-              onChange={handleSeriesChange}
-            >
+            <Styled.SeriesSelect value={selectedSeriesId} onChange={handleSeriesChange}>
               <option value={0}>Show All Parallels</option>
               {subset.series.map((series) => {
                 return (
@@ -123,15 +113,14 @@ export default function BrowseSubset(props: Props) {
           <DataTableContainer>
             <DataTable
               dense
+              title="Checklist"
               actions={
                 <StyledButton
                   color={checklistToggleSelect ? "YELLOW" : "GRAY"}
                   height="25px"
                   width="100px"
                   fontSize="13px"
-                  onClick={(e) =>
-                    setChecklistToggleSelect(!checklistToggleSelect)
-                  }
+                  onClick={(e) => setChecklistToggleSelect(!checklistToggleSelect)}
                 >
                   {checklistToggleSelect ? "Cancel" : "Add Cards"}
                 </StyledButton>
@@ -139,9 +128,7 @@ export default function BrowseSubset(props: Props) {
               columns={columns}
               data={props.tableData
                 .filter((card: any) => {
-                  return (
-                    selectedSeriesId === 0 || card.seriesId === selectedSeriesId
-                  );
+                  return selectedSeriesId === 0 || card.seriesId === selectedSeriesId;
                 })
                 .sort((a, b) => {
                   return sortCardNumbers(a.cardData.number, b.cardData.number);
@@ -189,12 +176,10 @@ var customStyles = {
       minWidth: "auto",
     },
   },
+  header: {
+    style: {
+      fontSize: "20px",
+      minHeight: "45px",
+    },
+  },
 };
-
-// {showAddCardForm && (
-//   <Background>
-//     <ModalWindow>
-
-//     </ModalWindow>
-//   </Background>
-// )}

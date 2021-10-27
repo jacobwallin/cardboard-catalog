@@ -13,16 +13,21 @@ const DataLine = styled.div`
   margin-top: 5px;
 `;
 
+const Title = styled.div`
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #5a9bfd;
+`;
+
 interface Props {
   totalCards: number;
-  distinctCards: number;
 }
 
 function CollectionData(props: Props) {
   return (
     <DataContainer>
+      <Title>Your Collection</Title>
       <DataLine>{`Total Cards: ${props.totalCards}`}</DataLine>
-      <DataLine>{`Unique Cards: ${props.distinctCards}`}</DataLine>
     </DataContainer>
   );
 }

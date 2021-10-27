@@ -6,19 +6,12 @@ import { RootState } from "../../../store";
 import DataTable from "react-data-table-component";
 import { aggregateCardsByYear } from "./aggregateCards";
 import columns from "./dataTableColumns";
-import {
-  DataTableContainer,
-  CollectionPageContainer,
-  CollectionData,
-  DataTableTitle,
-} from "../shared";
+import * as Shared from "../shared";
 
 const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
 
 const SelectYear = () => {
-  const cardsBySet = useSelector(
-    (state: RootState) => state.collection.browse.cardsBySet
-  );
+  const cardsBySet = useSelector((state: RootState) => state.collection.browse.cardsBySet);
 
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
   const initialDataLoadComplete = useSelector(
@@ -35,17 +28,14 @@ const SelectYear = () => {
   }, []);
 
   return (
-    <CollectionPageContainer>
-      <CollectionData
+    <Shared.CollectionPageContainer>
+      <Shared.TotalCards
         totalCards={cardsBySet.reduce((total, set) => {
           return (total += +set.totalCards);
         }, 0)}
-        distinctCards={cardsBySet.reduce((total, set) => {
-          return (total += +set.distinctCards);
-        }, 0)}
       />
-      <DataTableTitle>Select Year</DataTableTitle>
-      <DataTableContainer>
+      <Shared.DataTableTitle>Select Year</Shared.DataTableTitle>
+      <Shared.DataTableContainer>
         <DataTable
           noHeader
           progressPending={isLoading}
@@ -55,8 +45,8 @@ const SelectYear = () => {
           theme="grey"
           dense
         />
-      </DataTableContainer>
-    </CollectionPageContainer>
+      </Shared.DataTableContainer>
+    </Shared.CollectionPageContainer>
   );
 };
 

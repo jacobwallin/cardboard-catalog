@@ -5,12 +5,7 @@ import { fetchCardsBySet } from "../../../store/collection/browse/thunks";
 import { RootState } from "../../../store";
 import { createLoadingSelector } from "../../../store/loading/reducer";
 import DataTable from "react-data-table-component";
-import {
-  CollectionPageContainer,
-  DataTableContainer,
-  DataTableTitle,
-  CollectionData,
-} from "../shared";
+import * as Shared from "../shared";
 import columns from "./dataTableColumns";
 
 const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
@@ -36,17 +31,14 @@ const SelectSet: React.FC<RouteComponentProps<TParams>> = (props) => {
   }, []);
 
   return (
-    <CollectionPageContainer>
-      <CollectionData
+    <Shared.CollectionPageContainer>
+      <Shared.TotalCards
         totalCards={cardsBySetForYear.reduce((totalCards, set) => {
           return (totalCards += +set.totalCards);
         }, 0)}
-        distinctCards={cardsBySetForYear.reduce((totalCards, set) => {
-          return (totalCards += +set.distinctCards);
-        }, 0)}
       />
-      <DataTableTitle>{`Sets from ${props.match.params.year}`}</DataTableTitle>
-      <DataTableContainer>
+      <Shared.DataTableTitle>{`Sets from ${props.match.params.year}`}</Shared.DataTableTitle>
+      <Shared.DataTableContainer>
         <DataTable
           noHeader
           progressPending={isLoading}
@@ -56,8 +48,8 @@ const SelectSet: React.FC<RouteComponentProps<TParams>> = (props) => {
           theme="grey"
           dense
         />
-      </DataTableContainer>
-    </CollectionPageContainer>
+      </Shared.DataTableContainer>
+    </Shared.CollectionPageContainer>
   );
 };
 
