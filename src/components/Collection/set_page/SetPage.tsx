@@ -52,7 +52,7 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
             }, 0)}
           />
 
-          <Shared.DataTableTitle>{`Base Set`}</Shared.DataTableTitle>
+          <Shared.DataTableHeader>{`Base Set`}</Shared.DataTableHeader>
           <Shared.DataTableContainer>
             <DataTable
               noHeader
@@ -77,7 +77,7 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
               highlightOnHover
             />
           </Shared.DataTableContainer>
-          <Shared.DataTableTitle>{`Inserts and Other Sets`}</Shared.DataTableTitle>
+          <Shared.DataTableHeader>{`Inserts and Other Sets`}</Shared.DataTableHeader>
           <Shared.DataTableContainer>
             <DataTable
               noHeader
