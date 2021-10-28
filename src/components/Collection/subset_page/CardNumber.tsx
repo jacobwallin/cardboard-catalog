@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import SignatureIcon from "./signature.svg";
 import JerseyIcon from "./jersey2.svg";
+import PrismIcon from "./prism.svg";
 
 const Container = styled.div`
   white-space: nowrap;
@@ -32,8 +33,8 @@ const ManuRelic = styled.div`
 `;
 
 const Svg = styled.div`
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
 `;
 
 interface Props {
@@ -43,6 +44,7 @@ interface Props {
   auto: boolean;
   relic: boolean;
   manufacturedRelic: boolean;
+  refractor: boolean;
 }
 
 export default function CardNumber(props: Props) {
@@ -64,6 +66,11 @@ export default function CardNumber(props: Props) {
         {props.relic && (
           <Svg>
             <img src={JerseyIcon} alt="relic" title="relic" />
+          </Svg>
+        )}
+        {props.refractor && (
+          <Svg>
+            <img src={PrismIcon} alt="refractor" title="refractor" />
           </Svg>
         )}
         {props.manufacturedRelic && <ManuRelic title="manufactured relic">MR</ManuRelic>}

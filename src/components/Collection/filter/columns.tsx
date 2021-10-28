@@ -27,6 +27,7 @@ export function columns(selectedCols: {
           auto={row.card.series.auto}
           relic={row.card.series.relic}
           manufacturedRelic={row.card.series.manufacturedRelic}
+          refractor={row.card.series.refractor}
         />
       ),
       sortable: true,

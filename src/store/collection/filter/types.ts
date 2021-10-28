@@ -43,6 +43,7 @@ interface Series {
   relic: boolean;
   manufacturedRelic: boolean;
   parallel: boolean;
+  refractor: boolean;
   shortPrint: boolean;
   createdAt: string;
   updatedAt: string;
@@ -99,7 +100,4 @@ interface GetCardsFailure {
   type: typeof GET_CARDS_FAILURE;
 }
 
-export type FilterCollectionActions =
-  | GetCardsRequest
-  | GetCardsSuccess
-  | GetCardsFailure;
+export type FilterCollectionActions = GetCardsRequest | GetCardsSuccess | GetCardsFailure;

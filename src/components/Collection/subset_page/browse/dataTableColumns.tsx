@@ -16,6 +16,7 @@ const columns = [
         auto={row.series.auto}
         relic={row.series.relic}
         manufacturedRelic={row.series.manufacturedRelic}
+        refractor={row.series.refractor}
       />
     ),
     grow: 1,
