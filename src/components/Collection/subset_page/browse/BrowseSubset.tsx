@@ -9,6 +9,7 @@ import StyledButton from "../../../Admin/components/StyledButton";
 import AddCardsForm, { CardFormData } from "../../../add_cards_form/AddCardsForm";
 import * as Styled from "../styled";
 import sortCardNumbers from "../../../../utils/sortCardNumbers";
+import sortSeries from "../sortSeries";
 
 interface Props {
   tableData: any[];
@@ -111,17 +112,7 @@ export default function BrowseSubset(props: Props) {
                 <option value={0}>Show All Parallels</option>
                 {subset.series
                   .sort((a, b) => {
-                    if (a.id === subset.baseSeriesId) return -1;
-                    if (b.id === subset.baseSeriesId) return 1;
-
-                    let aSer = a.serialized || Infinity;
-                    let bSer = b.serialized || Infinity;
-                    if (aSer < bSer) return 1;
-                    if (aSer > bSer) return -1;
-
-                    if (a.name < b.name) return -1;
-                    if (a.name > b.name) return 1;
-                    return 0;
+                    return sortSeries(a, b, subset.baseSeriesId || 0);
                   })
                   .map((series) => {
                     return (

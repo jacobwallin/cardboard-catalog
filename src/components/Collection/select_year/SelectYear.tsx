@@ -7,6 +7,7 @@ import DataTable from "react-data-table-component";
 import { aggregateCardsByYear } from "./aggregateCards";
 import columns from "./dataTableColumns";
 import * as Shared from "../shared";
+import { LoadingDots } from "../../shared/Loading";
 
 const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
 
@@ -27,6 +28,8 @@ const SelectYear = () => {
     }
   }, []);
 
+  if (isLoading) return <LoadingDots />;
+
   return (
     <Shared.CollectionPageContainer>
       <Shared.DataTableContainer>
@@ -39,7 +42,6 @@ const SelectYear = () => {
               }, 0)}
             />
           }
-          progressPending={isLoading}
           columns={columns}
           data={aggregateCardsByYear(cardsBySet)}
           highlightOnHover

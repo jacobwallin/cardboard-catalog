@@ -9,6 +9,7 @@ import { fetchSubset } from "../../../store/library/subsets/thunks";
 import { fetchSeriesById } from "../../../store/library/series/thunks";
 import * as Styled from "./styled";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
+import sortSeries from "../../Collection/subset_page/sortSeries";
 
 interface Props {
   addCard(card: CardFormData): void;
@@ -30,9 +31,7 @@ export default function SelectCardForm(props: Props) {
   // LIBRARY STORE DATA
   const allSets = useSelector((state: RootState) => state.library.sets.allSets);
   const set = useSelector((state: RootState) => state.library.sets.singleSet);
-  const subset = useSelector(
-    (state: RootState) => state.library.subsets.subset
-  );
+  const subset = useSelector((state: RootState) => state.library.subsets.subset);
   const series = useSelector((state: RootState) => state.library.series.series);
 
   // FETCH FORM DATA AS NEEDED WHEN USER MAKES SELECTIONS
@@ -84,20 +83,15 @@ export default function SelectCardForm(props: Props) {
       case "select-card":
         setSelectedCardId(+event.target.value);
         setCardIdField(
-          series.cards.find((card) => card.id === +event.target.value)
-            ?.card_datum.number!
+          series.cards.find((card) => card.id === +event.target.value)?.card_datum.number!
         );
         break;
     }
   }
 
-  function handleInputChange(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
+  function handleInputChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setCardIdField(event.target.value);
-    const card = series.cards.find(
-      (card) => card.card_datum.number === event.target.value
-    );
+    const card = series.cards.find((card) => card.card_datum.number === event.target.value);
     if (card) {
       setSelectedCardId(card.id);
     } else {
@@ -199,17 +193,13 @@ export default function SelectCardForm(props: Props) {
           subset.id === selectedSubsetId &&
             subset.series
               .sort((seriesA, seriesB) => {
-                if (seriesA.id === subset.baseSeriesId) return -1;
-                if (seriesB.id === subset.baseSeriesId) return 1;
-
-                if (seriesA.name < seriesB.name) return -1;
-                if (seriesA.name > seriesB.name) return 1;
-                return 0;
+                return sortSeries(seriesA, seriesB, subset.baseSeriesId || 0);
               })
               .map((series) => {
                 return (
                   <option key={series.id} value={series.id}>
                     {series.name}
+                    {series.serialized && ` /${series.serialized}`}
                   </option>
                 );
               })
@@ -227,10 +217,7 @@ export default function SelectCardForm(props: Props) {
           {series.id === selectedSeriesId &&
             series.cards
               .sort((cardA, cardB) => {
-                return sortCardNumbers(
-                  cardA.card_datum.number,
-                  cardB.card_datum.number
-                );
+                return sortCardNumbers(cardA.card_datum.number, cardB.card_datum.number);
               })
               .map((card) => {
                 return (
@@ -240,7 +227,6 @@ export default function SelectCardForm(props: Props) {
                 );
               })}
         </Styled.Select>
-
         <Styled.Input
           type="text"
           value={cardIdField}
@@ -248,7 +234,6 @@ export default function SelectCardForm(props: Props) {
           onChange={handleInputChange}
           disabled={selectedSeriesId === -1}
         />
-
         <StyledButton
           type="submit"
           color="BLUE"
@@ -262,7 +247,6 @@ export default function SelectCardForm(props: Props) {
     </>
   );
 }
-
 // these functions aggregate the API data for each of the select drop down menus
 function aggregateYears(allSets: SetSummary[]): number[] {
   let yearsArray: number[] = [];

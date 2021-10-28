@@ -16,6 +16,7 @@ import { Filters, initialFilters, TableColumns, initialTableColumns } from "./ty
 import { filterCards } from "./filterCards";
 
 import { CollectionPageContainer, DataTableContainer, TotalCards } from "../shared";
+import { LoadingDots } from "../../shared/Loading";
 import * as Styled from "./styled";
 
 const loadingCardsSelector = createLoadingSelector(["GET_CARDS"]);
@@ -322,8 +323,9 @@ export default function FilterPage() {
           data={filteredCards}
           dense
           noHeader
-          progressPending={loadingCards}
           pagination
+          progressPending={loadingCards}
+          progressComponent={<LoadingDots />}
           paginationPerPage={20}
           paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
         />

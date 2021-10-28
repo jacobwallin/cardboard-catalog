@@ -11,6 +11,7 @@ import * as Shared from "../shared";
 import CollectionWrapper from "../../shared/CollectionWrapper";
 import CollectionContainer from "../../shared/CollectionContainer";
 import SetHeader from "../header/SetHeader";
+import { LoadingDots } from "../../shared/Loading";
 
 const loadingSelector = createLoadingSelector(["GET_SINGLE_SET", "GET_CARDS_BY_SUBSET"]);
 
@@ -29,6 +30,15 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
     dispatch(fetchCardsBySubset(setId));
     dispatch(fetchSet(setId));
   }, []);
+
+  if (isLoading)
+    return (
+      <CollectionWrapper>
+        <CollectionContainer>
+          <LoadingDots />
+        </CollectionContainer>
+      </CollectionWrapper>
+    );
 
   return (
     <CollectionWrapper>

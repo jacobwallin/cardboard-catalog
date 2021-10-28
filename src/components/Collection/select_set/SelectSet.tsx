@@ -7,6 +7,7 @@ import { createLoadingSelector } from "../../../store/loading/reducer";
 import DataTable from "react-data-table-component";
 import * as Shared from "../shared";
 import columns from "./dataTableColumns";
+import { LoadingDots } from "../../shared/Loading";
 
 const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
 
@@ -29,6 +30,8 @@ const SelectSet: React.FC<RouteComponentProps<TParams>> = (props) => {
       dispatch(fetchCardsBySet());
     }
   }, []);
+
+  if (isLoading) return <LoadingDots />;
 
   return (
     <Shared.CollectionPageContainer>

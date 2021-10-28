@@ -11,13 +11,10 @@ import { createTableData, createUserCardTableData } from "./createTableData";
 import SubsetHeader from "../header/SubsetHeader";
 import BrowseSubset from "./browse/BrowseSubset";
 import CollectionSubset from "./collection/CollectionSubset";
-import * as Styled from "./styled";
+import { LoadingDots } from "../../shared/Loading";
 
 import { createLoadingSelector } from "../../../store/loading/reducer";
-const loadingSelector = createLoadingSelector([
-  "GET_CARDS_BY_SUBSET",
-  "GET_SUBSET",
-]);
+const loadingSelector = createLoadingSelector(["GET_CARDS_BY_SUBSET", "GET_SUBSET"]);
 
 type Params = {
   year: string;
@@ -28,13 +25,11 @@ type Params = {
 const SubsetPage = (props: RouteComponentProps<Params>) => {
   const dispatch = useDispatch();
 
-  const librarySubset = useSelector(
-    (state: RootState) => state.library.subsets.subset
-  );
+  const librarySubset = useSelector((state: RootState) => state.library.subsets.subset);
   const userCardsInSubset = useSelector(
     (state: RootState) => state.collection.browse.cardsInSingleSubset
   );
-  const loading = useSelector((state: RootState) => loadingSelector(state));
+  const isLoading = useSelector((state: RootState) => loadingSelector(state));
 
   const [showCollection, setShowCollection] = useState(false);
 
@@ -56,6 +51,15 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
   const tableData: any = createTableData(librarySubset, userCardsInSubset);
   const idk: any = createUserCardTableData(tableData, userCardsInSubset);
 
+  if (isLoading)
+    return (
+      <CollectionWrapper>
+        <CollectionContainer>
+          <LoadingDots />
+        </CollectionContainer>
+      </CollectionWrapper>
+    );
+
   return (
     <CollectionWrapper>
       <CollectionContainer>
@@ -66,12 +70,11 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
           handleCollectionClick={showCollectionClicked}
           collectionSelected={showCollection}
         />
-        {!loading &&
-          (!showCollection ? (
-            <BrowseSubset tableData={tableData} />
-          ) : (
-            <CollectionSubset tableData={tableData} userCardTableData={idk} />
-          ))}
+        {!showCollection ? (
+          <BrowseSubset tableData={tableData} />
+        ) : (
+          <CollectionSubset tableData={tableData} userCardTableData={idk} />
+        )}
       </CollectionContainer>
     </CollectionWrapper>
   );
