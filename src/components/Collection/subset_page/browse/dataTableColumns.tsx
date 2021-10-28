@@ -1,25 +1,7 @@
 import React from "react";
 import { TableDataPoint } from "../createTableData";
 import CardNumber from "../CardNumber";
-
-const customColumnSort = (rowA: TableDataPoint, rowB: TableDataPoint) => {
-  let a: string | number = rowA.cardData.number;
-  let b: string | number = rowB.cardData.number;
-
-  // convert to number if possible
-  if (+a && +b) {
-    a = +a;
-    b = +b;
-  }
-
-  // compare
-  if (a < b) {
-    return 1;
-  } else if (a > b) {
-    return -1;
-  }
-  return 0;
-};
+import sortCardNumbers from "../../../../utils/sortCardNumbers";
 
 const columns = [
   {
@@ -37,7 +19,9 @@ const columns = [
       />
     ),
     grow: 1,
-    sortFunction: customColumnSort,
+    sortFunction: (rowA: TableDataPoint, rowB: TableDataPoint) => {
+      return sortCardNumbers(rowA.cardData.number, rowB.cardData.number);
+    },
     minWidth: "auto",
   },
   {

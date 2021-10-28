@@ -3,25 +3,7 @@ import tableStyles from "../../shared/dataTableStyles";
 import { TableDataPoint } from "../createTableData";
 import { DeleteTableDataPoint } from "../createTableData";
 import CardNumber from "../CardNumber";
-
-const customColumnSort = (rowA: TableDataPoint, rowB: TableDataPoint) => {
-  let a: string | number = rowA.cardData.number;
-  let b: string | number = rowB.cardData.number;
-
-  // convert to number if possible
-  if (+a && +b) {
-    a = +a;
-    b = +b;
-  }
-
-  // compare
-  if (a < b) {
-    return 1;
-  } else if (a > b) {
-    return -1;
-  }
-  return 0;
-};
+import sortCardNumbers from "../../../../utils/sortCardNumbers";
 
 let modifiedStyles = { ...tableStyles, fontSize: "12px" };
 
@@ -40,9 +22,11 @@ export const columns = [
       />
     ),
     sortable: true,
+    sortFunction: (rowA: TableDataPoint, rowB: TableDataPoint) =>
+      sortCardNumbers(rowA.cardData.number, rowB.cardData.number),
     style: modifiedStyles,
     grow: 1,
-    sortFunction: customColumnSort,
+    // sortFunction: customColumnSort,
     minWidth: "auto",
   },
   {
@@ -81,25 +65,6 @@ export const columns = [
   },
 ];
 
-const customDeleteColumnSort = (rowA: DeleteTableDataPoint, rowB: DeleteTableDataPoint) => {
-  let a: string | number = rowA.card.cardData.number;
-  let b: string | number = rowB.card.cardData.number;
-
-  // convert to number if possible
-  if (+a && +b) {
-    a = +a;
-    b = +b;
-  }
-
-  // compare
-  if (a < b) {
-    return 1;
-  } else if (a > b) {
-    return -1;
-  }
-  return 0;
-};
-
 export const deleteColumns = [
   {
     name: "#",
@@ -117,7 +82,9 @@ export const deleteColumns = [
     sortable: true,
     style: modifiedStyles,
     grow: 1,
-    sortFunction: customDeleteColumnSort,
+    sortFunction: (rowA: DeleteTableDataPoint, rowB: DeleteTableDataPoint) => {
+      return sortCardNumbers(rowA.card.cardData.number, rowB.card.cardData.number);
+    },
     minWidth: "auto",
   },
   {
