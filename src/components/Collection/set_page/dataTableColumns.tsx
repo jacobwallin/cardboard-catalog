@@ -15,7 +15,7 @@ const columns = (haveCards: boolean) => {
     },
     {
       name: "Cards",
-      selector: "totalCards",
+      selector: (row: any) => (row.totalCards > 0 ? row.totalCards : ""),
       sortable: true,
       minWidth: "75px",
       maxWidth: "75px",
