@@ -4,7 +4,7 @@ const conditionalRowStyles = [
   {
     when: (row: TableDataPoint) => row.quantity < 1,
     style: {
-      color: "grey",
+      opacity: 0.6,
       "&:hover": {
         color: "grey",
       },

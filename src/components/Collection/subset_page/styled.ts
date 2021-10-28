@@ -7,6 +7,14 @@ export const PageTitle = styled.div`
   align-self: flex-start;
 `;
 
+export const ShowAllCards = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-self: flex-start;
+  align-items: center;
+  margin-bottom: 5px;
+`;
+
 export const SelectParallel = styled.div`
   display: flex;
   flex-direction: column;

@@ -137,10 +137,10 @@ export default function CollectionSubset(props: Props) {
         </Background>
       )}
 
-      <Styled.SelectParallel>
+      <Styled.ShowAllCards>
         <Styled.SelectLabel>Show All: </Styled.SelectLabel>
         <input type="checkbox" onChange={handleShowAllChange} checked={showAllCards} />
-      </Styled.SelectParallel>
+      </Styled.ShowAllCards>
       {selectedCardIds.length > 0 && (
         <Styled.AddCardsContainer>
           <Styled.AddCardsTotal>
