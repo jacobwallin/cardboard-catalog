@@ -23,7 +23,7 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state: RootState) => loadingSelector(state));
   const cardsBySubset = useSelector((state: RootState) => state.collection.browse.cardsBySubset);
-  const singleSet = useSelector((state: RootState) => state.library.sets.singleSet);
+  const set = useSelector((state: RootState) => state.library.sets.singleSet);
   const setId = +props.match.params.setId;
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
     dispatch(fetchSet(setId));
   }, []);
 
-  if (isLoading)
+  if (isLoading || +props.match.params.setId !== set.id)
     return (
       <CollectionWrapper>
         <CollectionContainer>
@@ -43,17 +43,17 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
   return (
     <CollectionWrapper>
       <CollectionContainer>
-        <SetHeader title={singleSet.name} />
+        <SetHeader title={set.name} />
         <Shared.CollectionPageContainer>
-          {singleSet.description !== "" && (
+          {set.description !== "" && (
             <Shared.ContentContainer>
               <Shared.ContentTitle>About:</Shared.ContentTitle>
-              <Shared.ContentData>{singleSet.description}</Shared.ContentData>
+              <Shared.ContentData>{set.description}</Shared.ContentData>
             </Shared.ContentContainer>
           )}
           <Shared.ContentContainer>
             <Shared.ContentTitle>Release Date:</Shared.ContentTitle>
-            <Shared.ContentData>{singleSet.release_date}</Shared.ContentData>
+            <Shared.ContentData>{set.release_date}</Shared.ContentData>
           </Shared.ContentContainer>
 
           <Shared.CollectionData
@@ -69,9 +69,9 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
               dense
               progressPending={isLoading}
               columns={columns(cardsBySubset.subsets.length === 0)}
-              data={singleSet.subsets
+              data={set.subsets
                 .filter((subset) => {
-                  return subset.id === singleSet.baseSubsetId;
+                  return subset.id === set.baseSubsetId;
                 })
                 .map((subset) => {
                   const collectionSubsetData = cardsBySubset.subsets.find(
@@ -94,9 +94,9 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
               dense
               progressPending={isLoading}
               columns={columns(cardsBySubset.subsets.length === 0)}
-              data={singleSet.subsets
+              data={set.subsets
                 .filter((subset) => {
-                  return subset.id !== singleSet.baseSubsetId;
+                  return subset.id !== set.baseSubsetId;
                 })
                 .sort((a, b) => {
                   if (a.name < b.name) return -1;

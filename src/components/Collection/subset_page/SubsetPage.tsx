@@ -25,7 +25,7 @@ type Params = {
 const SubsetPage = (props: RouteComponentProps<Params>) => {
   const dispatch = useDispatch();
 
-  const librarySubset = useSelector((state: RootState) => state.library.subsets.subset);
+  const subset = useSelector((state: RootState) => state.library.subsets.subset);
   const userCardsInSubset = useSelector(
     (state: RootState) => state.collection.browse.cardsInSingleSubset
   );
@@ -48,10 +48,10 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
   }
 
   // DataTable wants a string[] ???
-  const tableData: any = createTableData(librarySubset, userCardsInSubset);
+  const tableData: any = createTableData(subset, userCardsInSubset);
   const idk: any = createUserCardTableData(tableData, userCardsInSubset);
 
-  if (isLoading)
+  if (isLoading || +props.match.params.subsetId !== subset.id)
     return (
       <CollectionWrapper>
         <CollectionContainer>
@@ -64,8 +64,8 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
     <CollectionWrapper>
       <CollectionContainer>
         <SubsetHeader
-          title={librarySubset.set.name}
-          subTitle={librarySubset.name}
+          title={subset.set.name}
+          subTitle={subset.name}
           handleBrowseClick={showChecklistClicked}
           handleCollectionClick={showCollectionClicked}
           collectionSelected={showCollection}
