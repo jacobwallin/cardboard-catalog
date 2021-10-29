@@ -18,8 +18,9 @@ export const fetchCardsBySet = (): ThunkAction<any, RootState, any, Actions> => 
     .catch((err) => {
       if (err.status === 401) {
         dispatch(logout());
+      } else {
+        dispatch(actions.getCardsBySetFailure());
       }
-      dispatch(actions.getCardsBySetFailure());
     });
 };
 
@@ -33,8 +34,9 @@ export const fetchCardsBySubset =
       .catch((err) => {
         if (err.status === 401) {
           dispatch(logout());
+        } else {
+          dispatch(actions.getCardsBySubsetFailure());
         }
-        dispatch(actions.getCardsBySubsetFailure());
       });
   };
 
@@ -48,8 +50,9 @@ export const fetchCardsInSingleSubset =
       .catch((err) => {
         if (err.status === 401) {
           dispatch(logout());
+        } else {
+          dispatch(actions.getSingleSubsetCardsFailure());
         }
-        dispatch(actions.getSingleSubsetCardsFailure());
       });
   };
 
@@ -71,8 +74,9 @@ export const addCards =
       .catch((err) => {
         if (err.status === 401) {
           dispatch(logout());
+        } else {
+          dispatch(actions.addCardsFailure());
         }
-        dispatch(actions.addCardsFailure());
       });
   };
 
@@ -88,7 +92,8 @@ export const deleteCards =
       .catch((err) => {
         if (err.status === 401) {
           dispatch(logout());
+        } else {
+          dispatch(actions.deleteCardsFailure());
         }
-        dispatch(actions.deleteCardsFailure());
       });
   };
