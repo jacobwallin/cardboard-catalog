@@ -69,7 +69,3 @@ export const setInitialDataLoad = (status: boolean): CollectionActionTypes => ({
   type: types.SET_INITIAL_DATA_LOAD,
   status,
 });
-
-export const clearCollection = (): CollectionActionTypes => ({
-  type: types.CLEAR_COLLECTION,
-});

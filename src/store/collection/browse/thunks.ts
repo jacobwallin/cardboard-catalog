@@ -7,7 +7,6 @@ import { get, post } from "../../../utils/fetch";
 export const fetchCardsBySet =
   (): ThunkAction<any, RootState, any, CollectionActionTypes> => (dispatch) => {
     dispatch(actions.getCardsBySetRequest());
-
     get("/api/collection/", dispatch)
       .then((data) => {
         dispatch(actions.setInitialDataLoad(true));

@@ -3,24 +3,20 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { fetchCards } from "../../../store/collection/filter/thunks";
-import { fetchCardsBySet } from "../../../store/collection/browse/thunks";
 import { fetchAllPlayers } from "../../../store/library/players/thunks";
 import { fetchAllTeams } from "../../../store/library/teams/thunks";
 import DataTable from "react-data-table-component";
 import { columns } from "./columns";
-import { createLoadingSelector, createStatusSelector } from "../../../store/loading/reducer";
+import { createLoadingSelector } from "../../../store/loading/reducer";
 import { createPdf } from "../../../utils/createPdf";
 import createPdfData from "./createPdfData";
-
 import { Filters, initialFilters, TableColumns, initialTableColumns } from "./types";
 import { filterCards } from "./filterCards";
-
 import { CollectionPageContainer, DataTableContainer, TotalCards } from "../shared";
 import { LoadingDots } from "../../shared/Loading";
 import * as Styled from "./styled";
 
 const loadingCardsSelector = createLoadingSelector(["GET_CARDS"]);
-const fetchCardsStatusSelector = createStatusSelector("GET_CARDS");
 
 export default function FilterPage() {
   const dispatch = useDispatch();
@@ -30,7 +26,7 @@ export default function FilterPage() {
   const teams = useSelector((state: RootState) => state.library.teams);
   const cardsBySet = useSelector((state: RootState) => state.collection.browse.cardsBySet);
   const loadingCards = useSelector((state: RootState) => loadingCardsSelector(state));
-  const fetchCardsStatus = useSelector((state: RootState) => fetchCardsStatusSelector(state));
+  const cardsFetched = useSelector((state: RootState) => state.collection.filter.dataFetched);
 
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [shownColumns, setShownColumns] = useState<TableColumns>(initialTableColumns);
@@ -40,16 +36,15 @@ export default function FilterPage() {
   const filteredCards = filterCards(cards, filters);
 
   useEffect(() => {
-    dispatch(fetchCardsBySet());
     dispatch(fetchAllPlayers());
     dispatch(fetchAllTeams());
   }, []);
 
   useEffect(() => {
-    if (cards.length === 0 && !fetchCardsStatus) {
+    if (!cardsFetched) {
       dispatch(fetchCards());
     }
-  }, [cards, fetchCardsStatus]);
+  }, [cardsFetched]);
 
   function resetFilters() {
     setFilters(initialFilters);

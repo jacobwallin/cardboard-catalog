@@ -1,16 +1,6 @@
-import {
-  CollectionState,
-  CollectionActionTypes,
-  GET_CARDS_BY_SET_SUCCESS,
-  GET_CARDS_BY_SUBSET_SUCCESS,
-  GET_CARDS_IN_SINGLE_SUBSET_SUCCESS,
-  CLEAR_COLLECTION,
-  SET_INITIAL_DATA_LOAD,
-  ADD_CARDS_SUCCESS,
-  DELETE_CARDS_SUCCESS,
-} from "./types";
+import * as types from "./types";
 
-const initialState: CollectionState = {
+const initialState: types.CollectionState = {
   cardsBySet: [],
   cardsBySubset: {
     subsets: [],
@@ -25,27 +15,27 @@ const initialState: CollectionState = {
 
 export default function collectionReducer(
   state = initialState,
-  action: CollectionActionTypes
-): CollectionState {
+  action: types.CollectionActionTypes
+): types.CollectionState {
   switch (action.type) {
-    case GET_CARDS_BY_SET_SUCCESS:
+    case types.GET_CARDS_BY_SET_SUCCESS:
       return { ...state, cardsBySet: action.cardsBySet };
-    case GET_CARDS_BY_SUBSET_SUCCESS:
+    case types.GET_CARDS_BY_SUBSET_SUCCESS:
       return {
         ...state,
         cardsBySubset: { subsets: action.cardsBySubset, setId: action.setId },
       };
-    case GET_CARDS_IN_SINGLE_SUBSET_SUCCESS:
+    case types.GET_CARDS_IN_SINGLE_SUBSET_SUCCESS:
       return {
         ...state,
         cardsInSingleSubset: { cards: action.cards, subsetId: action.subsetId },
       };
-    case SET_INITIAL_DATA_LOAD:
+    case types.SET_INITIAL_DATA_LOAD:
       return {
         ...state,
         initialDataLoadComplete: action.status,
       };
-    case ADD_CARDS_SUCCESS:
+    case types.ADD_CARDS_SUCCESS:
       // if subsetId matches (this means cards were added from subset page and not quick add), append cards
       if (state.cardsInSingleSubset.subsetId === action.subsetId) {
         return {
@@ -57,7 +47,7 @@ export default function collectionReducer(
         };
       }
       return initialState;
-    case DELETE_CARDS_SUCCESS:
+    case types.DELETE_CARDS_SUCCESS:
       return {
         ...initialState,
         cardsInSingleSubset: {
@@ -67,8 +57,6 @@ export default function collectionReducer(
           ),
         },
       };
-    case CLEAR_COLLECTION:
-      return initialState;
     default:
       return state;
   }

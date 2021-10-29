@@ -15,7 +15,6 @@ export const DELETE_CARDS_REQUEST = "DELETE_CARDS_REQUEST";
 export const DELETE_CARDS_SUCCESS = "DELETE_CARDS_SUCCESS";
 export const DELETE_CARDS_FAILURE = "DELETE_CARDS_FAILURE";
 export const SET_INITIAL_DATA_LOAD = "SET_INITIAL_DATA_LOAD";
-export const CLEAR_COLLECTION = "CLEAR_COLLECTION";
 
 // --- ACTIONS ---
 
@@ -60,7 +59,7 @@ interface GetCardsInSingleSubsetFailure {
 interface AddCardsRequest {
   type: typeof ADD_CARDS_REQUEST;
 }
-interface AddCardsSuccess {
+export interface AddCardsSuccess {
   type: typeof ADD_CARDS_SUCCESS;
   newCards: UserCard[];
   subsetId: number;
@@ -84,9 +83,6 @@ interface SetInitialDataLoad {
   type: typeof SET_INITIAL_DATA_LOAD;
   status: boolean;
 }
-export interface ClearCollectionAction {
-  type: typeof CLEAR_COLLECTION;
-}
 
 export type CollectionActionTypes =
   | GetCardsBySetSuccess
@@ -104,8 +100,7 @@ export type CollectionActionTypes =
   | DeleteCardsRequest
   | DeleteCardsSuccess
   | DeleteCardsFailure
-  | SetInitialDataLoad
-  | ClearCollectionAction;
+  | SetInitialDataLoad;
 
 // ---- *** COLLECTION REDUCER STATE TYPE *** ----
 export interface CollectionState {

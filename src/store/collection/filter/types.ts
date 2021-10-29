@@ -2,6 +2,7 @@
 export interface FilterCollectionState {
   count: number;
   rows: UserCard[];
+  dataFetched: boolean;
 }
 
 export interface UserCard {
