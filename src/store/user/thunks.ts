@@ -72,7 +72,7 @@ export const logout = (): ThunkAction<void, RootState, unknown, UserActionTypes>
     method: "POST",
   })
     .then((response) => {
-      dispatch(actions.removeUser());
+      dispatch(actions.logout());
     })
     .catch((err) => console.log("ERROR LOGGING OUT"));
 };

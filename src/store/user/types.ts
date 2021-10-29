@@ -27,7 +27,7 @@ export const CHECK_USERNAME_FAILURE = "CHECK_USERNAME_FAILURE";
 export const CHECK_EMAIL_REQUEST = "CHECK_EMAIL_REQUEST";
 export const CHECK_EMAIL_SUCCESS = "CHECK_EMAIL_SUCCESS";
 export const CHECK_EMAIL_FAILURE = "CHECK_EMAIL_FAILURE";
-export const REMOVE_USER = "REMOVE_USER";
+export const LOGOUT = "LOGOUT";
 
 // ACTION CREATOR INTERFACES
 export interface GetUserRequest {
@@ -47,8 +47,8 @@ export interface SetUserFetched {
   status: boolean;
 }
 
-export interface RemoveUser {
-  type: typeof REMOVE_USER;
+export interface Logout {
+  type: typeof LOGOUT;
 }
 
 export interface RegisterUserRequest {
@@ -91,7 +91,7 @@ export type UserActionTypes =
   | GetUserSuccess
   | GetUserFailure
   | SetUserFetched
-  | RemoveUser
+  | Logout
   | RegisterUserFailure
   | RegisterUserSuccess
   | RegisterUserRequest

@@ -20,8 +20,8 @@ export const setUserFetched = (status: boolean): UserActionTypes => ({
   status,
 });
 
-export const removeUser = (): UserActionTypes => ({
-  type: types.REMOVE_USER,
+export const logout = (): UserActionTypes => ({
+  type: types.LOGOUT,
 });
 
 export const registerUserRequest = (): UserActionTypes => ({
