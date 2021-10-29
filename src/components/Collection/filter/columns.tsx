@@ -91,9 +91,9 @@ export function getFullSetName(row: UserCard): string {
   let fullName = row.card.series.subset.set.name;
   if (row.card.series.subset.id !== row.card.series.subset.set.baseSubsetId) {
     fullName = fullName.concat(" ", row.card.series.subset.name);
-    if (row.card.series.id !== row.card.series.subset.baseSeriesId) {
-      fullName = fullName.concat(" ", row.card.series.name);
-    }
+  }
+  if (row.card.series.id !== row.card.series.subset.baseSeriesId) {
+    fullName = fullName.concat(" ", row.card.series.name);
   }
   return fullName;
 }
