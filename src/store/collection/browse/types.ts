@@ -1,13 +1,13 @@
 // --- ACTION TYPES ---
 export const GET_CARDS_BY_SET_REQUEST = "GET_CARDS_BY_SET_REQUEST";
 export const GET_CARDS_BY_SET_SUCCESS = "GET_CARDS_BY_SET_SUCCESS";
-export const GET_CARDS_BY_SET_ERROR = "GET_CARDS_BY_SET_ERROR";
+export const GET_CARDS_BY_SET_FAILURE = "GET_CARDS_BY_SET_FAILURE";
 export const GET_CARDS_BY_SUBSET_REQUEST = "GET_CARDS_BY_SUBSET_REQUEST";
 export const GET_CARDS_BY_SUBSET_SUCCESS = "GET_CARDS_BY_SUBSET_SUCCESS";
-export const GET_CARDS_BY_SUBSET_ERROR = "GET_CARDS_BY_SUBSET_ERROR";
+export const GET_CARDS_BY_SUBSET_FAILURE = "GET_CARDS_BY_SUBSET_FAILURE";
 export const GET_CARDS_IN_SINGLE_SUBSET_REQUEST = "GET_CARDS_IN_SINGLE_SUBSET_REQUEST";
 export const GET_CARDS_IN_SINGLE_SUBSET_SUCCESS = "GET_CARDS_IN_SINGLE_SUBSET_SUCCESS";
-export const GET_CARDS_IN_SINGLE_SUBSET_ERROR = "GET_CARDS_IN_SINGLE_SUBSET_ERROR";
+export const GET_CARDS_IN_SINGLE_SUBSET_FAILURE = "GET_CARDS_IN_SINGLE_SUBSET_FAILURE";
 export const ADD_CARDS_REQUEST = "ADD_CARDS_REQUEST";
 export const ADD_CARDS_SUCCESS = "ADD_CARDS_SUCCESS";
 export const ADD_CARDS_FAILURE = "ADD_CARDS_FAILURE";
@@ -27,9 +27,8 @@ interface GetCardsBySetSuccess {
   type: typeof GET_CARDS_BY_SET_SUCCESS;
   cardsBySet: SetCards[];
 }
-interface GetCardsBySetError {
-  type: typeof GET_CARDS_BY_SET_ERROR;
-  message: string;
+interface GetCardsBySetFailure {
+  type: typeof GET_CARDS_BY_SET_FAILURE;
 }
 
 // get cards by subset actions
@@ -41,9 +40,8 @@ interface GetCardsBySubsetSuccess {
   cardsBySubset: SubsetCards[];
   setId: number;
 }
-interface GetCardsBySubsetError {
-  type: typeof GET_CARDS_BY_SUBSET_ERROR;
-  message: string;
+interface GetCardsBySubsetFailure {
+  type: typeof GET_CARDS_BY_SUBSET_FAILURE;
 }
 
 // get cards by single subset actions
@@ -55,9 +53,8 @@ interface GetCardsInSingleSubsetSuccess {
   cards: UserCard[];
   subsetId: number;
 }
-interface GetCardsInSingleSubsetError {
-  type: typeof GET_CARDS_IN_SINGLE_SUBSET_ERROR;
-  message: string;
+interface GetCardsInSingleSubsetFailure {
+  type: typeof GET_CARDS_IN_SINGLE_SUBSET_FAILURE;
 }
 
 interface AddCardsRequest {
@@ -94,13 +91,13 @@ export interface ClearCollectionAction {
 export type CollectionActionTypes =
   | GetCardsBySetSuccess
   | GetCardsBySetRequest
-  | GetCardsBySetError
+  | GetCardsBySetFailure
   | GetCardsBySubsetSuccess
   | GetCardsBySubsetRequest
-  | GetCardsBySubsetError
+  | GetCardsBySubsetFailure
   | GetCardsInSingleSubsetSuccess
   | GetCardsInSingleSubsetRequest
-  | GetCardsInSingleSubsetError
+  | GetCardsInSingleSubsetFailure
   | AddCardsRequest
   | AddCardsSuccess
   | AddCardsFailure

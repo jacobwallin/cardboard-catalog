@@ -13,26 +13,22 @@ import {
 
 import * as actions from "./actions";
 
-export const fetchMe =
-  (): ThunkAction<void, RootState, unknown, UserActionTypes> => (dispatch) => {
-    fetch("/auth")
-      .then((response) => {
-        return response.json();
-      })
-      .then((user) => {
-        dispatch(getUserSuccess(user));
-        dispatch(setUserFetched(true));
-      })
-      .catch((err) => {
-        dispatch(setUserFetched(true));
-      });
-  };
+export const fetchMe = (): ThunkAction<void, RootState, unknown, UserActionTypes> => (dispatch) => {
+  fetch("/auth")
+    .then((response) => {
+      return response.json();
+    })
+    .then((user) => {
+      dispatch(getUserSuccess(user));
+      dispatch(setUserFetched(true));
+    })
+    .catch((err) => {
+      dispatch(setUserFetched(true));
+    });
+};
 
 export const login =
-  (
-    username: string,
-    password: string
-  ): ThunkAction<void, RootState, unknown, UserActionTypes> =>
+  (username: string, password: string): ThunkAction<void, RootState, unknown, UserActionTypes> =>
   (dispatch) => {
     fetch("/auth/login", {
       method: "POST",
@@ -77,22 +73,19 @@ export const register =
         dispatch(registerUserSuccess(user));
       })
       .catch((err) => {
-        // TODO: REMOVE log
-        console.log("ERROR REGISTERING USER: ", err.message);
         dispatch(registerUserFailure());
       });
   };
 
-export const logout =
-  (): ThunkAction<void, RootState, unknown, UserActionTypes> => (dispatch) => {
-    fetch("/auth/logout", {
-      method: "POST",
+export const logout = (): ThunkAction<void, RootState, unknown, UserActionTypes> => (dispatch) => {
+  fetch("/auth/logout", {
+    method: "POST",
+  })
+    .then((response) => {
+      dispatch(removeUser());
     })
-      .then((response) => {
-        dispatch(removeUser());
-      })
-      .catch((err) => console.log("ERROR LOGGING OUT"));
-  };
+    .catch((err) => console.log("ERROR LOGGING OUT"));
+};
 
 export const checkUsername =
   (username: string): ThunkAction<void, RootState, unknown, UserActionTypes> =>

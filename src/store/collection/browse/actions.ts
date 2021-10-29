@@ -9,9 +9,8 @@ export const getCardsBySetSuccess = (cardsBySet: SetCards[]): CollectionActionTy
   type: types.GET_CARDS_BY_SET_SUCCESS,
   cardsBySet,
 });
-export const getCardsBySetError = (message: string): CollectionActionTypes => ({
-  type: types.GET_CARDS_BY_SET_ERROR,
-  message,
+export const getCardsBySetFailure = (): CollectionActionTypes => ({
+  type: types.GET_CARDS_BY_SET_FAILURE,
 });
 
 export const getCardsBySubsetRequest = (): CollectionActionTypes => ({
@@ -25,9 +24,8 @@ export const getCardsBySubsetSuccess = (payload: {
   cardsBySubset: payload.cardsBySubset,
   setId: payload.setId,
 });
-export const getCardsBySubsetError = (message: string): CollectionActionTypes => ({
-  type: types.GET_CARDS_BY_SUBSET_ERROR,
-  message,
+export const getCardsBySubsetFailure = (): CollectionActionTypes => ({
+  type: types.GET_CARDS_BY_SUBSET_FAILURE,
 });
 
 export const getSingleSubsetCardsRequest = (): CollectionActionTypes => ({
@@ -41,9 +39,8 @@ export const getSingleSubsetCardsSuccess = (payload: {
   cards: payload.cards,
   subsetId: payload.subsetId,
 });
-export const getSingleSubsetCardsError = (message: string): CollectionActionTypes => ({
-  type: types.GET_CARDS_IN_SINGLE_SUBSET_ERROR,
-  message,
+export const getSingleSubsetCardsFailure = (): CollectionActionTypes => ({
+  type: types.GET_CARDS_IN_SINGLE_SUBSET_FAILURE,
 });
 export const addCardsRequest = (): CollectionActionTypes => ({
   type: types.ADD_CARDS_REQUEST,

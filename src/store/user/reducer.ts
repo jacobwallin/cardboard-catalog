@@ -1,15 +1,8 @@
-import {
-  UserState,
-  UserActionTypes,
-  GET_USER_SUCCESS,
-  SET_USER_FETCHED,
-  REGISTER_SUCCESS,
-  REMOVE_USER,
-  CHECK_EMAIL_SUCCESS,
-  CHECK_USERNAME_SUCCESS,
-} from "./types";
+import * as types from "./types";
 
-const initialState: UserState = {
+import { Logout } from "..";
+
+const initialState: types.UserState = {
   userData: {
     id: 0,
     name: "",
@@ -24,20 +17,20 @@ const initialState: UserState = {
 
 export default function userReducer(
   state = initialState,
-  action: UserActionTypes
-): UserState {
+  action: types.UserActionTypes | Logout
+): types.UserState {
   switch (action.type) {
-    case GET_USER_SUCCESS:
+    case types.GET_USER_SUCCESS:
       return { ...state, userData: action.user };
-    case SET_USER_FETCHED:
+    case types.SET_USER_FETCHED:
       return { ...state, userFetched: action.status };
-    case REGISTER_SUCCESS:
+    case types.REGISTER_SUCCESS:
       return { ...state, userData: action.user };
-    case CHECK_USERNAME_SUCCESS:
+    case types.CHECK_USERNAME_SUCCESS:
       return { ...state, availableUsername: action.available };
-    case CHECK_EMAIL_SUCCESS:
+    case types.CHECK_EMAIL_SUCCESS:
       return { ...state, availableEmail: action.available };
-    case REMOVE_USER:
+    case "LOGOUT":
       return { ...initialState, userFetched: true };
     default:
       return state;

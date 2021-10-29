@@ -2,46 +2,55 @@ import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../index";
 import * as actions from "./actions";
 import { CollectionActionTypes } from "./types";
+import { get, post } from "../../../utils/fetch";
+import { logout, Logout } from "../../index";
 
-export const fetchCardsBySet =
-  (): ThunkAction<any, RootState, any, CollectionActionTypes> => (dispatch) => {
-    dispatch(actions.getCardsBySetRequest());
+type Actions = CollectionActionTypes | Logout;
 
-    return fetch("/api/collection/")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        dispatch(actions.setInitialDataLoad(true));
-        dispatch(actions.getCardsBySetSuccess(data));
-      })
-      .catch((err) => console.log("ERROR FETCHING CARDS BY SET"));
-  };
+export const fetchCardsBySet = (): ThunkAction<any, RootState, any, Actions> => (dispatch) => {
+  dispatch(actions.getCardsBySetRequest());
+
+  get("/api/collection/")
+    .then((data) => {
+      dispatch(actions.setInitialDataLoad(true));
+      dispatch(actions.getCardsBySetSuccess(data));
+    })
+    .catch((err) => {
+      if (err.status === 401) {
+        dispatch(logout());
+      }
+      dispatch(actions.getCardsBySetFailure());
+    });
+};
 
 export const fetchCardsBySubset =
-  (setId: number): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
+  (setId: number): ThunkAction<void, RootState, unknown, Actions> =>
   (dispatch) => {
-    fetch(`/api/collection/set/${setId}`)
-      .then((response) => {
-        return response.json();
-      })
+    get(`/api/collection/set/${setId}`)
       .then((data) => {
         dispatch(actions.getCardsBySubsetSuccess({ cardsBySubset: data, setId }));
       })
-      .catch((err) => console.log("ERROR FETCHING CARDS BY SUBSET"));
+      .catch((err) => {
+        if (err.status === 401) {
+          dispatch(logout());
+        }
+        dispatch(actions.getCardsBySubsetFailure());
+      });
   };
 
 export const fetchCardsInSingleSubset =
-  (subsetId: number): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
+  (subsetId: number): ThunkAction<void, RootState, unknown, Actions> =>
   (dispatch) => {
-    fetch(`/api/collection/subset/${subsetId}`)
-      .then((response) => {
-        return response.json();
-      })
+    get(`/api/collection/subset/${subsetId}`)
       .then((data) => {
         dispatch(actions.getSingleSubsetCardsSuccess({ cards: data, subsetId }));
       })
-      .catch((err) => console.log("ERROR FETCHING CARDS FOR SINGLE SUBSET"));
+      .catch((err) => {
+        if (err.status === 401) {
+          dispatch(logout());
+        }
+        dispatch(actions.getSingleSubsetCardsFailure());
+      });
   };
 
 interface CardData {
@@ -52,52 +61,34 @@ interface CardData {
 }
 
 export const addCards =
-  (
-    cardData: CardData[],
-    subsetId: number
-  ): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
+  (cardData: CardData[], subsetId: number): ThunkAction<void, RootState, unknown, Actions> =>
   (dispatch) => {
     dispatch(actions.addCardsRequest());
-
-    fetch(`/api/collection/add`, {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify({ cardsToAdd: cardData }),
-    })
-      .then((response) => response.json())
+    post(`/api/collection/add`, { cardsToAdd: cardData })
       .then((newCards) => {
         dispatch(actions.addCardsSuccess(newCards, subsetId));
       })
-      .catch((error) => dispatch(actions.addCardsFailure()));
+      .catch((err) => {
+        if (err.status === 401) {
+          dispatch(logout());
+        }
+        dispatch(actions.addCardsFailure());
+      });
   };
 
 export const deleteCards =
-  (userCardIds: number[]): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
+  (userCardIds: number[]): ThunkAction<void, RootState, unknown, Actions> =>
   (dispatch) => {
     dispatch(actions.deleteCardsRequest());
 
-    fetch(`/api/collection/delete/bulk`, {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify({ userCardIds }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
+    post(`/api/collection/delete/bulk`, { userCardIds })
+      .then((response) => {
         dispatch(actions.deleteCardsSuccess(userCardIds));
       })
-      .catch((error) => dispatch(actions.deleteCardsFailure()));
+      .catch((err) => {
+        if (err.status === 401) {
+          dispatch(logout());
+        }
+        dispatch(actions.deleteCardsFailure());
+      });
   };

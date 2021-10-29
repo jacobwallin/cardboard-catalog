@@ -10,8 +10,6 @@ import {
   DELETE_CARDS_SUCCESS,
 } from "./types";
 
-import { RemoveUser, REMOVE_USER } from "../../user/types";
-
 const initialState: CollectionState = {
   cardsBySet: [],
   cardsBySubset: {
@@ -27,7 +25,7 @@ const initialState: CollectionState = {
 
 export default function collectionReducer(
   state = initialState,
-  action: CollectionActionTypes | RemoveUser
+  action: CollectionActionTypes
 ): CollectionState {
   switch (action.type) {
     case GET_CARDS_BY_SET_SUCCESS:
@@ -47,8 +45,6 @@ export default function collectionReducer(
         ...state,
         initialDataLoadComplete: action.status,
       };
-    case CLEAR_COLLECTION:
-      return initialState;
     case ADD_CARDS_SUCCESS:
       // if subsetId matches (this means cards were added from subset page and not quick add), append cards
       if (state.cardsInSingleSubset.subsetId === action.subsetId) {
@@ -71,8 +67,7 @@ export default function collectionReducer(
           ),
         },
       };
-    // collection clears when user logs out
-    case REMOVE_USER:
+    case CLEAR_COLLECTION:
       return initialState;
     default:
       return state;

@@ -13,11 +13,24 @@ const combinedReducer = combineReducers({
   loading: loadingReducer,
 });
 
-const store = createStore(
-  combinedReducer,
-  applyMiddleware(thunk, createLogger({ collapsed: true }))
-);
+// Reset all reducers on logout (or 401)
+const rootReducer = (state: ReturnType<typeof combinedReducer> | undefined, action: any) => {
+  if (action.type === "LOGOUT") {
+    return combinedReducer(undefined, action);
+  }
+  return combinedReducer(state, action);
+};
+
+const store = createStore(rootReducer, applyMiddleware(thunk, createLogger({ collapsed: true })));
 
 export default store;
 
 export type RootState = ReturnType<typeof combinedReducer>;
+
+export interface Logout {
+  type: "LOGOUT";
+}
+
+export const logout = (): Logout => ({
+  type: "LOGOUT",
+});
