@@ -1,16 +1,6 @@
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../index";
 import { UserActionTypes } from "./types";
-import {
-  getUserSuccess,
-  getUserFailure,
-  setUserFetched,
-  registerUserRequest,
-  registerUserSuccess,
-  registerUserFailure,
-  removeUser,
-} from "./actions";
-
 import * as actions from "./actions";
 
 export const fetchMe = (): ThunkAction<void, RootState, unknown, UserActionTypes> => (dispatch) => {
@@ -19,11 +9,11 @@ export const fetchMe = (): ThunkAction<void, RootState, unknown, UserActionTypes
       return response.json();
     })
     .then((user) => {
-      dispatch(getUserSuccess(user));
-      dispatch(setUserFetched(true));
+      dispatch(actions.getUserSuccess(user));
+      dispatch(actions.setUserFetched(true));
     })
     .catch((err) => {
-      dispatch(setUserFetched(true));
+      dispatch(actions.setUserFetched(true));
     });
 };
 
@@ -41,11 +31,11 @@ export const login =
         return response.json();
       })
       .then((user) => {
-        dispatch(getUserSuccess(user));
-        dispatch(setUserFetched(true));
+        dispatch(actions.getUserSuccess(user));
+        dispatch(actions.setUserFetched(true));
       })
       .catch((err) => {
-        dispatch(getUserFailure());
+        dispatch(actions.getUserFailure());
       });
   };
 
@@ -57,7 +47,7 @@ export const register =
     name: string
   ): ThunkAction<void, RootState, unknown, UserActionTypes> =>
   (dispatch) => {
-    dispatch(registerUserRequest());
+    dispatch(actions.registerUserRequest());
 
     fetch("/auth/register", {
       method: "POST",
@@ -70,10 +60,10 @@ export const register =
         return response.json();
       })
       .then((user) => {
-        dispatch(registerUserSuccess(user));
+        dispatch(actions.registerUserSuccess(user));
       })
       .catch((err) => {
-        dispatch(registerUserFailure());
+        dispatch(actions.registerUserFailure());
       });
   };
 
@@ -82,7 +72,7 @@ export const logout = (): ThunkAction<void, RootState, unknown, UserActionTypes>
     method: "POST",
   })
     .then((response) => {
-      dispatch(removeUser());
+      dispatch(actions.removeUser());
     })
     .catch((err) => console.log("ERROR LOGGING OUT"));
 };
