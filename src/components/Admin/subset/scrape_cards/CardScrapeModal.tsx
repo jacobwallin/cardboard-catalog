@@ -8,10 +8,7 @@ import CardForm from "../../card/edit_card/CardForm";
 import ModalBackground from "../../../shared/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
 import { CardFormData } from "./parseCards";
-import {
-  createLoadingSelector,
-  createStatusSelector,
-} from "../../../../store/loading/reducer";
+import { createLoadingSelector, createStatusSelector } from "../../../../store/loading/reducer";
 import GrayButton from "./GrayButton";
 import * as Styled from "./styled";
 
@@ -36,12 +33,8 @@ export default function CardScrapeModal(props: Props) {
 
   const players = useSelector((state: RootState) => state.library.players);
   const teams = useSelector((state: RootState) => state.library.teams);
-  const creatingCard = useSelector((state: RootState) =>
-    creatingCardSelector(state)
-  );
-  const creatingCardStatus = useSelector((state: RootState) =>
-    creatingCardStatusSelector(state)
-  );
+  const creatingCard = useSelector((state: RootState) => creatingCardSelector(state));
+  const creatingCardStatus = useSelector((state: RootState) => creatingCardStatusSelector(state));
 
   function textAreaChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     setScrapedCards(event.target.value);
@@ -85,6 +78,8 @@ export default function CardScrapeModal(props: Props) {
     setCreatedCardIdx(currentCardIdx);
   }
 
+  function addAll() {}
+
   function nextCard() {
     if (currentCardIdx < parsedCards.length - 1) {
       setCurrentCardIdx(currentCardIdx + 1);
@@ -119,9 +114,7 @@ export default function CardScrapeModal(props: Props) {
       <ModalWindow>
         {showForm && parsedCards.length > 0 ? (
           <>
-            <Styled.Header>{`Card ${currentCardIdx + 1} of ${
-              parsedCards.length
-            }`}</Styled.Header>
+            <Styled.Header>{`Card ${currentCardIdx + 1} of ${parsedCards.length}`}</Styled.Header>
             <CardForm
               createNew={false}
               bulkAddData={parsedCards[currentCardIdx]}
@@ -130,18 +123,13 @@ export default function CardScrapeModal(props: Props) {
             />
             <Styled.Footer>
               <GrayButton onClick={props.handleCancel}>Close</GrayButton>
-              <GrayButton
-                disabled={currentCardIdx === 0}
-                onClick={previousCard}
-              >
+              <GrayButton disabled={currentCardIdx === 0} onClick={previousCard}>
                 Previous
               </GrayButton>
-              <GrayButton
-                disabled={currentCardIdx >= parsedCards.length - 1}
-                onClick={nextCard}
-              >
+              <GrayButton disabled={currentCardIdx >= parsedCards.length - 1} onClick={nextCard}>
                 Next
               </GrayButton>
+              <GrayButton onClick={addAll}>Add All</GrayButton>
             </Styled.Footer>
           </>
         ) : (

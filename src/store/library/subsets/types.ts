@@ -97,6 +97,9 @@ export const CREATE_SERIES_FAILURE = "CREATE_SERIES_FAILURE";
 export const CREATE_CARD_REQUEST = "CREATE_CARD_REQUEST";
 export const CREATE_CARD_SUCCESS = "CREATE_CARD_SUCCESS";
 export const CREATE_CARD_FAILURE = "CREATE_CARD_FAILURE";
+export const BULK_CREATE_CARD_REQUEST = "BULK_CREATE_CARD_REQUEST";
+export const BULK_CREATE_CARD_SUCCESS = "BULK_CREATE_CARD_SUCCESS";
+export const BULK_CREATE_CARD_FAILURE = "BULK_CREATE_CARD_FAILURE";
 export const UPDATE_CARD_REQUEST = "UPDATE_CARD_REQUEST";
 export const UPDATE_CARD_SUCCESS = "UPDATE_CARD_SUCCESS";
 export const UPDATE_CARD_FAILURE = "UPDATE_CARD_FAILURE";
@@ -159,6 +162,16 @@ interface CreateCardSuccess {
 interface CreateCardFailure {
   type: typeof CREATE_CARD_FAILURE;
 }
+interface BulkCreateCardRequest {
+  type: typeof BULK_CREATE_CARD_REQUEST;
+}
+interface BulkCreateCardSuccess {
+  type: typeof BULK_CREATE_CARD_SUCCESS;
+  cards: CardData[];
+}
+interface BulkCreateCardFailure {
+  type: typeof BULK_CREATE_CARD_FAILURE;
+}
 interface UpdateCardRequest {
   type: typeof UPDATE_CARD_REQUEST;
 }
@@ -200,6 +213,9 @@ export type SubsetActionTypes =
   | CreateCardRequest
   | CreateCardSuccess
   | CreateCardFailure
+  | BulkCreateCardRequest
+  | BulkCreateCardSuccess
+  | BulkCreateCardFailure
   | UpdateCardRequest
   | UpdateCardSuccess
   | UpdateCardFailure

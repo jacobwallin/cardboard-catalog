@@ -8,14 +8,14 @@ export const Header = styled.div`
 `;
 
 export const TextArea = styled.textarea`
-  width: auto;
+  width: 95%;
   height: 400px;
   margin: 10px;
   resize: none;
 `;
 
 export const Footer = styled.div`
-  width: auto;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;

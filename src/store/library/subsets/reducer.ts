@@ -1,16 +1,6 @@
-import {
-  LibraryState,
-  SubsetActionTypes,
-  GET_SUBSET_SUCCESS,
-  UPDATE_SUBSET_SUCCESS,
-  CREATE_SERIES_SUCCESS,
-  CREATE_CARD_SUCCESS,
-  UPDATE_CARD_SUCCESS,
-  DELETE_CARD_SUCCESS,
-  CLEAR_LIBRARY,
-} from "./types";
+import * as types from "./types";
 
-const initialState: LibraryState = {
+const initialState: types.LibraryState = {
   subset: {
     id: 0,
     name: "",
@@ -36,17 +26,17 @@ const initialState: LibraryState = {
 
 const subsetsReducer = (
   state = initialState,
-  action: SubsetActionTypes
-): LibraryState => {
+  action: types.SubsetActionTypes
+): types.LibraryState => {
   switch (action.type) {
-    case GET_SUBSET_SUCCESS:
+    case types.GET_SUBSET_SUCCESS:
       return { ...state, subset: action.subset };
-    case UPDATE_SUBSET_SUCCESS:
+    case types.UPDATE_SUBSET_SUCCESS:
       return {
         ...state,
         subset: { ...state.subset, ...action.updatedSubset },
       };
-    case CREATE_SERIES_SUCCESS:
+    case types.CREATE_SERIES_SUCCESS:
       return {
         ...state,
         subset: {
@@ -54,7 +44,7 @@ const subsetsReducer = (
           series: [...state.subset.series, action.series],
         },
       };
-    case CREATE_CARD_SUCCESS:
+    case types.CREATE_CARD_SUCCESS:
       return {
         ...state,
         subset: {
@@ -62,7 +52,15 @@ const subsetsReducer = (
           card_data: [...state.subset.card_data, action.card],
         },
       };
-    case UPDATE_CARD_SUCCESS:
+    case types.BULK_CREATE_CARD_SUCCESS:
+      return {
+        ...state,
+        subset: {
+          ...state.subset,
+          card_data: [...state.subset.card_data, ...action.cards],
+        },
+      };
+    case types.UPDATE_CARD_SUCCESS:
       return {
         subset: {
           ...state.subset,
@@ -74,16 +72,14 @@ const subsetsReducer = (
           }),
         },
       };
-    case DELETE_CARD_SUCCESS:
+    case types.DELETE_CARD_SUCCESS:
       return {
         subset: {
           ...state.subset,
-          card_data: state.subset.card_data.filter(
-            (cardData) => cardData.id !== action.cardDataId
-          ),
+          card_data: state.subset.card_data.filter((cardData) => cardData.id !== action.cardDataId),
         },
       };
-    case CLEAR_LIBRARY:
+    case types.CLEAR_LIBRARY:
       return initialState;
     default:
       return state;

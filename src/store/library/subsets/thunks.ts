@@ -89,6 +89,29 @@ export const createCard =
       });
   };
 
+export const bulkAddCard =
+  (
+    cardData: {
+      subsetId: number;
+      name: string;
+      number: string;
+      rookie: boolean;
+      teamId: number | null;
+      note: string;
+      playerIds: number[];
+    }[]
+  ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
+  (dispatch) => {
+    dispatch(actions.bulkCreateCardRequest());
+    post(`/api/carddata/bulk`, { cards: cardData }, dispatch)
+      .then((createdCard) => {
+        dispatch(actions.bulkCreateCardSuccess(createdCard));
+      })
+      .catch((error) => {
+        dispatch(actions.bulkCreateCardFailure());
+      });
+  };
+
 export const updateCard =
   (
     cardDataId: number,
