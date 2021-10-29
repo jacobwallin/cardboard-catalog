@@ -23,17 +23,13 @@ const rootReducer = (state: ReturnType<typeof combinedReducer> | undefined, acti
 
 const store = createStore(rootReducer, applyMiddleware(thunk, createLogger({ collapsed: true })));
 
-export function check401(err: Response, dispatch: any): boolean {
-  if (err.status === 401) {
-    dispatch({ type: "LOGOUT" });
-    return false;
-  }
-  return true;
-}
-
-export interface LogoutActionType {
+export interface LogoutAction {
   type: "LOGOUT";
 }
+
+export const logout = (): LogoutAction => ({
+  type: "LOGOUT",
+});
 
 export type RootState = ReturnType<typeof combinedReducer>;
 

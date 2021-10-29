@@ -3,49 +3,42 @@ import { RootState } from "../../index";
 import * as actions from "./actions";
 import { CollectionActionTypes } from "./types";
 import { get, post } from "../../../utils/fetch";
-import { check401 } from "../../index";
 
 export const fetchCardsBySet =
   (): ThunkAction<any, RootState, any, CollectionActionTypes> => (dispatch) => {
     dispatch(actions.getCardsBySetRequest());
 
-    get("/api/collection/")
+    get("/api/collection/", dispatch)
       .then((data) => {
         dispatch(actions.setInitialDataLoad(true));
         dispatch(actions.getCardsBySetSuccess(data));
       })
       .catch((err) => {
-        if (check401(err, dispatch)) {
-          dispatch(actions.getCardsBySetFailure());
-        }
+        dispatch(actions.getCardsBySetFailure());
       });
   };
 
 export const fetchCardsBySubset =
   (setId: number): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
   (dispatch) => {
-    get(`/api/collection/set/${setId}`)
+    get(`/api/collection/set/${setId}`, dispatch)
       .then((data) => {
         dispatch(actions.getCardsBySubsetSuccess({ cardsBySubset: data, setId }));
       })
       .catch((err) => {
-        if (check401(err, dispatch)) {
-          dispatch(actions.getCardsBySubsetFailure());
-        }
+        dispatch(actions.getCardsBySubsetFailure());
       });
   };
 
 export const fetchCardsInSingleSubset =
   (subsetId: number): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
   (dispatch) => {
-    get(`/api/collection/subset/${subsetId}`)
+    get(`/api/collection/subset/${subsetId}`, dispatch)
       .then((data) => {
         dispatch(actions.getSingleSubsetCardsSuccess({ cards: data, subsetId }));
       })
       .catch((err) => {
-        if (check401(err, dispatch)) {
-          dispatch(actions.getSingleSubsetCardsFailure());
-        }
+        dispatch(actions.getSingleSubsetCardsFailure());
       });
   };
 
@@ -63,14 +56,12 @@ export const addCards =
   ): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
   (dispatch) => {
     dispatch(actions.addCardsRequest());
-    post(`/api/collection/add`, { cardsToAdd: cardData })
+    post(`/api/collection/add`, { cardsToAdd: cardData }, dispatch)
       .then((newCards) => {
         dispatch(actions.addCardsSuccess(newCards, subsetId));
       })
       .catch((err) => {
-        if (check401(err, dispatch)) {
-          dispatch(actions.addCardsFailure());
-        }
+        dispatch(actions.addCardsFailure());
       });
   };
 
@@ -79,13 +70,11 @@ export const deleteCards =
   (dispatch) => {
     dispatch(actions.deleteCardsRequest());
 
-    post(`/api/collection/delete/bulk`, { userCardIds })
+    post(`/api/collection/delete/bulk`, { userCardIds }, dispatch)
       .then((response) => {
         dispatch(actions.deleteCardsSuccess(userCardIds));
       })
       .catch((err) => {
-        if (check401(err, dispatch)) {
-          dispatch(actions.deleteCardsFailure());
-        }
+        dispatch(actions.deleteCardsFailure());
       });
   };

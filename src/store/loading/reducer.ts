@@ -2,6 +2,7 @@ import { RootState } from "../index";
 
 // got this idea from: https://medium.com/stashaway-engineering/react-redux-tips-better-way-to-handle-loading-flags-in-your-reducers-afda42a804c6
 export default function loadingReducer(state: any = {}, action: any) {
+  if (!state) return {};
   const { type } = action;
   const matches = /(.*)_(REQUEST|SUCCESS|FAILURE)/.exec(type);
   if (!matches) return state;
@@ -13,10 +14,7 @@ export default function loadingReducer(state: any = {}, action: any) {
 
     // stores request name (e.g. "GET_USER") and then the state (e.g. "SUCCESS")
     // if the state is failure and an error message exists, the error message will be stored instead
-    [requestName]:
-      requestState === "FAILURE" && action.message
-        ? action.message
-        : requestState,
+    [requestName]: requestState === "FAILURE" && action.message ? action.message : requestState,
   };
 }
 

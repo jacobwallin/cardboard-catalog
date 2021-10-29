@@ -2,17 +2,13 @@ import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../index";
 import * as actions from "./actions";
 import { SubsetActionTypes } from "./types";
+import { get, post, put, del } from "../../../utils/fetch";
 
 export const fetchSubset =
-  (
-    subsetId: number
-  ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
+  (subsetId: number): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {
     dispatch(actions.getSubsetRequest());
-    fetch(`/api/subsets/${subsetId}`)
-      .then((response) => {
-        return response.json();
-      })
+    get(`/api/subsets/${subsetId}`, dispatch)
       .then((data) => {
         dispatch(actions.getSubsetSuccess(data));
       })
@@ -29,21 +25,7 @@ export const updateSubset =
   ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {
     dispatch(actions.updateSubsetRequest());
-    fetch(`/api/subsets/${subsetId}`, {
-      method: "PUT",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify(subsetData),
-    })
-      .then((response) => {
-        return response.json();
-      })
+    put(`/api/subsets/${subsetId}`, subsetData, dispatch)
       .then((updatedSet) => {
         dispatch(actions.updateSubsetSuccess(updatedSet));
       })
@@ -53,18 +35,11 @@ export const updateSubset =
   };
 
 export const deleteSubset =
-  (
-    subsetId: number
-  ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
+  (subsetId: number): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {
     dispatch(actions.deleteSubsetRequest());
 
-    fetch(`/api/subsets/${subsetId}`, {
-      method: "DELETE",
-    })
-      .then((response) => {
-        return response.json();
-      })
+    del(`/api/subsets/${subsetId}`, dispatch)
       .then((deleteStatus) => {
         dispatch(actions.deleteSubsetSuccess());
       })
@@ -84,21 +59,7 @@ export const createSeries =
   }): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {
     dispatch(actions.createSeriesRequest());
-    fetch(`/api/series`, {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify(seriesData),
-    })
-      .then((response) => {
-        return response.json();
-      })
+    post(`/api/series`, seriesData, dispatch)
       .then((createdSeries) => {
         dispatch(actions.createSeriesSuccess(createdSeries));
       })
@@ -119,22 +80,7 @@ export const createCard =
   }): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {
     dispatch(actions.createCardRequest());
-
-    fetch(`/api/carddata`, {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify(cardData),
-    })
-      .then((response) => {
-        return response.json();
-      })
+    post(`/api/carddata`, cardData, dispatch)
       .then((createdCard) => {
         dispatch(actions.createCardSuccess(createdCard));
       })
@@ -157,21 +103,7 @@ export const updateCard =
   ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {
     dispatch(actions.updateCardRequest());
-    fetch(`/api/carddata/${cardDataId}`, {
-      method: "PUT",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify(cardData),
-    })
-      .then((response) => {
-        return response.json();
-      })
+    put(`/api/carddata/${cardDataId}`, cardData, dispatch)
       .then((updatedCard) => {
         dispatch(actions.updateCardSuccess(updatedCard));
       })
@@ -181,17 +113,10 @@ export const updateCard =
   };
 
 export const deleteCard =
-  (
-    cardDataId: number
-  ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
+  (cardDataId: number): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {
     dispatch(actions.deleteCardRequest());
-    fetch(`/api/carddata/${cardDataId}`, {
-      method: "DELETE",
-    })
-      .then((response) => {
-        return response.json();
-      })
+    del(`/api/carddata/${cardDataId}`, dispatch)
       .then((deleteStatus) => {
         dispatch(actions.deleteCardSuccess(cardDataId));
       })

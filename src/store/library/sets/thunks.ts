@@ -2,32 +2,27 @@ import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../index";
 import * as actions from "./actions";
 import { SetsActionTypes } from "./types";
+import { get, post, put, del } from "../../../utils/fetch";
 
 export const fetchAllSetData =
   (): ThunkAction<void, RootState, unknown, SetsActionTypes> => (dispatch) => {
     dispatch(actions.getAllSetsRequest());
-    fetch(`/api/sets`)
-      .then((response) => {
-        return response.json();
-      })
+    get(`/api/sets`, dispatch)
       .then((data) => {
         dispatch(actions.getAllSetsSuccess(data));
       })
-      .catch((err) => console.log("ERROR IN FETCH ALL SETS LIBRARY THUNK"));
+      .catch((err) => dispatch(actions.getAllSetsFailure()));
   };
 
 export const fetchSet =
   (setId: number): ThunkAction<void, RootState, unknown, SetsActionTypes> =>
   (dispatch) => {
     dispatch(actions.getSingleSetRequest());
-    fetch(`/api/sets/${setId}`)
-      .then((response) => {
-        return response.json();
-      })
+    get(`/api/sets/${setId}`, dispatch)
       .then((data) => {
         dispatch(actions.getSingleSetSuccess(data));
       })
-      .catch((err) => actions.getAllSetsFailure());
+      .catch((err) => dispatch(actions.getAllSetsFailure()));
   };
 
 export const createSet =
@@ -40,22 +35,7 @@ export const createSet =
   }): ThunkAction<void, RootState, unknown, SetsActionTypes> =>
   (dispatch) => {
     dispatch(actions.createSetRequest());
-
-    fetch(`/api/sets`, {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify(setData),
-    })
-      .then((response) => {
-        return response.json();
-      })
+    post(`/api/sets`, setData, dispatch)
       .then((updatedSet) => {
         dispatch(actions.createSetSuccess(updatedSet));
       })
@@ -77,22 +57,7 @@ export const updateSet =
   ): ThunkAction<void, RootState, unknown, SetsActionTypes> =>
   (dispatch) => {
     dispatch(actions.updateSetRequest());
-
-    fetch(`/api/sets/${setId}`, {
-      method: "PUT",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify(setData),
-    })
-      .then((response) => {
-        return response.json();
-      })
+    put(`/api/sets/${setId}`, setData, dispatch)
       .then((updatedSet) => {
         dispatch(actions.updateSetSuccess(updatedSet));
       })
@@ -105,17 +70,11 @@ export const deleteSet =
   (setId: number): ThunkAction<void, RootState, unknown, SetsActionTypes> =>
   (dispatch) => {
     dispatch(actions.deleteSetRequest());
-
-    fetch(`/api/sets/${setId}`, {
-      method: "DELETE",
-    })
-      .then((response) => {
-        return response.json();
-      })
+    del(`/api/sets/${setId}`, dispatch)
       .then((deleteStatus) => {
         dispatch(actions.deleteSetSuccess(setId));
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => dispatch(actions.deleteSetFailure()));
   };
 
 export const createSubset =
@@ -126,22 +85,7 @@ export const createSubset =
   }): ThunkAction<void, RootState, unknown, SetsActionTypes> =>
   (dispatch) => {
     dispatch(actions.createSubsetRequest());
-
-    fetch(`/api/subsets`, {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify(subsetData),
-    })
-      .then((response) => {
-        return response.json();
-      })
+    post(`/api/subsets`, subsetData, dispatch)
       .then((createdSubset) => {
         dispatch(
           actions.createSubsetSuccess({
@@ -154,6 +98,6 @@ export const createSubset =
         );
       })
       .catch((error) => {
-        console.log(error.message);
+        dispatch(actions.createSubsetFailure());
       });
   };

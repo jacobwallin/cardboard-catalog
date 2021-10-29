@@ -2,15 +2,12 @@ import { ThunkAction } from "redux-thunk";
 import { PlayerActionCreators } from "./types";
 import { RootState } from "../..";
 import * as actions from "./actions";
+import { get, post } from "../../../utils/fetch";
 
 export const fetchAllPlayers =
-  (): ThunkAction<void, RootState, unknown, PlayerActionCreators> =>
-  (dispatch) => {
+  (): ThunkAction<void, RootState, unknown, PlayerActionCreators> => (dispatch) => {
     dispatch(actions.getAllPlayersRequest());
-    fetch(`/api/players`)
-      .then((response) => {
-        return response.json();
-      })
+    get(`/api/players`, dispatch)
       .then((allPlayers) => {
         dispatch(actions.getAllPlayersSuccess(allPlayers));
       })
@@ -23,23 +20,7 @@ export const scrapeNewPlayer =
   (url: string): ThunkAction<void, RootState, unknown, PlayerActionCreators> =>
   (dispatch) => {
     dispatch(actions.createPlayerRequest());
-    fetch(`/api/players/scrape`, {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "text/plain",
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: url,
-    })
-      .then((response) => {
-        if (response.status === 500) throw new Error("ouchie");
-
-        return response.json();
-      })
+    post(`/api/players/scrape`, url, dispatch)
       .then((newPlayer) => {
         dispatch(actions.createPlayerSuccess(newPlayer));
       })

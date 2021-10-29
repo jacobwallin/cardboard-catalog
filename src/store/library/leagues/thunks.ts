@@ -2,17 +2,16 @@ import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../index";
 import * as actions from "./actions";
 import { LeaguesActionTypes } from "./types";
+import { get } from "../../../utils/fetch";
 
 export const fetchLeagues =
-  (): ThunkAction<void, RootState, unknown, LeaguesActionTypes> =>
-  (dispatch) => {
+  (): ThunkAction<void, RootState, unknown, LeaguesActionTypes> => (dispatch) => {
     dispatch(actions.getAllLeaguesRequest());
-    fetch("/api/leagues")
-      .then((response) => {
-        return response.json();
-      })
+    get("/api/leagues", dispatch)
       .then((allLeagues) => {
         dispatch(actions.getAllLeaguesSuccess(allLeagues));
       })
-      .catch((error) => dispatch(actions.getAllLeaguesFailure()));
+      .catch((error) => {
+        dispatch(actions.getAllLeaguesFailure());
+      });
   };

@@ -1,6 +1,6 @@
 import * as types from "./types";
 
-import { LogoutActionType } from "..";
+import { LogoutAction } from "..";
 
 const initialState: types.UserState = {
   userData: {
@@ -17,7 +17,7 @@ const initialState: types.UserState = {
 
 export default function userReducer(
   state = initialState,
-  action: types.UserActionTypes | LogoutActionType
+  action: types.UserActionTypes | LogoutAction
 ): types.UserState {
   switch (action.type) {
     case types.GET_USER_SUCCESS:

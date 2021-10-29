@@ -2,14 +2,12 @@ import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../index";
 import * as actions from "./actions";
 import { TeamsActionTypes } from "./types";
+import { get } from "../../../utils/fetch";
 
 export const fetchAllTeams =
   (): ThunkAction<void, RootState, unknown, TeamsActionTypes> => (dispatch) => {
     dispatch(actions.getAllTeamsRequest());
-    fetch("/api/teams")
-      .then((response) => {
-        return response.json();
-      })
+    get("/api/teams", dispatch)
       .then((allBrands) => {
         dispatch(actions.getAllTeamsSuccess(allBrands));
       })

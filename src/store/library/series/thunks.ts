@@ -2,17 +2,13 @@ import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../index";
 import * as actions from "./actions";
 import { SeriesActionTypes } from "./types";
+import { get, put, del } from "../../../utils/fetch";
 
 export const fetchSeriesById =
-  (
-    seriesId: number
-  ): ThunkAction<void, RootState, unknown, SeriesActionTypes> =>
+  (seriesId: number): ThunkAction<void, RootState, unknown, SeriesActionTypes> =>
   (dispatch) => {
     dispatch(actions.getSeriesRequest());
-    fetch(`/api/series/${seriesId}`)
-      .then((response) => {
-        return response.json();
-      })
+    get(`/api/series/${seriesId}`, dispatch)
       .then((series) => {
         dispatch(actions.getSeriesSuccess(series));
       })
@@ -34,21 +30,7 @@ export const updateSeries =
   ): ThunkAction<void, RootState, unknown, SeriesActionTypes> =>
   (dispatch) => {
     dispatch(actions.updateSeriesRequest());
-    fetch(`/api/series/${seriesId}`, {
-      method: "PUT",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify(seriesData),
-    })
-      .then((response) => {
-        return response.json();
-      })
+    put(`/api/series/${seriesId}`, seriesData, dispatch)
       .then((updatedSeries) => {
         dispatch(actions.updateSeriesSuccess(updatedSeries));
       })
@@ -58,17 +40,10 @@ export const updateSeries =
   };
 
 export const deleteSeries =
-  (
-    seriesId: number
-  ): ThunkAction<void, RootState, unknown, SeriesActionTypes> =>
+  (seriesId: number): ThunkAction<void, RootState, unknown, SeriesActionTypes> =>
   (dispatch) => {
     dispatch(actions.deleteSeriesRequest());
-    fetch(`/api/series/${seriesId}`, {
-      method: "DELETE",
-    })
-      .then((response) => {
-        return response.json();
-      })
+    del(`/api/series/${seriesId}`, dispatch)
       .then((deleteStatus) => {
         dispatch(actions.deleteSeriesSuccess());
       })
