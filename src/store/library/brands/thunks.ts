@@ -1,21 +1,20 @@
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../index";
-import {
-  getBrandsRequest,
-  getBrandsSuccess,
-  getBrandsFailure,
-} from "./actions";
+import * as actions from "./actions";
 import { BrandActionTypes } from "./types";
+import { get } from "../../../utils/fetch";
+import { check401 } from "../../index";
 
 export const fetchAllBrands =
   (): ThunkAction<void, RootState, unknown, BrandActionTypes> => (dispatch) => {
-    dispatch(getBrandsRequest());
-    fetch("/api/brands")
-      .then((response) => {
-        return response.json();
-      })
+    dispatch(actions.getBrandsRequest());
+    get("/api/brands")
       .then((allBrands) => {
-        dispatch(getBrandsSuccess(allBrands));
+        dispatch(actions.getBrandsSuccess(allBrands));
       })
-      .catch((error) => dispatch(getBrandsFailure()));
+      .catch((error) => {
+        if (check401(error, dispatch)) {
+          dispatch(actions.getBrandsFailure());
+        }
+      });
   };

@@ -3,54 +3,47 @@ import { RootState } from "../../index";
 import * as actions from "./actions";
 import { CollectionActionTypes } from "./types";
 import { get, post } from "../../../utils/fetch";
-import { logout, Logout } from "../../index";
+import { check401 } from "../../index";
 
-type Actions = CollectionActionTypes | Logout;
+export const fetchCardsBySet =
+  (): ThunkAction<any, RootState, any, CollectionActionTypes> => (dispatch) => {
+    dispatch(actions.getCardsBySetRequest());
 
-export const fetchCardsBySet = (): ThunkAction<any, RootState, any, Actions> => (dispatch) => {
-  dispatch(actions.getCardsBySetRequest());
-
-  get("/api/collection/")
-    .then((data) => {
-      dispatch(actions.setInitialDataLoad(true));
-      dispatch(actions.getCardsBySetSuccess(data));
-    })
-    .catch((err) => {
-      if (err.status === 401) {
-        dispatch(logout());
-      } else {
-        dispatch(actions.getCardsBySetFailure());
-      }
-    });
-};
+    get("/api/collection/")
+      .then((data) => {
+        dispatch(actions.setInitialDataLoad(true));
+        dispatch(actions.getCardsBySetSuccess(data));
+      })
+      .catch((err) => {
+        if (check401(err, dispatch)) {
+          dispatch(actions.getCardsBySetFailure());
+        }
+      });
+  };
 
 export const fetchCardsBySubset =
-  (setId: number): ThunkAction<void, RootState, unknown, Actions> =>
+  (setId: number): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
   (dispatch) => {
     get(`/api/collection/set/${setId}`)
       .then((data) => {
         dispatch(actions.getCardsBySubsetSuccess({ cardsBySubset: data, setId }));
       })
       .catch((err) => {
-        if (err.status === 401) {
-          dispatch(logout());
-        } else {
+        if (check401(err, dispatch)) {
           dispatch(actions.getCardsBySubsetFailure());
         }
       });
   };
 
 export const fetchCardsInSingleSubset =
-  (subsetId: number): ThunkAction<void, RootState, unknown, Actions> =>
+  (subsetId: number): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
   (dispatch) => {
     get(`/api/collection/subset/${subsetId}`)
       .then((data) => {
         dispatch(actions.getSingleSubsetCardsSuccess({ cards: data, subsetId }));
       })
       .catch((err) => {
-        if (err.status === 401) {
-          dispatch(logout());
-        } else {
+        if (check401(err, dispatch)) {
           dispatch(actions.getSingleSubsetCardsFailure());
         }
       });
@@ -64,7 +57,10 @@ interface CardData {
 }
 
 export const addCards =
-  (cardData: CardData[], subsetId: number): ThunkAction<void, RootState, unknown, Actions> =>
+  (
+    cardData: CardData[],
+    subsetId: number
+  ): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
   (dispatch) => {
     dispatch(actions.addCardsRequest());
     post(`/api/collection/add`, { cardsToAdd: cardData })
@@ -72,16 +68,14 @@ export const addCards =
         dispatch(actions.addCardsSuccess(newCards, subsetId));
       })
       .catch((err) => {
-        if (err.status === 401) {
-          dispatch(logout());
-        } else {
+        if (check401(err, dispatch)) {
           dispatch(actions.addCardsFailure());
         }
       });
   };
 
 export const deleteCards =
-  (userCardIds: number[]): ThunkAction<void, RootState, unknown, Actions> =>
+  (userCardIds: number[]): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
   (dispatch) => {
     dispatch(actions.deleteCardsRequest());
 
@@ -90,9 +84,7 @@ export const deleteCards =
         dispatch(actions.deleteCardsSuccess(userCardIds));
       })
       .catch((err) => {
-        if (err.status === 401) {
-          dispatch(logout());
-        } else {
+        if (check401(err, dispatch)) {
           dispatch(actions.deleteCardsFailure());
         }
       });
