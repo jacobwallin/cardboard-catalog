@@ -246,6 +246,15 @@ export default function FilterPage() {
             />
           </Styled.Filter>
           <Styled.Filter>
+            <Styled.Label htmlFor="refractor">Refractor: </Styled.Label>
+            <Styled.Checkbox
+              id="refractor"
+              checked={filters.refractor}
+              type="checkbox"
+              onChange={cardAttributeChange}
+            />
+          </Styled.Filter>
+          <Styled.Filter>
             <Styled.Label htmlFor="shortPrint">Short Print: </Styled.Label>
             <Styled.Checkbox
               id="shortPrint"

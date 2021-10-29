@@ -11,6 +11,7 @@ export interface Filters {
   relic: boolean;
   manufacturedRelic: boolean;
   parallel: boolean;
+  refractor: boolean;
   shortPrint: boolean;
 }
 
@@ -27,6 +28,7 @@ export const initialFilters = {
   relic: false,
   manufacturedRelic: false,
   parallel: false,
+  refractor: false,
   shortPrint: false,
 };
 
