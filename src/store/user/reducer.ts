@@ -11,6 +11,7 @@ const initialState: types.UserState = {
     isAdmin: false,
   },
   userFetched: false,
+  sessionExpired: false,
   availableEmail: true,
   availableUsername: true,
 };

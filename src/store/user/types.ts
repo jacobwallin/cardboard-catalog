@@ -9,6 +9,7 @@ export interface User {
 export interface UserState {
   userData: User;
   userFetched: boolean;
+  sessionExpired: boolean;
   availableEmail: boolean;
   availableUsername: boolean;
 }
