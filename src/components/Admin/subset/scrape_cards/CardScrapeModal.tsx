@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store";
 import { fetchAllPlayers } from "../../../../store/library/players/thunks";
 import { fetchAllTeams } from "../../../../store/library/teams/thunks";
-import { createCard } from "../../../../store/library/subsets/thunks";
+import { createCard, bulkCreateCard } from "../../../../store/library/subsets/thunks";
 import CardForm from "../../card/edit_card/CardForm";
 import ModalBackground from "../../../shared/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
@@ -78,7 +78,20 @@ export default function CardScrapeModal(props: Props) {
     setCreatedCardIdx(currentCardIdx);
   }
 
-  function addAll() {}
+  function addAll() {
+    dispatch(
+      bulkCreateCard(
+        parsedCards.map((cardData) => {
+          return {
+            ...cardData,
+            playerIds: cardData.players.map((player) => player.id),
+            teamId: cardData.teamId ? cardData.teamId : null,
+            subsetId: props.subsetId,
+          };
+        })
+      )
+    );
+  }
 
   function nextCard() {
     if (currentCardIdx < parsedCards.length - 1) {

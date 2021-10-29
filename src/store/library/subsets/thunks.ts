@@ -89,7 +89,7 @@ export const createCard =
       });
   };
 
-export const bulkAddCard =
+export const bulkCreateCard =
   (
     cardData: {
       subsetId: number;
