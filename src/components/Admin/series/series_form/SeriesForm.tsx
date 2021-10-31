@@ -99,7 +99,7 @@ export default function SeriesForm(props: Props) {
   return (
     <FormContainer>
       <FieldContainer>
-        <FieldTitle>Series Name:</FieldTitle>
+        <FieldTitle>Name:</FieldTitle>
         <FieldData>
           <input
             name="name"
@@ -123,28 +123,6 @@ export default function SeriesForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Refractor:</FieldTitle>
-        <FieldData>
-          <input
-            name="refractor"
-            type="checkbox"
-            checked={refractor}
-            onChange={handleInputChange}
-          />
-        </FieldData>
-      </FieldContainer>
-      <FieldContainer>
-        <FieldTitle>Short Print:</FieldTitle>
-        <FieldData>
-          <input
-            name="shortPrint"
-            type="checkbox"
-            checked={shortPrint}
-            onChange={handleInputChange}
-          />
-        </FieldData>
-      </FieldContainer>
-      <FieldContainer>
         <FieldTitle>Auto:</FieldTitle>
         <FieldData>
           <input
@@ -162,6 +140,28 @@ export default function SeriesForm(props: Props) {
             name="relic"
             type="checkbox"
             checked={relic}
+            onChange={handleInputChange}
+          />
+        </FieldData>
+      </FieldContainer>
+      <FieldContainer>
+        <FieldTitle>Refractor:</FieldTitle>
+        <FieldData>
+          <input
+            name="refractor"
+            type="checkbox"
+            checked={refractor}
+            onChange={handleInputChange}
+          />
+        </FieldData>
+      </FieldContainer>
+      <FieldContainer>
+        <FieldTitle>Short Print:</FieldTitle>
+        <FieldData>
+          <input
+            name="shortPrint"
+            type="checkbox"
+            checked={shortPrint}
             onChange={handleInputChange}
           />
         </FieldData>
