@@ -20,6 +20,7 @@ import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
 import CreateButton from "../components/CreateButton";
 import { NoDataMessage } from "../../shared/NoDataMessage";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
+import { LoadingDots } from "../../shared/Loading";
 import * as Styled from "./styled";
 
 import {
@@ -103,6 +104,14 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
   const baseSeries = subset.series.find((series) => {
     return subset.baseSeriesId === series.id;
   });
+
+  if (loadingPage || subset.id !== +props.match.params.subsetId) {
+    return (
+      <AdminPageContainer>
+        <LoadingDots />
+      </AdminPageContainer>
+    );
+  }
 
   return (
     <AdminPageContainer>

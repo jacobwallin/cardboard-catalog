@@ -54,7 +54,7 @@ export default function AdminSeries(props: RouteComponentProps<Params>) {
     setEditCard(undefined);
   }
 
-  if (isLoading) {
+  if (isLoading || series.id !== +props.match.params.seriesId) {
     return (
       <AdminPageContainer>
         <LoadingDots />

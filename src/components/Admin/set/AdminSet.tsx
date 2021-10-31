@@ -7,11 +7,11 @@ import EditLink from "../components/EditLink";
 import EditSet from "./edit_set/EditSet";
 import WrappedDataTable from "../components/WrappedDataTable";
 import { createLoadingSelector } from "../../../store/loading/reducer";
-
 import CreateSubsetModal from "./subset_modal/CreateSubsetModal";
 import EditFormHeader from "../components/EditFormHeader";
 import AdminPageContainer from "../components/AdminPageContainer";
 import CreateButton from "../components/CreateButton";
+import { LoadingDots } from "../../shared/Loading";
 
 const columns = [
   {
@@ -65,46 +65,50 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
     return subset.id === singleSet.baseSubsetId;
   });
 
+  if (isLoading || singleSet.id !== +props.match.params.setId) {
+    return (
+      <AdminPageContainer>
+        <LoadingDots />
+      </AdminPageContainer>
+    );
+  }
+
   return (
     <AdminPageContainer>
-      {!isLoading && (
-        <>
-          <EditFormHeader text={`${singleSet.name}`} />
-          <EditSet setId={+props.match.params.setId} />
-          <WrappedDataTable
-            dense
-            highlightOnHover
-            title={`Base Set`}
-            columns={columns}
-            data={baseSubset ? [baseSubset] : []}
-          />
-          <WrappedDataTable
-            dense
-            title={`Inserts and Other Sets`}
-            columns={columns}
-            data={singleSet.subsets
-              .filter((subset) => {
-                return subset.id !== singleSet.baseSubsetId;
-              })
-              .sort((a, b) => {
-                if (a.name < b.name) return -1;
-                if (a.name > b.name) return 1;
-                return 0;
-              })}
-            highlightOnHover
-            actions={
-              <CreateButton onClick={toggleCreateSubsetModal}>
-                Create Subset
-              </CreateButton>
-            }
-          />
-          {showCreateSubsetModal && (
-            <CreateSubsetModal
-              handleCancel={toggleCreateSubsetModal}
-              setId={+props.match.params.setId}
-            />
-          )}
-        </>
+      <EditFormHeader text={`${singleSet.name}`} />
+      <EditSet setId={+props.match.params.setId} />
+      <WrappedDataTable
+        dense
+        highlightOnHover
+        title={`Base Set`}
+        columns={columns}
+        data={baseSubset ? [baseSubset] : []}
+      />
+      <WrappedDataTable
+        dense
+        title={`Inserts and Other Sets`}
+        columns={columns}
+        data={singleSet.subsets
+          .filter((subset) => {
+            return subset.id !== singleSet.baseSubsetId;
+          })
+          .sort((a, b) => {
+            if (a.name < b.name) return -1;
+            if (a.name > b.name) return 1;
+            return 0;
+          })}
+        highlightOnHover
+        actions={
+          <CreateButton onClick={toggleCreateSubsetModal}>
+            Create Subset
+          </CreateButton>
+        }
+      />
+      {showCreateSubsetModal && (
+        <CreateSubsetModal
+          handleCancel={toggleCreateSubsetModal}
+          setId={+props.match.params.setId}
+        />
       )}
     </AdminPageContainer>
   );
