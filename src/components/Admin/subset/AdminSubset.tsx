@@ -163,6 +163,7 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
         dense
         pagination
         paginationPerPage={10}
+        paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30]}
         highlightOnHover
         noDataComponent={
           <NoDataMessage>There are no parallels in this set.</NoDataMessage>
