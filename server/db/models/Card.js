@@ -11,6 +11,9 @@ const Card = db.define("card", {
   value: {
     type: DataTypes.DECIMAL,
   },
+  serializedTo: {
+    type: DataTypes.INTEGER,
+  },
 });
 
 module.exports = Card;

@@ -144,14 +144,7 @@ router.get("/filter", async (req, res, next) => {
           include: [
             {
               model: CardData,
-              attributes: [
-                "id",
-                "name",
-                "number",
-                "rookie",
-                "subsetId",
-                "teamId",
-              ],
+              attributes: ["id", "name", "number", "rookie", "subsetId", "teamId"],
               include: [
                 {
                   model: Player,
@@ -170,14 +163,7 @@ router.get("/filter", async (req, res, next) => {
                 attributes: ["id", "name", "baseSeriesId", "setId"],
                 include: {
                   model: Set,
-                  attributes: [
-                    "id",
-                    "name",
-                    "baseSubsetId",
-                    "release_date",
-                    "leagueId",
-                    "brandId",
-                  ],
+                  attributes: ["id", "name", "baseSubsetId", "release_date", "leagueId", "brandId"],
                 },
               },
             },

@@ -38,6 +38,19 @@ router.post(
   }
 );
 
+router.post(
+  "/demo",
+  (req, res, next) => {
+    // set username and password
+    req.body.demoUsername = process.env.DEMO_USERNAME;
+    req.body.demoPassword = process.env.DEMO_PASSWORD;
+  },
+  passport.authenticate("local"),
+  (req, res, next) => {
+    res.json(req.user);
+  }
+);
+
 router.post("/logout", (req, res, next) => {
   req.logout();
   req.session.destroy();
