@@ -56,7 +56,7 @@ export default function seriesReducer(
         series: {
           ...state.series,
           cards: state.series.cards.map((card) => {
-            if (card.card_datum.id === action.updatedCard.id) {
+            if (card.id === action.updatedCard.id) {
               return {
                 ...card,
                 serializedTo: action.updatedCard.serializedTo,
