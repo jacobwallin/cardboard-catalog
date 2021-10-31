@@ -1,5 +1,3 @@
-import { NumericLiteral } from "typescript";
-
 // STATE
 export interface SeriesState {
   series: Series;
@@ -20,7 +18,7 @@ export interface Series {
   updatedAt: string;
   subsetId: number;
   subset: Subset;
-  cards: Card[];
+  cards: Array<Card>;
 }
 
 export interface Subset {

@@ -1,6 +1,6 @@
 import * as types from "./types";
 
-const initialState = {
+const initialState: types.SeriesState = {
   series: {
     id: 0,
     name: "",
@@ -42,7 +42,7 @@ const initialState = {
 export default function seriesReducer(
   state: types.SeriesState = initialState,
   action: types.SeriesActionTypes
-) {
+): types.SeriesState {
   switch (action.type) {
     case types.GET_SERIES_SUCCESS:
       return { ...state, series: action.series };
@@ -55,17 +55,15 @@ export default function seriesReducer(
         ...state,
         series: {
           ...state.series,
-          cards: [
-            state.series.cards.map((card) => {
-              if (card.id === action.updatedCard.id) {
-                return {
-                  ...card,
-                  ...action.updatedCard,
-                };
-              }
-              return card;
-            }),
-          ],
+          cards: state.series.cards.map((card) => {
+            if (card.card_datum.id === action.updatedCard.id) {
+              return {
+                ...card,
+                serializedTo: action.updatedCard.serializedTo,
+              };
+            }
+            return card;
+          }),
         },
       };
     default:
