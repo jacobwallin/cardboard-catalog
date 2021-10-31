@@ -33,6 +33,8 @@ export interface Subset {
 
 export interface Card {
   id: number;
+  value: number | null;
+  serializedTo: number | null;
   seriesId: number;
   cardDataId: number;
   card_datum: {

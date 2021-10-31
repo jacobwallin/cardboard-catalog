@@ -7,6 +7,7 @@ import { createLoadingSelector } from "../../../store/loading/reducer";
 import EditSeries from "./series_form/EditSeries";
 import EditFormHeader from "../components/EditFormHeader";
 import AdminPageContainer from "../components/AdminPageContainer";
+import DataTable from "react-data-table-component";
 
 const isLoadingSelector = createLoadingSelector([
   "GET_ATTRIBUTES",
@@ -35,6 +36,7 @@ export default function AdminSeries(props: RouteComponentProps<Params>) {
     <AdminPageContainer>
       <EditFormHeader text={`${series.name} Series`} />
       <EditSeries seriesId={+props.match.params.seriesId} />
+      <DataTable />
     </AdminPageContainer>
   );
 }
