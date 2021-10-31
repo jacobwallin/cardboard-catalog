@@ -26,6 +26,7 @@ router.get("/:seriesId", async (req, res, next) => {
       include: [
         {
           model: Card,
+          attributes: { exclude: ["createdAt", "updatedAt"] },
           include: {
             model: CardData,
             include: [
