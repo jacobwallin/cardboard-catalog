@@ -38,12 +38,14 @@ router.post(
   }
 );
 
-router.post(
+router.get(
   "/demo",
   (req, res, next) => {
-    // set username and password
-    req.body.demoUsername = process.env.DEMO_USERNAME;
-    req.body.demoPassword = process.env.DEMO_PASSWORD;
+    // get demo username and password
+    req.body.username = process.env.DEMO_USERNAME;
+    req.body.password = process.env.DEMO_PASSWORD;
+    // create session for demo user
+    next();
   },
   passport.authenticate("local"),
   (req, res, next) => {
