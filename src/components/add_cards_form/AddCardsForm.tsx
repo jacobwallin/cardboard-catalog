@@ -9,7 +9,10 @@ import AddCardsLine from "./add_cards_line/AddCardsLine";
 import StyledButton from "../Admin/components/StyledButton";
 import SelectCardForm from "./select_card_form/SelectCardForm";
 
-import { createLoadingSelector, createStatusSelector } from "../../store/loading/reducer";
+import {
+  createLoadingSelector,
+  createStatusSelector,
+} from "../../store/loading/reducer";
 import * as validate from "./validateCardData";
 
 import * as Styled from "./styled";
@@ -39,15 +42,21 @@ export default function AddCardsForm(props: Props) {
   const [cardsSuccessfullyAdded, setCardsSuccessfullyAdded] = useState(0);
 
   // API DATA
-  const [cardData, setCardData] = useState<CardFormData[]>(props.formData ? props.formData : []);
+  const [cardData, setCardData] = useState<CardFormData[]>(
+    props.formData ? props.formData : []
+  );
 
   // LIBRARY DATA
   const series = useSelector((state: RootState) => state.library.series.series);
-  const gradingCompanies = useSelector((state: RootState) => state.library.gradingCompanies);
+  const gradingCompanies = useSelector(
+    (state: RootState) => state.library.gradingCompanies
+  );
 
   // LOADING STATUS FOR POSTING CARDS
   const isPostingCards = useSelector((state: RootState) => postingCards(state));
-  const postingCardsStatus = useSelector((state: RootState) => postingCardsStatusSelector(state));
+  const postingCardsStatus = useSelector((state: RootState) =>
+    postingCardsStatusSelector(state)
+  );
 
   useEffect(() => {
     dispatch(fetchAllSetData());
@@ -73,7 +82,10 @@ export default function AddCardsForm(props: Props) {
           return {
             ...data,
             serialNumber,
-            serialNumberError: validate.serialNumber(serialNumber, series.serialized),
+            serialNumberError: validate.serialNumber(
+              serialNumber,
+              series.serialized
+            ),
           };
         }
         return data;
@@ -92,14 +104,20 @@ export default function AddCardsForm(props: Props) {
     );
   }
 
-  function handleGradingCompanyIdChange(cardIndex: number, gradingCompanyId: number) {
+  function handleGradingCompanyIdChange(
+    cardIndex: number,
+    gradingCompanyId: number
+  ) {
     setCardData(
       cardData.map((data, index) => {
         if (index === cardIndex) {
           return {
             ...data,
             gradingCompanyId,
-            gradingCompanyError: validate.gradingCompany(gradingCompanyId, gradingCompanies),
+            gradingCompanyError: validate.gradingCompany(
+              gradingCompanyId,
+              gradingCompanies
+            ),
           };
         }
         return data;
@@ -128,7 +146,9 @@ export default function AddCardsForm(props: Props) {
     setCardData(cardData.filter((card, index) => index !== cardIndex));
   }
 
-  const handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleSubmit = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     // prevent refresh
     event.preventDefault();
 
@@ -136,7 +156,10 @@ export default function AddCardsForm(props: Props) {
     setValidationError(false);
 
     // validate data
-    const { errorsFound, validatedCardData } = validate.allCardData(cardData, series.serialized);
+    const { errorsFound, validatedCardData } = validate.allCardData(
+      cardData,
+      series.serialized
+    );
 
     setValidationError(errorsFound);
 
@@ -167,7 +190,9 @@ export default function AddCardsForm(props: Props) {
 
   return (
     <Styled.FormContainer>
-      {!props.formData && <SelectCardForm cardData={cardData} addCard={addCard} />}
+      {!props.formData && (
+        <SelectCardForm cardData={cardData} addCard={addCard} />
+      )}
       <Styled.SubmitContainer>
         <Styled.TotalCardsLabel>
           {cardData.length > 0 && `Total Cards: ${cardData.length}`}
@@ -184,7 +209,9 @@ export default function AddCardsForm(props: Props) {
         </StyledButton>
       </Styled.SubmitContainer>
 
-      {validationError && <Styled.SubmitError>Fix Errors to Submit</Styled.SubmitError>}
+      {validationError && (
+        <Styled.SubmitError>Fix Errors to Submit</Styled.SubmitError>
+      )}
       {((cardsSuccessfullyAdded > 0 && cardData.length === 0) ||
         postingCardsStatus === "FAILURE") && (
         <Styled.PostResultMessage success={postingCardsStatus !== "FAILURE"}>

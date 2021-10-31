@@ -31,7 +31,9 @@ export default function SelectCardForm(props: Props) {
   // LIBRARY STORE DATA
   const allSets = useSelector((state: RootState) => state.library.sets.allSets);
   const set = useSelector((state: RootState) => state.library.sets.singleSet);
-  const subset = useSelector((state: RootState) => state.library.subsets.subset);
+  const subset = useSelector(
+    (state: RootState) => state.library.subsets.subset
+  );
   const series = useSelector((state: RootState) => state.library.series.series);
 
   // FETCH FORM DATA AS NEEDED WHEN USER MAKES SELECTIONS
@@ -83,15 +85,20 @@ export default function SelectCardForm(props: Props) {
       case "select-card":
         setSelectedCardId(+event.target.value);
         setCardIdField(
-          series.cards.find((card) => card.id === +event.target.value)?.card_datum.number!
+          series.cards.find((card) => card.id === +event.target.value)
+            ?.card_datum.number!
         );
         break;
     }
   }
 
-  function handleInputChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+  function handleInputChange(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
     setCardIdField(event.target.value);
-    const card = series.cards.find((card) => card.card_datum.number === event.target.value);
+    const card = series.cards.find(
+      (card) => card.card_datum.number === event.target.value
+    );
     if (card) {
       setSelectedCardId(card.id);
     } else {
@@ -217,7 +224,10 @@ export default function SelectCardForm(props: Props) {
           {series.id === selectedSeriesId &&
             series.cards
               .sort((cardA, cardB) => {
-                return sortCardNumbers(cardA.card_datum.number, cardB.card_datum.number);
+                return sortCardNumbers(
+                  cardA.card_datum.number,
+                  cardB.card_datum.number
+                );
               })
               .map((card) => {
                 return (

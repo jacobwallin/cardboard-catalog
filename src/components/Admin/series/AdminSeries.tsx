@@ -5,7 +5,6 @@ import { RootState } from "../../../store";
 import { fetchSeriesById } from "../../../store/library/series/thunks";
 import { createLoadingSelector } from "../../../store/loading/reducer";
 import EditSeries from "./series_form/EditSeries";
-import EditFormHeader from "../components/EditFormHeader";
 import AdminPageContainer from "../components/AdminPageContainer";
 import DataTable from "react-data-table-component";
 import { LoadingDots } from "../../shared/Loading";
@@ -14,6 +13,7 @@ import { Card } from "../../../store/library/series/types";
 import { DataTableWrapper } from "../components/WrappedDataTable";
 import { NoDataMessage } from "../../shared/NoDataMessage";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
+import { Header, SubHeader } from "../components/PageHeader";
 
 const isLoadingSelector = createLoadingSelector(["GET_SERIES"]);
 
@@ -43,7 +43,10 @@ export default function AdminSeries(props: RouteComponentProps<Params>) {
 
   return (
     <AdminPageContainer>
-      <EditFormHeader text={`${series.name}`} />
+      <Header>{`${series.name} ${
+        series.subset.baseSeriesId === series.id && "Parallel"
+      }`}</Header>
+      <SubHeader> </SubHeader>
       <EditSeries seriesId={+props.match.params.seriesId} />
       <DataTableWrapper>
         <DataTable
