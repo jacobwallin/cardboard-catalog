@@ -5,6 +5,7 @@ const { isAdmin } = require("../../middleware");
 const {
   Series,
   Subset,
+  Set,
   Card,
   CardData,
   Player,
@@ -44,7 +45,7 @@ router.get("/:seriesId", async (req, res, next) => {
             ],
           },
         },
-        { model: Subset },
+        { model: Subset, include: Set },
       ],
     });
     res.json(series);
