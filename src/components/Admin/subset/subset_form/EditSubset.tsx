@@ -96,7 +96,9 @@ export default function EditSubset(props: Props) {
           </FieldContainer>
           <FieldContainer>
             <FieldTitle>Description:</FieldTitle>
-            <FieldData>{subset.description}</FieldData>
+            <FieldData>
+              {subset.description === "" ? "-" : subset.description}
+            </FieldData>
           </FieldContainer>
           <EditDeleteButtons
             handleEdit={toggleForm}

@@ -124,7 +124,9 @@ export default function EditSet(props: Props) {
           </FieldContainer>
           <FieldContainer>
             <FieldTitle>Set Description:</FieldTitle>
-            <FieldData>{set.description}</FieldData>
+            <FieldData>
+              {set.description === "" ? "-" : set.description}
+            </FieldData>
           </FieldContainer>
           <EditDeleteButtons
             handleEdit={toggleForm}
