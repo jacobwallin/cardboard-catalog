@@ -12,18 +12,13 @@ interface Props {
   handleDelete(cardIndex: number): any;
   handleSerializedChange(cardIndex: number, serialNumber: string): any;
   handleGradeChange(cardIndex: number, grade: string): any;
-  handleGradingCompanyIdChange(
-    cardIndex: number,
-    gradingCompanyId: number
-  ): any;
+  handleGradingCompanyIdChange(cardIndex: number, gradingCompanyId: number): any;
   clearGradeData(cardIndex: number): any;
 }
 
 export default function AddCardsLine(props: Props) {
   const [addCardGrade, setAddCardGrade] = useState(false);
-  const gradingCompanies = useSelector(
-    (state: RootState) => state.library.gradingCompanies
-  );
+  const gradingCompanies = useSelector((state: RootState) => state.library.gradingCompanies);
 
   // automatically select graded if a card is deleted and the card prop changes
   useEffect(() => {
@@ -67,10 +62,7 @@ export default function AddCardsLine(props: Props) {
               }}
               error={props.card.serialNumberError}
             />
-            <Styled.SerialNumberLabel
-              error={props.card.serialNumberError}
-              htmlFor="SN"
-            >
+            <Styled.SerialNumberLabel error={props.card.serialNumberError} htmlFor="SN">
               {props.card.serialNumberError ? "Invalid S/N" : "Enter S/N"}
             </Styled.SerialNumberLabel>
           </Styled.EnterSNContainer>
@@ -83,9 +75,7 @@ export default function AddCardsLine(props: Props) {
             onChange={handleGradedChange}
             style={{ height: "65%" }}
           />
-          <Styled.SerialNumberLabel htmlFor="graded">
-            Graded
-          </Styled.SerialNumberLabel>
+          <Styled.SerialNumberLabel htmlFor="graded">Graded</Styled.SerialNumberLabel>
         </Styled.GradedContainer>
       </Styled.CardInfoContainer>
       {addCardGrade && (
@@ -108,10 +98,7 @@ export default function AddCardsLine(props: Props) {
               disabled={props.card.grade === ""}
               value={props.card.gradingCompanyId}
               onChange={(event) => {
-                props.handleGradingCompanyIdChange(
-                  props.index,
-                  +event.target.value
-                );
+                props.handleGradingCompanyIdChange(props.index, +event.target.value);
               }}
             >
               <option value={-1}>Select</option>

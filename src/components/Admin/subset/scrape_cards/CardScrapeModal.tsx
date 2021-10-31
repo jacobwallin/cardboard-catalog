@@ -16,6 +16,7 @@ import parseCards from "./parseCards";
 
 const creatingCardSelector = createLoadingSelector(["CREATE_CARD"]);
 const creatingCardStatusSelector = createStatusSelector("CREATE_CARD");
+const blukCreatingCardStatusSelector = createStatusSelector("BULK_CREATE_CARD");
 
 interface Props {
   handleCancel(): void;
@@ -35,6 +36,9 @@ export default function CardScrapeModal(props: Props) {
   const teams = useSelector((state: RootState) => state.library.teams);
   const creatingCard = useSelector((state: RootState) => creatingCardSelector(state));
   const creatingCardStatus = useSelector((state: RootState) => creatingCardStatusSelector(state));
+  const bulkCreatingStatus = useSelector((state: RootState) =>
+    blukCreatingCardStatusSelector(state)
+  );
 
   function textAreaChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     setScrapedCards(event.target.value);
@@ -91,6 +95,7 @@ export default function CardScrapeModal(props: Props) {
         })
       )
     );
+    setCreatedCardIdx(currentCardIdx);
   }
 
   function nextCard() {
@@ -116,6 +121,14 @@ export default function CardScrapeModal(props: Props) {
       }
     }
   }, [creatingCardStatus, createdCardIdx, parsedCards]);
+
+  useEffect(() => {
+    if (bulkCreatingStatus === "SUCCESS" && parseCards.length > 0 && createdCardIdx !== -1) {
+      setParsedCards([]);
+      setCurrentCardIdx(0);
+      setCreatedCardIdx(-1);
+    }
+  }, [bulkCreatingStatus, parsedCards, createdCardIdx]);
 
   useEffect(() => {
     dispatch(fetchAllPlayers());
