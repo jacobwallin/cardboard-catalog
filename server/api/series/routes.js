@@ -26,7 +26,6 @@ router.get("/:seriesId", async (req, res, next) => {
       include: [
         {
           model: Card,
-          attributes: ["id", "seriesId", "cardDataId"],
           include: {
             model: CardData,
             include: [
