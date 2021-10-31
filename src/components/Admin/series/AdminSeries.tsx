@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { RootState } from "../../../store";
 import { fetchSeriesById } from "../../../store/library/series/thunks";
-import { createLoadingSelector } from "../../../store/loading/reducer";
+import {
+  createLoadingSelector,
+  createStatusSelector,
+} from "../../../store/loading/reducer";
 import EditSeries from "./series_form/EditSeries";
 import AdminPageContainer from "../components/AdminPageContainer";
 import DataTable from "react-data-table-component";
@@ -17,6 +20,7 @@ import { Header, SubHeader } from "../components/PageHeader";
 import EditCardModal from "./edit_card_modal/EditCardModal";
 
 const isLoadingSelector = createLoadingSelector(["GET_SERIES"]);
+const updateCardStatusSelector = createStatusSelector("UPDATE_CARD");
 
 interface Params {
   seriesId: string;
@@ -27,12 +31,21 @@ export default function AdminSeries(props: RouteComponentProps<Params>) {
 
   const [editCard, setEditCard] = useState<Card | undefined>(undefined);
 
+  const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
+  const updateCardStatus = useSelector((state: RootState) =>
+    updateCardStatusSelector(state)
+  );
+  const series = useSelector((state: RootState) => state.library.series.series);
+
   useEffect(() => {
     dispatch(fetchSeriesById(+props.match.params.seriesId));
   }, []);
 
-  const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
-  const series = useSelector((state: RootState) => state.library.series.series);
+  useEffect(() => {
+    if (updateCardStatus === "SUCCESS") {
+      setEditCard(undefined);
+    }
+  }, [updateCardStatus]);
 
   function showEditCardModal(card: Card) {
     setEditCard(card);

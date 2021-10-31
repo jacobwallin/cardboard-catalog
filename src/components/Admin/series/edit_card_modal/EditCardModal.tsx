@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../../store";
 import ModalBackground from "../../../shared/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
 import { updateCard } from "../../../../store/library/series/thunks";
@@ -10,7 +11,10 @@ import FormContainer from "../../components/form/FormContainer";
 import { Card } from "../../../../store/library/series/types";
 import StyledButton from "../../components/StyledButton";
 import ButtonContainer from "../../components/form/ButtonContainer";
+import { createLoadingSelector } from "../../../../store/loading/reducer";
 import * as styled from "./styled";
+
+const isLoadingSelector = createLoadingSelector(["UPDATE_CARD"]);
 
 interface Props {
   card: Card;
@@ -28,6 +32,8 @@ export default function EditCardModal(props: Props) {
     ? String(props.seriesSerialized)
     : "";
   const [serializedTo, setSerializedTo] = useState<string>(currentSerializedTo);
+
+  const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
 
   function handleSerializedChange(event: React.ChangeEvent<HTMLInputElement>) {
     setSerializedTo(event.target.value);
@@ -119,7 +125,7 @@ export default function EditCardModal(props: Props) {
               color="GREEN"
               width="100px"
               height="27px"
-              disabled={serializedTo === currentSerializedTo}
+              disabled={isLoading || serializedTo === currentSerializedTo}
             >
               Save
             </StyledButton>
