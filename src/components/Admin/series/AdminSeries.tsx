@@ -43,10 +43,11 @@ export default function AdminSeries(props: RouteComponentProps<Params>) {
 
   return (
     <AdminPageContainer>
-      <Header>{`${series.name} ${
-        series.subset.baseSeriesId === series.id && "Parallel"
-      }`}</Header>
-      <SubHeader> </SubHeader>
+      <Header>
+        {series.name}
+        {series.subset.baseSeriesId === series.id || " Parallel"}
+      </Header>
+      <SubHeader>{`${series.subset.set.name} - ${series.subset.name}`}</SubHeader>
       <EditSeries seriesId={+props.match.params.seriesId} />
       <DataTableWrapper>
         <DataTable
