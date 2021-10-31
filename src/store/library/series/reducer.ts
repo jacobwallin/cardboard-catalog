@@ -1,10 +1,4 @@
-import {
-  SeriesActionTypes,
-  SeriesState,
-  GET_SERIES_SUCCESS,
-  UPDATE_SERIES_SUCCESS,
-  DELETE_SERIES_SUCCESS,
-} from "./types";
+import * as types from "./types";
 
 const initialState = {
   series: {
@@ -46,16 +40,34 @@ const initialState = {
 };
 
 export default function seriesReducer(
-  state: SeriesState = initialState,
-  action: SeriesActionTypes
+  state: types.SeriesState = initialState,
+  action: types.SeriesActionTypes
 ) {
   switch (action.type) {
-    case GET_SERIES_SUCCESS:
+    case types.GET_SERIES_SUCCESS:
       return { ...state, series: action.series };
-    case UPDATE_SERIES_SUCCESS:
+    case types.UPDATE_SERIES_SUCCESS:
       return { ...state, series: action.updatedSeries };
-    case DELETE_SERIES_SUCCESS:
+    case types.DELETE_SERIES_SUCCESS:
       return initialState;
+    case types.UPDATE_CARD_SUCCESS:
+      return {
+        ...state,
+        series: {
+          ...state.series,
+          cards: [
+            state.series.cards.map((card) => {
+              if (card.id === action.updatedCard.id) {
+                return {
+                  ...card,
+                  ...action.updatedCard,
+                };
+              }
+              return card;
+            }),
+          ],
+        },
+      };
     default:
       return state;
   }

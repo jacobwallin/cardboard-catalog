@@ -1,3 +1,5 @@
+import { NumericLiteral } from "typescript";
+
 // STATE
 export interface SeriesState {
   series: Series;
@@ -92,6 +94,9 @@ export const UPDATE_SERIES_FAILURE = "UPDATE_SERIES_FAILURE";
 export const DELETE_SERIES_REQUEST = "DELETE_SERIES_REQUEST";
 export const DELETE_SERIES_SUCCESS = "DELETE_SERIES_SUCCESS";
 export const DELETE_SERIES_FAILURE = "DELETE_SERIES_FAILURE";
+export const UPDATE_CARD_REQUEST = "UPDATE_CARD_REQUEST";
+export const UPDATE_CARD_SUCCESS = "UPDATE_CARD_SUCCESS";
+export const UPDATE_CARD_FAILURE = "UPDATE_CARD_FAILURE";
 
 // ACTION CREATORS
 interface GetSeriesRequest {
@@ -126,6 +131,28 @@ interface DeleteSeriesFailure {
   type: typeof DELETE_SERIES_FAILURE;
 }
 
+interface UpdateCardRequest {
+  type: typeof UPDATE_CARD_REQUEST;
+}
+
+export interface UpdateCardResponse {
+  id: number;
+  value: number | null;
+  serializedTo: number | null;
+  createdAt: string;
+  updatedAt: string;
+  seriesId: number;
+  cardDataId: number;
+}
+
+interface UpdateCardSuccess {
+  type: typeof UPDATE_CARD_SUCCESS;
+  updatedCard: UpdateCardResponse;
+}
+interface UpdateCardFailure {
+  type: typeof UPDATE_CARD_FAILURE;
+}
+
 export type SeriesActionTypes =
   | GetSeriesRequest
   | GetSeriesSuccess
@@ -135,4 +162,7 @@ export type SeriesActionTypes =
   | UpdateSeriesFailure
   | DeleteSeriesRequest
   | DeleteSeriesSuccess
-  | DeleteSeriesFailure;
+  | DeleteSeriesFailure
+  | UpdateCardRequest
+  | UpdateCardSuccess
+  | UpdateCardFailure;
