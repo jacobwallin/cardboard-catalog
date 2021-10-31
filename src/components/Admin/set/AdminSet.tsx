@@ -37,8 +37,12 @@ interface Params {
 export default function SetAdminPage(props: RouteComponentProps<Params>) {
   const dispatch = useDispatch();
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
-  const creatingSubset = useSelector((state: RootState) => creatingSubsetSelector(state));
-  const singleSet = useSelector((state: RootState) => state.library.sets.singleSet);
+  const creatingSubset = useSelector((state: RootState) =>
+    creatingSubsetSelector(state)
+  );
+  const singleSet = useSelector(
+    (state: RootState) => state.library.sets.singleSet
+  );
 
   useEffect(() => {
     dispatch(fetchSet(+props.match.params.setId));
@@ -88,7 +92,11 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
                 return 0;
               })}
             highlightOnHover
-            actions={<CreateButton onClick={toggleCreateSubsetModal}>Create Subset</CreateButton>}
+            actions={
+              <CreateButton onClick={toggleCreateSubsetModal}>
+                Create Subset
+              </CreateButton>
+            }
           />
           {showCreateSubsetModal && (
             <CreateSubsetModal
