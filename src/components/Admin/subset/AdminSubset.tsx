@@ -6,10 +6,7 @@ import { CardData } from "../../../store/library/subsets/types";
 import { fetchSubset } from "../../../store/library/subsets/thunks";
 import { deleteCard } from "../../../store/library/subsets/thunks";
 import WrappedDataTable from "../components/WrappedDataTable";
-import {
-  createLoadingSelector,
-  createStatusSelector,
-} from "../../../store/loading/reducer";
+import { createLoadingSelector, createStatusSelector } from "../../../store/loading/reducer";
 import EditSubset from "./subset_form/EditSubset";
 import AdminPageContainer from "../components/AdminPageContainer";
 import CreateSeriesModal from "./series_modal/CreateSeriesModal";
@@ -22,10 +19,7 @@ import { NoDataMessage } from "../../shared/NoDataMessage";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
 import * as Styled from "./styled";
 
-import {
-  cardsDataTableColumns,
-  seriesDataTableColumns,
-} from "./dataTableColumns";
+import { cardsDataTableColumns, seriesDataTableColumns } from "./dataTableColumns";
 
 const pageLoadingSelector = createLoadingSelector(["GET_SUBSET"]);
 const modalLoadingSelector = createLoadingSelector([
@@ -45,20 +39,12 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
   const [showCreateSeriesModal, setShowCreateSeriesModal] = useState(false);
   const [showCreateCardModal, setShowCreateCardModal] = useState(false);
   const [showScrapeCardModal, setShowScrapeCardModal] = useState(false);
-  const [editCardData, setEditCardData] = useState<CardData | undefined>(
-    undefined
-  );
+  const [editCardData, setEditCardData] = useState<CardData | undefined>(undefined);
   const [deleteCardId, setDeleteCardId] = useState(0);
 
-  const subset = useSelector(
-    (state: RootState) => state.library.subsets.subset
-  );
-  const loadingPage = useSelector((state: RootState) =>
-    pageLoadingSelector(state)
-  );
-  const loadingChanges = useSelector((state: RootState) =>
-    modalLoadingSelector(state)
-  );
+  const subset = useSelector((state: RootState) => state.library.subsets.subset);
+  const loadingPage = useSelector((state: RootState) => pageLoadingSelector(state));
+  const loadingChanges = useSelector((state: RootState) => modalLoadingSelector(state));
 
   const deletingCardStatus = useSelector((state: RootState) => {
     return deletingCardSelector(state);
@@ -124,12 +110,7 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
           subsetId={+props.match.params.subsetId}
         />
       )}
-      {editCardData && (
-        <EditCardModal
-          cardData={editCardData}
-          handleCancel={hideEditCardModal}
-        />
-      )}
+      {editCardData && <EditCardModal cardData={editCardData} handleCancel={hideEditCardModal} />}
       {deleteCardId !== 0 && (
         <ConfirmDeleteModal
           handleDelete={deleteCardData}
@@ -164,17 +145,11 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
         pagination
         paginationPerPage={10}
         highlightOnHover
-        noDataComponent={
-          <NoDataMessage>There are no parallels in this set.</NoDataMessage>
-        }
-        actions={
-          <CreateButton onClick={toggleCreateSeriesModal}>
-            Create Parallel
-          </CreateButton>
-        }
+        noDataComponent={<NoDataMessage>There are no parallels in this set.</NoDataMessage>}
+        actions={<CreateButton onClick={toggleCreateSeriesModal}>Create Parallel</CreateButton>}
       />
       <WrappedDataTable
-        title={`Cards`}
+        title={`Checklist`}
         columns={cardsDataTableColumns(showEditCardModal, handleDeleteClick)}
         data={subset.card_data.sort((a, b) => {
           return sortCardNumbers(a.number, b.number);
@@ -184,17 +159,11 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
         pagination
         paginationPerPage={20}
         dense
-        noDataComponent={
-          <NoDataMessage>No cards have been added to this set.</NoDataMessage>
-        }
+        noDataComponent={<NoDataMessage>No cards have been added to this set.</NoDataMessage>}
         actions={
           <>
-            <CreateButton onClick={toggleScrapeCardModal}>
-              Bulk Add
-            </CreateButton>
-            <CreateButton onClick={toggleCreateCardModal}>
-              Create Card
-            </CreateButton>
+            <CreateButton onClick={toggleScrapeCardModal}>Bulk Add</CreateButton>
+            <CreateButton onClick={toggleCreateCardModal}>Create Card</CreateButton>
           </>
         }
       />
