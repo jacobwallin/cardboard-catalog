@@ -40,9 +40,7 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
   const creatingSubset = useSelector((state: RootState) =>
     creatingSubsetSelector(state)
   );
-  const singleSet = useSelector(
-    (state: RootState) => state.library.sets.singleSet
-  );
+  const set = useSelector((state: RootState) => state.library.sets.singleSet);
 
   useEffect(() => {
     dispatch(fetchSet(+props.match.params.setId));
@@ -61,11 +59,11 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
     setShowCreateSubsetModal(!showCreateSubsetModal);
   }
 
-  const baseSubset = singleSet.subsets.find((subset) => {
-    return subset.id === singleSet.baseSubsetId;
+  const baseSubset = set.subsets.find((subset) => {
+    return subset.id === set.baseSubsetId;
   });
 
-  if (isLoading || singleSet.id !== +props.match.params.setId) {
+  if (isLoading || set.id !== +props.match.params.setId) {
     return (
       <AdminPageContainer>
         <LoadingDots />
@@ -75,7 +73,7 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
 
   return (
     <AdminPageContainer>
-      <EditFormHeader text={`${singleSet.name}`} />
+      <EditFormHeader text={`${set.name}`} />
       <EditSet setId={+props.match.params.setId} />
       <WrappedDataTable
         dense
@@ -88,9 +86,9 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
         dense
         title={`Inserts and Other Sets`}
         columns={columns}
-        data={singleSet.subsets
+        data={set.subsets
           .filter((subset) => {
-            return subset.id !== singleSet.baseSubsetId;
+            return subset.id !== set.baseSubsetId;
           })
           .sort((a, b) => {
             if (a.name < b.name) return -1;
