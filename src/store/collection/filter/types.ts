@@ -17,6 +17,7 @@ export interface UserCard {
   card: {
     id: number;
     value: number | null;
+    serializedTo: number | null;
     cardDataId: number;
     seriesId: number;
     series: Series;
@@ -101,4 +102,7 @@ interface GetCardsFailure {
   type: typeof GET_CARDS_FAILURE;
 }
 
-export type FilterCollectionActions = GetCardsRequest | GetCardsSuccess | GetCardsFailure;
+export type FilterCollectionActions =
+  | GetCardsRequest
+  | GetCardsSuccess
+  | GetCardsFailure;
