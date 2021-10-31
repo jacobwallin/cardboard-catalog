@@ -25,4 +25,17 @@ router.get("/:cardId", async (req, res, next) => {
   }
 });
 
+router.put("/:cardId", async (req, res, next) => {
+  const { serializedTo } = req.body;
+  try {
+    let card = await Card.findByPk(req.params.cardId);
+    card.serializedTo = serializedTo;
+    await card.save();
+
+    res.json(card);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
