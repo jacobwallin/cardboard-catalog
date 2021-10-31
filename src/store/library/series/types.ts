@@ -29,6 +29,19 @@ export interface Subset {
   createdAt: string;
   updatedAt: string;
   setId: number;
+  set: Set;
+}
+
+interface Set {
+  id: number;
+  name: string;
+  release_date: string;
+  description: string;
+  baseSubsetId: number;
+  createdAt: string;
+  updatedAt: string;
+  leagueId: number;
+  brandId: number;
 }
 
 export interface Card {
