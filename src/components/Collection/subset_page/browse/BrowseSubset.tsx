@@ -6,7 +6,9 @@ import columns from "./dataTableColumns";
 import { TableDataPoint } from "../createTableData";
 import { CollectionPageContainer } from "../../shared";
 import StyledButton from "../../../Admin/components/StyledButton";
-import AddCardsForm, { CardFormData } from "../../../add_cards_form/AddCardsForm";
+import AddCardsForm, {
+  CardFormData,
+} from "../../../add_cards_form/AddCardsForm";
 import * as Styled from "../styled";
 import sortCardNumbers from "../../../../utils/sortCardNumbers";
 import sortSeries from "../sortSeries";
@@ -15,9 +17,13 @@ interface Props {
   tableData: any[];
 }
 export default function BrowseSubset(props: Props) {
-  const subset = useSelector((state: RootState) => state.library.subsets.subset);
+  const subset = useSelector(
+    (state: RootState) => state.library.subsets.subset
+  );
 
-  const [selectedSeriesId, setSelectedSeriesId] = useState(subset.baseSeriesId || 1);
+  const [selectedSeriesId, setSelectedSeriesId] = useState(
+    subset.baseSeriesId || 1
+  );
   // toggles showing checkboxes to select cards to add to collection
   const [checklistToggleSelect, setChecklistToggleSelect] = useState(false);
   // toggles add card form modal when user wants to add cards to collection
@@ -60,6 +66,8 @@ export default function BrowseSubset(props: Props) {
           seriesId: row.seriesId,
           cardDataId: row.cardDataId,
           card_datum: row.cardData,
+          serializedTo: null,
+          value: null,
         },
       };
     });
@@ -108,7 +116,10 @@ export default function BrowseSubset(props: Props) {
           <Styled.TableHeader>
             <Styled.SelectParallel>
               <Styled.SelectLabel>Select Parallel Set</Styled.SelectLabel>
-              <Styled.SeriesSelect value={selectedSeriesId} onChange={handleSeriesChange}>
+              <Styled.SeriesSelect
+                value={selectedSeriesId}
+                onChange={handleSeriesChange}
+              >
                 <option value={0}>Show All Parallels</option>
                 {subset.series
                   .sort((a, b) => {
@@ -140,7 +151,9 @@ export default function BrowseSubset(props: Props) {
             columns={columns}
             data={props.tableData
               .filter((card: any) => {
-                return selectedSeriesId === 0 || card.seriesId === selectedSeriesId;
+                return (
+                  selectedSeriesId === 0 || card.seriesId === selectedSeriesId
+                );
               })
               .sort((a, b) => {
                 return sortCardNumbers(a.cardData.number, b.cardData.number);
