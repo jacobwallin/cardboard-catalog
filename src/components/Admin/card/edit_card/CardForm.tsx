@@ -408,6 +408,7 @@ export default function CardForm(props: Props) {
         <FieldData>
           <input
             type="checkbox"
+            name="rookie"
             checked={rookie}
             onChange={handleInputChange}
           />
