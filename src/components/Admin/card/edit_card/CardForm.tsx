@@ -270,10 +270,10 @@ export default function CardForm(props: Props) {
               <StyledButton
                 color="GRAY"
                 height="25px"
-                width="125px"
+                width="100px"
                 onClick={scrapePlayer}
               >
-                Create Player
+                Add Player
               </StyledButton>
             </Styled.AddPlayerContainer>
             {scrapePlayerStatus === "SUCCESS" &&
