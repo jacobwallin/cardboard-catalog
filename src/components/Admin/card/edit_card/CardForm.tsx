@@ -176,6 +176,9 @@ export default function CardForm(props: Props) {
       case "note":
         setNote(event.target.value);
         break;
+      case "rookie":
+        setRookie(!rookie);
+        break;
     }
   }
 
@@ -403,14 +406,11 @@ export default function CardForm(props: Props) {
       <FieldContainer>
         <FieldTitle>Rookie</FieldTitle>
         <FieldData>
-          <select
-            name="rookie"
-            value={rookie === true ? "YES" : "NO"}
-            onChange={handleSelectChange}
-          >
-            <option value={"YES"}>YES</option>
-            <option value={"NO"}>NO</option>
-          </select>
+          <input
+            type="checkbox"
+            checked={rookie}
+            onChange={handleInputChange}
+          />
         </FieldData>
       </FieldContainer>
       <FieldContainer>

@@ -36,11 +36,8 @@ export const PlayerSelect = styled.select`
 export const PlayerName = styled.div`
   margin-left: 10px;
   a {
-    color: black;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
+    color: blue;
+    text-decoration: underline;
   }
 `;
 

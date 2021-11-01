@@ -267,7 +267,7 @@ export default function CollectionSubset(props: Props) {
             clearSelectedRows={clearSelected}
             noDataComponent={
               <NoDataMessage>
-                You don't have any cards from this set in your collection.
+                There are no cards from this set in your collection.
               </NoDataMessage>
             }
           />
@@ -294,7 +294,7 @@ export default function CollectionSubset(props: Props) {
             conditionalRowStyles={dataTableConditionalStyles}
             noDataComponent={
               <NoDataMessage>
-                You don't have any cards from this set in your collection.
+                There are no cards from this set in your collection.
               </NoDataMessage>
             }
           />
