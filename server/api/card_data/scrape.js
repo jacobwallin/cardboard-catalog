@@ -74,6 +74,15 @@ const scrapeCardData = (url) => {
       const nameEnd = rowCopy.indexOf("<");
       const name = rowCopy.slice(nameStart, nameEnd).trim();
 
+      let comment = "";
+      let commentStart = rowCopy.indexOf("figcaption");
+      if (commentStart !== -1) {
+        rowCopy = rowCopy.slice(commentStart);
+        commentStart = rowCopy.indexOf(">") + 1;
+        let commentEnd = rowCopy.indexOf("<");
+        comment = rowCopy.slice(commentStart, commentEnd);
+      }
+
       let team = "";
       if (rowCopy.indexOf("Team.cfm") !== -1) {
         let teamStart = rowCopy.indexOf("Team.cfm");
@@ -87,6 +96,7 @@ const scrapeCardData = (url) => {
         number,
         name,
         team,
+        comment,
         attributes,
       };
     });
