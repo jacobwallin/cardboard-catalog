@@ -67,11 +67,10 @@ router.post("/scrape", isAdmin, async (req, res, next) => {
   const url = req.body;
 
   // validate url
-  const valid = /^https?:\/\/www.baseball-reference.com\/players\/[a-z]\/\w{4,7}\d{2}.shtml/.test(
-    url
-  );
-
-  console.log("VALID? ", valid, req.body);
+  const valid =
+    /^https?:\/\/www.baseball-reference.com\/players\/[a-z]\/\w{4,7}\d{2}.shtml/.test(
+      url
+    );
 
   if (valid) {
     try {

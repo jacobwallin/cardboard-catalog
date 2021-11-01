@@ -13,6 +13,22 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.post("/scrape", async (req, res, next) => {
+  const { url } = req.body;
+
+  // validate url
+  const valid = /^https?:\/\/www.tcdb.com\/Checklist.cfm\/sid/.test(url);
+
+  if (valid) {
+    try {
+      const cardData = await require("./scrape")(url);
+      res.json(cardData);
+    } catch (error) {}
+  } else {
+    next(new Error("Invalid URL"));
+  }
+});
+
 router.get("/:cardDataId", async (req, res, next) => {
   try {
     const cardData = await CardData.findByPk(req.params.cardDataId, {
