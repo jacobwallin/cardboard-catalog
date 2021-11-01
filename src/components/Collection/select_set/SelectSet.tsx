@@ -8,6 +8,7 @@ import DataTable from "react-data-table-component";
 import * as Shared from "../shared";
 import columns from "./dataTableColumns";
 import { LoadingDots } from "../../shared/Loading";
+import { Redirect } from "react-router";
 
 const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
 
@@ -30,6 +31,11 @@ const SelectSet: React.FC<RouteComponentProps<TParams>> = (props) => {
       dispatch(fetchCardsBySet());
     }
   }, []);
+
+  // render 404 if year param is not a year
+  if (!/^\d{4}$/.test(props.match.params.year)) {
+    return <Redirect to="/404" />;
+  }
 
   if (isLoading) return <LoadingDots />;
 

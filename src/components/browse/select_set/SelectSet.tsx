@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useParams, Redirect } from "react-router";
 import { RootState } from "../../../store";
 import DataTable from "react-data-table-component";
 import { CollectionPageContainer } from "../../Collection/shared";
@@ -16,6 +16,11 @@ export default function SelectSet() {
   const { year } = useParams();
   const sets = useSelector((state: RootState) => state.library.sets.allSets);
   const isLoading = useSelector((state: RootState) => loadingSelector(state));
+
+  // render 404 if year param is not a year
+  if (!/^\d{4}$/.test(year)) {
+    return <Redirect to="/404" />;
+  }
 
   return (
     <CollectionPageContainer>
