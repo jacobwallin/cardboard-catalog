@@ -11,8 +11,10 @@ import ModalWindow from "../../../Admin/components/modal/ModalWindow";
 import Background from "../../../shared/Background";
 import StyledButton from "../../../Admin/components/StyledButton";
 import { NoDataMessage } from "../../../shared/NoDataMessage";
-import * as Styled from "../styled";
+import * as SharedStyled from "../styled";
+import * as Styled from "./styled";
 import sortSeries from "../sortSeries";
+import MedalIcon from "./medal.svg";
 
 import { createStatusSelector } from "../../../../store/loading/reducer";
 
@@ -24,10 +26,16 @@ interface Props {
 }
 export default function CollectionSubset(props: Props) {
   const dispatch = useDispatch();
-  const subset = useSelector((state: RootState) => state.library.subsets.subset);
-  const deleteRequestStatus = useSelector((state: RootState) => deleteStatusSelector(state));
+  const subset = useSelector(
+    (state: RootState) => state.library.subsets.subset
+  );
+  const deleteRequestStatus = useSelector((state: RootState) =>
+    deleteStatusSelector(state)
+  );
 
-  const [selectedSeriesId, setSelectedSeriesId] = useState(subset.baseSeriesId || 1);
+  const [selectedSeriesId, setSelectedSeriesId] = useState(
+    subset.baseSeriesId || 1
+  );
   const [showAllCards, setShowAllCards] = useState(false);
   // toggles showing checkboxes to select cards to add to collection
   const [deleteCardsToggle, setDeleteCardsToggle] = useState(false);
@@ -35,8 +43,10 @@ export default function CollectionSubset(props: Props) {
   // toggles add card form modal when user wants to add cards to collection
   const [showAddCardForm, setShowAddCardForm] = useState(false);
   const [selectedCardIds, setSelectedCardIds] = useState<number[]>([]);
-
   const [numCardsDeleted, setNumCardsDeleted] = useState(0);
+
+  const [cardsInChecklist, setCardsInChecklist] = useState(0);
+  const [userCardsInSeries, setUserCardsInSeries] = useState(0);
 
   function handleSeriesChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setSelectedSeriesId(+event.target.value);
@@ -48,6 +58,23 @@ export default function CollectionSubset(props: Props) {
       setClearSelected(true);
     }
   }, [deleteRequestStatus]);
+
+  useEffect(() => {
+    // calculate how many cards user's collection has in the selected series, and the total cards that belong to the series
+
+    const userCardsTotal = props.tableData.filter((card: any) => {
+      return (
+        (selectedSeriesId === 0 || card.seriesId === selectedSeriesId) &&
+        card.quantity > 0
+      );
+    }).length;
+    const seriesCardsTotal = props.tableData.filter((card: any) => {
+      return selectedSeriesId === 0 || card.seriesId === selectedSeriesId;
+    }).length;
+
+    setUserCardsInSeries(userCardsTotal);
+    setCardsInChecklist(seriesCardsTotal);
+  }, [selectedSeriesId, props.tableData]);
 
   interface Stuff {
     allSelected: boolean;
@@ -89,15 +116,17 @@ export default function CollectionSubset(props: Props) {
 
   return (
     <CollectionPageContainer>
-      <Styled.PageTitle>Your Collection</Styled.PageTitle>
+      <SharedStyled.PageTitle>Your Collection</SharedStyled.PageTitle>{" "}
       {showAddCardForm && (
         <Background>
           <ModalWindow>
-            <Styled.ConfirmDeleteTitle>Confirm Delete</Styled.ConfirmDeleteTitle>
+            <SharedStyled.ConfirmDeleteTitle>
+              Confirm Delete
+            </SharedStyled.ConfirmDeleteTitle>
             {deleteRequestStatus === "SUCCESS" && numCardsDeleted > 0 ? (
-              <Styled.DeleteConfirmMessage>{`${numCardsDeleted} ${
+              <SharedStyled.DeleteConfirmMessage>{`${numCardsDeleted} ${
                 numCardsDeleted > 1 ? "cards have" : "card has"
-              } been deleted from your collection.`}</Styled.DeleteConfirmMessage>
+              } been deleted from your collection.`}</SharedStyled.DeleteConfirmMessage>
             ) : (
               <DataTable
                 dense
@@ -114,7 +143,7 @@ export default function CollectionSubset(props: Props) {
               />
             )}
 
-            <Styled.ConfirmDeleteButtons>
+            <SharedStyled.ConfirmDeleteButtons>
               <StyledButton
                 color="GRAY"
                 height="25px"
@@ -133,20 +162,45 @@ export default function CollectionSubset(props: Props) {
               >
                 Delete
               </StyledButton>
-            </Styled.ConfirmDeleteButtons>
+            </SharedStyled.ConfirmDeleteButtons>
           </ModalWindow>
         </Background>
       )}
-
-      <Styled.ShowAllCards>
-        <Styled.SelectLabel>Show All: </Styled.SelectLabel>
-        <input type="checkbox" onChange={handleShowAllChange} checked={showAllCards} />
-      </Styled.ShowAllCards>
+      <Styled.Collection>
+        <Styled.CardCount>{`${userCardsInSeries} / ${cardsInChecklist} cards`}</Styled.CardCount>
+        <Styled.ProgressBar>
+          <Styled.Progress
+            percentage={(userCardsInSeries / cardsInChecklist) * 100}
+          >
+            {`${Number(
+              ((userCardsInSeries / cardsInChecklist) * 100).toFixed(2)
+            )}%`}
+          </Styled.Progress>
+        </Styled.ProgressBar>
+        {userCardsInSeries === cardsInChecklist && (
+          <Styled.SetComplete>
+            <Styled.Svg>
+              <img src={MedalIcon} alt="medal" />
+            </Styled.Svg>
+            <Styled.CompleteMessage>Set Completed</Styled.CompleteMessage>
+          </Styled.SetComplete>
+        )}
+      </Styled.Collection>
+      <SharedStyled.ShowAllCards>
+        <SharedStyled.SelectLabel>Show Missing: </SharedStyled.SelectLabel>
+        <input
+          type="checkbox"
+          onChange={handleShowAllChange}
+          checked={showAllCards}
+        />
+      </SharedStyled.ShowAllCards>
       {selectedCardIds.length > 0 && (
-        <Styled.AddCardsContainer>
-          <Styled.AddCardsTotal>
-            {`${selectedCardIds.length} ${selectedCardIds.length > 1 ? "Cards" : "Card"} Selected`}
-          </Styled.AddCardsTotal>
+        <SharedStyled.AddCardsContainer>
+          <SharedStyled.AddCardsTotal>
+            {`${selectedCardIds.length} ${
+              selectedCardIds.length > 1 ? "Cards" : "Card"
+            } Selected`}
+          </SharedStyled.AddCardsTotal>
           <StyledButton
             color="RED"
             height="25px"
@@ -156,13 +210,17 @@ export default function CollectionSubset(props: Props) {
           >
             Delete
           </StyledButton>
-        </Styled.AddCardsContainer>
+        </SharedStyled.AddCardsContainer>
       )}
-
-      <Styled.TableHeader>
-        <Styled.SelectParallel>
-          <Styled.SelectLabel>Select Parallel Set</Styled.SelectLabel>
-          <Styled.SeriesSelect value={selectedSeriesId} onChange={handleSeriesChange}>
+      <SharedStyled.TableHeader>
+        <SharedStyled.SelectParallel>
+          <SharedStyled.SelectLabel>
+            Select Parallel Set
+          </SharedStyled.SelectLabel>
+          <SharedStyled.SeriesSelect
+            value={selectedSeriesId}
+            onChange={handleSeriesChange}
+          >
             <option value={0}>Show All Parallels</option>
             {subset.series
               .sort((a, b) => {
@@ -176,8 +234,8 @@ export default function CollectionSubset(props: Props) {
                   </option>
                 );
               })}
-          </Styled.SeriesSelect>
-        </Styled.SelectParallel>
+          </SharedStyled.SeriesSelect>
+        </SharedStyled.SelectParallel>
         {props.tableData.filter((card: any) => {
           return card.quantity > 0;
         }).length > 0 && (
@@ -191,8 +249,7 @@ export default function CollectionSubset(props: Props) {
             {deleteCardsToggle ? "Cancel" : "Delete"}
           </StyledButton>
         )}
-      </Styled.TableHeader>
-
+      </SharedStyled.TableHeader>
       <DataTableContainer>
         {deleteCardsToggle && (
           <DataTable
@@ -222,7 +279,9 @@ export default function CollectionSubset(props: Props) {
             columns={columns}
             data={props.tableData
               .filter((card: any) => {
-                return selectedSeriesId === 0 || card.seriesId === selectedSeriesId;
+                return (
+                  selectedSeriesId === 0 || card.seriesId === selectedSeriesId
+                );
               })
               .filter((card: any) => {
                 return showAllCards || card.quantity > 0;

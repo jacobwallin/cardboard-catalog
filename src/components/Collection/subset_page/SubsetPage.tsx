@@ -14,7 +14,10 @@ import CollectionSubset from "./collection/CollectionSubset";
 import { LoadingDots } from "../../shared/Loading";
 
 import { createLoadingSelector } from "../../../store/loading/reducer";
-const loadingSelector = createLoadingSelector(["GET_CARDS_BY_SUBSET", "GET_SUBSET"]);
+const loadingSelector = createLoadingSelector([
+  "GET_CARDS_BY_SUBSET",
+  "GET_SUBSET",
+]);
 
 type Params = {
   year: string;
@@ -25,7 +28,9 @@ type Params = {
 const SubsetPage = (props: RouteComponentProps<Params>) => {
   const dispatch = useDispatch();
 
-  const subset = useSelector((state: RootState) => state.library.subsets.subset);
+  const subset = useSelector(
+    (state: RootState) => state.library.subsets.subset
+  );
   const userCardsInSubset = useSelector(
     (state: RootState) => state.collection.browse.cardsInSingleSubset
   );
