@@ -111,9 +111,34 @@ interface GetSeriesFailure {
 interface UpdateSeriesRequest {
   type: typeof UPDATE_SERIES_REQUEST;
 }
+
+interface UpdateSeriesResponse {
+  id: number;
+  name: string;
+  color: string;
+  serialized: number | null;
+  auto: boolean;
+  relic: boolean;
+  manufacturedRelic: boolean;
+  refractor: boolean;
+  parallel: boolean;
+  shortPrint: boolean;
+  createdAt: string;
+  updatedAt: string;
+  subsetId: number;
+  subset: {
+    id: number;
+    name: string;
+    description: string;
+    baseSeriesId: number;
+    createdAt: string;
+    updatedAt: string;
+    setId: number;
+  };
+}
 interface UpdateSeriesSuccess {
   type: typeof UPDATE_SERIES_SUCCESS;
-  updatedSeries: Series;
+  updatedSeries: UpdateSeriesResponse;
 }
 interface UpdateSeriesFailure {
   type: typeof UPDATE_SERIES_FAILURE;

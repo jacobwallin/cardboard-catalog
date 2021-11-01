@@ -4,6 +4,8 @@ import { RootState } from "../index";
 export default function loadingReducer(state: any = {}, action: any) {
   if (!state) return {};
   const { type } = action;
+
+  if (type === "LOGOUT") return {};
   const matches = /(.*)_(REQUEST|SUCCESS|FAILURE)/.exec(type);
   if (!matches) return state;
 
@@ -14,7 +16,10 @@ export default function loadingReducer(state: any = {}, action: any) {
 
     // stores request name (e.g. "GET_USER") and then the state (e.g. "SUCCESS")
     // if the state is failure and an error message exists, the error message will be stored instead
-    [requestName]: requestState === "FAILURE" && action.message ? action.message : requestState,
+    [requestName]:
+      requestState === "FAILURE" && action.message
+        ? action.message
+        : requestState,
   };
 }
 

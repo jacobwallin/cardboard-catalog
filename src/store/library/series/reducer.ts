@@ -47,7 +47,19 @@ export default function seriesReducer(
     case types.GET_SERIES_SUCCESS:
       return { ...state, series: action.series };
     case types.UPDATE_SERIES_SUCCESS:
-      return { ...state, series: action.updatedSeries };
+      return {
+        ...state,
+        series: {
+          ...action.updatedSeries,
+          subset: {
+            ...action.updatedSeries.subset,
+            set: {
+              ...state.series.subset.set,
+            },
+          },
+          cards: state.series.cards,
+        },
+      };
     case types.DELETE_SERIES_SUCCESS:
       return initialState;
     case types.UPDATE_CARD_SUCCESS:
