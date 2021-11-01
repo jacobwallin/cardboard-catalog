@@ -85,7 +85,7 @@ export const HamburgerTouchArea = styled.div`
   width: 55px;
   top: 0;
   right: 0;
-  z-index: 3;
+  z-index: 4;
   @media only screen and (max-width: 800px) {
     display: block;
   }
@@ -98,7 +98,7 @@ interface NavMenuProps {
 export const NavMenu = styled.div<NavMenuProps>`
   display: flex;
   flex-direction: row;
-  z-index: 2;
+  z-index: 3;
 
   @media only screen and (max-width: 800px) {
     flex-direction: column;
@@ -113,4 +113,25 @@ export const NavMenu = styled.div<NavMenuProps>`
     padding-top: 3.5rem;
     transition: transform 0.15s cubic-bezier(0.41, 0.17, 0.88, 0.53);
   }
+`;
+
+export const Demo = styled.div`
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fc9903;
+  height: 35px;
+  top: 0;
+  z-index: 2;
+`;
+
+export const DemoHeader = styled.div`
+  font-size: 0.9rem;
+  font-weight: 400;
+`;
+
+export const DemoInfo = styled.div`
+  font-size: 0.7rem;
 `;

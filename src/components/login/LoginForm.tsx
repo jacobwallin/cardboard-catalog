@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { login } from "../../store/user/thunks";
+import { login, demo } from "../../store/user/thunks";
 import { createErrorSelector } from "../../store/loading/reducer";
 import { User } from "../../store/user/types";
 import * as Styled from "./styled";
@@ -32,6 +32,10 @@ export const LoginForm: React.FC<Props> = (props) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     props.login(formState.username.value, formState.password.value);
+  };
+
+  const handleDemo = () => {
+    props.demo();
   };
 
   function handleFormChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -111,6 +115,16 @@ export const LoginForm: React.FC<Props> = (props) => {
             >
               Log In
             </Styled.LoginButton>
+            <Styled.LoginButton
+              color="BLUE"
+              type="button"
+              value="Log In"
+              width="110px"
+              height="40px"
+              onClick={handleDemo}
+            >
+              Demo
+            </Styled.LoginButton>
             <Styled.ToggleButton onClick={props.toggleForm}>
               Create Account
             </Styled.ToggleButton>
@@ -134,11 +148,13 @@ const mapState = (state: RootState): StateProps => ({
 
 interface DispatchProps {
   login: (username: string, password: string) => void;
+  demo: () => void;
 }
 
 const mapDispatch = (dispatch: ThunkDispatch<{}, {}, any>): DispatchProps => {
   return {
     login: (username, password) => dispatch(login(username, password)),
+    demo: () => dispatch(demo()),
   };
 };
 

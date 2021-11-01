@@ -3,22 +3,26 @@ import { RootState } from "../index";
 import { UserActionTypes } from "./types";
 import * as actions from "./actions";
 
-export const fetchMe = (): ThunkAction<void, RootState, unknown, UserActionTypes> => (dispatch) => {
-  fetch("/auth")
-    .then((response) => {
-      return response.json();
-    })
-    .then((user) => {
-      dispatch(actions.getUserSuccess(user));
-      dispatch(actions.setUserFetched(true));
-    })
-    .catch((err) => {
-      dispatch(actions.setUserFetched(true));
-    });
-};
+export const fetchMe =
+  (): ThunkAction<void, RootState, unknown, UserActionTypes> => (dispatch) => {
+    fetch("/auth")
+      .then((response) => {
+        return response.json();
+      })
+      .then((user) => {
+        dispatch(actions.getUserSuccess(user));
+        dispatch(actions.setUserFetched(true));
+      })
+      .catch((err) => {
+        dispatch(actions.setUserFetched(true));
+      });
+  };
 
 export const login =
-  (username: string, password: string): ThunkAction<void, RootState, unknown, UserActionTypes> =>
+  (
+    username: string,
+    password: string
+  ): ThunkAction<void, RootState, unknown, UserActionTypes> =>
   (dispatch) => {
     fetch("/auth/login", {
       method: "POST",
@@ -36,6 +40,21 @@ export const login =
       })
       .catch((err) => {
         dispatch(actions.getUserFailure());
+      });
+  };
+
+export const demo =
+  (): ThunkAction<void, RootState, unknown, UserActionTypes> => (dispatch) => {
+    fetch("/auth/demo")
+      .then((response) => {
+        return response.json();
+      })
+      .then((user) => {
+        dispatch(actions.getUserSuccess(user));
+        dispatch(actions.setUserFetched(true));
+      })
+      .catch((err) => {
+        dispatch(actions.setUserFetched(true));
       });
   };
 
@@ -67,15 +86,16 @@ export const register =
       });
   };
 
-export const logout = (): ThunkAction<void, RootState, unknown, UserActionTypes> => (dispatch) => {
-  fetch("/auth/logout", {
-    method: "POST",
-  })
-    .then((response) => {
-      dispatch(actions.logout());
+export const logout =
+  (): ThunkAction<void, RootState, unknown, UserActionTypes> => (dispatch) => {
+    fetch("/auth/logout", {
+      method: "POST",
     })
-    .catch((err) => console.log("ERROR LOGGING OUT"));
-};
+      .then((response) => {
+        dispatch(actions.logout());
+      })
+      .catch((err) => console.log("ERROR LOGGING OUT"));
+  };
 
 export const checkUsername =
   (username: string): ThunkAction<void, RootState, unknown, UserActionTypes> =>
