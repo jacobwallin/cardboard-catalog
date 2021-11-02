@@ -13,8 +13,8 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/scrape", async (req, res, next) => {
-  const { url } = req.body;
+router.get("/scrape", async (req, res, next) => {
+  const { url } = req.query;
 
   // validate url
   const valid = /^https?:\/\/www.tcdb.com\/Checklist.cfm\/sid/.test(url);
