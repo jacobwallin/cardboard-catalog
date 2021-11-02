@@ -23,14 +23,19 @@ export const AddPlayerContainer = styled.div`
 `;
 export const AddPlayer = styled.div``;
 
-export const PlayerFilter = styled.input`
-  width: 175px;
-  height: 25px;
+export const Input = styled.input`
+  width: 200px;
+  height: 27px;
 `;
 
-export const PlayerSelect = styled.select`
-  width: 175px;
-  height: 25px;
+export const LargeInput = styled.input`
+  width: 250px;
+  height: 27px;
+`;
+
+export const Select = styled.select`
+  width: 200px;
+  height: 27px;
 `;
 
 export const PlayerName = styled.div`
@@ -55,4 +60,36 @@ export const PlayerAddFail = styled.div`
 
 export const PlayerAddSuccess = styled(PlayerAddFail)`
   color: green;
+`;
+
+export const NoteInstructions = styled.div`
+  top: -15px;
+  left: 60px;
+  width: 210px;
+  height: 65px;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: gray;
+  margin-top: 3px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+`;
+
+export const PlayerInstructions = styled(NoteInstructions)`
+  top: 20px;
+  width: 275px;
+  height: 110px;
+`;
+
+export const HelpSpan = styled.span`
+  display: inline-block;
+  margin-left: 3px;
+  height: 12px;
+  width: 12px;
+  cursor: default;
 `;

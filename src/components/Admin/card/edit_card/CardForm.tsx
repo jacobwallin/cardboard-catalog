@@ -18,6 +18,8 @@ import {
   createStatusSelector,
 } from "../../../../store/loading/reducer";
 import detectFormChanges from "../../detectFormChanges";
+import NoteHelp from "./NoteHelp";
+import PlayerHelp from "./PlayerHelp";
 import * as Styled from "./styled";
 
 const loadingSelector = createLoadingSelector([
@@ -231,7 +233,7 @@ export default function CardForm(props: Props) {
       <FieldContainer>
         <FieldTitle>Number</FieldTitle>
         <FieldData>
-          <input
+          <Styled.Input
             name="numberField"
             autoComplete="off"
             type="text"
@@ -244,7 +246,7 @@ export default function CardForm(props: Props) {
       <FieldContainer>
         <FieldTitle>Card Name</FieldTitle>
         <FieldData>
-          <input
+          <Styled.Input
             name="nameField"
             autoComplete="off"
             type="text"
@@ -255,11 +257,14 @@ export default function CardForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Player(s) on Card</FieldTitle>
+        <FieldTitle>
+          Player(s) on Card
+          <PlayerHelp />
+        </FieldTitle>
         <FieldData>
           <Styled.PlayersContainer>
             <Styled.AddPlayerContainer>
-              <Styled.PlayerFilter
+              <Styled.Input
                 type="text"
                 name="scrapeUrl"
                 placeholder="Baseball Reference URL"
@@ -288,7 +293,7 @@ export default function CardForm(props: Props) {
               )}
 
             <Styled.AddPlayerContainer>
-              <Styled.PlayerFilter
+              <Styled.Input
                 type="text"
                 name="playerFilter"
                 placeholder="Filter Players"
@@ -306,7 +311,7 @@ export default function CardForm(props: Props) {
               </StyledButton>
             </Styled.AddPlayerContainer>
             <Styled.AddPlayerContainer>
-              <Styled.PlayerSelect
+              <Styled.Select
                 name="selectedPlayerId"
                 value={selectedPlayerId}
                 onChange={handleSelectChange}
@@ -335,7 +340,7 @@ export default function CardForm(props: Props) {
                       </option>
                     );
                   })}
-              </Styled.PlayerSelect>
+              </Styled.Select>
               <StyledButton
                 color="BLUE"
                 height="25px"
@@ -376,7 +381,7 @@ export default function CardForm(props: Props) {
       <FieldContainer>
         <FieldTitle>Team</FieldTitle>
         <FieldData>
-          <select
+          <Styled.Select
             name="team"
             value={teamId}
             onChange={handleSelectChange}
@@ -400,7 +405,7 @@ export default function CardForm(props: Props) {
                   </option>
                 );
               })}
-          </select>
+          </Styled.Select>
         </FieldData>
       </FieldContainer>
       <FieldContainer>
@@ -415,9 +420,12 @@ export default function CardForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Note</FieldTitle>
+        <FieldTitle>
+          Note
+          <NoteHelp />
+        </FieldTitle>
         <FieldData>
-          <input
+          <Styled.LargeInput
             name="note"
             type="text"
             autoComplete="off"

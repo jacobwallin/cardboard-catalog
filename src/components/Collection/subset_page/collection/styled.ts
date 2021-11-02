@@ -19,19 +19,19 @@ export const CardCount = styled.div`
 export const ProgressBar = styled.div`
   width: 225px;
   height: 24px;
-  /* border-radius: 6px; */
+  border-radius: 6px;
   background-color: lightgray;
 `;
 
 export const Progress = styled.div<{ percentage: number }>`
   background-color: rgb(0, 74, 206);
-  border-radius: inherit;
   height: 100%;
   line-height: 24px;
   width: ${(props) => `${props.percentage * 2.25}px`};
   color: black;
   text-indent: 15px;
   white-space: nowrap;
+  overflow: hidden;
 `;
 
 export const SetComplete = styled.div`

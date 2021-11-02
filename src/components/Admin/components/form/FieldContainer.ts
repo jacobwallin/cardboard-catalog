@@ -5,6 +5,7 @@ const FieldContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 5px;
+  position: relative;
 `;
 
 export default FieldContainer;

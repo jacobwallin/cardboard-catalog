@@ -14,11 +14,17 @@ export const TextArea = styled.textarea`
   resize: none;
 `;
 
+export const Input = styled.input`
+  height: 30px;
+  width: 200px;
+  border: 1px solid gray;
+`;
+
 export const Footer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  border-top: 1px solid grey;
+
   padding: 15px;
 `;

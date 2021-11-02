@@ -33,7 +33,7 @@ export default function CardScrapeModal(props: Props) {
   const dispatch = useDispatch();
 
   const [showForm, setShowForm] = useState(false);
-  const [scrapedCards, setScrapedCards] = useState("");
+  const [url, setUrl] = useState("");
   const [parsedCards, setParsedCards] = useState<CardFormData[]>([]);
   const [currentCardIdx, setCurrentCardIdx] = useState(0);
   const [createdCardIdx, setCreatedCardIdx] = useState(-1);
@@ -50,17 +50,16 @@ export default function CardScrapeModal(props: Props) {
     blukCreatingCardStatusSelector(state)
   );
 
-  function textAreaChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
-    setScrapedCards(event.target.value);
+  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setUrl(event.target.value);
   }
 
   function parseData() {
-    const tempCards = parseCards(scrapedCards, teams, players);
-    setParsedCards(tempCards);
-
-    if (tempCards.length > 0) {
-      setShowForm(true);
-    }
+    // const tempCards = parseCards(scrapedCards, teams, players);
+    // setParsedCards(tempCards);
+    // if (tempCards.length > 0) {
+    //   setShowForm(true);
+    // }
   }
 
   function removeCurrentCard() {
@@ -183,15 +182,14 @@ export default function CardScrapeModal(props: Props) {
         ) : (
           <>
             <Styled.Header>{`Bulk Add Cards to Subset`}</Styled.Header>
-            <Styled.TextArea
-              rows={10}
-              value={scrapedCards}
-              onChange={textAreaChange}
-              placeholder="Cardboard Connection checklist."
+            <Styled.Input
+              type="text"
+              placeholder="tcdb url"
+              value={url}
+              onChange={handleInputChange}
             />
             <Styled.Footer>
               <GrayButton onClick={props.handleCancel}>Close</GrayButton>
-              <GrayButton onClick={parseData}>Parse Data</GrayButton>
             </Styled.Footer>
           </>
         )}
