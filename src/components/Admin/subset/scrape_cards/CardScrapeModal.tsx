@@ -33,6 +33,7 @@ export default function CardScrapeModal(props: Props) {
 
   const [url, setUrl] = useState("");
   const [parsedCards, setParsedCards] = useState<CardFormData[]>([]);
+  const [playersAdded, setPlayersAdded] = useState(false);
 
   // loading player and team data
   const loading = useSelector((state: RootState) => loadingSelector(state));
@@ -55,11 +56,15 @@ export default function CardScrapeModal(props: Props) {
 
   // parse scraped card data once it is received
   useEffect(() => {
-    // find missing players at this step????
     if (scrapedCardData.length > 0) {
       setParsedCards(parseCards(scrapedCardData, teams, players));
     }
   }, [scrapedCardData]);
+
+  useEffect(() => {
+    // if there are any missing players, dispatch thunk to scrape them
+    // set playersAdded to true once thunk is complete or if there are no missing players
+  }, [parsedCards]);
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     setUrl(event.target.value);

@@ -66,6 +66,8 @@ router.post("/bulk", isAdmin, async (req, res, next) => {
 router.post("/scrape", isAdmin, async (req, res, next) => {
   const url = req.body;
 
+  console.log("SCRAPING!: ", url);
+
   // validate url
   const valid =
     /^https?:\/\/www.baseball-reference.com\/players\/[a-z]\/\w{4,7}\d{2}.shtml/.test(
@@ -93,6 +95,49 @@ router.post("/scrape", isAdmin, async (req, res, next) => {
     }
   } else {
     next(new Error("Invalid URL"));
+  }
+});
+
+// TODO: make admin route
+router.post("/scrape/bulk", async (req, res, next) => {
+  const { playerNames } = req.body;
+
+  try {
+    let playerData = await require("./search")(playerNames);
+
+    // check if any players already exist
+    let duplicatePlayers = await Promise.all(
+      playerData.map((player) => {
+        return Player.findOne({
+          where: {
+            name: player.name,
+            birthday: player.birthday,
+          },
+        });
+      })
+    );
+
+    // get only the duplicates
+    duplicatePlayers = duplicatePlayers.filter((player) => player !== null);
+
+    // if there are duplicates, filter playerData
+    if (duplicatePlayers.length > 0) {
+      playerData = playerData.filter((player) => {
+        return !duplicatePlayers.some(
+          (duplicate) => duplicate.name === player.name
+        );
+      });
+    }
+
+    if (playerData.length > 0) {
+      // bulk add
+      const players = await Player.bulkCreate(playerData);
+      res.json(players);
+    } else {
+      res.json([]);
+    }
+  } catch (error) {
+    next(error);
   }
 });
 
