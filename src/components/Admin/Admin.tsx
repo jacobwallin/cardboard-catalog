@@ -5,7 +5,6 @@ import AdminSets from "./all-sets/AdminSets";
 import AdminSet from "./set/AdminSet";
 import AdminSubset from "./subset/AdminSubset";
 import AdminSeries from "./series/AdminSeries";
-import AdminCard from "./card/AdminCard";
 import * as Styled from "./styled";
 
 export default function Admin() {
@@ -27,11 +26,6 @@ export default function Admin() {
             exact
             path={`${path}/edit/series/:seriesId`}
             component={AdminSeries}
-          />
-          <Route
-            exact
-            path={`${path}/edit/card/:cardId`}
-            component={AdminCard}
           />
           <Route
             exact

@@ -1,42 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store";
-import { PlayersState } from "../../../../store/library/players/types";
-import {
-  fetchAllPlayers,
-  scrapeNewPlayer,
-} from "../../../../store/library/players/thunks";
-import { fetchAllTeams } from "../../../../store/library/teams/thunks";
 import FieldContainer from "../../components/form/FieldContainer";
 import FieldTitle from "../../components/form/FieldTitle";
 import FieldData from "../../components/form/FieldData";
 import FormContainer from "../../components/form/FormContainer";
-import FormButtons from "../../components/form/FormButtons";
-import StyledButton from "../../components/StyledButton";
-import {
-  createLoadingSelector,
-  createStatusSelector,
-} from "../../../../store/loading/reducer";
-import detectFormChanges from "../../detectFormChanges";
+import { PlayersState, Player } from "../../../../store/library/players/types";
 import NoteHelp from "./NoteHelp";
 import PlayerHelp from "./PlayerHelp";
+import StyledButton from "../../components/StyledButton";
 import * as Styled from "./styled";
+import { scrapeNewPlayer } from "../../../../store/library/players/thunks";
 
-const loadingSelector = createLoadingSelector([
-  "GET_ALL_PLAYERS",
-  "GET_ALL_TEAMS",
-]);
-
-const cardLoadingSelector = createLoadingSelector([
-  "UPDATE_CARD",
-  "CREATE_CARD",
-]);
-
+import { createStatusSelector } from "../../../../store/loading/reducer";
 const scrapePlayerStatusSelector = createStatusSelector("CREATE_PLAYER");
 
 interface Props {
-  createNew: boolean;
-  bulkAddData?: {
+  formData: {
     name: string;
     number: string;
     rookie: boolean;
@@ -44,94 +24,34 @@ interface Props {
     teamId: number | undefined;
     players: PlayersState;
   };
-  handleCancel(): void;
-  handleSubmit(
-    name: string,
-    number: string,
-    rookie: boolean,
-    teamId: number | undefined,
-    note: string,
-    playerIds: number[]
+  addPlayer(player: Player): void;
+  deletePlayer(id: number): void;
+  handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>): void;
+  handleInputChange(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void;
 }
 
 export default function CardForm(props: Props) {
   const dispatch = useDispatch();
 
-  // redux library state
-  const card = useSelector((state: RootState) => state.library.card);
-  const teams = useSelector((state: RootState) => state.library.teams);
-  const allPlayers = useSelector((state: RootState) => state.library.players);
-  const loadingInitialData = useSelector((state: RootState) =>
-    loadingSelector(state)
-  );
-  const isLoading = useSelector((state: RootState) =>
-    cardLoadingSelector(state)
-  );
-  const scrapePlayerStatus = useSelector((state: RootState) =>
-    scrapePlayerStatusSelector(state)
-  );
-
-  // set the initial values to card state if the form is being used to edit a card data
-  const [name, setName] = useState(props.createNew ? "" : card.name);
-  const [number, setNumber] = useState(props.createNew ? "" : card.number);
-  const [rookie, setRookie] = useState(props.createNew ? false : card.rookie);
-  const [teamId, setTeamId] = useState(
-    !props.createNew && card.teamId ? card.teamId : undefined
-  );
-  const [note, setNote] = useState(props.createNew ? "" : card.note);
-  const [players, setPlayers] = useState<PlayersState>(
-    props.createNew
-      ? []
-      : card.players.map((player) => {
-          return {
-            id: player.id,
-            name: player.name,
-            fullName: player.fullName,
-            birthday: player.birthday,
-            hallOfFame: player.hallOfFame,
-            url: "",
-            createdAt: "",
-            updatedAt: "",
-          };
-        })
-  );
   const [playerFilter, setPlayerFilter] = useState("");
   const [selectedPlayerId, setSelectedPlayerId] = useState(0);
   const [playerScrapeUrl, setPlayerScrapeUrl] = useState("");
   const [showPlayerAddedMessage, setShowPlayerAddedMessage] = useState(false);
 
-  useEffect(() => {
-    // if there is bulk add data, the bulk add modal has already fetched players and teams
-    if (!props.bulkAddData) {
-      dispatch(fetchAllPlayers());
-      dispatch(fetchAllTeams());
-    }
-  }, [props.bulkAddData]);
+  const teams = useSelector((state: RootState) => state.library.teams);
+  const players = useSelector((state: RootState) => state.library.players);
+  const scrapePlayerStatus = useSelector((state: RootState) =>
+    scrapePlayerStatusSelector(state)
+  );
 
-  // automatically prefill card name to player name
-  useEffect(() => {
-    if (players.length === 1 && !props.bulkAddData) {
-      setName(players[0].name);
-    }
-  }, [players, props.bulkAddData]);
-
-  useEffect(() => {
-    if (props.bulkAddData) {
-      const data = props.bulkAddData;
-      setName(data.name);
-      setNumber(data.number);
-      setRookie(data.rookie);
-      setTeamId(data.teamId);
-      setPlayers(data.players);
-    }
-  }, [props.bulkAddData]);
-
+  // automatically set selected player when searching
   useEffect(() => {
     if (playerFilter === "") {
       setSelectedPlayerId(0);
     } else {
-      const playersFound = allPlayers
+      const playersFound = players
         .filter((player) => {
           return player.name.toLowerCase().includes(playerFilter.toLowerCase());
         })
@@ -149,40 +69,17 @@ export default function CardForm(props: Props) {
         setSelectedPlayerId(playersFound[0].id);
       }
     }
-  }, [playerFilter, allPlayers]);
-
-  function handleSubmit() {
-    props.handleSubmit(
-      name,
-      number,
-      rookie,
-      teamId,
-      note,
-      players.map((player) => player.id)
-    );
-  }
+  }, [playerFilter, players]);
 
   function handleInputChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
     switch (event.target.name) {
-      case "nameField":
-        setName(event.target.value);
-        break;
-      case "numberField":
-        setNumber(event.target.value);
-        break;
       case "playerFilter":
         setPlayerFilter(event.target.value);
         break;
       case "scrapeUrl":
         setPlayerScrapeUrl(event.target.value);
-        break;
-      case "note":
-        setNote(event.target.value);
-        break;
-      case "rookie":
-        setRookie(!rookie);
         break;
     }
   }
@@ -191,44 +88,36 @@ export default function CardForm(props: Props) {
     const { value } = event.target;
 
     switch (event.target.name) {
-      case "team":
-        setTeamId(+value);
-        break;
-      case "rookie":
-        const rookieValue = value === "YES" ? true : false;
-        setRookie(rookieValue);
-        break;
       case "selectedPlayerId":
         setSelectedPlayerId(+value);
         break;
     }
   }
 
-  function deletePlayer(id: number) {
-    setPlayers(players.filter((player) => player.id !== id));
-  }
-
   function addPlayer() {
     if (selectedPlayerId !== 0) {
       if (
-        players.findIndex((player) => player.id === selectedPlayerId) === -1
+        // prevent adding same player multiple times
+        props.formData.players.findIndex(
+          (player) => player.id === selectedPlayerId
+        ) === -1
       ) {
-        const playerToAdd = allPlayers.find(
+        const playerToAdd = players.find(
           (player) => player.id === selectedPlayerId
         )!;
-        setPlayers([...players, playerToAdd]);
+        props.addPlayer(playerToAdd);
       }
     }
-  }
-
-  function clearPlayerFilter() {
-    setPlayerFilter("");
-    setSelectedPlayerId(0);
   }
 
   function scrapePlayer() {
     setShowPlayerAddedMessage(true);
     dispatch(scrapeNewPlayer(playerScrapeUrl));
+  }
+
+  function clearPlayerFilter() {
+    setPlayerFilter("");
+    setSelectedPlayerId(0);
   }
 
   return (
@@ -240,9 +129,9 @@ export default function CardForm(props: Props) {
             name="numberField"
             autoComplete="off"
             type="text"
-            value={number}
+            value={props.formData.number}
             placeholder="Enter Number"
-            onChange={handleInputChange}
+            onChange={props.handleInputChange}
           />
         </FieldData>
       </FieldContainer>
@@ -253,9 +142,9 @@ export default function CardForm(props: Props) {
             name="nameField"
             autoComplete="off"
             type="text"
-            value={name}
+            value={props.formData.name}
             placeholder="Enter Card Name"
-            onChange={handleInputChange}
+            onChange={props.handleInputChange}
           />
         </FieldData>
       </FieldContainer>
@@ -318,10 +207,9 @@ export default function CardForm(props: Props) {
                 name="selectedPlayerId"
                 value={selectedPlayerId}
                 onChange={handleSelectChange}
-                disabled={loadingInitialData}
               >
                 <option value={0}>Select Player</option>
-                {allPlayers
+                {players
                   .filter((player) => {
                     return player.name
                       .toLowerCase()
@@ -353,15 +241,15 @@ export default function CardForm(props: Props) {
                 Add
               </StyledButton>
             </Styled.AddPlayerContainer>
-            {players.length > 0 ? (
-              players.map((player) => {
+            {props.formData.players.length > 0 ? (
+              props.formData.players.map((player) => {
                 return (
                   <Styled.CurrentPlayersContainer key={player.id}>
                     <StyledButton
                       color="RED"
                       height="25px"
                       width="25px"
-                      onClick={() => deletePlayer(player.id)}
+                      onClick={() => props.deletePlayer(player.id)}
                     >
                       X
                     </StyledButton>
@@ -386,9 +274,8 @@ export default function CardForm(props: Props) {
         <FieldData>
           <Styled.Select
             name="team"
-            value={teamId}
-            onChange={handleSelectChange}
-            disabled={loadingInitialData}
+            value={props.formData.teamId}
+            onChange={props.handleSelectChange}
           >
             <option value={undefined}>Select Team</option>
             {teams
@@ -417,8 +304,8 @@ export default function CardForm(props: Props) {
           <input
             type="checkbox"
             name="rookie"
-            checked={rookie}
-            onChange={handleInputChange}
+            checked={props.formData.rookie}
+            onChange={props.handleInputChange}
           />
         </FieldData>
       </FieldContainer>
@@ -432,39 +319,12 @@ export default function CardForm(props: Props) {
             name="note"
             type="text"
             autoComplete="off"
-            value={note}
+            value={props.formData.note}
             placeholder="Enter Note"
-            onChange={handleInputChange}
+            onChange={props.handleInputChange}
           />
         </FieldData>
       </FieldContainer>
-      <FormButtons
-        handleCancel={props.handleCancel}
-        handleSubmit={handleSubmit}
-        disabled={
-          isLoading ||
-          (props.createNew
-            ? name === "" || number === ""
-            : !detectFormChanges(
-                [
-                  name,
-                  number,
-                  teamId,
-                  rookie,
-                  players.map((player) => player.id),
-                  note,
-                ],
-                [
-                  card.name,
-                  card.number,
-                  card.teamId,
-                  card.rookie,
-                  card.players.map((player) => player.id),
-                  card.note,
-                ]
-              ))
-        }
-      />
     </FormContainer>
   );
 }

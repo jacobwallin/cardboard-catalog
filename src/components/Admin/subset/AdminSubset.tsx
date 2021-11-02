@@ -137,6 +137,7 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
         <EditCardModal
           cardData={editCardData}
           handleCancel={hideEditCardModal}
+          subsetId={+props.match.params.subsetId}
         />
       )}
       {deleteCardId !== 0 && (

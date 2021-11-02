@@ -1,46 +1,23 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { updateCard } from "../../../../store/library/subsets/thunks";
 import { CardData } from "../../../../store/library/subsets/types";
 import ModalBackground from "../../../shared/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
-import CardForm from "../../card/edit_card/CardForm";
+import CardFormController from "../../card/edit_card/CardFormController";
 
 interface Props {
   cardData: CardData;
+  subsetId: number;
   handleCancel(): void;
 }
-
+// TODO: automatically close on success
 export default function EditCardModal(props: Props) {
-  const dispatch = useDispatch();
-
-  function handleFormSubmit(
-    name: string,
-    number: string,
-    rookie: boolean,
-    teamId: number,
-    note: string,
-    playerIds: number[]
-  ) {
-    dispatch(
-      updateCard(props.cardData.id, {
-        name,
-        number,
-        rookie,
-        teamId,
-        note,
-        playerIds,
-      })
-    );
-  }
-
   return (
     <ModalBackground>
       <ModalWindow>
-        <h3 style={{ textAlign: "center" }}>Update Card</h3>
-        <CardForm
-          createNew={true}
-          bulkAddData={{
+        <CardFormController
+          subsetId={props.subsetId}
+          editCardData={{
+            cardDataId: props.cardData.id,
             name: props.cardData.name,
             number: props.cardData.number,
             rookie: props.cardData.rookie,
@@ -50,8 +27,7 @@ export default function EditCardModal(props: Props) {
               return { ...player, createdAt: "", updatedAt: "", url: "" };
             }),
           }}
-          handleCancel={props.handleCancel}
-          handleSubmit={handleFormSubmit}
+          handleClose={props.handleCancel}
         />
       </ModalWindow>
     </ModalBackground>

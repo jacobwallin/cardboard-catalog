@@ -5,7 +5,9 @@ import { SubsetActionTypes } from "./types";
 import { get, post, put, del } from "../../../utils/fetch";
 
 export const fetchSubset =
-  (subsetId: number): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
+  (
+    subsetId: number
+  ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {
     dispatch(actions.getSubsetRequest());
     get(`/api/subsets/${subsetId}`, dispatch)
@@ -35,7 +37,9 @@ export const updateSubset =
   };
 
 export const deleteSubset =
-  (subsetId: number): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
+  (
+    subsetId: number
+  ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {
     dispatch(actions.deleteSubsetRequest());
 
@@ -69,18 +73,20 @@ export const createSeries =
   };
 
 export const createCard =
-  (cardData: {
-    subsetId: number;
-    name: string;
-    number: string;
-    rookie: boolean;
-    teamId: number | null;
-    note: string;
-    playerIds: number[];
-  }): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
+  (
+    subsetId: number,
+    cardData: {
+      name: string;
+      number: string;
+      rookie: boolean;
+      teamId: number | null;
+      note: string;
+      playerIds: number[];
+    }
+  ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {
     dispatch(actions.createCardRequest());
-    post(`/api/carddata`, cardData, dispatch)
+    post(`/api/carddata`, { ...cardData, subsetId }, dispatch)
       .then((createdCard) => {
         dispatch(actions.createCardSuccess(createdCard));
       })
@@ -91,8 +97,8 @@ export const createCard =
 
 export const bulkCreateCard =
   (
+    subsetId: number,
     cardData: {
-      subsetId: number;
       name: string;
       number: string;
       rookie: boolean;
@@ -136,7 +142,9 @@ export const updateCard =
   };
 
 export const deleteCard =
-  (cardDataId: number): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
+  (
+    cardDataId: number
+  ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {
     dispatch(actions.deleteCardRequest());
     del(`/api/carddata/${cardDataId}`, dispatch)

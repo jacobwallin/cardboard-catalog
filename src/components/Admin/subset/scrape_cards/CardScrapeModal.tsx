@@ -7,7 +7,7 @@ import {
   createCard,
   bulkCreateCard,
 } from "../../../../store/library/subsets/thunks";
-import CardForm from "../../card/edit_card/CardForm";
+import CardFormController from "../../card/edit_card/CardFormController";
 import ModalBackground from "../../../shared/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
 import { CardFormData } from "./parseCards";
@@ -71,75 +71,6 @@ export default function CardScrapeModal(props: Props) {
     setUrl(event.target.value);
   }
 
-  function removeCurrentCard() {
-    // remove card data from scraped cards
-    setParsedCards(parsedCards.filter((card, idx) => idx !== currentCardIdx));
-  }
-
-  function handleFormSubmit(
-    name: string,
-    number: string,
-    rookie: boolean,
-    teamId: number | undefined,
-    note: string,
-    playerIds: number[]
-  ) {
-    // create card
-    dispatch(
-      createCard({
-        subsetId: props.subsetId,
-        name,
-        number,
-        rookie,
-        teamId: teamId ? teamId : null,
-        note,
-        playerIds,
-      })
-    );
-
-    setCreatedCardIdx(currentCardIdx);
-  }
-
-  function addAll() {
-    dispatch(
-      bulkCreateCard(
-        parsedCards.map((cardData) => {
-          return {
-            ...cardData,
-            playerIds: cardData.players.map((player) => player.id),
-            teamId: cardData.teamId ? cardData.teamId : null,
-            subsetId: props.subsetId,
-          };
-        })
-      )
-    );
-    setCreatedCardIdx(currentCardIdx);
-  }
-
-  function nextCard() {
-    if (currentCardIdx < parsedCards.length - 1) {
-      setCurrentCardIdx(currentCardIdx + 1);
-    }
-  }
-
-  function previousCard() {
-    if (currentCardIdx > 0) {
-      setCurrentCardIdx(currentCardIdx - 1);
-    }
-  }
-
-  useEffect(() => {
-    if (creatingCardStatus === "SUCCESS" && createdCardIdx !== -1) {
-      // remove card form data if card is successfully created in db
-      setParsedCards(parsedCards.filter((card, idx) => idx !== createdCardIdx));
-      setCreatedCardIdx(-1);
-      // move current card index if user added the last card in the parsed cards list
-      if (currentCardIdx === parsedCards.length - 1) {
-        setCurrentCardIdx(currentCardIdx - 1);
-      }
-    }
-  }, [creatingCardStatus, createdCardIdx, parsedCards]);
-
   useEffect(() => {
     if (
       bulkCreatingStatus === "SUCCESS" &&
@@ -154,7 +85,6 @@ export default function CardScrapeModal(props: Props) {
 
   // fetch player and team data on mount
   useEffect(() => {
-    console.log("FETCHING PLAYERS!!!!!!");
     dispatch(fetchAllPlayers());
     dispatch(fetchAllTeams());
   }, []);
@@ -166,10 +96,8 @@ export default function CardScrapeModal(props: Props) {
 
   // parse scraped card data once it is received
   useEffect(() => {
-    console.log("DID WE GET HERE???", scrapedCardData);
     // find missing players at this step????
     if (scrapedCardData.length > 0) {
-      console.log("DID WE GET HERE?");
       setParsedCards(parseCards(scrapedCardData, teams, players));
     }
   }, [scrapedCardData]);
@@ -203,33 +131,11 @@ export default function CardScrapeModal(props: Props) {
     <ModalBackground>
       <ModalWindow>
         {parsedCards.length > 0 ? (
-          <>
-            <ModalTitle>{`Card ${currentCardIdx + 1} of ${
-              parsedCards.length
-            }`}</ModalTitle>
-            <CardForm
-              createNew={false}
-              bulkAddData={parsedCards[currentCardIdx]}
-              handleCancel={removeCurrentCard}
-              handleSubmit={handleFormSubmit}
-            />
-            <Styled.Footer>
-              <GrayButton onClick={props.handleCancel}>Close</GrayButton>
-              <GrayButton
-                disabled={currentCardIdx === 0}
-                onClick={previousCard}
-              >
-                Previous
-              </GrayButton>
-              <GrayButton
-                disabled={currentCardIdx >= parsedCards.length - 1}
-                onClick={nextCard}
-              >
-                Next
-              </GrayButton>
-              <GrayButton onClick={addAll}>Add All</GrayButton>
-            </Styled.Footer>
-          </>
+          <CardFormController
+            scrapeCardsData={parsedCards}
+            handleClose={props.handleCancel}
+            subsetId={props.subsetId}
+          />
         ) : (
           <>
             <ModalTitle>Bulk Create Cards</ModalTitle>

@@ -8,7 +8,8 @@ export default function NoteHelp() {
       NoteComponent={
         <NoteInstructions>
           Use the note field to denote any unique card characteristics, e.g.
-          "Checklist", "Team Card", or the image variation for a short print.
+          "Checklist", "Team Card", or a description of the image variation for
+          a short print.
         </NoteInstructions>
       }
     />
