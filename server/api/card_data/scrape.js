@@ -49,7 +49,9 @@ const scrapeCardData = (url) => {
       // crawl to name
       let nameStart = 0;
       let attributes = [];
+      let player = false;
       if (rowCopy.indexOf("Person.cfm") !== -1) {
+        player = true;
         nameStart = rowCopy.indexOf("Person.cfm");
         rowCopy = rowCopy.slice(nameStart);
         nameStart = rowCopy.indexOf(">") + 1;
@@ -95,6 +97,7 @@ const scrapeCardData = (url) => {
       return {
         number,
         name,
+        player,
         team,
         comment,
         attributes,
