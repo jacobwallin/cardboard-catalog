@@ -1,6 +1,6 @@
 import * as types from "./types";
 
-export default function cardReducer(
+export default function scrapeReducer(
   state: types.ScrapeState = [],
   action: types.ScrapeActionTypes
 ) {
