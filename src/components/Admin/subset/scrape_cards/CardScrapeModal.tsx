@@ -46,20 +46,11 @@ export default function CardScrapeModal(props: Props) {
     (state: RootState) => state.library.scrape
   );
 
-  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setUrl(event.target.value);
-  }
-
   // fetch player and team data on mount
   useEffect(() => {
     dispatch(fetchAllPlayers());
     dispatch(fetchAllTeams());
   }, []);
-
-  // dispatch scraped card data thunk
-  function handleScrapeCardData() {
-    dispatch(scrapeCardData(url));
-  }
 
   // parse scraped card data once it is received
   useEffect(() => {
@@ -68,6 +59,20 @@ export default function CardScrapeModal(props: Props) {
       setParsedCards(parseCards(scrapedCardData, teams, players));
     }
   }, [scrapedCardData]);
+
+  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setUrl(event.target.value);
+  }
+
+  // dispatch scraped card data thunk
+  function handleScrapeCardData() {
+    dispatch(scrapeCardData(url));
+  }
+
+  function handleClose() {
+    // TODO:  dispatch clear scrapedCardData
+    props.handleCancel();
+  }
 
   // wait for player and team data to fetch before rendering modal
   if (loading) {
@@ -100,7 +105,7 @@ export default function CardScrapeModal(props: Props) {
         {parsedCards.length > 0 ? (
           <CardFormController
             scrapeCardsData={parsedCards}
-            handleClose={props.handleCancel}
+            handleClose={handleClose}
             subsetId={props.subsetId}
           />
         ) : (

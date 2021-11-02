@@ -12,3 +12,7 @@ export const scrapeCardDataSuccess = (
 export const scrapeCardDataFailure = (): types.ScrapeActionTypes => ({
   type: types.SCRAPE_CARD_DATA_FAILURE,
 });
+
+export const clearScrapedCards = (): types.ScrapeActionTypes => ({
+  type: types.CLEAR_SCRAPED_CARDS,
+});

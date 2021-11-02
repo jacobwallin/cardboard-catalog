@@ -14,6 +14,7 @@ interface ScrapedCardData {
 export const SCRAPE_CARD_DATA_REQUEST = "SCRAPE_CARD_DATA_REQUEST";
 export const SCRAPE_CARD_DATA_SUCCESS = "SCRAPE_CARD_DATA_SUCCESS";
 export const SCRAPE_CARD_DATA_FAILURE = "SCRAPE_CARD_DATA_FAILURE";
+export const CLEAR_SCRAPED_CARDS = "CLEAR_SCRAPED_CARDS";
 
 // ACTION CREATORS
 
@@ -28,7 +29,12 @@ interface ScrapeCardDataFailure {
   type: typeof SCRAPE_CARD_DATA_FAILURE;
 }
 
+interface ClearScrapedCards {
+  type: typeof CLEAR_SCRAPED_CARDS;
+}
+
 export type ScrapeActionTypes =
   | ScrapeCardDataRequest
   | ScrapeCardDataSuccess
-  | ScrapeCardDataFailure;
+  | ScrapeCardDataFailure
+  | ClearScrapedCards;
