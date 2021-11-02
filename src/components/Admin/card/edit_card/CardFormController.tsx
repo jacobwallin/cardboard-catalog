@@ -130,6 +130,7 @@ export default function CardFormController(props: Props) {
   useEffect(() => {
     if (createCardStatus === "SUCCESS" && cardCreated) {
       if (scrapedCardData) {
+        setCardCreated(false);
         // check if the card added was the last one in the scrapedCardData array
         if (scrapedCardData.length === 1) {
           props.handleClose();
@@ -227,16 +228,29 @@ export default function CardFormController(props: Props) {
 
   function createNewCard() {
     setCardCreated(true);
-    dispatch(
-      createCard(props.subsetId, {
-        name,
-        number,
-        rookie,
-        teamId: teamId || null,
-        note,
-        playerIds: players.map((p) => p.id),
-      })
-    );
+    if (scrapedCardData) {
+      dispatch(
+        createCard(props.subsetId, {
+          name: scrapedCardData[currentCardIdx].name,
+          number: scrapedCardData[currentCardIdx].number,
+          rookie: scrapedCardData[currentCardIdx].rookie,
+          teamId: scrapedCardData[currentCardIdx].teamId || null,
+          note: scrapedCardData[currentCardIdx].note,
+          playerIds: scrapedCardData[currentCardIdx].players.map((p) => p.id),
+        })
+      );
+    } else {
+      dispatch(
+        createCard(props.subsetId, {
+          name,
+          number,
+          rookie,
+          teamId: teamId || null,
+          note,
+          playerIds: players.map((p) => p.id),
+        })
+      );
+    }
   }
 
   function editCard() {

@@ -15,6 +15,7 @@ import StyledButton from "../../components/StyledButton";
 import { LoadingDots } from "../../../shared/Loading";
 import parseCards from "./parseCards";
 import { scrapeCardData } from "../../../../store/library/scrape/thunks";
+import { clearScrapedCards } from "../../../../store/library/scrape/actions";
 
 const loadingSelector = createLoadingSelector([
   "GET_ALL_PLAYERS",
@@ -70,7 +71,7 @@ export default function CardScrapeModal(props: Props) {
   }
 
   function handleClose() {
-    // TODO:  dispatch clear scrapedCardData
+    dispatch(clearScrapedCards());
     props.handleCancel();
   }
 
