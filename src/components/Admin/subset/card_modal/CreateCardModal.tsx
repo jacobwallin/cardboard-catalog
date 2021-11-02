@@ -4,6 +4,7 @@ import { createCard } from "../../../../store/library/subsets/thunks";
 import ModalBackground from "../../../shared/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
 import CardForm from "../../card/edit_card/CardForm";
+import { ModalTitle } from "../styled";
 
 interface Props {
   handleCancel(): void;
@@ -35,9 +36,7 @@ export default function CreateCardModal(props: Props) {
   return (
     <ModalBackground>
       <ModalWindow>
-        <h3 style={{ textAlign: "center", position: "relative" }}>
-          Create Card
-        </h3>
+        <ModalTitle>Create Card</ModalTitle>
         <CardForm
           createNew={true}
           handleCancel={props.handleCancel}

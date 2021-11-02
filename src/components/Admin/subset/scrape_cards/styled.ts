@@ -18,6 +18,8 @@ export const Input = styled.input`
   height: 30px;
   width: 200px;
   border: 1px solid gray;
+  border-radius: 3px;
+  padding: 5px;
 `;
 
 export const Footer = styled.div`
@@ -25,6 +27,5 @@ export const Footer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-
   padding: 15px;
 `;

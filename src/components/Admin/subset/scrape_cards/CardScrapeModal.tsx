@@ -16,12 +16,20 @@ import {
   createStatusSelector,
 } from "../../../../store/loading/reducer";
 import GrayButton from "./GrayButton";
+import { ModalTitle } from "../styled";
 import * as Styled from "./styled";
-
+import StyledButton from "../../components/StyledButton";
+import { LoadingDots } from "../../../shared/Loading";
 import parseCards from "./parseCards";
+import { scrapeCardData } from "../../../../store/library/scrape/thunks";
 
+const loadingSelector = createLoadingSelector([
+  "GET_ALL_PLAYERS",
+  "GET_ALL_TEAMS",
+]);
 const creatingCardSelector = createLoadingSelector(["CREATE_CARD"]);
 const creatingCardStatusSelector = createStatusSelector("CREATE_CARD");
+const scrapeCardsLoadingSelector = createLoadingSelector(["SCRAPE_CARD_DATA"]);
 const blukCreatingCardStatusSelector = createStatusSelector("BULK_CREATE_CARD");
 
 interface Props {
@@ -40,8 +48,13 @@ export default function CardScrapeModal(props: Props) {
 
   const players = useSelector((state: RootState) => state.library.players);
   const teams = useSelector((state: RootState) => state.library.teams);
+  // LOADING STATE
+  const loading = useSelector((state: RootState) => loadingSelector(state));
   const creatingCard = useSelector((state: RootState) =>
     creatingCardSelector(state)
+  );
+  const scrapeCardDataLoading = useSelector((state: RootState) =>
+    scrapeCardsLoadingSelector(state)
   );
   const creatingCardStatus = useSelector((state: RootState) =>
     creatingCardStatusSelector(state)
@@ -50,16 +63,12 @@ export default function CardScrapeModal(props: Props) {
     blukCreatingCardStatusSelector(state)
   );
 
+  const scrapedCardData = useSelector(
+    (state: RootState) => state.library.scrape
+  );
+
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     setUrl(event.target.value);
-  }
-
-  function parseData() {
-    // const tempCards = parseCards(scrapedCards, teams, players);
-    // setParsedCards(tempCards);
-    // if (tempCards.length > 0) {
-    //   setShowForm(true);
-    // }
   }
 
   function removeCurrentCard() {
@@ -134,7 +143,7 @@ export default function CardScrapeModal(props: Props) {
   useEffect(() => {
     if (
       bulkCreatingStatus === "SUCCESS" &&
-      parseCards.length > 0 &&
+      parsedCards.length > 0 &&
       createdCardIdx !== -1
     ) {
       setParsedCards([]);
@@ -143,19 +152,61 @@ export default function CardScrapeModal(props: Props) {
     }
   }, [bulkCreatingStatus, parsedCards, createdCardIdx]);
 
+  // fetch player and team data on mount
   useEffect(() => {
+    console.log("FETCHING PLAYERS!!!!!!");
     dispatch(fetchAllPlayers());
     dispatch(fetchAllTeams());
   }, []);
 
+  // dispatch scraped card data thunk
+  function handleScrapeCardData() {
+    dispatch(scrapeCardData(url));
+  }
+
+  // parse scraped card data once it is received
+  useEffect(() => {
+    console.log("DID WE GET HERE???", scrapedCardData);
+    // find missing players at this step????
+    if (scrapedCardData.length > 0) {
+      console.log("DID WE GET HERE?");
+      setParsedCards(parseCards(scrapedCardData, teams, players));
+    }
+  }, [scrapedCardData]);
+
+  // wait for player and team data to fetch before rendering modal
+  if (loading) {
+    return (
+      <ModalBackground>
+        <ModalWindow>
+          <ModalTitle>Bulk Create Cards</ModalTitle>
+          <LoadingDots />
+        </ModalWindow>
+      </ModalBackground>
+    );
+  }
+
+  // waiting for server to scrape card data
+  if (scrapeCardDataLoading) {
+    return (
+      <ModalBackground>
+        <ModalWindow>
+          <ModalTitle>Bulk Create Cards</ModalTitle>
+          <LoadingDots />
+          Scraping Card Data...
+        </ModalWindow>
+      </ModalBackground>
+    );
+  }
+
   return (
     <ModalBackground>
       <ModalWindow>
-        {showForm && parsedCards.length > 0 ? (
+        {parsedCards.length > 0 ? (
           <>
-            <Styled.Header>{`Card ${currentCardIdx + 1} of ${
+            <ModalTitle>{`Card ${currentCardIdx + 1} of ${
               parsedCards.length
-            }`}</Styled.Header>
+            }`}</ModalTitle>
             <CardForm
               createNew={false}
               bulkAddData={parsedCards[currentCardIdx]}
@@ -181,13 +232,24 @@ export default function CardScrapeModal(props: Props) {
           </>
         ) : (
           <>
-            <Styled.Header>{`Bulk Add Cards to Subset`}</Styled.Header>
+            <ModalTitle>Bulk Create Cards</ModalTitle>
             <Styled.Input
               type="text"
               placeholder="tcdb url"
               value={url}
               onChange={handleInputChange}
             />
+            <StyledButton
+              color="BLUE"
+              width="125px"
+              height="30px"
+              onClick={handleScrapeCardData}
+              disabled={
+                !/^https:\/\/www.tcdb.com\/Checklist.cfm\/sid/.test(url)
+              }
+            >
+              Scrape Cards
+            </StyledButton>
             <Styled.Footer>
               <GrayButton onClick={props.handleCancel}>Close</GrayButton>
             </Styled.Footer>

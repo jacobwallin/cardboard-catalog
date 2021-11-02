@@ -102,9 +102,12 @@ export default function CardForm(props: Props) {
   const [showPlayerAddedMessage, setShowPlayerAddedMessage] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchAllPlayers());
-    dispatch(fetchAllTeams());
-  }, []);
+    // if there is bulk add data, the bulk add modal has already fetched players and teams
+    if (!props.bulkAddData) {
+      dispatch(fetchAllPlayers());
+      dispatch(fetchAllTeams());
+    }
+  }, [props.bulkAddData]);
 
   // automatically prefill card name to player name
   useEffect(() => {

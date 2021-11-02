@@ -9,8 +9,8 @@ export const scrapeCardData =
   (dispatch) => {
     dispatch(actions.scrapeCardDataRequest());
     get(`/api/carddata/scrape/?url=${url}`, dispatch)
-      .then((cardData: ScrapeState) => {
-        dispatch(actions.scrapeCardDataSuccess(cardData));
+      .then((cardData: { cardData: ScrapeState }) => {
+        dispatch(actions.scrapeCardDataSuccess(cardData.cardData));
       })
       .catch((error) => {
         dispatch(actions.scrapeCardDataFailure());
