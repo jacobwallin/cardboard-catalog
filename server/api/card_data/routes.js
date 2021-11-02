@@ -95,12 +95,11 @@ router.post("/", isAdmin, async (req, res, next) => {
 
 // bulk add cards to a subset
 router.post("/bulk", async (req, res, next) => {
-  const { cards } = req.body;
+  const { cards, subsetId } = req.body;
   try {
     const createdCards = await Promise.all(
       cards.map(async (card) => {
-        const { name, number, rookie, note, playerIds, teamId, subsetId } =
-          card;
+        const { name, number, rookie, note, playerIds, teamId } = card;
 
         // find players by pk and validate before continuing
         const players = await Promise.all(

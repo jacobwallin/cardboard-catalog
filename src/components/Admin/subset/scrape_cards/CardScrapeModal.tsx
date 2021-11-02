@@ -3,18 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store";
 import { fetchAllPlayers } from "../../../../store/library/players/thunks";
 import { fetchAllTeams } from "../../../../store/library/teams/thunks";
-import {
-  createCard,
-  bulkCreateCard,
-} from "../../../../store/library/subsets/thunks";
 import CardFormController from "../../card/edit_card/CardFormController";
 import ModalBackground from "../../../shared/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
 import { CardFormData } from "./parseCards";
-import {
-  createLoadingSelector,
-  createStatusSelector,
-} from "../../../../store/loading/reducer";
+import { createLoadingSelector } from "../../../../store/loading/reducer";
 import GrayButton from "./GrayButton";
 import { ModalTitle } from "../styled";
 import * as Styled from "./styled";
@@ -27,10 +20,7 @@ const loadingSelector = createLoadingSelector([
   "GET_ALL_PLAYERS",
   "GET_ALL_TEAMS",
 ]);
-const creatingCardSelector = createLoadingSelector(["CREATE_CARD"]);
-const creatingCardStatusSelector = createStatusSelector("CREATE_CARD");
 const scrapeCardsLoadingSelector = createLoadingSelector(["SCRAPE_CARD_DATA"]);
-const blukCreatingCardStatusSelector = createStatusSelector("BULK_CREATE_CARD");
 
 interface Props {
   handleCancel(): void;
@@ -40,29 +30,18 @@ interface Props {
 export default function CardScrapeModal(props: Props) {
   const dispatch = useDispatch();
 
-  const [showForm, setShowForm] = useState(false);
   const [url, setUrl] = useState("");
   const [parsedCards, setParsedCards] = useState<CardFormData[]>([]);
-  const [currentCardIdx, setCurrentCardIdx] = useState(0);
-  const [createdCardIdx, setCreatedCardIdx] = useState(-1);
 
-  const players = useSelector((state: RootState) => state.library.players);
-  const teams = useSelector((state: RootState) => state.library.teams);
-  // LOADING STATE
+  // loading player and team data
   const loading = useSelector((state: RootState) => loadingSelector(state));
-  const creatingCard = useSelector((state: RootState) =>
-    creatingCardSelector(state)
-  );
+  // loading scraped card data
   const scrapeCardDataLoading = useSelector((state: RootState) =>
     scrapeCardsLoadingSelector(state)
   );
-  const creatingCardStatus = useSelector((state: RootState) =>
-    creatingCardStatusSelector(state)
-  );
-  const bulkCreatingStatus = useSelector((state: RootState) =>
-    blukCreatingCardStatusSelector(state)
-  );
 
+  const players = useSelector((state: RootState) => state.library.players);
+  const teams = useSelector((state: RootState) => state.library.teams);
   const scrapedCardData = useSelector(
     (state: RootState) => state.library.scrape
   );
@@ -70,18 +49,6 @@ export default function CardScrapeModal(props: Props) {
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     setUrl(event.target.value);
   }
-
-  useEffect(() => {
-    if (
-      bulkCreatingStatus === "SUCCESS" &&
-      parsedCards.length > 0 &&
-      createdCardIdx !== -1
-    ) {
-      setParsedCards([]);
-      setCurrentCardIdx(0);
-      setCreatedCardIdx(-1);
-    }
-  }, [bulkCreatingStatus, parsedCards, createdCardIdx]);
 
   // fetch player and team data on mount
   useEffect(() => {

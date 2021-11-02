@@ -109,7 +109,7 @@ export const bulkCreateCard =
   ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {
     dispatch(actions.bulkCreateCardRequest());
-    post(`/api/carddata/bulk`, { cards: cardData }, dispatch)
+    post(`/api/carddata/bulk`, { cards: cardData, subsetId }, dispatch)
       .then((createdCard) => {
         dispatch(actions.bulkCreateCardSuccess(createdCard));
       })

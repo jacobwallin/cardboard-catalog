@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Close from "./close.svg";
 
 const Header = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
 `;
@@ -21,13 +22,14 @@ const CloseWrapper = styled.div`
 
 interface Props {
   title: string;
+  handleClose(): void;
 }
 
 export default function CardFormHeader(props: Props) {
   return (
     <Header>
       <Title>{props.title}</Title>
-      <CloseWrapper>
+      <CloseWrapper onClick={props.handleClose}>
         <img src={Close} alt="close" />
       </CloseWrapper>
     </Header>

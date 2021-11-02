@@ -9,7 +9,6 @@ import {
   createCard,
   bulkCreateCard,
 } from "../../../../store/library/subsets/thunks";
-import FormButtons from "../../components/form/FormButtons";
 import StyledButton from "../../components/StyledButton";
 import {
   createLoadingSelector,
@@ -26,10 +25,9 @@ const loadingSelector = createLoadingSelector([
   "GET_ALL_TEAMS",
 ]);
 
-const cardLoadingSelector = createLoadingSelector([
-  "UPDATE_CARD",
-  "CREATE_CARD",
-]);
+const bulkAddStatusSelector = createStatusSelector("BULK_CREATE_CARD");
+const createCardStatusSelector = createStatusSelector("CREATE_CARD");
+const updateCardStatusSelector = createStatusSelector("UPDATE_CARD");
 
 interface Props {
   editCardData?: {
@@ -56,13 +54,24 @@ interface Props {
 export default function CardFormController(props: Props) {
   const dispatch = useDispatch();
 
-  // redux library state
+  // loading player and team data
   const loadingInitialData = useSelector((state: RootState) =>
     loadingSelector(state)
   );
-  const isLoading = useSelector((state: RootState) =>
-    cardLoadingSelector(state)
+  // status selectors for creating and updating cards
+  const bulkAddStatus = useSelector((state: RootState) =>
+    bulkAddStatusSelector(state)
   );
+  const createCardStatus = useSelector((state: RootState) =>
+    createCardStatusSelector(state)
+  );
+  const updateCardStatus = useSelector((state: RootState) =>
+    updateCardStatusSelector(state)
+  );
+
+  const [cardEdited, setCardEdited] = useState(false);
+  const [cardCreated, setCardCreated] = useState(false);
+  const [cardBulkCreated, setBulkCreated] = useState(false);
 
   // Controlled form data, initial values are set to editCardData prop if form is being used to edit an existing card
   const { editCardData } = props;
@@ -97,12 +106,48 @@ export default function CardFormController(props: Props) {
   // keeps track of what card frmo scraped data is shown in form
   const [currentCardIdx, setCurrentCardIdx] = useState(0);
 
+  // fetch players and teams, unless scraping since they will have already been fetched
   useEffect(() => {
     if (!props.scrapeCardsData) {
       dispatch(fetchAllPlayers());
       dispatch(fetchAllTeams());
     }
   }, [props.scrapeCardsData]);
+
+  // close modal on successful bulk add of cards
+  useEffect(() => {
+    if (bulkAddStatus === "SUCCESS" && cardBulkCreated) {
+      props.handleClose();
+    }
+  }, [bulkAddStatus, cardBulkCreated]);
+
+  useEffect(() => {
+    if (updateCardStatus === "SUCCESS" && cardEdited) {
+      props.handleClose();
+    }
+  }, [updateCardStatus, cardEdited]);
+
+  useEffect(() => {
+    if (createCardStatus === "SUCCESS" && cardCreated) {
+      if (scrapedCardData) {
+        // check if the card added was the last one in the scrapedCardData array
+        if (scrapedCardData.length === 1) {
+          props.handleClose();
+        } else {
+          // if user added last card in array, step currentCardIdx down one to avoid out of bounds error
+          if (currentCardIdx === scrapedCardData.length - 1) {
+            setCurrentCardIdx(currentCardIdx - 1);
+          }
+
+          setScrapedCardData(
+            scrapedCardData.filter((cardData, idx) => currentCardIdx !== idx)
+          );
+        }
+      } else {
+        props.handleClose();
+      }
+    }
+  }, [createCardStatus, cardCreated, currentCardIdx, scrapedCardData, props]);
 
   // skip to next scraped card
   function nextCard() {
@@ -160,6 +205,7 @@ export default function CardFormController(props: Props) {
 
   function createAllScrapedCards() {
     if (scrapedCardData) {
+      setBulkCreated(true);
       dispatch(
         bulkCreateCard(
           props.subsetId,
@@ -180,6 +226,7 @@ export default function CardFormController(props: Props) {
   }
 
   function createNewCard() {
+    setCardCreated(true);
     dispatch(
       createCard(props.subsetId, {
         name,
@@ -193,6 +240,7 @@ export default function CardFormController(props: Props) {
   }
 
   function editCard() {
+    setCardEdited(true);
     if (props.editCardData) {
       dispatch(
         updateCard(props.editCardData?.cardDataId, {
@@ -216,7 +264,10 @@ export default function CardFormController(props: Props) {
   if (props.editCardData) {
     return (
       <>
-        <CardFormHeader title={`Edit Card ${props.editCardData.number}`} />
+        <CardFormHeader
+          title={`Edit Card ${props.editCardData.number}`}
+          handleClose={props.handleClose}
+        />
         <CardForm
           formData={{ name, number, rookie, teamId, note, players }}
           addPlayer={addPlayer}
@@ -255,7 +306,10 @@ export default function CardFormController(props: Props) {
 
     return (
       <>
-        <CardFormHeader title={`Change This`} />
+        <CardFormHeader
+          title={`Card ${currentCardIdx + 1} of ${scrapedCardData.length}`}
+          handleClose={props.handleClose}
+        />
         <CardForm
           formData={{
             name: currentFormData.name,
@@ -309,7 +363,7 @@ export default function CardFormController(props: Props) {
   // create new card
   return (
     <>
-      <CardFormHeader title="Create Card" />
+      <CardFormHeader title="Create Card" handleClose={props.handleClose} />
       <CardForm
         formData={{ name, number, rookie, teamId, note, players }}
         addPlayer={addPlayer}
