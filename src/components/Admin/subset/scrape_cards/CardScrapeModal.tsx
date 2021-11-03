@@ -75,10 +75,12 @@ export default function CardScrapeModal(props: Props) {
       !playersChecked &&
       scrapeInProgress
     ) {
-      setPlayersChecked(true);
-
       if (scrapedCardData.length === 0) {
+        // no cards were found on provided webpage, reset state
         setNoCardsFound(true);
+        setScrapeInProgress(false);
+        setPlayersChecked(false);
+        setUrl("");
       } else {
         // parse data
         const parsed = parseCards(scrapedCardData, teams, players);
@@ -87,6 +89,9 @@ export default function CardScrapeModal(props: Props) {
         const missing = parsed.filter((parsedPlayer) => {
           return parsedPlayer.player && parsedPlayer.players.length === 0;
         });
+
+        // prevents an infinite loop in this useEffect
+        setPlayersChecked(true);
 
         // dispatch bulk add players if missing, otherwise set form state
         if (missing.length > 0) {
@@ -121,9 +126,8 @@ export default function CardScrapeModal(props: Props) {
   ]);
 
   useEffect(() => {
+    // if there were missing players that were scraped from baseball-referemce, re-parse the data to match up playerIds
     if (bulkCreatePlayerStatus === "SUCCESS" && playersMissing) {
-      setScrapeInProgress(false);
-      setPlayersMissing(false);
       setFormData(
         parseCards(scrapedCardData, teams, players).map((p) => {
           return {
@@ -137,6 +141,10 @@ export default function CardScrapeModal(props: Props) {
         })
       );
     }
+    // prevents this useEffect from firing again
+    setPlayersMissing(false);
+    // stops loading page from rendering so add card form can be shown
+    setScrapeInProgress(false);
   }, [bulkCreatePlayerStatus, playersMissing, teams, players, scrapedCardData]);
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -170,23 +178,16 @@ export default function CardScrapeModal(props: Props) {
   }
 
   // waiting for server to scrape card data
-  if (scrapeInProgress || noCardsFound) {
+  if (scrapeInProgress) {
     return (
       <ModalBackground>
         <ModalWindow>
           <Styled.SmallPageWrapper>
             <ModalHeader title="Scrape Card Data" handleClose={handleClose} />
-            {noCardsFound ? (
-              "No Cards Found"
-            ) : (
-              <>
-                <LoadingDots />
-                {scrapeCardDataStatus === "REQUEST" &&
-                  "Scraping Checklist Data..."}
-                {bulkCreatePlayerStatus === "REQUEST" &&
-                  "Adding Missing Players..."}
-              </>
-            )}
+            <LoadingDots />
+            {scrapeCardDataStatus === "REQUEST" && "Scraping Checklist Data..."}
+            {bulkCreatePlayerStatus === "REQUEST" &&
+              "Adding Missing Players..."}
           </Styled.SmallPageWrapper>
         </ModalWindow>
       </ModalBackground>
@@ -238,6 +239,9 @@ export default function CardScrapeModal(props: Props) {
                   Scrape Cards
                 </StyledButton>
               </Styled.Footer>
+              {noCardsFound && (
+                <Styled.NoCardsFound>No Cards Found</Styled.NoCardsFound>
+              )}
             </Styled.ContentWrapper>
           </Styled.SmallPageWrapper>
         )}

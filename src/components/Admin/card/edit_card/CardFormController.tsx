@@ -397,15 +397,3 @@ export default function CardFormController(props: Props) {
     </>
   );
 }
-
-// useEffect(() => {
-//   if (creatingCardStatus === "SUCCESS" && createdCardIdx !== -1) {
-//     // remove card form data if card is successfully created in db
-//     setParsedCards(parsedCards.filter((card, idx) => idx !== createdCardIdx));
-//     setCreatedCardIdx(-1);
-//     // move current card index if user added the last card in the parsed cards list
-//     if (currentCardIdx === parsedCards.length - 1) {
-//       setCurrentCardIdx(currentCardIdx - 1);
-//     }
-//   }
-// }, [creatingCardStatus, createdCardIdx, parsedCards]);

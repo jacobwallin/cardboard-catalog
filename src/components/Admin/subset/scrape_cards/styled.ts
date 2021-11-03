@@ -47,7 +47,6 @@ export const SmallPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   width: 100%;
   min-height: 300px;
 `;
@@ -59,4 +58,9 @@ export const ContentWrapper = styled.div`
   gap: 25px;
   align-items: center;
   width: 100%;
+`;
+
+export const NoCardsFound = styled.div`
+  font-size: 1rem;
+  color: red;
 `;
