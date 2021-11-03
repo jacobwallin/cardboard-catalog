@@ -11,6 +11,8 @@ export default function playersReducer(
       return action.players;
     case types.CREATE_PLAYER_SUCCESS:
       return [...state, action.player];
+    case types.BULK_CREATE_PLAYER_SUCCESS:
+      return [...state, ...action.players];
     default:
       return state;
   }

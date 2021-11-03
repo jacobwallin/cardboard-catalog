@@ -2,7 +2,7 @@ import { ThunkAction } from "redux-thunk";
 import { PlayerActionCreators } from "./types";
 import { RootState } from "../..";
 import * as actions from "./actions";
-import { get, postString } from "../../../utils/fetch";
+import { get, postString, post } from "../../../utils/fetch";
 
 export const fetchAllPlayers =
   (): ThunkAction<void, RootState, unknown, PlayerActionCreators> =>
@@ -27,5 +27,20 @@ export const scrapeNewPlayer =
       })
       .catch((error) => {
         dispatch(actions.createPlayerFailure());
+      });
+  };
+
+export const bulkScrapePlayers =
+  (
+    playerNames: string[]
+  ): ThunkAction<void, RootState, unknown, PlayerActionCreators> =>
+  (dispatch) => {
+    dispatch(actions.bulkCreatePlayerRequest());
+    post(`/api/players/scrape/bulk`, { playerNames }, dispatch)
+      .then((newPlayers) => {
+        dispatch(actions.bulkCreatePlayerSuccess(newPlayers));
+      })
+      .catch((error) => {
+        dispatch(actions.bulkCreatePlayerFailure());
       });
   };

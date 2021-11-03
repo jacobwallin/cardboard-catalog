@@ -25,3 +25,16 @@ export const createPlayerSuccess = (
 export const createPlayerFailure = (): types.PlayerActionCreators => ({
   type: types.CREATE_PLAYER_FAILURE,
 });
+
+export const bulkCreatePlayerRequest = (): types.PlayerActionCreators => ({
+  type: types.BULK_CREATE_PLAYER_REQUEST,
+});
+export const bulkCreatePlayerSuccess = (
+  players: types.Player[]
+): types.PlayerActionCreators => ({
+  type: types.BULK_CREATE_PLAYER_SUCCESS,
+  players,
+});
+export const bulkCreatePlayerFailure = (): types.PlayerActionCreators => ({
+  type: types.BULK_CREATE_PLAYER_FAILURE,
+});

@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store";
-import { fetchAllPlayers } from "../../../../store/library/players/thunks";
+import {
+  fetchAllPlayers,
+  bulkScrapePlayers,
+} from "../../../../store/library/players/thunks";
 import { fetchAllTeams } from "../../../../store/library/teams/thunks";
 import CardFormController from "../../card/edit_card/CardFormController";
 import ModalBackground from "../../../shared/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
-import { CardFormData } from "./parseCards";
-import { createLoadingSelector } from "../../../../store/loading/reducer";
+import { CardFormData, ParsedCards } from "./parseCards";
+import {
+  createLoadingSelector,
+  createStatusSelector,
+} from "../../../../store/loading/reducer";
 import GrayButton from "./GrayButton";
 import { ModalTitle } from "../styled";
 import * as Styled from "./styled";
@@ -22,6 +28,8 @@ const loadingSelector = createLoadingSelector([
   "GET_ALL_TEAMS",
 ]);
 const scrapeCardsLoadingSelector = createLoadingSelector(["SCRAPE_CARD_DATA"]);
+const bulkScrapePlayerStatusSelector =
+  createStatusSelector("BULK_CREATE_PLAYER");
 
 interface Props {
   handleCancel(): void;
@@ -32,14 +40,20 @@ export default function CardScrapeModal(props: Props) {
   const dispatch = useDispatch();
 
   const [url, setUrl] = useState("");
-  const [parsedCards, setParsedCards] = useState<CardFormData[]>([]);
-  const [playersAdded, setPlayersAdded] = useState(false);
+  const [parsedCards, setParsedCards] = useState<ParsedCards[]>([]);
+  const [formData, setFormData] = useState<CardFormData[]>([]);
+  const [playersMissing, setPlayersMissing] = useState(false);
+  const [playersChecked, setPlayersChecked] = useState(false);
 
   // loading player and team data
   const loading = useSelector((state: RootState) => loadingSelector(state));
   // loading scraped card data
   const scrapeCardDataLoading = useSelector((state: RootState) =>
     scrapeCardsLoadingSelector(state)
+  );
+  // bulk scraping player data
+  const bulkCreatePlayerStatus = useSelector((state: RootState) =>
+    bulkScrapePlayerStatusSelector(state)
   );
 
   const players = useSelector((state: RootState) => state.library.players);
@@ -52,19 +66,60 @@ export default function CardScrapeModal(props: Props) {
   useEffect(() => {
     dispatch(fetchAllPlayers());
     dispatch(fetchAllTeams());
-  }, []);
+  }, [dispatch]);
 
   // parse scraped card data once it is received
   useEffect(() => {
-    if (scrapedCardData.length > 0) {
-      setParsedCards(parseCards(scrapedCardData, teams, players));
+    if (scrapedCardData.length > 0 && !playersChecked) {
+      setPlayersChecked(true);
+
+      // parse data
+      const parsed = parseCards(scrapedCardData, teams, players);
+
+      // find missing players
+      const missing = parsed.filter((parsedPlayer) => {
+        return parsedPlayer.player && parsedPlayer.players.length === 0;
+      });
+
+      // dispatch bulk add players if missing, otherwise set form state
+      if (missing.length > 0) {
+        dispatch(bulkScrapePlayers(missing.map((m) => m.name)));
+        // other useEffect will setFormData once bulk player creation is complete
+        setPlayersMissing(true);
+      } else {
+        setFormData(
+          parsed.map((p) => {
+            return {
+              name: p.name,
+              number: p.number,
+              rookie: p.rookie,
+              teamId: p.teamId,
+              note: p.note,
+              players: p.players,
+            };
+          })
+        );
+      }
     }
-  }, [scrapedCardData]);
+  }, [scrapedCardData, teams, players, dispatch, playersChecked]);
 
   useEffect(() => {
-    // if there are any missing players, dispatch thunk to scrape them
-    // set playersAdded to true once thunk is complete or if there are no missing players
-  }, [parsedCards]);
+    if (bulkCreatePlayerStatus === "SUCCESS" && playersMissing) {
+      setPlayersMissing(false);
+      setFormData(
+        parseCards(scrapedCardData, teams, players).map((p) => {
+          return {
+            name: p.name,
+            number: p.number,
+            rookie: p.rookie,
+            teamId: p.teamId,
+            note: p.note,
+            players: p.players,
+          };
+        })
+      );
+    }
+  }, [bulkCreatePlayerStatus, playersMissing, teams, players, scrapedCardData]);
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     setUrl(event.target.value);
@@ -75,6 +130,7 @@ export default function CardScrapeModal(props: Props) {
     dispatch(scrapeCardData(url));
   }
 
+  // clear scraped card data on modal close
   function handleClose() {
     dispatch(clearScrapedCards());
     props.handleCancel();
@@ -108,9 +164,9 @@ export default function CardScrapeModal(props: Props) {
   return (
     <ModalBackground>
       <ModalWindow>
-        {parsedCards.length > 0 ? (
+        {formData.length > 0 ? (
           <CardFormController
-            scrapeCardsData={parsedCards}
+            scrapeCardsData={formData}
             handleClose={handleClose}
             subsetId={props.subsetId}
           />

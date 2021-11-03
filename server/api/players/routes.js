@@ -3,6 +3,7 @@ const router = require("express").Router();
 const { isAdmin } = require("../../middleware");
 
 const { Player } = require("../../db/models");
+const { Op } = require("sequelize");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -66,8 +67,6 @@ router.post("/bulk", isAdmin, async (req, res, next) => {
 router.post("/scrape", isAdmin, async (req, res, next) => {
   const url = req.body;
 
-  console.log("SCRAPING!: ", url);
-
   // validate url
   const valid =
     /^https?:\/\/www.baseball-reference.com\/players\/[a-z]\/\w{4,7}\d{2}.shtml/.test(
@@ -98,27 +97,27 @@ router.post("/scrape", isAdmin, async (req, res, next) => {
   }
 });
 
-// TODO: make admin route
-router.post("/scrape/bulk", async (req, res, next) => {
+router.post("/scrape/bulk", isAdmin, async (req, res, next) => {
   const { playerNames } = req.body;
 
   try {
+    // scrape card data
     let playerData = await require("./search")(playerNames);
 
-    // check if any players already exist
-    let duplicatePlayers = await Promise.all(
-      playerData.map((player) => {
-        return Player.findOne({
-          where: {
-            name: player.name,
-            birthday: player.birthday,
-          },
-        });
-      })
-    );
+    const filters = playerData.map((p) => {
+      return {
+        [Op.and]: {
+          name: p.name,
+          birthday: p.birthday,
+        },
+      };
+    });
 
-    // get only the duplicates
-    duplicatePlayers = duplicatePlayers.filter((player) => player !== null);
+    const duplicatePlayers = await Player.findAll({
+      where: {
+        [Op.or]: filters,
+      },
+    });
 
     // if there are duplicates, filter playerData
     if (duplicatePlayers.length > 0) {
