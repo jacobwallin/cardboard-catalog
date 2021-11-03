@@ -365,6 +365,7 @@ export default function CardFormController(props: Props) {
             width="110px"
             height="30px"
             onClick={createNewCard}
+            disabled={createCardStatus === "REQUEST"}
           >
             Create Card
           </StyledButton>
@@ -389,7 +390,9 @@ export default function CardFormController(props: Props) {
           width="150px"
           height="30px"
           onClick={createNewCard}
-          disabled={name === "" || number === ""}
+          disabled={
+            name === "" || number === "" || createCardStatus === "REQUEST"
+          }
         >
           Create Card
         </StyledButton>
