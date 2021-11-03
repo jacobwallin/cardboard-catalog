@@ -3,6 +3,7 @@ import { CardData } from "../../../../store/library/subsets/types";
 import ModalBackground from "../../../shared/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
 import CardFormController from "../../card/edit_card/CardFormController";
+import ModalHeader from "../../components/modal/ModalHeader";
 
 interface Props {
   cardData: CardData;
@@ -14,6 +15,10 @@ export default function EditCardModal(props: Props) {
   return (
     <ModalBackground>
       <ModalWindow>
+        <ModalHeader
+          title={`Edit Card ${props.cardData.number}`}
+          handleClose={props.handleCancel}
+        />
         <CardFormController
           subsetId={props.subsetId}
           editCardData={{

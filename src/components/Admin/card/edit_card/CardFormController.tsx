@@ -278,10 +278,6 @@ export default function CardFormController(props: Props) {
   if (props.editCardData) {
     return (
       <>
-        <CardFormHeader
-          title={`Edit Card ${props.editCardData.number}`}
-          handleClose={props.handleClose}
-        />
         <CardForm
           formData={{ name, number, rookie, teamId, note, players }}
           addPlayer={addPlayer}
@@ -289,27 +285,29 @@ export default function CardFormController(props: Props) {
           handleInputChange={handleInputChange}
           handleSelectChange={handleSelectChange}
         />
-        <StyledButton
-          color="GREEN"
-          width="150px"
-          height="30px"
-          onClick={editCard}
-          disabled={
-            !detectFormChanges(
-              [
-                props.editCardData.name,
-                props.editCardData.number,
-                props.editCardData.rookie,
-                props.editCardData.teamId,
-                props.editCardData.note,
-                props.editCardData.players.map((p) => p.id),
-              ],
-              [name, number, rookie, teamId, note, players.map((p) => p.id)]
-            )
-          }
-        >
-          Save Changes
-        </StyledButton>
+        <Styled.ButtonContainer>
+          <StyledButton
+            color="GREEN"
+            width="150px"
+            height="30px"
+            onClick={editCard}
+            disabled={
+              !detectFormChanges(
+                [
+                  props.editCardData.name,
+                  props.editCardData.number,
+                  props.editCardData.rookie,
+                  props.editCardData.teamId,
+                  props.editCardData.note,
+                  props.editCardData.players.map((p) => p.id),
+                ],
+                [name, number, rookie, teamId, note, players.map((p) => p.id)]
+              )
+            }
+          >
+            Save Changes
+          </StyledButton>
+        </Styled.ButtonContainer>
       </>
     );
   }
@@ -320,10 +318,6 @@ export default function CardFormController(props: Props) {
 
     return (
       <>
-        <CardFormHeader
-          title={`Card ${currentCardIdx + 1} of ${scrapedCardData.length}`}
-          handleClose={props.handleClose}
-        />
         <CardForm
           formData={{
             name: currentFormData.name,
@@ -338,38 +332,43 @@ export default function CardFormController(props: Props) {
           handleInputChange={handleInputChange}
           handleSelectChange={handleSelectChange}
         />
-        <StyledButton
-          color="BLUE"
-          width="150px"
-          height="30px"
-          onClick={createAllScrapedCards}
-        >
-          Create All
-        </StyledButton>
-        <StyledButton
-          color="GRAY"
-          width="150px"
-          height="30px"
-          onClick={previousCard}
-        >
-          Previous Card
-        </StyledButton>
-        <StyledButton
-          color="GRAY"
-          width="150px"
-          height="30px"
-          onClick={nextCard}
-        >
-          Next Card
-        </StyledButton>
-        <StyledButton
-          color="GREEN"
-          width="150px"
-          height="30px"
-          onClick={createNewCard}
-        >
-          Create Card
-        </StyledButton>
+        <Styled.ScrapeCardCount>{`Card ${currentCardIdx + 1} of ${
+          scrapedCardData.length
+        }`}</Styled.ScrapeCardCount>
+        <Styled.ButtonContainer>
+          <StyledButton
+            color="BLUE"
+            width="110px"
+            height="30px"
+            onClick={createAllScrapedCards}
+          >
+            Create All
+          </StyledButton>
+          <StyledButton
+            color="GRAY"
+            width="110px"
+            height="30px"
+            onClick={previousCard}
+          >
+            Previous
+          </StyledButton>
+          <StyledButton
+            color="GRAY"
+            width="110px"
+            height="30px"
+            onClick={nextCard}
+          >
+            Next
+          </StyledButton>
+          <StyledButton
+            color="GREEN"
+            width="110px"
+            height="30px"
+            onClick={createNewCard}
+          >
+            Create Card
+          </StyledButton>
+        </Styled.ButtonContainer>
       </>
     );
   }
@@ -377,7 +376,6 @@ export default function CardFormController(props: Props) {
   // create new card
   return (
     <>
-      <CardFormHeader title="Create Card" handleClose={props.handleClose} />
       <CardForm
         formData={{ name, number, rookie, teamId, note, players }}
         addPlayer={addPlayer}
@@ -385,15 +383,17 @@ export default function CardFormController(props: Props) {
         handleInputChange={handleInputChange}
         handleSelectChange={handleSelectChange}
       />
-      <StyledButton
-        color="GREEN"
-        width="150px"
-        height="30px"
-        onClick={createNewCard}
-        disabled={name === "" || number === ""}
-      >
-        Create Card
-      </StyledButton>
+      <Styled.ButtonContainer>
+        <StyledButton
+          color="GREEN"
+          width="150px"
+          height="30px"
+          onClick={createNewCard}
+          disabled={name === "" || number === ""}
+        >
+          Create Card
+        </StyledButton>
+      </Styled.ButtonContainer>
     </>
   );
 }

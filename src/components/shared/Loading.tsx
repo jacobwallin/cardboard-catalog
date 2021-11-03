@@ -107,7 +107,6 @@ const Dots = styled.div`
   position: relative;
   width: 80px;
   height: 80px;
-  margin-top: 100px;
 
   div {
     animation: sequence 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;

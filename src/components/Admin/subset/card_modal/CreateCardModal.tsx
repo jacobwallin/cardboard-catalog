@@ -2,6 +2,7 @@ import React from "react";
 import ModalBackground from "../../../shared/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
 import CardFormController from "../../card/edit_card/CardFormController";
+import ModalHeader from "../../components/modal/ModalHeader";
 
 interface Props {
   handleCancel(): void;
@@ -12,6 +13,7 @@ export default function CreateCardModal(props: Props) {
   return (
     <ModalBackground>
       <ModalWindow>
+        <ModalHeader title="Create New Card" handleClose={props.handleCancel} />
         <CardFormController
           handleClose={props.handleCancel}
           subsetId={props.subsetId}

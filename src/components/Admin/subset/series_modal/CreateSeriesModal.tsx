@@ -4,6 +4,7 @@ import { createSeries } from "../../../../store/library/subsets/thunks";
 import ModalBackground from "../../../shared/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
 import SeriesForm from "../../series/series_form/SeriesForm";
+import ModalHeader from "../../components/modal/ModalHeader";
 
 interface Props {
   handleCancel(): void;
@@ -31,7 +32,10 @@ export default function CreateCardModal(props: Props) {
   return (
     <ModalBackground>
       <ModalWindow>
-        <h3 style={{ textAlign: "center" }}>Create Parallel Set</h3>
+        <ModalHeader
+          title="Create Parallel Set"
+          handleClose={props.handleCancel}
+        />
         <SeriesForm
           createNew={true}
           handleCancel={props.handleCancel}

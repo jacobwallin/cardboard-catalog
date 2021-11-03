@@ -93,3 +93,17 @@ export const HelpSpan = styled.span`
   width: 12px;
   cursor: default;
 `;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
+  margin: 20px 0 20px 0;
+`;
+
+export const ScrapeCardCount = styled.div`
+  font-size: 1.2rem;
+  font-weight: 400;
+`;

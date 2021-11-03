@@ -45,7 +45,7 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
   const dispatch = useDispatch();
   const [showCreateSeriesModal, setShowCreateSeriesModal] = useState(false);
   const [showCreateCardModal, setShowCreateCardModal] = useState(false);
-  const [showScrapeCardModal, setShowScrapeCardModal] = useState(false);
+  const [showScrapeCardModal, setShowScrapeCardModal] = useState(true);
   const [editCardData, setEditCardData] = useState<CardData | undefined>(
     undefined
   );
@@ -201,7 +201,7 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
         actions={
           <>
             <CreateButton onClick={toggleScrapeCardModal}>
-              Bulk Create
+              Scrape Cards
             </CreateButton>
             <CreateButton onClick={toggleCreateCardModal}>
               Create Card
