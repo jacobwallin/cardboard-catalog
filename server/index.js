@@ -19,7 +19,7 @@ app.use(express.text());
 
 app.use(
   session({
-    secret: "not a secret",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
