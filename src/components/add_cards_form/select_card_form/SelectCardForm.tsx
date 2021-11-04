@@ -97,7 +97,9 @@ export default function SelectCardForm(props: Props) {
   ) {
     setCardIdField(event.target.value);
     const card = series.cards.find(
-      (card) => card.card_datum.number === event.target.value
+      (card) =>
+        card.card_datum.number.toUpperCase() ===
+        event.target.value.toUpperCase()
     );
     if (card) {
       setSelectedCardId(card.id);
