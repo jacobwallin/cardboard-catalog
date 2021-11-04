@@ -66,13 +66,13 @@ export const NoteInstructions = styled.div`
   top: -15px;
   left: 60px;
   width: 210px;
-  height: 65px;
+  height: 85px;
   background-color: white;
   border: 1px solid black;
   border-radius: 5px;
   padding: 5px;
   position: absolute;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   font-weight: 500;
   color: black;
   margin-top: 3px;
@@ -83,7 +83,7 @@ export const NoteInstructions = styled.div`
 export const PlayerInstructions = styled(NoteInstructions)`
   top: 20px;
   width: 275px;
-  height: 110px;
+  height: 160px;
 `;
 
 export const HelpSpan = styled.span`
