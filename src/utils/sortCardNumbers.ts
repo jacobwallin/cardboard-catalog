@@ -7,7 +7,6 @@ export default function (cardNumA: string, cardNumB: string): number {
   // check if card number ends or starts in number(s) and sort numerically
   const matchesA = cardNumA.match(/^\d+/) || cardNumA.match(/\d+$/);
   const matchesB = cardNumB.match(/^\d+/) || cardNumB.match(/\d+$/);
-  console.log("SORTING: ", matchesA, matchesB);
   if (matchesA && matchesB) {
     if (matchesA[0] !== matchesB[0]) {
       return +matchesA[0] - +matchesB[0];

@@ -35,10 +35,16 @@ export default function parseCards(
     if (cardData.player) {
       let player = players.find(
         (player) =>
-          player.name.replace(".", "").replace("-", " ") ===
+          player.name
+            .replace(".", "")
+            .replace("-", "")
+            .replace(" ", "")
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "") ===
           cardData.name
             .replace(".", "")
-            .replace("-", " ")
+            .replace("-", "")
+            .replace(" ", "")
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
       );
