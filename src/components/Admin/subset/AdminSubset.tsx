@@ -38,6 +38,7 @@ const modalLoadingSelector = createLoadingSelector([
   "CREATE_SERIES",
   "UPDATE_CARD",
   "DELETE_CARD",
+  "DELETE_ALL_CARDS",
 ]);
 const deletingCardSelector = createStatusSelector("DELETE_CARD");
 const deletingAllCardsSelector = createStatusSelector("DELETE_ALL_CARDS");
@@ -84,6 +85,7 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
     if (!loadingChanges) {
       setShowCreateCardModal(false);
       setShowCreateSeriesModal(false);
+      setShowDeleteAllCardsModeal(false);
       setEditCardData(undefined);
       setDeleteCardId(0);
     }
