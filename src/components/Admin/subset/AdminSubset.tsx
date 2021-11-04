@@ -4,7 +4,10 @@ import { RouteComponentProps } from "react-router-dom";
 import { RootState } from "../../../store";
 import { CardData } from "../../../store/library/subsets/types";
 import { fetchSubset } from "../../../store/library/subsets/thunks";
-import { deleteCard } from "../../../store/library/subsets/thunks";
+import {
+  deleteCard,
+  deleteAllCards,
+} from "../../../store/library/subsets/thunks";
 import WrappedDataTable from "../components/WrappedDataTable";
 import {
   createLoadingSelector,
@@ -21,6 +24,7 @@ import CreateButton from "../components/CreateButton";
 import { NoDataMessage } from "../../shared/NoDataMessage";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
 import { LoadingDots } from "../../shared/Loading";
+import StyledButton from "../components/StyledButton";
 import * as Styled from "./styled";
 
 import {
@@ -36,6 +40,7 @@ const modalLoadingSelector = createLoadingSelector([
   "DELETE_CARD",
 ]);
 const deletingCardSelector = createStatusSelector("DELETE_CARD");
+const deletingAllCardsSelector = createStatusSelector("DELETE_ALL_CARDS");
 
 interface Params {
   subsetId: string;
@@ -46,6 +51,8 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
   const [showCreateSeriesModal, setShowCreateSeriesModal] = useState(false);
   const [showCreateCardModal, setShowCreateCardModal] = useState(false);
   const [showScrapeCardModal, setShowScrapeCardModal] = useState(false);
+  const [showDeleteAllCardsModeal, setShowDeleteAllCardsModeal] =
+    useState(false);
   const [editCardData, setEditCardData] = useState<CardData | undefined>(
     undefined
   );
@@ -63,6 +70,9 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
 
   const deletingCardStatus = useSelector((state: RootState) => {
     return deletingCardSelector(state);
+  });
+  const deletingAllCardsStatus = useSelector((state: RootState) => {
+    return deletingAllCardsSelector(state);
   });
 
   useEffect(() => {
@@ -88,6 +98,9 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
   function toggleScrapeCardModal() {
     setShowScrapeCardModal(!showScrapeCardModal);
   }
+  function toggleDeleteAllModal() {
+    setShowDeleteAllCardsModeal(!showDeleteAllCardsModeal);
+  }
   function showEditCardModal(cardData: CardData) {
     setEditCardData(cardData);
   }
@@ -99,6 +112,9 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
   }
   function deleteCardData() {
     dispatch(deleteCard(deleteCardId));
+  }
+  function deleteAllCardData() {
+    dispatch(deleteAllCards(+props.match.params.subsetId));
   }
 
   const baseSeries = subset.series.find((series) => {
@@ -146,6 +162,14 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
           handleDismiss={() => setDeleteCardId(0)}
           message="This will delete the card from any user's collections that have it."
           deleteStatus={deletingCardStatus}
+        />
+      )}
+      {showDeleteAllCardsModeal && (
+        <ConfirmDeleteModal
+          handleDelete={deleteAllCardData}
+          handleDismiss={toggleDeleteAllModal}
+          deleteStatus={deletingAllCardsStatus}
+          message={`All cards will be deleted from ${subset.set.name} ${subset.name}. If any of the cards are in user's collections they will be deleted as well.`}
         />
       )}
       <Styled.Header> {`${subset.name}`} </Styled.Header>
@@ -200,6 +224,16 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
         }
         actions={
           <>
+            <StyledButton
+              color="RED"
+              height="27px"
+              width="125px"
+              fontSize=".9rem"
+              onClick={toggleDeleteAllModal}
+              disabled={subset.card_data.length === 0}
+            >
+              Delete All Cards
+            </StyledButton>
             <CreateButton onClick={toggleScrapeCardModal}>
               Scrape Cards
             </CreateButton>

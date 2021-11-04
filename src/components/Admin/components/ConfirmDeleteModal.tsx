@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-
+import { LoadingDots } from "../../shared/Loading";
+import StyledButton from "./StyledButton";
 import ModalBackground from "../../shared/Background";
 
 const ModalWindow = styled.div`
@@ -10,7 +11,7 @@ const ModalWindow = styled.div`
   left: 50%;
   top: 30%;
   transform: translate(-50%, 0);
-  background: lightgrey;
+  background: white;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -25,25 +26,14 @@ const ModalPrimaryMessage = styled.div`
 `;
 
 const ModalSecondaryMessage = styled.div`
-  padding: 10px;
+  padding: 20px;
   font-size: 1.1em;
 `;
 
-const ModalLoadingIndicator = styled.div`
-  position: fixed;
-  width: 400px;
-  height: 250px;
-  left: 50%;
-  top: 30%;
-  transform: translate(-50%, 0);
+const ButtonContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 15px;
-  font-size: 1.6em;
-  font-weight: 700;
-  /* background: lightgrey; */
+  gap: 20px;
+  margin-bottom: 20px;
 `;
 
 interface Props {
@@ -54,20 +44,33 @@ interface Props {
 }
 
 export default function ConfirmDeleteModal(props: Props) {
-  // modal window will either display a popup to let the user confirm deletion, or a loading indicator if deletion is in progress
   return (
     <ModalBackground>
       <ModalWindow>
         {props.deleteStatus === "REQUEST" ? (
-          <ModalLoadingIndicator>{`Deleting...`}</ModalLoadingIndicator>
+          <LoadingDots />
         ) : (
           <>
-            <ModalPrimaryMessage>
-              Are you sure you want to delete?
-            </ModalPrimaryMessage>
+            <ModalPrimaryMessage>Confirm Delete</ModalPrimaryMessage>
             <ModalSecondaryMessage>{props.message}</ModalSecondaryMessage>
-            <button onClick={props.handleDismiss}>Cancel</button>
-            <button onClick={props.handleDelete}>Delete</button>
+            <ButtonContainer>
+              <StyledButton
+                color="RED"
+                width="100px"
+                height="27px"
+                onClick={props.handleDelete}
+              >
+                Delete
+              </StyledButton>
+              <StyledButton
+                color="YELLOW"
+                width="100px"
+                height="27px"
+                onClick={props.handleDismiss}
+              >
+                Cancel
+              </StyledButton>
+            </ButtonContainer>
           </>
         )}
       </ModalWindow>
