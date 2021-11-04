@@ -106,6 +106,9 @@ export const UPDATE_CARD_FAILURE = "UPDATE_CARD_FAILURE";
 export const DELETE_CARD_REQUEST = "DELETE_CARD_REQUEST";
 export const DELETE_CARD_SUCCESS = "DELETE_CARD_SUCCESS";
 export const DELETE_CARD_FAILURE = "DELETE_CARD_FAILURE";
+export const DELETE_ALL_CARDS_REQUEST = "DELETE_ALL_CARDS_REQUEST";
+export const DELETE_ALL_CARDS_SUCCESS = "DELETE_ALL_CARDS_SUCCESS";
+export const DELETE_ALL_CARDS_FAILURE = "DELETE_ALL_CARDS_FAILURE";
 export const CLEAR_LIBRARY = "CLEAR_LIBRARY";
 
 // ACTION CREATORS
@@ -193,6 +196,16 @@ interface DeleteCardSuccess {
 interface DeleteCardFailure {
   type: typeof DELETE_CARD_FAILURE;
 }
+
+interface DeleteAllCardsRequest {
+  type: typeof DELETE_ALL_CARDS_REQUEST;
+}
+interface DeleteAllCardsSuccess {
+  type: typeof DELETE_ALL_CARDS_SUCCESS;
+}
+interface DeleteAllCardsFailure {
+  type: typeof DELETE_ALL_CARDS_FAILURE;
+}
 interface ClearLibraryAction {
   type: typeof CLEAR_LIBRARY;
 }
@@ -222,4 +235,7 @@ export type SubsetActionTypes =
   | DeleteCardRequest
   | DeleteCardSuccess
   | DeleteCardFailure
+  | DeleteAllCardsRequest
+  | DeleteAllCardsSuccess
+  | DeleteAllCardsFailure
   | ClearLibraryAction;

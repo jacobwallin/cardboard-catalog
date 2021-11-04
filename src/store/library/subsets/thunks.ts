@@ -153,3 +153,16 @@ export const deleteCard =
       })
       .catch((error) => dispatch(actions.deleteCardFailure()));
   };
+
+export const deleteAllCards =
+  (
+    subsetId: number
+  ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
+  (dispatch) => {
+    dispatch(actions.deleteAllCardsRequest());
+    del(`/api/carddata/subset/${subsetId}`, dispatch)
+      .then((deleteStatus) => {
+        dispatch(actions.deleteAllCardsSuccess());
+      })
+      .catch((error) => dispatch(actions.deleteAllCardsFailure()));
+  };

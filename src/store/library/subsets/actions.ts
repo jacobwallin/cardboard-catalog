@@ -1,6 +1,8 @@
 import * as types from "./types";
 
-export const getSubsetSuccess = (subset: types.Subset): types.SubsetActionTypes => ({
+export const getSubsetSuccess = (
+  subset: types.Subset
+): types.SubsetActionTypes => ({
   type: types.GET_SUBSET_SUCCESS,
   subset,
 });
@@ -42,7 +44,9 @@ export const clearLibrary = () => ({
 export const createSeriesRequest = (): types.SubsetActionTypes => ({
   type: types.CREATE_SERIES_REQUEST,
 });
-export const createSeriesSuccess = (series: types.Series): types.SubsetActionTypes => ({
+export const createSeriesSuccess = (
+  series: types.Series
+): types.SubsetActionTypes => ({
   type: types.CREATE_SERIES_SUCCESS,
   series,
 });
@@ -53,7 +57,9 @@ export const createSeriesFaillure = (): types.SubsetActionTypes => ({
 export const createCardRequest = (): types.SubsetActionTypes => ({
   type: types.CREATE_CARD_REQUEST,
 });
-export const createCardSuccess = (card: types.CardData): types.SubsetActionTypes => ({
+export const createCardSuccess = (
+  card: types.CardData
+): types.SubsetActionTypes => ({
   type: types.CREATE_CARD_SUCCESS,
   card,
 });
@@ -64,7 +70,9 @@ export const createCardFailure = (): types.SubsetActionTypes => ({
 export const bulkCreateCardRequest = (): types.SubsetActionTypes => ({
   type: types.BULK_CREATE_CARD_REQUEST,
 });
-export const bulkCreateCardSuccess = (cards: types.CardData[]): types.SubsetActionTypes => ({
+export const bulkCreateCardSuccess = (
+  cards: types.CardData[]
+): types.SubsetActionTypes => ({
   type: types.BULK_CREATE_CARD_SUCCESS,
   cards,
 });
@@ -76,7 +84,9 @@ export const updateCardRequest = (): types.SubsetActionTypes => ({
   type: types.UPDATE_CARD_REQUEST,
 });
 
-export const updateCardSuccess = (updatedCard: types.CardData): types.SubsetActionTypes => ({
+export const updateCardSuccess = (
+  updatedCard: types.CardData
+): types.SubsetActionTypes => ({
   type: types.UPDATE_CARD_SUCCESS,
   updatedCard,
 });
@@ -87,10 +97,22 @@ export const updateCardFailure = (): types.SubsetActionTypes => ({
 export const deleteCardRequest = (): types.SubsetActionTypes => ({
   type: types.DELETE_CARD_REQUEST,
 });
-export const deleteCardSuccess = (cardDataId: number): types.SubsetActionTypes => ({
+export const deleteCardSuccess = (
+  cardDataId: number
+): types.SubsetActionTypes => ({
   type: types.DELETE_CARD_SUCCESS,
   cardDataId,
 });
 export const deleteCardFailure = (): types.SubsetActionTypes => ({
   type: types.DELETE_CARD_FAILURE,
+});
+
+export const deleteAllCardsRequest = (): types.SubsetActionTypes => ({
+  type: types.DELETE_ALL_CARDS_REQUEST,
+});
+export const deleteAllCardsSuccess = (): types.SubsetActionTypes => ({
+  type: types.DELETE_ALL_CARDS_SUCCESS,
+});
+export const deleteAllCardsFailure = (): types.SubsetActionTypes => ({
+  type: types.DELETE_ALL_CARDS_FAILURE,
 });

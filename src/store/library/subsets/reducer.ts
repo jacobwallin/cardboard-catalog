@@ -76,7 +76,16 @@ const subsetsReducer = (
       return {
         subset: {
           ...state.subset,
-          card_data: state.subset.card_data.filter((cardData) => cardData.id !== action.cardDataId),
+          card_data: state.subset.card_data.filter(
+            (cardData) => cardData.id !== action.cardDataId
+          ),
+        },
+      };
+    case types.DELETE_ALL_CARDS_SUCCESS:
+      return {
+        subset: {
+          ...state.subset,
+          card_data: [],
         },
       };
     case types.CLEAR_LIBRARY:
