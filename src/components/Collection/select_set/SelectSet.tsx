@@ -59,7 +59,7 @@ const SelectSet: React.FC<RouteComponentProps<TParams>> = (props) => {
           highlightOnHover
           theme="grey"
           dense
-          pagination
+          pagination={cardsBySetForYear.length > 10}
           paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
           paginationPerPage={20}
         />

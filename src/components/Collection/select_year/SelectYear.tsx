@@ -55,7 +55,7 @@ const SelectYear = () => {
               There are no cards in your collection.
             </NoDataMessage>
           }
-          pagination
+          pagination={aggregateCardsByYear(cardsBySet).length > 10}
           paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
           paginationPerPage={20}
         />
