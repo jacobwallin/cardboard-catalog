@@ -134,3 +134,8 @@ export const Checkbox = styled.input`
 export const CheckboxLabel = styled.label`
   font-size: 0.8rem;
 `;
+
+export const SpMessage = styled.div`
+  color: red;
+  font-size: 0.8rem;
+`;

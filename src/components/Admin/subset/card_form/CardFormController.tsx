@@ -68,7 +68,7 @@ export default function CardFormController(props: Props) {
 
   // scrape card options
   const [includeNotes, setIncludeNotes] = useState(false);
-  const [ignoreShortPrints, setIgnoreShortPrints] = useState(true);
+  const [addShortPrints, setAddShortPrints] = useState(false);
 
   // Controlled form data, initial values are set to editCardData prop if form is being used to edit an existing card
   const { editCardData } = props;
@@ -117,13 +117,13 @@ export default function CardFormController(props: Props) {
 
   useEffect(() => {
     if (props.scrapeCardsData) {
-      if (ignoreShortPrints) {
+      if (!addShortPrints) {
         setCurrentCardIdx(0);
         // filter out short prints
         setScrapedCardData(
           props.scrapeCardsData.filter((cardData) => {
             if (
-              ignoreShortPrints &&
+              !addShortPrints &&
               cardData.attributes.some((a) => a === "SP" || a === "SSP")
             ) {
               return false;
@@ -139,22 +139,23 @@ export default function CardFormController(props: Props) {
           })
         );
       } else {
-        // re-add short prints
+        // only show short prints
         setScrapedCardData(
           props.scrapeCardsData.filter((cardData) => {
             if (
-              scrapedCardsAdded.some(
+              !scrapedCardsAdded.some(
                 (a) => a.number === cardData.number && a.name === cardData.name
-              )
+              ) &&
+              cardData.attributes.some((a) => a === "SP" || a === "SSP")
             ) {
-              return false;
+              return true;
             }
-            return true;
+            return false;
           })
         );
       }
     }
-  }, [ignoreShortPrints, props.scrapeCardsData]);
+  }, [addShortPrints, props.scrapeCardsData]);
 
   // close modal on successful bulk add of cards
   useEffect(() => {
@@ -392,14 +393,27 @@ export default function CardFormController(props: Props) {
             />
             <Styled.CheckboxLabel>Include Notes</Styled.CheckboxLabel>
           </Styled.CheckboxContainer>
-          <Styled.CheckboxContainer>
-            <Styled.Checkbox
-              type="checkbox"
-              checked={ignoreShortPrints}
-              onChange={(e) => setIgnoreShortPrints(!ignoreShortPrints)}
-            />
-            <Styled.CheckboxLabel>Ignore Short Prints</Styled.CheckboxLabel>
-          </Styled.CheckboxContainer>
+
+          {props.scrapeCardsData &&
+            props.scrapeCardsData.some((c) => {
+              return c.attributes.some((a) => a === "SP" || a === "SSP");
+            }) && (
+              <>
+                <Styled.CheckboxContainer>
+                  <Styled.Checkbox
+                    type="checkbox"
+                    checked={addShortPrints}
+                    onChange={(e) => setAddShortPrints(!addShortPrints)}
+                  />
+                  <Styled.CheckboxLabel>Add Short Prints</Styled.CheckboxLabel>
+                </Styled.CheckboxContainer>
+                <Styled.SpMessage>{`${
+                  props.scrapeCardsData.filter((c) => {
+                    return c.attributes.some((a) => a === "SP" || a === "SSP");
+                  }).length
+                } short print cards were detected and removed from the list. Short prints should be added to their own separate subset and should not part of the base set. If you want to add the short print cards, check the box above to view them.`}</Styled.SpMessage>
+              </>
+            )}
         </Styled.ScrapeOptions>
         <Styled.ScrapeCardCount>{`Card ${currentCardIdx + 1} of ${
           scrapedCardData.length
