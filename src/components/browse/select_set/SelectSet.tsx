@@ -33,6 +33,9 @@ export default function SelectSet() {
         progressComponent={<LoadingDots />}
         dense
         highlightOnHover
+        pagination
+        paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
+        paginationPerPage={20}
       />
     </CollectionPageContainer>
   );

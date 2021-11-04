@@ -13,7 +13,10 @@ import CollectionContainer from "../../shared/CollectionContainer";
 import SetHeader from "../header/SetHeader";
 import { LoadingDots } from "../../shared/Loading";
 
-const loadingSelector = createLoadingSelector(["GET_SINGLE_SET", "GET_CARDS_BY_SUBSET"]);
+const loadingSelector = createLoadingSelector([
+  "GET_SINGLE_SET",
+  "GET_CARDS_BY_SUBSET",
+]);
 
 type TParams = {
   setId: string;
@@ -22,7 +25,9 @@ type TParams = {
 const SetPage = (props: RouteComponentProps<TParams>) => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state: RootState) => loadingSelector(state));
-  const cardsBySubset = useSelector((state: RootState) => state.collection.browse.cardsBySubset);
+  const cardsBySubset = useSelector(
+    (state: RootState) => state.collection.browse.cardsBySubset
+  );
   const set = useSelector((state: RootState) => state.library.sets.singleSet);
   const setId = +props.match.params.setId;
 
@@ -75,13 +80,18 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
                 })
                 .map((subset) => {
                   const collectionSubsetData = cardsBySubset.subsets.find(
-                    (collectionSubset) => subset.id === collectionSubset.subsetId
+                    (collectionSubset) =>
+                      subset.id === collectionSubset.subsetId
                   );
                   return {
                     name: subset.name,
                     id: subset.id,
-                    totalCards: collectionSubsetData ? collectionSubsetData.totalCards : 0,
-                    distinctCards: collectionSubsetData ? collectionSubsetData.distinctCards : 0,
+                    totalCards: collectionSubsetData
+                      ? collectionSubsetData.totalCards
+                      : 0,
+                    distinctCards: collectionSubsetData
+                      ? collectionSubsetData.distinctCards
+                      : 0,
                   };
                 })}
               highlightOnHover
@@ -105,16 +115,24 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
                 })
                 .map((subset) => {
                   const collectionSubsetData = cardsBySubset.subsets.find(
-                    (collectionSubset) => subset.id === collectionSubset.subsetId
+                    (collectionSubset) =>
+                      subset.id === collectionSubset.subsetId
                   );
                   return {
                     name: subset.name,
                     id: subset.id,
-                    totalCards: collectionSubsetData ? collectionSubsetData.totalCards : 0,
-                    distinctCards: collectionSubsetData ? collectionSubsetData.distinctCards : 0,
+                    totalCards: collectionSubsetData
+                      ? collectionSubsetData.totalCards
+                      : 0,
+                    distinctCards: collectionSubsetData
+                      ? collectionSubsetData.distinctCards
+                      : 0,
                   };
                 })}
               highlightOnHover
+              pagination
+              paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
+              paginationPerPage={20}
             />
           </Shared.DataTableContainer>
         </Shared.CollectionPageContainer>

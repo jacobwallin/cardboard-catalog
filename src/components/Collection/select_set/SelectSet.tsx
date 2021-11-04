@@ -59,6 +59,9 @@ const SelectSet: React.FC<RouteComponentProps<TParams>> = (props) => {
           highlightOnHover
           theme="grey"
           dense
+          pagination
+          paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
+          paginationPerPage={20}
         />
       </Shared.DataTableContainer>
     </Shared.CollectionPageContainer>
