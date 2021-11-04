@@ -193,4 +193,16 @@ router.delete("/:cardId", isAdmin, async (req, res, next) => {
   res.json(deleteStatus);
 });
 
+router.delete("/subset/:subsetId", isAdmin, async (req, res, next) => {
+  // delete all cards that belong to the subset
+  try {
+    const deleteStatus = await CardData.destroy({
+      where: { subsetId: req.params.subsetId },
+    });
+    res.json(deleteStatus);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
