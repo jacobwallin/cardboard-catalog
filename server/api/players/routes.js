@@ -87,8 +87,12 @@ router.post("/scrape", isAdmin, async (req, res, next) => {
 
       res.json(createdPlayer);
     } catch (error) {
-      if (error.errors && error.errors[0].message === "name must be unique") {
-        error.message = `Player ${error.errors[0].value} already exists.`;
+      if (
+        error.errors &&
+        (error.errors[0].message === "name must be unique" ||
+          error.errors[0].message === "url must be unique")
+      ) {
+        error.message = `Player already exists.`;
       }
       next(error);
     }
