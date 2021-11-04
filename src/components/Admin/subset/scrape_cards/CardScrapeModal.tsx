@@ -118,11 +118,12 @@ export default function CardScrapeModal(props: Props) {
     // if there were missing players that were scraped from baseball-referemce, re-parse the data to match up playerIds
     if (bulkCreatePlayerStatus === "SUCCESS" && playersMissing) {
       setFormData(parseCards(scrapedCardData, teams, players));
+
+      // prevents this useEffect from firing again
+      setPlayersMissing(false);
+      // stops loading page from rendering so add card form can be shown
+      setScrapeInProgress(false);
     }
-    // prevents this useEffect from firing again
-    setPlayersMissing(false);
-    // stops loading page from rendering so add card form can be shown
-    setScrapeInProgress(false);
   }, [bulkCreatePlayerStatus, playersMissing, teams, players, scrapedCardData]);
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
