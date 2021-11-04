@@ -2,7 +2,7 @@ import React from "react";
 import { CardData } from "../../../../store/library/subsets/types";
 import ModalBackground from "../../../shared/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
-import CardFormController from "../../card/edit_card/CardFormController";
+import CardFormController from "../card_form/CardFormController";
 import ModalHeader from "../../components/modal/ModalHeader";
 
 interface Props {

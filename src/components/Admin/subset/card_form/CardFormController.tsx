@@ -19,7 +19,6 @@ import { CardFormData } from "../../subset/scrape_cards/parseCards";
 import CardForm from "./CardForm";
 import { LoadingDots } from "../../../shared/Loading";
 import * as Styled from "./styled";
-import { isNavigationKey } from "@material-ui/data-grid";
 
 const loadingSelector = createLoadingSelector([
   "GET_ALL_PLAYERS",
@@ -69,7 +68,7 @@ export default function CardFormController(props: Props) {
 
   // scrape card options
   const [includeNotes, setIncludeNotes] = useState(false);
-  const [ignoreShortPrints, setIgnoreShortPrints] = useState(false);
+  const [ignoreShortPrints, setIgnoreShortPrints] = useState(true);
 
   // Controlled form data, initial values are set to editCardData prop if form is being used to edit an existing card
   const { editCardData } = props;

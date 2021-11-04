@@ -6,7 +6,7 @@ import {
   bulkScrapePlayers,
 } from "../../../../store/library/players/thunks";
 import { fetchAllTeams } from "../../../../store/library/teams/thunks";
-import CardFormController from "../../card/edit_card/CardFormController";
+import CardFormController from "../card_form/CardFormController";
 import ModalBackground from "../../../shared/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
 import { CardFormData } from "./parseCards";
