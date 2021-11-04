@@ -107,3 +107,30 @@ export const ScrapeCardCount = styled.div`
   font-size: 1.2rem;
   font-weight: 400;
 `;
+
+export const ScrapeOptions = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-left: 15px;
+  margin-top: 30px;
+`;
+export const ScrapeOptionsTitle = styled.div`
+  font-weight: 600;
+  font-size: 0.8rem;
+  margin-bottom: 3px;
+`;
+export const CheckboxContainer = styled.div`
+  display: flex;
+  gap: 3px;
+  align-items: center;
+`;
+
+export const Checkbox = styled.input`
+  width: 14px;
+  height: 14px;
+`;
+
+export const CheckboxLabel = styled.label`
+  font-size: 0.8rem;
+`;

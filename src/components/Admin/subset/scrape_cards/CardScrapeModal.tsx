@@ -100,18 +100,7 @@ export default function CardScrapeModal(props: Props) {
           setPlayersMissing(true);
         } else {
           setScrapeInProgress(false);
-          setFormData(
-            parsed.map((p) => {
-              return {
-                name: p.name,
-                number: p.number,
-                rookie: p.rookie,
-                teamId: p.teamId,
-                note: p.note,
-                players: p.players,
-              };
-            })
-          );
+          setFormData(parsed);
         }
       }
     }
@@ -128,18 +117,7 @@ export default function CardScrapeModal(props: Props) {
   useEffect(() => {
     // if there were missing players that were scraped from baseball-referemce, re-parse the data to match up playerIds
     if (bulkCreatePlayerStatus === "SUCCESS" && playersMissing) {
-      setFormData(
-        parseCards(scrapedCardData, teams, players).map((p) => {
-          return {
-            name: p.name,
-            number: p.number,
-            rookie: p.rookie,
-            teamId: p.teamId,
-            note: p.note,
-            players: p.players,
-          };
-        })
-      );
+      setFormData(parseCards(scrapedCardData, teams, players));
     }
     // prevents this useEffect from firing again
     setPlayersMissing(false);

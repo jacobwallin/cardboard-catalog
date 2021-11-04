@@ -15,10 +15,11 @@ import {
   createStatusSelector,
 } from "../../../../store/loading/reducer";
 import detectFormChanges from "../../detectFormChanges";
-import CardFormHeader from "./CardFormHeader";
+import { CardFormData } from "../../subset/scrape_cards/parseCards";
 import CardForm from "./CardForm";
 import { LoadingDots } from "../../../shared/Loading";
 import * as Styled from "./styled";
+import { isNavigationKey } from "@material-ui/data-grid";
 
 const loadingSelector = createLoadingSelector([
   "GET_ALL_PLAYERS",
@@ -39,14 +40,7 @@ interface Props {
     teamId: number | undefined;
     players: PlayersState;
   };
-  scrapeCardsData?: {
-    name: string;
-    number: string;
-    rookie: boolean;
-    note: string;
-    teamId: number | undefined;
-    players: PlayersState;
-  }[];
+  scrapeCardsData?: CardFormData[];
   subsetId: number;
   handleClose(): void;
 }
@@ -72,6 +66,10 @@ export default function CardFormController(props: Props) {
   const [cardEdited, setCardEdited] = useState(false);
   const [cardCreated, setCardCreated] = useState(false);
   const [cardBulkCreated, setBulkCreated] = useState(false);
+
+  // scrape card options
+  const [includeNotes, setIncludeNotes] = useState(false);
+  const [ignoreShortPrints, setIgnoreShortPrints] = useState(false);
 
   // Controlled form data, initial values are set to editCardData prop if form is being used to edit an existing card
   const { editCardData } = props;
@@ -103,8 +101,12 @@ export default function CardFormController(props: Props) {
 
   // bulk add form data will be passed as a prop if the form is being used for data scraping
   const [scrapedCardData, setScrapedCardData] = useState(props.scrapeCardsData);
-  // keeps track of what card frmo scraped data is shown in form
+  // keeps track of what card from scraped data is shown in form
   const [currentCardIdx, setCurrentCardIdx] = useState(0);
+  // keeps track of what cards have been added so when options are toggled they are filtered out
+  const [scrapedCardsAdded, setScrapedCardsAdded] = useState<CardFormData[]>(
+    []
+  );
 
   // fetch players and teams, unless scraping since they will have already been fetched
   useEffect(() => {
@@ -113,6 +115,47 @@ export default function CardFormController(props: Props) {
       dispatch(fetchAllTeams());
     }
   }, [props.scrapeCardsData]);
+
+  useEffect(() => {
+    if (props.scrapeCardsData) {
+      if (ignoreShortPrints) {
+        setCurrentCardIdx(0);
+        // filter out short prints
+        setScrapedCardData(
+          props.scrapeCardsData.filter((cardData) => {
+            if (
+              ignoreShortPrints &&
+              cardData.attributes.some((a) => a === "SP" || a === "SSP")
+            ) {
+              return false;
+            }
+            if (
+              scrapedCardsAdded.some(
+                (a) => a.number === cardData.number && a.name === cardData.name
+              )
+            ) {
+              return false;
+            }
+            return true;
+          })
+        );
+      } else {
+        // re-add short prints
+        setScrapedCardData(
+          props.scrapeCardsData.filter((cardData) => {
+            if (
+              scrapedCardsAdded.some(
+                (a) => a.number === cardData.number && a.name === cardData.name
+              )
+            ) {
+              return false;
+            }
+            return true;
+          })
+        );
+      }
+    }
+  }, [ignoreShortPrints, props.scrapeCardsData]);
 
   // close modal on successful bulk add of cards
   useEffect(() => {
@@ -141,7 +184,13 @@ export default function CardFormController(props: Props) {
           }
 
           setScrapedCardData(
-            scrapedCardData.filter((cardData, idx) => currentCardIdx !== idx)
+            scrapedCardData.filter((cardData, idx) => {
+              if (currentCardIdx === idx) {
+                setScrapedCardsAdded([...scrapedCardsAdded, cardData]);
+                return false;
+              }
+              return true;
+            })
           );
         }
       } else {
@@ -314,24 +363,45 @@ export default function CardFormController(props: Props) {
 
   // create multiple cards from scraped data
   if (scrapedCardData) {
+    // get data of current card for form, if ignore SP filter makes data array e
     const currentFormData = scrapedCardData[currentCardIdx];
-
     return (
       <>
-        <CardForm
-          formData={{
-            name: currentFormData.name,
-            number: currentFormData.number,
-            rookie: currentFormData.rookie,
-            teamId: currentFormData.teamId,
-            note: currentFormData.note,
-            players: currentFormData.players,
-          }}
-          addPlayer={addPlayer}
-          deletePlayer={deletePlayer}
-          handleInputChange={handleInputChange}
-          handleSelectChange={handleSelectChange}
-        />
+        {currentFormData && (
+          <CardForm
+            formData={{
+              name: currentFormData.name,
+              number: currentFormData.number,
+              rookie: currentFormData.rookie,
+              teamId: currentFormData.teamId,
+              note: includeNotes ? currentFormData.note : "",
+              players: currentFormData.players,
+            }}
+            addPlayer={addPlayer}
+            deletePlayer={deletePlayer}
+            handleInputChange={handleInputChange}
+            handleSelectChange={handleSelectChange}
+          />
+        )}
+        <Styled.ScrapeOptions>
+          <Styled.ScrapeOptionsTitle>Options</Styled.ScrapeOptionsTitle>
+          <Styled.CheckboxContainer>
+            <Styled.Checkbox
+              type="checkbox"
+              checked={includeNotes}
+              onChange={(e) => setIncludeNotes(!includeNotes)}
+            />
+            <Styled.CheckboxLabel>Include Notes</Styled.CheckboxLabel>
+          </Styled.CheckboxContainer>
+          <Styled.CheckboxContainer>
+            <Styled.Checkbox
+              type="checkbox"
+              checked={ignoreShortPrints}
+              onChange={(e) => setIgnoreShortPrints(!ignoreShortPrints)}
+            />
+            <Styled.CheckboxLabel>Ignore Short Prints</Styled.CheckboxLabel>
+          </Styled.CheckboxContainer>
+        </Styled.ScrapeOptions>
         <Styled.ScrapeCardCount>{`Card ${currentCardIdx + 1} of ${
           scrapedCardData.length
         }`}</Styled.ScrapeCardCount>

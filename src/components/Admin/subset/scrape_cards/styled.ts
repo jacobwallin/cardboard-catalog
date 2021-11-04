@@ -48,7 +48,7 @@ export const SmallPageWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  min-height: 300px;
+  min-height: 250px;
 `;
 
 export const ContentWrapper = styled.div`

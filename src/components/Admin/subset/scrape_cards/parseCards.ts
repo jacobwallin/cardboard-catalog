@@ -9,9 +9,7 @@ export interface CardFormData {
   teamId: number | undefined;
   note: string;
   players: Player[];
-}
-
-export interface ParsedCards extends CardFormData {
+  attributes: string[];
   player: boolean;
 }
 
@@ -19,10 +17,10 @@ export default function parseCards(
   scrapedData: ScrapeState,
   teams: Team[],
   players: Player[]
-): ParsedCards[] {
+): CardFormData[] {
   const allFormData = scrapedData.map((cardData) => {
     // set initial card form data
-    const cardFormData: ParsedCards = {
+    const cardFormData: CardFormData = {
       number: cardData.number,
       name: cardData.name,
       rookie: cardData.attributes.some((att) => att === "RC"),
@@ -30,6 +28,7 @@ export default function parseCards(
       players: [],
       teamId: undefined,
       player: cardData.player,
+      attributes: cardData.attributes,
     };
 
     // find player
