@@ -8,7 +8,9 @@ const columns = (haveCards: boolean) => {
       name: "Name",
       selector: "name",
       sortable: true,
-      cell: (row: any) => <SubtleLink to={`/subset/${row.id}`}>{row.name}</SubtleLink>,
+      cell: (row: any) => (
+        <SubtleLink to={`/subset/${row.id}`}>{row.name}</SubtleLink>
+      ),
       minWidth: "50px",
       grow: 2,
       compact: true,
@@ -26,7 +28,9 @@ const columns = (haveCards: boolean) => {
     {
       name: "",
       sortable: false,
-      cell: (row: any) => <StyledLink to={`/subset/${row.id}`}>View</StyledLink>,
+      cell: (row: any) => (
+        <StyledLink to={`/subset/${row.id}`}>View</StyledLink>
+      ),
       maxWidth: "80px",
       minWidth: "80px",
       compact: true,

@@ -20,8 +20,6 @@ const loadingSelector = createLoadingSelector([
 ]);
 
 type Params = {
-  year: string;
-  setId: string;
   subsetId: string;
 };
 
