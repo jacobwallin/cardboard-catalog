@@ -53,7 +53,10 @@ const search = (playerNames) => {
             const urlSlugEndIdx = urlSlug.indexOf(".shtml");
             if (urlSlugEndIdx !== -1) {
               urlSlug = urlSlug.slice(0, urlSlugEndIdx + 6);
-              if (/^\/players\/[a-z]\/\w{4,7}\d{2}.shtml/.test(urlSlug)) {
+              if (
+                /^\/players\/[a-z]\/\w{4,7}\d{2}.shtml/.test(urlSlug) ||
+                /^\/register\/player.fcgi\?id=/.test(urlSlug)
+              ) {
                 locations.push(urlSlug);
               }
             }
@@ -63,7 +66,10 @@ const search = (playerNames) => {
 
       found.forEach((playerPage) => {
         // validate url
-        if (/^\/players\/[a-z]\/\w{4,7}\d{2}.shtml/.test(playerPage.location)) {
+        if (
+          /^\/players\/[a-z]\/\w{4,7}\d{2}.shtml/.test(playerPage.location) ||
+          /^\/register\/player.fcgi\?id=/.test(playerPage.location)
+        ) {
           locations.push(playerPage.location);
         }
       });

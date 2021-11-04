@@ -71,11 +71,16 @@ router.post("/scrape", isAdmin, async (req, res, next) => {
   const valid =
     /^https?:\/\/www.baseball-reference.com\/players\/[a-z]\/\w{4,7}\d{2}.shtml/.test(
       url
+    ) ||
+    /^https?:\/\/www.baseball-reference.com\/register\/player.fcgi\?id=/.test(
+      url
     );
 
   if (valid) {
     try {
       const playerData = await require("./scrape")(url);
+
+      res.json(playerData);
 
       const createdPlayer = await Player.create({
         name: playerData.name,
