@@ -419,9 +419,14 @@ export default function CardFormController(props: Props) {
               </>
             )}
         </Styled.ScrapeOptions>
-        <Styled.ScrapeCardCount>{`Card ${currentCardIdx + 1} of ${
-          scrapedCardData.length
-        }`}</Styled.ScrapeCardCount>
+        <Styled.ScrapeCardCount>
+          {`Card ${currentCardIdx + 1} of ${scrapedCardData.length}`}
+          {
+            <span style={{ color: "blue", fontWeight: 600 }}>
+              {addShortPrints && " SP"}
+            </span>
+          }
+        </Styled.ScrapeCardCount>
         <Styled.ButtonContainer>
           <StyledButton
             color="BLUE"
