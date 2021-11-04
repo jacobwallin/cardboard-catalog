@@ -18,6 +18,7 @@ import detectFormChanges from "../../detectFormChanges";
 import { CardFormData } from "../../subset/scrape_cards/parseCards";
 import CardForm from "./CardForm";
 import { LoadingDots } from "../../../shared/Loading";
+import IncludeNoteHelp from "./IncludeNoteHelp";
 import * as Styled from "./styled";
 
 const loadingSelector = createLoadingSelector([
@@ -391,7 +392,10 @@ export default function CardFormController(props: Props) {
               checked={includeNotes}
               onChange={(e) => setIncludeNotes(!includeNotes)}
             />
-            <Styled.CheckboxLabel>Include Notes</Styled.CheckboxLabel>
+            <Styled.CheckboxLabel>
+              Include Notes
+              <IncludeNoteHelp />
+            </Styled.CheckboxLabel>
           </Styled.CheckboxContainer>
 
           {props.scrapeCardsData &&

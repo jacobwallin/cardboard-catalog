@@ -67,6 +67,7 @@ export const NoteInstructions = styled.div`
   left: 60px;
   width: 210px;
   height: 85px;
+  z-index: 2;
   background-color: white;
   border: 1px solid black;
   border-radius: 5px;
@@ -84,6 +85,11 @@ export const PlayerInstructions = styled(NoteInstructions)`
   top: 20px;
   width: 275px;
   height: 160px;
+`;
+export const IncludeNotesInstructions = styled(NoteInstructions)`
+  top: 20px;
+  width: 250px;
+  height: 50px;
 `;
 
 export const HelpSpan = styled.span`
@@ -121,6 +127,7 @@ export const ScrapeOptionsTitle = styled.div`
   margin-bottom: 3px;
 `;
 export const CheckboxContainer = styled.div`
+  position: relative;
   display: flex;
   gap: 3px;
   align-items: center;
