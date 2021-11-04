@@ -30,6 +30,10 @@ const Player = db.define(
         unique: true,
         fields: ["name", "birthday"],
       },
+      {
+        unique: true,
+        fields: ["url"],
+      },
     ],
   }
 );
