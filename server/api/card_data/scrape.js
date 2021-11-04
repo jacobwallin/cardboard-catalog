@@ -82,7 +82,7 @@ const scrapeCardData = (url) => {
         rowCopy = rowCopy.slice(commentStart);
         commentStart = rowCopy.indexOf(">") + 1;
         let commentEnd = rowCopy.indexOf("<");
-        comment = rowCopy.slice(commentStart, commentEnd);
+        comment = rowCopy.slice(commentStart, commentEnd).trim();
       }
 
       let team = "";
@@ -91,7 +91,7 @@ const scrapeCardData = (url) => {
         rowCopy = rowCopy.slice(teamStart);
         teamStart = rowCopy.indexOf(">") + 1;
         let teamEnd = rowCopy.indexOf("<");
-        team = rowCopy.slice(teamStart, teamEnd);
+        team = rowCopy.slice(teamStart, teamEnd).trim();
       }
 
       return {
