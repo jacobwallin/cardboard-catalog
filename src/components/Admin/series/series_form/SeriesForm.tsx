@@ -105,7 +105,7 @@ export default function SeriesForm(props: Props) {
             name="name"
             type="text"
             value={name}
-            placeholder="Enter Series Name"
+            placeholder="Enter Parallel Name"
             onChange={handleInputChange}
           />
         </FieldData>

@@ -107,23 +107,23 @@ export default function EditSet(props: Props) {
       ) : (
         <FormContainer>
           <FieldContainer>
-            <FieldTitle>Set Name:</FieldTitle>
+            <FieldTitle>Name:</FieldTitle>
             <FieldData>{set.name}</FieldData>
           </FieldContainer>
           <FieldContainer>
-            <FieldTitle>Set Release Date:</FieldTitle>
+            <FieldTitle>Release Date:</FieldTitle>
             <FieldData>{set.release_date}</FieldData>
           </FieldContainer>
           <FieldContainer>
-            <FieldTitle>Set Brand:</FieldTitle>
+            <FieldTitle>Brand:</FieldTitle>
             <FieldData>{set.brand.name}</FieldData>
           </FieldContainer>
           <FieldContainer>
-            <FieldTitle>Set League:</FieldTitle>
+            <FieldTitle>League:</FieldTitle>
             <FieldData>{set.league.name}</FieldData>
           </FieldContainer>
           <FieldContainer>
-            <FieldTitle>Set Description:</FieldTitle>
+            <FieldTitle>Description:</FieldTitle>
             <FieldData>
               {set.description === "" ? "-" : set.description}
             </FieldData>

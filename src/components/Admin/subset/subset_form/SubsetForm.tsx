@@ -52,7 +52,7 @@ export default function SubsetForm(props: Props) {
   return (
     <FormContainer>
       <FieldContainer>
-        <FieldTitle>Subset Name:</FieldTitle>
+        <FieldTitle>Name:</FieldTitle>
         <FieldData>
           <input
             name="name"
@@ -64,13 +64,13 @@ export default function SubsetForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Subset Description:</FieldTitle>
+        <FieldTitle>Description:</FieldTitle>
         <FieldData>
           <textarea
             name="description"
             value={description}
             disabled={isUpdating}
-            placeholder="Enter Subset Description"
+            placeholder="Enter Description"
             onChange={handleInputChange}
             style={{ height: "200px", width: "100%" }}
             rows={2}
