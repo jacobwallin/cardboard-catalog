@@ -439,6 +439,7 @@ export default function CardFormController(props: Props) {
             width="110px"
             height="30px"
             onClick={createAllScrapedCards}
+            disabled={bulkAddStatus === "REQUEST"}
           >
             Create All
           </StyledButton>
