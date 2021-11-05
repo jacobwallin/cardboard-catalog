@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../../store";
 import { PlayersState, Player } from "../../../../store/library/players/types";
@@ -70,6 +70,7 @@ export default function CardFormController(props: Props) {
   // scrape card options
   const [includeNotes, setIncludeNotes] = useState(false);
   const [addShortPrints, setAddShortPrints] = useState(false);
+  const [removeTrailingLetters, setRemoveTrailingLetters] = useState(false);
 
   // Controlled form data, initial values are set to editCardData prop if form is being used to edit an existing card
   const { editCardData } = props;
@@ -108,6 +109,18 @@ export default function CardFormController(props: Props) {
     []
   );
 
+  const checkIfAdded = useCallback(
+    (cardData: CardFormData) => {
+      return scrapedCardsAdded.some(
+        (a) => a.number === cardData.number && a.name === cardData.name
+      );
+    },
+    [scrapedCardsAdded]
+  );
+  const checkIfShortPrint = useCallback((cardData: CardFormData) => {
+    return cardData.attributes.some((a) => a === "SP" || a === "SSP");
+  }, []);
+
   // fetch players and teams, unless scraping since they will have already been fetched
   useEffect(() => {
     if (!props.scrapeCardsData) {
@@ -116,24 +129,39 @@ export default function CardFormController(props: Props) {
     }
   }, [props.scrapeCardsData]);
 
+  // filter form data on notes
   useEffect(() => {
     if (props.scrapeCardsData) {
+      if (includeNotes) {
+        // remove any notes
+        setScrapedCardData(
+          props.scrapeCardsData
+            .filter((cardData) => checkIfAdded(cardData))
+            .map((cardData) => {
+              return {
+                ...cardData,
+                note: "",
+              };
+            })
+        );
+      } else {
+        // keep notes
+        setScrapedCardData(
+          props.scrapeCardsData.filter((cardData) => checkIfAdded(cardData))
+        );
+      }
+    }
+  }, [includeNotes, props.scrapeCardsData, checkIfAdded]);
+
+  // filter form data on short print
+  useEffect(() => {
+    if (props.scrapeCardsData) {
+      setCurrentCardIdx(0);
       if (!addShortPrints) {
-        setCurrentCardIdx(0);
         // filter out short prints
         setScrapedCardData(
           props.scrapeCardsData.filter((cardData) => {
-            if (
-              !addShortPrints &&
-              cardData.attributes.some((a) => a === "SP" || a === "SSP")
-            ) {
-              return false;
-            }
-            if (
-              scrapedCardsAdded.some(
-                (a) => a.number === cardData.number && a.name === cardData.name
-              )
-            ) {
+            if (checkIfAdded(cardData) || checkIfShortPrint(cardData)) {
               return false;
             }
             return true;
@@ -143,12 +171,7 @@ export default function CardFormController(props: Props) {
         // only show short prints
         setScrapedCardData(
           props.scrapeCardsData.filter((cardData) => {
-            if (
-              !scrapedCardsAdded.some(
-                (a) => a.number === cardData.number && a.name === cardData.name
-              ) &&
-              cardData.attributes.some((a) => a === "SP" || a === "SSP")
-            ) {
+            if (!checkIfAdded(cardData) && checkIfShortPrint(cardData)) {
               return true;
             }
             return false;
@@ -156,9 +179,20 @@ export default function CardFormController(props: Props) {
         );
       }
     }
-  }, [addShortPrints, props.scrapeCardsData]);
+  }, [addShortPrints, props.scrapeCardsData, checkIfAdded, checkIfShortPrint]);
 
-  // close modal on successful bulk add of cards
+  // remove trailing letters when there are short prints
+  // useEffect(() => {
+  //   if (props.scrapeCardsData) {
+  //     if (removeTrailingLetters) {
+
+  //     } else {
+
+  //     }
+  //   }
+  // }, [props.scrapeCardsData])
+
+  // close modal when bulk add or edit is successful
   useEffect(() => {
     if (bulkAddStatus === "SUCCESS" && cardBulkCreated) {
       props.handleClose();
@@ -171,6 +205,7 @@ export default function CardFormController(props: Props) {
     }
   }, [updateCardStatus, cardEdited]);
 
+  // handle when a card is successfully added
   useEffect(() => {
     if (createCardStatus === "SUCCESS" && cardCreated) {
       if (scrapedCardData) {
@@ -198,7 +233,14 @@ export default function CardFormController(props: Props) {
         props.handleClose();
       }
     }
-  }, [createCardStatus, cardCreated, currentCardIdx, scrapedCardData, props]);
+  }, [
+    createCardStatus,
+    cardCreated,
+    currentCardIdx,
+    scrapedCardData,
+    props,
+    scrapedCardsAdded,
+  ]);
 
   // skip to next scraped card
   function nextCard() {
@@ -375,7 +417,7 @@ export default function CardFormController(props: Props) {
               number: currentFormData.number,
               rookie: currentFormData.rookie,
               teamId: currentFormData.teamId,
-              note: includeNotes ? currentFormData.note : "",
+              note: currentFormData.note,
               players: currentFormData.players,
             }}
             addPlayer={addPlayer}
