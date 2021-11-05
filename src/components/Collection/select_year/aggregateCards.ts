@@ -6,34 +6,34 @@ export function aggregateCardsByYear(cardsBySet: SetCards[]): Array<{
   distinctCards: number;
   totalCards: number;
 }> {
-  return cardsBySet
-    .reduce(
-      (
-        cardsByYear: Array<{
-          year: number;
-          distinctCards: number;
-          totalCards: number;
-        }>,
-        set
-      ) => {
-        if (
-          cardsByYear.length > 0 &&
-          cardsByYear[cardsByYear.length - 1].year ===
-            +set.release_date.slice(0, 4)
-        ) {
-          cardsByYear[cardsByYear.length - 1].distinctCards +=
-            +set.distinctCards;
-          cardsByYear[cardsByYear.length - 1].totalCards += +set.totalCards;
-        } else {
-          cardsByYear.push({
-            year: +set.release_date.slice(0, 4),
-            distinctCards: +set.distinctCards,
-            totalCards: +set.totalCards,
-          });
-        }
-        return cardsByYear;
-      },
-      []
-    )
-    .sort((yearA, yearB) => yearB.year - yearA.year);
+  const yearHash = cardsBySet.reduce((totals: any, set) => {
+    const setYear = set.release_date.slice(0, 4);
+    if (totals[setYear]) {
+      return {
+        ...totals,
+        [setYear]: {
+          totalCards: +totals[setYear].totalCards + +set.totalCards,
+          distinctCards: +totals[setYear].distinctCards + +set.distinctCards,
+        },
+      };
+    } else {
+      return {
+        ...totals,
+        [setYear]: {
+          totalCards: +set.totalCards,
+          distinctCards: +set.distinctCards,
+        },
+      };
+    }
+  }, {});
+
+  const cardsByYear = Object.keys(yearHash).map((year) => {
+    return {
+      year: +year,
+      totalCards: yearHash[year].totalCards,
+      distinctCards: yearHash[year].distinctCards,
+    };
+  });
+
+  return cardsByYear;
 }
