@@ -114,7 +114,78 @@ Set.belongsTo(Brand, {
 });
 Brand.hasMany(Set);
 
-// db.sync({ alter: true });
+Set.belongsTo(User, {
+  foreignKey: {
+    name: "createdBy",
+    allowNull: true,
+  },
+});
+User.hasMany(Set);
+Set.belongsTo(User, {
+  foreignKey: {
+    name: "updatedBy",
+    allowNull: true,
+  },
+});
+User.hasMany(Set);
+Subset.belongsTo(User, {
+  foreignKey: {
+    name: "createdBy",
+    allowNull: true,
+  },
+});
+User.hasMany(Set);
+Subset.belongsTo(User, {
+  foreignKey: {
+    name: "updatedBy",
+    allowNull: true,
+  },
+});
+User.hasMany(Set);
+Series.belongsTo(User, {
+  foreignKey: {
+    name: "createdBy",
+    allowNull: true,
+  },
+});
+User.hasMany(Set);
+Series.belongsTo(User, {
+  foreignKey: {
+    name: "updatedBy",
+    allowNull: true,
+  },
+});
+User.hasMany(Set);
+CardData.belongsTo(User, {
+  foreignKey: {
+    name: "createdBy",
+    allowNull: true,
+  },
+});
+User.hasMany(Set);
+CardData.belongsTo(User, {
+  foreignKey: {
+    name: "updatedBy",
+    allowNull: true,
+  },
+});
+User.hasMany(Set);
+Player.belongsTo(User, {
+  foreignKey: {
+    name: "createdBy",
+    allowNull: true,
+  },
+});
+User.hasMany(Set);
+Player.belongsTo(User, {
+  foreignKey: {
+    name: "updatedBy",
+    allowNull: true,
+  },
+});
+User.hasMany(Set);
+
+db.sync({ alter: true });
 
 module.exports = {
   User,
