@@ -111,12 +111,21 @@ router.post("/scrape/bulk", isAdmin, async (req, res, next) => {
     // scrape card data
     let playerData = await require("./search")(playerNames);
 
+    // res.jaon(playerData);
+
     const filters = playerData.map((p) => {
       return {
-        [Op.and]: {
-          name: p.name,
-          birthday: p.birthday,
-        },
+        [Op.or]: [
+          {
+            [Op.and]: {
+              name: p.name,
+              birthday: p.birthday,
+            },
+          },
+          {
+            url: p.url,
+          },
+        ],
       };
     });
 
@@ -126,12 +135,21 @@ router.post("/scrape/bulk", isAdmin, async (req, res, next) => {
       },
     });
 
+    // res.json(duplicatePlayers);
+
     // if there are duplicates, filter playerData
     if (duplicatePlayers.length > 0) {
       playerData = playerData.filter((player) => {
-        return !duplicatePlayers.some(
-          (duplicate) => duplicate.name === player.name
-        );
+        return !duplicatePlayers.some((duplicate) => {
+          if (
+            duplicate.name === player.name &&
+            duplicate.birthday === player.birthday
+          ) {
+            return true;
+          }
+
+          return duplicate.url === player.url;
+        });
       });
     }
 
