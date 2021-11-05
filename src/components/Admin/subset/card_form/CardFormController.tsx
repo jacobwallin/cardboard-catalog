@@ -70,7 +70,6 @@ export default function CardFormController(props: Props) {
   // scrape card options
   const [includeNotes, setIncludeNotes] = useState(false);
   const [addShortPrints, setAddShortPrints] = useState(false);
-  const [removeTrailingLetters, setRemoveTrailingLetters] = useState(false);
 
   // Controlled form data, initial values are set to editCardData prop if form is being used to edit an existing card
   const { editCardData } = props;
@@ -180,17 +179,6 @@ export default function CardFormController(props: Props) {
       }
     }
   }, [addShortPrints, props.scrapeCardsData, checkIfAdded, checkIfShortPrint]);
-
-  // remove trailing letters when there are short prints
-  // useEffect(() => {
-  //   if (props.scrapeCardsData) {
-  //     if (removeTrailingLetters) {
-
-  //     } else {
-
-  //     }
-  //   }
-  // }, [props.scrapeCardsData])
 
   // close modal when bulk add or edit is successful
   useEffect(() => {
@@ -457,7 +445,7 @@ export default function CardFormController(props: Props) {
                   props.scrapeCardsData.filter((c) => {
                     return c.attributes.some((a) => a === "SP" || a === "SSP");
                   }).length
-                } short print cards were detected and removed from the list. Short prints should be added to their own separate subset and should not part of the base set. If you want to add the short print cards, check the box above to view them.`}</Styled.SpMessage>
+                } short print cards were detected and removed from the list. Short prints should be added to their own separate subset and should not be part of the base set. If you want to add the short print cards, check the box above to view them separately.`}</Styled.SpMessage>
               </>
             )}
         </Styled.ScrapeOptions>
