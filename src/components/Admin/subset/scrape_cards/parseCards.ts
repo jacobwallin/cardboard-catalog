@@ -18,6 +18,10 @@ export default function parseCards(
   teams: Team[],
   players: Player[]
 ): CardFormData[] {
+  // check if any of the cards are short prints
+  const hasShortPrints = scrapedData.some((data) => {
+    return data.attributes.some((a) => a === "SP" || a === "SSP");
+  });
   const allFormData = scrapedData.map((cardData) => {
     // set initial card form data
     const cardFormData: CardFormData = {
@@ -30,6 +34,11 @@ export default function parseCards(
       player: cardData.player,
       attributes: cardData.attributes,
     };
+
+    // if the scraped cards have any short prints, remove trailing letters from any card numbers that have them
+    if (hasShortPrints) {
+      cardFormData.number = cardFormData.number.replace(/[a-z, A-Z]$/, "");
+    }
 
     // find player
     if (cardData.player) {
