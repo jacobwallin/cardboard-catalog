@@ -104,7 +104,7 @@ export const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 20px;
+  gap: 10px;
   align-items: center;
   margin: 20px 0 20px 0;
 `;

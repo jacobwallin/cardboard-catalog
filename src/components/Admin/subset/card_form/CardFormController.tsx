@@ -15,6 +15,7 @@ import {
   createStatusSelector,
 } from "../../../../store/loading/reducer";
 import detectFormChanges from "../../detectFormChanges";
+import { checkIfAdded, checkIfShortPrint } from "./utils";
 import { CardFormData } from "../../subset/scrape_cards/parseCards";
 import CardForm from "./CardForm";
 import { LoadingDots } from "../../../shared/Loading";
@@ -63,6 +64,7 @@ export default function CardFormController(props: Props) {
     updateCardStatusSelector(state)
   );
 
+  const [loadingPlayersTeams, setLoadingPlayersTeams] = useState(true);
   const [cardEdited, setCardEdited] = useState(false);
   const [cardCreated, setCardCreated] = useState(false);
   const [cardBulkCreated, setBulkCreated] = useState(false);
@@ -100,25 +102,13 @@ export default function CardFormController(props: Props) {
   );
 
   // bulk add form data will be passed as a prop if the form is being used for data scraping
-  const [scrapedCardData, setScrapedCardData] = useState(props.scrapeCardsData);
+  const [scrapedCardData, setScrapedCardData] = useState<CardFormData[]>([]);
   // keeps track of what card from scraped data is shown in form
   const [currentCardIdx, setCurrentCardIdx] = useState(0);
   // keeps track of what cards have been added so when options are toggled they are filtered out
   const [scrapedCardsAdded, setScrapedCardsAdded] = useState<CardFormData[]>(
     []
   );
-
-  const checkIfAdded = useCallback(
-    (cardData: CardFormData) => {
-      return scrapedCardsAdded.some(
-        (a) => a.number === cardData.number && a.name === cardData.name
-      );
-    },
-    [scrapedCardsAdded]
-  );
-  const checkIfShortPrint = useCallback((cardData: CardFormData) => {
-    return cardData.attributes.some((a) => a === "SP" || a === "SSP");
-  }, []);
 
   // fetch players and teams, unless scraping since they will have already been fetched
   useEffect(() => {
@@ -130,12 +120,9 @@ export default function CardFormController(props: Props) {
 
   // filter form data on scrape options
   useEffect(() => {
-    console.log("short print filtering");
     if (props.scrapeCardsData) {
-      setCurrentCardIdx(0);
-      const data = props.scrapeCardsData
+      const newData = props.scrapeCardsData
         .filter((card) => {
-          if (checkIfAdded(card)) return false;
           if (addShortPrints) return checkIfShortPrint(card);
           return !checkIfShortPrint(card);
         })
@@ -146,52 +133,56 @@ export default function CardFormController(props: Props) {
             note: "",
           };
         });
-      setScrapedCardData(data);
+
+      setScrapedCardData(newData);
     }
-  }, [
-    addShortPrints,
-    includeNotes,
-    props.scrapeCardsData,
-    checkIfAdded,
-    checkIfShortPrint,
-  ]);
+  }, [addShortPrints, includeNotes, props.scrapeCardsData]);
+
+  // remove form data when card is added
+  useEffect(() => {
+    setScrapedCardData((currentData) => {
+      return currentData.filter(
+        (card) => !checkIfAdded(card, scrapedCardsAdded)
+      );
+    });
+  }, [scrapedCardsAdded]);
+
+  // make sure current index is not out of bounds
+  useEffect(() => {
+    if (
+      currentCardIdx > scrapedCardData.length - 1 &&
+      scrapedCardData.length !== 0
+    ) {
+      setCurrentCardIdx(scrapedCardData.length - 1);
+    }
+  }, [currentCardIdx, scrapedCardData]);
 
   // close modal when bulk add or edit is successful
   useEffect(() => {
     if (bulkAddStatus === "SUCCESS" && cardBulkCreated) {
       props.handleClose();
     }
-  }, [bulkAddStatus, cardBulkCreated]);
+  }, [bulkAddStatus, cardBulkCreated, props]);
 
   useEffect(() => {
     if (updateCardStatus === "SUCCESS" && cardEdited) {
       props.handleClose();
     }
-  }, [updateCardStatus, cardEdited]);
+  }, [updateCardStatus, cardEdited, props]);
 
   // handle when a card is successfully added
   useEffect(() => {
     if (createCardStatus === "SUCCESS" && cardCreated) {
-      if (scrapedCardData) {
+      if (props.scrapeCardsData) {
         setCardCreated(false);
         // check if the card added was the last one in the scrapedCardData array
         if (scrapedCardData.length === 1) {
           props.handleClose();
         } else {
-          // if user added last card in array, step currentCardIdx down one to avoid out of bounds error
-          if (currentCardIdx === scrapedCardData.length - 1) {
-            setCurrentCardIdx(currentCardIdx - 1);
-          }
-
-          setScrapedCardData(
-            scrapedCardData.filter((cardData, idx) => {
-              if (currentCardIdx === idx) {
-                setScrapedCardsAdded([...scrapedCardsAdded, cardData]);
-                return false;
-              }
-              return true;
-            })
-          );
+          setScrapedCardsAdded([
+            ...scrapedCardsAdded,
+            scrapedCardData[currentCardIdx],
+          ]);
         }
       } else {
         props.handleClose();
@@ -208,7 +199,7 @@ export default function CardFormController(props: Props) {
 
   // skip to next scraped card
   function nextCard() {
-    if (scrapedCardData && currentCardIdx < scrapedCardData.length - 1) {
+    if (currentCardIdx < scrapedCardData.length - 1) {
       setCurrentCardIdx(currentCardIdx + 1);
     }
   }
@@ -218,6 +209,14 @@ export default function CardFormController(props: Props) {
     if (currentCardIdx > 0) {
       setCurrentCardIdx(currentCardIdx - 1);
     }
+  }
+
+  function removeCard() {
+    // "remove" card by adding it to the list of cards already added
+    setScrapedCardsAdded([
+      ...scrapedCardsAdded,
+      scrapedCardData[currentCardIdx],
+    ]);
   }
 
   function handleInputChange(
@@ -261,30 +260,28 @@ export default function CardFormController(props: Props) {
   }
 
   function createAllScrapedCards() {
-    if (scrapedCardData) {
-      setBulkCreated(true);
-      dispatch(
-        bulkCreateCard(
-          props.subsetId,
-          scrapedCardData.map((c) => {
-            const { number, name, rookie, teamId, note, players } = c;
-            return {
-              number,
-              name,
-              rookie,
-              teamId: teamId || null,
-              note,
-              playerIds: players.map((p) => p.id),
-            };
-          })
-        )
-      );
-    }
+    setBulkCreated(true);
+    dispatch(
+      bulkCreateCard(
+        props.subsetId,
+        scrapedCardData.map((c) => {
+          const { number, name, rookie, teamId, note, players } = c;
+          return {
+            number,
+            name,
+            rookie,
+            teamId: teamId || null,
+            note,
+            playerIds: players.map((p) => p.id),
+          };
+        })
+      )
+    );
   }
 
   function createNewCard() {
     setCardCreated(true);
-    if (scrapedCardData) {
+    if (props.scrapeCardsData) {
       dispatch(
         createCard(props.subsetId, {
           name: scrapedCardData[currentCardIdx].name,
@@ -325,10 +322,12 @@ export default function CardFormController(props: Props) {
     }
   }
 
+  console.log(loadingInitialData);
+
   // wait until players and teams have loaded to render any form
-  if (loadingInitialData) {
-    return <LoadingDots />;
-  }
+  // if (loadingInitialData) {
+  //   return <LoadingDots />;
+  // }
 
   // edit existing card
   if (props.editCardData) {
@@ -369,7 +368,7 @@ export default function CardFormController(props: Props) {
   }
 
   // create multiple cards from scraped data
-  if (scrapedCardData) {
+  if (props.scrapeCardsData) {
     // get data of current card for form, if ignore SP filter makes data array e
     const currentFormData = scrapedCardData[currentCardIdx];
     return (
@@ -436,7 +435,7 @@ export default function CardFormController(props: Props) {
         <Styled.ButtonContainer>
           <StyledButton
             color="BLUE"
-            width="110px"
+            width="100px"
             height="30px"
             onClick={createAllScrapedCards}
             disabled={bulkAddStatus === "REQUEST"}
@@ -445,7 +444,7 @@ export default function CardFormController(props: Props) {
           </StyledButton>
           <StyledButton
             color="GRAY"
-            width="110px"
+            width="100px"
             height="30px"
             onClick={previousCard}
           >
@@ -453,15 +452,23 @@ export default function CardFormController(props: Props) {
           </StyledButton>
           <StyledButton
             color="GRAY"
-            width="110px"
+            width="100px"
             height="30px"
             onClick={nextCard}
           >
             Next
           </StyledButton>
           <StyledButton
+            color="RED"
+            width="100px"
+            height="30px"
+            onClick={removeCard}
+          >
+            Remove
+          </StyledButton>
+          <StyledButton
             color="GREEN"
-            width="110px"
+            width="100px"
             height="30px"
             onClick={createNewCard}
             disabled={createCardStatus === "REQUEST"}
