@@ -7,7 +7,7 @@ const SidebarContainer = styled.div`
   flex-direction: column;
   width: 220px;
   background: #444;
-  margin-right: 15px;
+
   /* border-right: 2px solid white; */
   @media only screen and (max-width: 800px) {
     flex-direction: row;

@@ -19,12 +19,10 @@ export const AdminInnerWrapper = styled.div`
   flex-grow: 1;
 `;
 export const AdminContainer = styled.div`
-  width: 65%;
+  width: 100%;
+  max-width: 1300px;
 
-  @media only screen and (max-width: 1250px) {
-    width: 80%;
-  }
-  @media only screen and (max-width: 800px) {
-    width: 95%;
+  @media only screen and (max-width: 1370px) {
+    width: 98%;
   }
 `;
