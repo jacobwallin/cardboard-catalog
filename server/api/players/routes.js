@@ -80,8 +80,6 @@ router.post("/scrape", isAdmin, async (req, res, next) => {
     try {
       const playerData = await require("./scrape")(url);
 
-      res.json(playerData);
-
       const createdPlayer = await Player.create({
         name: playerData.name,
         fullName: playerData.fullName,
