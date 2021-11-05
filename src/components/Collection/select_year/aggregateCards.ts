@@ -27,13 +27,15 @@ export function aggregateCardsByYear(cardsBySet: SetCards[]): Array<{
     }
   }, {});
 
-  const cardsByYear = Object.keys(yearHash).map((year) => {
-    return {
-      year: +year,
-      totalCards: yearHash[year].totalCards,
-      distinctCards: yearHash[year].distinctCards,
-    };
-  });
+  const cardsByYear = Object.keys(yearHash)
+    .map((year) => {
+      return {
+        year: +year,
+        totalCards: yearHash[year].totalCards,
+        distinctCards: yearHash[year].distinctCards,
+      };
+    })
+    .sort((yearA, yearB) => yearB.year - yearA.year);
 
   return cardsByYear;
 }
