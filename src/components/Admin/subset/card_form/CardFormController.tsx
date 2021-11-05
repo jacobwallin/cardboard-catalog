@@ -128,57 +128,33 @@ export default function CardFormController(props: Props) {
     }
   }, [props.scrapeCardsData]);
 
-  // filter form data on notes
+  // filter form data on scrape options
   useEffect(() => {
-    if (props.scrapeCardsData) {
-      if (includeNotes) {
-        // remove any notes
-        setScrapedCardData(
-          props.scrapeCardsData
-            .filter((cardData) => checkIfAdded(cardData))
-            .map((cardData) => {
-              return {
-                ...cardData,
-                note: "",
-              };
-            })
-        );
-      } else {
-        // keep notes
-        setScrapedCardData(
-          props.scrapeCardsData.filter((cardData) => checkIfAdded(cardData))
-        );
-      }
-    }
-  }, [includeNotes, props.scrapeCardsData, checkIfAdded]);
-
-  // filter form data on short print
-  useEffect(() => {
+    console.log("short print filtering");
     if (props.scrapeCardsData) {
       setCurrentCardIdx(0);
-      if (!addShortPrints) {
-        // filter out short prints
-        setScrapedCardData(
-          props.scrapeCardsData.filter((cardData) => {
-            if (checkIfAdded(cardData) || checkIfShortPrint(cardData)) {
-              return false;
-            }
-            return true;
-          })
-        );
-      } else {
-        // only show short prints
-        setScrapedCardData(
-          props.scrapeCardsData.filter((cardData) => {
-            if (!checkIfAdded(cardData) && checkIfShortPrint(cardData)) {
-              return true;
-            }
-            return false;
-          })
-        );
-      }
+      const data = props.scrapeCardsData
+        .filter((card) => {
+          if (checkIfAdded(card)) return false;
+          if (addShortPrints) return checkIfShortPrint(card);
+          return !checkIfShortPrint(card);
+        })
+        .map((card) => {
+          if (includeNotes) return card;
+          return {
+            ...card,
+            note: "",
+          };
+        });
+      setScrapedCardData(data);
     }
-  }, [addShortPrints, props.scrapeCardsData, checkIfAdded, checkIfShortPrint]);
+  }, [
+    addShortPrints,
+    includeNotes,
+    props.scrapeCardsData,
+    checkIfAdded,
+    checkIfShortPrint,
+  ]);
 
   // close modal when bulk add or edit is successful
   useEffect(() => {
