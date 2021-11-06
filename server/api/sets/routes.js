@@ -2,7 +2,7 @@ const router = require("express").Router();
 
 const { isAdmin } = require("../../middleware");
 
-const { Set, Brand, League, Subset, Series } = require("../../db/models");
+const { Set, Brand, League, Subset, Series, User } = require("../../db/models");
 
 // get a summary of all sets in the library
 router.get("/", async (req, res, next) => {
@@ -44,11 +44,24 @@ router.get("/:setId", async (req, res, next) => {
           model: Subset,
           attributes: ["id", "name", "description", "setId", "baseSeriesId"],
         },
+        {
+          model: User,
+          as: "createdByUser",
+          attributes: ["username"],
+        },
+        {
+          model: User,
+          as: "updatedByUser",
+          attributes: ["username"],
+        },
       ],
     });
 
-    res.json(setData);
+    const idk = await User.getSets();
+
+    res.json(idk);
   } catch (error) {
+    console.log(error);
     res.sendStatus(500);
   }
 });

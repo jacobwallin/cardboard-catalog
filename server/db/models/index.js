@@ -115,75 +115,129 @@ Set.belongsTo(Brand, {
 Brand.hasMany(Set);
 
 Set.belongsTo(User, {
+  as: "createdByUser",
   foreignKey: {
     name: "createdBy",
     allowNull: true,
   },
 });
-User.hasMany(Set);
+User.hasMany(Set, {
+  foreignKey: {
+    name: "createdBy",
+  },
+});
 Set.belongsTo(User, {
+  as: "updatedByUser",
   foreignKey: {
     name: "updatedBy",
     allowNull: true,
   },
 });
-User.hasMany(Set);
+User.hasMany(Set, {
+  foreignKey: {
+    name: "updatedBy",
+  },
+});
+
 Subset.belongsTo(User, {
+  as: "createdByUser",
   foreignKey: {
     name: "createdBy",
     allowNull: true,
   },
 });
-User.hasMany(Set);
+User.hasMany(Subset, {
+  foreignKey: {
+    name: "createdBy",
+  },
+});
 Subset.belongsTo(User, {
+  as: "updatedByUser",
   foreignKey: {
     name: "updatedBy",
     allowNull: true,
   },
 });
-User.hasMany(Set);
+User.hasMany(Subset, {
+  foreignKey: {
+    name: "updatedBy",
+  },
+});
+
 Series.belongsTo(User, {
+  as: "createdByUser",
   foreignKey: {
     name: "createdBy",
     allowNull: true,
   },
 });
-User.hasMany(Set);
+User.hasMany(Series, {
+  foreignKey: {
+    name: "createdBy",
+  },
+});
 Series.belongsTo(User, {
+  as: "updatedByUser",
   foreignKey: {
     name: "updatedBy",
     allowNull: true,
   },
 });
-User.hasMany(Set);
+User.hasMany(Series, {
+  foreignKey: {
+    name: "updatedBy",
+  },
+});
+
 CardData.belongsTo(User, {
+  as: "createdByUser",
   foreignKey: {
     name: "createdBy",
     allowNull: true,
   },
 });
-User.hasMany(Set);
+User.hasMany(CardData, {
+  foreignKey: {
+    name: "createdBy",
+  },
+});
 CardData.belongsTo(User, {
+  as: "updatedByUser",
   foreignKey: {
     name: "updatedBy",
     allowNull: true,
   },
 });
-User.hasMany(Set);
+User.hasMany(CardData, {
+  foreignKey: {
+    name: "updatedBy",
+  },
+});
+
 Player.belongsTo(User, {
+  as: "createdByUser",
   foreignKey: {
     name: "createdBy",
     allowNull: true,
   },
 });
-User.hasMany(Set);
+User.hasMany(Player, {
+  foreignKey: {
+    name: "createdBy",
+  },
+});
 Player.belongsTo(User, {
+  as: "updatedByUser",
   foreignKey: {
     name: "updatedBy",
     allowNull: true,
   },
 });
-User.hasMany(Set);
+User.hasMany(Player, {
+  foreignKey: {
+    name: "updatedBy",
+  },
+});
 
 db.sync({ alter: true });
 
