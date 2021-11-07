@@ -214,32 +214,32 @@ User.hasMany(CardData, {
   },
 });
 
-Player.belongsTo(User, {
+Card.belongsTo(User, {
   as: "createdByUser",
   foreignKey: {
     name: "createdBy",
     allowNull: true,
   },
 });
-User.hasMany(Player, {
+User.hasMany(Card, {
   foreignKey: {
     name: "createdBy",
   },
 });
-Player.belongsTo(User, {
+Card.belongsTo(User, {
   as: "updatedByUser",
   foreignKey: {
     name: "updatedBy",
     allowNull: true,
   },
 });
-User.hasMany(Player, {
+User.hasMany(Card, {
   foreignKey: {
     name: "updatedBy",
   },
 });
 
-db.sync({ alter: true });
+// db.sync({ alter: true });
 
 module.exports = {
   User,

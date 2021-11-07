@@ -28,15 +28,6 @@ router.get("/", async (req, res, next) => {
 router.get("/:setId", async (req, res, next) => {
   try {
     const setData = await Set.findByPk(req.params.setId, {
-      attributes: [
-        "id",
-        "name",
-        "release_date",
-        "baseSubsetId",
-        "description",
-        "createdAt",
-        "updatedAt",
-      ],
       include: [
         { model: League, attributes: ["id", "name"] },
         { model: Brand, attributes: ["id", "name"] },
@@ -57,9 +48,7 @@ router.get("/:setId", async (req, res, next) => {
       ],
     });
 
-    const idk = await User.getSets();
-
-    res.json(idk);
+    res.json(setData);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
@@ -77,16 +66,22 @@ router.post("/", isAdmin, async (req, res, next) => {
       description,
       leagueId,
       brandId,
+      createdBy: req.user.id,
+      updatedBy: req.user.id,
     });
 
     // create initial base subset and base series
     let baseSubset = await Subset.create({
       name: "Base Set",
       setId: newSet.id,
+      createdBy: req.user.id,
+      updatedBy: req.user.id,
     });
     let baseSeries = await Series.create({
       name: "Base Set",
       subsetId: baseSubset.id,
+      createdBy: req.user.id,
+      updatedBy: req.user.id,
     });
 
     // set base series and subset ids and save
@@ -111,7 +106,15 @@ router.put("/:setId", isAdmin, async (req, res, next) => {
 
   try {
     await Set.update(
-      { name, release_date, description, leagueId, brandId, baseSubsetId },
+      {
+        name,
+        release_date,
+        description,
+        leagueId,
+        brandId,
+        baseSubsetId,
+        updatedBy: req.user.id,
+      },
       { where: { id: req.params.setId } }
     );
 
