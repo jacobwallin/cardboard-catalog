@@ -27,7 +27,6 @@ router.get("/:seriesId", async (req, res, next) => {
       include: [
         {
           model: Card,
-          attributes: { exclude: ["createdAt", "updatedAt"] },
           include: {
             model: CardData,
             include: [
@@ -81,6 +80,8 @@ router.post("/", isAdmin, async (req, res, next) => {
       shortPrint,
       subsetId,
       parallel: true,
+      createdBy: req.user.id,
+      updatedBy: req.user.id,
     });
 
     // get the parent subset with associated card data
@@ -89,7 +90,12 @@ router.post("/", isAdmin, async (req, res, next) => {
     // create a new card for each card data associated with the subset
     await Promise.all(
       parentSubset.card_data.map((data) => {
-        return Card.create({ seriesId: createdSeries.id, cardDataId: data.id });
+        return Card.create({
+          seriesId: createdSeries.id,
+          cardDataId: data.id,
+          createdBy: req.user.id,
+          updatedBy: req.user.id,
+        });
       })
     );
 
@@ -127,6 +133,7 @@ router.put("/:seriesId", isAdmin, async (req, res, next) => {
         manufacturedRelic,
         refractor,
         shortPrint,
+        updatedAt: req.user.id,
       },
       { where: { id: req.params.seriesId } }
     );

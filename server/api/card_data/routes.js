@@ -62,6 +62,8 @@ router.post("/", isAdmin, async (req, res, next) => {
         note,
         teamId,
         subsetId,
+        createdBy: req.user.id,
+        updatedBy: req.user.id,
       });
       // add the players to the card data entry
       await newCardData.addPlayers(players);
@@ -79,6 +81,8 @@ router.post("/", isAdmin, async (req, res, next) => {
           return Card.create({
             seriesId: series.id,
             cardDataId: newCardData.id,
+            createdBy: req.user.id,
+            updatedBy: req.user.id,
           });
         })
       );
@@ -118,6 +122,8 @@ router.post("/bulk", async (req, res, next) => {
             note,
             teamId,
             subsetId,
+            createdBy: req.user.id,
+            updatedBy: req.user.id,
           });
           // add the players to the card data entry
           await newCardData.addPlayers(players);
@@ -133,6 +139,8 @@ router.post("/bulk", async (req, res, next) => {
               return Card.create({
                 seriesId: series.id,
                 cardDataId: newCardData.id,
+                createdBy: req.user.id,
+                updatedBy: req.user.id,
               });
             })
           );
@@ -166,6 +174,7 @@ router.put("/:cardId", isAdmin, async (req, res, next) => {
     cardData.rookie = rookie;
     cardData.teamId = teamId;
     cardData.note = note;
+    cardData.updatedBy = req.user.id;
     // save new values to db
     await cardData.save();
 

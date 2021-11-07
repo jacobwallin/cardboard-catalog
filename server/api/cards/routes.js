@@ -30,6 +30,7 @@ router.put("/:cardId", async (req, res, next) => {
   try {
     let card = await Card.findByPk(req.params.cardId);
     card.serializedTo = serializedTo || null;
+    card.updatedBy = req.user.id;
     await card.save();
 
     res.json(card);

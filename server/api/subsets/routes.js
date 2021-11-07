@@ -72,12 +72,16 @@ router.post("/", isAdmin, async (req, res, next) => {
       name,
       description,
       setId,
+      createdBy: req.user.id,
+      updatedBy: req.user.id,
     });
 
     // create initial base series
     let baseSeries = await Series.create({
       name: "Base Set",
       subsetId: createdSubset.id,
+      createdBy: req.user.id,
+      updatedBy: req.user.id,
     });
 
     // set base series id and save
@@ -95,7 +99,7 @@ router.put("/:subsetId", isAdmin, async (req, res, next) => {
 
   try {
     await Subset.update(
-      { name, description },
+      { name, description, updatedBy: req.user.id },
       { where: { id: req.params.subsetId } }
     );
 

@@ -114,6 +114,131 @@ Set.belongsTo(Brand, {
 });
 Brand.hasMany(Set);
 
+Set.belongsTo(User, {
+  as: "createdByUser",
+  foreignKey: {
+    name: "createdBy",
+    allowNull: true,
+  },
+});
+User.hasMany(Set, {
+  foreignKey: {
+    name: "createdBy",
+  },
+});
+Set.belongsTo(User, {
+  as: "updatedByUser",
+  foreignKey: {
+    name: "updatedBy",
+    allowNull: true,
+  },
+});
+User.hasMany(Set, {
+  foreignKey: {
+    name: "updatedBy",
+  },
+});
+
+Subset.belongsTo(User, {
+  as: "createdByUser",
+  foreignKey: {
+    name: "createdBy",
+    allowNull: true,
+  },
+});
+User.hasMany(Subset, {
+  foreignKey: {
+    name: "createdBy",
+  },
+});
+Subset.belongsTo(User, {
+  as: "updatedByUser",
+  foreignKey: {
+    name: "updatedBy",
+    allowNull: true,
+  },
+});
+User.hasMany(Subset, {
+  foreignKey: {
+    name: "updatedBy",
+  },
+});
+
+Series.belongsTo(User, {
+  as: "createdByUser",
+  foreignKey: {
+    name: "createdBy",
+    allowNull: true,
+  },
+});
+User.hasMany(Series, {
+  foreignKey: {
+    name: "createdBy",
+  },
+});
+Series.belongsTo(User, {
+  as: "updatedByUser",
+  foreignKey: {
+    name: "updatedBy",
+    allowNull: true,
+  },
+});
+User.hasMany(Series, {
+  foreignKey: {
+    name: "updatedBy",
+  },
+});
+
+CardData.belongsTo(User, {
+  as: "createdByUser",
+  foreignKey: {
+    name: "createdBy",
+    allowNull: true,
+  },
+});
+User.hasMany(CardData, {
+  foreignKey: {
+    name: "createdBy",
+  },
+});
+CardData.belongsTo(User, {
+  as: "updatedByUser",
+  foreignKey: {
+    name: "updatedBy",
+    allowNull: true,
+  },
+});
+User.hasMany(CardData, {
+  foreignKey: {
+    name: "updatedBy",
+  },
+});
+
+Card.belongsTo(User, {
+  as: "createdByUser",
+  foreignKey: {
+    name: "createdBy",
+    allowNull: true,
+  },
+});
+User.hasMany(Card, {
+  foreignKey: {
+    name: "createdBy",
+  },
+});
+Card.belongsTo(User, {
+  as: "updatedByUser",
+  foreignKey: {
+    name: "updatedBy",
+    allowNull: true,
+  },
+});
+User.hasMany(Card, {
+  foreignKey: {
+    name: "updatedBy",
+  },
+});
+
 // db.sync({ alter: true });
 
 module.exports = {

@@ -2,7 +2,7 @@ const router = require("express").Router();
 
 const { isAdmin } = require("../../middleware");
 
-const { Set, Brand, League, Subset, Series } = require("../../db/models");
+const { Set, Brand, League, Subset, Series, User } = require("../../db/models");
 
 // get a summary of all sets in the library
 router.get("/", async (req, res, next) => {
@@ -28,15 +28,6 @@ router.get("/", async (req, res, next) => {
 router.get("/:setId", async (req, res, next) => {
   try {
     const setData = await Set.findByPk(req.params.setId, {
-      attributes: [
-        "id",
-        "name",
-        "release_date",
-        "baseSubsetId",
-        "description",
-        "createdAt",
-        "updatedAt",
-      ],
       include: [
         { model: League, attributes: ["id", "name"] },
         { model: Brand, attributes: ["id", "name"] },
@@ -44,11 +35,22 @@ router.get("/:setId", async (req, res, next) => {
           model: Subset,
           attributes: ["id", "name", "description", "setId", "baseSeriesId"],
         },
+        {
+          model: User,
+          as: "createdByUser",
+          attributes: ["username"],
+        },
+        {
+          model: User,
+          as: "updatedByUser",
+          attributes: ["username"],
+        },
       ],
     });
 
     res.json(setData);
   } catch (error) {
+    console.log(error);
     res.sendStatus(500);
   }
 });
@@ -64,16 +66,22 @@ router.post("/", isAdmin, async (req, res, next) => {
       description,
       leagueId,
       brandId,
+      createdBy: req.user.id,
+      updatedBy: req.user.id,
     });
 
     // create initial base subset and base series
     let baseSubset = await Subset.create({
       name: "Base Set",
       setId: newSet.id,
+      createdBy: req.user.id,
+      updatedBy: req.user.id,
     });
     let baseSeries = await Series.create({
       name: "Base Set",
       subsetId: baseSubset.id,
+      createdBy: req.user.id,
+      updatedBy: req.user.id,
     });
 
     // set base series and subset ids and save
@@ -98,7 +106,15 @@ router.put("/:setId", isAdmin, async (req, res, next) => {
 
   try {
     await Set.update(
-      { name, release_date, description, leagueId, brandId, baseSubsetId },
+      {
+        name,
+        release_date,
+        description,
+        leagueId,
+        brandId,
+        baseSubsetId,
+        updatedBy: req.user.id,
+      },
       { where: { id: req.params.setId } }
     );
 
