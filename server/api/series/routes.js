@@ -32,13 +32,6 @@ router.get("/:seriesId", async (req, res, next) => {
             include: [
               {
                 model: Player,
-                attributes: [
-                  "id",
-                  "name",
-                  "fullName",
-                  "birthday",
-                  "hallOfFame",
-                ],
               },
               { model: Team },
             ],
@@ -157,7 +150,7 @@ router.delete("/:seriesId", isAdmin, async (req, res, next) => {
       // get set that subset to be deleted belongs to
       const subset = await Subset.findByPk(series.subsetId);
 
-      // if the subset is the set's base subset, susbet cannot be deleted
+      // if the subset is the set's base subset, subset cannot be deleted
       if (subset.baseSeriesId === series.id) {
         throw new Error("Cannot delete base series!");
       }
