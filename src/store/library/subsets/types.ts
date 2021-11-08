@@ -74,6 +74,12 @@ export interface CardData {
     leagueId: number;
   } | null;
   players: Player[];
+  createdByUser: {
+    username: string;
+  };
+  updatedByUser: {
+    username: string;
+  };
 }
 
 interface Player {

@@ -10,6 +10,7 @@ const {
   Player,
   Card,
   Set,
+  User,
 } = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
@@ -31,8 +32,20 @@ router.get("/:subsetId", async (req, res, next) => {
           model: Series,
           include: {
             model: Card,
-            attributes: { exclude: ["createdAt", "updatedAt"] },
+            attributes: {
+              exclude: ["createdAt", "updatedAt", "createdBy", "updatedBy"],
+            },
           },
+        },
+        {
+          model: User,
+          as: "createdByUser",
+          attributes: ["username"],
+        },
+        {
+          model: User,
+          as: "updatedByUser",
+          attributes: ["username"],
         },
         { model: Set },
       ],
@@ -52,6 +65,16 @@ router.get("/:subsetId", async (req, res, next) => {
             model: Player,
             attributes: { exclude: ["createdAt", "updatedAt"] },
           },
+          {
+            model: User,
+            as: "createdByUser",
+            attributes: ["username"],
+          },
+          {
+            model: User,
+            as: "updatedByUser",
+            attributes: ["username"],
+          },
         ],
       },
     });
@@ -65,6 +88,7 @@ router.get("/:subsetId", async (req, res, next) => {
 
     res.json(subsetObj);
   } catch (error) {
+    console.log(error);
     res.sendStatus(500);
   }
 });

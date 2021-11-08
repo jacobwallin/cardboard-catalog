@@ -10,6 +10,7 @@ const {
   CardData,
   Player,
   Team,
+  User,
 } = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
@@ -27,17 +28,42 @@ router.get("/:seriesId", async (req, res, next) => {
       include: [
         {
           model: Card,
-          include: {
-            model: CardData,
-            include: [
-              {
-                model: Player,
+          include: [
+            {
+              model: CardData,
+              attributes: {
+                exclude: ["createdAt", "updatedAt", "createdBy", "updatedBy"],
               },
-              { model: Team },
-            ],
-          },
+              include: [
+                {
+                  model: Player,
+                },
+                { model: Team },
+              ],
+            },
+            {
+              model: User,
+              as: "createdByUser",
+              attributes: ["username"],
+            },
+            {
+              model: User,
+              as: "updatedByUser",
+              attributes: ["username"],
+            },
+          ],
         },
         { model: Subset, include: Set },
+        {
+          model: User,
+          as: "createdByUser",
+          attributes: ["username"],
+        },
+        {
+          model: User,
+          as: "updatedByUser",
+          attributes: ["username"],
+        },
       ],
     });
     res.json(series);

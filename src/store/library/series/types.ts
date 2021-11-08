@@ -21,6 +21,12 @@ export interface Series {
   subsetId: number;
   subset: Subset;
   cards: Array<Card>;
+  createdByUser: {
+    username: string;
+  };
+  updatedByUser: {
+    username: string;
+  };
 }
 
 export interface Subset {
@@ -66,10 +72,6 @@ export interface Card {
     number: string;
     note: string;
     rookie: boolean;
-    createdAt: string;
-    updatedAt: string;
-    createdBy: number;
-    updatedBy: number;
     subsetId: number;
     teamId: number | null;
     players: Player[];
@@ -78,6 +80,12 @@ export interface Card {
       name: string;
       leagueId: number;
     } | null;
+  };
+  createdByUser: {
+    username: string;
+  };
+  updatedByUser: {
+    username: string;
   };
 }
 
