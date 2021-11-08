@@ -31,7 +31,7 @@ router.get("/:subsetId", async (req, res, next) => {
           model: Series,
           include: {
             model: Card,
-            attributes: ["id", "value", "seriesId", "cardDataId"],
+            attributes: ["id", "value", "seriesId", "cardDataId", "updatedBy"],
           },
         },
         { model: Set },

@@ -118,7 +118,7 @@ Set.belongsTo(User, {
   as: "createdByUser",
   foreignKey: {
     name: "createdBy",
-    allowNull: true,
+    allowNull: false,
   },
 });
 User.hasMany(Set, {
@@ -130,7 +130,7 @@ Set.belongsTo(User, {
   as: "updatedByUser",
   foreignKey: {
     name: "updatedBy",
-    allowNull: true,
+    allowNull: false,
   },
 });
 User.hasMany(Set, {
@@ -143,7 +143,7 @@ Subset.belongsTo(User, {
   as: "createdByUser",
   foreignKey: {
     name: "createdBy",
-    allowNull: true,
+    allowNull: false,
   },
 });
 User.hasMany(Subset, {
@@ -155,7 +155,7 @@ Subset.belongsTo(User, {
   as: "updatedByUser",
   foreignKey: {
     name: "updatedBy",
-    allowNull: true,
+    allowNull: false,
   },
 });
 User.hasMany(Subset, {
@@ -168,7 +168,7 @@ Series.belongsTo(User, {
   as: "createdByUser",
   foreignKey: {
     name: "createdBy",
-    allowNull: true,
+    allowNull: false,
   },
 });
 User.hasMany(Series, {
@@ -180,7 +180,7 @@ Series.belongsTo(User, {
   as: "updatedByUser",
   foreignKey: {
     name: "updatedBy",
-    allowNull: true,
+    allowNull: false,
   },
 });
 User.hasMany(Series, {
@@ -193,7 +193,7 @@ CardData.belongsTo(User, {
   as: "createdByUser",
   foreignKey: {
     name: "createdBy",
-    allowNull: true,
+    allowNull: false,
   },
 });
 User.hasMany(CardData, {
@@ -205,7 +205,7 @@ CardData.belongsTo(User, {
   as: "updatedByUser",
   foreignKey: {
     name: "updatedBy",
-    allowNull: true,
+    allowNull: false,
   },
 });
 User.hasMany(CardData, {
@@ -218,7 +218,7 @@ Card.belongsTo(User, {
   as: "createdByUser",
   foreignKey: {
     name: "createdBy",
-    allowNull: true,
+    allowNull: false,
   },
 });
 User.hasMany(Card, {
@@ -230,7 +230,7 @@ Card.belongsTo(User, {
   as: "updatedByUser",
   foreignKey: {
     name: "updatedBy",
-    allowNull: true,
+    allowNull: false,
   },
 });
 User.hasMany(Card, {
