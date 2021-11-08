@@ -132,7 +132,20 @@ router.put("/:subsetId", isAdmin, async (req, res, next) => {
       { where: { id: req.params.subsetId } }
     );
 
-    const updatedSubset = await Subset.findByPk(req.params.subsetId);
+    const updatedSubset = await Subset.findByPk(req.params.subsetId, {
+      include: [
+        {
+          model: User,
+          as: "updatedByUser",
+          attributes: ["username"],
+        },
+        {
+          model: User,
+          as: "createdByUser",
+          attributes: ["username"],
+        },
+      ],
+    });
     res.json(updatedSubset);
   } catch (error) {
     next(error);

@@ -27,6 +27,12 @@ const initialState: types.SubsetState = {
   },
   series: [],
   card_data: [],
+  createdByUser: {
+    username: "",
+  },
+  updatedByUser: {
+    username: "",
+  },
 };
 
 const subsetsReducer = (

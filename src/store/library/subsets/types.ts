@@ -12,6 +12,12 @@ export interface SubsetState {
   set: Set;
   series: Series[];
   card_data: CardData[];
+  createdByUser: {
+    username: string;
+  };
+  updatedByUser: {
+    username: string;
+  };
 }
 
 export interface Set {
@@ -151,6 +157,12 @@ export interface UpdatedSubset {
   updatedBy: number;
   setId: number;
   baseSeriesId: number | null;
+  updatedByUser: {
+    username: string;
+  };
+  createdByUser: {
+    username: string;
+  };
 }
 interface UpdateSubsetSuccess {
   type: typeof UPDATE_SUBSET_SUCCESS;

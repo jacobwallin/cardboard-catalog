@@ -29,7 +29,8 @@ export const fetchSet =
 export const createSet =
   (setData: {
     name: string;
-    release_date: string;
+    release_date: string | null;
+    year: number;
     description: string;
     leagueId: number;
     brandId: number;
@@ -50,7 +51,9 @@ export const updateSet =
     setId: number,
     setData: {
       name: string;
-      release_date: string;
+      release_date: string | null;
+      year: number;
+      complete: boolean;
       description: string;
       leagueId: number;
       brandId: number;

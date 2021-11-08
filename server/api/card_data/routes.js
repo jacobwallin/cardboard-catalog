@@ -2,7 +2,14 @@ const router = require("express").Router();
 
 const { isAdmin } = require("../../middleware");
 
-const { Card, CardData, Team, Player, Series } = require("../../db/models");
+const {
+  Card,
+  CardData,
+  Team,
+  Player,
+  Series,
+  User,
+} = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -32,7 +39,20 @@ router.get("/scrape", async (req, res, next) => {
 router.get("/:cardDataId", async (req, res, next) => {
   try {
     const cardData = await CardData.findByPk(req.params.cardDataId, {
-      include: [{ model: Player }, { model: Team }],
+      include: [
+        { model: Player },
+        { model: Team },
+        {
+          model: User,
+          as: "createdByUser",
+          attributes: ["username"],
+        },
+        {
+          model: User,
+          as: "updatedByUser",
+          attributes: ["username"],
+        },
+      ],
     });
     res.json(cardData);
   } catch (error) {
@@ -69,7 +89,20 @@ router.post("/", isAdmin, async (req, res, next) => {
       await newCardData.addPlayers(players);
 
       const cardDataWithJoins = await CardData.findByPk(newCardData.id, {
-        include: [Team, Player],
+        include: [
+          Team,
+          Player,
+          {
+            model: User,
+            as: "createdByUser",
+            attributes: ["username"],
+          },
+          {
+            model: User,
+            as: "updatedByUser",
+            attributes: ["username"],
+          },
+        ],
       });
 
       // get all series that are part of the subset
@@ -146,7 +179,20 @@ router.post("/bulk", async (req, res, next) => {
           );
 
           return CardData.findByPk(newCardData.id, {
-            include: [Team, Player],
+            include: [
+              Team,
+              Player,
+              {
+                model: User,
+                as: "createdByUser",
+                attributes: ["username"],
+              },
+              {
+                model: User,
+                as: "updatedByUser",
+                attributes: ["username"],
+              },
+            ],
           });
         } else {
           throw new Error("Invalid Player id(s)");
@@ -166,7 +212,20 @@ router.put("/:cardId", isAdmin, async (req, res, next) => {
   try {
     // get card data instance
     const cardData = await CardData.findByPk(req.params.cardId, {
-      include: [Team, Player],
+      include: [
+        Team,
+        Player,
+        {
+          model: User,
+          as: "createdByUser",
+          attributes: ["username"],
+        },
+        {
+          model: User,
+          as: "updatedByUser",
+          attributes: ["username"],
+        },
+      ],
     });
     // update values locally
     cardData.name = name;
