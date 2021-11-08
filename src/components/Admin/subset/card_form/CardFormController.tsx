@@ -4,7 +4,7 @@ import { RootState } from "../../../../store";
 import { PlayersState, Player } from "../../../../store/library/players/types";
 import { fetchAllPlayers } from "../../../../store/library/players/thunks";
 import { fetchAllTeams } from "../../../../store/library/teams/thunks";
-import { updateCard } from "../../../../store/library/card/thunks";
+import { updateCard } from "../../../../store/library/subsets/thunks";
 import {
   createCard,
   bulkCreateCard,
