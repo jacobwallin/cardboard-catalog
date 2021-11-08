@@ -31,7 +31,7 @@ router.get("/:subsetId", async (req, res, next) => {
           model: Series,
           include: {
             model: Card,
-            attributes: ["id", "value", "seriesId", "cardDataId", "updatedBy"],
+            attributes: { exclude: ["createdAt", "updatedAt"] },
           },
         },
         { model: Set },
@@ -42,10 +42,15 @@ router.get("/:subsetId", async (req, res, next) => {
       include: {
         model: CardData,
         include: [
-          { model: Team, attributes: ["id", "name"] },
+          {
+            model: Team,
+            attributes: {
+              exclude: ["createdAt", "updatedAt", "createdBy", "updatedBy"],
+            },
+          },
           {
             model: Player,
-            attributes: ["id", "name", "birthday", "hallOfFame"],
+            attributes: { exclude: ["createdAt", "updatedAt"] },
           },
         ],
       },

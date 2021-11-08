@@ -1,92 +1,82 @@
 import * as types from "./types";
 
-const initialState: types.LibraryState = {
-  subset: {
+const initialState: types.SubsetState = {
+  id: 0,
+  name: "",
+  description: "",
+  createdAt: "",
+  updatedAt: "",
+  createdBy: 0,
+  updatedBy: 0,
+  setId: 0,
+  baseSeriesId: 0,
+  set: {
     id: 0,
     name: "",
     description: "",
+    release_date: "",
+    year: 0,
+    complete: false,
+    baseSubsetId: null,
     createdAt: "",
-    updatedAt: "string",
-    setId: 0,
-    baseSeriesId: 0,
-    set: {
-      id: 0,
-      name: "",
-      release_date: "",
-      baseSubsetId: null,
-      createdAt: "",
-      updatedAt: "",
-      leagueId: 0,
-      brandId: 0,
-    },
-    series: [],
-    card_data: [],
+    updatedAt: "",
+    createdBy: 0,
+    updatedBy: 0,
+    leagueId: 0,
+    brandId: 0,
   },
+  series: [],
+  card_data: [],
 };
 
 const subsetsReducer = (
   state = initialState,
   action: types.SubsetActionTypes
-): types.LibraryState => {
+): types.SubsetState => {
   switch (action.type) {
     case types.GET_SUBSET_SUCCESS:
-      return { ...state, subset: action.subset };
+      return { ...action.subset };
     case types.UPDATE_SUBSET_SUCCESS:
       return {
         ...state,
-        subset: { ...state.subset, ...action.updatedSubset },
+        ...action.updatedSubset,
       };
     case types.CREATE_SERIES_SUCCESS:
       return {
         ...state,
-        subset: {
-          ...state.subset,
-          series: [...state.subset.series, action.series],
-        },
+        series: [...state.series, action.series],
       };
     case types.CREATE_CARD_SUCCESS:
       return {
         ...state,
-        subset: {
-          ...state.subset,
-          card_data: [...state.subset.card_data, action.card],
-        },
+        card_data: [...state.card_data, action.card],
       };
     case types.BULK_CREATE_CARD_SUCCESS:
       return {
         ...state,
-        subset: {
-          ...state.subset,
-          card_data: [...state.subset.card_data, ...action.cards],
-        },
+        card_data: [...state.card_data, ...action.cards],
       };
     case types.UPDATE_CARD_SUCCESS:
       return {
-        subset: {
-          ...state.subset,
-          card_data: state.subset.card_data.map((cardData) => {
-            if (cardData.id === action.updatedCard.id) {
-              return action.updatedCard;
-            }
-            return cardData;
-          }),
-        },
+        ...state,
+        card_data: state.card_data.map((cardData) => {
+          if (cardData.id === action.updatedCard.id) {
+            return action.updatedCard;
+          }
+          return cardData;
+        }),
       };
     case types.DELETE_CARD_SUCCESS:
       return {
-        subset: {
-          ...state.subset,
-          card_data: state.subset.card_data.filter(
-            (cardData) => cardData.id !== action.cardDataId
-          ),
-        },
+        ...state,
+        card_data: state.card_data.filter(
+          (cardData) => cardData.id !== action.cardDataId
+        ),
       };
     case types.DELETE_ALL_CARDS_SUCCESS:
       return {
-        subset: {
-          ...state.subset,
-          card_data: [],
-        },
+        ...state,
+        card_data: [],
       };
     case types.CLEAR_LIBRARY:
       return initialState;
