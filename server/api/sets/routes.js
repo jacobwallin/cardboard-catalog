@@ -56,13 +56,14 @@ router.get("/:setId", async (req, res, next) => {
 });
 
 router.post("/", isAdmin, async (req, res, next) => {
-  const { name, release_date, description, leagueId, brandId } = req.body;
+  const { name, release_date, description, leagueId, brandId, year } = req.body;
 
   try {
     // create new set
     let newSet = await Set.create({
       name,
       release_date,
+      year,
       description,
       leagueId,
       brandId,
@@ -101,18 +102,28 @@ router.post("/", isAdmin, async (req, res, next) => {
 });
 
 router.put("/:setId", isAdmin, async (req, res, next) => {
-  const { name, release_date, description, leagueId, brandId, baseSubsetId } =
-    req.body;
+  const {
+    name,
+    release_date,
+    year,
+    description,
+    leagueId,
+    brandId,
+    baseSubsetId,
+    complete,
+  } = req.body;
 
   try {
     await Set.update(
       {
         name,
         release_date,
+        year,
         description,
         leagueId,
         brandId,
         baseSubsetId,
+        complete,
         updatedBy: req.user.id,
       },
       { where: { id: req.params.setId } }
