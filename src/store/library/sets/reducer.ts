@@ -1,25 +1,25 @@
-import {
-  SetsState,
-  SetsActionTypes,
-  GET_ALL_SETS_SUCCESS,
-  GET_SINGLE_SET_SUCCESS,
-  UPDATE_SET_SUCCESS,
-  DELETE_SET_SUCCESS,
-  CREATE_SUBSET_SUCCESS,
-  CREATE_SET_SUCCESS,
-  CLEAR_LIBRARY,
-} from "./types";
+import * as types from "./types";
 
-const initialState: SetsState = {
+const initialState: types.SetsState = {
   allSets: [],
-  singleSet: {
+  set: {
     id: 0,
     name: "",
     release_date: "",
+    year: 0,
+    complete: false,
     baseSubsetId: 0,
     description: "",
     createdAt: "",
     updatedAt: "",
+    createdBy: 0,
+    updatedBy: 0,
+    createdByUser: {
+      username: "",
+    },
+    updatedByUser: {
+      username: "",
+    },
     league: {
       id: 0,
       name: "",
@@ -34,20 +34,20 @@ const initialState: SetsState = {
 
 const setsReducer = (
   state = initialState,
-  action: SetsActionTypes
-): SetsState => {
+  action: types.SetsActionTypes
+): types.SetsState => {
   switch (action.type) {
-    case GET_SINGLE_SET_SUCCESS:
-      return { ...state, singleSet: action.singleSet };
-    case GET_ALL_SETS_SUCCESS:
+    case types.GET_SINGLE_SET_SUCCESS:
+      return { ...state, set: action.singleSet };
+    case types.GET_ALL_SETS_SUCCESS:
       return { ...state, allSets: action.allSets };
-    case CREATE_SET_SUCCESS:
+    case types.CREATE_SET_SUCCESS:
       return { ...state, allSets: [...state.allSets, action.set] };
-    case UPDATE_SET_SUCCESS:
+    case types.UPDATE_SET_SUCCESS:
       /// update both the single set and all sets state to reflect updates to a set
       return {
         ...state,
-        singleSet: { ...state.singleSet, ...action.updatedSet },
+        set: { ...state.set, ...action.updatedSet },
         allSets: state.allSets.map((set) => {
           if (set.id !== action.updatedSet.id) return set;
           return {
@@ -64,23 +64,23 @@ const setsReducer = (
           };
         }),
       };
-    case DELETE_SET_SUCCESS:
+    case types.DELETE_SET_SUCCESS:
       return {
         ...state,
-        singleSet: initialState.singleSet,
+        set: initialState.set,
         allSets: state.allSets.filter((set) => {
           return set.id !== action.setId;
         }),
       };
-    case CREATE_SUBSET_SUCCESS:
+    case types.CREATE_SUBSET_SUCCESS:
       return {
         ...state,
-        singleSet: {
-          ...state.singleSet,
-          subsets: [...state.singleSet.subsets, action.subset],
+        set: {
+          ...state.set,
+          subsets: [...state.set.subsets, action.subset],
         },
       };
-    case CLEAR_LIBRARY:
+    case types.CLEAR_LIBRARY:
       return initialState;
     default:
       return state;

@@ -33,7 +33,6 @@ router.get("/:setId", async (req, res, next) => {
         { model: Brand, attributes: ["id", "name"] },
         {
           model: Subset,
-          attributes: ["id", "name", "description", "setId", "baseSeriesId"],
         },
         {
           model: User,
