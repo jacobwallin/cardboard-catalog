@@ -21,7 +21,7 @@ export const CardInfoContainer = styled.div`
   justify-content: center;
   padding: 5px 5px 5px 5px;
   width: 100%;
-  height: 45px;
+  min-height: 45px;
 `;
 
 export const GradeContainer = styled.div`
@@ -47,12 +47,14 @@ export const GradeErrorContainer = styled.div`
 export const CardNumber = styled.div`
   flex-grow: 0;
   padding: 0 15px 0 15px;
-  /* @media only screen and (max-width: 400px) {
+  font-size: 0.9rem;
+  @media only screen and (max-width: 400px) {
     font-size: 0.8em;
-  } */
+  }
 `;
 
 export const CardName = styled.div`
+  font-size: 0.9rem;
   @media only screen and (max-width: 400px) {
     font-size: 0.8em;
   }
@@ -110,13 +112,13 @@ export const QtyInCollection = styled.div`
   color: gray;
 `;
 
-export const NumberName = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-export const NumberNameContainer = styled.div`
+export const NameContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+`;
+
+export const DeleteButtonContainer = styled.div`
+  width: 30px;
+  height: 30px;
 `;

@@ -44,17 +44,19 @@ export default function AddCardsLine(props: Props) {
   return (
     <Styled.Container>
       <Styled.CardInfoContainer>
-        <StyledButton
-          as="div"
-          color="RED"
-          width="30px"
-          height="30px"
-          onClick={() => props.handleDelete(props.index)}
-        >
-          <Styled.CloseIcon>
-            <XIcon />
-          </Styled.CloseIcon>
-        </StyledButton>
+        <Styled.DeleteButtonContainer>
+          <StyledButton
+            as="div"
+            color="RED"
+            width="30px"
+            height="30px"
+            onClick={() => props.handleDelete(props.index)}
+          >
+            <Styled.CloseIcon>
+              <XIcon />
+            </Styled.CloseIcon>
+          </StyledButton>
+        </Styled.DeleteButtonContainer>
         <Styled.CardNumber>
           <CardNumber
             number={props.card.card.card_datum.number}
@@ -66,14 +68,14 @@ export default function AddCardsLine(props: Props) {
             refractor={props.card.refractor}
           />
         </Styled.CardNumber>
-        <Styled.NumberNameContainer>
+        <Styled.NameContainer>
           <Styled.CardName>{props.card.card.card_datum.name}</Styled.CardName>
           {props.card.qtyInCollection > 0 && (
             <Styled.QtyInCollection>
               {`You have ${props.card.qtyInCollection} in your collection`}
             </Styled.QtyInCollection>
           )}
-        </Styled.NumberNameContainer>
+        </Styled.NameContainer>
 
         {props.serialized && (
           <Styled.EnterSNContainer>
@@ -103,7 +105,7 @@ export default function AddCardsLine(props: Props) {
             type="checkbox"
             checked={addCardGrade}
             onChange={handleGradedChange}
-            style={{ height: "65%" }}
+            style={{ height: "14px" }}
           />
           <Styled.SerialNumberLabel htmlFor="graded">
             Graded

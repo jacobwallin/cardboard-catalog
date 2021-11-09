@@ -8,7 +8,9 @@ const Container = styled.div`
   white-space: nowrap;
 `;
 
-const Number = styled.div``;
+const Number = styled.div`
+  font-size: inherit;
+`;
 
 const Attributes = styled.div`
   /* white-space: "nowrap"; */
@@ -73,7 +75,9 @@ export default function CardNumber(props: Props) {
             <img src={PrismIcon} alt="refractor" title="refractor" />
           </Svg>
         )}
-        {props.manufacturedRelic && <ManuRelic title="manufactured relic">MR</ManuRelic>}
+        {props.manufacturedRelic && (
+          <ManuRelic title="manufactured relic">MR</ManuRelic>
+        )}
       </Attributes>
     </Container>
   );
