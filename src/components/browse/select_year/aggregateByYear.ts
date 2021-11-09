@@ -6,7 +6,7 @@ export interface TableRow {
 
 export default function aggregateByYear(sets: SetSummary[]): TableRow[] {
   const years = sets.reduce((years: { [key: string]: boolean }, set) => {
-    const setYear = set.release_date.slice(0, 4);
+    const setYear = set.year;
     if (!years[setYear]) {
       years[setYear] = true;
     }
