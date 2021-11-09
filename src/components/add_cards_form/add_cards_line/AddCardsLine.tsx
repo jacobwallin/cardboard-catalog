@@ -4,6 +4,7 @@ import { RootState } from "../../../store";
 import StyledButton from "../../Admin/components/StyledButton";
 import { CardFormData } from "../AddCardsForm";
 import { ReactComponent as XIcon } from "./close.svg";
+import CardNumber from "../../Collection/subset_page/CardNumber";
 import * as Styled from "./styled";
 
 interface Props {
@@ -54,11 +55,19 @@ export default function AddCardsLine(props: Props) {
             <XIcon />
           </Styled.CloseIcon>
         </StyledButton>
+        <Styled.CardNumber>
+          <CardNumber
+            number={props.card.card.card_datum.number}
+            serialized={props.card.serialized}
+            shortPrint={props.card.shortPrint}
+            auto={props.card.auto}
+            relic={props.card.relic}
+            manufacturedRelic={props.card.manufacturedRelic}
+            refractor={props.card.refractor}
+          />
+        </Styled.CardNumber>
         <Styled.NumberNameContainer>
-          <Styled.NumberName>
-            <Styled.CardNumber>{`${props.card.card.card_datum.number}`}</Styled.CardNumber>
-            <Styled.CardName>{props.card.card.card_datum.name}</Styled.CardName>
-          </Styled.NumberName>
+          <Styled.CardName>{props.card.card.card_datum.name}</Styled.CardName>
           {props.card.qtyInCollection > 0 && (
             <Styled.QtyInCollection>
               {`You have ${props.card.qtyInCollection} in your collection`}

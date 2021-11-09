@@ -26,6 +26,12 @@ export interface CardFormData {
   gradeError: boolean;
   gradingCompanyError: boolean;
   qtyInCollection: number;
+  serialized: number | null;
+  shortPrint: boolean;
+  auto: boolean;
+  relic: boolean;
+  manufacturedRelic: boolean;
+  refractor: boolean;
 }
 
 const postingCards = createLoadingSelector(["ADD_CARDS"]);
@@ -51,6 +57,9 @@ export default function AddCardsForm(props: Props) {
   const series = useSelector((state: RootState) => state.library.series.series);
   const gradingCompanies = useSelector(
     (state: RootState) => state.library.gradingCompanies
+  );
+  const subsetId = useSelector(
+    (state: RootState) => state.collection.browse.cardsInSingleSubset.subsetId
   );
 
   // LOADING STATUS FOR POSTING CARDS
@@ -180,7 +189,7 @@ export default function AddCardsForm(props: Props) {
         return newData;
       });
 
-      dispatch(addCards(postData, props.subsetId || 0));
+      dispatch(addCards(postData, props.subsetId || subsetId));
 
       // set how many cards were successfully added to display success message to user
       setCardsSuccessfullyAdded(cardData.length);

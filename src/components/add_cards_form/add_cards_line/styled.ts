@@ -47,9 +47,9 @@ export const GradeErrorContainer = styled.div`
 export const CardNumber = styled.div`
   flex-grow: 0;
   padding: 0 15px 0 15px;
-  @media only screen and (max-width: 400px) {
+  /* @media only screen and (max-width: 400px) {
     font-size: 0.8em;
-  }
+  } */
 `;
 
 export const CardName = styled.div`
@@ -106,7 +106,6 @@ export const CloseIcon = styled.div`
 `;
 
 export const QtyInCollection = styled.div`
-  margin-left: 40px;
   font-size: 0.75rem;
   color: gray;
 `;

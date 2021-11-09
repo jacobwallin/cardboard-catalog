@@ -12,6 +12,7 @@ import AddCardsForm, {
 import * as Styled from "../styled";
 import sortCardNumbers from "../../../../utils/sortCardNumbers";
 import sortSeries from "../sortSeries";
+import { resolveSoa } from "dns";
 
 interface Props {
   tableData: any[];
@@ -62,6 +63,12 @@ export default function BrowseSubset(props: Props) {
         serialNumberError: false,
         gradeError: false,
         gradingCompanyError: false,
+        serialized: row.series.serialized,
+        shortPrint: row.series.shortPrint,
+        auto: row.series.auto,
+        relic: row.series.relic,
+        manufacturedRelic: row.series.manufacturedRelic,
+        refractor: row.series.refractor,
         qtyInCollection: userCardsInSubset.filter(
           (userCard) => userCard.cardId === row.id
         ).length,

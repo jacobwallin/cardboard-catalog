@@ -127,6 +127,12 @@ export default function SelectCardForm(props: Props) {
         qtyInCollection: userCardsInSubset.filter(
           (userCard) => userCard.cardId === card.id
         ).length,
+        serialized: series.serialized,
+        shortPrint: series.shortPrint,
+        auto: series.auto,
+        relic: series.relic,
+        manufacturedRelic: series.manufacturedRelic,
+        refractor: series.refractor,
       };
       addCard(newCardData);
     }
