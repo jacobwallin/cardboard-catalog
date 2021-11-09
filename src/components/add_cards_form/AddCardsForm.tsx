@@ -25,6 +25,7 @@ export interface CardFormData {
   serialNumberError: boolean;
   gradeError: boolean;
   gradingCompanyError: boolean;
+  qtyInCollection: number;
 }
 
 const postingCards = createLoadingSelector(["ADD_CARDS"]);

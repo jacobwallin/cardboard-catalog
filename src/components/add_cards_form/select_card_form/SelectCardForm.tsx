@@ -7,6 +7,7 @@ import { SetSummary } from "../../../store/library/sets/types";
 import { fetchSet } from "../../../store/library/sets/thunks";
 import { fetchSubset } from "../../../store/library/subsets/thunks";
 import { fetchSeriesById } from "../../../store/library/series/thunks";
+import { fetchCardsInSingleSubset } from "../../../store/collection/browse/thunks";
 import * as Styled from "./styled";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
 import sortSeries from "../../Collection/subset_page/sortSeries";
@@ -33,6 +34,9 @@ export default function SelectCardForm(props: Props) {
   const set = useSelector((state: RootState) => state.library.sets.set);
   const subset = useSelector((state: RootState) => state.library.subsets);
   const series = useSelector((state: RootState) => state.library.series.series);
+  const userCardsInSubset = useSelector(
+    (state: RootState) => state.collection.browse.cardsInSingleSubset.cards
+  );
 
   // FETCH FORM DATA AS NEEDED WHEN USER MAKES SELECTIONS
   useEffect(() => {
@@ -46,6 +50,7 @@ export default function SelectCardForm(props: Props) {
     // fetch subset data, but only if a subset is selected
     if (selectedSubsetId !== -1) {
       dispatch(fetchSubset(selectedSubsetId));
+      dispatch(fetchCardsInSingleSubset(selectedSubsetId));
     }
   }, [selectedSubsetId]);
 
@@ -110,7 +115,7 @@ export default function SelectCardForm(props: Props) {
     event.preventDefault();
     const card = series.cards.find((card) => card.id === selectedCardId)!;
     if (card) {
-      const newCardData = {
+      const newCardData: CardFormData = {
         cardId: selectedCardId,
         serialNumber: "",
         grade: "",
@@ -119,6 +124,9 @@ export default function SelectCardForm(props: Props) {
         serialNumberError: false,
         gradeError: false,
         gradingCompanyError: false,
+        qtyInCollection: userCardsInSubset.filter(
+          (userCard) => userCard.cardId === card.id
+        ).length,
       };
       addCard(newCardData);
     }

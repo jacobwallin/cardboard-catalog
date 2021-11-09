@@ -18,6 +18,9 @@ interface Props {
 }
 export default function BrowseSubset(props: Props) {
   const subset = useSelector((state: RootState) => state.library.subsets);
+  const userCardsInSubset = useSelector(
+    (state: RootState) => state.collection.browse.cardsInSingleSubset.cards
+  );
 
   const [selectedSeriesId, setSelectedSeriesId] = useState(
     subset.baseSeriesId || 1
@@ -59,6 +62,9 @@ export default function BrowseSubset(props: Props) {
         serialNumberError: false,
         gradeError: false,
         gradingCompanyError: false,
+        qtyInCollection: userCardsInSubset.filter(
+          (userCard) => userCard.cardId === row.id
+        ).length,
         card: {
           id: row.id,
           seriesId: row.seriesId,

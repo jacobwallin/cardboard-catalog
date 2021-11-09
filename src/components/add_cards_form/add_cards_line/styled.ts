@@ -53,6 +53,7 @@ export const CardNumber = styled.div`
 `;
 
 export const CardName = styled.div`
+  position: relative;
   flex-grow: 1;
   @media only screen and (max-width: 400px) {
     font-size: 0.8em;
@@ -95,4 +96,20 @@ export const GradedContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+export const CloseIcon = styled.div`
+  width: 20px;
+  height: 20px;
+  margin-left: 1px;
+  .ex {
+    fill: white;
+  }
+`;
+
+export const QtyInCollection = styled.div`
+  position: absolute;
+  top: 17px;
+  font-size: 0.7rem;
+  color: gray;
 `;
