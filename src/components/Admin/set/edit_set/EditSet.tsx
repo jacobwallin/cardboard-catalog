@@ -32,7 +32,7 @@ export default function EditSet(props: Props) {
   // set to true if user deletes set, this prompts a re-direct once the deletion is successful
   const [setDeleted, setSetDeleted] = useState(false);
 
-  const set = useSelector((state: RootState) => state.library.sets.singleSet);
+  const set = useSelector((state: RootState) => state.library.sets.set);
   const updatingSet = useSelector((state: RootState) =>
     updatingSetSelector(state)
   );
@@ -63,17 +63,21 @@ export default function EditSet(props: Props) {
   function handleSubmit(
     name: string,
     release_date: string,
+    year: number,
     description: string,
     leagueId: number,
-    brandId: number
+    brandId: number,
+    complete: boolean
   ) {
     dispatch(
       updateSet(props.setId, {
         name,
         release_date,
+        year,
         description,
         leagueId,
         brandId,
+        complete,
       })
     );
   }

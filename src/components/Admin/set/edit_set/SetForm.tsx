@@ -23,17 +23,17 @@ interface Props {
   handleCancel(): void;
   handleSubmit(
     name: string,
-    release_date: string,
+    release_date: string | null,
+    year: number,
     description: string,
     leagueId: number,
-    brandId: number
+    brandId: number,
+    complete: boolean
   ): void;
 }
 
 export default function SetForm(props: Props) {
-  const singleSet = useSelector(
-    (state: RootState) => state.library.sets.singleSet
-  );
+  const singleSet = useSelector((state: RootState) => state.library.sets.set);
   const brands = useSelector(
     (state: RootState) => state.library.brands.allBrands
   );
@@ -49,8 +49,12 @@ export default function SetForm(props: Props) {
 
   // controlled form data
   const [name, setName] = useState(props.createNew ? "" : singleSet.name);
+  const [year, setYear] = useState(props.createNew ? 0 : singleSet.year);
   const [releaseDate, setReleaseDate] = useState(
     props.createNew ? "" : singleSet.release_date
+  );
+  const [complete, setComplete] = useState(
+    props.createNew ? false : singleSet.complete
   );
   const [brandId, setBrandId] = useState(
     props.createNew ? 0 : singleSet.brand.id
@@ -63,7 +67,15 @@ export default function SetForm(props: Props) {
   );
 
   function handleSubmit() {
-    props.handleSubmit(name, releaseDate, description, leagueId, brandId);
+    props.handleSubmit(
+      name,
+      releaseDate,
+      year,
+      description,
+      leagueId,
+      brandId,
+      complete
+    );
   }
 
   function handleInputChange(
@@ -74,11 +86,18 @@ export default function SetForm(props: Props) {
       case "name":
         setName(value);
         break;
+      case "year":
+        setYear(+value);
+        break;
       case "releaseDate":
         setReleaseDate(value);
         break;
       case "description":
         setDescription(value);
+        break;
+      case "complete":
+        setComplete(!complete);
+        break;
     }
   }
 
@@ -104,6 +123,18 @@ export default function SetForm(props: Props) {
             type="text"
             value={name}
             placeholder="Enter Set Name"
+            onChange={handleInputChange}
+          />
+        </FieldData>
+      </FieldContainer>
+      <FieldContainer>
+        <FieldTitle>Year:</FieldTitle>
+        <FieldData>
+          <input
+            name="year"
+            type="number"
+            value={year}
+            placeholder="Enter Set Year"
             onChange={handleInputChange}
           />
         </FieldData>
@@ -174,6 +205,19 @@ export default function SetForm(props: Props) {
           />
         </FieldData>
       </FieldContainer>
+      {!props.createNew && (
+        <FieldContainer>
+          <FieldTitle>Completed:</FieldTitle>
+          <FieldData>
+            <input
+              type="checkbox"
+              name="complete"
+              checked={complete}
+              onChange={handleInputChange}
+            />
+          </FieldData>
+        </FieldContainer>
+      )}
       <FormButtons
         handleCancel={props.handleCancel}
         handleSubmit={handleSubmit}

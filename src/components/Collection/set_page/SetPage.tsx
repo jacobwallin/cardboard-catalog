@@ -28,7 +28,7 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
   const cardsBySubset = useSelector(
     (state: RootState) => state.collection.browse.cardsBySubset
   );
-  const set = useSelector((state: RootState) => state.library.sets.singleSet);
+  const set = useSelector((state: RootState) => state.library.sets.set);
   const setId = +props.match.params.setId;
 
   useEffect(() => {

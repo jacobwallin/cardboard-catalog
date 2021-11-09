@@ -9,7 +9,7 @@ router.get("/", async (req, res, next) => {
   try {
     const allSets = await Set.findAll({
       order: [
-        ["release_date", "DESC"],
+        ["year", "DESC"],
         ["name", "ASC"],
       ],
       include: [
@@ -55,7 +55,8 @@ router.get("/:setId", async (req, res, next) => {
 });
 
 router.post("/", isAdmin, async (req, res, next) => {
-  const { name, release_date, description, leagueId, brandId, year } = req.body;
+  const { name, release_date, description, leagueId, brandId, year, complete } =
+    req.body;
 
   try {
     // create new set
@@ -66,6 +67,7 @@ router.post("/", isAdmin, async (req, res, next) => {
       description,
       leagueId,
       brandId,
+      complete,
       createdBy: req.user.id,
       updatedBy: req.user.id,
     });

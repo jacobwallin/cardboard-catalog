@@ -40,7 +40,7 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
   const creatingSubset = useSelector((state: RootState) =>
     creatingSubsetSelector(state)
   );
-  const set = useSelector((state: RootState) => state.library.sets.singleSet);
+  const set = useSelector((state: RootState) => state.library.sets.set);
 
   useEffect(() => {
     dispatch(fetchSet(+props.match.params.setId));

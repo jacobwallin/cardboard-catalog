@@ -18,9 +18,7 @@ interface Props {
 }
 
 export default function SubsetForm(props: Props) {
-  const subset = useSelector(
-    (state: RootState) => state.library.subsets.subset
-  );
+  const subset = useSelector((state: RootState) => state.library.subsets);
   const isUpdating = useSelector((state: RootState) =>
     isUpdatingSelector(state)
   );

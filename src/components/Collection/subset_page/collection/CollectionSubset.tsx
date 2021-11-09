@@ -26,9 +26,7 @@ interface Props {
 }
 export default function CollectionSubset(props: Props) {
   const dispatch = useDispatch();
-  const subset = useSelector(
-    (state: RootState) => state.library.subsets.subset
-  );
+  const subset = useSelector((state: RootState) => state.library.subsets);
   const deleteRequestStatus = useSelector((state: RootState) =>
     deleteStatusSelector(state)
   );

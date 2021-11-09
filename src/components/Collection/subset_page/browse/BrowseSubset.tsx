@@ -17,9 +17,7 @@ interface Props {
   tableData: any[];
 }
 export default function BrowseSubset(props: Props) {
-  const subset = useSelector(
-    (state: RootState) => state.library.subsets.subset
-  );
+  const subset = useSelector((state: RootState) => state.library.subsets);
 
   const [selectedSeriesId, setSelectedSeriesId] = useState(
     subset.baseSeriesId || 1
@@ -68,6 +66,14 @@ export default function BrowseSubset(props: Props) {
           card_datum: row.cardData,
           serializedTo: null,
           value: null,
+          createdBy: 0,
+          updatedBy: 0,
+          createdByUser: {
+            username: "",
+          },
+          updatedByUser: {
+            username: "",
+          },
         },
       };
     });

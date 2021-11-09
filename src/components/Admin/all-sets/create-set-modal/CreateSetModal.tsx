@@ -31,10 +31,12 @@ export default function CreateSetModal(props: Props) {
 
   function handleSubmit(
     name: string,
-    release_date: string,
+    release_date: string | null,
+    year: number,
     description: string,
     leagueId: number,
-    brandId: number
+    brandId: number,
+    complete: boolean
   ) {
     // this will dismiss modal once reequest is successful from server
     setSetCreated(true);
@@ -47,6 +49,7 @@ export default function CreateSetModal(props: Props) {
         description,
         leagueId,
         brandId,
+        year,
       })
     );
   }

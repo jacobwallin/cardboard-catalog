@@ -34,9 +34,7 @@ export default function EditSubset(props: Props) {
   // set to true if user deletes set, this prompts a re-direct once the deletion is successful
   const [subsetDeleted, setSubsetDeleted] = useState(false);
 
-  const subset = useSelector(
-    (state: RootState) => state.library.subsets.subset
-  );
+  const subset = useSelector((state: RootState) => state.library.subsets);
   const updatingSubset = useSelector((state: RootState) =>
     updatingSetSelector(state)
   );

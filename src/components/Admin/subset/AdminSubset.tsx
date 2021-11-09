@@ -59,9 +59,7 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
   );
   const [deleteCardId, setDeleteCardId] = useState(0);
 
-  const subset = useSelector(
-    (state: RootState) => state.library.subsets.subset
-  );
+  const subset = useSelector((state: RootState) => state.library.subsets);
   const loadingPage = useSelector((state: RootState) =>
     pageLoadingSelector(state)
   );

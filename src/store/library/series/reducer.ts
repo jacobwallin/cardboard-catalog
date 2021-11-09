@@ -44,6 +44,12 @@ const initialState: types.SeriesState = {
       },
     },
     cards: [],
+    createdByUser: {
+      username: "",
+    },
+    updatedByUser: {
+      username: "",
+    },
   },
 };
 

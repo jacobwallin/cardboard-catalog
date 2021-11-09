@@ -30,10 +30,8 @@ export default function SelectCardForm(props: Props) {
 
   // LIBRARY STORE DATA
   const allSets = useSelector((state: RootState) => state.library.sets.allSets);
-  const set = useSelector((state: RootState) => state.library.sets.singleSet);
-  const subset = useSelector(
-    (state: RootState) => state.library.subsets.subset
-  );
+  const set = useSelector((state: RootState) => state.library.sets.set);
+  const subset = useSelector((state: RootState) => state.library.subsets);
   const series = useSelector((state: RootState) => state.library.series.series);
 
   // FETCH FORM DATA AS NEEDED WHEN USER MAKES SELECTIONS

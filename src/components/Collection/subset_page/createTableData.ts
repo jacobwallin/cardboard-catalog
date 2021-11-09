@@ -1,4 +1,8 @@
-import { Subset, CardData, Series } from "../../../store/library/subsets/types";
+import {
+  SubsetState,
+  CardData,
+  Series,
+} from "../../../store/library/subsets/types";
 import { UserCard } from "../../../store/collection/browse/types";
 
 export interface TableDataPoint {
@@ -12,7 +16,7 @@ export interface TableDataPoint {
 }
 
 export function createTableData(
-  librarySubsetData: Subset,
+  librarySubsetData: SubsetState,
   userCardData: { cards: UserCard[]; subsetId: number }
 ): TableDataPoint[] {
   // create hash table with the id and quantity of each card user has in collection

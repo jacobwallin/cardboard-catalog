@@ -96,8 +96,6 @@ interface Player {
   birthday: string;
   hallOfFame: boolean;
   url: string;
-  createdAt: string;
-  updatedAt: string;
   card_data_player: {
     cardDatumId: number;
     playerId: number;
@@ -162,6 +160,12 @@ interface UpdateSeriesResponse {
     createdBy: number;
     updatedBy: number;
     setId: number;
+  };
+  createdByUser: {
+    username: string;
+  };
+  updatedByUser: {
+    username: string;
   };
 }
 interface UpdateSeriesSuccess {

@@ -37,6 +37,7 @@ router.get("/:seriesId", async (req, res, next) => {
               include: [
                 {
                   model: Player,
+                  attributes: { exclude: ["createdAt", "updatedAt"] },
                 },
                 { model: Team },
               ],
@@ -158,7 +159,19 @@ router.put("/:seriesId", isAdmin, async (req, res, next) => {
     );
 
     const updatedSeries = await Series.findByPk(req.params.seriesId, {
-      include: Subset,
+      include: [
+        Subset,
+        {
+          model: User,
+          as: "createdByUser",
+          attributes: ["username"],
+        },
+        {
+          model: User,
+          as: "updatedByUser",
+          attributes: ["username"],
+        },
+      ],
     });
 
     res.json(updatedSeries);
