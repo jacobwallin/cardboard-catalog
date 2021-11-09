@@ -1,5 +1,6 @@
 import React from "react";
 import EditLink from "../components/EditLink";
+import { SetSummary } from "../../../store/library/sets/types";
 
 const dataTableColumns = [
   {
@@ -23,9 +24,14 @@ const dataTableColumns = [
     sortable: true,
   },
   {
+    name: "Date Created",
+    selector: (row: SetSummary) => row.createdAt.slice(0, 10),
+    sortable: true,
+  },
+  {
     name: "",
     sortable: false,
-    cell: (row: any) => <EditLink to={`/admin/edit/set/${row.id}`} />,
+    cell: (row: SetSummary) => <EditLink to={`/admin/edit/set/${row.id}`} />,
     grow: 0,
   },
 ];
