@@ -273,7 +273,7 @@ function aggregateYears(allSets: SetSummary[]): number[] {
 function aggregateSets(allSets: SetSummary[], year: number): SetSummary[] {
   return allSets
     .filter((set) => {
-      return set.year;
+      return set.year === year;
     })
     .sort((setA, setB) => {
       if (setA.name < setB.name) return -1;
