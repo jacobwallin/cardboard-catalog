@@ -13,6 +13,7 @@ import FormContainer from "../../components/form/FormContainer";
 import EditDeleteButtons from "../../components/form/EditDeleteButtons";
 import ConfirmDeleteModal from "../../components/ConfirmDeleteModal";
 import ErrorMessage from "../../components/form/ErrorMessage";
+import CreatedUpdatedBy from "../../components/CreatedUpdatedBy";
 import { createStatusSelector } from "../../../../store/loading/reducer";
 
 const updatingSetSelector = createStatusSelector("UPDATE_SET");
@@ -143,6 +144,16 @@ export default function EditSet(props: Props) {
           <EditDeleteButtons
             handleEdit={toggleForm}
             handleDelete={toggleDeleteModal}
+          />
+          <CreatedUpdatedBy
+            createdBy={{
+              username: set.createdByUser.username,
+              timestamp: set.createdAt,
+            }}
+            updatedBy={{
+              username: set.updatedByUser.username,
+              timestamp: set.updatedAt,
+            }}
           />
         </FormContainer>
       )}

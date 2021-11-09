@@ -14,7 +14,7 @@ import FieldData from "../../components/form/FieldData";
 import FormContainer from "../../components/form/FormContainer";
 import EditDeleteButtons from "../../components/form/EditDeleteButtons";
 import ErrorMessage from "../../components/form/ErrorMessage";
-
+import CreatedUpdatedBy from "../../components/CreatedUpdatedBy";
 import { createStatusSelector } from "../../../../store/loading/reducer";
 
 const updatingSetSelector = createStatusSelector("UPDATE_SUBSET");
@@ -102,6 +102,16 @@ export default function EditSubset(props: Props) {
             handleEdit={toggleForm}
             handleDelete={toggleDeleteModal}
             hideDelete={subset.set.baseSubsetId === subset.id}
+          />
+          <CreatedUpdatedBy
+            createdBy={{
+              username: subset.createdByUser.username,
+              timestamp: subset.createdAt,
+            }}
+            updatedBy={{
+              username: subset.updatedByUser.username,
+              timestamp: subset.updatedAt,
+            }}
           />
         </FormContainer>
       )}

@@ -17,6 +17,7 @@ import FieldData from "../../components/form/FieldData";
 import FormContainer from "../../components/form/FormContainer";
 import EditDeleteButtons from "../../components/form/EditDeleteButtons";
 import ConfirmDeleteModal from "../../components/ConfirmDeleteModal";
+import CreatedUpdatedBy from "../../components/CreatedUpdatedBy";
 
 const isUpdatingSelector = createLoadingSelector(["UPDATE_SERIES"]);
 const deletingSeriesSelector = createStatusSelector("DELETE_SERIES");
@@ -133,6 +134,16 @@ export default function EditCard(props: Props) {
             handleEdit={handleEditStateChange}
             handleDelete={toggleDeleteModal}
             hideDelete={series.subset.baseSeriesId === series.id}
+          />
+          <CreatedUpdatedBy
+            createdBy={{
+              username: series.createdByUser.username,
+              timestamp: series.createdAt,
+            }}
+            updatedBy={{
+              username: series.updatedByUser.username,
+              timestamp: series.updatedAt,
+            }}
           />
         </FormContainer>
       )}
