@@ -1,4 +1,5 @@
 const express = require("express");
+const helmet = require("helmet");
 const morgan = require("morgan");
 const path = require("path");
 const app = express();
@@ -7,11 +8,10 @@ const passport = require("passport");
 const { isUser } = require("./middleware");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const db = require("./db/db");
-
 require("./config/passport");
-
 require("dotenv").config();
 
+app.use(helmet());
 app.use(morgan("dev"));
 
 app.use(express.static(path.join(__dirname, "..", "build")));
