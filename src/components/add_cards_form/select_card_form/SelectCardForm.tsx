@@ -11,6 +11,14 @@ import { fetchCardsInSingleSubset } from "../../../store/collection/browse/thunk
 import * as Styled from "./styled";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
 import sortSeries from "../../Collection/subset_page/sortSeries";
+import { createLoadingSelector } from "../../../store/loading/reducer";
+
+const setLoadingSelector = createLoadingSelector(["GET_SINGLE_SET"]);
+const subsetLoadingSelector = createLoadingSelector([
+  "GET_SUBSET",
+  "GET_CARDS_IN_SINGLE_SUBSET",
+]);
+const seriesLoadingSelector = createLoadingSelector(["GET_SERIES"]);
 
 interface Props {
   addCard(card: CardFormData): void;
@@ -36,6 +44,17 @@ export default function SelectCardForm(props: Props) {
   const series = useSelector((state: RootState) => state.library.series.series);
   const userCardsInSubset = useSelector(
     (state: RootState) => state.collection.browse.cardsInSingleSubset.cards
+  );
+
+  // LOADING STATE
+  const loadingSet = useSelector((state: RootState) =>
+    setLoadingSelector(state)
+  );
+  const loadingSubset = useSelector((state: RootState) =>
+    subsetLoadingSelector(state)
+  );
+  const loadingSeries = useSelector((state: RootState) =>
+    seriesLoadingSelector(state)
   );
 
   // FETCH FORM DATA AS NEEDED WHEN USER MAKES SELECTIONS
@@ -176,7 +195,7 @@ export default function SelectCardForm(props: Props) {
         value={selectedSubsetId}
         name="select-subset"
         id="select-subset"
-        disabled={selectedSetId === -1 || cardData.length > 0}
+        disabled={selectedSetId === -1 || cardData.length > 0 || loadingSet}
         onChange={handleSelectChange}
       >
         <option value={-1}>Select Subset</option>
@@ -205,7 +224,9 @@ export default function SelectCardForm(props: Props) {
         value={selectedSeriesId}
         name="select-series"
         id="select-series"
-        disabled={selectedSubsetId === -1 || cardData.length > 0}
+        disabled={
+          selectedSubsetId === -1 || cardData.length > 0 || loadingSubset
+        }
         onChange={handleSelectChange}
       >
         <option value={-1}>Select Parallel</option>
@@ -231,7 +252,7 @@ export default function SelectCardForm(props: Props) {
           value={selectedCardId}
           name="select-card"
           id="select-card"
-          disabled={selectedSeriesId === -1}
+          disabled={selectedSeriesId === -1 || loadingSeries}
           onChange={handleSelectChange}
         >
           <option value={-1}>Select Card</option>

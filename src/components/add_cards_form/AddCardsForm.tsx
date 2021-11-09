@@ -227,9 +227,9 @@ export default function AddCardsForm(props: Props) {
         <Styled.PostResultMessage success={postingCardsStatus !== "FAILURE"}>
           {postingCardsStatus !== "FAILURE"
             ? cardsSuccessfullyAdded > 1
-              ? `${cardsSuccessfullyAdded} cards have been added to your collection`
-              : `${cardsSuccessfullyAdded} card has been added to your collection`
-            : "Error Adding Cards to Collection"}
+              ? `${cardsSuccessfullyAdded} cards have been added to your collection.`
+              : `${cardsSuccessfullyAdded} card has been added to your collection.`
+            : "Error Adding Cards"}
         </Styled.PostResultMessage>
       )}
 
