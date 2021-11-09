@@ -4,8 +4,9 @@ const path = require("path");
 const app = express();
 const session = require("express-session");
 const passport = require("passport");
-
 const { isUser } = require("./middleware");
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
+const db = require("./db/db");
 
 require("./config/passport");
 
@@ -20,10 +21,13 @@ app.use(express.text());
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    resave: false,
+    store: new SequelizeStore({
+      db: db,
+    }),
+    resave: false, // we support the touch method so per the express-session docs this should be set to false
     saveUninitialized: true,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24, // 1 day
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
     },
   })
 );
