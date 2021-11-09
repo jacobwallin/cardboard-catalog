@@ -175,6 +175,7 @@ router.get("/filter", async (req, res, next) => {
                     "name",
                     "baseSubsetId",
                     "release_date",
+                    "year",
                     "leagueId",
                     "brandId",
                   ],
