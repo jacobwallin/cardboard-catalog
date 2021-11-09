@@ -8,8 +8,8 @@ const dataTableColumns = [
     sortable: true,
   },
   {
-    name: "Release Date",
-    selector: "release_date",
+    name: "Year",
+    selector: "year",
     sortable: true,
   },
   {
