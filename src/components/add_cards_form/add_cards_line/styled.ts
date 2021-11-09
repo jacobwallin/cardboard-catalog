@@ -53,8 +53,6 @@ export const CardNumber = styled.div`
 `;
 
 export const CardName = styled.div`
-  position: relative;
-  flex-grow: 1;
   @media only screen and (max-width: 400px) {
     font-size: 0.8em;
   }
@@ -108,8 +106,18 @@ export const CloseIcon = styled.div`
 `;
 
 export const QtyInCollection = styled.div`
-  position: absolute;
-  top: 17px;
-  font-size: 0.7rem;
+  margin-left: 40px;
+  font-size: 0.75rem;
   color: gray;
+`;
+
+export const NumberName = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const NumberNameContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 `;

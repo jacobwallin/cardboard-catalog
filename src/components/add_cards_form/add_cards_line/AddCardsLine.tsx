@@ -54,15 +54,17 @@ export default function AddCardsLine(props: Props) {
             <XIcon />
           </Styled.CloseIcon>
         </StyledButton>
-        <Styled.CardNumber>{`${props.card.card.card_datum.number}`}</Styled.CardNumber>
-        <Styled.CardName>
-          {props.card.card.card_datum.name}
+        <Styled.NumberNameContainer>
+          <Styled.NumberName>
+            <Styled.CardNumber>{`${props.card.card.card_datum.number}`}</Styled.CardNumber>
+            <Styled.CardName>{props.card.card.card_datum.name}</Styled.CardName>
+          </Styled.NumberName>
           {props.card.qtyInCollection > 0 && (
             <Styled.QtyInCollection>
               {`You have ${props.card.qtyInCollection} in your collection`}
             </Styled.QtyInCollection>
           )}
-        </Styled.CardName>
+        </Styled.NumberNameContainer>
 
         {props.serialized && (
           <Styled.EnterSNContainer>
