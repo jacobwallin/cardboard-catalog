@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { fetchCards } from "../../../store/collection/filter/thunks";
+import { fetchCardsBySet } from "../../../store/collection/browse/thunks";
 import { fetchAllPlayers } from "../../../store/library/players/thunks";
 import { fetchAllTeams } from "../../../store/library/teams/thunks";
 import DataTable from "react-data-table-component";
@@ -42,6 +43,9 @@ export default function FilterPage() {
   const cardsFetched = useSelector(
     (state: RootState) => state.collection.filter.dataFetched
   );
+  const initialDataLoadComplete = useSelector(
+    (state: RootState) => state.collection.browse.initialDataLoadComplete
+  );
 
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [shownColumns, setShownColumns] =
@@ -54,6 +58,9 @@ export default function FilterPage() {
   useEffect(() => {
     dispatch(fetchAllPlayers());
     dispatch(fetchAllTeams());
+    if (!initialDataLoadComplete) {
+      dispatch(fetchCardsBySet());
+    }
   }, []);
 
   useEffect(() => {
