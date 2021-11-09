@@ -7,7 +7,7 @@ export interface SetsState {
 export interface SetSummary {
   id: number;
   name: string;
-  release_date: string;
+  release_date: string | null;
   year: number;
   complete: boolean;
   description: string;
@@ -31,7 +31,7 @@ export interface SetSummary {
 export interface Set {
   id: number;
   name: string;
-  release_date: string;
+  release_date: string | null;
   year: number;
   complete: boolean;
   description: string;

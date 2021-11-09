@@ -10,9 +10,18 @@ import { columns } from "./columns";
 import { createLoadingSelector } from "../../../store/loading/reducer";
 import { createPdf } from "../../../utils/createPdf";
 import createPdfData from "./createPdfData";
-import { Filters, initialFilters, TableColumns, initialTableColumns } from "./types";
+import {
+  Filters,
+  initialFilters,
+  TableColumns,
+  initialTableColumns,
+} from "./types";
 import { filterCards } from "./filterCards";
-import { CollectionPageContainer, DataTableContainer, TotalCards } from "../shared";
+import {
+  CollectionPageContainer,
+  DataTableContainer,
+  TotalCards,
+} from "../shared";
 import { LoadingDots } from "../../shared/Loading";
 import * as Styled from "./styled";
 
@@ -24,12 +33,19 @@ export default function FilterPage() {
   const cards = useSelector((state: RootState) => state.collection.filter.rows);
   const players = useSelector((state: RootState) => state.library.players);
   const teams = useSelector((state: RootState) => state.library.teams);
-  const cardsBySet = useSelector((state: RootState) => state.collection.browse.cardsBySet);
-  const loadingCards = useSelector((state: RootState) => loadingCardsSelector(state));
-  const cardsFetched = useSelector((state: RootState) => state.collection.filter.dataFetched);
+  const cardsBySet = useSelector(
+    (state: RootState) => state.collection.browse.cardsBySet
+  );
+  const loadingCards = useSelector((state: RootState) =>
+    loadingCardsSelector(state)
+  );
+  const cardsFetched = useSelector(
+    (state: RootState) => state.collection.filter.dataFetched
+  );
 
   const [filters, setFilters] = useState<Filters>(initialFilters);
-  const [shownColumns, setShownColumns] = useState<TableColumns>(initialTableColumns);
+  const [shownColumns, setShownColumns] =
+    useState<TableColumns>(initialTableColumns);
   const [playerSearch, setPlayerSearch] = useState("");
   const [showColumnsMenu, setShowColumnsMenu] = useState(false);
 
@@ -71,7 +87,9 @@ export default function FilterPage() {
     }
   }
 
-  function teamPlayerFiltersChange(event: React.ChangeEvent<HTMLSelectElement>) {
+  function teamPlayerFiltersChange(
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) {
     switch (event.target.id) {
       case "team":
         setFilters({
@@ -110,12 +128,16 @@ export default function FilterPage() {
           <Styled.SectionHeader>Set</Styled.SectionHeader>
           <Styled.Filter>
             <Styled.Label htmlFor="year">Year: </Styled.Label>
-            <Styled.Select id="year" value={filters.year} onChange={setFiltersChange}>
+            <Styled.Select
+              id="year"
+              value={filters.year}
+              onChange={setFiltersChange}
+            >
               <option value={0}>Select</option>]
               {Object.keys(
                 cardsBySet.reduce((years: any, set) => {
-                  if (years[set.release_date.slice(0, 4)]) return years;
-                  years[set.release_date.slice(0, 4)] = true;
+                  if (years[set.year]) return years;
+                  years[set.year] = true;
                   return years;
                 }, {})
               ).map((year) => {
@@ -129,7 +151,11 @@ export default function FilterPage() {
           </Styled.Filter>
           <Styled.Filter>
             <Styled.Label htmlFor="set">Set: </Styled.Label>
-            <Styled.Select id="set" value={filters.setId} onChange={setFiltersChange}>
+            <Styled.Select
+              id="set"
+              value={filters.setId}
+              onChange={setFiltersChange}
+            >
               <option value={0}>Select</option>]
               {cardsBySet.map((set) => {
                 return (
@@ -145,7 +171,11 @@ export default function FilterPage() {
           <Styled.SectionHeader>Team/Player</Styled.SectionHeader>
           <Styled.Filter>
             <Styled.Label htmlFor="team">Team: </Styled.Label>
-            <Styled.Select id="team" value={filters.teamId} onChange={teamPlayerFiltersChange}>
+            <Styled.Select
+              id="team"
+              value={filters.teamId}
+              onChange={teamPlayerFiltersChange}
+            >
               <option value={0}>Select</option>
               {teams.map((team) => {
                 return (
@@ -172,7 +202,9 @@ export default function FilterPage() {
               <option value={0}>Select</option>
               {players
                 .filter((player) => {
-                  return player.name.toLowerCase().includes(playerSearch.toLowerCase());
+                  return player.name
+                    .toLowerCase()
+                    .includes(playerSearch.toLowerCase());
                 })
                 .map((player) => {
                   return (
@@ -223,7 +255,9 @@ export default function FilterPage() {
             />
           </Styled.Filter>
           <Styled.Filter>
-            <Styled.Label htmlFor="manufacturedRelic">Manufactured Relic: </Styled.Label>
+            <Styled.Label htmlFor="manufacturedRelic">
+              Manufactured Relic:{" "}
+            </Styled.Label>
             <Styled.Checkbox
               id="manufacturedRelic"
               checked={filters.manufacturedRelic}
@@ -262,7 +296,9 @@ export default function FilterPage() {
       </Styled.FiltersContainer>
       <Styled.ResetPdfButtons>
         <Styled.Pdf
-          onClick={(e) => createPdf(createPdfData(filteredCards, shownColumns, "Checklist"))}
+          onClick={(e) =>
+            createPdf(createPdfData(filteredCards, shownColumns, "Checklist"))
+          }
         >
           Download PDF
         </Styled.Pdf>
@@ -270,7 +306,9 @@ export default function FilterPage() {
       </Styled.ResetPdfButtons>
       <Styled.TableHeader>
         <TotalCards totalCards={filteredCards.length} />
-        <Styled.TableColumns onClick={(e) => setShowColumnsMenu(!showColumnsMenu)}>
+        <Styled.TableColumns
+          onClick={(e) => setShowColumnsMenu(!showColumnsMenu)}
+        >
           table columns
         </Styled.TableColumns>
         <Styled.SelectColumns show={showColumnsMenu}>

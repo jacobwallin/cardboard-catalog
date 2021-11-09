@@ -56,10 +56,12 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
               <Shared.ContentData>{set.description}</Shared.ContentData>
             </Shared.ContentContainer>
           )}
-          <Shared.ContentContainer>
-            <Shared.ContentTitle>Release Date:</Shared.ContentTitle>
-            <Shared.ContentData>{set.release_date}</Shared.ContentData>
-          </Shared.ContentContainer>
+          {set.release_date && (
+            <Shared.ContentContainer>
+              <Shared.ContentTitle>Release Date:</Shared.ContentTitle>
+              <Shared.ContentData>{set.release_date}</Shared.ContentData>
+            </Shared.ContentContainer>
+          )}
 
           <Shared.CollectionData
             totalCards={cardsBySubset.subsets.reduce((totalCards, subset) => {

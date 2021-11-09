@@ -23,7 +23,7 @@ export interface SubsetState {
 export interface Set {
   id: number;
   name: string;
-  release_date: string;
+  release_date: string | null;
   year: number;
   complete: boolean;
   description: string;

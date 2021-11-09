@@ -116,7 +116,9 @@ export default function EditSet(props: Props) {
           </FieldContainer>
           <FieldContainer>
             <FieldTitle>Release Date:</FieldTitle>
-            <FieldData>{set.release_date}</FieldData>
+            <FieldData>
+              {set.release_date === null ? "-" : set.release_date}
+            </FieldData>
           </FieldContainer>
           <FieldContainer>
             <FieldTitle>Brand:</FieldTitle>
@@ -130,6 +132,12 @@ export default function EditSet(props: Props) {
             <FieldTitle>Description:</FieldTitle>
             <FieldData>
               {set.description === "" ? "-" : set.description}
+            </FieldData>
+          </FieldContainer>
+          <FieldContainer>
+            <FieldTitle>Complete:</FieldTitle>
+            <FieldData>
+              {set.complete === true ? "Set Completed" : "Not Completed"}
             </FieldData>
           </FieldContainer>
           <EditDeleteButtons

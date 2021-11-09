@@ -7,7 +7,7 @@ export function aggregateCardsByYear(cardsBySet: SetCards[]): Array<{
   totalCards: number;
 }> {
   const yearHash = cardsBySet.reduce((totals: any, set) => {
-    const setYear = set.release_date.slice(0, 4);
+    const setYear = set.year;
     if (totals[setYear]) {
       return {
         ...totals,
@@ -19,7 +19,7 @@ export function aggregateCardsByYear(cardsBySet: SetCards[]): Array<{
     } else {
       return {
         ...totals,
-        [setYear]: {
+        [String(setYear)]: {
           totalCards: +set.totalCards,
           distinctCards: +set.distinctCards,
         },

@@ -19,7 +19,7 @@ const SelectSet: React.FC<RouteComponentProps<TParams>> = (props) => {
 
   const cardsBySetForYear = useSelector(
     (state: RootState) => state.collection.browse.cardsBySet
-  ).filter((set) => set.release_date.slice(0, 4) === props.match.params.year);
+  ).filter((set) => set.year === +props.match.params.year);
 
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
   const initialDataLoadComplete = useSelector(

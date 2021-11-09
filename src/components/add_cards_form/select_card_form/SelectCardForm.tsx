@@ -263,9 +263,9 @@ function aggregateYears(allSets: SetSummary[]): number[] {
   allSets.forEach((set) => {
     if (
       yearsArray.length === 0 ||
-      yearsArray[yearsArray.length - 1] !== +set.release_date.slice(0, 4)
+      yearsArray[yearsArray.length - 1] !== set.year
     ) {
-      yearsArray.push(+set.release_date.slice(0, 4));
+      yearsArray.push(set.year);
     }
   });
   return yearsArray;
@@ -273,7 +273,7 @@ function aggregateYears(allSets: SetSummary[]): number[] {
 function aggregateSets(allSets: SetSummary[], year: number): SetSummary[] {
   return allSets
     .filter((set) => {
-      return +set.release_date.slice(0, 4) === year;
+      return set.year;
     })
     .sort((setA, setB) => {
       if (setA.name < setB.name) return -1;

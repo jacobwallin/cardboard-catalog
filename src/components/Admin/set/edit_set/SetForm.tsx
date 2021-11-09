@@ -49,9 +49,11 @@ export default function SetForm(props: Props) {
 
   // controlled form data
   const [name, setName] = useState(props.createNew ? "" : singleSet.name);
-  const [year, setYear] = useState(props.createNew ? 0 : singleSet.year);
+  const [year, setYear] = useState(
+    props.createNew ? "" : String(singleSet.year)
+  );
   const [releaseDate, setReleaseDate] = useState(
-    props.createNew ? "" : singleSet.release_date
+    props.createNew ? "" : singleSet.release_date || ""
   );
   const [complete, setComplete] = useState(
     props.createNew ? false : singleSet.complete
@@ -69,8 +71,8 @@ export default function SetForm(props: Props) {
   function handleSubmit() {
     props.handleSubmit(
       name,
-      releaseDate,
-      year,
+      releaseDate === "" ? null : releaseDate,
+      +year,
       description,
       leagueId,
       brandId,
@@ -87,7 +89,7 @@ export default function SetForm(props: Props) {
         setName(value);
         break;
       case "year":
-        setYear(+value);
+        setYear(value);
         break;
       case "releaseDate":
         setReleaseDate(value);
@@ -224,10 +226,7 @@ export default function SetForm(props: Props) {
         disabled={
           updatingSet ||
           (props.createNew
-            ? name === "" ||
-              releaseDate === "" ||
-              brandId === 0 ||
-              leagueId === 0
+            ? name === "" || brandId === 0 || leagueId === 0 || year === ""
             : !detectFormChanges(
                 [
                   singleSet.name,
