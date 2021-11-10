@@ -11,7 +11,7 @@ const db = require("./db/db");
 require("./config/passport");
 require("dotenv").config();
 
-app.use(helmet());
+// app.use(helmet());
 app.use(morgan("dev"));
 
 app.use(express.static(path.join(__dirname, "..", "build")));
