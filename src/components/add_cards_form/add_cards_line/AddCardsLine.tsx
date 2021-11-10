@@ -66,6 +66,7 @@ export default function AddCardsLine(props: Props) {
             relic={props.card.relic}
             manufacturedRelic={props.card.manufacturedRelic}
             refractor={props.card.refractor}
+            rookie={props.card.card.card_datum.rookie}
           />
         </Styled.CardNumber>
         <Styled.NameContainer>

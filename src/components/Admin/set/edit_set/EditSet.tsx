@@ -116,6 +116,10 @@ export default function EditSet(props: Props) {
             <FieldData>{set.name}</FieldData>
           </FieldContainer>
           <FieldContainer>
+            <FieldTitle>Year:</FieldTitle>
+            <FieldData>{set.year}</FieldData>
+          </FieldContainer>
+          <FieldContainer>
             <FieldTitle>Release Date:</FieldTitle>
             <FieldData>
               {set.release_date === null ? "-" : set.release_date}

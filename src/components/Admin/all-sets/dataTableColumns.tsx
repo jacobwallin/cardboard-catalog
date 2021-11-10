@@ -28,6 +28,12 @@ const dataTableColumns = [
     selector: (row: SetSummary) => row.createdAt.slice(0, 10),
     sortable: true,
   },
+  // {
+  //   name: "Completed",
+  //   sortable: true,
+  //   selector: (row: SetSummary) => row.complete,
+  //   row: (row: SetSummary) => (row.complete ? "Yes" : "No"),
+  // },
   {
     name: "",
     sortable: false,

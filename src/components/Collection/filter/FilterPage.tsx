@@ -129,7 +129,7 @@ export default function FilterPage() {
 
   return (
     <CollectionPageContainer>
-      <Styled.PageHeader>Filter / Search</Styled.PageHeader>
+      <Styled.PageHeader>{"Filter & Search All Cards"}</Styled.PageHeader>
       <Styled.FiltersContainer>
         <Styled.FilterSection>
           <Styled.SectionHeader>Set</Styled.SectionHeader>

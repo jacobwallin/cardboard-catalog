@@ -17,6 +17,7 @@ const columns = [
         relic={row.series.relic}
         manufacturedRelic={row.series.manufacturedRelic}
         refractor={row.series.refractor}
+        rookie={row.cardData.rookie}
       />
     ),
     grow: 1,
@@ -40,7 +41,8 @@ const columns = [
   },
   {
     name: "Team",
-    cell: (row: TableDataPoint) => (row.cardData.team ? row.cardData.team.name : "-"),
+    cell: (row: TableDataPoint) =>
+      row.cardData.team ? row.cardData.team.name : "-",
     sortable: true,
     // style: modifiedStyles,
     grow: 2,

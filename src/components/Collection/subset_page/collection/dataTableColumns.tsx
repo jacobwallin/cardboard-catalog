@@ -20,6 +20,7 @@ export const columns = [
         relic={row.series.relic}
         manufacturedRelic={row.series.manufacturedRelic}
         refractor={row.series.refractor}
+        rookie={row.cardData.rookie}
       />
     ),
     sortable: true,
@@ -52,7 +53,8 @@ export const columns = [
   },
   {
     name: "Team",
-    cell: (row: TableDataPoint) => (row.cardData.team ? row.cardData.team.name : "-"),
+    cell: (row: TableDataPoint) =>
+      row.cardData.team ? row.cardData.team.name : "-",
     sortable: false,
     style: modifiedStyles,
     grow: 2,
@@ -79,13 +81,17 @@ export const deleteColumns = [
         relic={row.card.series.relic}
         manufacturedRelic={row.card.series.manufacturedRelic}
         refractor={row.card.series.refractor}
+        rookie={row.card.cardData.rookie}
       />
     ),
     sortable: true,
     style: modifiedStyles,
     grow: 1,
     sortFunction: (rowA: DeleteTableDataPoint, rowB: DeleteTableDataPoint) => {
-      return sortCardNumbers(rowA.card.cardData.number, rowB.card.cardData.number);
+      return sortCardNumbers(
+        rowA.card.cardData.number,
+        rowB.card.cardData.number
+      );
     },
     minWidth: "auto",
   },
