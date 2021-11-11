@@ -96,6 +96,13 @@ export default function generateQuery(
       filter: filters.hallOfFame === 1 ? "True" : "False",
     });
   }
+  if (filters.graded !== 0) {
+    query += `&graded=${filters.graded === 1 ? "true" : "false"}`;
+    bubbles.push({
+      name: "Graded",
+      filter: filters.graded === 1 ? "True" : "False",
+    });
+  }
 
   // only add one of set, subset, or series id (whichever is most specific)
   if (filters.seriesId !== 0) {

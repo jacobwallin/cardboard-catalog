@@ -14,6 +14,7 @@ export interface Filters {
   refractor: number;
   shortPrint: number;
   hallOfFame: number;
+  graded: number;
   playerSearch: string;
 }
 
@@ -33,6 +34,7 @@ export const initialFilters: Filters = {
   refractor: 0,
   shortPrint: 0,
   hallOfFame: 0,
+  graded: 0,
   playerSearch: "",
 };
 

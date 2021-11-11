@@ -187,6 +187,14 @@ router.get("/filter", async (req, res, next) => {
           [Op.eq]: hallOfFame,
         };
         break;
+      case "graded":
+        let graded = queryParams[filterNames[i]] === "true" ? true : false;
+        if (graded) {
+          filters["grade"] = { [Op.ne]: null };
+        } else {
+          filters["grade"] = { [Op.eq]: null };
+        }
+        break;
       case "playerId":
         // only filter if valid number was given
         if (!isNaN(+queryParams[filterNames[i]])) {

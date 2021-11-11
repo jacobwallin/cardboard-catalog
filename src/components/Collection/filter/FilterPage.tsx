@@ -94,6 +94,9 @@ export default function FilterPage() {
       case "hallOfFame":
         setFilters({ ...filters, hallOfFame: +e.target.value });
         break;
+      case "graded":
+        setFilters({ ...filters, graded: +e.target.value });
+        break;
       case "year":
         setFilters({
           ...filters,

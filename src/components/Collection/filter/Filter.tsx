@@ -324,6 +324,18 @@ export default function Filter(props: Props) {
             <option value={-1}>False</option>
           </Styled.AttributeSelect>
         </Styled.Filter>
+        <Styled.Filter>
+          <Styled.Label htmlFor="graded">Graded:</Styled.Label>
+          <Styled.AttributeSelect
+            id="graded"
+            value={filters.graded}
+            onChange={props.handleFilterChange}
+          >
+            <option value={0}>Include</option>
+            <option value={1}>True</option>
+            <option value={-1}>False</option>
+          </Styled.AttributeSelect>
+        </Styled.Filter>
       </Styled.FilterSection>
     </Styled.FiltersContainer>
   );
