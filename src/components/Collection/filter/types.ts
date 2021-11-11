@@ -14,6 +14,7 @@ export interface Filters {
   refractor: number;
   shortPrint: number;
   hallOfFame: number;
+  playerSearch: string;
 }
 
 export const initialFilters: Filters = {
@@ -32,6 +33,7 @@ export const initialFilters: Filters = {
   refractor: 0,
   shortPrint: 0,
   hallOfFame: 0,
+  playerSearch: "",
 };
 
 export interface TableColumns {

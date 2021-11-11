@@ -12,14 +12,13 @@ const subsetLoadingSelector = createLoadingSelector(["GET_SUBSET"]);
 
 interface Props {
   filters: Filters;
-  handleChange(e: React.ChangeEvent<HTMLSelectElement>): void;
+  handleFilterChange(e: React.ChangeEvent<HTMLSelectElement>): void;
+  handlePlayerSearchChange(e: React.ChangeEvent<HTMLInputElement>): void;
 }
 
 export default function Filter(props: Props) {
   const dispatch = useDispatch();
   const { filters } = props;
-
-  const [playerSearch, setPlayerSearch] = useState("");
 
   const players = useSelector((state: RootState) => state.library.players);
   const teams = useSelector((state: RootState) => state.library.teams);
@@ -36,10 +35,6 @@ export default function Filter(props: Props) {
   const loadingSubset = useSelector((state: RootState) =>
     subsetLoadingSelector(state)
   );
-
-  function playerSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setPlayerSearch(event.target.value);
-  }
 
   useEffect(() => {
     if (filters.setId !== 0 && set.id !== filters.setId) {
@@ -62,7 +57,7 @@ export default function Filter(props: Props) {
           <Styled.Select
             id="year"
             value={filters.year}
-            onChange={props.handleChange}
+            onChange={props.handleFilterChange}
           >
             <option value={0}>All</option>
             {Object.keys(
@@ -85,7 +80,7 @@ export default function Filter(props: Props) {
           <Styled.Select
             id="set"
             value={filters.setId}
-            onChange={props.handleChange}
+            onChange={props.handleFilterChange}
             disabled={filters.year === 0}
           >
             <option value={0}>All</option>]
@@ -105,7 +100,7 @@ export default function Filter(props: Props) {
           <Styled.Select
             id="subset"
             value={filters.subsetId}
-            onChange={props.handleChange}
+            onChange={props.handleFilterChange}
             disabled={loadingSet || filters.setId === 0}
           >
             <option value={0}>All</option>
@@ -121,7 +116,7 @@ export default function Filter(props: Props) {
           <Styled.Select
             id="series"
             value={filters.seriesId}
-            onChange={props.handleChange}
+            onChange={props.handleFilterChange}
             disabled={loadingSubset || filters.subsetId === 0}
           >
             <option value={0}>All</option>
@@ -139,7 +134,7 @@ export default function Filter(props: Props) {
           <Styled.Select
             id="team"
             value={filters.teamId}
-            onChange={props.handleChange}
+            onChange={props.handleFilterChange}
           >
             <option value={0}>All</option>
             {teams
@@ -162,26 +157,26 @@ export default function Filter(props: Props) {
           <Styled.TextInput
             id="playerSearch"
             type="text"
-            value={playerSearch}
+            value={filters.playerSearch}
             placeholder="player name"
-            onChange={playerSearchChange}
+            onChange={props.handlePlayerSearchChange}
           />
         </Styled.Filter>
         <Styled.Filter>
           <Styled.Label htmlFor="player">Player: </Styled.Label>
           <Styled.Select
             id="player"
-            onChange={props.handleChange}
-            disabled={playerSearch.length < 2}
+            onChange={props.handleFilterChange}
+            disabled={filters.playerSearch.length < 2}
             value={filters.playerId}
           >
             <option value={0}>All</option>
-            {playerSearch.length > 1 &&
+            {filters.playerSearch.length > 1 &&
               players
                 .filter((player) => {
                   return player.name
                     .toLowerCase()
-                    .includes(playerSearch.toLowerCase());
+                    .includes(filters.playerSearch.toLowerCase());
                 })
                 .sort((playerA, playerB) => {
                   if (playerA.name < playerB.name) return -1;
@@ -202,7 +197,7 @@ export default function Filter(props: Props) {
           <Styled.AttributeSelect
             id="hallOfFame"
             value={filters.hallOfFame}
-            onChange={props.handleChange}
+            onChange={props.handleFilterChange}
           >
             <option value={0}>Include</option>
             <option value={1}>Show Only</option>
@@ -217,7 +212,7 @@ export default function Filter(props: Props) {
           <Styled.AttributeSelect
             id="rookie"
             value={filters.rookie}
-            onChange={props.handleChange}
+            onChange={props.handleFilterChange}
           >
             <option value={0}>Include</option>
             <option value={1}>Show Only</option>
@@ -229,7 +224,7 @@ export default function Filter(props: Props) {
           <Styled.AttributeSelect
             id="serialized"
             value={filters.serialized}
-            onChange={props.handleChange}
+            onChange={props.handleFilterChange}
           >
             <option value={0}>Include</option>
             <option value={1}>Show Only</option>
@@ -241,7 +236,7 @@ export default function Filter(props: Props) {
           <Styled.AttributeSelect
             id="auto"
             value={filters.auto}
-            onChange={props.handleChange}
+            onChange={props.handleFilterChange}
           >
             <option value={0}>Include</option>
             <option value={1}>Show Only</option>
@@ -253,7 +248,7 @@ export default function Filter(props: Props) {
           <Styled.AttributeSelect
             id="relic"
             value={filters.relic}
-            onChange={props.handleChange}
+            onChange={props.handleFilterChange}
           >
             <option value={0}>Include</option>
             <option value={1}>Show Only</option>
@@ -265,7 +260,7 @@ export default function Filter(props: Props) {
           <Styled.AttributeSelect
             id="parallel"
             value={filters.parallel}
-            onChange={props.handleChange}
+            onChange={props.handleFilterChange}
           >
             <option value={0}>Include</option>
             <option value={1}>Show Only</option>
@@ -277,7 +272,7 @@ export default function Filter(props: Props) {
           <Styled.AttributeSelect
             id="refractor"
             value={filters.refractor}
-            onChange={props.handleChange}
+            onChange={props.handleFilterChange}
           >
             <option value={0}>Include</option>
             <option value={1}>Show Only</option>
@@ -289,7 +284,7 @@ export default function Filter(props: Props) {
           <Styled.AttributeSelect
             id="shortPrint"
             value={filters.shortPrint}
-            onChange={props.handleChange}
+            onChange={props.handleFilterChange}
           >
             <option value={0}>Include</option>
             <option value={1}>Show Only</option>
@@ -303,7 +298,7 @@ export default function Filter(props: Props) {
           <Styled.AttributeSelect
             id="manufacturedRelic"
             value={filters.manufacturedRelic}
-            onChange={props.handleChange}
+            onChange={props.handleFilterChange}
           >
             <option value={0}>Include</option>
             <option value={1}>Show Only</option>

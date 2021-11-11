@@ -33,6 +33,10 @@ export default function FilterPage() {
   const dispatch = useDispatch();
 
   const [filters, setFilters] = useState<Filters>(initialFilters);
+  const [filterBubbles, setFilterBubbles] = useState<
+    { name: string; filter: string }[]
+  >([]);
+
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(20);
@@ -51,6 +55,10 @@ export default function FilterPage() {
   const initialDataLoadComplete = useSelector(
     (state: RootState) => state.collection.browse.initialDataLoadComplete
   );
+
+  function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setFilters({ ...filters, playerSearch: event.target.value });
+  }
 
   function handleFilterChange(e: React.ChangeEvent<HTMLSelectElement>) {
     switch (e.target.id) {
@@ -161,7 +169,11 @@ export default function FilterPage() {
         {showFilters ? "Hide Filters" : "Show Filters"}
       </Styled.ShowFiltersToggle>
       {showFilters && (
-        <Filter filters={filters} handleChange={handleFilterChange} />
+        <Filter
+          filters={filters}
+          handleFilterChange={handleFilterChange}
+          handlePlayerSearchChange={handleSearchChange}
+        />
       )}
       <Styled.Buttons>
         <Styled.Pdf>Download PDF</Styled.Pdf>
