@@ -163,13 +163,19 @@ export default function SetForm(props: Props) {
             disabled={loadingInitialData}
           >
             <option value={0}>Select Brand</option>
-            {brands.map((brand) => {
-              return (
-                <option key={brand.id} value={brand.id}>
-                  {brand.name}
-                </option>
-              );
-            })}
+            {brands
+              .sort((brandA, brandB) => {
+                if (brandA.name < brandB.name) return -1;
+                if (brandA.name > brandB.name) return 1;
+                return 0;
+              })
+              .map((brand) => {
+                return (
+                  <option key={brand.id} value={brand.id}>
+                    {brand.name}
+                  </option>
+                );
+              })}
           </select>
         </FieldData>
       </FieldContainer>
@@ -183,13 +189,19 @@ export default function SetForm(props: Props) {
             disabled={loadingInitialData}
           >
             <option value={0}>Select League</option>
-            {leagues.map((league) => {
-              return (
-                <option key={league.id} value={league.id}>
-                  {league.name}
-                </option>
-              );
-            })}
+            {leagues
+              .sort((leagueA, leagueB) => {
+                if (leagueA.name < leagueB.name) return -1;
+                if (leagueA.name > leagueB.name) return 1;
+                return 0;
+              })
+              .map((league) => {
+                return (
+                  <option key={league.id} value={league.id}>
+                    {league.name}
+                  </option>
+                );
+              })}
           </select>
         </FieldData>
       </FieldContainer>
