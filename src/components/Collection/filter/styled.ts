@@ -197,7 +197,7 @@ export const FilterBubble = styled.div`
 `;
 
 export const LoadingContainer = styled.div`
-  height: 600px;
+  height: 2000px;
 `;
 
 export const ShowFiltersToggle = styled.div`

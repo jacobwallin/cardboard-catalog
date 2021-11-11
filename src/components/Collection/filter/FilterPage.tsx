@@ -48,9 +48,6 @@ export default function FilterPage() {
   const loadingCards = useSelector((state: RootState) =>
     loadingCardsSelector(state)
   );
-  const cardsFetched = useSelector(
-    (state: RootState) => state.collection.filter.dataFetched
-  );
   const initialDataLoadComplete = useSelector(
     (state: RootState) => state.collection.browse.initialDataLoadComplete
   );
@@ -84,7 +81,7 @@ export default function FilterPage() {
       case "player":
         setFilters({ ...filters, playerId: +e.target.value });
         break;
-      case "hallfOfFame":
+      case "hallOfFame":
         setFilters({ ...filters, hallOfFame: +e.target.value });
         break;
       case "year":
