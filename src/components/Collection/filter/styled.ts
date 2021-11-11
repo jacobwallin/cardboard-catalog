@@ -9,6 +9,7 @@ export const FiltersContainer = styled.div`
   @media only screen and (max-width: 600px) {
     flex-direction: column;
     align-items: flex-start;
+    gap: 0px;
   }
 `;
 
@@ -22,7 +23,8 @@ export const FilterSection = styled.div`
 export const SectionHeader = styled.div`
   color: grey;
   font-size: 0.8rem;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  margin-top: 10px;
 `;
 
 export const Filter = styled.div`
@@ -196,4 +198,22 @@ export const FilterBubble = styled.div`
 
 export const LoadingContainer = styled.div`
   height: 600px;
+`;
+
+export const ShowFiltersToggle = styled.div`
+  color: #555;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  padding: 3px;
+  width: 120px;
+  height: 30px;
+  border-radius: 3px;
+  border: 1px solid white;
+  cursor: pointer;
+  &:hover {
+    background-color: lightgray;
+  }
 `;

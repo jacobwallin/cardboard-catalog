@@ -20,6 +20,8 @@ export default function generateQuery(filters: Filters): string {
     query += `&rookie=${filters.rookie === 1 ? "true" : "false"}`;
   if (filters.serialized !== 0)
     query += `&serialized=${filters.serialized === 1 ? "true" : "false"}`;
+  if (filters.hallOfFame !== 0)
+    query += `&hof=${filters.hallOfFame === 1 ? "true" : "false"}`;
 
   // only add one of set, subset, or series id (whichever is most specific)
   if (filters.seriesId !== 0) {

@@ -39,6 +39,7 @@ export default function FilterPage() {
   const [shownColumns, setShownColumns] =
     useState<TableColumns>(initialTableColumns);
   const [showColumnsMenu, setShowColumnsMenu] = useState(false);
+  const [showFilters, setShowFilters] = useState(true);
 
   const paginatedCards = useSelector(
     (state: RootState) => state.collection.filter
@@ -82,6 +83,9 @@ export default function FilterPage() {
         break;
       case "player":
         setFilters({ ...filters, playerId: +e.target.value });
+        break;
+      case "hallfOfFame":
+        setFilters({ ...filters, hallOfFame: +e.target.value });
         break;
       case "year":
         setFilters({
@@ -141,18 +145,27 @@ export default function FilterPage() {
     });
   }
 
-  const handleRowsPerPageChange = (rowsPerPage: number) => {
+  function handleRowsPerPageChange(rowsPerPage: number) {
     setRowsPerPage(rowsPerPage);
-  };
+  }
 
-  const handlePageChange = (page: number) => {
+  function handlePageChange(page: number) {
     setPage(page);
-  };
+  }
+
+  function toggleShowFilters() {
+    setShowFilters(!showFilters);
+  }
 
   return (
     <CollectionPageContainer>
       <Styled.PageHeader>{"Filter & Search All Cards"}</Styled.PageHeader>
-      <Filter filters={filters} handleChange={handleFilterChange} />
+      <Styled.ShowFiltersToggle onClick={toggleShowFilters}>
+        {showFilters ? "Hide Filters" : "Show Filters"}
+      </Styled.ShowFiltersToggle>
+      {showFilters && (
+        <Filter filters={filters} handleChange={handleFilterChange} />
+      )}
       <Styled.Buttons>
         <Styled.Pdf>Download PDF</Styled.Pdf>
         <Styled.ResetApply>

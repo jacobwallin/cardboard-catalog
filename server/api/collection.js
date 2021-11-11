@@ -152,7 +152,6 @@ router.get("/filter", async (req, res, next) => {
         break;
       case "serialized":
         let serialized = queryParams[filterNames[i]] === "true" ? true : false;
-        console.log("******", serialized);
         if (serialized) {
           filters["$card.series.serialized$"] = { [Op.ne]: null };
         } else {

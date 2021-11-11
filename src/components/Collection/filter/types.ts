@@ -13,6 +13,7 @@ export interface Filters {
   parallel: number;
   refractor: number;
   shortPrint: number;
+  hallOfFame: number;
 }
 
 export const initialFilters: Filters = {
@@ -30,6 +31,7 @@ export const initialFilters: Filters = {
   parallel: 0,
   refractor: 0,
   shortPrint: 0,
+  hallOfFame: 0,
 };
 
 export interface TableColumns {

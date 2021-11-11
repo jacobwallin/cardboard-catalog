@@ -6,7 +6,6 @@ import { Filters } from "./types";
 import { fetchSet } from "../../../store/library/sets/thunks";
 import { fetchSubset } from "../../../store/library/subsets/thunks";
 import { createLoadingSelector } from "../../../store/loading/reducer";
-import seriesReducer from "../../../store/library/series/reducer";
 
 const setLoadingSelector = createLoadingSelector(["GET_SINGLE_SET"]);
 const subsetLoadingSelector = createLoadingSelector(["GET_SUBSET"]);
@@ -65,7 +64,7 @@ export default function Filter(props: Props) {
             value={filters.year}
             onChange={props.handleChange}
           >
-            <option value={0}>Any</option>
+            <option value={0}>All</option>
             {Object.keys(
               cardsBySet.reduce((years: any, set) => {
                 if (years[set.year]) return years;
@@ -89,7 +88,7 @@ export default function Filter(props: Props) {
             onChange={props.handleChange}
             disabled={filters.year === 0}
           >
-            <option value={0}>Any</option>]
+            <option value={0}>All</option>]
             {cardsBySet
               .filter((set) => set.year === filters.year)
               .map((set) => {
@@ -109,7 +108,7 @@ export default function Filter(props: Props) {
             onChange={props.handleChange}
             disabled={loadingSet || filters.setId === 0}
           >
-            <option value={0}>Any</option>
+            <option value={0}>All</option>
             {set.subsets.map((subset) => (
               <option key={subset.id} value={subset.id}>
                 {subset.name}
@@ -125,7 +124,7 @@ export default function Filter(props: Props) {
             onChange={props.handleChange}
             disabled={loadingSubset || filters.subsetId === 0}
           >
-            <option value={0}>Any</option>
+            <option value={0}>All</option>
             {subset.series.map((ser) => (
               <option key={ser.id} value={ser.id}>
                 {ser.name}
@@ -142,7 +141,7 @@ export default function Filter(props: Props) {
             value={filters.teamId}
             onChange={props.handleChange}
           >
-            <option value={0}>Any</option>
+            <option value={0}>All</option>
             {teams
               .sort((teamA, teamB) => {
                 if (teamA.name < teamB.name) return -1;
@@ -174,8 +173,9 @@ export default function Filter(props: Props) {
             id="player"
             onChange={props.handleChange}
             disabled={playerSearch.length < 2}
+            value={filters.playerId}
           >
-            <option value={0}>Any</option>
+            <option value={0}>All</option>
             {playerSearch.length > 1 &&
               players
                 .filter((player) => {
@@ -196,6 +196,18 @@ export default function Filter(props: Props) {
                   );
                 })}
           </Styled.Select>
+        </Styled.Filter>
+        <Styled.Filter>
+          <Styled.Label htmlFor="hallOfFame">Hall of Fame: </Styled.Label>
+          <Styled.AttributeSelect
+            id="hallOfFame"
+            value={filters.hallOfFame}
+            onChange={props.handleChange}
+          >
+            <option value={0}>Include</option>
+            <option value={1}>Show Only</option>
+            <option value={-1}>Exclude</option>
+          </Styled.AttributeSelect>
         </Styled.Filter>
       </Styled.FilterSection>
       <Styled.FilterSection>
@@ -249,20 +261,6 @@ export default function Filter(props: Props) {
           </Styled.AttributeSelect>
         </Styled.Filter>
         <Styled.Filter>
-          <Styled.Label htmlFor="manufacturedRelic">
-            Manufactured Relic:
-          </Styled.Label>
-          <Styled.AttributeSelect
-            id="manufacturedRelic"
-            value={filters.manufacturedRelic}
-            onChange={props.handleChange}
-          >
-            <option value={0}>Include</option>
-            <option value={1}>Show Only</option>
-            <option value={-1}>Exclude</option>
-          </Styled.AttributeSelect>
-        </Styled.Filter>
-        <Styled.Filter>
           <Styled.Label htmlFor="parallel">Parallel: </Styled.Label>
           <Styled.AttributeSelect
             id="parallel"
@@ -291,6 +289,20 @@ export default function Filter(props: Props) {
           <Styled.AttributeSelect
             id="shortPrint"
             value={filters.shortPrint}
+            onChange={props.handleChange}
+          >
+            <option value={0}>Include</option>
+            <option value={1}>Show Only</option>
+            <option value={-1}>Exclude</option>
+          </Styled.AttributeSelect>
+        </Styled.Filter>
+        <Styled.Filter>
+          <Styled.Label htmlFor="manufacturedRelic">
+            Manufactured Relic:
+          </Styled.Label>
+          <Styled.AttributeSelect
+            id="manufacturedRelic"
+            value={filters.manufacturedRelic}
             onChange={props.handleChange}
           >
             <option value={0}>Include</option>
