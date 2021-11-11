@@ -168,14 +168,21 @@ export default function CollectionSubset(props: Props) {
         <Styled.CardCount>{`${userCardsInSeries} / ${cardsInChecklist} cards`}</Styled.CardCount>
         <Styled.ProgressBar>
           <Styled.Progress
-            percentage={(userCardsInSeries / cardsInChecklist) * 100}
+            percentage={
+              cardsInChecklist === 0
+                ? 0
+                : (userCardsInSeries / cardsInChecklist) * 100
+            }
           >
             {`${Number(
-              ((userCardsInSeries / cardsInChecklist) * 100).toFixed(2)
+              (cardsInChecklist === 0
+                ? 0
+                : (userCardsInSeries / cardsInChecklist) * 100
+              ).toFixed(2)
             )}%`}
           </Styled.Progress>
         </Styled.ProgressBar>
-        {userCardsInSeries === cardsInChecklist && (
+        {cardsInChecklist > 0 && userCardsInSeries === cardsInChecklist && (
           <Styled.SetComplete>
             <Styled.Svg>
               <img src={MedalIcon} alt="medal" />
