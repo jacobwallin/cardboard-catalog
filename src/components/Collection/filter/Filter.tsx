@@ -6,6 +6,7 @@ import { Filters } from "./types";
 import { fetchSet } from "../../../store/library/sets/thunks";
 import { fetchSubset } from "../../../store/library/subsets/thunks";
 import { createLoadingSelector } from "../../../store/loading/reducer";
+import sortSeries from "../../Collection/subset_page/sortSeries";
 
 const setLoadingSelector = createLoadingSelector(["GET_SINGLE_SET"]);
 const subsetLoadingSelector = createLoadingSelector(["GET_SUBSET"]);
@@ -104,11 +105,20 @@ export default function Filter(props: Props) {
             disabled={loadingSet || filters.setId === 0}
           >
             <option value={0}>All</option>
-            {set.subsets.map((subset) => (
-              <option key={subset.id} value={subset.id}>
-                {subset.name}
-              </option>
-            ))}
+            {set.subsets
+              .sort((subsetA, subsetB) => {
+                if (subsetA.id === set.baseSubsetId) return -1;
+                if (subsetB.id === set.baseSubsetId) return 1;
+
+                if (subsetA.name < subsetB.name) return -1;
+                if (subsetA.name > subsetB.name) return 1;
+                return 0;
+              })
+              .map((subset) => (
+                <option key={subset.id} value={subset.id}>
+                  {subset.name}
+                </option>
+              ))}
           </Styled.Select>
         </Styled.Filter>
         <Styled.Filter>
@@ -120,11 +130,16 @@ export default function Filter(props: Props) {
             disabled={loadingSubset || filters.subsetId === 0}
           >
             <option value={0}>All</option>
-            {subset.series.map((ser) => (
-              <option key={ser.id} value={ser.id}>
-                {ser.name}
-              </option>
-            ))}
+            {subset.series
+              .sort((seriesA, seriesB) => {
+                return sortSeries(seriesA, seriesB, subset.baseSeriesId || 0);
+              })
+              .map((ser) => (
+                <option key={ser.id} value={ser.id}>
+                  {ser.name}
+                  {ser.serialized && ` /${ser.serialized}`}
+                </option>
+              ))}
           </Styled.Select>
         </Styled.Filter>
 
@@ -160,6 +175,7 @@ export default function Filter(props: Props) {
             value={filters.playerSearch}
             placeholder="player name"
             onChange={props.handlePlayerSearchChange}
+            autoComplete="off"
           />
         </Styled.Filter>
         <Styled.Filter>
@@ -168,9 +184,9 @@ export default function Filter(props: Props) {
             id="player"
             onChange={props.handleFilterChange}
             disabled={filters.playerSearch.length < 2}
-            value={filters.playerId}
+            value={filters.player}
           >
-            <option value={0}>All</option>
+            <option value={""}>All</option>
             {filters.playerSearch.length > 1 &&
               players
                 .filter((player) => {
@@ -185,7 +201,10 @@ export default function Filter(props: Props) {
                 })
                 .map((player) => {
                   return (
-                    <option key={player.id} value={player.id}>
+                    <option
+                      key={player.id}
+                      value={`${player.id}-${player.name}`}
+                    >
                       {player.name}
                     </option>
                   );
@@ -200,8 +219,8 @@ export default function Filter(props: Props) {
             onChange={props.handleFilterChange}
           >
             <option value={0}>Include</option>
-            <option value={1}>Show Only</option>
-            <option value={-1}>Exclude</option>
+            <option value={1}>True</option>
+            <option value={-1}>False</option>
           </Styled.AttributeSelect>
         </Styled.Filter>
       </Styled.FilterSection>
@@ -215,8 +234,8 @@ export default function Filter(props: Props) {
             onChange={props.handleFilterChange}
           >
             <option value={0}>Include</option>
-            <option value={1}>Show Only</option>
-            <option value={-1}>Exclude</option>
+            <option value={1}>True</option>
+            <option value={-1}>False</option>
           </Styled.AttributeSelect>
         </Styled.Filter>
         <Styled.Filter>
@@ -227,8 +246,8 @@ export default function Filter(props: Props) {
             onChange={props.handleFilterChange}
           >
             <option value={0}>Include</option>
-            <option value={1}>Show Only</option>
-            <option value={-1}>Exclude</option>
+            <option value={1}>True</option>
+            <option value={-1}>False</option>
           </Styled.AttributeSelect>
         </Styled.Filter>
         <Styled.Filter>
@@ -239,8 +258,8 @@ export default function Filter(props: Props) {
             onChange={props.handleFilterChange}
           >
             <option value={0}>Include</option>
-            <option value={1}>Show Only</option>
-            <option value={-1}>Exclude</option>
+            <option value={1}>True</option>
+            <option value={-1}>False</option>
           </Styled.AttributeSelect>
         </Styled.Filter>
         <Styled.Filter>
@@ -251,8 +270,8 @@ export default function Filter(props: Props) {
             onChange={props.handleFilterChange}
           >
             <option value={0}>Include</option>
-            <option value={1}>Show Only</option>
-            <option value={-1}>Exclude</option>
+            <option value={1}>True</option>
+            <option value={-1}>False</option>
           </Styled.AttributeSelect>
         </Styled.Filter>
         <Styled.Filter>
@@ -263,8 +282,8 @@ export default function Filter(props: Props) {
             onChange={props.handleFilterChange}
           >
             <option value={0}>Include</option>
-            <option value={1}>Show Only</option>
-            <option value={-1}>Exclude</option>
+            <option value={1}>True</option>
+            <option value={-1}>False</option>
           </Styled.AttributeSelect>
         </Styled.Filter>
         <Styled.Filter>
@@ -275,8 +294,8 @@ export default function Filter(props: Props) {
             onChange={props.handleFilterChange}
           >
             <option value={0}>Include</option>
-            <option value={1}>Show Only</option>
-            <option value={-1}>Exclude</option>
+            <option value={1}>True</option>
+            <option value={-1}>False</option>
           </Styled.AttributeSelect>
         </Styled.Filter>
         <Styled.Filter>
@@ -287,8 +306,8 @@ export default function Filter(props: Props) {
             onChange={props.handleFilterChange}
           >
             <option value={0}>Include</option>
-            <option value={1}>Show Only</option>
-            <option value={-1}>Exclude</option>
+            <option value={1}>True</option>
+            <option value={-1}>False</option>
           </Styled.AttributeSelect>
         </Styled.Filter>
         <Styled.Filter>
@@ -301,8 +320,8 @@ export default function Filter(props: Props) {
             onChange={props.handleFilterChange}
           >
             <option value={0}>Include</option>
-            <option value={1}>Show Only</option>
-            <option value={-1}>Exclude</option>
+            <option value={1}>True</option>
+            <option value={-1}>False</option>
           </Styled.AttributeSelect>
         </Styled.Filter>
       </Styled.FilterSection>

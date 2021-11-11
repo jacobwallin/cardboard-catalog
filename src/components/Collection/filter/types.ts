@@ -4,7 +4,7 @@ export interface Filters {
   subsetId: number;
   seriesId: number;
   teamId: number;
-  playerId: number;
+  player: string;
   serialized: number;
   rookie: number;
   auto: number;
@@ -23,7 +23,7 @@ export const initialFilters: Filters = {
   subsetId: 0,
   seriesId: 0,
   teamId: 0,
-  playerId: 0,
+  player: "",
   serialized: 0,
   rookie: 0,
   auto: 0,

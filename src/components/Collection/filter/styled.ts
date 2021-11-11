@@ -191,9 +191,25 @@ export const ShowColumn = styled.div`
 
 export const FilterBubble = styled.div`
   height: 20px;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   background-color: lightgray;
-  border-radius: 50%;
+  border-radius: 10px;
+  display: inline;
+  padding: 3px 8px 3px 8px;
+  margin: 0 7px 7px 0;
+`;
+
+export const ActiveFilters = styled.div`
+  align-self: flex-start;
+  color: #444;
+  font-size: 0.8rem;
+  margin: 20px 0 3px 0;
+`;
+
+export const FilterBubbleContainer = styled.div`
+  align-self: flex-start;
+  display: flex;
+  flex-wrap: wrap;
 `;
 
 export const LoadingContainer = styled.div`

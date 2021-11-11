@@ -45,6 +45,8 @@ export default function FilterPage() {
   const [showColumnsMenu, setShowColumnsMenu] = useState(false);
   const [showFilters, setShowFilters] = useState(true);
 
+  const set = useSelector((state: RootState) => state.library.sets.set);
+  const subset = useSelector((state: RootState) => state.library.subsets);
   const paginatedCards = useSelector(
     (state: RootState) => state.collection.filter
   );
@@ -87,7 +89,7 @@ export default function FilterPage() {
         setFilters({ ...filters, shortPrint: +e.target.value });
         break;
       case "player":
-        setFilters({ ...filters, playerId: +e.target.value });
+        setFilters({ ...filters, player: e.target.value });
         break;
       case "hallOfFame":
         setFilters({ ...filters, hallOfFame: +e.target.value });
@@ -135,12 +137,15 @@ export default function FilterPage() {
   }, [page, rowsPerPage, query, dispatch]);
 
   function applyFilters() {
-    setQuery(generateQuery(filters));
+    const { query, bubbles } = generateQuery(filters, set, subset);
+    setQuery(query);
+    setFilterBubbles(bubbles);
   }
 
   function resetFilters() {
     setFilters(initialFilters);
-    setQuery(generateQuery(initialFilters));
+    setQuery("");
+    setFilterBubbles([]);
   }
 
   function shownColumnsChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -175,6 +180,18 @@ export default function FilterPage() {
           handlePlayerSearchChange={handleSearchChange}
         />
       )}
+      <Styled.ActiveFilters>Active Filters</Styled.ActiveFilters>
+      <Styled.FilterBubbleContainer>
+        {filterBubbles.length > 0 ? (
+          filterBubbles.map((filter) => (
+            <Styled.FilterBubble key={filter.name}>
+              {`${filter.name} | ${filter.filter}`}
+            </Styled.FilterBubble>
+          ))
+        ) : (
+          <Styled.FilterBubble>none</Styled.FilterBubble>
+        )}
+      </Styled.FilterBubbleContainer>
       <Styled.Buttons>
         <Styled.Pdf>Download PDF</Styled.Pdf>
         <Styled.ResetApply>
