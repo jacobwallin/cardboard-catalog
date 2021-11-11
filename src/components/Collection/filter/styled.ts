@@ -4,7 +4,8 @@ export const FiltersContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  justify-content: space-around;
+  justify-content: flex-start;
+  gap: 25px;
   @media only screen and (max-width: 600px) {
     flex-direction: column;
     align-items: flex-start;
@@ -30,13 +31,20 @@ export const Filter = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  @media only screen and (max-width: 600px) {
-    width: 200px;
-  }
+  align-items: center;
+  width: 230px;
 `;
 
 export const Select = styled.select`
-  width: 125px;
+  width: 160px;
+  border: 1px solid lightgray;
+  height: 23px;
+  border-radius: 3px;
+  font-size: 0.7rem;
+`;
+
+export const AttributeSelect = styled(Select)`
+  width: 85px;
 `;
 
 export const Label = styled.label`
@@ -50,7 +58,10 @@ export const Checkbox = styled.input`
 `;
 
 export const TextInput = styled.input`
-  width: 125px;
+  width: 160px;
+  height: 23px;
+  border: 1px solid lightgray;
+  border-radius: 3px;
 `;
 
 export const TableHeader = styled.div`
@@ -106,6 +117,16 @@ export const Pdf = styled.div`
   }
 `;
 
+export const Apply = styled(Reset)`
+  background-color: rgb(0, 74, 206);
+  &:hover {
+    background-color: #0031b5;
+  }
+  &:active {
+    background-color: #000082;
+  }
+`;
+
 export const TableColumns = styled.div`
   color: #555555;
   font-size: 0.8rem;
@@ -128,13 +149,20 @@ export const PageHeader = styled.div`
   margin-top: 10px;
 `;
 
-export const ResetPdfButtons = styled.div`
+export const Buttons = styled.div`
   margin-top: 25px;
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 5px;
   width: 100%;
   justify-content: flex-end;
+  align-items: flex-end;
+`;
+
+export const ResetApply = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 `;
 
 export const SelectColumns = styled.div<{ show: boolean }>`
@@ -157,4 +185,15 @@ export const ShowColumn = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+`;
+
+export const FilterBubble = styled.div`
+  height: 20px;
+  font-size: 0.8rem;
+  background-color: lightgray;
+  border-radius: 50%;
+`;
+
+export const LoadingContainer = styled.div`
+  height: 600px;
 `;

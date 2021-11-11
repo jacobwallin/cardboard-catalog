@@ -19,6 +19,13 @@ const UserCard = db.define(
   },
   {
     freezeTableName: true,
+
+    indexes: [
+      {
+        unique: false,
+        fields: ["userId"],
+      },
+    ],
   }
 );
 

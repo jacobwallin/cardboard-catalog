@@ -17,13 +17,14 @@ import {
   TableColumns,
   initialTableColumns,
 } from "./types";
-import { filterCards } from "./filterCards";
 import {
   CollectionPageContainer,
   DataTableContainer,
   TotalCards,
 } from "../shared";
 import { LoadingDots } from "../../shared/Loading";
+import generateQuery from "./generateQuery";
+import Filter from "./Filter";
 import * as Styled from "./styled";
 
 const loadingCardsSelector = createLoadingSelector(["GET_CARDS"]);
@@ -31,12 +32,18 @@ const loadingCardsSelector = createLoadingSelector(["GET_CARDS"]);
 export default function FilterPage() {
   const dispatch = useDispatch();
 
-  const cards = useSelector((state: RootState) => state.collection.filter.rows);
-  const players = useSelector((state: RootState) => state.library.players);
-  const teams = useSelector((state: RootState) => state.library.teams);
-  const cardsBySet = useSelector(
-    (state: RootState) => state.collection.browse.cardsBySet
+  const [filters, setFilters] = useState<Filters>(initialFilters);
+  const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const [shownColumns, setShownColumns] =
+    useState<TableColumns>(initialTableColumns);
+  const [showColumnsMenu, setShowColumnsMenu] = useState(false);
+
+  const paginatedCards = useSelector(
+    (state: RootState) => state.collection.filter
   );
+
   const loadingCards = useSelector((state: RootState) =>
     loadingCardsSelector(state)
   );
@@ -47,13 +54,60 @@ export default function FilterPage() {
     (state: RootState) => state.collection.browse.initialDataLoadComplete
   );
 
-  const [filters, setFilters] = useState<Filters>(initialFilters);
-  const [shownColumns, setShownColumns] =
-    useState<TableColumns>(initialTableColumns);
-  const [playerSearch, setPlayerSearch] = useState("");
-  const [showColumnsMenu, setShowColumnsMenu] = useState(false);
-
-  const filteredCards = filterCards(cards, filters);
+  function handleFilterChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    switch (e.target.id) {
+      case "rookie":
+        setFilters({ ...filters, rookie: +e.target.value });
+        break;
+      case "serialized":
+        setFilters({ ...filters, serialized: +e.target.value });
+        break;
+      case "auto":
+        setFilters({ ...filters, auto: +e.target.value });
+        break;
+      case "relic":
+        setFilters({ ...filters, relic: +e.target.value });
+        break;
+      case "manufacturedRelic":
+        setFilters({ ...filters, manufacturedRelic: +e.target.value });
+        break;
+      case "parallel":
+        setFilters({ ...filters, parallel: +e.target.value });
+        break;
+      case "refractor":
+        setFilters({ ...filters, refractor: +e.target.value });
+        break;
+      case "shortPrint":
+        setFilters({ ...filters, shortPrint: +e.target.value });
+        break;
+      case "player":
+        setFilters({ ...filters, playerId: +e.target.value });
+        break;
+      case "year":
+        setFilters({
+          ...filters,
+          year: +e.target.value,
+          setId: 0,
+          subsetId: 0,
+          seriesId: 0,
+        });
+        break;
+      case "set":
+        setFilters({
+          ...filters,
+          setId: +e.target.value,
+          subsetId: 0,
+          seriesId: 0,
+        });
+        break;
+      case "subset":
+        setFilters({ ...filters, subsetId: +e.target.value, seriesId: 0 });
+        break;
+      case "series":
+        setFilters({ ...filters, seriesId: +e.target.value });
+        break;
+    }
+  }
 
   useEffect(() => {
     dispatch(fetchAllPlayers());
@@ -64,60 +118,20 @@ export default function FilterPage() {
   }, []);
 
   useEffect(() => {
-    if (!cardsFetched) {
-      dispatch(fetchCards());
-    }
-  }, [cardsFetched]);
+    dispatch(
+      fetchCards(
+        `?offset=${(page - 1) * rowsPerPage}&limit=${rowsPerPage}${query}`
+      )
+    );
+  }, [page, rowsPerPage, query, dispatch]);
+
+  function applyFilters() {
+    setQuery(generateQuery(filters));
+  }
 
   function resetFilters() {
     setFilters(initialFilters);
-  }
-
-  function playerSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setPlayerSearch(event.target.value);
-  }
-
-  function setFiltersChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    switch (event.target.id) {
-      case "year":
-        setFilters({
-          ...filters,
-          year: +event.target.value,
-        });
-        break;
-      case "set":
-        setFilters({
-          ...filters,
-          setId: +event.target.value,
-        });
-        break;
-    }
-  }
-
-  function teamPlayerFiltersChange(
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) {
-    switch (event.target.id) {
-      case "team":
-        setFilters({
-          ...filters,
-          teamId: +event.target.value,
-        });
-        break;
-      case "player":
-        setFilters({
-          ...filters,
-          playerId: +event.target.value,
-        });
-        break;
-    }
-  }
-
-  function cardAttributeChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setFilters({
-      ...filters,
-      [event.target.id]: event.target.checked,
-    });
+    setQuery(generateQuery(initialFilters));
   }
 
   function shownColumnsChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -127,192 +141,27 @@ export default function FilterPage() {
     });
   }
 
+  const handleRowsPerPageChange = (rowsPerPage: number) => {
+    setRowsPerPage(rowsPerPage);
+  };
+
+  const handlePageChange = (page: number) => {
+    setPage(page);
+  };
+
   return (
     <CollectionPageContainer>
       <Styled.PageHeader>{"Filter & Search All Cards"}</Styled.PageHeader>
-      <Styled.FiltersContainer>
-        <Styled.FilterSection>
-          <Styled.SectionHeader>Set</Styled.SectionHeader>
-          <Styled.Filter>
-            <Styled.Label htmlFor="year">Year: </Styled.Label>
-            <Styled.Select
-              id="year"
-              value={filters.year}
-              onChange={setFiltersChange}
-            >
-              <option value={0}>Select</option>]
-              {Object.keys(
-                cardsBySet.reduce((years: any, set) => {
-                  if (years[set.year]) return years;
-                  years[set.year] = true;
-                  return years;
-                }, {})
-              ).map((year) => {
-                return (
-                  <option key={year} value={+year}>
-                    {year}
-                  </option>
-                );
-              })}
-            </Styled.Select>
-          </Styled.Filter>
-          <Styled.Filter>
-            <Styled.Label htmlFor="set">Set: </Styled.Label>
-            <Styled.Select
-              id="set"
-              value={filters.setId}
-              onChange={setFiltersChange}
-            >
-              <option value={0}>Select</option>]
-              {cardsBySet.map((set) => {
-                return (
-                  <option key={set.setId} value={set.setId}>
-                    {set.setName}
-                  </option>
-                );
-              })}
-            </Styled.Select>
-          </Styled.Filter>
-        </Styled.FilterSection>
-        <Styled.FilterSection>
-          <Styled.SectionHeader>Team/Player</Styled.SectionHeader>
-          <Styled.Filter>
-            <Styled.Label htmlFor="team">Team: </Styled.Label>
-            <Styled.Select
-              id="team"
-              value={filters.teamId}
-              onChange={teamPlayerFiltersChange}
-            >
-              <option value={0}>Select</option>
-              {teams.map((team) => {
-                return (
-                  <option key={team.id} value={team.id}>
-                    {team.name}
-                  </option>
-                );
-              })}
-            </Styled.Select>
-          </Styled.Filter>
-          <Styled.Filter>
-            <Styled.Label htmlFor="playerSearch">Find: </Styled.Label>
-            <Styled.TextInput
-              id="playerSearch"
-              type="text"
-              value={playerSearch}
-              placeholder="player name"
-              onChange={playerSearchChange}
-            />
-          </Styled.Filter>
-          <Styled.Filter>
-            <Styled.Label htmlFor="player">Player: </Styled.Label>
-            <Styled.Select id="player" onChange={teamPlayerFiltersChange}>
-              <option value={0}>Select</option>
-              {players
-                .filter((player) => {
-                  return player.name
-                    .toLowerCase()
-                    .includes(playerSearch.toLowerCase());
-                })
-                .map((player) => {
-                  return (
-                    <option key={player.id} value={player.id}>
-                      {player.name}
-                    </option>
-                  );
-                })}
-            </Styled.Select>
-          </Styled.Filter>
-        </Styled.FilterSection>
-        <Styled.FilterSection>
-          <Styled.SectionHeader>Attribute</Styled.SectionHeader>
-          <Styled.Filter>
-            <Styled.Label htmlFor="rookie">Rookie: </Styled.Label>
-            <Styled.Checkbox
-              id="rookie"
-              checked={filters.rookie}
-              type="checkbox"
-              onChange={cardAttributeChange}
-            />
-          </Styled.Filter>
-          <Styled.Filter>
-            <Styled.Label htmlFor="serialized">Serialized: </Styled.Label>
-            <Styled.Checkbox
-              id="serialized"
-              checked={filters.serialized}
-              type="checkbox"
-              onChange={cardAttributeChange}
-            />
-          </Styled.Filter>
-          <Styled.Filter>
-            <Styled.Label htmlFor="auto">Auto: </Styled.Label>
-            <Styled.Checkbox
-              id="auto"
-              checked={filters.auto}
-              type="checkbox"
-              onChange={cardAttributeChange}
-            />
-          </Styled.Filter>
-          <Styled.Filter>
-            <Styled.Label htmlFor="relic">Relic: </Styled.Label>
-            <Styled.Checkbox
-              id="relic"
-              checked={filters.relic}
-              type="checkbox"
-              onChange={cardAttributeChange}
-            />
-          </Styled.Filter>
-          <Styled.Filter>
-            <Styled.Label htmlFor="manufacturedRelic">
-              Manufactured Relic:{" "}
-            </Styled.Label>
-            <Styled.Checkbox
-              id="manufacturedRelic"
-              checked={filters.manufacturedRelic}
-              type="checkbox"
-              onChange={cardAttributeChange}
-            />
-          </Styled.Filter>
-          <Styled.Filter>
-            <Styled.Label htmlFor="parallel">Parallel: </Styled.Label>
-            <Styled.Checkbox
-              id="parallel"
-              checked={filters.parallel}
-              type="checkbox"
-              onChange={cardAttributeChange}
-            />
-          </Styled.Filter>
-          <Styled.Filter>
-            <Styled.Label htmlFor="refractor">Refractor: </Styled.Label>
-            <Styled.Checkbox
-              id="refractor"
-              checked={filters.refractor}
-              type="checkbox"
-              onChange={cardAttributeChange}
-            />
-          </Styled.Filter>
-          <Styled.Filter>
-            <Styled.Label htmlFor="shortPrint">Short Print: </Styled.Label>
-            <Styled.Checkbox
-              id="shortPrint"
-              checked={filters.shortPrint}
-              type="checkbox"
-              onChange={cardAttributeChange}
-            />
-          </Styled.Filter>
-        </Styled.FilterSection>
-      </Styled.FiltersContainer>
-      <Styled.ResetPdfButtons>
-        <Styled.Pdf
-          onClick={(e) =>
-            createPdf(createPdfData(filteredCards, shownColumns, "Checklist"))
-          }
-        >
-          Download PDF
-        </Styled.Pdf>
-        <Styled.Reset onClick={resetFilters}>Reset Filters</Styled.Reset>
-      </Styled.ResetPdfButtons>
+      <Filter filters={filters} handleChange={handleFilterChange} />
+      <Styled.Buttons>
+        <Styled.Pdf>Download PDF</Styled.Pdf>
+        <Styled.ResetApply>
+          <Styled.Apply onClick={applyFilters}>Apply Filters</Styled.Apply>
+          <Styled.Reset onClick={resetFilters}>Reset Filters</Styled.Reset>
+        </Styled.ResetApply>
+      </Styled.Buttons>
       <Styled.TableHeader>
-        <TotalCards totalCards={filteredCards.length} />
+        <TotalCards totalCards={paginatedCards.count} />
         <Styled.TableColumns
           onClick={(e) => setShowColumnsMenu(!showColumnsMenu)}
         >
@@ -369,13 +218,21 @@ export default function FilterPage() {
       <DataTableContainer>
         <DataTable
           columns={columns(shownColumns)}
-          data={filteredCards}
+          data={paginatedCards.rows}
           dense
           noHeader
-          pagination
           progressPending={loadingCards}
-          progressComponent={<LoadingDots />}
-          paginationPerPage={20}
+          progressComponent={
+            <Styled.LoadingContainer>
+              <LoadingDots />
+            </Styled.LoadingContainer>
+          }
+          pagination
+          paginationServer
+          paginationTotalRows={paginatedCards.count}
+          onChangeRowsPerPage={handleRowsPerPageChange}
+          onChangePage={handlePageChange}
+          paginationPerPage={rowsPerPage}
           paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
         />
       </DataTableContainer>

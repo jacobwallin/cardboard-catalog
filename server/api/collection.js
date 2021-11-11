@@ -13,6 +13,7 @@ const {
   Subset,
   Set,
   Team,
+  CardDataPlayer,
 } = require("../db/models");
 
 const db = require("../db/db");
@@ -122,63 +123,177 @@ router.post("/delete/bulk", async (req, res, next) => {
 
 router.get("/filter", async (req, res, next) => {
   // sort by card name
-  // let playerSort = [Card, CardData, "name", "ASC"];
+  // let playerSort = [Card, CardData, "number", "ASC"];
 
-  // let cardIdFilter = {
-  //   "$card.id$": { [Op.eq]: 18512 },
-  // };
+  const cardDataInclude = [
+    {
+      model: Team,
+      attributes: ["name"],
+    },
+  ];
 
-  // let playerFilter = {
-  //   "$card.card_datum.players.id$": { [Op.eq]: 90 },
-  // };
+  const queryParams = req.query;
+  const filters = {};
+  // remove pagination params
+  let filterNames = Object.keys(queryParams).filter(
+    (query) => query !== "limit" && query !== "offset"
+  );
+
+  // create filter object
+  for (let i = 0; i < filterNames.length; i++) {
+    switch (filterNames[i]) {
+      case "rookie":
+        let rookie = queryParams[filterNames[i]] === "true" ? true : false;
+        filters["$card.card_datum.rookie$"] = { [Op.eq]: rookie };
+        break;
+      case "parallel":
+        let parallel = queryParams[filterNames[i]] === "true" ? true : false;
+        filters["$card.series.parallel$"] = { [Op.eq]: parallel };
+        break;
+      case "serialized":
+        let serialized = queryParams[filterNames[i]] === "true" ? true : false;
+        console.log("******", serialized);
+        if (serialized) {
+          filters["$card.series.serialized$"] = { [Op.ne]: null };
+        } else {
+          filters["$card.series.serialized$"] = { [Op.eq]: null };
+        }
+        break;
+      case "auto":
+        let auto = queryParams[filterNames[i]] === "true" ? true : false;
+        filters["$card.series.auto$"] = { [Op.eq]: auto };
+        break;
+      case "relic":
+        let relic = queryParams[filterNames[i]] === "true" ? true : false;
+        filters["$card.series.relic$"] = { [Op.eq]: relic };
+        break;
+      case "refractor":
+        let refractor = queryParams[filterNames[i]] === "true" ? true : false;
+        filters["$card.series.refractor$"] = { [Op.eq]: refractor };
+        break;
+      case "short-print":
+        let shortPrint = queryParams[filterNames[i]] === "true" ? true : false;
+        filters["$card.series.shortPrint$"] = { [Op.eq]: shortPrint };
+        break;
+      case "man-relic":
+        let manufacturedRelic =
+          queryParams[filterNames[i]] === "true" ? true : false;
+        filters["$card.series.manufacturedRelic$"] = {
+          [Op.eq]: manufacturedRelic,
+        };
+        break;
+      case "hof":
+        let hallOfFame = queryParams[filterNames[i]] === "true" ? true : false;
+        filters["$card.series.manufacturedRelic$"] = {
+          [Op.eq]: hallOfFame,
+        };
+        break;
+      case "playerId":
+        // only filter if valid number was given
+        if (!isNaN(+queryParams[filterNames[i]])) {
+          // include players in query
+          cardDataInclude.push({
+            model: Player,
+            attributes: [],
+          });
+          // add player id filter
+          filters["$card.card_datum.players.id$"] = {
+            [Op.eq]: +queryParams[filterNames[i]],
+          };
+        }
+        break;
+      case "teamId":
+        if (!isNaN(+queryParams[filterNames[i]])) {
+          filters["$card.card_datum.teamId$"] = {
+            [Op.eq]: +queryParams[filterNames[i]],
+          };
+        }
+        break;
+      case "year":
+        if (!isNaN(+queryParams[filterNames[i]])) {
+          filters["$card.series.subset.set.year$"] = {
+            [Op.eq]: +queryParams[filterNames[i]],
+          };
+        }
+        break;
+      case "setId":
+        if (!isNaN(+queryParams[filterNames[i]])) {
+          filters["$card.series.subset.set.id$"] = {
+            [Op.eq]: +queryParams[filterNames[i]],
+          };
+        }
+        break;
+      case "subsetId":
+        if (!isNaN(+queryParams[filterNames[i]])) {
+          filters["$card.series.subset.id$"] = {
+            [Op.eq]: +queryParams[filterNames[i]],
+          };
+        }
+        break;
+      case "seriesId":
+        if (!isNaN(+queryParams[filterNames[i]])) {
+          filters["$card.series.id$"] = {
+            [Op.eq]: +queryParams[filterNames[i]],
+          };
+        }
+        break;
+      default:
+        break;
+    }
+  }
 
   try {
     const userCards = await UserCard.findAndCountAll({
+      // filters
       where: {
         userId: req.user.id,
+        ...filters,
       },
+      // pagination
+      limit: req.query.limit,
+      offset: req.query.offset,
+      subQuery: false,
+      // sorting
+      order: [
+        [Card, Series, Subset, Set, "name", "ASC"],
+        [Card, Series, Subset, "name", "ASC"],
+        [Card, Series, "name", "ASC"],
+      ],
+      // joins
       include: [
         {
           model: Card,
-          attributes: ["id", "value", "seriesId", "cardDataId"],
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "updatedBy", "createdBy"],
+          },
           include: [
             {
               model: CardData,
-              attributes: [
-                "id",
-                "name",
-                "number",
-                "rookie",
-                "subsetId",
-                "teamId",
-              ],
-              include: [
-                {
-                  model: Player,
-                  attributes: ["id", "name", "birthday", "hallOfFame"],
-                },
-                {
-                  model: Team,
-                  attributes: ["name"],
-                },
-              ],
+              attributes: {
+                exclude: ["createdAt", "updatedAt", "updatedBy", "createdBy"],
+              },
+              include: cardDataInclude,
             },
             {
               model: Series,
+              attributes: {
+                exclude: ["createdAt", "updatedAt", "updatedBy", "createdBy"],
+              },
               include: {
                 model: Subset,
-                attributes: ["id", "name", "baseSeriesId", "setId"],
+                attributes: {
+                  exclude: ["createdAt", "updatedAt", "updatedBy", "createdBy"],
+                },
                 include: {
                   model: Set,
-                  attributes: [
-                    "id",
-                    "name",
-                    "baseSubsetId",
-                    "release_date",
-                    "year",
-                    "leagueId",
-                    "brandId",
-                  ],
+                  attributes: {
+                    exclude: [
+                      "createdAt",
+                      "updatedAt",
+                      "updatedBy",
+                      "createdBy",
+                    ],
+                  },
                 },
               },
             },
@@ -186,7 +301,6 @@ router.get("/filter", async (req, res, next) => {
         },
         GradingCompany,
       ],
-      order: [["createdAt", "DESC"]],
     });
     res.json(userCards);
   } catch (error) {

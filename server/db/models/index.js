@@ -76,6 +76,10 @@ GradingCompany.hasMany(UserCard);
 // many to many association between players and card data
 Player.belongsToMany(CardData, { through: CardDataPlayer });
 CardData.belongsToMany(Player, { through: CardDataPlayer });
+CardDataPlayer.belongsTo(CardData);
+CardData.hasMany(CardDataPlayer);
+CardDataPlayer.belongsTo(Player);
+Player.hasMany(CardDataPlayer);
 
 // One to many association between subsets and card data
 CardData.belongsTo(Subset, {
