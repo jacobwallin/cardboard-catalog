@@ -3,6 +3,7 @@ import tableStyles from "../shared/dataTableStyles";
 import { UserCard } from "../../../store/collection/filter/types";
 import { IDataTableColumn } from "react-data-table-component";
 import CardNumber from "../subset_page/CardNumber";
+import * as Styled from "./styled";
 
 export function columns(selectedCols: {
   cardNumber: boolean;
@@ -42,6 +43,14 @@ export function columns(selectedCols: {
     cols.push({
       name: "Name",
       selector: (row: UserCard) => row.card.card_datum.name,
+      cell: (row: UserCard) => (
+        <Styled.CardNameContainer>
+          <div>{row.card.card_datum.name}</div>
+          {row.grade && row.grading_company && (
+            <Styled.Grade>{`${row.grading_company.name} ${row.grade}`}</Styled.Grade>
+          )}
+        </Styled.CardNameContainer>
+      ),
       sortable: true,
       style: tableStyles,
       compact: true,

@@ -233,3 +233,13 @@ export const ShowFiltersToggle = styled.div`
     background-color: lightgray;
   }
 `;
+
+export const CardNameContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+export const Grade = styled.div`
+  color: purple;
+  font-weight: 600;
+  font-size: 0.7rem;
+`;
