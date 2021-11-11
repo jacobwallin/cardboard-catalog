@@ -322,8 +322,6 @@ export default function CardFormController(props: Props) {
     }
   }
 
-  console.log(loadingInitialData);
-
   // wait until players and teams have loaded to render any form
   // if (loadingInitialData) {
   //   return <LoadingDots />;
