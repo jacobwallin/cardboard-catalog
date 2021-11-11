@@ -2,6 +2,7 @@
 export interface FilterCollectionState {
   count: number;
   rows: UserCard[];
+  pdfData: UserCard[];
   dataFetched: boolean;
 }
 
