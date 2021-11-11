@@ -133,13 +133,65 @@ router.get("/filter", async (req, res, next) => {
   ];
 
   const queryParams = req.query;
-  const filters = {};
-  // remove pagination params
+
+  // determine sort order
+  let sortOrder = [];
+  if (queryParams.sort) {
+    switch (queryParams.sort) {
+      case "set":
+        if (queryParams.sort_direction === "desc") {
+          sortOrder = [
+            [Card, Series, Subset, Set, "name", "DESC"],
+            [Card, Series, Subset, "name", "DESC"],
+            [Card, Series, "name", "DESC"],
+          ];
+        } else {
+          sortOrder = [
+            [Card, Series, Subset, Set, "name", "ASC"],
+            [Card, Series, Subset, "name", "ASC"],
+            [Card, Series, "name", "ASC"],
+          ];
+        }
+        break;
+      case "name":
+        if (queryParams.sort_direction === "desc") {
+          sortOrder = [[Card, CardData, "name", "DESC"]];
+        } else {
+          sortOrder = [[Card, CardData, "name", "ASC"]];
+        }
+        break;
+      case "number":
+        if (queryParams.sort_direction === "asc") {
+          sortOrder = [[Card, CardData, "number", "ASC"]];
+        } else {
+          sortOrder = [[Card, CardData, "number", "DESC"]];
+        }
+        break;
+      case "date":
+        if (queryParams.sort_direction === "desc") {
+          sortOrder = [["createdAt", "DESC"]];
+        } else {
+          sortOrder = [["createdAt", "ASC"]];
+        }
+        break;
+      default:
+        sortOrder = [["createdAt", "DESC"]];
+    }
+  } else {
+    sortOrder = [["createdAt", "DESC"]];
+  }
+
+  // remove pagination and sorting params
   let filterNames = Object.keys(queryParams).filter(
-    (query) => query !== "limit" && query !== "offset"
+    (query) =>
+      query !== "limit" &&
+      query !== "offset" &&
+      query !== "sort" &&
+      query !== "sort_direction"
   );
 
   // create filter object
+  const filters = {};
   for (let i = 0; i < filterNames.length; i++) {
     switch (filterNames[i]) {
       case "rookie":
@@ -261,11 +313,7 @@ router.get("/filter", async (req, res, next) => {
       offset: req.query.offset,
       subQuery: false,
       // sorting
-      order: [
-        [Card, Series, Subset, Set, "name", "ASC"],
-        [Card, Series, Subset, "name", "ASC"],
-        [Card, Series, "name", "ASC"],
-      ],
+      order: sortOrder,
       // joins
       include: [
         {

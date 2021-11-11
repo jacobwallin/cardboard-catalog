@@ -40,6 +40,8 @@ export default function FilterPage() {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(20);
+  const [sortBy, setSortBy] = useState("date");
+  const [sortDeirection, setSortDirection] = useState("desc");
   const [shownColumns, setShownColumns] =
     useState<TableColumns>(initialTableColumns);
   const [showColumnsMenu, setShowColumnsMenu] = useState(false);
@@ -134,10 +136,12 @@ export default function FilterPage() {
   useEffect(() => {
     dispatch(
       fetchCards(
-        `?offset=${(page - 1) * rowsPerPage}&limit=${rowsPerPage}${query}`
+        `?offset=${
+          (page - 1) * rowsPerPage
+        }&limit=${rowsPerPage}${query}&sort=${sortBy}&sort_direction=${sortDeirection}`
       )
     );
-  }, [page, rowsPerPage, query, dispatch]);
+  }, [page, rowsPerPage, sortBy, sortDeirection, query, dispatch]);
 
   function applyFilters() {
     const { query, bubbles } = generateQuery(filters, set, subset);
@@ -164,6 +168,18 @@ export default function FilterPage() {
 
   function handlePageChange(page: number) {
     setPage(page);
+  }
+
+  function handleSort(column: any, sortDirection: any) {
+    const sortBy =
+      (column.name === "#" && "number") ||
+      (column.name === "Name" && "name") ||
+      (column.name === "Set" && "set") ||
+      (column.name === "Date Added" && "date") ||
+      "";
+
+    setSortBy(sortBy);
+    setSortDirection(sortDirection);
   }
 
   function toggleShowFilters() {
@@ -269,6 +285,8 @@ export default function FilterPage() {
               <LoadingDots />
             </Styled.LoadingContainer>
           }
+          sortServer
+          onSort={handleSort}
           pagination
           paginationServer
           paginationTotalRows={paginatedCards.count}

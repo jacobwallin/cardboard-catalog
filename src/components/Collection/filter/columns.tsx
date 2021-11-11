@@ -62,7 +62,7 @@ export function columns(selectedCols: {
     cols.push({
       name: "Team",
       selector: (row: UserCard) => row.card.card_datum.team.name,
-      sortable: true,
+      sortable: false,
       style: tableStyles,
       compact: true,
     });
