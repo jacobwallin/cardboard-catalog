@@ -52,6 +52,7 @@ export default function FilterPage() {
   const [showColumnsMenu, setShowColumnsMenu] = useState(false);
   const [showFilters, setShowFilters] = useState(true);
   const [showPdfModal, setShowPdfModal] = useState(false);
+  const [showPdfError, setShowPdfError] = useState(false);
   const [pdfCreated, setPdfCreated] = useState(false);
   const [pdfTitle, setPdfTitle] = useState("");
 
@@ -223,7 +224,12 @@ export default function FilterPage() {
   }
 
   function togglePdfModal() {
-    setShowPdfModal(!showPdfModal);
+    if (paginatedCards.count <= 2000) {
+      setShowPdfError(false);
+      setShowPdfModal(!showPdfModal);
+    } else {
+      setShowPdfError(true);
+    }
   }
 
   function downloadPdf() {
@@ -237,8 +243,6 @@ export default function FilterPage() {
       );
     }
   }
-
-  function showCreatePdfError() {}
 
   return (
     <CollectionPageContainer>
@@ -275,7 +279,14 @@ export default function FilterPage() {
         )}
       </Styled.FilterBubbleContainer>
       <Styled.Buttons>
-        <Styled.Pdf onClick={togglePdfModal}>Download PDF</Styled.Pdf>
+        <Styled.ResetApply>
+          {showPdfError && (
+            <Styled.PdfError>
+              Must be less than 2000 cards to download PDF.
+            </Styled.PdfError>
+          )}
+          <Styled.Pdf onClick={togglePdfModal}>Download PDF</Styled.Pdf>
+        </Styled.ResetApply>
         <Styled.ResetApply>
           <Styled.Apply onClick={applyFilters}>Apply Filters</Styled.Apply>
           <Styled.Reset onClick={resetFilters}>Reset Filters</Styled.Reset>

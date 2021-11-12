@@ -243,3 +243,10 @@ export const Grade = styled.div`
   font-weight: 600;
   font-size: 0.7rem;
 `;
+
+export const PdfError = styled.div`
+  font-size: 0.7rem;
+  color: red;
+  width: 125px;
+  text-align: center;
+`;
