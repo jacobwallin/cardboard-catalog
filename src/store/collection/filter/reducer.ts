@@ -21,6 +21,11 @@ export default function cardReducer(
         rows: action.payload.rows,
         pdfData: [],
       };
+    case types.GET_PDF_CARDS_SUCCESS:
+      return {
+        ...state,
+        pdfData: action.payload.rows,
+      };
     case ADD_CARDS_SUCCESS:
       return initialState;
     default:

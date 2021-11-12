@@ -96,6 +96,9 @@ interface Player {
 export const GET_CARDS_REQUEST = "GET_CARDS_REQUEST";
 export const GET_CARDS_SUCCESS = "GET_CARDS_SUCCESS";
 export const GET_CARDS_FAILURE = "GET_CARDS_FAILURE";
+export const GET_PDF_CARDS_REQUEST = "GET_PDF_CARDS_REQUEST";
+export const GET_PDF_CARDS_SUCCESS = "GET_PDF_CARDS_SUCCESS";
+export const GET_PDF_CARDS_FAILURE = "GET_PDF_CARDS_FAILURE";
 
 // ACTION CREATORS
 
@@ -104,13 +107,27 @@ interface GetCardsRequest {
 }
 interface GetCardsSuccess {
   type: typeof GET_CARDS_SUCCESS;
-  payload: FilterCollectionState;
+  payload: { count: number; rows: UserCard[] };
 }
 interface GetCardsFailure {
   type: typeof GET_CARDS_FAILURE;
 }
 
+interface GetPdfCardsRequest {
+  type: typeof GET_PDF_CARDS_REQUEST;
+}
+interface GetPdfCardsSuccess {
+  type: typeof GET_PDF_CARDS_SUCCESS;
+  payload: { count: number; rows: UserCard[] };
+}
+interface GetPdfCardsFailure {
+  type: typeof GET_PDF_CARDS_FAILURE;
+}
+
 export type FilterCollectionActions =
   | GetCardsRequest
   | GetCardsSuccess
-  | GetCardsFailure;
+  | GetCardsFailure
+  | GetPdfCardsFailure
+  | GetPdfCardsRequest
+  | GetPdfCardsSuccess;

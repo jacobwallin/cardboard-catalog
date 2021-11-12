@@ -13,8 +13,8 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
-  font-weight: 700;
-  font-size: 1.4em;
+  font-weight: 400;
+  font-size: 1.3em;
   text-align: center;
 `;
 

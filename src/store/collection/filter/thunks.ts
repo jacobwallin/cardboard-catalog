@@ -18,3 +18,17 @@ export const fetchCards =
         dispatch(actions.getCardsFailure());
       });
   };
+export const fetchPdfData =
+  (
+    query: string
+  ): ThunkAction<void, RootState, unknown, FilterCollectionActions> =>
+  (dispatch) => {
+    dispatch(actions.getPdfCardsRequest());
+    get(`/api/collection/filter/${query}`, dispatch)
+      .then((payload) => {
+        dispatch(actions.getPdfCardsSuccess(payload));
+      })
+      .catch((err) => {
+        dispatch(actions.getPdfCardsFailure());
+      });
+  };

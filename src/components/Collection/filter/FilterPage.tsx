@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { fetchCards } from "../../../store/collection/filter/thunks";
+import {
+  fetchCards,
+  fetchPdfData,
+} from "../../../store/collection/filter/thunks";
 import { fetchCardsBySet } from "../../../store/collection/browse/thunks";
 import { fetchAllPlayers } from "../../../store/library/players/thunks";
 import { fetchAllTeams } from "../../../store/library/teams/thunks";
@@ -25,9 +28,11 @@ import {
 import { LoadingDots } from "../../shared/Loading";
 import generateQuery from "./generateQuery";
 import Filter from "./Filter";
+import PdfModal from "./PdfModal";
 import * as Styled from "./styled";
 
 const loadingCardsSelector = createLoadingSelector(["GET_CARDS"]);
+const loadingPdfDataSelector = createLoadingSelector(["GET_PDF_CARDS"]);
 
 export default function FilterPage() {
   const dispatch = useDispatch();
@@ -46,6 +51,9 @@ export default function FilterPage() {
     useState<TableColumns>(initialTableColumns);
   const [showColumnsMenu, setShowColumnsMenu] = useState(false);
   const [showFilters, setShowFilters] = useState(true);
+  const [showPdfModal, setShowPdfModal] = useState(false);
+  const [pdfCreated, setPdfCreated] = useState(false);
+  const [pdfTitle, setPdfTitle] = useState("");
 
   const set = useSelector((state: RootState) => state.library.sets.set);
   const subset = useSelector((state: RootState) => state.library.subsets);
@@ -55,6 +63,9 @@ export default function FilterPage() {
 
   const loadingCards = useSelector((state: RootState) =>
     loadingCardsSelector(state)
+  );
+  const loadingPdfData = useSelector((state: RootState) =>
+    loadingPdfDataSelector(state)
   );
   const initialDataLoadComplete = useSelector(
     (state: RootState) => state.collection.browse.initialDataLoadComplete
@@ -125,6 +136,10 @@ export default function FilterPage() {
     }
   }
 
+  function handlePdfTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setPdfTitle(e.target.value);
+  }
+
   useEffect(() => {
     dispatch(fetchAllPlayers());
     dispatch(fetchAllTeams());
@@ -142,6 +157,27 @@ export default function FilterPage() {
       )
     );
   }, [page, rowsPerPage, sortBy, sortDeirection, query, dispatch]);
+
+  useEffect(() => {
+    if (pdfCreated && !loadingPdfData) {
+      setPdfCreated(false);
+      setShowPdfModal(false);
+      createPdf(
+        createPdfData(
+          paginatedCards.pdfData,
+          shownColumns,
+          pdfTitle === "" ? "Checklist" : pdfTitle
+        ),
+        pdfTitle === "" ? "Checklist" : pdfTitle
+      );
+    }
+  }, [
+    loadingPdfData,
+    pdfCreated,
+    paginatedCards.pdfData,
+    shownColumns,
+    pdfTitle,
+  ]);
 
   function applyFilters() {
     const { query, bubbles } = generateQuery(filters, set, subset);
@@ -186,8 +222,35 @@ export default function FilterPage() {
     setShowFilters(!showFilters);
   }
 
+  function togglePdfModal() {
+    setShowPdfModal(!showPdfModal);
+  }
+
+  function downloadPdf() {
+    // fetch complete list of filtered cards
+    if (paginatedCards.count <= 2000) {
+      setPdfCreated(true);
+      dispatch(
+        fetchPdfData(
+          `?offset=0&limit=${paginatedCards.count}${query}&sort=${sortBy}&sort_direction=${sortDeirection}`
+        )
+      );
+    }
+  }
+
+  function showCreatePdfError() {}
+
   return (
     <CollectionPageContainer>
+      {showPdfModal && (
+        <PdfModal
+          dismiss={togglePdfModal}
+          createdPdf={downloadPdf}
+          handleTitleChange={handlePdfTitleChange}
+          loading={loadingPdfData}
+          loadingMessage="Downloading PDF Data"
+        />
+      )}
       <Styled.PageHeader>{"Filter & Search All Cards"}</Styled.PageHeader>
       <Styled.ShowFiltersToggle onClick={toggleShowFilters}>
         {showFilters ? "Hide Filters" : "Show Filters"}
@@ -212,7 +275,7 @@ export default function FilterPage() {
         )}
       </Styled.FilterBubbleContainer>
       <Styled.Buttons>
-        <Styled.Pdf>Download PDF</Styled.Pdf>
+        <Styled.Pdf onClick={togglePdfModal}>Download PDF</Styled.Pdf>
         <Styled.ResetApply>
           <Styled.Apply onClick={applyFilters}>Apply Filters</Styled.Apply>
           <Styled.Reset onClick={resetFilters}>Reset Filters</Styled.Reset>
@@ -294,6 +357,7 @@ export default function FilterPage() {
           onChangePage={handlePageChange}
           paginationPerPage={rowsPerPage}
           paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
+          // paginationResetDefaultPage
         />
       </DataTableContainer>
     </CollectionPageContainer>
