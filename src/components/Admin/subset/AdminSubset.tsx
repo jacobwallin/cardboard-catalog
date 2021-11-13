@@ -51,7 +51,7 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
   const dispatch = useDispatch();
   const [showCreateSeriesModal, setShowCreateSeriesModal] = useState(false);
   const [showCreateCardModal, setShowCreateCardModal] = useState(false);
-  const [showScrapeCardModal, setShowScrapeCardModal] = useState(true);
+  const [showScrapeCardModal, setShowScrapeCardModal] = useState(false);
   const [showDeleteAllCardsModeal, setShowDeleteAllCardsModeal] =
     useState(false);
   const [editCardData, setEditCardData] = useState<CardData | undefined>(
