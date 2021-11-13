@@ -170,7 +170,6 @@ export default function FilterPage() {
   useEffect(() => {
     if (pdfCreated && !loadingPdfData) {
       setPdfCreated(false);
-      setShowPdfModal(false);
       createPdf(
         createPdfData(
           paginatedCards.pdfData,
@@ -181,6 +180,7 @@ export default function FilterPage() {
         ),
         pdfTitle === "" ? "Checklist" : pdfTitle
       );
+      setShowPdfModal(false);
     }
   }, [
     loadingPdfData,

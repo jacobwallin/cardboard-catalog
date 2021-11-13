@@ -42,6 +42,11 @@ const RadioTitle = styled.div`
   font-weight: 600;
 `;
 
+const SortTitle = styled.div`
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+`;
+
 interface Props {
   createdPdf(): void;
   dismiss(): void;
@@ -74,6 +79,7 @@ export default function PdfModal(props: Props) {
                 placeholder="Enter PDF Title"
                 onChange={props.handleChanges}
               />
+              <SortTitle>Change Sort Method</SortTitle>
               <SortByContainer>
                 <RadioTitle>Sort By</RadioTitle>
                 <div>
