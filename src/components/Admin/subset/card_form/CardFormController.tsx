@@ -140,11 +140,15 @@ export default function CardFormController(props: Props) {
 
   // remove form data when card is added
   useEffect(() => {
-    setScrapedCardData((currentData) => {
-      return currentData.filter(
-        (card) => !checkIfAdded(card, scrapedCardsAdded)
-      );
-    });
+    if (scrapedCardData.length === 1) {
+      props.handleClose();
+    } else {
+      setScrapedCardData((currentData) => {
+        return currentData.filter(
+          (card) => !checkIfAdded(card, scrapedCardsAdded)
+        );
+      });
+    }
   }, [scrapedCardsAdded]);
 
   // make sure current index is not out of bounds

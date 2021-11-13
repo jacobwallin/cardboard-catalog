@@ -8,9 +8,8 @@ export const Header = styled.div`
 `;
 
 export const TextArea = styled.textarea`
-  width: 85%;
-  min-width: 280px;
   height: 250px;
+  width: 100%;
   padding: 5px;
   resize: none;
   border-radius: 3px;
@@ -43,8 +42,7 @@ export const InputContainer = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-items: flex-start;
-  width: 85%;
-  min-width: 280px;
+  width: 100%;
 `;
 
 export const SmallPageWrapper = styled.div`
@@ -62,9 +60,15 @@ export const ContentWrapper = styled.div`
   gap: 25px;
   align-items: center;
   width: 100%;
+  width: 85%;
+  min-width: 280px;
 `;
 
 export const NoCardsFound = styled.div`
   font-size: 1rem;
   color: red;
+`;
+
+export const ButtonWrapper = styled.div`
+  align-self: center;
 `;

@@ -206,36 +206,45 @@ export default function CardScrapeModal(props: Props) {
                 </Styled.Label>
                 <Styled.Input
                   type="text"
-                  placeholder="tcdb url"
+                  placeholder="enter url"
                   value={url}
                   onChange={handleInputChange}
                 />
               </Styled.InputContainer>
-              <StyledButton
-                color="BLUE"
-                width="125px"
-                height="30px"
-                onClick={handleScrapeCardData}
-                disabled={
-                  !/^https:\/\/www.tcdb.com\/Checklist.cfm\/sid/.test(url)
-                }
-              >
-                Scrape Cards
-              </StyledButton>
-              <Styled.TextArea
-                value={checklist}
-                onChange={(e) => setChecklist(e.target.value)}
-                placeholder="Cardboard Connection checklist"
-              />
-              <StyledButton
-                color="BLUE"
-                width="125px"
-                height="30px"
-                onClick={handleParseChecklist}
-                disabled={checklist === ""}
-              >
-                Parse Checklist
-              </StyledButton>
+              <Styled.ButtonWrapper>
+                <StyledButton
+                  color="BLUE"
+                  width="125px"
+                  height="30px"
+                  onClick={handleScrapeCardData}
+                  disabled={
+                    !/^https:\/\/www.tcdb.com\/Checklist.cfm\/sid/.test(url)
+                  }
+                >
+                  Scrape Cards
+                </StyledButton>
+              </Styled.ButtonWrapper>
+              <Styled.InputContainer>
+                <Styled.Label>
+                  Paste Cardboard Connection Checklist
+                </Styled.Label>
+                <Styled.TextArea
+                  value={checklist}
+                  onChange={(e) => setChecklist(e.target.value)}
+                  placeholder="enter checklist"
+                />
+              </Styled.InputContainer>
+              <Styled.ButtonWrapper>
+                <StyledButton
+                  color="BLUE"
+                  width="125px"
+                  height="30px"
+                  onClick={handleParseChecklist}
+                  disabled={checklist === ""}
+                >
+                  Parse Checklist
+                </StyledButton>
+              </Styled.ButtonWrapper>
               <Styled.Footer></Styled.Footer>
               {noCardsFound && (
                 <Styled.NoCardsFound>No Cards Found</Styled.NoCardsFound>
