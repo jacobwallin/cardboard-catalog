@@ -265,8 +265,10 @@ export default function FilterPage() {
           dismiss={togglePdfModal}
           createdPdf={downloadPdf}
           handleChanges={handlePdfModalChanges}
-          loading={loadingPdfData}
-          loadingMessage="Downloading PDF Data"
+          loading={pdfCreated}
+          loadingMessage={
+            loadingPdfData ? "Downloading PDF Data" : "Creating PDF"
+          }
           sortBy={pdfSortBy}
           sortDirection={pdfSortDirection}
         />
