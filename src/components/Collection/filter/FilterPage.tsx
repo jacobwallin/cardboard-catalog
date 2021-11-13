@@ -46,7 +46,9 @@ export default function FilterPage() {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const [sortBy, setSortBy] = useState("date");
-  const [sortDeirection, setSortDirection] = useState("desc");
+  const [sortDirection, setSortDirection] = useState("desc");
+  const [pdfSortBy, setPdfSortBy] = useState("date");
+  const [pdfSortDirection, setPdfSortDirection] = useState("desc");
   const [shownColumns, setShownColumns] =
     useState<TableColumns>(initialTableColumns);
   const [showColumnsMenu, setShowColumnsMenu] = useState(false);
@@ -137,8 +139,14 @@ export default function FilterPage() {
     }
   }
 
-  function handlePdfTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setPdfTitle(e.target.value);
+  function handlePdfModalChanges(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.id === "title") {
+      setPdfTitle(e.target.value);
+    } else if (e.target.name === "sortBy") {
+      setPdfSortBy(e.target.id);
+    } else if (e.target.name === "sortDirection") {
+      setPdfSortDirection(e.target.id);
+    }
   }
 
   useEffect(() => {
@@ -154,10 +162,10 @@ export default function FilterPage() {
       fetchCards(
         `?offset=${
           (page - 1) * rowsPerPage
-        }&limit=${rowsPerPage}${query}&sort=${sortBy}&sort_direction=${sortDeirection}`
+        }&limit=${rowsPerPage}${query}&sort=${sortBy}&sort_direction=${sortDirection}`
       )
     );
-  }, [page, rowsPerPage, sortBy, sortDeirection, query, dispatch]);
+  }, [page, rowsPerPage, sortBy, sortDirection, query, dispatch]);
 
   useEffect(() => {
     if (pdfCreated && !loadingPdfData) {
@@ -166,6 +174,8 @@ export default function FilterPage() {
       createPdf(
         createPdfData(
           paginatedCards.pdfData,
+          pdfSortBy,
+          pdfSortDirection,
           shownColumns,
           pdfTitle === "" ? "Checklist" : pdfTitle
         ),
@@ -178,6 +188,8 @@ export default function FilterPage() {
     paginatedCards.pdfData,
     shownColumns,
     pdfTitle,
+    pdfSortBy,
+    pdfSortDirection,
   ]);
 
   function applyFilters() {
@@ -226,6 +238,8 @@ export default function FilterPage() {
   function togglePdfModal() {
     if (paginatedCards.count <= 2000) {
       setShowPdfError(false);
+      setPdfSortBy(sortBy);
+      setPdfSortDirection(sortDirection);
       setShowPdfModal(!showPdfModal);
     } else {
       setShowPdfError(true);
@@ -238,7 +252,7 @@ export default function FilterPage() {
       setPdfCreated(true);
       dispatch(
         fetchPdfData(
-          `?offset=0&limit=${paginatedCards.count}${query}&sort=${sortBy}&sort_direction=${sortDeirection}`
+          `?offset=0&limit=${paginatedCards.count}${query}&sort=${sortBy}&sort_direction=${sortDirection}`
         )
       );
     }
@@ -250,9 +264,11 @@ export default function FilterPage() {
         <PdfModal
           dismiss={togglePdfModal}
           createdPdf={downloadPdf}
-          handleTitleChange={handlePdfTitleChange}
+          handleChanges={handlePdfModalChanges}
           loading={loadingPdfData}
           loadingMessage="Downloading PDF Data"
+          sortBy={pdfSortBy}
+          sortDirection={pdfSortDirection}
         />
       )}
       <Styled.PageHeader>{"Filter & Search All Cards"}</Styled.PageHeader>
@@ -280,11 +296,7 @@ export default function FilterPage() {
       </Styled.FilterBubbleContainer>
       <Styled.Buttons>
         <Styled.ResetApply>
-          {showPdfError && (
-            <Styled.PdfError>
-              Must be less than 2000 cards to download PDF.
-            </Styled.PdfError>
-          )}
+          {showPdfError && <Styled.PdfError>2000 Card Limit</Styled.PdfError>}
           <Styled.Pdf onClick={togglePdfModal}>Download PDF</Styled.Pdf>
         </Styled.ResetApply>
         <Styled.ResetApply>
