@@ -17,7 +17,7 @@ import {
 import * as Styled from "./styled";
 import StyledButton from "../../components/StyledButton";
 import { LoadingDots } from "../../../shared/Loading";
-import parseCards from "./parseCards";
+import { parseCards, parseChecklist } from "./parseCards";
 import { scrapeCardData } from "../../../../store/library/scrape/thunks";
 import { clearScrapedCards } from "../../../../store/library/scrape/actions";
 import ModalHeader from "../../components/modal/ModalHeader";
@@ -44,6 +44,7 @@ export default function CardScrapeModal(props: Props) {
   const [playersMissing, setPlayersMissing] = useState(false);
   const [playersChecked, setPlayersChecked] = useState(false);
   const [noCardsFound, setNoCardsFound] = useState(false);
+  const [checklist, setChecklist] = useState("");
 
   // loading player and team data
   const loading = useSelector((state: RootState) => loadingSelector(state));
@@ -136,6 +137,11 @@ export default function CardScrapeModal(props: Props) {
     dispatch(scrapeCardData(url));
   }
 
+  // parse checklist data
+  function handleParseChecklist() {
+    setFormData(parseChecklist(checklist, teams, players));
+  }
+
   // clear scraped card data on modal close
   function handleClose() {
     dispatch(clearScrapedCards());
@@ -205,19 +211,32 @@ export default function CardScrapeModal(props: Props) {
                   onChange={handleInputChange}
                 />
               </Styled.InputContainer>
-              <Styled.Footer>
-                <StyledButton
-                  color="BLUE"
-                  width="125px"
-                  height="30px"
-                  onClick={handleScrapeCardData}
-                  disabled={
-                    !/^https:\/\/www.tcdb.com\/Checklist.cfm\/sid/.test(url)
-                  }
-                >
-                  Scrape Cards
-                </StyledButton>
-              </Styled.Footer>
+              <StyledButton
+                color="BLUE"
+                width="125px"
+                height="30px"
+                onClick={handleScrapeCardData}
+                disabled={
+                  !/^https:\/\/www.tcdb.com\/Checklist.cfm\/sid/.test(url)
+                }
+              >
+                Scrape Cards
+              </StyledButton>
+              <Styled.TextArea
+                value={checklist}
+                onChange={(e) => setChecklist(e.target.value)}
+                placeholder="Cardboard Connection checklist"
+              />
+              <StyledButton
+                color="BLUE"
+                width="125px"
+                height="30px"
+                onClick={handleParseChecklist}
+                disabled={checklist === ""}
+              >
+                Parse Checklist
+              </StyledButton>
+              <Styled.Footer></Styled.Footer>
               {noCardsFound && (
                 <Styled.NoCardsFound>No Cards Found</Styled.NoCardsFound>
               )}
