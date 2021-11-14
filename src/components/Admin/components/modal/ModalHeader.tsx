@@ -23,7 +23,7 @@ const Close = styled.div`
   height: 30px;
   align-self: flex-end;
   position: absolute;
-  right: 5px;
+  right: -10px;
   top: -15px;
   &:hover {
     .ex {

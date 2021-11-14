@@ -92,61 +92,63 @@ export default function EditCard(props: Props) {
           message="This will delete this all card from this series as well including any that are in user's collections."
         />
       )}
-      {isEditing ? (
-        <SeriesForm
-          createNew={false}
-          handleCancel={handleEditStateChange}
-          handleSubmit={handleFormSubmit}
-        />
-      ) : (
-        <FormContainer>
-          <FieldContainer>
-            <FieldTitle>Name</FieldTitle>
-            <FieldData>{series.name}</FieldData>
-          </FieldContainer>
-          <FieldContainer>
-            <FieldTitle>Serialized to</FieldTitle>
-            <FieldData>
-              {series.serialized ? series.serialized : "Not Serialized"}
-            </FieldData>
-          </FieldContainer>
-          <FieldContainer>
-            <FieldTitle>Auto</FieldTitle>
-            <FieldData>{series.auto ? "Yes" : "No"}</FieldData>
-          </FieldContainer>
-          <FieldContainer>
-            <FieldTitle>Relic</FieldTitle>
-            <FieldData>{series.relic ? "Yes" : "No"}</FieldData>
-          </FieldContainer>
-          <FieldContainer>
-            <FieldTitle>Refractor</FieldTitle>
-            <FieldData>{series.refractor ? "Yes" : "No"}</FieldData>
-          </FieldContainer>
-          <FieldContainer>
-            <FieldTitle>Short Print</FieldTitle>
-            <FieldData>{series.shortPrint ? "Yes" : "No"}</FieldData>
-          </FieldContainer>
-          <FieldContainer>
-            <FieldTitle>Manufactured Relic</FieldTitle>
-            <FieldData>{series.manufacturedRelic ? "Yes" : "No"}</FieldData>
-          </FieldContainer>
-          <EditDeleteButtons
-            handleEdit={handleEditStateChange}
-            handleDelete={toggleDeleteModal}
-            hideDelete={series.subset.baseSeriesId === series.id}
+      <FormContainer>
+        {isEditing ? (
+          <SeriesForm
+            createNew={false}
+            handleCancel={handleEditStateChange}
+            handleSubmit={handleFormSubmit}
           />
-          <CreatedUpdatedBy
-            createdBy={{
-              username: series.createdByUser.username,
-              timestamp: series.createdAt,
-            }}
-            updatedBy={{
-              username: series.updatedByUser.username,
-              timestamp: series.updatedAt,
-            }}
-          />
-        </FormContainer>
-      )}
+        ) : (
+          <>
+            <FieldContainer>
+              <FieldTitle>Name</FieldTitle>
+              <FieldData>{series.name}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Serialized to</FieldTitle>
+              <FieldData>
+                {series.serialized ? series.serialized : "Not Serialized"}
+              </FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Auto</FieldTitle>
+              <FieldData>{series.auto ? "Yes" : "No"}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Relic</FieldTitle>
+              <FieldData>{series.relic ? "Yes" : "No"}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Refractor</FieldTitle>
+              <FieldData>{series.refractor ? "Yes" : "No"}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Short Print</FieldTitle>
+              <FieldData>{series.shortPrint ? "Yes" : "No"}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Manufactured Relic</FieldTitle>
+              <FieldData>{series.manufacturedRelic ? "Yes" : "No"}</FieldData>
+            </FieldContainer>
+            <EditDeleteButtons
+              handleEdit={handleEditStateChange}
+              handleDelete={toggleDeleteModal}
+              hideDelete={series.subset.baseSeriesId === series.id}
+            />
+            <CreatedUpdatedBy
+              createdBy={{
+                username: series.createdByUser.username,
+                timestamp: series.createdAt,
+              }}
+              updatedBy={{
+                username: series.updatedByUser.username,
+                timestamp: series.updatedAt,
+              }}
+            />
+          </>
+        )}
+      </FormContainer>
     </>
   );
 }

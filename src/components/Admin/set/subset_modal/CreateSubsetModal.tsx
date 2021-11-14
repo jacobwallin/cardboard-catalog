@@ -4,6 +4,7 @@ import { createSubset } from "../../../../store/library/sets/thunks";
 
 import ModalBackground from "../../../shared/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
+import ModalHeader from "../../components/modal/ModalHeader";
 import SubsetForm from "../../subset/subset_form/SubsetForm";
 
 interface Props {
@@ -20,7 +21,7 @@ export default function CreateSubsetModal(props: Props) {
   return (
     <ModalBackground>
       <ModalWindow>
-        <h3 style={{ textAlign: "center" }}>Create Subset</h3>
+        <ModalHeader title="Create Subset" handleClose={props.handleCancel} />
         <SubsetForm
           createNew={true}
           handleCancel={props.handleCancel}

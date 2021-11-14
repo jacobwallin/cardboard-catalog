@@ -9,6 +9,7 @@ import { fetchLeagues } from "../../../../store/library/leagues/thunks";
 import { fetchAllBrands } from "../../../../store/library/brands/thunks";
 import { createSet } from "../../../../store/library/sets/thunks";
 import SetForm from "../../set/edit_set/SetForm";
+import ModalHeader from "../../components/modal/ModalHeader";
 
 const createSetSelector = createStatusSelector("CREATE_SET");
 
@@ -57,7 +58,7 @@ export default function CreateSetModal(props: Props) {
   return (
     <ModalBackground>
       <ModalWindow>
-        <h3 style={{ textAlign: "center" }}>Create Set</h3>
+        <ModalHeader title="Create Set" handleClose={props.handleCancel} />
         <SetForm
           createNew={true}
           handleSubmit={handleSubmit}

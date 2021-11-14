@@ -80,41 +80,43 @@ export default function EditSubset(props: Props) {
           message="This will delete all cards and parallel series that belong to this subset. Any cards present in user's collections will be deleted as well."
         />
       )}
-      {showForm ? (
-        <SubsetForm
-          createNew={false}
-          handleSubmit={handleSubmit}
-          handleCancel={toggleForm}
-        />
-      ) : (
-        <FormContainer>
-          <FieldContainer>
-            <FieldTitle>Name</FieldTitle>
-            <FieldData>{subset.name}</FieldData>
-          </FieldContainer>
-          <FieldContainer>
-            <FieldTitle>Description</FieldTitle>
-            <FieldData>
-              {subset.description === "" ? "-" : subset.description}
-            </FieldData>
-          </FieldContainer>
-          <EditDeleteButtons
-            handleEdit={toggleForm}
-            handleDelete={toggleDeleteModal}
-            hideDelete={subset.set.baseSubsetId === subset.id}
+      <FormContainer>
+        {showForm ? (
+          <SubsetForm
+            createNew={false}
+            handleSubmit={handleSubmit}
+            handleCancel={toggleForm}
           />
-          <CreatedUpdatedBy
-            createdBy={{
-              username: subset.createdByUser.username,
-              timestamp: subset.createdAt,
-            }}
-            updatedBy={{
-              username: subset.updatedByUser.username,
-              timestamp: subset.updatedAt,
-            }}
-          />
-        </FormContainer>
-      )}
+        ) : (
+          <>
+            <FieldContainer>
+              <FieldTitle>Name</FieldTitle>
+              <FieldData>{subset.name}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Description</FieldTitle>
+              <FieldData>
+                {subset.description === "" ? "-" : subset.description}
+              </FieldData>
+            </FieldContainer>
+            <EditDeleteButtons
+              handleEdit={toggleForm}
+              handleDelete={toggleDeleteModal}
+              hideDelete={subset.set.baseSubsetId === subset.id}
+            />
+            <CreatedUpdatedBy
+              createdBy={{
+                username: subset.createdByUser.username,
+                timestamp: subset.createdAt,
+              }}
+              updatedBy={{
+                username: subset.updatedByUser.username,
+                timestamp: subset.updatedAt,
+              }}
+            />
+          </>
+        )}
+      </FormContainer>
       {updatingSubset === "FAILURE" && (
         <ErrorMessage>Error Updating Set</ErrorMessage>
       )}

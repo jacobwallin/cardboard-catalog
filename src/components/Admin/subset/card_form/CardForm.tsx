@@ -121,7 +121,7 @@ export default function CardForm(props: Props) {
   }
 
   return (
-    <FormContainer>
+    <>
       <FieldContainer>
         <FieldTitle>Number</FieldTitle>
         <FieldData>
@@ -325,6 +325,6 @@ export default function CardForm(props: Props) {
           />
         </FieldData>
       </FieldContainer>
-    </FormContainer>
+    </>
   );
 }

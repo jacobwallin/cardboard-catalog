@@ -3,12 +3,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../store/index";
 import { createLoadingSelector } from "../../../../store/loading/reducer";
 import detectFormChanges from "../../detectFormChanges";
-
-import FormContainer from "../../components/form/FormContainer";
 import FieldContainer from "../../components/form/FieldContainer";
 import FieldTitle from "../../components/form/FieldTitle";
 import FieldData from "../../components/form/FieldData";
 import FormButtons from "../../components/form/FormButtons";
+import * as StyledInputs from "../../components/form/Inputs";
 
 const isUpdatingSelector = createLoadingSelector([
   "UPDATE_SERIES",
@@ -97,11 +96,11 @@ export default function SeriesForm(props: Props) {
   }
 
   return (
-    <FormContainer>
+    <>
       <FieldContainer>
         <FieldTitle>Name</FieldTitle>
         <FieldData>
-          <input
+          <StyledInputs.Input
             name="name"
             type="text"
             value={name}
@@ -113,7 +112,7 @@ export default function SeriesForm(props: Props) {
       <FieldContainer>
         <FieldTitle>Serialized to</FieldTitle>
         <FieldData>
-          <input
+          <StyledInputs.NumberInput
             name="serialized"
             type="number"
             value={serialized}
@@ -206,6 +205,6 @@ export default function SeriesForm(props: Props) {
               ))
         }
       />
-    </FormContainer>
+    </>
   );
 }

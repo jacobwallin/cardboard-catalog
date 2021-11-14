@@ -7,7 +7,7 @@ import FieldContainer from "../../components/form/FieldContainer";
 import FieldTitle from "../../components/form/FieldTitle";
 import FieldData from "../../components/form/FieldData";
 import FormButtons from "../../components/form/FormButtons";
-import FormContainer from "../../components/form/FormContainer";
+import * as StyledInputs from "../../components/form/Inputs";
 
 const isUpdatingSelector = createLoadingSelector(["UPDATE_SUBSET"]);
 
@@ -48,11 +48,11 @@ export default function SubsetForm(props: Props) {
   }
 
   return (
-    <FormContainer>
+    <>
       <FieldContainer>
         <FieldTitle>Name</FieldTitle>
         <FieldData>
-          <input
+          <StyledInputs.Input
             name="name"
             type="text"
             value={name}
@@ -64,7 +64,7 @@ export default function SubsetForm(props: Props) {
       <FieldContainer>
         <FieldTitle>Description</FieldTitle>
         <FieldData>
-          <textarea
+          <StyledInputs.TextArea
             name="description"
             value={description}
             disabled={isUpdating}
@@ -89,6 +89,6 @@ export default function SubsetForm(props: Props) {
         handleCancel={props.handleCancel}
         handleSubmit={handleFormSubmit}
       />
-    </FormContainer>
+    </>
   );
 }

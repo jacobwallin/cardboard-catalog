@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const ModalWindow = styled.div`
+  padding: 0 15px 15px 15px;
   position: absolute;
   left: 50%;
   top: 10%;

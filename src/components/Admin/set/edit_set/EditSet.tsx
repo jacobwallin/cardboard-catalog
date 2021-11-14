@@ -103,64 +103,66 @@ export default function EditSet(props: Props) {
           message="This will delete the entire set including all subsets and cards. All cards will be deleted from user's collections as well."
         />
       )}
-      {showForm ? (
-        <SetForm
-          createNew={false}
-          handleSubmit={handleSubmit}
-          handleCancel={toggleForm}
-        />
-      ) : (
-        <FormContainer>
-          <FieldContainer>
-            <FieldTitle>Name</FieldTitle>
-            <FieldData>{set.name}</FieldData>
-          </FieldContainer>
-          <FieldContainer>
-            <FieldTitle>Year</FieldTitle>
-            <FieldData>{set.year}</FieldData>
-          </FieldContainer>
-          <FieldContainer>
-            <FieldTitle>Release Date</FieldTitle>
-            <FieldData>
-              {set.release_date === null ? "-" : set.release_date}
-            </FieldData>
-          </FieldContainer>
-          <FieldContainer>
-            <FieldTitle>Brand</FieldTitle>
-            <FieldData>{set.brand.name}</FieldData>
-          </FieldContainer>
-          <FieldContainer>
-            <FieldTitle>League</FieldTitle>
-            <FieldData>{set.league.name}</FieldData>
-          </FieldContainer>
-          <FieldContainer>
-            <FieldTitle>Description</FieldTitle>
-            <FieldData>
-              {set.description === "" ? "-" : set.description}
-            </FieldData>
-          </FieldContainer>
-          <FieldContainer>
-            <FieldTitle>Complete</FieldTitle>
-            <FieldData>
-              {set.complete === true ? "Set Completed" : "Not Completed"}
-            </FieldData>
-          </FieldContainer>
-          <EditDeleteButtons
-            handleEdit={toggleForm}
-            handleDelete={toggleDeleteModal}
+      <FormContainer>
+        {showForm ? (
+          <SetForm
+            createNew={false}
+            handleSubmit={handleSubmit}
+            handleCancel={toggleForm}
           />
-          <CreatedUpdatedBy
-            createdBy={{
-              username: set.createdByUser.username,
-              timestamp: set.createdAt,
-            }}
-            updatedBy={{
-              username: set.updatedByUser.username,
-              timestamp: set.updatedAt,
-            }}
-          />
-        </FormContainer>
-      )}
+        ) : (
+          <>
+            <FieldContainer>
+              <FieldTitle>Name</FieldTitle>
+              <FieldData>{set.name}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Year</FieldTitle>
+              <FieldData>{set.year}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Release Date</FieldTitle>
+              <FieldData>
+                {set.release_date === null ? "-" : set.release_date}
+              </FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Brand</FieldTitle>
+              <FieldData>{set.brand.name}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>League</FieldTitle>
+              <FieldData>{set.league.name}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Description</FieldTitle>
+              <FieldData>
+                {set.description === "" ? "-" : set.description}
+              </FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Complete</FieldTitle>
+              <FieldData>
+                {set.complete === true ? "Set Completed" : "Not Completed"}
+              </FieldData>
+            </FieldContainer>
+            <EditDeleteButtons
+              handleEdit={toggleForm}
+              handleDelete={toggleDeleteModal}
+            />
+            <CreatedUpdatedBy
+              createdBy={{
+                username: set.createdByUser.username,
+                timestamp: set.createdAt,
+              }}
+              updatedBy={{
+                username: set.updatedByUser.username,
+                timestamp: set.updatedAt,
+              }}
+            />
+          </>
+        )}
+      </FormContainer>
       {updatingSet === "FAILURE" && (
         <ErrorMessage>Error Updating Set</ErrorMessage>
       )}

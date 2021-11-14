@@ -7,7 +7,7 @@ import FieldContainer from "../../components/form/FieldContainer";
 import FieldTitle from "../../components/form/FieldTitle";
 import FieldData from "../../components/form/FieldData";
 import FormButtons from "../../components/form/FormButtons";
-import FormContainer from "../../components/form/FormContainer";
+import * as StyledInputs from "../../components/form/Inputs";
 
 import { createLoadingSelector } from "../../../../store/loading/reducer";
 
@@ -116,11 +116,11 @@ export default function SetForm(props: Props) {
   }
 
   return (
-    <FormContainer>
+    <>
       <FieldContainer>
         <FieldTitle>Name</FieldTitle>
         <FieldData>
-          <input
+          <StyledInputs.LargeInput
             name="name"
             type="text"
             value={name}
@@ -132,7 +132,7 @@ export default function SetForm(props: Props) {
       <FieldContainer>
         <FieldTitle>Year:</FieldTitle>
         <FieldData>
-          <input
+          <StyledInputs.NumberInput
             name="year"
             type="number"
             value={year}
@@ -144,7 +144,7 @@ export default function SetForm(props: Props) {
       <FieldContainer>
         <FieldTitle>Release Date</FieldTitle>
         <FieldData>
-          <input
+          <StyledInputs.NumberInput
             name="releaseDate"
             type="date"
             value={releaseDate}
@@ -156,7 +156,7 @@ export default function SetForm(props: Props) {
       <FieldContainer>
         <FieldTitle>Brand</FieldTitle>
         <FieldData>
-          <select
+          <StyledInputs.Select
             name="brand"
             value={brandId}
             onChange={handleSelectChange}
@@ -176,13 +176,13 @@ export default function SetForm(props: Props) {
                   </option>
                 );
               })}
-          </select>
+          </StyledInputs.Select>
         </FieldData>
       </FieldContainer>
       <FieldContainer>
         <FieldTitle>League</FieldTitle>
         <FieldData>
-          <select
+          <StyledInputs.Select
             name="league"
             value={leagueId}
             onChange={handleSelectChange}
@@ -202,20 +202,19 @@ export default function SetForm(props: Props) {
                   </option>
                 );
               })}
-          </select>
+          </StyledInputs.Select>
         </FieldData>
       </FieldContainer>
       <FieldContainer>
         <FieldTitle>Description</FieldTitle>
         <FieldData>
-          <textarea
+          <StyledInputs.TextArea
             name="description"
             value={description}
             placeholder="Enter Set Description"
             onChange={handleInputChange}
-            style={{ height: "200px", width: "100%" }}
             rows={2}
-            cols={20}
+            cols={5}
           />
         </FieldData>
       </FieldContainer>
@@ -252,6 +251,6 @@ export default function SetForm(props: Props) {
         }
       />
       {}
-    </FormContainer>
+    </>
   );
 }
