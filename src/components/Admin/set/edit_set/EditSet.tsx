@@ -112,35 +112,35 @@ export default function EditSet(props: Props) {
       ) : (
         <FormContainer>
           <FieldContainer>
-            <FieldTitle>Name:</FieldTitle>
+            <FieldTitle>Name</FieldTitle>
             <FieldData>{set.name}</FieldData>
           </FieldContainer>
           <FieldContainer>
-            <FieldTitle>Year:</FieldTitle>
+            <FieldTitle>Year</FieldTitle>
             <FieldData>{set.year}</FieldData>
           </FieldContainer>
           <FieldContainer>
-            <FieldTitle>Release Date:</FieldTitle>
+            <FieldTitle>Release Date</FieldTitle>
             <FieldData>
               {set.release_date === null ? "-" : set.release_date}
             </FieldData>
           </FieldContainer>
           <FieldContainer>
-            <FieldTitle>Brand:</FieldTitle>
+            <FieldTitle>Brand</FieldTitle>
             <FieldData>{set.brand.name}</FieldData>
           </FieldContainer>
           <FieldContainer>
-            <FieldTitle>League:</FieldTitle>
+            <FieldTitle>League</FieldTitle>
             <FieldData>{set.league.name}</FieldData>
           </FieldContainer>
           <FieldContainer>
-            <FieldTitle>Description:</FieldTitle>
+            <FieldTitle>Description</FieldTitle>
             <FieldData>
               {set.description === "" ? "-" : set.description}
             </FieldData>
           </FieldContainer>
           <FieldContainer>
-            <FieldTitle>Complete:</FieldTitle>
+            <FieldTitle>Complete</FieldTitle>
             <FieldData>
               {set.complete === true ? "Set Completed" : "Not Completed"}
             </FieldData>
