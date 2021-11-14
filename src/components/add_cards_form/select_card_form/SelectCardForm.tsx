@@ -214,7 +214,8 @@ export default function SelectCardForm(props: Props) {
               .map((subset) => {
                 return (
                   <option key={subset.id} value={subset.id}>
-                    {subset.name}
+                    {`${subset.name}`}
+                    {subset.prefix !== "" && ` (${subset.prefix})`}
                   </option>
                 );
               })

@@ -15,6 +15,7 @@ const Subset = db.define("subset", {
   },
   prefix: {
     type: DataTypes.STRING,
+    defaultValue: "",
   },
 });
 
