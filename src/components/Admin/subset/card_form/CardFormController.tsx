@@ -467,17 +467,20 @@ export default function CardFormController(props: Props) {
         )}
         <Styled.ScrapeOptions>
           <Styled.ScrapeOptionsTitle>Options</Styled.ScrapeOptionsTitle>
-          <Styled.CheckboxContainer>
-            <Styled.Checkbox
-              type="checkbox"
-              checked={includeNotes}
-              onChange={(e) => setIncludeNotes(!includeNotes)}
-            />
-            <Styled.CheckboxLabel>
-              Include Notes
-              <IncludeNoteHelp />
-            </Styled.CheckboxLabel>
-          </Styled.CheckboxContainer>
+          {props.scrapeCardsData &&
+            props.scrapeCardsData.some((c) => c.note !== "") && (
+              <Styled.CheckboxContainer>
+                <Styled.Checkbox
+                  type="checkbox"
+                  checked={includeNotes}
+                  onChange={(e) => setIncludeNotes(!includeNotes)}
+                />
+                <Styled.CheckboxLabel>
+                  Include Notes
+                  <IncludeNoteHelp />
+                </Styled.CheckboxLabel>
+              </Styled.CheckboxContainer>
+            )}
 
           {props.scrapeCardsData &&
             props.scrapeCardsData.some((c) => {
