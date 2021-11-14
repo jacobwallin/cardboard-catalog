@@ -18,7 +18,8 @@ import DataTable from "react-data-table-component";
 const columns = [
   {
     name: "Name",
-    selector: "name",
+    selector: (row: any) =>
+      row.prefix !== "" ? `${row.name} (${row.prefix})` : `${row.name}`,
     sortable: true,
     grow: 1,
   },
