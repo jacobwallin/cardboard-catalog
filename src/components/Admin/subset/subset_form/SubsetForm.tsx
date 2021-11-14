@@ -81,7 +81,7 @@ export default function SubsetForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Card # Prefix</FieldTitle>
+        <FieldTitle>Card # prefix</FieldTitle>
         <FieldData>
           <StyledInputs.Input
             name="prefix"

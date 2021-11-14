@@ -100,7 +100,7 @@ export default function EditSubset(props: Props) {
               </FieldData>
             </FieldContainer>
             <FieldContainer>
-              <FieldTitle>Card # Prefix</FieldTitle>
+              <FieldTitle>Card # prefix</FieldTitle>
               <FieldData>{subset.prefix}</FieldData>
             </FieldContainer>
             <EditDeleteButtons
