@@ -6,7 +6,7 @@ const SidebarContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 200px;
-  background: #2d3240;
+  background: #292929;
   /* border-right: 2px solid white; */
   @media only screen and (max-width: 800px) {
     flex-direction: row;
@@ -28,7 +28,7 @@ const LinkContainer = styled.div<Mobile>`
   @media only screen and (max-width: 800px) {
     display: ${({ visible }) => !visible && "none"};
     position: absolute;
-    background: #2d3240;
+    background: #222;
     top: 90px;
     z-index: 3;
     width: 220px;
@@ -50,11 +50,11 @@ const StyledAdminLink = styled(Link)`
   align-items: center;
 
   &:hover {
-    background: #252a38;
+    background: #151515;
   }
 
   &:active {
-    background: #252a38;
+    background: #151515;
   }
   /* @media only screen and (max-width: 800px) {
     display: none;
