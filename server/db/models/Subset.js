@@ -13,6 +13,9 @@ const Subset = db.define("subset", {
   baseSeriesId: {
     type: DataTypes.INTEGER,
   },
+  prefix: {
+    type: DataTypes.STRING,
+  },
 });
 
 module.exports = Subset;

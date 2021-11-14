@@ -94,13 +94,14 @@ router.get("/:subsetId", async (req, res, next) => {
 });
 
 router.post("/", isAdmin, async (req, res, next) => {
-  const { name, description, setId } = req.body;
+  const { name, description, setId, prefix } = req.body;
   try {
     // create new subset
     const createdSubset = await Subset.create({
       name,
       description,
       setId,
+      prefix,
       createdBy: req.user.id,
       updatedBy: req.user.id,
     });
@@ -124,11 +125,11 @@ router.post("/", isAdmin, async (req, res, next) => {
 });
 
 router.put("/:subsetId", isAdmin, async (req, res, next) => {
-  const { name, description } = req.body;
+  const { name, description, prefix } = req.body;
 
   try {
     await Subset.update(
-      { name, description, updatedBy: req.user.id },
+      { name, description, prefix, updatedBy: req.user.id },
       { where: { id: req.params.subsetId } }
     );
 
