@@ -9,6 +9,8 @@ export const StyledLink = styled(Link)`
   text-decoration: none;
   color: white;
   cursor: pointer;
+  box-shadow: 0 0.125rem 0.625rem rgb(0 74 206 / 40%),
+    0 0.0625rem 0.125rem rgb(0 74 206 / 50%);
   &:hover {
     background: #0031b5;
   }
