@@ -245,8 +245,9 @@ export default function SetForm(props: Props) {
                   singleSet.league.id,
                   singleSet.brand.id,
                   singleSet.release_date,
+                  singleSet.complete,
                 ],
-                [name, description, leagueId, brandId, releaseDate]
+                [name, description, leagueId, brandId, releaseDate, complete]
               ))
         }
       />

@@ -1,6 +1,8 @@
 import React from "react";
 import EditLink from "../components/EditLink";
+import { ReactComponent as Checkmark } from "../subset/checkmark.svg";
 import { SetSummary } from "../../../store/library/sets/types";
+import * as Styled from "./styled";
 
 const dataTableColumns = [
   {
@@ -28,12 +30,19 @@ const dataTableColumns = [
     selector: (row: SetSummary) => row.createdAt.slice(0, 10),
     sortable: true,
   },
-  // {
-  //   name: "Completed",
-  //   sortable: true,
-  //   selector: (row: SetSummary) => row.complete,
-  //   row: (row: SetSummary) => (row.complete ? "Yes" : "No"),
-  // },
+  {
+    name: "Completed",
+    sortable: true,
+    selector: (row: SetSummary) => row.complete,
+    cell: (row: any) =>
+      row.complete ? (
+        <Styled.SvgWrapper>
+          <Checkmark />
+        </Styled.SvgWrapper>
+      ) : (
+        "-"
+      ),
+  },
   {
     name: "",
     sortable: false,

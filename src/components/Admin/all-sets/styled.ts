@@ -15,3 +15,8 @@ export const TableWrapper = styled.div`
   width: 100%;
   margin: 10px;
 `;
+
+export const SvgWrapper = styled.div`
+  width: 20px;
+  height: 20px;
+`;
