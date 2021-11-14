@@ -5,8 +5,8 @@ import styled from "styled-components";
 const SidebarContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 220px;
-  background: #444;
+  width: 200px;
+  background: #242e42;
 
   /* border-right: 2px solid white; */
   @media only screen and (max-width: 800px) {
@@ -24,6 +24,7 @@ interface Mobile {
 const LinkContainer = styled.div<Mobile>`
   display: flex;
   flex-direction: column;
+  width: 200px;
 
   @media only screen and (max-width: 800px) {
     display: ${({ visible }) => !visible && "none"};
@@ -99,12 +100,8 @@ export default function Sidebar() {
         visible={showAdminMenuOnMobile}
         onClick={toggleAdminMenuOnMobile}
       >
-        <StyledAdminLink to={`${path}/`}>
-          Set Library<span>&gt;</span>
-        </StyledAdminLink>
-        <StyledAdminLink to={`${path}/players`}>
-          Player Library<span>&gt;</span>
-        </StyledAdminLink>
+        <StyledAdminLink to={`${path}/`}>Set Library</StyledAdminLink>
+        <StyledAdminLink to={`${path}/players`}>Player Library</StyledAdminLink>
       </LinkContainer>
     </SidebarContainer>
   );
