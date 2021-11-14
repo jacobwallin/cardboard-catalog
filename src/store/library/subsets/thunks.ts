@@ -23,6 +23,7 @@ export const updateSubset =
     subsetData: {
       name: string;
       description: string;
+      prefix: string;
     }
   ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {

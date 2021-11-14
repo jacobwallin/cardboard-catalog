@@ -61,6 +61,7 @@ export interface SubsetSummary {
   id: number;
   name: string;
   description: string;
+  prefix: string;
   baseSeriesId: number | null;
   setId: number;
   createdAt: string;

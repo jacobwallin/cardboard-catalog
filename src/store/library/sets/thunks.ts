@@ -85,6 +85,7 @@ export const createSubset =
   (subsetData: {
     name: string;
     description: string;
+    prefix: string;
     setId: number;
   }): ThunkAction<void, RootState, unknown, SetsActionTypes> =>
   (dispatch) => {

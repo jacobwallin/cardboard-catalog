@@ -62,8 +62,8 @@ export default function EditSubset(props: Props) {
     dispatch(deleteSubset(props.subsetId));
   }
 
-  function handleSubmit(name: string, description: string) {
-    dispatch(updateSubset(props.subsetId, { name, description }));
+  function handleSubmit(name: string, description: string, prefix: string) {
+    dispatch(updateSubset(props.subsetId, { name, description, prefix }));
   }
 
   // re-direct to set that the subset belonged to after deletion
@@ -98,6 +98,10 @@ export default function EditSubset(props: Props) {
               <FieldData>
                 {subset.description === "" ? "-" : subset.description}
               </FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Card # Prefix</FieldTitle>
+              <FieldData>{subset.prefix}</FieldData>
             </FieldContainer>
             <EditDeleteButtons
               handleEdit={toggleForm}

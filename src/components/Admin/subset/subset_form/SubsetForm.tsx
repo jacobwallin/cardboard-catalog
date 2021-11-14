@@ -13,7 +13,7 @@ const isUpdatingSelector = createLoadingSelector(["UPDATE_SUBSET"]);
 
 interface Props {
   createNew: boolean;
-  handleSubmit(name: string, description: string): void;
+  handleSubmit(name: string, description: string, prefix: string): void;
   handleCancel(): void;
 }
 
@@ -24,13 +24,14 @@ export default function SubsetForm(props: Props) {
   );
 
   const [name, setName] = useState(props.createNew ? "" : subset.name);
+  const [prefix, setPrefix] = useState(props.createNew ? "" : subset.prefix);
 
   const [description, setDescription] = useState(
     props.createNew ? "" : subset.description
   );
 
   function handleFormSubmit() {
-    props.handleSubmit(name, description);
+    props.handleSubmit(name, description, prefix);
   }
 
   function handleInputChange(
@@ -43,6 +44,9 @@ export default function SubsetForm(props: Props) {
         break;
       case "description":
         setDescription(value);
+        break;
+      case "prefix":
+        setPrefix(value);
         break;
     }
   }
@@ -76,14 +80,26 @@ export default function SubsetForm(props: Props) {
           />
         </FieldData>
       </FieldContainer>
+      <FieldContainer>
+        <FieldTitle>Card # Prefix</FieldTitle>
+        <FieldData>
+          <StyledInputs.Input
+            name="prefix"
+            type="text"
+            value={prefix}
+            placeholder="Enter Prefix"
+            onChange={handleInputChange}
+          />
+        </FieldData>
+      </FieldContainer>
       <FormButtons
         disabled={
           isUpdating ||
           (props.createNew
             ? name === ""
             : !detectFormChanges(
-                [subset.name, subset.description],
-                [name, description]
+                [subset.name, subset.description, subset.prefix],
+                [name, description, prefix]
               ))
         }
         handleCancel={props.handleCancel}

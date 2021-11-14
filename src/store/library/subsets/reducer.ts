@@ -4,6 +4,7 @@ const initialState: types.SubsetState = {
   id: 0,
   name: "",
   description: "",
+  prefix: "",
   createdAt: "",
   updatedAt: "",
   createdBy: 0,

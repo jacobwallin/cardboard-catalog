@@ -3,6 +3,7 @@ export interface SubsetState {
   id: number;
   name: string;
   description: string;
+  prefix: string;
   createdAt: string;
   updatedAt: string;
   createdBy: number;
@@ -151,6 +152,7 @@ export interface UpdatedSubset {
   id: number;
   name: string;
   description: string;
+  prefix: string;
   createdAt: string;
   updatedAt: string;
   createdBy: number;
