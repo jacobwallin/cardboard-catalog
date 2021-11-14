@@ -101,33 +101,33 @@ export default function EditCard(props: Props) {
       ) : (
         <FormContainer>
           <FieldContainer>
-            <FieldTitle>Name:</FieldTitle>
+            <FieldTitle>Name</FieldTitle>
             <FieldData>{series.name}</FieldData>
           </FieldContainer>
           <FieldContainer>
-            <FieldTitle>Serialized to:</FieldTitle>
+            <FieldTitle>Serialized to</FieldTitle>
             <FieldData>
               {series.serialized ? series.serialized : "Not Serialized"}
             </FieldData>
           </FieldContainer>
           <FieldContainer>
-            <FieldTitle>Auto:</FieldTitle>
+            <FieldTitle>Auto</FieldTitle>
             <FieldData>{series.auto ? "Yes" : "No"}</FieldData>
           </FieldContainer>
           <FieldContainer>
-            <FieldTitle>Relic:</FieldTitle>
+            <FieldTitle>Relic</FieldTitle>
             <FieldData>{series.relic ? "Yes" : "No"}</FieldData>
           </FieldContainer>
           <FieldContainer>
-            <FieldTitle>Refractor:</FieldTitle>
+            <FieldTitle>Refractor</FieldTitle>
             <FieldData>{series.refractor ? "Yes" : "No"}</FieldData>
           </FieldContainer>
           <FieldContainer>
-            <FieldTitle>Short Print:</FieldTitle>
+            <FieldTitle>Short Print</FieldTitle>
             <FieldData>{series.shortPrint ? "Yes" : "No"}</FieldData>
           </FieldContainer>
           <FieldContainer>
-            <FieldTitle>Manufactured Relic:</FieldTitle>
+            <FieldTitle>Manufactured Relic</FieldTitle>
             <FieldData>{series.manufacturedRelic ? "Yes" : "No"}</FieldData>
           </FieldContainer>
           <EditDeleteButtons

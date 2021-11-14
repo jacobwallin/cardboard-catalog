@@ -50,7 +50,7 @@ export default function SubsetForm(props: Props) {
   return (
     <FormContainer>
       <FieldContainer>
-        <FieldTitle>Name:</FieldTitle>
+        <FieldTitle>Name</FieldTitle>
         <FieldData>
           <input
             name="name"
@@ -62,7 +62,7 @@ export default function SubsetForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Description:</FieldTitle>
+        <FieldTitle>Description</FieldTitle>
         <FieldData>
           <textarea
             name="description"

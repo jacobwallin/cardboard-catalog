@@ -118,7 +118,7 @@ export default function SetForm(props: Props) {
   return (
     <FormContainer>
       <FieldContainer>
-        <FieldTitle>Name:</FieldTitle>
+        <FieldTitle>Name</FieldTitle>
         <FieldData>
           <input
             name="name"
@@ -142,7 +142,7 @@ export default function SetForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Release Date:</FieldTitle>
+        <FieldTitle>Release Date</FieldTitle>
         <FieldData>
           <input
             name="releaseDate"
@@ -154,7 +154,7 @@ export default function SetForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Brand:</FieldTitle>
+        <FieldTitle>Brand</FieldTitle>
         <FieldData>
           <select
             name="brand"
@@ -180,7 +180,7 @@ export default function SetForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>League:</FieldTitle>
+        <FieldTitle>League</FieldTitle>
         <FieldData>
           <select
             name="league"
@@ -206,7 +206,7 @@ export default function SetForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Description:</FieldTitle>
+        <FieldTitle>Description</FieldTitle>
         <FieldData>
           <textarea
             name="description"
@@ -221,7 +221,7 @@ export default function SetForm(props: Props) {
       </FieldContainer>
       {!props.createNew && (
         <FieldContainer>
-          <FieldTitle>Completed:</FieldTitle>
+          <FieldTitle>Completed</FieldTitle>
           <FieldData>
             <input
               type="checkbox"

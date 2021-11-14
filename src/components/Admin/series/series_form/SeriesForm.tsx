@@ -99,7 +99,7 @@ export default function SeriesForm(props: Props) {
   return (
     <FormContainer>
       <FieldContainer>
-        <FieldTitle>Name:</FieldTitle>
+        <FieldTitle>Name</FieldTitle>
         <FieldData>
           <input
             name="name"
@@ -111,7 +111,7 @@ export default function SeriesForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Serialized to:</FieldTitle>
+        <FieldTitle>Serialized to</FieldTitle>
         <FieldData>
           <input
             name="serialized"
@@ -123,7 +123,7 @@ export default function SeriesForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Auto:</FieldTitle>
+        <FieldTitle>Auto</FieldTitle>
         <FieldData>
           <input
             name="auto"
@@ -134,7 +134,7 @@ export default function SeriesForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Relic:</FieldTitle>
+        <FieldTitle>Relic</FieldTitle>
         <FieldData>
           <input
             name="relic"
@@ -145,7 +145,7 @@ export default function SeriesForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Refractor:</FieldTitle>
+        <FieldTitle>Refractor</FieldTitle>
         <FieldData>
           <input
             name="refractor"
@@ -156,7 +156,7 @@ export default function SeriesForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Short Print:</FieldTitle>
+        <FieldTitle>Short Print</FieldTitle>
         <FieldData>
           <input
             name="shortPrint"
@@ -167,7 +167,7 @@ export default function SeriesForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Manufactured Relic:</FieldTitle>
+        <FieldTitle>Manufactured Relic</FieldTitle>
         <FieldData>
           <input
             name="manufacturedRelic"

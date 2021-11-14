@@ -89,11 +89,11 @@ export default function EditSubset(props: Props) {
       ) : (
         <FormContainer>
           <FieldContainer>
-            <FieldTitle>Name:</FieldTitle>
+            <FieldTitle>Name</FieldTitle>
             <FieldData>{subset.name}</FieldData>
           </FieldContainer>
           <FieldContainer>
-            <FieldTitle>Description:</FieldTitle>
+            <FieldTitle>Description</FieldTitle>
             <FieldData>
               {subset.description === "" ? "-" : subset.description}
             </FieldData>
