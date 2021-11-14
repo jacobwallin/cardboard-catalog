@@ -6,7 +6,7 @@ const Container = styled.div`
   flex-direction: row;
   gap: 10px;
   align-self: flex-start;
-  margin: 10px 0 0 10px;
+  margin: 20px 0 0 0px;
 `;
 
 const Data = styled.div`
