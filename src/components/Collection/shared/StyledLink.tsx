@@ -7,8 +7,9 @@ const StyledLink = styled(Link)`
   border-radius: 3px;
   text-decoration: none;
   color: inherit;
+  white-space: nowrap;
   &:hover {
-    text-decoration: underline;
+    /* text-decoration: underline; */
   }
 `;
 
