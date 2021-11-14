@@ -3,14 +3,17 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const StyledLink = styled(Link)`
-  background: rgb(60, 134, 255);
+  background: #004ace;
   padding: 5px 10px;
   border-radius: 3px;
   text-decoration: none;
-  color: black;
+  color: white;
+  cursor: pointer;
   &:hover {
-    text-decoration: underline;
-    cursor: pointer;
+    background: #0031b5;
+  }
+  &:active {
+    background: #000082;
   }
 `;
 
