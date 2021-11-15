@@ -5,17 +5,11 @@ export default function (cardNumA: string, cardNumB: string): number {
   }
 
   // check if card number ends or starts in number(s) and sort numerically
-  const matchesA = cardNumA.match(/^\d+/) || cardNumA.match(/\d+$/);
-  const matchesB = cardNumB.match(/^\d+/) || cardNumB.match(/\d+$/);
-  if (matchesA && matchesB) {
-    if (matchesA[0] !== matchesB[0]) {
-      return +matchesA[0] - +matchesB[0];
-    } else {
-      // if extracted numbers are equal, get only the string portion and compare that
-      let aRegex = new RegExp(matchesA[0]);
-      let bRegex = new RegExp(matchesB[0]);
-      cardNumA = cardNumA.replace(aRegex, "");
-      cardNumB = cardNumB.replace(bRegex, "");
+  const matchesA = Array.from(cardNumA.matchAll(/\d+/g));
+  const matchesB = Array.from(cardNumB.matchAll(/\d+/g));
+  if (matchesA.length > 0 && matchesB.length > 0) {
+    if (matchesA[matchesA.length - 1] !== matchesB[matchesB.length - 1]) {
+      return +matchesA[matchesA.length - 1] - +matchesB[matchesB.length - 1];
     }
   }
 
