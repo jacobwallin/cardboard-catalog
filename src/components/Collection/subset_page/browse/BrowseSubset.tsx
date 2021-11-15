@@ -167,7 +167,7 @@ export default function BrowseSubset(props: Props) {
           <DataTable
             noHeader
             dense
-            columns={columns}
+            columns={columns(selectedSeriesId === subset.baseSeriesId)}
             data={props.tableData
               .filter((card: any) => {
                 return (
