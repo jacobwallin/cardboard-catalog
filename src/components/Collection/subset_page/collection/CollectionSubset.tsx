@@ -298,11 +298,9 @@ export default function CollectionSubset(props: Props) {
             noHeader
             dense
             columns={columns(selectedSeriesId === subset.baseSeriesId)}
-            data={
-              props.tableData.find(
-                (series) => series.seriesId === selectedSeriesId
-              ).cards
-            }
+            data={cardsBySeries.cards.filter((card) => {
+              return showAllCards || card.quantity > 0;
+            })}
             highlightOnHover
             pagination
             paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
