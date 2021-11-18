@@ -8,7 +8,9 @@ const columns = [
     name: "Set Name",
     selector: "setName",
     sortable: true,
-    cell: (row: any) => <SubtleLink to={`/set/${row.setId}`}>{row.setName}</SubtleLink>,
+    cell: (row: any) => (
+      <SubtleLink to={`/set/${row.setId}?view=coll`}>{row.setName}</SubtleLink>
+    ),
     minWidth: "50px",
     style: tableStyles,
     grow: 2,
@@ -25,7 +27,9 @@ const columns = [
   {
     name: "",
     sortable: false,
-    cell: (row: any) => <StyledLink to={`/set/${row.setId}`}>View</StyledLink>,
+    cell: (row: any) => (
+      <StyledLink to={`/set/${row.setId}?view=coll`}>View</StyledLink>
+    ),
     maxWidth: "80px",
     minWidth: "80px",
   },
