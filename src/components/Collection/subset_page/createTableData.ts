@@ -4,6 +4,7 @@ import {
   Series,
 } from "../../../store/library/subsets/types";
 import { UserCard } from "../../../store/collection/browse/types";
+import sortCardNumbers from "../../../utils/sortCardNumbers";
 
 export interface TableDataPoint {
   id: number;
@@ -15,10 +16,17 @@ export interface TableDataPoint {
   series: Series;
 }
 
+export interface SeriesTableData {
+  seriesId: number;
+  totalCards: number;
+  distinctCards: number;
+  cards: TableDataPoint[];
+}
+
 export function createTableData(
   librarySubsetData: SubsetState,
   userCardData: { cards: UserCard[]; subsetId: number }
-): TableDataPoint[] {
+): SeriesTableData[] {
   // create hash table with the id and quantity of each card user has in collection
 
   interface UserCardTotals {
@@ -35,7 +43,7 @@ export function createTableData(
     {}
   );
 
-  // allow 0(1) lookup into card data to create array for DataTable
+  // create hash table of card data to allow 0(1) lookup to match with each card in series
   interface CardDataHashTable {
     [details: string]: CardData;
   }
@@ -44,22 +52,38 @@ export function createTableData(
       return { ...hashTable, [cardData.id]: cardData };
     }, {});
 
-  // create the actual data array for the DataTable
-  const allCardsTableData = librarySubsetData.series.reduce(
-    (allCards: TableDataPoint[], series) => {
-      const cardDataArray = series.cards.map((card) => {
-        return {
-          ...card,
-          quantity: userCardsTotals[card.id] ? userCardsTotals[card.id] : 0,
-          cardData: cardDataHashTable[card.cardDataId],
-          series: series,
-        };
-      });
-      return [...allCards, ...cardDataArray];
-    },
-    []
+  const newTableData: SeriesTableData[] = librarySubsetData.series.map(
+    (series) => {
+      const ser: SeriesTableData = {
+        seriesId: series.id,
+        totalCards: 0,
+        distinctCards: 0,
+        cards: [],
+      };
+
+      ser.cards = series.cards
+        .map((card) => {
+          const cardTotal = userCardsTotals[card.id]
+            ? userCardsTotals[card.id]
+            : 0;
+          ser.totalCards += cardTotal;
+          ser.distinctCards += cardTotal > 0 ? 1 : 0;
+          return {
+            ...card,
+            quantity: cardTotal,
+            cardData: cardDataHashTable[card.cardDataId],
+            series: series,
+          };
+        })
+        .sort((cardA, cardB) => {
+          return sortCardNumbers(cardA.cardData.number, cardB.cardData.number);
+        });
+
+      return ser;
+    }
   );
-  return allCardsTableData;
+
+  return newTableData;
 }
 
 export interface DeleteTableDataPoint {

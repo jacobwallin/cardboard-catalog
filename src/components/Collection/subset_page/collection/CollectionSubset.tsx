@@ -15,8 +15,7 @@ import * as SharedStyled from "../styled";
 import * as Styled from "./styled";
 import sortSeries from "../sortSeries";
 import MedalIcon from "./medal.svg";
-import { TableDataPoint } from "../createTableData";
-import sortCardNumbers from "../../../../utils/sortCardNumbers";
+import { SeriesTableData } from "../createTableData";
 import { TotalCards } from "../../shared";
 
 import { createStatusSelector } from "../../../../store/loading/reducer";
@@ -24,7 +23,7 @@ import { createStatusSelector } from "../../../../store/loading/reducer";
 const deleteStatusSelector = createStatusSelector("DELETE_CARDS");
 
 interface Props {
-  tableData: TableDataPoint[];
+  tableData: any[];
   userCardTableData: any[];
 }
 export default function CollectionSubset(props: Props) {
@@ -46,36 +45,9 @@ export default function CollectionSubset(props: Props) {
   const [selectedCardIds, setSelectedCardIds] = useState<number[]>([]);
   const [numCardsDeleted, setNumCardsDeleted] = useState(0);
 
-  // show how many cards user has in each series, and the total cards in each series
-  interface CardsBySeries {
-    [key: string]: {
-      qty: number;
-      distinct: number;
-      total: number;
-      name: string;
-    };
-  }
-  const [cardsBySeries, setCardsBySeries] = useState<CardsBySeries>(
-    props.tableData.reduce((totals: any, card) => {
-      if (totals[card.seriesId]) {
-        totals[card.seriesId] = {
-          qty: totals[card.seriesId].qty + card.quantity,
-          distinct:
-            card.quantity > 0
-              ? totals[card.seriesId].distinct + 1
-              : totals[card.seriesId].distinct,
-          total: totals[card.seriesId].total + 1,
-        };
-      } else {
-        totals[card.seriesId] = {
-          qty: card.quantity,
-          distinct: card.quantity > 0 ? 1 : 0,
-          total: 1,
-          name: card.series.name,
-        };
-      }
-      return totals;
-    }, {})
+  // holds data for selected series
+  const [cardsBySeries, setCardsBySeries] = useState<SeriesTableData>(
+    props.tableData.find((series) => series.seriesId === selectedSeriesId)
   );
 
   function handleSeriesChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -89,6 +61,12 @@ export default function CollectionSubset(props: Props) {
       setClearSelected(true);
     }
   }, [deleteRequestStatus]);
+
+  useEffect(() => {
+    setCardsBySeries(
+      props.tableData.find((series) => series.seriesId === selectedSeriesId)
+    );
+  }, [selectedSeriesId, props.tableData]);
 
   interface Stuff {
     allSelected: boolean;
@@ -219,8 +197,12 @@ export default function CollectionSubset(props: Props) {
                     <option key={series.id} value={series.id}>
                       {series.name}
                       {series.serialized && ` /${series.serialized}`}
-                      {cardsBySeries[series.id].qty > 0 &&
-                        ` (${cardsBySeries[series.id].qty} Cards)`}
+                      {props.tableData.find((s) => s.seriesId === series.id)!
+                        .totalCards > 0 &&
+                        ` (${
+                          props.tableData.find((s) => s.seriesId === series.id)!
+                            .totalCards
+                        } Cards)`}
                     </option>
                   );
                 })}
@@ -229,30 +211,29 @@ export default function CollectionSubset(props: Props) {
 
           <Styled.Collection>
             <Styled.CardsInCollection>
-              {cardsBySeries[selectedSeriesId].distinct > 0 &&
-                cardsBySeries[selectedSeriesId].distinct ===
-                  cardsBySeries[selectedSeriesId].total && (
+              {cardsBySeries.distinctCards > 0 &&
+                cardsBySeries.distinctCards === cardsBySeries.cards.length && (
                   <Styled.Svg>
                     <img src={MedalIcon} alt="medal" />
                   </Styled.Svg>
                 )}
-              <Styled.CardCount>{`${cardsBySeries[selectedSeriesId].distinct} / ${cardsBySeries[selectedSeriesId].total} cards`}</Styled.CardCount>
+              <Styled.CardCount>{`${cardsBySeries.distinctCards} / ${cardsBySeries.cards.length} cards in set`}</Styled.CardCount>
             </Styled.CardsInCollection>
             <Styled.ProgressBar>
               <Styled.Progress
                 percentage={
-                  cardsBySeries[selectedSeriesId].total === 0
+                  cardsBySeries.cards.length === 0
                     ? 0
-                    : (cardsBySeries[selectedSeriesId].distinct /
-                        cardsBySeries[selectedSeriesId].total) *
+                    : (cardsBySeries.distinctCards /
+                        cardsBySeries.cards.length) *
                       100
                 }
               >
                 {`${Number(
-                  (cardsBySeries[selectedSeriesId].total === 0
+                  (cardsBySeries.cards.length === 0
                     ? 0
-                    : (cardsBySeries[selectedSeriesId].distinct /
-                        cardsBySeries[selectedSeriesId].total) *
+                    : (cardsBySeries.distinctCards /
+                        cardsBySeries.cards.length) *
                       100
                   ).toFixed(1)
                 )}%`}
@@ -271,10 +252,8 @@ export default function CollectionSubset(props: Props) {
             />
           </SharedStyled.ShowAllCards>
           <SharedStyled.TableHeader>
-            <TotalCards totalCards={cardsBySeries[selectedSeriesId].qty} />
-            {props.tableData.filter((card: any) => {
-              return card.quantity > 0;
-            }).length > 0 && (
+            <TotalCards totalCards={cardsBySeries.totalCards} />
+            {cardsBySeries.totalCards > 0 && (
               <StyledButton
                 color={deleteCardsToggle ? "YELLOW" : "GRAY"}
                 height="25px"
@@ -314,21 +293,11 @@ export default function CollectionSubset(props: Props) {
             noHeader
             dense
             columns={columns}
-            data={props.tableData
-              .filter((card: any) => {
-                return (
-                  selectedSeriesId === 0 || card.seriesId === selectedSeriesId
-                );
-              })
-              .filter((card: any) => {
-                return showAllCards || card.quantity > 0;
-              })
-              .sort((cardA, cardB) => {
-                return sortCardNumbers(
-                  cardA.cardData.number,
-                  cardB.cardData.number
-                );
-              })}
+            data={
+              props.tableData.find(
+                (series) => series.seriesId === selectedSeriesId
+              ).cards
+            }
             highlightOnHover
             pagination
             paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}

@@ -10,7 +10,6 @@ import AddCardsForm, {
   CardFormData,
 } from "../../../add_cards_form/AddCardsForm";
 import * as Styled from "../styled";
-import sortCardNumbers from "../../../../utils/sortCardNumbers";
 import sortSeries from "../sortSeries";
 import { NoDataMessage } from "../../../shared/NoDataMessage";
 import { TotalCards } from "../../shared";
@@ -121,8 +120,8 @@ export default function BrowseSubset(props: Props) {
               <Styled.SeriesSelect
                 value={selectedSeriesId}
                 onChange={handleSeriesChange}
+                disabled={checklistToggleSelect}
               >
-                <option value={0}>Show All Parallels</option>
                 {subset.series
                   .sort((a, b) => {
                     return sortSeries(a, b, subset.baseSeriesId || 0);
@@ -157,7 +156,13 @@ export default function BrowseSubset(props: Props) {
             </Styled.AddCardsContainer>
           )}
           <Styled.TableHeader>
-            <TotalCards totalCards={200} />
+            <TotalCards
+              totalCards={
+                props.tableData.find(
+                  (series) => series.seriesId === selectedSeriesId
+                ).cards.length
+              }
+            />
             <StyledButton
               color={checklistToggleSelect ? "YELLOW" : "GRAY"}
               height="25px"
@@ -172,15 +177,11 @@ export default function BrowseSubset(props: Props) {
             noHeader
             dense
             columns={columns(selectedSeriesId === subset.baseSeriesId)}
-            data={props.tableData
-              .filter((card: any) => {
-                return (
-                  selectedSeriesId === 0 || card.seriesId === selectedSeriesId
-                );
-              })
-              .sort((a, b) => {
-                return sortCardNumbers(a.cardData.number, b.cardData.number);
-              })}
+            data={
+              props.tableData.find(
+                (series) => series.seriesId === selectedSeriesId
+              ).cards
+            }
             highlightOnHover
             pagination
             paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
