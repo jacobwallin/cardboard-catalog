@@ -29,7 +29,6 @@ export const columns = (hideParallel: boolean) => {
         sortCardNumbers(rowA.cardData.number, rowB.cardData.number),
       style: modifiedStyles,
       grow: 1,
-      // sortFunction: customColumnSort,
       minWidth: "auto",
     },
     {
@@ -90,13 +89,13 @@ export const deleteColumns = [
     ),
     sortable: true,
     style: modifiedStyles,
-    grow: 1,
     sortFunction: (rowA: DeleteTableDataPoint, rowB: DeleteTableDataPoint) => {
       return sortCardNumbers(
         rowA.card.cardData.number,
         rowB.card.cardData.number
       );
     },
+    grow: 1,
     minWidth: "auto",
   },
   {
@@ -105,6 +104,7 @@ export const deleteColumns = [
     sortable: true,
     style: modifiedStyles,
     grow: 1,
+    minWidth: "auto",
   },
   {
     name: "Name",
@@ -117,7 +117,7 @@ export const deleteColumns = [
     ),
     sortable: true,
     style: modifiedStyles,
-    grow: 2,
+    grow: 4,
   },
 
   {
@@ -126,14 +126,7 @@ export const deleteColumns = [
       row.card.cardData.team ? row.card.cardData.team.name : "-",
     sortable: false,
     style: modifiedStyles,
-    grow: 2,
-  },
-  {
-    name: "Parallel Set",
-    selector: (row: DeleteTableDataPoint) => row.card.series.name,
-    sortable: true,
-    style: modifiedStyles,
-    grow: 2,
+    grow: 4,
   },
 ];
 
