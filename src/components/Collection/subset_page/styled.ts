@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const PageTitle = styled.div`
   font-size: 1.6rem;
-  margin: 0px 0 30px 0;
-  font-weight: 400;
+  margin: 10px 0 40px 0;
+  font-weight: 500;
   align-self: center;
 `;
 
@@ -101,5 +101,5 @@ export const TableHeader = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 50px;
 `;

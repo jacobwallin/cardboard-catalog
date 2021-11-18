@@ -180,34 +180,37 @@ export default function CollectionSubset(props: Props) {
             </SharedStyled.AddCardsContainer>
           )}
 
-          <SharedStyled.SelectParallel>
-            <SharedStyled.SelectLabel>
-              Select Parallel Set
-            </SharedStyled.SelectLabel>
-            <SharedStyled.SeriesSelect
-              value={selectedSeriesId}
-              onChange={handleSeriesChange}
-            >
-              {subset.series
-                .sort((a, b) => {
-                  return sortSeries(a, b, subset.baseSeriesId || 0);
-                })
-                .map((series) => {
-                  return (
-                    <option key={series.id} value={series.id}>
-                      {series.name}
-                      {series.serialized && ` /${series.serialized}`}
-                      {props.tableData.find((s) => s.seriesId === series.id)!
-                        .totalCards > 0 &&
-                        ` (${
-                          props.tableData.find((s) => s.seriesId === series.id)!
-                            .totalCards
-                        } Cards)`}
-                    </option>
-                  );
-                })}
-            </SharedStyled.SeriesSelect>
-          </SharedStyled.SelectParallel>
+          {subset.series.length > 1 && (
+            <SharedStyled.SelectParallel>
+              <SharedStyled.SelectLabel>
+                Select Parallel Set
+              </SharedStyled.SelectLabel>
+              <SharedStyled.SeriesSelect
+                value={selectedSeriesId}
+                onChange={handleSeriesChange}
+              >
+                {subset.series
+                  .sort((a, b) => {
+                    return sortSeries(a, b, subset.baseSeriesId || 0);
+                  })
+                  .map((series) => {
+                    return (
+                      <option key={series.id} value={series.id}>
+                        {series.name}
+                        {series.serialized && ` /${series.serialized}`}
+                        {props.tableData.find((s) => s.seriesId === series.id)!
+                          .totalCards > 0 &&
+                          ` (${
+                            props.tableData.find(
+                              (s) => s.seriesId === series.id
+                            )!.totalCards
+                          } Cards)`}
+                      </option>
+                    );
+                  })}
+              </SharedStyled.SeriesSelect>
+            </SharedStyled.SelectParallel>
+          )}
 
           <Styled.Collection>
             <Styled.CardsInCollection>
@@ -294,7 +297,7 @@ export default function CollectionSubset(props: Props) {
           <DataTable
             noHeader
             dense
-            columns={columns}
+            columns={columns(selectedSeriesId === subset.baseSeriesId)}
             data={
               props.tableData.find(
                 (series) => series.seriesId === selectedSeriesId

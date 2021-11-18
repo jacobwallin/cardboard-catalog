@@ -7,67 +7,70 @@ import sortCardNumbers from "../../../../utils/sortCardNumbers";
 
 let modifiedStyles = { ...tableStyles, fontSize: "12px" };
 
-export const columns = [
-  {
-    name: "#",
-    selector: (row: TableDataPoint) => row.cardData.number,
-    cell: (row: TableDataPoint) => (
-      <CardNumber
-        number={row.cardData.number}
-        serialized={row.series.serialized}
-        shortPrint={row.series.shortPrint}
-        auto={row.series.auto}
-        relic={row.series.relic}
-        manufacturedRelic={row.series.manufacturedRelic}
-        refractor={row.series.refractor}
-        rookie={row.cardData.rookie}
-      />
-    ),
-    sortable: true,
-    sortFunction: (rowA: TableDataPoint, rowB: TableDataPoint) =>
-      sortCardNumbers(rowA.cardData.number, rowB.cardData.number),
-    style: modifiedStyles,
-    grow: 1,
-    // sortFunction: customColumnSort,
-    minWidth: "auto",
-  },
-  {
-    name: "Qty",
-    selector: (row: TableDataPoint) => row.quantity,
-    sortable: true,
-    style: modifiedStyles,
-    grow: 1,
-    minWidth: "auto",
-  },
-  {
-    name: "Name",
-    selector: (row: TableDataPoint) => row.cardData.name,
-    cell: (row: TableDataPoint) => (
-      <div>
-        <div>{row.cardData.name}</div>
-        <div style={{ color: "gray" }}>{row.cardData.note}</div>
-      </div>
-    ),
-    sortable: true,
-    style: modifiedStyles,
-    grow: 4,
-  },
-  {
-    name: "Team",
-    cell: (row: TableDataPoint) =>
-      row.cardData.team ? row.cardData.team.name : "-",
-    sortable: false,
-    style: modifiedStyles,
-    grow: 4,
-  },
-  {
-    name: "Parallel Set",
-    selector: (row: TableDataPoint) => row.series.name,
-    sortable: true,
-    style: modifiedStyles,
-    grow: 4,
-  },
-];
+export const columns = (hideParallel: boolean) => {
+  return [
+    {
+      name: "#",
+      selector: (row: TableDataPoint) => row.cardData.number,
+      cell: (row: TableDataPoint) => (
+        <CardNumber
+          number={row.cardData.number}
+          serialized={row.series.serialized}
+          shortPrint={row.series.shortPrint}
+          auto={row.series.auto}
+          relic={row.series.relic}
+          manufacturedRelic={row.series.manufacturedRelic}
+          refractor={row.series.refractor}
+          rookie={row.cardData.rookie}
+        />
+      ),
+      sortable: true,
+      sortFunction: (rowA: TableDataPoint, rowB: TableDataPoint) =>
+        sortCardNumbers(rowA.cardData.number, rowB.cardData.number),
+      style: modifiedStyles,
+      grow: 1,
+      // sortFunction: customColumnSort,
+      minWidth: "auto",
+    },
+    {
+      name: "Qty",
+      selector: (row: TableDataPoint) => row.quantity,
+      sortable: true,
+      style: modifiedStyles,
+      grow: 1,
+      minWidth: "auto",
+    },
+    {
+      name: "Name",
+      selector: (row: TableDataPoint) => row.cardData.name,
+      cell: (row: TableDataPoint) => (
+        <div>
+          <div>{row.cardData.name}</div>
+          <div style={{ color: "gray" }}>{row.cardData.note}</div>
+        </div>
+      ),
+      sortable: true,
+      style: modifiedStyles,
+      grow: 4,
+    },
+    {
+      name: "Team",
+      cell: (row: TableDataPoint) =>
+        row.cardData.team ? row.cardData.team.name : "-",
+      sortable: false,
+      style: modifiedStyles,
+      grow: 4,
+    },
+    {
+      name: "Parallel Set",
+      selector: (row: TableDataPoint) => row.series.name,
+      sortable: true,
+      style: modifiedStyles,
+      grow: 4,
+      omit: hideParallel,
+    },
+  ];
+};
 
 export const deleteColumns = [
   {
