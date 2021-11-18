@@ -24,7 +24,6 @@ const deleteStatusSelector = createStatusSelector("DELETE_CARDS");
 
 interface Props {
   tableData: any[];
-  userCardTableData: any[];
 }
 export default function CollectionSubset(props: Props) {
   const dispatch = useDispatch();
@@ -124,7 +123,7 @@ export default function CollectionSubset(props: Props) {
                 dense
                 noHeader
                 columns={deleteColumns}
-                data={props.userCardTableData.filter((userCard) =>
+                data={cardsBySeries.userCards.filter((userCard) =>
                   selectedCardIds.some((id) => id === userCard.id)
                 )}
                 highlightOnHover
@@ -161,25 +160,6 @@ export default function CollectionSubset(props: Props) {
 
       {props.tableData.length > 0 && (
         <>
-          {selectedCardIds.length > 0 && (
-            <SharedStyled.AddCardsContainer>
-              <SharedStyled.AddCardsTotal>
-                {`${selectedCardIds.length} ${
-                  selectedCardIds.length > 1 ? "Cards" : "Card"
-                } Selected`}
-              </SharedStyled.AddCardsTotal>
-              <StyledButton
-                color="RED"
-                height="25px"
-                width="100px"
-                fontSize="13px"
-                onClick={toggleConfirmDeleteModal}
-              >
-                Delete
-              </StyledButton>
-            </SharedStyled.AddCardsContainer>
-          )}
-
           {subset.series.length > 1 && (
             <SharedStyled.SelectParallel>
               <SharedStyled.SelectLabel>
@@ -256,6 +236,24 @@ export default function CollectionSubset(props: Props) {
               />
             </SharedStyled.ShowAllCards>
           )}
+          {selectedCardIds.length > 0 && (
+            <SharedStyled.AddCardsContainer>
+              <SharedStyled.AddCardsTotal>
+                {`${selectedCardIds.length} ${
+                  selectedCardIds.length > 1 ? "Cards" : "Card"
+                } Selected`}
+              </SharedStyled.AddCardsTotal>
+              <StyledButton
+                color="RED"
+                height="25px"
+                width="100px"
+                fontSize="13px"
+                onClick={toggleConfirmDeleteModal}
+              >
+                Delete
+              </StyledButton>
+            </SharedStyled.AddCardsContainer>
+          )}
           <SharedStyled.TableHeader>
             <TotalCards totalCards={cardsBySeries.totalCards} />
             {cardsBySeries.totalCards > 0 && (
@@ -278,7 +276,7 @@ export default function CollectionSubset(props: Props) {
             noHeader
             dense
             columns={deleteColumns}
-            data={props.userCardTableData}
+            data={cardsBySeries.userCards}
             highlightOnHover
             pagination
             paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}

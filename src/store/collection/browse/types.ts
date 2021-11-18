@@ -145,4 +145,13 @@ export interface UserCard {
   cardId: number;
   gradingCompanyId: number | null;
   grade: number | null;
+  card: Card;
+}
+
+interface Card {
+  id: number;
+  value: number | null;
+  serializedTo: number | null;
+  seriesId: number;
+  cardDataId: number;
 }

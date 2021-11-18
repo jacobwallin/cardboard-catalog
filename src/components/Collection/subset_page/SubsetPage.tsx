@@ -7,7 +7,7 @@ import { fetchCardsInSingleSubset } from "../../../store/collection/browse/thunk
 
 import CollectionWrapper from "../../shared/CollectionWrapper";
 import CollectionContainer from "../../shared/CollectionContainer";
-import { createTableData, createUserCardTableData } from "./createTableData";
+import { createTableData } from "./createTableData";
 import SubsetHeader from "../header/SubsetHeader";
 import BrowseSubset from "./browse/BrowseSubset";
 import CollectionSubset from "./collection/CollectionSubset";
@@ -50,7 +50,6 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
 
   // DataTable wants a string[] ???
   const tableData: any = createTableData(subset, userCardsInSubset);
-  const idk: any = createUserCardTableData(tableData, userCardsInSubset);
 
   if (isLoading || +props.match.params.subsetId !== subset.id)
     return (
@@ -74,7 +73,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
         {!showCollection ? (
           <BrowseSubset tableData={tableData} />
         ) : (
-          <CollectionSubset tableData={tableData} userCardTableData={idk} />
+          <CollectionSubset tableData={tableData} />
         )}
       </CollectionContainer>
     </CollectionWrapper>
