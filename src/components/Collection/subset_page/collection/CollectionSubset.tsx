@@ -122,7 +122,9 @@ export default function CollectionSubset(props: Props) {
               <DataTable
                 dense
                 noHeader
-                columns={deleteColumns}
+                columns={deleteColumns(
+                  selectedSeriesId === subset.baseSeriesId
+                )}
                 data={cardsBySeries.userCards.filter((userCard) =>
                   selectedCardIds.some((id) => id === userCard.id)
                 )}
@@ -275,7 +277,7 @@ export default function CollectionSubset(props: Props) {
           <DataTable
             noHeader
             dense
-            columns={deleteColumns}
+            columns={deleteColumns(selectedSeriesId === subset.baseSeriesId)}
             data={cardsBySeries.userCards}
             highlightOnHover
             pagination
