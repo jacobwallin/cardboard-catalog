@@ -12,7 +12,8 @@ import AddCardsForm, {
 import * as Styled from "../styled";
 import sortCardNumbers from "../../../../utils/sortCardNumbers";
 import sortSeries from "../sortSeries";
-import { resolveSoa } from "dns";
+import { NoDataMessage } from "../../../shared/NoDataMessage";
+import { TotalCards } from "../../shared";
 
 interface Props {
   tableData: any[];
@@ -114,25 +115,7 @@ export default function BrowseSubset(props: Props) {
       {!showAddCardForm && (
         <>
           <Styled.PageTitle>Set Checklist</Styled.PageTitle>
-          {addCardFormData.length > 0 && (
-            <Styled.AddCardsContainer>
-              <Styled.AddCardsTotal>
-                {`${addCardFormData.length} ${
-                  addCardFormData.length > 1 ? "Cards" : "Card"
-                } Ready to Add`}
-              </Styled.AddCardsTotal>
-              <StyledButton
-                color="GREEN"
-                height="25px"
-                width="100px"
-                fontSize="13px"
-                onClick={(e) => setShowAddCardForm(!showAddCardForm)}
-              >
-                Add
-              </StyledButton>
-            </Styled.AddCardsContainer>
-          )}
-          <Styled.TableHeader>
+          {subset.series.length > 1 && (
             <Styled.SelectParallel>
               <Styled.SelectLabel>Select Parallel Set</Styled.SelectLabel>
               <Styled.SeriesSelect
@@ -154,6 +137,27 @@ export default function BrowseSubset(props: Props) {
                   })}
               </Styled.SeriesSelect>
             </Styled.SelectParallel>
+          )}
+          {addCardFormData.length > 0 && (
+            <Styled.AddCardsContainer>
+              <Styled.AddCardsTotal>
+                {`${addCardFormData.length} ${
+                  addCardFormData.length > 1 ? "Cards" : "Card"
+                } Ready to Add`}
+              </Styled.AddCardsTotal>
+              <StyledButton
+                color="GREEN"
+                height="25px"
+                width="100px"
+                fontSize="13px"
+                onClick={(e) => setShowAddCardForm(!showAddCardForm)}
+              >
+                Add
+              </StyledButton>
+            </Styled.AddCardsContainer>
+          )}
+          <Styled.TableHeader>
+            <TotalCards totalCards={200} />
             <StyledButton
               color={checklistToggleSelect ? "YELLOW" : "GRAY"}
               height="25px"
@@ -185,6 +189,9 @@ export default function BrowseSubset(props: Props) {
             onSelectedRowsChange={addSelectedCardsChange}
             clearSelectedRows={clearSelected}
             customStyles={customStyles}
+            noDataComponent={
+              <NoDataMessage>No cards belong to this set.</NoDataMessage>
+            }
           />
         </>
       )}

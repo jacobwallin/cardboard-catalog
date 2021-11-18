@@ -37,6 +37,7 @@ export const columns = [
     sortable: true,
     style: modifiedStyles,
     grow: 1,
+    minWidth: "auto",
   },
   {
     name: "Name",
@@ -49,7 +50,7 @@ export const columns = [
     ),
     sortable: true,
     style: modifiedStyles,
-    grow: 2,
+    grow: 4,
   },
   {
     name: "Team",
@@ -57,14 +58,14 @@ export const columns = [
       row.cardData.team ? row.cardData.team.name : "-",
     sortable: false,
     style: modifiedStyles,
-    grow: 2,
+    grow: 4,
   },
   {
     name: "Parallel Set",
     selector: (row: TableDataPoint) => row.series.name,
     sortable: true,
     style: modifiedStyles,
-    grow: 2,
+    grow: 4,
   },
 ];
 
