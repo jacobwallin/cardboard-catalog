@@ -156,22 +156,24 @@ export default function BrowseSubset(props: Props) {
             </Styled.AddCardsContainer>
           )}
           <Styled.TableHeader>
-            <TotalCards
-              totalCards={
-                props.tableData.find(
-                  (series) => series.seriesId === selectedSeriesId
-                ).cards.length
-              }
-            />
-            <StyledButton
-              color={checklistToggleSelect ? "YELLOW" : "GRAY"}
-              height="25px"
-              width="100px"
-              fontSize="13px"
-              onClick={toggleCheckboxes}
-            >
-              {checklistToggleSelect ? "Cancel" : "Add Cards"}
-            </StyledButton>
+            <Styled.TableHeaderRow>
+              <TotalCards
+                totalCards={
+                  props.tableData.find(
+                    (series) => series.seriesId === selectedSeriesId
+                  ).cards.length
+                }
+              />
+              <StyledButton
+                color={checklistToggleSelect ? "YELLOW" : "GRAY"}
+                height="25px"
+                width="100px"
+                fontSize="13px"
+                onClick={toggleCheckboxes}
+              >
+                {checklistToggleSelect ? "Cancel" : "Add Cards"}
+              </StyledButton>
+            </Styled.TableHeaderRow>
           </Styled.TableHeader>
           <DataTable
             noHeader

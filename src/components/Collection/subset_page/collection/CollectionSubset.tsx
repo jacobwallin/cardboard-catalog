@@ -135,7 +135,6 @@ export default function CollectionSubset(props: Props) {
                 defaultSortField={"Card #"}
               />
             )}
-
             <SharedStyled.ConfirmDeleteButtons>
               <StyledButton
                 color="GRAY"
@@ -238,37 +237,39 @@ export default function CollectionSubset(props: Props) {
               />
             </SharedStyled.ShowAllCards>
           )}
-          {selectedCardIds.length > 0 && (
-            <SharedStyled.AddCardsContainer>
-              <SharedStyled.AddCardsTotal>
-                {`${selectedCardIds.length} ${
-                  selectedCardIds.length > 1 ? "Cards" : "Card"
-                } Selected`}
-              </SharedStyled.AddCardsTotal>
-              <StyledButton
-                color="RED"
-                height="25px"
-                width="100px"
-                fontSize="13px"
-                onClick={toggleConfirmDeleteModal}
-              >
-                Delete
-              </StyledButton>
-            </SharedStyled.AddCardsContainer>
-          )}
           <SharedStyled.TableHeader>
-            <TotalCards totalCards={cardsBySeries.totalCards} />
-            {cardsBySeries.totalCards > 0 && (
-              <StyledButton
-                color={deleteCardsToggle ? "YELLOW" : "GRAY"}
-                height="25px"
-                width="100px"
-                fontSize="13px"
-                onClick={toggleDeleteChecklist}
-              >
-                {deleteCardsToggle ? "Cancel" : "Delete"}
-              </StyledButton>
+            {selectedCardIds.length > 0 && (
+              <SharedStyled.AddCardsContainer>
+                <SharedStyled.AddCardsTotal>
+                  {`${selectedCardIds.length} ${
+                    selectedCardIds.length > 1 ? "Cards" : "Card"
+                  } Selected`}
+                </SharedStyled.AddCardsTotal>
+                <StyledButton
+                  color="RED"
+                  height="25px"
+                  width="100px"
+                  fontSize="13px"
+                  onClick={toggleConfirmDeleteModal}
+                >
+                  Delete
+                </StyledButton>
+              </SharedStyled.AddCardsContainer>
             )}
+            <SharedStyled.TableHeaderRow>
+              <TotalCards totalCards={cardsBySeries.totalCards} />
+              {cardsBySeries.totalCards > 0 && (
+                <StyledButton
+                  color={deleteCardsToggle ? "YELLOW" : "GRAY"}
+                  height="25px"
+                  width="100px"
+                  fontSize="13px"
+                  onClick={toggleDeleteChecklist}
+                >
+                  {deleteCardsToggle ? "Cancel" : "Delete"}
+                </StyledButton>
+              )}
+            </SharedStyled.TableHeaderRow>
           </SharedStyled.TableHeader>
         </>
       )}

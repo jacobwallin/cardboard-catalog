@@ -98,8 +98,14 @@ export const DeleteConfirmMessage = styled.div`
 export const TableHeader = styled.div`
   width: 100%;
   display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+`;
+
+export const TableHeaderRow = styled.div`
+  width: 100%;
+  display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-top: 50px;
 `;
