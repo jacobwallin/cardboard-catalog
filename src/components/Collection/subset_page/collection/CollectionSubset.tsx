@@ -240,17 +240,19 @@ export default function CollectionSubset(props: Props) {
               </Styled.Progress>
             </Styled.ProgressBar>
           </Styled.Collection>
-          <SharedStyled.ShowAllCards>
-            <SharedStyled.SelectLabel>
-              Show Missing Cards:
-            </SharedStyled.SelectLabel>
-            <input
-              type="checkbox"
-              onChange={handleShowAllChange}
-              checked={showAllCards}
-              disabled={deleteCardsToggle}
-            />
-          </SharedStyled.ShowAllCards>
+          {cardsBySeries.distinctCards < cardsBySeries.cards.length && (
+            <SharedStyled.ShowAllCards>
+              <SharedStyled.SelectLabel>
+                Show Missing Cards:
+              </SharedStyled.SelectLabel>
+              <input
+                type="checkbox"
+                onChange={handleShowAllChange}
+                checked={showAllCards}
+                disabled={deleteCardsToggle}
+              />
+            </SharedStyled.ShowAllCards>
+          )}
           <SharedStyled.TableHeader>
             <TotalCards totalCards={cardsBySeries.totalCards} />
             {cardsBySeries.totalCards > 0 && (
