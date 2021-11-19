@@ -316,14 +316,6 @@ router.get("/filter", async (req, res, next) => {
 
   try {
     const userCards = await UserCard.findAndCountAll({
-      // attributes: [
-      //   // specify an array where the first element is the SQL function and the second is the alias
-      //   [fn("DISTINCT", col("user_card.id")), "user_card.id"],
-
-      //   // specify any additional columns, e.g. country_code
-      //   // 'country_code'
-      // ],
-
       // filters
       where: {
         userId: req.user.id,
@@ -380,7 +372,6 @@ router.get("/filter", async (req, res, next) => {
     });
     res.json(userCards);
   } catch (error) {
-    console.log(error);
     next(error);
   }
 });
