@@ -325,6 +325,7 @@ router.get("/filter", async (req, res, next) => {
       limit: req.query.limit,
       offset: req.query.offset,
       subQuery: false,
+      distinct: true,
       // sorting
       order: sortOrder,
       // joins
