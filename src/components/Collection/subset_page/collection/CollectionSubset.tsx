@@ -50,7 +50,6 @@ export default function CollectionSubset(props: Props) {
   );
 
   function handleSeriesChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    console.log("selected series id: ", event.target.value);
     setSelectedSeriesId(+event.target.value);
   }
 

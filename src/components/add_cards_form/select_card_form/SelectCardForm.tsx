@@ -86,7 +86,6 @@ export default function SelectCardForm(props: Props) {
       if (subset.card_data.length > 0) {
         const cardNumber = subset.card_data[0].number;
         let newPrefix = subset.prefix;
-        console.log("WTF:", cardNumber.charAt(subset.prefix.length - 1));
         if (cardNumber.charAt(subset.prefix.length) === "-") {
           newPrefix += "-";
         }
