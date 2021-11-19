@@ -29,14 +29,6 @@ export default function SelectCardForm(props: Props) {
   const dispatch = useDispatch();
   const { addCard, cardData } = props;
 
-  // CONTROLLED FORM DATA
-  const [selectedYear, setSelectedYear] = useState(-1);
-  const [selectedSetId, setSelectedSetId] = useState(-1);
-  const [selectedSubsetId, setSelectedSubsetId] = useState(-1);
-  const [selectedSeriesId, setSelectedSeriesId] = useState(-1);
-  const [selectedCardId, setSelectedCardId] = useState(-1);
-  const [cardIdField, setCardIdField] = useState("");
-
   // LIBRARY STORE DATA
   const allSets = useSelector((state: RootState) => state.library.sets.allSets);
   const set = useSelector((state: RootState) => state.library.sets.set);
@@ -45,6 +37,15 @@ export default function SelectCardForm(props: Props) {
   const userCardsInSubset = useSelector(
     (state: RootState) => state.collection.browse.cardsInSingleSubset.cards
   );
+
+  // CONTROLLED FORM DATA
+  const [selectedYear, setSelectedYear] = useState(-1);
+  const [selectedSetId, setSelectedSetId] = useState(-1);
+  const [selectedSubsetId, setSelectedSubsetId] = useState(-1);
+  const [selectedSeriesId, setSelectedSeriesId] = useState(-1);
+  const [selectedCardId, setSelectedCardId] = useState(-1);
+  const [cardIdField, setCardIdField] = useState("");
+  const [prefix, setPrefix] = useState("");
 
   // LOADING STATE
   const loadingSet = useSelector((state: RootState) =>
@@ -79,6 +80,24 @@ export default function SelectCardForm(props: Props) {
       dispatch(fetchSeriesById(selectedSeriesId));
     }
   }, [selectedSeriesId]);
+
+  useEffect(() => {
+    if (subset.prefix !== "") {
+      if (subset.card_data.length > 0) {
+        const cardNumber = subset.card_data[0].number;
+        let newPrefix = subset.prefix;
+        console.log("WTF:", cardNumber.charAt(subset.prefix.length - 1));
+        if (cardNumber.charAt(subset.prefix.length) === "-") {
+          newPrefix += "-";
+        }
+        setPrefix(newPrefix);
+        setCardIdField(newPrefix);
+      }
+    } else {
+      setPrefix("");
+      setCardIdField("");
+    }
+  }, [subset]);
 
   function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
     switch (event.target.name) {
@@ -117,7 +136,11 @@ export default function SelectCardForm(props: Props) {
   function handleInputChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
-    setCardIdField(event.target.value);
+    if (event.target.value.indexOf(prefix) !== -1) {
+      setCardIdField(event.target.value.toUpperCase());
+    } else {
+      setCardIdField(prefix);
+    }
     const card = series.cards.find(
       (card) =>
         card.card_datum.number.toUpperCase() ===
