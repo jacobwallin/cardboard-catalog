@@ -160,7 +160,7 @@ export default function Filter(props: Props) {
               })
               .map((team) => {
                 return (
-                  <option key={team.id} value={team.id}>
+                  <option key={team.id} value={`${team.id}-${team.name}`}>
                     {team.name}
                   </option>
                 );

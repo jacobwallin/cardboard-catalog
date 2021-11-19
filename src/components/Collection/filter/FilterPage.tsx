@@ -107,6 +107,9 @@ export default function FilterPage() {
       case "player":
         setFilters({ ...filters, player: e.target.value });
         break;
+      case "team":
+        setFilters({ ...filters, teamId: e.target.value });
+        break;
       case "hallOfFame":
         setFilters({ ...filters, hallOfFame: +e.target.value });
         break;

@@ -3,7 +3,7 @@ export interface Filters {
   setId: number;
   subsetId: number;
   seriesId: number;
-  teamId: number;
+  teamId: string;
   player: string;
   serialized: number;
   rookie: number;
@@ -23,7 +23,7 @@ export const initialFilters: Filters = {
   setId: 0,
   subsetId: 0,
   seriesId: 0,
-  teamId: 0,
+  teamId: "",
   player: "",
   serialized: 0,
   rookie: 0,

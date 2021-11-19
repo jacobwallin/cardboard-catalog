@@ -22,7 +22,6 @@ export default function generateQuery(
   }> = [];
 
   if (filters.player !== "") {
-    console.log("PLAYER: ", filters.player);
     query += `&playerId=${filters.player.slice(
       0,
       filters.player.indexOf("-")
@@ -30,6 +29,13 @@ export default function generateQuery(
     bubbles.push({
       name: "Player",
       filter: filters.player.slice(filters.player.indexOf("-") + 1),
+    });
+  }
+  if (filters.teamId !== "") {
+    query += `&teamId=${filters.teamId.slice(0, filters.teamId.indexOf("-"))}`;
+    bubbles.push({
+      name: "Team",
+      filter: filters.teamId.slice(filters.teamId.indexOf("-") + 1),
     });
   }
   if (filters.auto !== 0) {
