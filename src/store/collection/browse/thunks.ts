@@ -1,7 +1,7 @@
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../index";
 import * as actions from "./actions";
-import { CollectionActionTypes } from "./types";
+import { CollectionActionTypes, CardData, NewCardsResponse } from "./types";
 import { get, post } from "../../../utils/fetch";
 
 export const fetchCardsBySet =
@@ -18,11 +18,15 @@ export const fetchCardsBySet =
   };
 
 export const fetchCardsBySubset =
-  (setId: number): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
+  (
+    setId: number
+  ): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
   (dispatch) => {
     get(`/api/collection/set/${setId}`, dispatch)
       .then((data) => {
-        dispatch(actions.getCardsBySubsetSuccess({ cardsBySubset: data, setId }));
+        dispatch(
+          actions.getCardsBySubsetSuccess({ cardsBySubset: data, setId })
+        );
       })
       .catch((err) => {
         dispatch(actions.getCardsBySubsetFailure());
@@ -30,23 +34,20 @@ export const fetchCardsBySubset =
   };
 
 export const fetchCardsInSingleSubset =
-  (subsetId: number): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
+  (
+    subsetId: number
+  ): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
   (dispatch) => {
     get(`/api/collection/subset/${subsetId}`, dispatch)
       .then((data) => {
-        dispatch(actions.getSingleSubsetCardsSuccess({ cards: data, subsetId }));
+        dispatch(
+          actions.getSingleSubsetCardsSuccess({ cards: data, subsetId })
+        );
       })
       .catch((err) => {
         dispatch(actions.getSingleSubsetCardsFailure());
       });
   };
-
-interface CardData {
-  cardId: number;
-  serialNumber?: number;
-  grade?: number;
-  gradingCompanyId?: number;
-}
 
 export const addCards =
   (
@@ -56,8 +57,8 @@ export const addCards =
   (dispatch) => {
     dispatch(actions.addCardsRequest());
     post(`/api/collection/add`, { cardsToAdd: cardData }, dispatch)
-      .then((newCards) => {
-        dispatch(actions.addCardsSuccess(newCards, subsetId));
+      .then((newCards: NewCardsResponse[]) => {
+        dispatch(actions.addCardsSuccess(newCards, cardData, subsetId));
       })
       .catch((err) => {
         dispatch(actions.addCardsFailure());
@@ -65,7 +66,9 @@ export const addCards =
   };
 
 export const deleteCards =
-  (userCardIds: number[]): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
+  (
+    userCardIds: number[]
+  ): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
   (dispatch) => {
     dispatch(actions.deleteCardsRequest());
 

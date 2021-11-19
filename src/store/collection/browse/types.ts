@@ -64,7 +64,8 @@ interface AddCardsRequest {
 }
 export interface AddCardsSuccess {
   type: typeof ADD_CARDS_SUCCESS;
-  newCards: UserCard[];
+  newCards: NewCardsResponse[];
+  cardData: CardData[];
   subsetId: number;
 }
 interface AddCardsFailure {
@@ -148,10 +149,31 @@ export interface UserCard {
   card: Card;
 }
 
-interface Card {
+export interface Card {
   id: number;
   value: number | null;
   serializedTo: number | null;
   seriesId: number;
   cardDataId: number;
+}
+
+// data sent to thunk to add cards to collection
+export interface CardData {
+  cardId: number;
+  serialNumber?: number;
+  grade?: number;
+  gradingCompanyId?: number;
+  card: Card;
+}
+
+// server response with cards added to collection
+export interface NewCardsResponse {
+  id: number;
+  serialNumber: number | null;
+  createdAt: string;
+  updatedAt: string;
+  userId: number;
+  cardId: number;
+  gradingCompanyId: number | null;
+  grade: number | null;
 }
