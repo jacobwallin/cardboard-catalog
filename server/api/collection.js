@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Op } = require("sequelize");
+const { Op, literal } = require("sequelize");
 
 const { isUser } = require("../middleware");
 
@@ -237,8 +237,15 @@ router.get("/filter", async (req, res, next) => {
         };
         break;
       case "hof":
+        cardDataInclude.push({
+          model: Player,
+          through: {
+            attributes: [],
+          },
+          attributes: [],
+        });
         let hallOfFame = queryParams[filterNames[i]] === "true" ? true : false;
-        filters["$card.series.manufacturedRelic$"] = {
+        filters["$card.card_datum.players.hallOfFame$"] = {
           [Op.eq]: hallOfFame,
         };
         break;
@@ -256,6 +263,9 @@ router.get("/filter", async (req, res, next) => {
           // include players in query
           cardDataInclude.push({
             model: Player,
+            through: {
+              attributes: [],
+            },
             attributes: [],
           });
           // add player id filter
@@ -306,6 +316,14 @@ router.get("/filter", async (req, res, next) => {
 
   try {
     const userCards = await UserCard.findAndCountAll({
+      // attributes: [
+      //   // specify an array where the first element is the SQL function and the second is the alias
+      //   [fn("DISTINCT", col("user_card.id")), "user_card.id"],
+
+      //   // specify any additional columns, e.g. country_code
+      //   // 'country_code'
+      // ],
+
       // filters
       where: {
         userId: req.user.id,
@@ -362,6 +380,7 @@ router.get("/filter", async (req, res, next) => {
     });
     res.json(userCards);
   } catch (error) {
+    console.log(error);
     next(error);
   }
 });
