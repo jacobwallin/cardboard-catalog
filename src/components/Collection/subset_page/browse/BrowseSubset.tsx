@@ -12,7 +12,12 @@ import AddCardsForm, {
 import * as Styled from "../styled";
 import sortSeries from "../sortSeries";
 import { NoDataMessage } from "../../../shared/NoDataMessage";
-import { TotalCards } from "../../shared";
+import {
+  TotalCards,
+  ContentContainer,
+  ContentTitle,
+  ContentData,
+} from "../../shared";
 
 interface Props {
   tableData: any[];
@@ -114,6 +119,12 @@ export default function BrowseSubset(props: Props) {
       {!showAddCardForm && (
         <>
           <Styled.PageTitle>Set Checklist</Styled.PageTitle>
+          {subset.description !== "" && (
+            <ContentContainer>
+              <ContentTitle>About:</ContentTitle>
+              <ContentData>{subset.description}</ContentData>
+            </ContentContainer>
+          )}
           {subset.series.length > 1 && (
             <Styled.SelectParallel>
               <Styled.SelectLabel>Select Parallel Set</Styled.SelectLabel>
