@@ -119,12 +119,7 @@ export default function BrowseSubset(props: Props) {
       {!showAddCardForm && (
         <>
           <Styled.PageTitle>Set Checklist</Styled.PageTitle>
-          {subset.description !== "" && (
-            <ContentContainer>
-              <ContentTitle>About:</ContentTitle>
-              <ContentData>{subset.description}</ContentData>
-            </ContentContainer>
-          )}
+
           {subset.series.length > 1 && (
             <Styled.SelectParallel>
               <Styled.SelectLabel>Select Parallel Set</Styled.SelectLabel>
