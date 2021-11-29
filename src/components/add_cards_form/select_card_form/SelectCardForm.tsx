@@ -291,6 +291,8 @@ export default function SelectCardForm(props: Props) {
                 return (
                   <option key={card.id} value={card.id}>
                     {`${card.card_datum.number} - ${card.card_datum.name}`}
+                    {card.card_datum.note !== "" &&
+                      ` (${card.card_datum.note})`}
                   </option>
                 );
               })}
