@@ -70,7 +70,7 @@ export default function CardFormController(props: Props) {
   const [cardBulkCreated, setBulkCreated] = useState(false);
 
   // scrape card options
-  const [includeNotes, setIncludeNotes] = useState(false);
+  const [includeNotes, setIncludeNotes] = useState(true);
   const [addShortPrints, setAddShortPrints] = useState(false);
 
   // Controlled form data, initial values are set to editCardData prop if form is being used to edit an existing card
