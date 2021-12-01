@@ -11,6 +11,11 @@ const dataTableColumns = [
     selector: "birthday",
     sortable: true,
   },
+  {
+    name: "Date Created",
+    selector: (row: Player) => row.createdAt.slice(0, 10),
+    sortable: true,
+  },
 ];
 
 export default dataTableColumns;
