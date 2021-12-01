@@ -16,9 +16,17 @@ export interface Series {
   shortPrint: boolean;
   createdAt: string;
   updatedAt: string;
+  createdBy: number;
+  updatedBy: number;
   subsetId: number;
   subset: Subset;
   cards: Array<Card>;
+  createdByUser: {
+    username: string;
+  };
+  updatedByUser: {
+    username: string;
+  };
 }
 
 export interface Subset {
@@ -28,6 +36,8 @@ export interface Subset {
   baseSeriesId: number;
   createdAt: string;
   updatedAt: string;
+  createdBy: number;
+  updatedBy: number;
   setId: number;
   set: Set;
 }
@@ -35,11 +45,15 @@ export interface Subset {
 interface Set {
   id: number;
   name: string;
-  release_date: string;
+  release_date: string | null;
+  year: number;
+  complete: boolean;
   description: string;
   baseSubsetId: number;
   createdAt: string;
   updatedAt: string;
+  createdBy: number;
+  updatedBy: number;
   leagueId: number;
   brandId: number;
 }
@@ -49,6 +63,8 @@ export interface Card {
   value: number | null;
   serializedTo: number | null;
   seriesId: number;
+  createdBy: number;
+  updatedBy: number;
   cardDataId: number;
   card_datum: {
     id: number;
@@ -56,15 +72,20 @@ export interface Card {
     number: string;
     note: string;
     rookie: boolean;
-    createdAt: string;
-    updatedAt: string;
     subsetId: number;
     teamId: number | null;
     players: Player[];
     team: {
       id: number;
       name: string;
+      leagueId: number;
     } | null;
+  };
+  createdByUser: {
+    username: string;
+  };
+  updatedByUser: {
+    username: string;
   };
 }
 
@@ -74,6 +95,7 @@ interface Player {
   fullName: string;
   birthday: string;
   hallOfFame: boolean;
+  url: string;
   card_data_player: {
     cardDatumId: number;
     playerId: number;
@@ -125,6 +147,8 @@ interface UpdateSeriesResponse {
   shortPrint: boolean;
   createdAt: string;
   updatedAt: string;
+  createdBy: number;
+  updatedBy: number;
   subsetId: number;
   subset: {
     id: number;
@@ -133,7 +157,15 @@ interface UpdateSeriesResponse {
     baseSeriesId: number;
     createdAt: string;
     updatedAt: string;
+    createdBy: number;
+    updatedBy: number;
     setId: number;
+  };
+  createdByUser: {
+    username: string;
+  };
+  updatedByUser: {
+    username: string;
   };
 }
 interface UpdateSeriesSuccess {

@@ -13,8 +13,8 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
-  font-weight: 700;
-  font-size: 1.4em;
+  font-weight: 400;
+  font-size: 1.3em;
   text-align: center;
 `;
 
@@ -23,7 +23,7 @@ const Close = styled.div`
   height: 30px;
   align-self: flex-end;
   position: absolute;
-  right: 5px;
+  right: -10px;
   top: -15px;
   &:hover {
     .ex {

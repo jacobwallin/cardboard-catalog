@@ -1,7 +1,7 @@
 import * as types from "./types";
 
 export const getSubsetSuccess = (
-  subset: types.Subset
+  subset: types.SubsetState
 ): types.SubsetActionTypes => ({
   type: types.GET_SUBSET_SUCCESS,
   subset,
@@ -18,7 +18,7 @@ export const updateSubsetRequest = (): types.SubsetActionTypes => ({
 });
 
 export const updateSubsetSuccess = (
-  updatedSubset: types.UpdateSubsetServerResponse
+  updatedSubset: types.UpdatedSubset
 ): types.SubsetActionTypes => ({
   type: types.UPDATE_SUBSET_SUCCESS,
   updatedSubset,

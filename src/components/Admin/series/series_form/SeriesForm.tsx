@@ -3,12 +3,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../store/index";
 import { createLoadingSelector } from "../../../../store/loading/reducer";
 import detectFormChanges from "../../detectFormChanges";
-
-import FormContainer from "../../components/form/FormContainer";
 import FieldContainer from "../../components/form/FieldContainer";
 import FieldTitle from "../../components/form/FieldTitle";
 import FieldData from "../../components/form/FieldData";
 import FormButtons from "../../components/form/FormButtons";
+import * as StyledInputs from "../../components/form/Inputs";
 
 const isUpdatingSelector = createLoadingSelector([
   "UPDATE_SERIES",
@@ -97,11 +96,11 @@ export default function SeriesForm(props: Props) {
   }
 
   return (
-    <FormContainer>
+    <>
       <FieldContainer>
-        <FieldTitle>Name:</FieldTitle>
+        <FieldTitle>Name</FieldTitle>
         <FieldData>
-          <input
+          <StyledInputs.Input
             name="name"
             type="text"
             value={name}
@@ -111,9 +110,9 @@ export default function SeriesForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Serialized to:</FieldTitle>
+        <FieldTitle>Serialized to</FieldTitle>
         <FieldData>
-          <input
+          <StyledInputs.NumberInput
             name="serialized"
             type="number"
             value={serialized}
@@ -123,7 +122,7 @@ export default function SeriesForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Auto:</FieldTitle>
+        <FieldTitle>Auto</FieldTitle>
         <FieldData>
           <input
             name="auto"
@@ -134,7 +133,7 @@ export default function SeriesForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Relic:</FieldTitle>
+        <FieldTitle>Relic</FieldTitle>
         <FieldData>
           <input
             name="relic"
@@ -145,7 +144,7 @@ export default function SeriesForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Refractor:</FieldTitle>
+        <FieldTitle>Refractor</FieldTitle>
         <FieldData>
           <input
             name="refractor"
@@ -156,7 +155,7 @@ export default function SeriesForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Short Print:</FieldTitle>
+        <FieldTitle>Short Print</FieldTitle>
         <FieldData>
           <input
             name="shortPrint"
@@ -167,7 +166,7 @@ export default function SeriesForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Manufactured Relic:</FieldTitle>
+        <FieldTitle>Manufactured Relic</FieldTitle>
         <FieldData>
           <input
             name="manufacturedRelic"
@@ -206,6 +205,6 @@ export default function SeriesForm(props: Props) {
               ))
         }
       />
-    </FormContainer>
+    </>
   );
 }

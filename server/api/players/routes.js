@@ -7,7 +7,9 @@ const { Op } = require("sequelize");
 
 router.get("/", async (req, res, next) => {
   try {
-    const allPlayers = await Player.findAll();
+    const allPlayers = await Player.findAll({
+      attributes: { exclude: ["createdAt", "updatedAt"] },
+    });
     res.json(allPlayers);
   } catch (error) {
     next(error);
@@ -69,7 +71,7 @@ router.post("/scrape", isAdmin, async (req, res, next) => {
 
   // validate url
   const valid =
-    /^https?:\/\/www.baseball-reference.com\/players\/[a-z]\/\w{4,7}\d{2}.shtml/.test(
+    /^https?:\/\/www.baseball-reference.com\/players\/[a-z.]\/[\w.']{4,7}\d{2}.shtml/.test(
       url
     ) ||
     /^https?:\/\/www.baseball-reference.com\/register\/player.fcgi\?id=/.test(

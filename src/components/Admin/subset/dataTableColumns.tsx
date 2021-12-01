@@ -152,7 +152,7 @@ export function cardsDataTableColumns(
       name: "",
       sortable: false,
       cell: (row: CardData) => (
-        <>
+        <Styled.EditDeleteWrapper>
           <StyledLink as="div" onClick={() => editToggle(row)}>
             Edit
           </StyledLink>
@@ -164,7 +164,7 @@ export function cardsDataTableColumns(
           >
             X
           </StyledButton>
-        </>
+        </Styled.EditDeleteWrapper>
       ),
       grow: 0,
     },

@@ -5,9 +5,8 @@ import styled from "styled-components";
 const SidebarContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 220px;
-  background: #444;
-
+  width: 200px;
+  background: #292929;
   /* border-right: 2px solid white; */
   @media only screen and (max-width: 800px) {
     flex-direction: row;
@@ -24,11 +23,12 @@ interface Mobile {
 const LinkContainer = styled.div<Mobile>`
   display: flex;
   flex-direction: column;
+  width: 200px;
 
   @media only screen and (max-width: 800px) {
     display: ${({ visible }) => !visible && "none"};
     position: absolute;
-    background: white;
+    background: #222;
     top: 90px;
     z-index: 3;
     width: 220px;
@@ -37,24 +37,24 @@ const LinkContainer = styled.div<Mobile>`
 `;
 
 const StyledAdminLink = styled(Link)`
-  color: #555;
+  color: white;
   font-size: 0.9rem;
-  border-radius: 10px;
+  height: 40px;
   padding: 10px;
-  margin: 5px;
   text-decoration: none;
   font-weight: bold;
   align-items: flex-start;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 
   &:hover {
-    background: #ccc;
+    background: #151515;
   }
 
   &:active {
-    background: #bbb;
+    background: #151515;
   }
   /* @media only screen and (max-width: 800px) {
     display: none;
@@ -99,12 +99,8 @@ export default function Sidebar() {
         visible={showAdminMenuOnMobile}
         onClick={toggleAdminMenuOnMobile}
       >
-        <StyledAdminLink to={`${path}/`}>
-          Set Library<span>&gt;</span>
-        </StyledAdminLink>
-        <StyledAdminLink to={`${path}/players`}>
-          Player Library<span>&gt;</span>
-        </StyledAdminLink>
+        <StyledAdminLink to={`${path}/`}>Set Library</StyledAdminLink>
+        <StyledAdminLink to={`${path}/players`}>Player Library</StyledAdminLink>
       </LinkContainer>
     </SidebarContainer>
   );

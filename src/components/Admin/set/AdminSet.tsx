@@ -12,11 +12,14 @@ import EditFormHeader from "../components/EditFormHeader";
 import AdminPageContainer from "../components/AdminPageContainer";
 import CreateButton from "../components/CreateButton";
 import { LoadingDots } from "../../shared/Loading";
+import { DataTableWrapper } from "../components/WrappedDataTable";
+import DataTable from "react-data-table-component";
 
 const columns = [
   {
     name: "Name",
-    selector: "name",
+    selector: (row: any) =>
+      row.prefix !== "" ? `${row.name} (${row.prefix})` : `${row.name}`,
     sortable: true,
     grow: 1,
   },
@@ -40,7 +43,7 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
   const creatingSubset = useSelector((state: RootState) =>
     creatingSubsetSelector(state)
   );
-  const set = useSelector((state: RootState) => state.library.sets.singleSet);
+  const set = useSelector((state: RootState) => state.library.sets.set);
 
   useEffect(() => {
     dispatch(fetchSet(+props.match.params.setId));
@@ -75,13 +78,15 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
     <AdminPageContainer>
       <EditFormHeader text={`${set.name}`} />
       <EditSet setId={+props.match.params.setId} />
-      <WrappedDataTable
-        dense
-        highlightOnHover
-        title={`Base Set`}
-        columns={columns}
-        data={baseSubset ? [baseSubset] : []}
-      />
+      <DataTableWrapper>
+        <DataTable
+          dense
+          highlightOnHover
+          title={`Base Set`}
+          columns={columns}
+          data={baseSubset ? [baseSubset] : []}
+        />
+      </DataTableWrapper>
       <WrappedDataTable
         dense
         title={`Inserts and Other Sets`}

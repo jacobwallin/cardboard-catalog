@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { fetchCards } from "../../../store/collection/filter/thunks";
+import {
+  fetchCards,
+  fetchPdfData,
+} from "../../../store/collection/filter/thunks";
+import { fetchCardsBySet } from "../../../store/collection/browse/thunks";
 import { fetchAllPlayers } from "../../../store/library/players/thunks";
 import { fetchAllTeams } from "../../../store/library/teams/thunks";
 import DataTable from "react-data-table-component";
@@ -10,89 +14,197 @@ import { columns } from "./columns";
 import { createLoadingSelector } from "../../../store/loading/reducer";
 import { createPdf } from "../../../utils/createPdf";
 import createPdfData from "./createPdfData";
-import { Filters, initialFilters, TableColumns, initialTableColumns } from "./types";
-import { filterCards } from "./filterCards";
-import { CollectionPageContainer, DataTableContainer, TotalCards } from "../shared";
+import {
+  Filters,
+  initialFilters,
+  TableColumns,
+  initialTableColumns,
+} from "./types";
+import {
+  CollectionPageContainer,
+  DataTableContainer,
+  TotalCards,
+} from "../shared";
 import { LoadingDots } from "../../shared/Loading";
+import generateQuery from "./generateQuery";
+import Filter from "./Filter";
+import PdfModal from "./PdfModal";
 import * as Styled from "./styled";
 
 const loadingCardsSelector = createLoadingSelector(["GET_CARDS"]);
+const loadingPdfDataSelector = createLoadingSelector(["GET_PDF_CARDS"]);
 
 export default function FilterPage() {
   const dispatch = useDispatch();
 
-  const cards = useSelector((state: RootState) => state.collection.filter.rows);
-  const players = useSelector((state: RootState) => state.library.players);
-  const teams = useSelector((state: RootState) => state.library.teams);
-  const cardsBySet = useSelector((state: RootState) => state.collection.browse.cardsBySet);
-  const loadingCards = useSelector((state: RootState) => loadingCardsSelector(state));
-  const cardsFetched = useSelector((state: RootState) => state.collection.filter.dataFetched);
-
   const [filters, setFilters] = useState<Filters>(initialFilters);
-  const [shownColumns, setShownColumns] = useState<TableColumns>(initialTableColumns);
-  const [playerSearch, setPlayerSearch] = useState("");
+  const [filterBubbles, setFilterBubbles] = useState<
+    { name: string; filter: string }[]
+  >([]);
+
+  const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const [sortBy, setSortBy] = useState("date");
+  const [sortDirection, setSortDirection] = useState("desc");
+  const [pdfSortBy, setPdfSortBy] = useState("date");
+  const [pdfSortDirection, setPdfSortDirection] = useState("desc");
+  const [shownColumns, setShownColumns] =
+    useState<TableColumns>(initialTableColumns);
   const [showColumnsMenu, setShowColumnsMenu] = useState(false);
+  const [showFilters, setShowFilters] = useState(true);
+  const [showPdfModal, setShowPdfModal] = useState(false);
+  const [showPdfError, setShowPdfError] = useState(false);
+  const [pdfCreated, setPdfCreated] = useState(false);
+  const [pdfTitle, setPdfTitle] = useState("");
 
-  const filteredCards = filterCards(cards, filters);
+  const set = useSelector((state: RootState) => state.library.sets.set);
+  const subset = useSelector((state: RootState) => state.library.subsets);
+  const paginatedCards = useSelector(
+    (state: RootState) => state.collection.filter
+  );
 
-  useEffect(() => {
-    dispatch(fetchAllPlayers());
-    dispatch(fetchAllTeams());
-  }, []);
+  const loadingCards = useSelector((state: RootState) =>
+    loadingCardsSelector(state)
+  );
+  const loadingPdfData = useSelector((state: RootState) =>
+    loadingPdfDataSelector(state)
+  );
+  const initialDataLoadComplete = useSelector(
+    (state: RootState) => state.collection.browse.initialDataLoadComplete
+  );
 
-  useEffect(() => {
-    if (!cardsFetched) {
-      dispatch(fetchCards());
-    }
-  }, [cardsFetched]);
-
-  function resetFilters() {
-    setFilters(initialFilters);
+  function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setFilters({ ...filters, playerSearch: event.target.value });
   }
 
-  function playerSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setPlayerSearch(event.target.value);
-  }
-
-  function setFiltersChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    switch (event.target.id) {
+  function handleFilterChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    switch (e.target.id) {
+      case "rookie":
+        setFilters({ ...filters, rookie: +e.target.value });
+        break;
+      case "serialized":
+        setFilters({ ...filters, serialized: +e.target.value });
+        break;
+      case "auto":
+        setFilters({ ...filters, auto: +e.target.value });
+        break;
+      case "relic":
+        setFilters({ ...filters, relic: +e.target.value });
+        break;
+      case "manufacturedRelic":
+        setFilters({ ...filters, manufacturedRelic: +e.target.value });
+        break;
+      case "parallel":
+        setFilters({ ...filters, parallel: +e.target.value });
+        break;
+      case "refractor":
+        setFilters({ ...filters, refractor: +e.target.value });
+        break;
+      case "shortPrint":
+        setFilters({ ...filters, shortPrint: +e.target.value });
+        break;
+      case "player":
+        setFilters({ ...filters, player: e.target.value });
+        break;
+      case "team":
+        setFilters({ ...filters, teamId: e.target.value });
+        break;
+      case "hallOfFame":
+        setFilters({ ...filters, hallOfFame: +e.target.value });
+        break;
+      case "graded":
+        setFilters({ ...filters, graded: +e.target.value });
+        break;
       case "year":
         setFilters({
           ...filters,
-          year: +event.target.value,
+          year: +e.target.value,
+          setId: 0,
+          subsetId: 0,
+          seriesId: 0,
         });
         break;
       case "set":
         setFilters({
           ...filters,
-          setId: +event.target.value,
+          setId: +e.target.value,
+          subsetId: 0,
+          seriesId: 0,
         });
+        break;
+      case "subset":
+        setFilters({ ...filters, subsetId: +e.target.value, seriesId: 0 });
+        break;
+      case "series":
+        setFilters({ ...filters, seriesId: +e.target.value });
         break;
     }
   }
 
-  function teamPlayerFiltersChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    switch (event.target.id) {
-      case "team":
-        setFilters({
-          ...filters,
-          teamId: +event.target.value,
-        });
-        break;
-      case "player":
-        setFilters({
-          ...filters,
-          playerId: +event.target.value,
-        });
-        break;
+  function handlePdfModalChanges(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.id === "title") {
+      setPdfTitle(e.target.value);
+    } else if (e.target.name === "sortBy") {
+      setPdfSortBy(e.target.id);
+    } else if (e.target.name === "sortDirection") {
+      setPdfSortDirection(e.target.id);
     }
   }
 
-  function cardAttributeChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setFilters({
-      ...filters,
-      [event.target.id]: event.target.checked,
-    });
+  useEffect(() => {
+    dispatch(fetchAllPlayers());
+    dispatch(fetchAllTeams());
+    if (!initialDataLoadComplete) {
+      dispatch(fetchCardsBySet());
+    }
+  }, []);
+
+  useEffect(() => {
+    dispatch(
+      fetchCards(
+        `?offset=${
+          (page - 1) * rowsPerPage
+        }&limit=${rowsPerPage}${query}&sort=${sortBy}&sort_direction=${sortDirection}`
+      )
+    );
+  }, [page, rowsPerPage, sortBy, sortDirection, query, dispatch]);
+
+  useEffect(() => {
+    if (pdfCreated && !loadingPdfData) {
+      setPdfCreated(false);
+      createPdf(
+        createPdfData(
+          paginatedCards.pdfData,
+          pdfSortBy,
+          pdfSortDirection,
+          shownColumns,
+          pdfTitle === "" ? "Checklist" : pdfTitle
+        ),
+        pdfTitle === "" ? "Checklist" : pdfTitle
+      );
+      setShowPdfModal(false);
+    }
+  }, [
+    loadingPdfData,
+    pdfCreated,
+    paginatedCards.pdfData,
+    shownColumns,
+    pdfTitle,
+    pdfSortBy,
+    pdfSortDirection,
+  ]);
+
+  function applyFilters() {
+    const { query, bubbles } = generateQuery(filters, set, subset);
+    setQuery(query);
+    setFilterBubbles(bubbles);
+  }
+
+  function resetFilters() {
+    setFilters(initialFilters);
+    setQuery("");
+    setFilterBubbles([]);
   }
 
   function shownColumnsChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -102,175 +214,106 @@ export default function FilterPage() {
     });
   }
 
+  function handleRowsPerPageChange(rowsPerPage: number) {
+    setRowsPerPage(rowsPerPage);
+  }
+
+  function handlePageChange(page: number) {
+    setPage(page);
+  }
+
+  function handleSort(column: any, sortDirection: any) {
+    const sortBy =
+      (column.name === "#" && "number") ||
+      (column.name === "Name" && "name") ||
+      (column.name === "Set" && "set") ||
+      (column.name === "Date Added" && "date") ||
+      "";
+
+    setSortBy(sortBy);
+    setSortDirection(sortDirection);
+  }
+
+  function toggleShowFilters() {
+    setShowFilters(!showFilters);
+  }
+
+  function togglePdfModal() {
+    if (paginatedCards.count <= 2000) {
+      setShowPdfError(false);
+      setPdfSortBy(sortBy);
+      setPdfSortDirection(sortDirection);
+      setShowPdfModal(!showPdfModal);
+    } else {
+      setShowPdfError(true);
+    }
+  }
+
+  function downloadPdf() {
+    // fetch complete list of filtered cards
+    if (paginatedCards.count <= 2000) {
+      setPdfCreated(true);
+      dispatch(
+        fetchPdfData(
+          `?offset=0&limit=${paginatedCards.count}${query}&sort=${sortBy}&sort_direction=${sortDirection}`
+        )
+      );
+    }
+  }
+
   return (
     <CollectionPageContainer>
-      <Styled.PageHeader>Filter / Search</Styled.PageHeader>
-      <Styled.FiltersContainer>
-        <Styled.FilterSection>
-          <Styled.SectionHeader>Set</Styled.SectionHeader>
-          <Styled.Filter>
-            <Styled.Label htmlFor="year">Year: </Styled.Label>
-            <Styled.Select id="year" value={filters.year} onChange={setFiltersChange}>
-              <option value={0}>Select</option>]
-              {Object.keys(
-                cardsBySet.reduce((years: any, set) => {
-                  if (years[set.release_date.slice(0, 4)]) return years;
-                  years[set.release_date.slice(0, 4)] = true;
-                  return years;
-                }, {})
-              ).map((year) => {
-                return (
-                  <option key={year} value={+year}>
-                    {year}
-                  </option>
-                );
-              })}
-            </Styled.Select>
-          </Styled.Filter>
-          <Styled.Filter>
-            <Styled.Label htmlFor="set">Set: </Styled.Label>
-            <Styled.Select id="set" value={filters.setId} onChange={setFiltersChange}>
-              <option value={0}>Select</option>]
-              {cardsBySet.map((set) => {
-                return (
-                  <option key={set.setId} value={set.setId}>
-                    {set.setName}
-                  </option>
-                );
-              })}
-            </Styled.Select>
-          </Styled.Filter>
-        </Styled.FilterSection>
-        <Styled.FilterSection>
-          <Styled.SectionHeader>Team/Player</Styled.SectionHeader>
-          <Styled.Filter>
-            <Styled.Label htmlFor="team">Team: </Styled.Label>
-            <Styled.Select id="team" value={filters.teamId} onChange={teamPlayerFiltersChange}>
-              <option value={0}>Select</option>
-              {teams.map((team) => {
-                return (
-                  <option key={team.id} value={team.id}>
-                    {team.name}
-                  </option>
-                );
-              })}
-            </Styled.Select>
-          </Styled.Filter>
-          <Styled.Filter>
-            <Styled.Label htmlFor="playerSearch">Find: </Styled.Label>
-            <Styled.TextInput
-              id="playerSearch"
-              type="text"
-              value={playerSearch}
-              placeholder="player name"
-              onChange={playerSearchChange}
-            />
-          </Styled.Filter>
-          <Styled.Filter>
-            <Styled.Label htmlFor="player">Player: </Styled.Label>
-            <Styled.Select id="player" onChange={teamPlayerFiltersChange}>
-              <option value={0}>Select</option>
-              {players
-                .filter((player) => {
-                  return player.name.toLowerCase().includes(playerSearch.toLowerCase());
-                })
-                .map((player) => {
-                  return (
-                    <option key={player.id} value={player.id}>
-                      {player.name}
-                    </option>
-                  );
-                })}
-            </Styled.Select>
-          </Styled.Filter>
-        </Styled.FilterSection>
-        <Styled.FilterSection>
-          <Styled.SectionHeader>Attribute</Styled.SectionHeader>
-          <Styled.Filter>
-            <Styled.Label htmlFor="rookie">Rookie: </Styled.Label>
-            <Styled.Checkbox
-              id="rookie"
-              checked={filters.rookie}
-              type="checkbox"
-              onChange={cardAttributeChange}
-            />
-          </Styled.Filter>
-          <Styled.Filter>
-            <Styled.Label htmlFor="serialized">Serialized: </Styled.Label>
-            <Styled.Checkbox
-              id="serialized"
-              checked={filters.serialized}
-              type="checkbox"
-              onChange={cardAttributeChange}
-            />
-          </Styled.Filter>
-          <Styled.Filter>
-            <Styled.Label htmlFor="auto">Auto: </Styled.Label>
-            <Styled.Checkbox
-              id="auto"
-              checked={filters.auto}
-              type="checkbox"
-              onChange={cardAttributeChange}
-            />
-          </Styled.Filter>
-          <Styled.Filter>
-            <Styled.Label htmlFor="relic">Relic: </Styled.Label>
-            <Styled.Checkbox
-              id="relic"
-              checked={filters.relic}
-              type="checkbox"
-              onChange={cardAttributeChange}
-            />
-          </Styled.Filter>
-          <Styled.Filter>
-            <Styled.Label htmlFor="manufacturedRelic">Manufactured Relic: </Styled.Label>
-            <Styled.Checkbox
-              id="manufacturedRelic"
-              checked={filters.manufacturedRelic}
-              type="checkbox"
-              onChange={cardAttributeChange}
-            />
-          </Styled.Filter>
-          <Styled.Filter>
-            <Styled.Label htmlFor="parallel">Parallel: </Styled.Label>
-            <Styled.Checkbox
-              id="parallel"
-              checked={filters.parallel}
-              type="checkbox"
-              onChange={cardAttributeChange}
-            />
-          </Styled.Filter>
-          <Styled.Filter>
-            <Styled.Label htmlFor="refractor">Refractor: </Styled.Label>
-            <Styled.Checkbox
-              id="refractor"
-              checked={filters.refractor}
-              type="checkbox"
-              onChange={cardAttributeChange}
-            />
-          </Styled.Filter>
-          <Styled.Filter>
-            <Styled.Label htmlFor="shortPrint">Short Print: </Styled.Label>
-            <Styled.Checkbox
-              id="shortPrint"
-              checked={filters.shortPrint}
-              type="checkbox"
-              onChange={cardAttributeChange}
-            />
-          </Styled.Filter>
-        </Styled.FilterSection>
-      </Styled.FiltersContainer>
-      <Styled.ResetPdfButtons>
-        <Styled.Pdf
-          onClick={(e) => createPdf(createPdfData(filteredCards, shownColumns, "Checklist"))}
-        >
-          Download PDF
-        </Styled.Pdf>
-        <Styled.Reset onClick={resetFilters}>Reset Filters</Styled.Reset>
-      </Styled.ResetPdfButtons>
+      {showPdfModal && (
+        <PdfModal
+          dismiss={togglePdfModal}
+          createdPdf={downloadPdf}
+          handleChanges={handlePdfModalChanges}
+          loading={pdfCreated}
+          loadingMessage={
+            loadingPdfData ? "Downloading PDF Data" : "Creating PDF"
+          }
+          sortBy={pdfSortBy}
+          sortDirection={pdfSortDirection}
+        />
+      )}
+      <Styled.PageHeader>{"Filter & Search All Cards"}</Styled.PageHeader>
+      <Styled.ShowFiltersToggle onClick={toggleShowFilters}>
+        {showFilters ? "Hide Filters" : "Show Filters"}
+      </Styled.ShowFiltersToggle>
+      {showFilters && (
+        <Filter
+          filters={filters}
+          handleFilterChange={handleFilterChange}
+          handlePlayerSearchChange={handleSearchChange}
+        />
+      )}
+      <Styled.ActiveFilters>Active Filters</Styled.ActiveFilters>
+      <Styled.FilterBubbleContainer>
+        {filterBubbles.length > 0 ? (
+          filterBubbles.map((filter) => (
+            <Styled.FilterBubble key={filter.name}>
+              {`${filter.name} | ${filter.filter}`}
+            </Styled.FilterBubble>
+          ))
+        ) : (
+          <Styled.FilterBubble>none</Styled.FilterBubble>
+        )}
+      </Styled.FilterBubbleContainer>
+      <Styled.Buttons>
+        <Styled.ResetApply>
+          {showPdfError && <Styled.PdfError>2000 Card Limit</Styled.PdfError>}
+          <Styled.Pdf onClick={togglePdfModal}>Download PDF</Styled.Pdf>
+        </Styled.ResetApply>
+        <Styled.ResetApply>
+          <Styled.Apply onClick={applyFilters}>Apply Filters</Styled.Apply>
+          <Styled.Reset onClick={resetFilters}>Reset Filters</Styled.Reset>
+        </Styled.ResetApply>
+      </Styled.Buttons>
       <Styled.TableHeader>
-        <TotalCards totalCards={filteredCards.length} />
-        <Styled.TableColumns onClick={(e) => setShowColumnsMenu(!showColumnsMenu)}>
+        <TotalCards totalCards={paginatedCards.count} />
+        <Styled.TableColumns
+          onClick={(e) => setShowColumnsMenu(!showColumnsMenu)}
+        >
           table columns
         </Styled.TableColumns>
         <Styled.SelectColumns show={showColumnsMenu}>
@@ -324,14 +367,25 @@ export default function FilterPage() {
       <DataTableContainer>
         <DataTable
           columns={columns(shownColumns)}
-          data={filteredCards}
+          data={paginatedCards.rows}
           dense
           noHeader
-          pagination
           progressPending={loadingCards}
-          progressComponent={<LoadingDots />}
-          paginationPerPage={20}
+          progressComponent={
+            <Styled.LoadingContainer>
+              <LoadingDots />
+            </Styled.LoadingContainer>
+          }
+          sortServer
+          onSort={handleSort}
+          pagination
+          paginationServer
+          paginationTotalRows={paginatedCards.count}
+          onChangeRowsPerPage={handleRowsPerPageChange}
+          onChangePage={handlePageChange}
+          paginationPerPage={rowsPerPage}
           paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
+          // paginationResetDefaultPage
         />
       </DataTableContainer>
     </CollectionPageContainer>

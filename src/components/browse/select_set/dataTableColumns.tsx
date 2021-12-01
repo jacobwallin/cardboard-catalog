@@ -22,13 +22,6 @@ const columns = [
     grow: 1,
   },
   {
-    name: "Release Date",
-    selector: (row: SetSummary) => row.release_date,
-    sortable: true,
-    grow: 1,
-  },
-
-  {
     name: "",
     sortable: false,
     cell: (row: SetSummary) => (

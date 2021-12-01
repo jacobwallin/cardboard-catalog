@@ -1,16 +1,20 @@
 // STATE
 export interface SetsState {
+  set: Set;
   allSets: SetSummary[];
-  singleSet: Set;
 }
 
 export interface SetSummary {
   id: number;
   name: string;
-  release_date: string;
+  release_date: string | null;
+  year: number;
+  complete: boolean;
   description: string;
   createdAt: string;
   updatedAt: string;
+  createdBy: number;
+  updatedBy: number;
   baseSubsetId: number | null;
   leagueId: number;
   brandId: number;
@@ -27,11 +31,21 @@ export interface SetSummary {
 export interface Set {
   id: number;
   name: string;
-  release_date: string;
+  release_date: string | null;
+  year: number;
+  complete: boolean;
   description: string;
   baseSubsetId: number | null;
   createdAt: string;
   updatedAt: string;
+  createdBy: number;
+  updatedBy: number;
+  createdByUser: {
+    username: string;
+  };
+  updatedByUser: {
+    username: string;
+  };
   league: {
     id: number;
     name: string;
@@ -46,9 +60,14 @@ export interface Set {
 export interface SubsetSummary {
   id: number;
   name: string;
-  baseSubsetId: number | null;
   description: string;
+  prefix: string;
+  baseSeriesId: number | null;
   setId: number;
+  createdAt: string;
+  updatedAt: string;
+  createdBy: number;
+  updatedBy: number;
 }
 
 // ACTION TYPES
@@ -109,7 +128,7 @@ export interface UpdateSetRequest {
   type: typeof UPDATE_SET_REQUEST;
 }
 
-export interface UpdateSetServerResponse {
+export interface UpdatedSet {
   id: number;
   name: string;
   release_date: string;
@@ -128,7 +147,7 @@ export interface UpdateSetServerResponse {
 }
 export interface UpdateSetSuccess {
   type: typeof UPDATE_SET_SUCCESS;
-  updatedSet: UpdateSetServerResponse;
+  updatedSet: UpdatedSet;
 }
 export interface UpdateSetFailure {
   type: typeof UPDATE_SET_FAILURE;

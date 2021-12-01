@@ -10,15 +10,22 @@ import AddCardsForm, {
   CardFormData,
 } from "../../../add_cards_form/AddCardsForm";
 import * as Styled from "../styled";
-import sortCardNumbers from "../../../../utils/sortCardNumbers";
 import sortSeries from "../sortSeries";
+import { NoDataMessage } from "../../../shared/NoDataMessage";
+import {
+  TotalCards,
+  ContentContainer,
+  ContentTitle,
+  ContentData,
+} from "../../shared";
 
 interface Props {
   tableData: any[];
 }
 export default function BrowseSubset(props: Props) {
-  const subset = useSelector(
-    (state: RootState) => state.library.subsets.subset
+  const subset = useSelector((state: RootState) => state.library.subsets);
+  const userCardsInSubset = useSelector(
+    (state: RootState) => state.collection.browse.cardsInSingleSubset.cards
   );
 
   const [selectedSeriesId, setSelectedSeriesId] = useState(
@@ -61,6 +68,15 @@ export default function BrowseSubset(props: Props) {
         serialNumberError: false,
         gradeError: false,
         gradingCompanyError: false,
+        serialized: row.series.serialized,
+        shortPrint: row.series.shortPrint,
+        auto: row.series.auto,
+        relic: row.series.relic,
+        manufacturedRelic: row.series.manufacturedRelic,
+        refractor: row.series.refractor,
+        qtyInCollection: userCardsInSubset.filter(
+          (userCard) => userCard.cardId === row.id
+        ).length,
         card: {
           id: row.id,
           seriesId: row.seriesId,
@@ -68,6 +84,14 @@ export default function BrowseSubset(props: Props) {
           card_datum: row.cardData,
           serializedTo: null,
           value: null,
+          createdBy: 0,
+          updatedBy: 0,
+          createdByUser: {
+            username: "",
+          },
+          updatedByUser: {
+            username: "",
+          },
         },
       };
     });
@@ -95,6 +119,30 @@ export default function BrowseSubset(props: Props) {
       {!showAddCardForm && (
         <>
           <Styled.PageTitle>Set Checklist</Styled.PageTitle>
+
+          {subset.series.length > 1 && (
+            <Styled.SelectParallel>
+              <Styled.SelectLabel>Select Parallel Set</Styled.SelectLabel>
+              <Styled.SeriesSelect
+                value={selectedSeriesId}
+                onChange={handleSeriesChange}
+                disabled={checklistToggleSelect}
+              >
+                {subset.series
+                  .sort((a, b) => {
+                    return sortSeries(a, b, subset.baseSeriesId || 0);
+                  })
+                  .map((series) => {
+                    return (
+                      <option key={series.id} value={series.id}>
+                        {series.name}
+                        {series.serialized && ` /${series.serialized}`}
+                      </option>
+                    );
+                  })}
+              </Styled.SeriesSelect>
+            </Styled.SelectParallel>
+          )}
           {addCardFormData.length > 0 && (
             <Styled.AddCardsContainer>
               <Styled.AddCardsTotal>
@@ -114,50 +162,34 @@ export default function BrowseSubset(props: Props) {
             </Styled.AddCardsContainer>
           )}
           <Styled.TableHeader>
-            <Styled.SelectParallel>
-              <Styled.SelectLabel>Select Parallel Set</Styled.SelectLabel>
-              <Styled.SeriesSelect
-                value={selectedSeriesId}
-                onChange={handleSeriesChange}
+            <Styled.TableHeaderRow>
+              <TotalCards
+                totalCards={
+                  props.tableData.find(
+                    (series) => series.seriesId === selectedSeriesId
+                  ).cards.length
+                }
+              />
+              <StyledButton
+                color={checklistToggleSelect ? "YELLOW" : "GRAY"}
+                height="25px"
+                width="100px"
+                fontSize="13px"
+                onClick={toggleCheckboxes}
               >
-                <option value={0}>Show All Parallels</option>
-                {subset.series
-                  .sort((a, b) => {
-                    return sortSeries(a, b, subset.baseSeriesId || 0);
-                  })
-                  .map((series) => {
-                    return (
-                      <option key={series.id} value={series.id}>
-                        {series.name}
-                        {series.serialized && ` /${series.serialized}`}
-                      </option>
-                    );
-                  })}
-              </Styled.SeriesSelect>
-            </Styled.SelectParallel>
-            <StyledButton
-              color={checklistToggleSelect ? "YELLOW" : "GRAY"}
-              height="25px"
-              width="100px"
-              fontSize="13px"
-              onClick={toggleCheckboxes}
-            >
-              {checklistToggleSelect ? "Cancel" : "Add Cards"}
-            </StyledButton>
+                {checklistToggleSelect ? "Cancel" : "Add Cards"}
+              </StyledButton>
+            </Styled.TableHeaderRow>
           </Styled.TableHeader>
           <DataTable
             noHeader
             dense
-            columns={columns}
-            data={props.tableData
-              .filter((card: any) => {
-                return (
-                  selectedSeriesId === 0 || card.seriesId === selectedSeriesId
-                );
-              })
-              .sort((a, b) => {
-                return sortCardNumbers(a.cardData.number, b.cardData.number);
-              })}
+            columns={columns(selectedSeriesId === subset.baseSeriesId)}
+            data={
+              props.tableData.find(
+                (series) => series.seriesId === selectedSeriesId
+              ).cards
+            }
             highlightOnHover
             pagination
             paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
@@ -166,6 +198,9 @@ export default function BrowseSubset(props: Props) {
             onSelectedRowsChange={addSelectedCardsChange}
             clearSelectedRows={clearSelected}
             customStyles={customStyles}
+            noDataComponent={
+              <NoDataMessage>No cards belong to this set.</NoDataMessage>
+            }
           />
         </>
       )}

@@ -5,6 +5,7 @@ import { Card } from "../../store/library/series/types";
 import { fetchAllSetData } from "../../store/library/sets/thunks";
 import { fetchAllGradingCompanies } from "../../store/library/grading_companies/thunks";
 import { addCards } from "../../store/collection/browse/thunks";
+import { CardData } from "../../store/collection/browse/types";
 import AddCardsLine from "./add_cards_line/AddCardsLine";
 import StyledButton from "../Admin/components/StyledButton";
 import SelectCardForm from "./select_card_form/SelectCardForm";
@@ -25,6 +26,13 @@ export interface CardFormData {
   serialNumberError: boolean;
   gradeError: boolean;
   gradingCompanyError: boolean;
+  qtyInCollection: number;
+  serialized: number | null;
+  shortPrint: boolean;
+  auto: boolean;
+  relic: boolean;
+  manufacturedRelic: boolean;
+  refractor: boolean;
 }
 
 const postingCards = createLoadingSelector(["ADD_CARDS"]);
@@ -50,6 +58,9 @@ export default function AddCardsForm(props: Props) {
   const series = useSelector((state: RootState) => state.library.series.series);
   const gradingCompanies = useSelector(
     (state: RootState) => state.library.gradingCompanies
+  );
+  const subsetId = useSelector(
+    (state: RootState) => state.collection.browse.cardsInSingleSubset.subsetId
   );
 
   // LOADING STATUS FOR POSTING CARDS
@@ -165,8 +176,11 @@ export default function AddCardsForm(props: Props) {
 
     // only dispatch if there were no validation errors
     if (!errorsFound) {
-      const postData = cardData.map((card) => {
-        const newData: any = { cardId: card.cardId };
+      const postData: CardData[] = cardData.map((card) => {
+        let newData: CardData = {
+          cardId: card.card.id,
+          card: card.card,
+        };
         if (card.serialNumber !== "") {
           newData.serialNumber = +card.serialNumber;
         }
@@ -179,7 +193,7 @@ export default function AddCardsForm(props: Props) {
         return newData;
       });
 
-      dispatch(addCards(postData, props.subsetId || 0));
+      dispatch(addCards(postData, props.subsetId || subsetId));
 
       // set how many cards were successfully added to display success message to user
       setCardsSuccessfullyAdded(cardData.length);
@@ -217,9 +231,9 @@ export default function AddCardsForm(props: Props) {
         <Styled.PostResultMessage success={postingCardsStatus !== "FAILURE"}>
           {postingCardsStatus !== "FAILURE"
             ? cardsSuccessfullyAdded > 1
-              ? `${cardsSuccessfullyAdded} cards have been added to your collection`
-              : `${cardsSuccessfullyAdded} card has been added to your collection`
-            : "Error Adding Cards to Collection"}
+              ? `${cardsSuccessfullyAdded} cards have been added to your collection.`
+              : `${cardsSuccessfullyAdded} card has been added to your collection.`
+            : "Error Adding Cards"}
         </Styled.PostResultMessage>
       )}
 

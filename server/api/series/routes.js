@@ -10,6 +10,7 @@ const {
   CardData,
   Player,
   Team,
+  User,
 } = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
@@ -27,24 +28,43 @@ router.get("/:seriesId", async (req, res, next) => {
       include: [
         {
           model: Card,
-          include: {
-            model: CardData,
-            include: [
-              {
-                model: Player,
-                attributes: [
-                  "id",
-                  "name",
-                  "fullName",
-                  "birthday",
-                  "hallOfFame",
-                ],
+          include: [
+            {
+              model: CardData,
+              attributes: {
+                exclude: ["createdAt", "updatedAt", "createdBy", "updatedBy"],
               },
-              { model: Team },
-            ],
-          },
+              include: [
+                {
+                  model: Player,
+                  attributes: { exclude: ["createdAt", "updatedAt"] },
+                },
+                { model: Team },
+              ],
+            },
+            {
+              model: User,
+              as: "createdByUser",
+              attributes: ["username"],
+            },
+            {
+              model: User,
+              as: "updatedByUser",
+              attributes: ["username"],
+            },
+          ],
         },
         { model: Subset, include: Set },
+        {
+          model: User,
+          as: "createdByUser",
+          attributes: ["username"],
+        },
+        {
+          model: User,
+          as: "updatedByUser",
+          attributes: ["username"],
+        },
       ],
     });
     res.json(series);
@@ -139,7 +159,19 @@ router.put("/:seriesId", isAdmin, async (req, res, next) => {
     );
 
     const updatedSeries = await Series.findByPk(req.params.seriesId, {
-      include: Subset,
+      include: [
+        Subset,
+        {
+          model: User,
+          as: "createdByUser",
+          attributes: ["username"],
+        },
+        {
+          model: User,
+          as: "updatedByUser",
+          attributes: ["username"],
+        },
+      ],
     });
 
     res.json(updatedSeries);
@@ -157,7 +189,7 @@ router.delete("/:seriesId", isAdmin, async (req, res, next) => {
       // get set that subset to be deleted belongs to
       const subset = await Subset.findByPk(series.subsetId);
 
-      // if the subset is the set's base subset, susbet cannot be deleted
+      // if the subset is the set's base subset, subset cannot be deleted
       if (subset.baseSeriesId === series.id) {
         throw new Error("Cannot delete base series!");
       }

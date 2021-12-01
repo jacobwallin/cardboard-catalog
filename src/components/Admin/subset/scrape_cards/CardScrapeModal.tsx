@@ -17,7 +17,7 @@ import {
 import * as Styled from "./styled";
 import StyledButton from "../../components/StyledButton";
 import { LoadingDots } from "../../../shared/Loading";
-import parseCards from "./parseCards";
+import { parseCards, parseChecklist } from "./parseCards";
 import { scrapeCardData } from "../../../../store/library/scrape/thunks";
 import { clearScrapedCards } from "../../../../store/library/scrape/actions";
 import ModalHeader from "../../components/modal/ModalHeader";
@@ -44,6 +44,7 @@ export default function CardScrapeModal(props: Props) {
   const [playersMissing, setPlayersMissing] = useState(false);
   const [playersChecked, setPlayersChecked] = useState(false);
   const [noCardsFound, setNoCardsFound] = useState(false);
+  const [checklist, setChecklist] = useState("");
 
   // loading player and team data
   const loading = useSelector((state: RootState) => loadingSelector(state));
@@ -136,6 +137,11 @@ export default function CardScrapeModal(props: Props) {
     dispatch(scrapeCardData(url));
   }
 
+  // parse checklist data
+  function handleParseChecklist() {
+    setFormData(parseChecklist(checklist, teams, players));
+  }
+
   // clear scraped card data on modal close
   function handleClose() {
     dispatch(clearScrapedCards());
@@ -200,12 +206,12 @@ export default function CardScrapeModal(props: Props) {
                 </Styled.Label>
                 <Styled.Input
                   type="text"
-                  placeholder="tcdb url"
+                  placeholder="enter url"
                   value={url}
                   onChange={handleInputChange}
                 />
               </Styled.InputContainer>
-              <Styled.Footer>
+              <Styled.ButtonWrapper>
                 <StyledButton
                   color="BLUE"
                   width="125px"
@@ -217,7 +223,29 @@ export default function CardScrapeModal(props: Props) {
                 >
                   Scrape Cards
                 </StyledButton>
-              </Styled.Footer>
+              </Styled.ButtonWrapper>
+              <Styled.InputContainer>
+                <Styled.Label>
+                  Paste Cardboard Connection Checklist
+                </Styled.Label>
+                <Styled.TextArea
+                  value={checklist}
+                  onChange={(e) => setChecklist(e.target.value)}
+                  placeholder="enter checklist"
+                />
+              </Styled.InputContainer>
+              <Styled.ButtonWrapper>
+                <StyledButton
+                  color="BLUE"
+                  width="125px"
+                  height="30px"
+                  onClick={handleParseChecklist}
+                  disabled={checklist === ""}
+                >
+                  Parse Checklist
+                </StyledButton>
+              </Styled.ButtonWrapper>
+              <Styled.Footer></Styled.Footer>
               {noCardsFound && (
                 <Styled.NoCardsFound>No Cards Found</Styled.NoCardsFound>
               )}

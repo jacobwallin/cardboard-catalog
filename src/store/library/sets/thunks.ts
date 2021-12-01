@@ -1,6 +1,7 @@
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../index";
 import * as actions from "./actions";
+import * as types from "./types";
 import { SetsActionTypes } from "./types";
 import { get, post, put, del } from "../../../utils/fetch";
 
@@ -28,7 +29,8 @@ export const fetchSet =
 export const createSet =
   (setData: {
     name: string;
-    release_date: string;
+    release_date: string | null;
+    year: number;
     description: string;
     leagueId: number;
     brandId: number;
@@ -49,7 +51,9 @@ export const updateSet =
     setId: number,
     setData: {
       name: string;
-      release_date: string;
+      release_date: string | null;
+      year: number;
+      complete: boolean;
       description: string;
       leagueId: number;
       brandId: number;
@@ -58,7 +62,7 @@ export const updateSet =
   (dispatch) => {
     dispatch(actions.updateSetRequest());
     put(`/api/sets/${setId}`, setData, dispatch)
-      .then((updatedSet) => {
+      .then((updatedSet: types.UpdatedSet) => {
         dispatch(actions.updateSetSuccess(updatedSet));
       })
       .catch((error) => {
@@ -81,21 +85,14 @@ export const createSubset =
   (subsetData: {
     name: string;
     description: string;
+    prefix: string;
     setId: number;
   }): ThunkAction<void, RootState, unknown, SetsActionTypes> =>
   (dispatch) => {
     dispatch(actions.createSubsetRequest());
     post(`/api/subsets`, subsetData, dispatch)
-      .then((createdSubset) => {
-        dispatch(
-          actions.createSubsetSuccess({
-            id: createdSubset.id,
-            name: createdSubset.name,
-            description: createdSubset.description,
-            setId: createdSubset.setId,
-            baseSubsetId: null,
-          })
-        );
+      .then((createdSubset: types.SubsetSummary) => {
+        dispatch(actions.createSubsetSuccess(createdSubset));
       })
       .catch((error) => {
         dispatch(actions.createSubsetFailure());

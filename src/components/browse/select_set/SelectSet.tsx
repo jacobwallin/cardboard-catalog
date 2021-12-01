@@ -27,7 +27,7 @@ export default function SelectSet() {
       <DateTableHeader>{`Sets from ${year}`}</DateTableHeader>
       <DataTable
         noHeader
-        data={sets.filter((set) => set.release_date.slice(0, 4) === year)}
+        data={sets.filter((set) => set.year === +year)}
         columns={dataTableColumns}
         progressPending={isLoading}
         progressComponent={<LoadingDots />}

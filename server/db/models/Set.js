@@ -8,7 +8,15 @@ const Set = db.define("set", {
   },
   release_date: {
     type: DataTypes.DATEONLY,
+  },
+  year: {
+    type: DataTypes.INTEGER,
     allowNull: false,
+  },
+  complete: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
   },
   description: {
     type: DataTypes.TEXT,

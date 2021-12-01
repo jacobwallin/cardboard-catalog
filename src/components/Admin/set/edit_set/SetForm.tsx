@@ -7,7 +7,7 @@ import FieldContainer from "../../components/form/FieldContainer";
 import FieldTitle from "../../components/form/FieldTitle";
 import FieldData from "../../components/form/FieldData";
 import FormButtons from "../../components/form/FormButtons";
-import FormContainer from "../../components/form/FormContainer";
+import * as StyledInputs from "../../components/form/Inputs";
 
 import { createLoadingSelector } from "../../../../store/loading/reducer";
 
@@ -23,17 +23,17 @@ interface Props {
   handleCancel(): void;
   handleSubmit(
     name: string,
-    release_date: string,
+    release_date: string | null,
+    year: number,
     description: string,
     leagueId: number,
-    brandId: number
+    brandId: number,
+    complete: boolean
   ): void;
 }
 
 export default function SetForm(props: Props) {
-  const singleSet = useSelector(
-    (state: RootState) => state.library.sets.singleSet
-  );
+  const singleSet = useSelector((state: RootState) => state.library.sets.set);
   const brands = useSelector(
     (state: RootState) => state.library.brands.allBrands
   );
@@ -49,8 +49,14 @@ export default function SetForm(props: Props) {
 
   // controlled form data
   const [name, setName] = useState(props.createNew ? "" : singleSet.name);
+  const [year, setYear] = useState(
+    props.createNew ? "" : String(singleSet.year)
+  );
   const [releaseDate, setReleaseDate] = useState(
-    props.createNew ? "" : singleSet.release_date
+    props.createNew ? "" : singleSet.release_date || ""
+  );
+  const [complete, setComplete] = useState(
+    props.createNew ? false : singleSet.complete
   );
   const [brandId, setBrandId] = useState(
     props.createNew ? 0 : singleSet.brand.id
@@ -63,7 +69,15 @@ export default function SetForm(props: Props) {
   );
 
   function handleSubmit() {
-    props.handleSubmit(name, releaseDate, description, leagueId, brandId);
+    props.handleSubmit(
+      name,
+      releaseDate === "" ? null : releaseDate,
+      +year,
+      description,
+      leagueId,
+      brandId,
+      complete
+    );
   }
 
   function handleInputChange(
@@ -74,11 +88,18 @@ export default function SetForm(props: Props) {
       case "name":
         setName(value);
         break;
+      case "year":
+        setYear(value);
+        break;
       case "releaseDate":
         setReleaseDate(value);
         break;
       case "description":
         setDescription(value);
+        break;
+      case "complete":
+        setComplete(!complete);
+        break;
     }
   }
 
@@ -95,11 +116,11 @@ export default function SetForm(props: Props) {
   }
 
   return (
-    <FormContainer>
+    <>
       <FieldContainer>
-        <FieldTitle>Name:</FieldTitle>
+        <FieldTitle>Name</FieldTitle>
         <FieldData>
-          <input
+          <StyledInputs.LargeInput
             name="name"
             type="text"
             value={name}
@@ -109,9 +130,21 @@ export default function SetForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Release Date:</FieldTitle>
+        <FieldTitle>Year:</FieldTitle>
         <FieldData>
-          <input
+          <StyledInputs.NumberInput
+            name="year"
+            type="number"
+            value={year}
+            placeholder="Enter Set Year"
+            onChange={handleInputChange}
+          />
+        </FieldData>
+      </FieldContainer>
+      <FieldContainer>
+        <FieldTitle>Release Date</FieldTitle>
+        <FieldData>
+          <StyledInputs.NumberInput
             name="releaseDate"
             type="date"
             value={releaseDate}
@@ -121,69 +154,90 @@ export default function SetForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Brand:</FieldTitle>
+        <FieldTitle>Brand</FieldTitle>
         <FieldData>
-          <select
+          <StyledInputs.Select
             name="brand"
             value={brandId}
             onChange={handleSelectChange}
             disabled={loadingInitialData}
           >
             <option value={0}>Select Brand</option>
-            {brands.map((brand) => {
-              return (
-                <option key={brand.id} value={brand.id}>
-                  {brand.name}
-                </option>
-              );
-            })}
-          </select>
+            {brands
+              .sort((brandA, brandB) => {
+                if (brandA.name < brandB.name) return -1;
+                if (brandA.name > brandB.name) return 1;
+                return 0;
+              })
+              .map((brand) => {
+                return (
+                  <option key={brand.id} value={brand.id}>
+                    {brand.name}
+                  </option>
+                );
+              })}
+          </StyledInputs.Select>
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>League:</FieldTitle>
+        <FieldTitle>League</FieldTitle>
         <FieldData>
-          <select
+          <StyledInputs.Select
             name="league"
             value={leagueId}
             onChange={handleSelectChange}
             disabled={loadingInitialData}
           >
             <option value={0}>Select League</option>
-            {leagues.map((league) => {
-              return (
-                <option key={league.id} value={league.id}>
-                  {league.name}
-                </option>
-              );
-            })}
-          </select>
+            {leagues
+              .sort((leagueA, leagueB) => {
+                if (leagueA.name < leagueB.name) return -1;
+                if (leagueA.name > leagueB.name) return 1;
+                return 0;
+              })
+              .map((league) => {
+                return (
+                  <option key={league.id} value={league.id}>
+                    {league.name}
+                  </option>
+                );
+              })}
+          </StyledInputs.Select>
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Description:</FieldTitle>
+        <FieldTitle>Description</FieldTitle>
         <FieldData>
-          <textarea
+          <StyledInputs.TextArea
             name="description"
             value={description}
             placeholder="Enter Set Description"
             onChange={handleInputChange}
-            style={{ height: "200px", width: "100%" }}
             rows={2}
-            cols={20}
+            cols={5}
           />
         </FieldData>
       </FieldContainer>
+      {!props.createNew && (
+        <FieldContainer>
+          <FieldTitle>Completed</FieldTitle>
+          <FieldData>
+            <input
+              type="checkbox"
+              name="complete"
+              checked={complete}
+              onChange={handleInputChange}
+            />
+          </FieldData>
+        </FieldContainer>
+      )}
       <FormButtons
         handleCancel={props.handleCancel}
         handleSubmit={handleSubmit}
         disabled={
           updatingSet ||
           (props.createNew
-            ? name === "" ||
-              releaseDate === "" ||
-              brandId === 0 ||
-              leagueId === 0
+            ? name === "" || brandId === 0 || leagueId === 0 || year === ""
             : !detectFormChanges(
                 [
                   singleSet.name,
@@ -191,12 +245,13 @@ export default function SetForm(props: Props) {
                   singleSet.league.id,
                   singleSet.brand.id,
                   singleSet.release_date,
+                  singleSet.complete,
                 ],
-                [name, description, leagueId, brandId, releaseDate]
+                [name, description, leagueId, brandId, releaseDate, complete]
               ))
         }
       />
       {}
-    </FormContainer>
+    </>
   );
 }

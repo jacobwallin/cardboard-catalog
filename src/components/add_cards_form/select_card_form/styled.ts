@@ -5,6 +5,13 @@ export const Select = styled.select`
   width: 100%;
   padding-left: 10px;
   padding-right: 20px;
+  border-radius: 5px;
+  background-color: #eeeeee;
+  color: black;
+  border: 1px solid rgb(118, 118, 118);
+  &:disabled {
+    color: gray;
+  }
 `;
 
 export const Input = styled.input`

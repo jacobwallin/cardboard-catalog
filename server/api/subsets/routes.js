@@ -10,6 +10,7 @@ const {
   Player,
   Card,
   Set,
+  User,
 } = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
@@ -31,8 +32,20 @@ router.get("/:subsetId", async (req, res, next) => {
           model: Series,
           include: {
             model: Card,
-            attributes: ["id", "value", "seriesId", "cardDataId"],
+            attributes: {
+              exclude: ["createdAt", "updatedAt", "createdBy", "updatedBy"],
+            },
           },
+        },
+        {
+          model: User,
+          as: "createdByUser",
+          attributes: ["username"],
+        },
+        {
+          model: User,
+          as: "updatedByUser",
+          attributes: ["username"],
         },
         { model: Set },
       ],
@@ -42,10 +55,25 @@ router.get("/:subsetId", async (req, res, next) => {
       include: {
         model: CardData,
         include: [
-          { model: Team, attributes: ["id", "name"] },
+          {
+            model: Team,
+            attributes: {
+              exclude: ["createdAt", "updatedAt", "createdBy", "updatedBy"],
+            },
+          },
           {
             model: Player,
-            attributes: ["id", "name", "birthday", "hallOfFame"],
+            attributes: { exclude: ["createdAt", "updatedAt"] },
+          },
+          {
+            model: User,
+            as: "createdByUser",
+            attributes: ["username"],
+          },
+          {
+            model: User,
+            as: "updatedByUser",
+            attributes: ["username"],
           },
         ],
       },
@@ -60,18 +88,20 @@ router.get("/:subsetId", async (req, res, next) => {
 
     res.json(subsetObj);
   } catch (error) {
+    console.log(error);
     res.sendStatus(500);
   }
 });
 
 router.post("/", isAdmin, async (req, res, next) => {
-  const { name, description, setId } = req.body;
+  const { name, description, setId, prefix } = req.body;
   try {
     // create new subset
     const createdSubset = await Subset.create({
       name,
       description,
       setId,
+      prefix,
       createdBy: req.user.id,
       updatedBy: req.user.id,
     });
@@ -95,15 +125,28 @@ router.post("/", isAdmin, async (req, res, next) => {
 });
 
 router.put("/:subsetId", isAdmin, async (req, res, next) => {
-  const { name, description } = req.body;
+  const { name, description, prefix } = req.body;
 
   try {
     await Subset.update(
-      { name, description, updatedBy: req.user.id },
+      { name, description, prefix, updatedBy: req.user.id },
       { where: { id: req.params.subsetId } }
     );
 
-    const updatedSubset = await Subset.findByPk(req.params.subsetId);
+    const updatedSubset = await Subset.findByPk(req.params.subsetId, {
+      include: [
+        {
+          model: User,
+          as: "updatedByUser",
+          attributes: ["username"],
+        },
+        {
+          model: User,
+          as: "createdByUser",
+          attributes: ["username"],
+        },
+      ],
+    });
     res.json(updatedSubset);
   } catch (error) {
     next(error);

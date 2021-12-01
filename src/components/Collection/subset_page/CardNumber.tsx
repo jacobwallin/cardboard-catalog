@@ -8,7 +8,10 @@ const Container = styled.div`
   white-space: nowrap;
 `;
 
-const Number = styled.div``;
+const Number = styled.div`
+  font-size: inherit;
+  font-size: 12px;
+`;
 
 const Attributes = styled.div`
   /* white-space: "nowrap"; */
@@ -19,6 +22,11 @@ const Attributes = styled.div`
 
 const Serialized = styled.div`
   color: #daa520;
+  font-size: 11px;
+`;
+
+const Rookie = styled.div`
+  color: #d40015;
   font-size: 11px;
 `;
 
@@ -45,18 +53,21 @@ interface Props {
   relic: boolean;
   manufacturedRelic: boolean;
   refractor: boolean;
+  rookie: boolean;
 }
 
 export default function CardNumber(props: Props) {
   return (
     <Container>
       <Number>{props.number}</Number>
+
       <Attributes>
         {props.serialized && (
           <Serialized
             title={`serialized to ${props.serialized}`}
           >{`/${props.serialized}`}</Serialized>
         )}
+        {props.rookie && <Rookie title="rookie">{" RC"}</Rookie>}
         {props.shortPrint && <ShortPrint title="short print">SP</ShortPrint>}
         {props.auto && (
           <Svg>
@@ -73,7 +84,9 @@ export default function CardNumber(props: Props) {
             <img src={PrismIcon} alt="refractor" title="refractor" />
           </Svg>
         )}
-        {props.manufacturedRelic && <ManuRelic title="manufactured relic">MR</ManuRelic>}
+        {props.manufacturedRelic && (
+          <ManuRelic title="manufactured relic">MR</ManuRelic>
+        )}
       </Attributes>
     </Container>
   );

@@ -7,8 +7,8 @@ import DataTable from "react-data-table-component";
 import dataTableColumns from "./dataTableColumns";
 import AdminPageContainer from "../components/AdminPageContainer";
 import CreateButton from "../components/CreateButton";
-import * as Styled from "./styled";
 import EditFormHeader from "../components/EditFormHeader";
+import { DataTableWrapper } from "../components/WrappedDataTable";
 
 import { createStatusSelector } from "../../../store/loading/reducer";
 
@@ -43,7 +43,7 @@ export default function AdminSets(props: any) {
     <AdminPageContainer>
       {createSet && <CreateSetModal handleCancel={toggleModal} />}
       <EditFormHeader text="Manage Set Library" />
-      <Styled.TableWrapper>
+      <DataTableWrapper>
         <DataTable
           title={`Card Sets`}
           columns={dataTableColumns}
@@ -58,7 +58,7 @@ export default function AdminSets(props: any) {
             </CreateButton>
           }
         />
-      </Styled.TableWrapper>
+      </DataTableWrapper>
     </AdminPageContainer>
   );
 }

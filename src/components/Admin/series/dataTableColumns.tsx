@@ -29,6 +29,7 @@ const columns = (editToggle: (card: Card) => void) => [
           relic={row.relic}
           manufacturedRelic={row.manufacturedRelic}
           refractor={row.refractor}
+          rookie={row.card.card_datum.rookie}
         />
       );
     },

@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import StyledButton from "../../Admin/components/StyledButton";
 import { CardFormData } from "../AddCardsForm";
+import { ReactComponent as XIcon } from "./close.svg";
+import CardNumber from "../../Collection/subset_page/CardNumber";
 import * as Styled from "./styled";
 
 interface Props {
@@ -12,13 +14,18 @@ interface Props {
   handleDelete(cardIndex: number): any;
   handleSerializedChange(cardIndex: number, serialNumber: string): any;
   handleGradeChange(cardIndex: number, grade: string): any;
-  handleGradingCompanyIdChange(cardIndex: number, gradingCompanyId: number): any;
+  handleGradingCompanyIdChange(
+    cardIndex: number,
+    gradingCompanyId: number
+  ): any;
   clearGradeData(cardIndex: number): any;
 }
 
 export default function AddCardsLine(props: Props) {
   const [addCardGrade, setAddCardGrade] = useState(false);
-  const gradingCompanies = useSelector((state: RootState) => state.library.gradingCompanies);
+  const gradingCompanies = useSelector(
+    (state: RootState) => state.library.gradingCompanies
+  );
 
   // automatically select graded if a card is deleted and the card prop changes
   useEffect(() => {
@@ -37,16 +44,39 @@ export default function AddCardsLine(props: Props) {
   return (
     <Styled.Container>
       <Styled.CardInfoContainer>
-        <StyledButton
-          color="RED"
-          width="30px"
-          height="30px"
-          onClick={() => props.handleDelete(props.index)}
-        >
-          X
-        </StyledButton>
-        <Styled.CardNumber>{`${props.card.card.card_datum.number}`}</Styled.CardNumber>
-        <Styled.CardName>{props.card.card.card_datum.name}</Styled.CardName>
+        <Styled.DeleteButtonContainer>
+          <StyledButton
+            as="div"
+            color="RED"
+            width="30px"
+            height="30px"
+            onClick={() => props.handleDelete(props.index)}
+          >
+            <Styled.CloseIcon>
+              <XIcon />
+            </Styled.CloseIcon>
+          </StyledButton>
+        </Styled.DeleteButtonContainer>
+        <Styled.CardNumber>
+          <CardNumber
+            number={props.card.card.card_datum.number}
+            serialized={props.card.serialized}
+            shortPrint={props.card.shortPrint}
+            auto={props.card.auto}
+            relic={props.card.relic}
+            manufacturedRelic={props.card.manufacturedRelic}
+            refractor={props.card.refractor}
+            rookie={props.card.card.card_datum.rookie}
+          />
+        </Styled.CardNumber>
+        <Styled.NameContainer>
+          <Styled.CardName>{props.card.card.card_datum.name}</Styled.CardName>
+          {props.card.qtyInCollection > 0 && (
+            <Styled.QtyInCollection>
+              {`You have ${props.card.qtyInCollection} in your collection`}
+            </Styled.QtyInCollection>
+          )}
+        </Styled.NameContainer>
 
         {props.serialized && (
           <Styled.EnterSNContainer>
@@ -62,7 +92,10 @@ export default function AddCardsLine(props: Props) {
               }}
               error={props.card.serialNumberError}
             />
-            <Styled.SerialNumberLabel error={props.card.serialNumberError} htmlFor="SN">
+            <Styled.SerialNumberLabel
+              error={props.card.serialNumberError}
+              htmlFor="SN"
+            >
               {props.card.serialNumberError ? "Invalid S/N" : "Enter S/N"}
             </Styled.SerialNumberLabel>
           </Styled.EnterSNContainer>
@@ -73,11 +106,14 @@ export default function AddCardsLine(props: Props) {
             type="checkbox"
             checked={addCardGrade}
             onChange={handleGradedChange}
-            style={{ height: "65%" }}
+            style={{ height: "14px" }}
           />
-          <Styled.SerialNumberLabel htmlFor="graded">Graded</Styled.SerialNumberLabel>
+          <Styled.SerialNumberLabel htmlFor="graded">
+            Graded
+          </Styled.SerialNumberLabel>
         </Styled.GradedContainer>
       </Styled.CardInfoContainer>
+
       {addCardGrade && (
         <>
           <Styled.GradeContainer>
@@ -98,7 +134,10 @@ export default function AddCardsLine(props: Props) {
               disabled={props.card.grade === ""}
               value={props.card.gradingCompanyId}
               onChange={(event) => {
-                props.handleGradingCompanyIdChange(props.index, +event.target.value);
+                props.handleGradingCompanyIdChange(
+                  props.index,
+                  +event.target.value
+                );
               }}
             >
               <option value={-1}>Select</option>

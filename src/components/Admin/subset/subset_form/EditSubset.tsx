@@ -14,7 +14,7 @@ import FieldData from "../../components/form/FieldData";
 import FormContainer from "../../components/form/FormContainer";
 import EditDeleteButtons from "../../components/form/EditDeleteButtons";
 import ErrorMessage from "../../components/form/ErrorMessage";
-
+import CreatedUpdatedBy from "../../components/CreatedUpdatedBy";
 import { createStatusSelector } from "../../../../store/loading/reducer";
 
 const updatingSetSelector = createStatusSelector("UPDATE_SUBSET");
@@ -34,9 +34,7 @@ export default function EditSubset(props: Props) {
   // set to true if user deletes set, this prompts a re-direct once the deletion is successful
   const [subsetDeleted, setSubsetDeleted] = useState(false);
 
-  const subset = useSelector(
-    (state: RootState) => state.library.subsets.subset
-  );
+  const subset = useSelector((state: RootState) => state.library.subsets);
   const updatingSubset = useSelector((state: RootState) =>
     updatingSetSelector(state)
   );
@@ -64,8 +62,8 @@ export default function EditSubset(props: Props) {
     dispatch(deleteSubset(props.subsetId));
   }
 
-  function handleSubmit(name: string, description: string) {
-    dispatch(updateSubset(props.subsetId, { name, description }));
+  function handleSubmit(name: string, description: string, prefix: string) {
+    dispatch(updateSubset(props.subsetId, { name, description, prefix }));
   }
 
   // re-direct to set that the subset belonged to after deletion
@@ -82,31 +80,47 @@ export default function EditSubset(props: Props) {
           message="This will delete all cards and parallel series that belong to this subset. Any cards present in user's collections will be deleted as well."
         />
       )}
-      {showForm ? (
-        <SubsetForm
-          createNew={false}
-          handleSubmit={handleSubmit}
-          handleCancel={toggleForm}
-        />
-      ) : (
-        <FormContainer>
-          <FieldContainer>
-            <FieldTitle>Name:</FieldTitle>
-            <FieldData>{subset.name}</FieldData>
-          </FieldContainer>
-          <FieldContainer>
-            <FieldTitle>Description:</FieldTitle>
-            <FieldData>
-              {subset.description === "" ? "-" : subset.description}
-            </FieldData>
-          </FieldContainer>
-          <EditDeleteButtons
-            handleEdit={toggleForm}
-            handleDelete={toggleDeleteModal}
-            hideDelete={subset.set.baseSubsetId === subset.id}
+      <FormContainer>
+        {showForm ? (
+          <SubsetForm
+            createNew={false}
+            handleSubmit={handleSubmit}
+            handleCancel={toggleForm}
           />
-        </FormContainer>
-      )}
+        ) : (
+          <>
+            <FieldContainer>
+              <FieldTitle>Name</FieldTitle>
+              <FieldData>{subset.name}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Description</FieldTitle>
+              <FieldData>
+                {subset.description === "" ? "-" : subset.description}
+              </FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Card # prefix</FieldTitle>
+              <FieldData>{subset.prefix}</FieldData>
+            </FieldContainer>
+            <EditDeleteButtons
+              handleEdit={toggleForm}
+              handleDelete={toggleDeleteModal}
+              hideDelete={subset.set.baseSubsetId === subset.id}
+            />
+            <CreatedUpdatedBy
+              createdBy={{
+                username: subset.createdByUser.username,
+                timestamp: subset.createdAt,
+              }}
+              updatedBy={{
+                username: subset.updatedByUser.username,
+                timestamp: subset.updatedAt,
+              }}
+            />
+          </>
+        )}
+      </FormContainer>
       {updatingSubset === "FAILURE" && (
         <ErrorMessage>Error Updating Set</ErrorMessage>
       )}

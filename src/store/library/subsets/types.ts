@@ -1,28 +1,38 @@
 // STATE
-export interface LibraryState {
-  subset: Subset;
-}
-
-export interface Subset {
+export interface SubsetState {
   id: number;
   name: string;
   description: string;
+  prefix: string;
   createdAt: string;
   updatedAt: string;
+  createdBy: number;
+  updatedBy: number;
   setId: number;
   baseSeriesId: number | null;
   set: Set;
   series: Series[];
   card_data: CardData[];
+  createdByUser: {
+    username: string;
+  };
+  updatedByUser: {
+    username: string;
+  };
 }
 
 export interface Set {
   id: number;
   name: string;
-  release_date: string;
+  release_date: string | null;
+  year: number;
+  complete: boolean;
+  description: string;
   baseSubsetId: number | null;
   createdAt: string;
   updatedAt: string;
+  createdBy: number;
+  updatedBy: number;
   leagueId: number;
   brandId: number;
 }
@@ -41,6 +51,8 @@ export interface Series {
   createdAt: string;
   updatedAt: string;
   subsetId: number;
+  createdBy: number;
+  updatedBy: number;
   cards: Card[];
 }
 
@@ -49,6 +61,7 @@ interface Card {
   value: number;
   seriesId: number;
   cardDataId: number;
+  serializedTo: number | null;
 }
 export interface CardData {
   id: number;
@@ -58,13 +71,22 @@ export interface CardData {
   rookie: boolean;
   createdAt: string;
   updatedAt: string;
+  createdBy: number;
+  updatedBy: number;
   subsetId: number;
   teamId: number | null;
   team: {
     id: number;
     name: string;
+    leagueId: number;
   } | null;
   players: Player[];
+  createdByUser: {
+    username: string;
+  };
+  updatedByUser: {
+    username: string;
+  };
 }
 
 interface Player {
@@ -73,6 +95,7 @@ interface Player {
   fullName: string;
   birthday: string;
   hallOfFame: boolean;
+  url: string;
   card_data_player: {
     cardDatumId: number;
     playerId: number;
@@ -117,7 +140,7 @@ interface GetSubsetRequest {
 }
 interface GetSubsetSuccess {
   type: typeof GET_SUBSET_SUCCESS;
-  subset: Subset;
+  subset: SubsetState;
 }
 interface GetSubsetFailure {
   type: typeof GET_SUBSET_FAILURE;
@@ -125,13 +148,27 @@ interface GetSubsetFailure {
 interface UpdateSubsetRequest {
   type: typeof UPDATE_SUBSET_REQUEST;
 }
-export interface UpdateSubsetServerResponse {
+export interface UpdatedSubset {
+  id: number;
   name: string;
   description: string;
+  prefix: string;
+  createdAt: string;
+  updatedAt: string;
+  createdBy: number;
+  updatedBy: number;
+  setId: number;
+  baseSeriesId: number | null;
+  updatedByUser: {
+    username: string;
+  };
+  createdByUser: {
+    username: string;
+  };
 }
 interface UpdateSubsetSuccess {
   type: typeof UPDATE_SUBSET_SUCCESS;
-  updatedSubset: UpdateSubsetServerResponse;
+  updatedSubset: UpdatedSubset;
 }
 interface UpdateSubsetFailure {
   type: typeof UPDATE_SUBSET_FAILURE;

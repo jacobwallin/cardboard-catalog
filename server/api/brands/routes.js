@@ -11,4 +11,14 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.post("/", async (req, res, next) => {
+  try {
+    const { name } = req.body;
+    const newBrand = await Brand.create({ name });
+    res.json(newBrand);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

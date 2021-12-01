@@ -7,9 +7,18 @@ import { SetSummary } from "../../../store/library/sets/types";
 import { fetchSet } from "../../../store/library/sets/thunks";
 import { fetchSubset } from "../../../store/library/subsets/thunks";
 import { fetchSeriesById } from "../../../store/library/series/thunks";
+import { fetchCardsInSingleSubset } from "../../../store/collection/browse/thunks";
 import * as Styled from "./styled";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
 import sortSeries from "../../Collection/subset_page/sortSeries";
+import { createLoadingSelector } from "../../../store/loading/reducer";
+
+const setLoadingSelector = createLoadingSelector(["GET_SINGLE_SET"]);
+const subsetLoadingSelector = createLoadingSelector([
+  "GET_SUBSET",
+  "GET_CARDS_IN_SINGLE_SUBSET",
+]);
+const seriesLoadingSelector = createLoadingSelector(["GET_SERIES"]);
 
 interface Props {
   addCard(card: CardFormData): void;
@@ -20,6 +29,15 @@ export default function SelectCardForm(props: Props) {
   const dispatch = useDispatch();
   const { addCard, cardData } = props;
 
+  // LIBRARY STORE DATA
+  const allSets = useSelector((state: RootState) => state.library.sets.allSets);
+  const set = useSelector((state: RootState) => state.library.sets.set);
+  const subset = useSelector((state: RootState) => state.library.subsets);
+  const series = useSelector((state: RootState) => state.library.series.series);
+  const userCardsInSubset = useSelector(
+    (state: RootState) => state.collection.browse.cardsInSingleSubset.cards
+  );
+
   // CONTROLLED FORM DATA
   const [selectedYear, setSelectedYear] = useState(-1);
   const [selectedSetId, setSelectedSetId] = useState(-1);
@@ -27,14 +45,18 @@ export default function SelectCardForm(props: Props) {
   const [selectedSeriesId, setSelectedSeriesId] = useState(-1);
   const [selectedCardId, setSelectedCardId] = useState(-1);
   const [cardIdField, setCardIdField] = useState("");
+  const [prefix, setPrefix] = useState("");
 
-  // LIBRARY STORE DATA
-  const allSets = useSelector((state: RootState) => state.library.sets.allSets);
-  const set = useSelector((state: RootState) => state.library.sets.singleSet);
-  const subset = useSelector(
-    (state: RootState) => state.library.subsets.subset
+  // LOADING STATE
+  const loadingSet = useSelector((state: RootState) =>
+    setLoadingSelector(state)
   );
-  const series = useSelector((state: RootState) => state.library.series.series);
+  const loadingSubset = useSelector((state: RootState) =>
+    subsetLoadingSelector(state)
+  );
+  const loadingSeries = useSelector((state: RootState) =>
+    seriesLoadingSelector(state)
+  );
 
   // FETCH FORM DATA AS NEEDED WHEN USER MAKES SELECTIONS
   useEffect(() => {
@@ -48,6 +70,7 @@ export default function SelectCardForm(props: Props) {
     // fetch subset data, but only if a subset is selected
     if (selectedSubsetId !== -1) {
       dispatch(fetchSubset(selectedSubsetId));
+      dispatch(fetchCardsInSingleSubset(selectedSubsetId));
     }
   }, [selectedSubsetId]);
 
@@ -57,6 +80,23 @@ export default function SelectCardForm(props: Props) {
       dispatch(fetchSeriesById(selectedSeriesId));
     }
   }, [selectedSeriesId]);
+
+  useEffect(() => {
+    if (subset.prefix !== "") {
+      if (subset.card_data.length > 0) {
+        const cardNumber = subset.card_data[0].number;
+        let newPrefix = subset.prefix;
+        if (cardNumber.charAt(subset.prefix.length) === "-") {
+          newPrefix += "-";
+        }
+        setPrefix(newPrefix);
+        setCardIdField(newPrefix);
+      }
+    } else {
+      setPrefix("");
+      setCardIdField("");
+    }
+  }, [subset]);
 
   function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
     switch (event.target.name) {
@@ -95,7 +135,11 @@ export default function SelectCardForm(props: Props) {
   function handleInputChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
-    setCardIdField(event.target.value);
+    if (event.target.value.indexOf(prefix) !== -1) {
+      setCardIdField(event.target.value.toUpperCase());
+    } else {
+      setCardIdField(prefix);
+    }
     const card = series.cards.find(
       (card) =>
         card.card_datum.number.toUpperCase() ===
@@ -112,7 +156,7 @@ export default function SelectCardForm(props: Props) {
     event.preventDefault();
     const card = series.cards.find((card) => card.id === selectedCardId)!;
     if (card) {
-      const newCardData = {
+      const newCardData: CardFormData = {
         cardId: selectedCardId,
         serialNumber: "",
         grade: "",
@@ -121,6 +165,15 @@ export default function SelectCardForm(props: Props) {
         serialNumberError: false,
         gradeError: false,
         gradingCompanyError: false,
+        qtyInCollection: userCardsInSubset.filter(
+          (userCard) => userCard.cardId === card.id
+        ).length,
+        serialized: series.serialized,
+        shortPrint: series.shortPrint,
+        auto: series.auto,
+        relic: series.relic,
+        manufacturedRelic: series.manufacturedRelic,
+        refractor: series.refractor,
       };
       addCard(newCardData);
     }
@@ -164,7 +217,7 @@ export default function SelectCardForm(props: Props) {
         value={selectedSubsetId}
         name="select-subset"
         id="select-subset"
-        disabled={selectedSetId === -1 || cardData.length > 0}
+        disabled={selectedSetId === -1 || cardData.length > 0 || loadingSet}
         onChange={handleSelectChange}
       >
         <option value={-1}>Select Subset</option>
@@ -183,7 +236,8 @@ export default function SelectCardForm(props: Props) {
               .map((subset) => {
                 return (
                   <option key={subset.id} value={subset.id}>
-                    {subset.name}
+                    {`${subset.name}`}
+                    {subset.prefix !== "" && ` (${subset.prefix})`}
                   </option>
                 );
               })
@@ -193,7 +247,9 @@ export default function SelectCardForm(props: Props) {
         value={selectedSeriesId}
         name="select-series"
         id="select-series"
-        disabled={selectedSubsetId === -1 || cardData.length > 0}
+        disabled={
+          selectedSubsetId === -1 || cardData.length > 0 || loadingSubset
+        }
         onChange={handleSelectChange}
       >
         <option value={-1}>Select Parallel</option>
@@ -219,7 +275,7 @@ export default function SelectCardForm(props: Props) {
           value={selectedCardId}
           name="select-card"
           id="select-card"
-          disabled={selectedSeriesId === -1}
+          disabled={selectedSeriesId === -1 || loadingSeries}
           onChange={handleSelectChange}
         >
           <option value={-1}>Select Card</option>
@@ -235,6 +291,8 @@ export default function SelectCardForm(props: Props) {
                 return (
                   <option key={card.id} value={card.id}>
                     {`${card.card_datum.number} - ${card.card_datum.name}`}
+                    {card.card_datum.note !== "" &&
+                      ` (${card.card_datum.note})`}
                   </option>
                 );
               })}
@@ -265,9 +323,9 @@ function aggregateYears(allSets: SetSummary[]): number[] {
   allSets.forEach((set) => {
     if (
       yearsArray.length === 0 ||
-      yearsArray[yearsArray.length - 1] !== +set.release_date.slice(0, 4)
+      yearsArray[yearsArray.length - 1] !== set.year
     ) {
-      yearsArray.push(+set.release_date.slice(0, 4));
+      yearsArray.push(set.year);
     }
   });
   return yearsArray;
@@ -275,7 +333,7 @@ function aggregateYears(allSets: SetSummary[]): number[] {
 function aggregateSets(allSets: SetSummary[], year: number): SetSummary[] {
   return allSets
     .filter((set) => {
-      return +set.release_date.slice(0, 4) === year;
+      return set.year === year;
     })
     .sort((setA, setB) => {
       if (setA.name < setB.name) return -1;

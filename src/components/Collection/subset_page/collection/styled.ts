@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Collection = styled.div`
   align-self: flex-start;
-  margin: 0px 0 30px 0px;
+  margin-top: 35px;
   display: flex;
   flex-direction: column;
   width: 225px;
@@ -10,16 +10,13 @@ export const Collection = styled.div`
 `;
 
 export const CardCount = styled.div`
-  font-size: 0.8rem;
-  margin-bottom: 5px;
-  margin-left: 12px;
-  font-weight: 600;
+  font-size: 0.9rem;
+  font-weight: 500;
 `;
 
 export const ProgressBar = styled.div`
   width: 225px;
   height: 24px;
-  border-radius: 6px;
   background-color: lightgray;
 `;
 
@@ -31,20 +28,21 @@ export const Progress = styled.div<{ percentage: number }>`
   color: black;
   text-indent: 15px;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: visible;
 `;
 
-export const SetComplete = styled.div`
-  margin-top: 15px;
+export const CardsInCollection = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-start;
-  gap: 10px;
+  gap: 5px;
+  align-items: center;
+  margin-bottom: 3px;
 `;
 
 export const Svg = styled.div`
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
 `;
 
 export const CompleteMessage = styled.div`
@@ -53,4 +51,8 @@ export const CompleteMessage = styled.div`
   font-weight: 600;
   display: flex;
   align-items: center;
+`;
+
+export const CollectionSummary = styled.div`
+  align-self: flex-start;
 `;

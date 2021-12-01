@@ -3,33 +3,39 @@ export interface Filters {
   setId: number;
   subsetId: number;
   seriesId: number;
-  teamId: number;
-  playerId: number;
-  serialized: boolean;
-  rookie: boolean;
-  auto: boolean;
-  relic: boolean;
-  manufacturedRelic: boolean;
-  parallel: boolean;
-  refractor: boolean;
-  shortPrint: boolean;
+  teamId: string;
+  player: string;
+  serialized: number;
+  rookie: number;
+  auto: number;
+  relic: number;
+  manufacturedRelic: number;
+  parallel: number;
+  refractor: number;
+  shortPrint: number;
+  hallOfFame: number;
+  graded: number;
+  playerSearch: string;
 }
 
-export const initialFilters = {
+export const initialFilters: Filters = {
   year: 0,
   setId: 0,
   subsetId: 0,
   seriesId: 0,
-  teamId: 0,
-  playerId: 0,
-  serialized: false,
-  rookie: false,
-  auto: false,
-  relic: false,
-  manufacturedRelic: false,
-  parallel: false,
-  refractor: false,
-  shortPrint: false,
+  teamId: "",
+  player: "",
+  serialized: 0,
+  rookie: 0,
+  auto: 0,
+  relic: 0,
+  manufacturedRelic: 0,
+  parallel: 0,
+  refractor: 0,
+  shortPrint: 0,
+  hallOfFame: 0,
+  graded: 0,
+  playerSearch: "",
 };
 
 export interface TableColumns {

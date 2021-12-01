@@ -5,13 +5,30 @@ import { FilterCollectionActions } from "./types";
 import { get } from "../../../utils/fetch";
 
 export const fetchCards =
-  (): ThunkAction<void, RootState, unknown, FilterCollectionActions> => (dispatch) => {
+  (
+    query: string
+  ): ThunkAction<void, RootState, unknown, FilterCollectionActions> =>
+  (dispatch) => {
     dispatch(actions.getCardsRequest());
-    get(`/api/collection/filter/`, dispatch)
+    get(`/api/collection/filter/${query}`, dispatch)
       .then((payload) => {
         dispatch(actions.getCardsSuccess(payload));
       })
       .catch((err) => {
         dispatch(actions.getCardsFailure());
+      });
+  };
+export const fetchPdfData =
+  (
+    query: string
+  ): ThunkAction<void, RootState, unknown, FilterCollectionActions> =>
+  (dispatch) => {
+    dispatch(actions.getPdfCardsRequest());
+    get(`/api/collection/filter/${query}`, dispatch)
+      .then((payload) => {
+        dispatch(actions.getPdfCardsSuccess(payload));
+      })
+      .catch((err) => {
+        dispatch(actions.getPdfCardsFailure());
       });
   };

@@ -7,6 +7,10 @@ interface ButtonProps {
 }
 
 const StyledButton = styled.button<ButtonProps>`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   box-sizing: border-box;
   width: ${(props) => props.width || "100%"};
   height: ${(props) => props.height || "100%"};
@@ -94,4 +98,5 @@ const StyledButton = styled.button<ButtonProps>`
     }
   }};
 `;
+
 export default StyledButton;

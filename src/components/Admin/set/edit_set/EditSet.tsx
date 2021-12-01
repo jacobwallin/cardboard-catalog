@@ -13,6 +13,7 @@ import FormContainer from "../../components/form/FormContainer";
 import EditDeleteButtons from "../../components/form/EditDeleteButtons";
 import ConfirmDeleteModal from "../../components/ConfirmDeleteModal";
 import ErrorMessage from "../../components/form/ErrorMessage";
+import CreatedUpdatedBy from "../../components/CreatedUpdatedBy";
 import { createStatusSelector } from "../../../../store/loading/reducer";
 
 const updatingSetSelector = createStatusSelector("UPDATE_SET");
@@ -32,7 +33,7 @@ export default function EditSet(props: Props) {
   // set to true if user deletes set, this prompts a re-direct once the deletion is successful
   const [setDeleted, setSetDeleted] = useState(false);
 
-  const set = useSelector((state: RootState) => state.library.sets.singleSet);
+  const set = useSelector((state: RootState) => state.library.sets.set);
   const updatingSet = useSelector((state: RootState) =>
     updatingSetSelector(state)
   );
@@ -63,17 +64,21 @@ export default function EditSet(props: Props) {
   function handleSubmit(
     name: string,
     release_date: string,
+    year: number,
     description: string,
     leagueId: number,
-    brandId: number
+    brandId: number,
+    complete: boolean
   ) {
     dispatch(
       updateSet(props.setId, {
         name,
         release_date,
+        year,
         description,
         leagueId,
         brandId,
+        complete,
       })
     );
   }
@@ -98,42 +103,66 @@ export default function EditSet(props: Props) {
           message="This will delete the entire set including all subsets and cards. All cards will be deleted from user's collections as well."
         />
       )}
-      {showForm ? (
-        <SetForm
-          createNew={false}
-          handleSubmit={handleSubmit}
-          handleCancel={toggleForm}
-        />
-      ) : (
-        <FormContainer>
-          <FieldContainer>
-            <FieldTitle>Name:</FieldTitle>
-            <FieldData>{set.name}</FieldData>
-          </FieldContainer>
-          <FieldContainer>
-            <FieldTitle>Release Date:</FieldTitle>
-            <FieldData>{set.release_date}</FieldData>
-          </FieldContainer>
-          <FieldContainer>
-            <FieldTitle>Brand:</FieldTitle>
-            <FieldData>{set.brand.name}</FieldData>
-          </FieldContainer>
-          <FieldContainer>
-            <FieldTitle>League:</FieldTitle>
-            <FieldData>{set.league.name}</FieldData>
-          </FieldContainer>
-          <FieldContainer>
-            <FieldTitle>Description:</FieldTitle>
-            <FieldData>
-              {set.description === "" ? "-" : set.description}
-            </FieldData>
-          </FieldContainer>
-          <EditDeleteButtons
-            handleEdit={toggleForm}
-            handleDelete={toggleDeleteModal}
+      <FormContainer>
+        {showForm ? (
+          <SetForm
+            createNew={false}
+            handleSubmit={handleSubmit}
+            handleCancel={toggleForm}
           />
-        </FormContainer>
-      )}
+        ) : (
+          <>
+            <FieldContainer>
+              <FieldTitle>Name</FieldTitle>
+              <FieldData>{set.name}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Year</FieldTitle>
+              <FieldData>{set.year}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Release Date</FieldTitle>
+              <FieldData>
+                {set.release_date === null ? "-" : set.release_date}
+              </FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Brand</FieldTitle>
+              <FieldData>{set.brand.name}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>League</FieldTitle>
+              <FieldData>{set.league.name}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Description</FieldTitle>
+              <FieldData>
+                {set.description === "" ? "-" : set.description}
+              </FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Complete</FieldTitle>
+              <FieldData>
+                {set.complete === true ? "Set Completed" : "Not Completed"}
+              </FieldData>
+            </FieldContainer>
+            <EditDeleteButtons
+              handleEdit={toggleForm}
+              handleDelete={toggleDeleteModal}
+            />
+            <CreatedUpdatedBy
+              createdBy={{
+                username: set.createdByUser.username,
+                timestamp: set.createdAt,
+              }}
+              updatedBy={{
+                username: set.updatedByUser.username,
+                timestamp: set.updatedAt,
+              }}
+            />
+          </>
+        )}
+      </FormContainer>
       {updatingSet === "FAILURE" && (
         <ErrorMessage>Error Updating Set</ErrorMessage>
       )}

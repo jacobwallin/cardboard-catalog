@@ -28,7 +28,7 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
   const cardsBySubset = useSelector(
     (state: RootState) => state.collection.browse.cardsBySubset
   );
-  const set = useSelector((state: RootState) => state.library.sets.singleSet);
+  const set = useSelector((state: RootState) => state.library.sets.set);
   const setId = +props.match.params.setId;
 
   useEffect(() => {
@@ -56,10 +56,12 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
               <Shared.ContentData>{set.description}</Shared.ContentData>
             </Shared.ContentContainer>
           )}
-          <Shared.ContentContainer>
-            <Shared.ContentTitle>Release Date:</Shared.ContentTitle>
-            <Shared.ContentData>{set.release_date}</Shared.ContentData>
-          </Shared.ContentContainer>
+          {set.release_date && (
+            <Shared.ContentContainer>
+              <Shared.ContentTitle>Release Date:</Shared.ContentTitle>
+              <Shared.ContentData>{set.release_date}</Shared.ContentData>
+            </Shared.ContentContainer>
+          )}
 
           <Shared.CollectionData
             totalCards={cardsBySubset.subsets.reduce((totalCards, subset) => {
@@ -73,7 +75,12 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
               noHeader
               dense
               progressPending={isLoading}
-              columns={columns(cardsBySubset.subsets.length === 0)}
+              columns={columns(
+                cardsBySubset.subsets.length === 0,
+                props.location.search.slice(
+                  props.location.search.length - 4
+                ) === "coll"
+              )}
               data={set.subsets
                 .filter((subset) => {
                   return subset.id === set.baseSubsetId;
@@ -103,7 +110,12 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
               noHeader
               dense
               progressPending={isLoading}
-              columns={columns(cardsBySubset.subsets.length === 0)}
+              columns={columns(
+                cardsBySubset.subsets.length === 0,
+                props.location.search.slice(
+                  props.location.search.length - 4
+                ) === "coll"
+              )}
               data={set.subsets
                 .filter((subset) => {
                   return subset.id !== set.baseSubsetId;

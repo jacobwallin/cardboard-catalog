@@ -67,11 +67,11 @@ export default function EditCardModal(props: Props) {
               <FieldData>{props.card.card_datum.number}</FieldData>
             </FieldContainer>
             <FieldContainer>
-              <FieldTitle>Card Name:</FieldTitle>
+              <FieldTitle>Card Name</FieldTitle>
               <FieldData>{props.card.card_datum.name}</FieldData>
             </FieldContainer>
             <FieldContainer>
-              <FieldTitle>Players:</FieldTitle>
+              <FieldTitle>Players</FieldTitle>
               <FieldData>
                 {props.card.card_datum.players.length > 0
                   ? props.card.card_datum.players.map((player) => {
@@ -81,7 +81,7 @@ export default function EditCardModal(props: Props) {
               </FieldData>
             </FieldContainer>
             <FieldContainer>
-              <FieldTitle>Team:</FieldTitle>
+              <FieldTitle>Team</FieldTitle>
               <FieldData>
                 {props.card.card_datum.team
                   ? props.card.card_datum.team.name
@@ -89,7 +89,7 @@ export default function EditCardModal(props: Props) {
               </FieldData>
             </FieldContainer>
             <FieldContainer>
-              <FieldTitle>Rookie:</FieldTitle>
+              <FieldTitle>Rookie</FieldTitle>
               <FieldData>
                 {props.card.card_datum.rookie ? "YES" : "NO"}
               </FieldData>
@@ -100,7 +100,7 @@ export default function EditCardModal(props: Props) {
             </FieldContainer>
           </styled.CannotEdit>
           <FieldContainer>
-            <FieldTitle>Serialized to:</FieldTitle>
+            <FieldTitle>Serialized to</FieldTitle>
             <FieldData>
               <input
                 name="serialized"

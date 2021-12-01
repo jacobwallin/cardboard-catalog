@@ -4,10 +4,12 @@ export const FiltersContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  justify-content: space-around;
+  justify-content: flex-start;
+  gap: 25px;
   @media only screen and (max-width: 600px) {
     flex-direction: column;
     align-items: flex-start;
+    gap: 0px;
   }
 `;
 
@@ -21,7 +23,8 @@ export const FilterSection = styled.div`
 export const SectionHeader = styled.div`
   color: grey;
   font-size: 0.8rem;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  margin-top: 10px;
 `;
 
 export const Filter = styled.div`
@@ -30,13 +33,20 @@ export const Filter = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  @media only screen and (max-width: 600px) {
-    width: 200px;
-  }
+  align-items: center;
+  width: 230px;
 `;
 
 export const Select = styled.select`
-  width: 125px;
+  width: 160px;
+  border: 1px solid lightgray;
+  height: 23px;
+  border-radius: 3px;
+  font-size: 0.7rem;
+`;
+
+export const AttributeSelect = styled(Select)`
+  width: 85px;
 `;
 
 export const Label = styled.label`
@@ -50,7 +60,10 @@ export const Checkbox = styled.input`
 `;
 
 export const TextInput = styled.input`
-  width: 125px;
+  width: 160px;
+  height: 23px;
+  border: 1px solid lightgray;
+  border-radius: 3px;
 `;
 
 export const TableHeader = styled.div`
@@ -106,6 +119,16 @@ export const Pdf = styled.div`
   }
 `;
 
+export const Apply = styled(Reset)`
+  background-color: rgb(0, 74, 206);
+  &:hover {
+    background-color: #0031b5;
+  }
+  &:active {
+    background-color: #000082;
+  }
+`;
+
 export const TableColumns = styled.div`
   color: #555555;
   font-size: 0.8rem;
@@ -128,13 +151,20 @@ export const PageHeader = styled.div`
   margin-top: 10px;
 `;
 
-export const ResetPdfButtons = styled.div`
+export const Buttons = styled.div`
   margin-top: 25px;
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 5px;
   width: 100%;
   justify-content: flex-end;
+  align-items: flex-end;
+`;
+
+export const ResetApply = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 `;
 
 export const SelectColumns = styled.div<{ show: boolean }>`
@@ -157,4 +187,66 @@ export const ShowColumn = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+`;
+
+export const FilterBubble = styled.div`
+  height: 20px;
+  font-size: 0.7rem;
+  background-color: lightgray;
+  border-radius: 10px;
+  display: inline;
+  padding: 3px 8px 3px 8px;
+  margin: 0 7px 7px 0;
+`;
+
+export const ActiveFilters = styled.div`
+  align-self: flex-start;
+  color: #444;
+  font-size: 0.8rem;
+  margin: 20px 0 3px 0;
+`;
+
+export const FilterBubbleContainer = styled.div`
+  align-self: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+export const LoadingContainer = styled.div`
+  height: 2000px;
+`;
+
+export const ShowFiltersToggle = styled.div`
+  color: #555;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  padding: 3px;
+  width: 120px;
+  height: 30px;
+  border-radius: 3px;
+  border: 1px solid white;
+  cursor: pointer;
+  &:hover {
+    background-color: lightgray;
+  }
+`;
+
+export const CardNameContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+export const Grade = styled.div`
+  color: purple;
+  font-weight: 600;
+  font-size: 0.7rem;
+`;
+
+export const PdfError = styled.div`
+  font-size: 0.7rem;
+  color: red;
+  width: 125px;
+  text-align: center;
 `;

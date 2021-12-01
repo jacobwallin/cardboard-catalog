@@ -5,9 +5,12 @@ export const GET_CARDS_BY_SET_FAILURE = "GET_CARDS_BY_SET_FAILURE";
 export const GET_CARDS_BY_SUBSET_REQUEST = "GET_CARDS_BY_SUBSET_REQUEST";
 export const GET_CARDS_BY_SUBSET_SUCCESS = "GET_CARDS_BY_SUBSET_SUCCESS";
 export const GET_CARDS_BY_SUBSET_FAILURE = "GET_CARDS_BY_SUBSET_FAILURE";
-export const GET_CARDS_IN_SINGLE_SUBSET_REQUEST = "GET_CARDS_IN_SINGLE_SUBSET_REQUEST";
-export const GET_CARDS_IN_SINGLE_SUBSET_SUCCESS = "GET_CARDS_IN_SINGLE_SUBSET_SUCCESS";
-export const GET_CARDS_IN_SINGLE_SUBSET_FAILURE = "GET_CARDS_IN_SINGLE_SUBSET_FAILURE";
+export const GET_CARDS_IN_SINGLE_SUBSET_REQUEST =
+  "GET_CARDS_IN_SINGLE_SUBSET_REQUEST";
+export const GET_CARDS_IN_SINGLE_SUBSET_SUCCESS =
+  "GET_CARDS_IN_SINGLE_SUBSET_SUCCESS";
+export const GET_CARDS_IN_SINGLE_SUBSET_FAILURE =
+  "GET_CARDS_IN_SINGLE_SUBSET_FAILURE";
 export const ADD_CARDS_REQUEST = "ADD_CARDS_REQUEST";
 export const ADD_CARDS_SUCCESS = "ADD_CARDS_SUCCESS";
 export const ADD_CARDS_FAILURE = "ADD_CARDS_FAILURE";
@@ -61,7 +64,8 @@ interface AddCardsRequest {
 }
 export interface AddCardsSuccess {
   type: typeof ADD_CARDS_SUCCESS;
-  newCards: UserCard[];
+  newCards: NewCardsResponse[];
+  cardData: CardData[];
   subsetId: number;
 }
 interface AddCardsFailure {
@@ -119,7 +123,8 @@ export interface SetCards {
   setId: number;
   setName: string;
   setDescription: string;
-  release_date: string;
+  release_date: string | null;
+  year: number;
   distinctCards: string;
   totalCards: string;
 }
@@ -133,6 +138,36 @@ export interface SubsetCards {
   setId: number;
 }
 export interface UserCard {
+  id: number;
+  serialNumber: number | null;
+  createdAt: string;
+  updatedAt: string;
+  userId: number;
+  cardId: number;
+  gradingCompanyId: number | null;
+  grade: number | null;
+  card: Card;
+}
+
+export interface Card {
+  id: number;
+  value: number | null;
+  serializedTo: number | null;
+  seriesId: number;
+  cardDataId: number;
+}
+
+// data sent to thunk to add cards to collection
+export interface CardData {
+  cardId: number;
+  serialNumber?: number;
+  grade?: number;
+  gradingCompanyId?: number;
+  card: Card;
+}
+
+// server response with cards added to collection
+export interface NewCardsResponse {
   id: number;
   serialNumber: number | null;
   createdAt: string;

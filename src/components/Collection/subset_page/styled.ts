@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const PageTitle = styled.div`
-  font-size: 1.5rem;
-  margin: 20px 0 30px 0;
-  font-weight: 600;
-  align-self: flex-start;
+  font-size: 1.6rem;
+  margin: 10px 0 40px 0;
+  font-weight: 500;
+  align-self: center;
 `;
 
 export const ShowAllCards = styled.div`
@@ -12,27 +12,29 @@ export const ShowAllCards = styled.div`
   flex-direction: row;
   align-self: flex-start;
   align-items: center;
-  margin-bottom: 5px;
+  margin-top: 3px;
 `;
 
 export const SelectParallel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: right;
-  justify-content: right;
+
   margin-bottom: 0px;
   gap: 2px;
   align-self: flex-start;
 `;
 
 export const SeriesSelect = styled.select`
-  width: 150px;
-  height: 20px;
+  min-width: 150px;
+  height: 25px;
+  border-radius: 3px;
 `;
 
 export const SelectLabel = styled.div`
   font-size: 12px;
   font-weight: 600;
+  margin-right: 3px;
 `;
 
 export const AddCardsContainer = styled.div`
@@ -74,6 +76,7 @@ export const ConfirmDeleteButtons = styled.div`
   gap: 30px;
   margin: 15px;
 `;
+
 export const CloseButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -93,6 +96,13 @@ export const DeleteConfirmMessage = styled.div`
 `;
 
 export const TableHeader = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+`;
+
+export const TableHeaderRow = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;

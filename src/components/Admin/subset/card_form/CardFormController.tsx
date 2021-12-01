@@ -4,7 +4,7 @@ import { RootState } from "../../../../store";
 import { PlayersState, Player } from "../../../../store/library/players/types";
 import { fetchAllPlayers } from "../../../../store/library/players/thunks";
 import { fetchAllTeams } from "../../../../store/library/teams/thunks";
-import { updateCard } from "../../../../store/library/card/thunks";
+import { updateCard } from "../../../../store/library/subsets/thunks";
 import {
   createCard,
   bulkCreateCard,
@@ -70,7 +70,7 @@ export default function CardFormController(props: Props) {
   const [cardBulkCreated, setBulkCreated] = useState(false);
 
   // scrape card options
-  const [includeNotes, setIncludeNotes] = useState(false);
+  const [includeNotes, setIncludeNotes] = useState(true);
   const [addShortPrints, setAddShortPrints] = useState(false);
 
   // Controlled form data, initial values are set to editCardData prop if form is being used to edit an existing card
@@ -140,11 +140,15 @@ export default function CardFormController(props: Props) {
 
   // remove form data when card is added
   useEffect(() => {
-    setScrapedCardData((currentData) => {
-      return currentData.filter(
-        (card) => !checkIfAdded(card, scrapedCardsAdded)
-      );
-    });
+    if (scrapedCardData.length === 1) {
+      props.handleClose();
+    } else {
+      setScrapedCardData((currentData) => {
+        return currentData.filter(
+          (card) => !checkIfAdded(card, scrapedCardsAdded)
+        );
+      });
+    }
   }, [scrapedCardsAdded]);
 
   // make sure current index is not out of bounds
@@ -224,16 +228,60 @@ export default function CardFormController(props: Props) {
   ) {
     switch (event.target.name) {
       case "nameField":
-        setName(event.target.value);
+        if (props.scrapeCardsData) {
+          setScrapedCardData(
+            scrapedCardData.map((c, idx) => {
+              if (idx === currentCardIdx) {
+                return { ...c, name: event.target.value };
+              }
+              return c;
+            })
+          );
+        } else {
+          setName(event.target.value);
+        }
         break;
       case "numberField":
-        setNumber(event.target.value);
+        if (props.scrapeCardsData) {
+          setScrapedCardData(
+            scrapedCardData.map((c, idx) => {
+              if (idx === currentCardIdx) {
+                return { ...c, number: event.target.value };
+              }
+              return c;
+            })
+          );
+        } else {
+          setNumber(event.target.value);
+        }
         break;
       case "note":
-        setNote(event.target.value);
+        if (props.scrapeCardsData) {
+          setScrapedCardData(
+            scrapedCardData.map((c, idx) => {
+              if (idx === currentCardIdx) {
+                return { ...c, note: event.target.value };
+              }
+              return c;
+            })
+          );
+        } else {
+          setNote(event.target.value);
+        }
         break;
       case "rookie":
-        setRookie(!rookie);
+        if (props.scrapeCardsData) {
+          setScrapedCardData(
+            scrapedCardData.map((c, idx) => {
+              if (idx === currentCardIdx) {
+                return { ...c, rookie: !c.rookie };
+              }
+              return c;
+            })
+          );
+        } else {
+          setRookie(!rookie);
+        }
         break;
     }
   }
@@ -242,21 +290,51 @@ export default function CardFormController(props: Props) {
     const { value } = event.target;
     switch (event.target.name) {
       case "team":
-        setTeamId(+value);
-        break;
-      case "rookie":
-        const rookieValue = value === "YES" ? true : false;
-        setRookie(rookieValue);
+        if (props.scrapeCardsData) {
+          setScrapedCardData(
+            scrapedCardData.map((c, idx) => {
+              if (idx === currentCardIdx) {
+                return { ...c, teamId: +value };
+              }
+              return c;
+            })
+          );
+        } else {
+          setTeamId(+value);
+        }
         break;
     }
   }
 
   function addPlayer(player: Player) {
-    setPlayers([...players, player]);
+    if (props.scrapeCardsData) {
+      setScrapedCardData(
+        scrapedCardData.map((c, idx) => {
+          if (idx === currentCardIdx) {
+            return { ...c, players: [...c.players, player] };
+          }
+          return c;
+        })
+      );
+    } else {
+      setPlayers([...players, player]);
+    }
   }
 
   function deletePlayer(id: number) {
-    setPlayers(players.filter((player) => player.id !== id));
+    if (props.scrapeCardsData) {
+      setScrapedCardData(
+        scrapedCardData.map((c, idx) => {
+          if (idx === currentCardIdx) {
+            const newPlayers = c.players.filter((p) => p.id !== id);
+            return { ...c, players: newPlayers };
+          }
+          return c;
+        })
+      );
+    } else {
+      setPlayers(players.filter((player) => player.id !== id));
+    }
   }
 
   function createAllScrapedCards() {
@@ -321,8 +399,6 @@ export default function CardFormController(props: Props) {
       );
     }
   }
-
-  console.log(loadingInitialData);
 
   // wait until players and teams have loaded to render any form
   // if (loadingInitialData) {
@@ -391,17 +467,20 @@ export default function CardFormController(props: Props) {
         )}
         <Styled.ScrapeOptions>
           <Styled.ScrapeOptionsTitle>Options</Styled.ScrapeOptionsTitle>
-          <Styled.CheckboxContainer>
-            <Styled.Checkbox
-              type="checkbox"
-              checked={includeNotes}
-              onChange={(e) => setIncludeNotes(!includeNotes)}
-            />
-            <Styled.CheckboxLabel>
-              Include Notes
-              <IncludeNoteHelp />
-            </Styled.CheckboxLabel>
-          </Styled.CheckboxContainer>
+          {props.scrapeCardsData &&
+            props.scrapeCardsData.some((c) => c.note !== "") && (
+              <Styled.CheckboxContainer>
+                <Styled.Checkbox
+                  type="checkbox"
+                  checked={includeNotes}
+                  onChange={(e) => setIncludeNotes(!includeNotes)}
+                />
+                <Styled.CheckboxLabel>
+                  Include Notes
+                  <IncludeNoteHelp />
+                </Styled.CheckboxLabel>
+              </Styled.CheckboxContainer>
+            )}
 
           {props.scrapeCardsData &&
             props.scrapeCardsData.some((c) => {

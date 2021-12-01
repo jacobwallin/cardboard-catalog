@@ -44,5 +44,6 @@ interface PostResultMessageProps {
   success: boolean;
 }
 export const PostResultMessage = styled.h3<PostResultMessageProps>`
+  text-align: center;
   color: ${(props) => (props.success ? "green" : "red")};
 `;

@@ -1,11 +1,18 @@
-import { SetCards, SubsetCards, UserCard, CollectionActionTypes } from "./types";
+import {
+  SetCards,
+  SubsetCards,
+  UserCard,
+  CollectionActionTypes,
+} from "./types";
 
 import * as types from "./types";
 
 export const getCardsBySetRequest = (): CollectionActionTypes => ({
   type: types.GET_CARDS_BY_SET_REQUEST,
 });
-export const getCardsBySetSuccess = (cardsBySet: SetCards[]): CollectionActionTypes => ({
+export const getCardsBySetSuccess = (
+  cardsBySet: SetCards[]
+): CollectionActionTypes => ({
   type: types.GET_CARDS_BY_SET_SUCCESS,
   cardsBySet,
 });
@@ -45,9 +52,14 @@ export const getSingleSubsetCardsFailure = (): CollectionActionTypes => ({
 export const addCardsRequest = (): CollectionActionTypes => ({
   type: types.ADD_CARDS_REQUEST,
 });
-export const addCardsSuccess = (newCards: UserCard[], subsetId: number): CollectionActionTypes => ({
+export const addCardsSuccess = (
+  newCards: types.NewCardsResponse[],
+  cardData: types.CardData[],
+  subsetId: number
+): CollectionActionTypes => ({
   type: types.ADD_CARDS_SUCCESS,
   newCards,
+  cardData,
   subsetId,
 });
 export const addCardsFailure = (): CollectionActionTypes => ({
@@ -57,7 +69,9 @@ export const addCardsFailure = (): CollectionActionTypes => ({
 export const deleteCardsRequest = (): CollectionActionTypes => ({
   type: types.DELETE_CARDS_REQUEST,
 });
-export const deleteCardsSuccess = (userCardIds: number[]): CollectionActionTypes => ({
+export const deleteCardsSuccess = (
+  userCardIds: number[]
+): CollectionActionTypes => ({
   type: types.DELETE_CARDS_SUCCESS,
   userCardIds,
 });

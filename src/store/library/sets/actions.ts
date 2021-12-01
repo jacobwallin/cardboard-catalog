@@ -1,100 +1,81 @@
-import {
-  SetSummary,
-  Set,
-  SubsetSummary,
-  UpdateSetServerResponse,
-  SetsActionTypes,
-  GET_ALL_SETS_REQUEST,
-  GET_ALL_SETS_SUCCESS,
-  GET_ALL_SETS_FAILURE,
-  GET_SINGLE_SET_REQUEST,
-  GET_SINGLE_SET_SUCCESS,
-  GET_SINGLE_SET_FAILURE,
-  UPDATE_SET_REQUEST,
-  UPDATE_SET_SUCCESS,
-  UPDATE_SET_FAILURE,
-  DELETE_SET_REQUEST,
-  DELETE_SET_SUCCESS,
-  DELETE_SET_FAILURE,
-  CREATE_SUBSET_REQUEST,
-  CREATE_SUBSET_SUCCESS,
-  CREATE_SUBSET_FAILURE,
-  CREATE_SET_REQUEST,
-  CREATE_SET_SUCCESS,
-  CREATE_SET_FAILURE,
-  CLEAR_LIBRARY,
-} from "./types";
+import * as types from "./types";
 
-export const getAllSetsRequest = (): SetsActionTypes => ({
-  type: GET_ALL_SETS_REQUEST,
+export const getAllSetsRequest = (): types.SetsActionTypes => ({
+  type: types.GET_ALL_SETS_REQUEST,
 });
-export const getAllSetsSuccess = (allSets: SetSummary[]): SetsActionTypes => ({
-  type: GET_ALL_SETS_SUCCESS,
+export const getAllSetsSuccess = (
+  allSets: types.SetSummary[]
+): types.SetsActionTypes => ({
+  type: types.GET_ALL_SETS_SUCCESS,
   allSets,
 });
-export const getAllSetsFailure = (): SetsActionTypes => ({
-  type: GET_ALL_SETS_FAILURE,
+export const getAllSetsFailure = (): types.SetsActionTypes => ({
+  type: types.GET_ALL_SETS_FAILURE,
 });
 
-export const getSingleSetRequest = (): SetsActionTypes => ({
-  type: GET_SINGLE_SET_REQUEST,
+export const getSingleSetRequest = (): types.SetsActionTypes => ({
+  type: types.GET_SINGLE_SET_REQUEST,
 });
-export const getSingleSetSuccess = (singleSet: Set): SetsActionTypes => ({
-  type: GET_SINGLE_SET_SUCCESS,
+export const getSingleSetSuccess = (
+  singleSet: types.Set
+): types.SetsActionTypes => ({
+  type: types.GET_SINGLE_SET_SUCCESS,
   singleSet,
 });
-export const getSingleSetFailure = (): SetsActionTypes => ({
-  type: GET_SINGLE_SET_FAILURE,
+export const getSingleSetFailure = (): types.SetsActionTypes => ({
+  type: types.GET_SINGLE_SET_FAILURE,
 });
 
-export const updateSetRequest = (): SetsActionTypes => ({
-  type: UPDATE_SET_REQUEST,
+export const updateSetRequest = (): types.SetsActionTypes => ({
+  type: types.UPDATE_SET_REQUEST,
 });
 export const updateSetSuccess = (
-  updatedSet: UpdateSetServerResponse
-): SetsActionTypes => ({
-  type: UPDATE_SET_SUCCESS,
+  updatedSet: types.UpdatedSet
+): types.SetsActionTypes => ({
+  type: types.UPDATE_SET_SUCCESS,
   updatedSet,
 });
-export const updateSetFailure = (): SetsActionTypes => ({
-  type: UPDATE_SET_FAILURE,
+export const updateSetFailure = (): types.SetsActionTypes => ({
+  type: types.UPDATE_SET_FAILURE,
 });
 
-export const deleteSetRequest = (): SetsActionTypes => ({
-  type: DELETE_SET_REQUEST,
+export const deleteSetRequest = (): types.SetsActionTypes => ({
+  type: types.DELETE_SET_REQUEST,
 });
-export const deleteSetSuccess = (setId: number): SetsActionTypes => ({
-  type: DELETE_SET_SUCCESS,
+export const deleteSetSuccess = (setId: number): types.SetsActionTypes => ({
+  type: types.DELETE_SET_SUCCESS,
   setId,
 });
-export const deleteSetFailure = (): SetsActionTypes => ({
-  type: DELETE_SET_FAILURE,
+export const deleteSetFailure = (): types.SetsActionTypes => ({
+  type: types.DELETE_SET_FAILURE,
 });
 
-export const createSubsetRequest = (): SetsActionTypes => ({
-  type: CREATE_SUBSET_REQUEST,
+export const createSubsetRequest = (): types.SetsActionTypes => ({
+  type: types.CREATE_SUBSET_REQUEST,
 });
 export const createSubsetSuccess = (
-  subset: SubsetSummary
-): SetsActionTypes => ({
-  type: CREATE_SUBSET_SUCCESS,
+  subset: types.SubsetSummary
+): types.SetsActionTypes => ({
+  type: types.CREATE_SUBSET_SUCCESS,
   subset,
 });
-export const createSubsetFailure = (): SetsActionTypes => ({
-  type: CREATE_SUBSET_FAILURE,
+export const createSubsetFailure = (): types.SetsActionTypes => ({
+  type: types.CREATE_SUBSET_FAILURE,
 });
 
-export const createSetRequest = (): SetsActionTypes => ({
-  type: CREATE_SET_REQUEST,
+export const createSetRequest = (): types.SetsActionTypes => ({
+  type: types.CREATE_SET_REQUEST,
 });
-export const createSetSuccess = (set: SetSummary): SetsActionTypes => ({
-  type: CREATE_SET_SUCCESS,
+export const createSetSuccess = (
+  set: types.SetSummary
+): types.SetsActionTypes => ({
+  type: types.CREATE_SET_SUCCESS,
   set,
 });
-export const createSetFailure = (): SetsActionTypes => ({
-  type: CREATE_SET_FAILURE,
+export const createSetFailure = (): types.SetsActionTypes => ({
+  type: types.CREATE_SET_FAILURE,
 });
 
 export const clearLibrary = () => ({
-  type: CLEAR_LIBRARY,
+  type: types.CLEAR_LIBRARY,
 });

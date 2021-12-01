@@ -7,7 +7,7 @@ import { fetchCardsInSingleSubset } from "../../../store/collection/browse/thunk
 
 import CollectionWrapper from "../../shared/CollectionWrapper";
 import CollectionContainer from "../../shared/CollectionContainer";
-import { createTableData, createUserCardTableData } from "./createTableData";
+import { createTableData } from "./createTableData";
 import SubsetHeader from "../header/SubsetHeader";
 import BrowseSubset from "./browse/BrowseSubset";
 import CollectionSubset from "./collection/CollectionSubset";
@@ -26,15 +26,15 @@ type Params = {
 const SubsetPage = (props: RouteComponentProps<Params>) => {
   const dispatch = useDispatch();
 
-  const subset = useSelector(
-    (state: RootState) => state.library.subsets.subset
-  );
+  const subset = useSelector((state: RootState) => state.library.subsets);
   const userCardsInSubset = useSelector(
     (state: RootState) => state.collection.browse.cardsInSingleSubset
   );
   const isLoading = useSelector((state: RootState) => loadingSelector(state));
 
-  const [showCollection, setShowCollection] = useState(false);
+  const [showCollection, setShowCollection] = useState(
+    props.location.search.slice(props.location.search.length - 4) === "coll"
+  );
 
   useEffect(() => {
     // get the complete subset data from the library api and all the user's cards that belong to the subset from the collection api
@@ -52,7 +52,6 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
 
   // DataTable wants a string[] ???
   const tableData: any = createTableData(subset, userCardsInSubset);
-  const idk: any = createUserCardTableData(tableData, userCardsInSubset);
 
   if (isLoading || +props.match.params.subsetId !== subset.id)
     return (
@@ -76,7 +75,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
         {!showCollection ? (
           <BrowseSubset tableData={tableData} />
         ) : (
-          <CollectionSubset tableData={tableData} userCardTableData={idk} />
+          <CollectionSubset tableData={tableData} />
         )}
       </CollectionContainer>
     </CollectionWrapper>

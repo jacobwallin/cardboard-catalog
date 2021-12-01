@@ -54,7 +54,7 @@ const search = (playerNames) => {
             if (urlSlugEndIdx !== -1) {
               urlSlug = urlSlug.slice(0, urlSlugEndIdx + 6);
               if (
-                /^\/players\/[a-z]\/\w{4,7}\d{2}.shtml/.test(urlSlug) ||
+                /^\/players\/[a-z]\/[\w.']{4,7}\d{2}.shtml/.test(urlSlug) ||
                 /^\/register\/player.fcgi\?id=/.test(urlSlug)
               ) {
                 locations.push(urlSlug);

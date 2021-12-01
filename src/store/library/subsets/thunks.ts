@@ -11,8 +11,8 @@ export const fetchSubset =
   (dispatch) => {
     dispatch(actions.getSubsetRequest());
     get(`/api/subsets/${subsetId}`, dispatch)
-      .then((data) => {
-        dispatch(actions.getSubsetSuccess(data));
+      .then((subset) => {
+        dispatch(actions.getSubsetSuccess(subset));
       })
       .catch((err) => actions.getSubsetFailure());
   };
@@ -23,6 +23,7 @@ export const updateSubset =
     subsetData: {
       name: string;
       description: string;
+      prefix: string;
     }
   ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {

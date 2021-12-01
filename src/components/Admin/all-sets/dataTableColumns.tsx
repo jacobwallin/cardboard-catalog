@@ -1,5 +1,8 @@
 import React from "react";
 import EditLink from "../components/EditLink";
+import { ReactComponent as Checkmark } from "../subset/checkmark.svg";
+import { SetSummary } from "../../../store/library/sets/types";
+import * as Styled from "./styled";
 
 const dataTableColumns = [
   {
@@ -8,8 +11,8 @@ const dataTableColumns = [
     sortable: true,
   },
   {
-    name: "Release Date",
-    selector: "release_date",
+    name: "Year",
+    selector: "year",
     sortable: true,
   },
   {
@@ -23,9 +26,27 @@ const dataTableColumns = [
     sortable: true,
   },
   {
+    name: "Date Created",
+    selector: (row: SetSummary) => row.createdAt.slice(0, 10),
+    sortable: true,
+  },
+  {
+    name: "Completed",
+    sortable: true,
+    selector: (row: SetSummary) => row.complete,
+    cell: (row: any) =>
+      row.complete ? (
+        <Styled.SvgWrapper>
+          <Checkmark />
+        </Styled.SvgWrapper>
+      ) : (
+        "-"
+      ),
+  },
+  {
     name: "",
     sortable: false,
-    cell: (row: any) => <EditLink to={`/admin/edit/set/${row.id}`} />,
+    cell: (row: SetSummary) => <EditLink to={`/admin/edit/set/${row.id}`} />,
     grow: 0,
   },
 ];
