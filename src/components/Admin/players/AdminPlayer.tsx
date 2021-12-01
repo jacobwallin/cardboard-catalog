@@ -38,7 +38,10 @@ export default function AdminPlayer() {
     if (e.target.value === "") setFilter("");
   }
 
-  function handleFilterChange() {
+  function handleFilterChange(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) {
+    e.preventDefault();
     setFilter(search);
   }
 
@@ -50,31 +53,33 @@ export default function AdminPlayer() {
   return (
     <AdminPageContainer>
       <EditFormHeader text="Manage Player Library" />
-
       <DataTableWrapper>
         <DataTable
           title={`Players`}
           actions={
-            <Styled.SearchContainer>
-              <Styled.Search
-                type="text"
-                placeholder="Search"
-                value={search}
-                onChange={handleSearchChange}
-              />
-              <StyledButton
-                color="BLUE"
-                width="50px"
-                height="30px"
-                fontSize=".85rem"
-                onClick={handleFilterChange}
-              >
-                Search
-              </StyledButton>
-              <Styled.ClearSearch onClick={clearSearch}>
-                <XIcon />
-              </Styled.ClearSearch>
-            </Styled.SearchContainer>
+            <form>
+              <Styled.SearchContainer>
+                <Styled.Search
+                  type="text"
+                  placeholder="search for player"
+                  value={search}
+                  onChange={handleSearchChange}
+                />
+                <StyledButton
+                  color="BLUE"
+                  width="50px"
+                  height="30px"
+                  fontSize=".85rem"
+                  type="submit"
+                  onClick={handleFilterChange}
+                >
+                  Search
+                </StyledButton>
+                <Styled.ClearSearch onClick={clearSearch}>
+                  <XIcon />
+                </Styled.ClearSearch>
+              </Styled.SearchContainer>
+            </form>
           }
           data={filteredPlayers}
           columns={columns}
