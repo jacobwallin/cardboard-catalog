@@ -1,10 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import {
-  createPlayer,
-  fetchAllPlayers,
-} from "../../../store/library/players/thunks";
+import { createPlayer } from "../../../store/library/players/thunks";
 import ModalBackground from "../../shared/Background";
 import ModalWindow from "../components/modal/ModalWindow";
 import ModalHeader from "../components/modal/ModalHeader";
@@ -19,6 +16,8 @@ interface Props {
 export default function PlayerModal(props: Props) {
   const dispatch = useDispatch();
 
+  const [playerCreated, setPlayerCreated] = useState(false);
+
   const createPlayerStatus = useSelector((state: RootState) =>
     createPlayerStatusSelector(state)
   );
@@ -32,14 +31,15 @@ export default function PlayerModal(props: Props) {
   }) {
     const { name, fullName, url, birthday, hallOfFame } = playerData;
     dispatch(createPlayer({ name, fullName, url, birthday, hallOfFame }));
+    setPlayerCreated(true);
   }
 
   // dismiss modal upon success
   useEffect(() => {
-    if (createPlayerStatus === "SUCCESS") {
+    if (createPlayerStatus === "SUCCESS" && playerCreated) {
       props.dismiss();
     }
-  }, [createPlayerStatus, props]);
+  }, [createPlayerStatus, props, playerCreated]);
 
   return (
     <ModalBackground>
