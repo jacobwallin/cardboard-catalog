@@ -29,3 +29,8 @@ export const ClearSearch = styled.div`
     }
   }
 `;
+
+export const AddButtonWrapper = styled.div`
+  align-self: flex-end;
+  margin: 8px 8px 0 0;
+`;

@@ -3,6 +3,8 @@ import styled from "styled-components";
 import DataTable from "react-data-table-component";
 
 export const DataTableWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
   margin: 10px;
   background: white;

@@ -5,6 +5,7 @@ import FieldTitle from "../components/form/FieldTitle";
 import FieldData from "../components/form/FieldData";
 import StyledButton from "../components/StyledButton";
 import * as StyledInputs from "../components/form/Inputs";
+import validate from "validate.js";
 
 interface Props {
   handleSubmit(playerData: {
@@ -20,6 +21,7 @@ export default function PlayerForm(props: Props) {
   const [name, setName] = useState("");
   const [fullName, setFullName] = useState("");
   const [url, setUrl] = useState("");
+  const [validUrl, setValidUrl] = useState(false);
   const [dob, setDob] = useState("");
   const [hof, setHof] = useState(false);
 
@@ -33,6 +35,18 @@ export default function PlayerForm(props: Props) {
         break;
       case "url":
         setUrl(e.target.value);
+        if (
+          !validate(
+            { url: e.target.value },
+            {
+              url: {
+                url: { schemes: ["https"] },
+              },
+            }
+          )
+        ) {
+          setValidUrl(true);
+        }
         break;
       case "dob":
         setDob(e.target.value);
@@ -112,7 +126,7 @@ export default function PlayerForm(props: Props) {
         width="125px"
         height="30px"
         onClick={handleSubmit}
-        disabled={name === "" || fullName === "" || dob === "" || url === ""}
+        disabled={name === "" || fullName === "" || dob === "" || !validUrl}
       >
         Save
       </StyledButton>
