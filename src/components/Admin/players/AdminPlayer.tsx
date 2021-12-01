@@ -10,6 +10,7 @@ import columns from "./columns";
 import StyledButton from "../components/StyledButton";
 import { Player } from "../../../store/library/players/types";
 import { ReactComponent as XIcon } from "../components/modal/close.svg";
+import PlayerModal from "./PlayerModal";
 import * as Styled from "./styled";
 
 export default function AdminPlayer() {
@@ -18,6 +19,7 @@ export default function AdminPlayer() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("");
   const [filteredPlayers, setFilteredPlayers] = useState<Player[]>([]);
+  const [showPlayerModal, setShowPlayerModal] = useState(true);
 
   const players = useSelector((state: RootState) => state.library.players);
 
@@ -50,10 +52,23 @@ export default function AdminPlayer() {
     setFilter("");
   }
 
+  function togglePlayerModal() {
+    setShowPlayerModal(!showPlayerModal);
+  }
+
   return (
     <AdminPageContainer>
+      {showPlayerModal && <PlayerModal dismiss={togglePlayerModal} />}
       <EditFormHeader text="Manage Player Library" />
       <DataTableWrapper>
+        <StyledButton
+          color="GREEN"
+          width="125px"
+          height="30px"
+          onClick={togglePlayerModal}
+        >
+          Add Player
+        </StyledButton>
         <DataTable
           title={`Players`}
           actions={

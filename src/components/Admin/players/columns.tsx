@@ -19,7 +19,7 @@ const dataTableColumns = [
     sortable: true,
   },
   {
-    name: "Date Created",
+    name: "Date Added",
     selector: (row: Player) => row.createdAt.slice(0, 10),
     sortable: true,
   },
