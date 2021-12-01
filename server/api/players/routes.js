@@ -7,7 +7,9 @@ const { Op } = require("sequelize");
 
 router.get("/", async (req, res, next) => {
   try {
-    const allPlayers = await Player.findAll({});
+    const allPlayers = await Player.findAll({
+      order: [["name", "ASC"]],
+    });
     res.json(allPlayers);
   } catch (error) {
     next(error);
