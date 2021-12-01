@@ -5,6 +5,7 @@ import AdminSets from "./all-sets/AdminSets";
 import AdminSet from "./set/AdminSet";
 import AdminSubset from "./subset/AdminSubset";
 import AdminSeries from "./series/AdminSeries";
+import AdminPlayers from "./players/AdminPlayer";
 import * as Styled from "./styled";
 
 export default function Admin() {
@@ -27,13 +28,7 @@ export default function Admin() {
             path={`${path}/edit/series/:seriesId`}
             component={AdminSeries}
           />
-          <Route
-            exact
-            path={`${path}/players`}
-            component={() => (
-              <h2 style={{ textAlign: "center" }}>COMING SOON</h2>
-            )}
-          />
+          <Route exact path={`${path}/players`} component={AdminPlayers} />
         </Styled.AdminContainer>
       </Styled.AdminInnerWrapper>
     </Styled.AdminWrapper>
