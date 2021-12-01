@@ -17,6 +17,25 @@ export const fetchAllPlayers =
       });
   };
 
+export const createPlayer =
+  (playerData: {
+    name: string;
+    fullName: string;
+    url: string;
+    birthday: string;
+    hallOfFame: boolean;
+  }): ThunkAction<void, RootState, unknown, PlayerActionCreators> =>
+  (dispatch) => {
+    dispatch(actions.createPlayerRequest());
+    post(`/api/players/`, playerData, dispatch)
+      .then((newPlayer) => {
+        dispatch(actions.createPlayerSuccess(newPlayer));
+      })
+      .catch((error) => {
+        dispatch(actions.createPlayerFailure());
+      });
+  };
+
 export const scrapeNewPlayer =
   (url: string): ThunkAction<void, RootState, unknown, PlayerActionCreators> =>
   (dispatch) => {

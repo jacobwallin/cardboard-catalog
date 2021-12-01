@@ -3,9 +3,20 @@ import detectFormChanges from "../detectFormChanges";
 import FieldContainer from "../components/form/FieldContainer";
 import FieldTitle from "../components/form/FieldTitle";
 import FieldData from "../components/form/FieldData";
+import StyledButton from "../components/StyledButton";
 import * as StyledInputs from "../components/form/Inputs";
 
-export default function PlayerForm() {
+interface Props {
+  handleSubmit(playerData: {
+    name: string;
+    fullName: string;
+    url: string;
+    birthday: string;
+    hallOfFame: boolean;
+  }): void;
+}
+
+export default function PlayerForm(props: Props) {
   const [name, setName] = useState("");
   const [fullName, setFullName] = useState("");
   const [url, setUrl] = useState("");
@@ -23,7 +34,18 @@ export default function PlayerForm() {
       case "url":
         setUrl(e.target.value);
         break;
+      case "dob":
+        setDob(e.target.value);
+        break;
     }
+  }
+
+  function handleCheckboxChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setHof(e.target.checked);
+  }
+
+  function handleSubmit() {
+    props.handleSubmit({ name, fullName, url, birthday: dob, hallOfFame: hof });
   }
 
   return (
@@ -55,7 +77,12 @@ export default function PlayerForm() {
       <FieldContainer>
         <FieldTitle>Date of Birth</FieldTitle>
         <FieldData>
-          <StyledInputs.Input type="date" value={url} />
+          <StyledInputs.Input
+            type="date"
+            id="dob"
+            value={dob}
+            onChange={handleTextChange}
+          />
         </FieldData>
       </FieldContainer>
       <FieldContainer>
@@ -73,9 +100,22 @@ export default function PlayerForm() {
       <FieldContainer>
         <FieldTitle>In HOF</FieldTitle>
         <FieldData>
-          <input type="checkbox" checked={hof} />
+          <input
+            type="checkbox"
+            checked={hof}
+            onChange={handleCheckboxChange}
+          />
         </FieldData>
       </FieldContainer>
+      <StyledButton
+        color="GREEN"
+        width="125px"
+        height="30px"
+        onClick={handleSubmit}
+        disabled={name === "" || fullName === "" || dob === "" || url === ""}
+      >
+        Save
+      </StyledButton>
     </>
   );
 }
