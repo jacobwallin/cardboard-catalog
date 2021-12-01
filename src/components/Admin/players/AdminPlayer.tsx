@@ -9,6 +9,7 @@ import DataTable from "react-data-table-component";
 import columns from "./columns";
 import StyledButton from "../components/StyledButton";
 import { Player } from "../../../store/library/players/types";
+import { ReactComponent as XIcon } from "../components/modal/close.svg";
 import * as Styled from "./styled";
 
 export default function AdminPlayer() {
@@ -34,10 +35,16 @@ export default function AdminPlayer() {
 
   function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearch(e.target.value);
+    if (e.target.value === "") setFilter("");
   }
 
   function handleFilterChange() {
     setFilter(search);
+  }
+
+  function clearSearch() {
+    setSearch("");
+    setFilter("");
   }
 
   return (
@@ -64,6 +71,9 @@ export default function AdminPlayer() {
               >
                 Search
               </StyledButton>
+              <Styled.ClearSearch onClick={clearSearch}>
+                <XIcon />
+              </Styled.ClearSearch>
             </Styled.SearchContainer>
           }
           data={filteredPlayers}
