@@ -7,7 +7,7 @@ const dataTableColumns = [
     name: "Name",
     selector: "name",
     cell: (row: Player) => (
-      <SubtleLink as="a" href={row.url} target="_blank" rel="noopener">
+      <SubtleLink as="a" href={`${row.url}`} target="_blank" rel="noopener">
         {row.name}
       </SubtleLink>
     ),

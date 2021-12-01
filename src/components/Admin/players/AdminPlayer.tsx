@@ -19,7 +19,7 @@ export default function AdminPlayer() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("");
   const [filteredPlayers, setFilteredPlayers] = useState<Player[]>([]);
-  const [showPlayerModal, setShowPlayerModal] = useState(true);
+  const [showPlayerModal, setShowPlayerModal] = useState(false);
 
   const players = useSelector((state: RootState) => state.library.players);
 
