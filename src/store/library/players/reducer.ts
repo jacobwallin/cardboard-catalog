@@ -11,6 +11,13 @@ export default function playersReducer(
       return action.players;
     case types.CREATE_PLAYER_SUCCESS:
       return [...state, action.player];
+    case types.UPDATE_PLAYER_SUCCESS:
+      return state.map((p) => {
+        if (p.id === action.player.id) {
+          return action.player;
+        }
+        return p;
+      });
     case types.BULK_CREATE_PLAYER_SUCCESS:
       return [...state, ...action.players];
     default:
