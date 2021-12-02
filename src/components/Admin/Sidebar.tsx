@@ -101,8 +101,8 @@ export default function Sidebar() {
       >
         <StyledAdminLink to={`${path}/`}>Sets</StyledAdminLink>
         <StyledAdminLink to={`${path}/players`}>Players</StyledAdminLink>
-        {/* <StyledAdminLink to={`${path}/teams`}>Teams</StyledAdminLink>
-        <StyledAdminLink to={`${path}/other`}>Other</StyledAdminLink> */}
+        <StyledAdminLink to={`${path}/teams`}>Teams</StyledAdminLink>
+        <StyledAdminLink to={`${path}/other`}>Other</StyledAdminLink>
       </LinkContainer>
     </SidebarContainer>
   );

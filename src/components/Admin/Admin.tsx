@@ -6,6 +6,7 @@ import AdminSet from "./set/AdminSet";
 import AdminSubset from "./subset/AdminSubset";
 import AdminSeries from "./series/AdminSeries";
 import AdminPlayers from "./players/AdminPlayer";
+import AdminTeams from "./teams/AdminTeams";
 import * as Styled from "./styled";
 
 export default function Admin() {
@@ -29,6 +30,7 @@ export default function Admin() {
             component={AdminSeries}
           />
           <Route exact path={`${path}/players`} component={AdminPlayers} />
+          <Route exact path={`${path}/teams`} component={AdminTeams} />
         </Styled.AdminContainer>
       </Styled.AdminInnerWrapper>
     </Styled.AdminWrapper>
