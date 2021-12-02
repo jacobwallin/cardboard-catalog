@@ -10,6 +10,19 @@ router.get("/", async (req, res, next) => {
     next(error);
   }
 });
+router.get("/league/:leagueId", async (req, res, next) => {
+  try {
+    const allTeams = await Team.findAll({
+      where: {
+        leagueId: req.params.leagueId,
+      },
+      include: League,
+    });
+    res.json(allTeams);
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.post("/", async (req, res, next) => {
   const { name, leagueId } = req.body;
