@@ -34,4 +34,16 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+router.put("/:teamId", async (req, res, next) => {
+  const { name } = req.body;
+  try {
+    const team = await Team.findByPk(req.params.teamId);
+    team.name = name;
+    await team.save();
+    res.json(team);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
