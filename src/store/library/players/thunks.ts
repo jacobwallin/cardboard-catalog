@@ -1,8 +1,8 @@
 import { ThunkAction } from "redux-thunk";
-import { PlayerActionCreators } from "./types";
+import { PlayerActionCreators, Player } from "./types";
 import { RootState } from "../..";
 import * as actions from "./actions";
-import { get, postString, post } from "../../../utils/fetch";
+import { get, postString, post, put } from "../../../utils/fetch";
 
 export const fetchAllPlayers =
   (): ThunkAction<void, RootState, unknown, PlayerActionCreators> =>
@@ -33,6 +33,28 @@ export const createPlayer =
       })
       .catch((error) => {
         dispatch(actions.createPlayerFailure());
+      });
+  };
+
+export const updatePlayer =
+  (
+    playerId: number,
+    playerData: {
+      name: string;
+      fullName: string;
+      url: string;
+      birthday: string;
+      hallOfFame: boolean;
+    }
+  ): ThunkAction<void, RootState, unknown, PlayerActionCreators> =>
+  (dispatch) => {
+    dispatch(actions.updatePlayerRequest());
+    put(`/api/players/${playerId}`, playerData, dispatch)
+      .then((updatedPlayer: Player) => {
+        dispatch(actions.updatePlayerSuccess(updatedPlayer));
+      })
+      .catch((error) => {
+        dispatch(actions.updatePlayerFailure());
       });
   };
 

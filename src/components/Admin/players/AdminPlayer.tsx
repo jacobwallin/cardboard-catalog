@@ -20,6 +20,9 @@ export default function AdminPlayer() {
   const [filter, setFilter] = useState("");
   const [filteredPlayers, setFilteredPlayers] = useState<Player[]>([]);
   const [showPlayerModal, setShowPlayerModal] = useState(false);
+  const [playerToEdit, setPlayerToEdit] = useState<Player | undefined>(
+    undefined
+  );
 
   const players = useSelector((state: RootState) => state.library.players);
 
@@ -52,13 +55,24 @@ export default function AdminPlayer() {
     setFilter("");
   }
 
-  function togglePlayerModal() {
-    setShowPlayerModal(!showPlayerModal);
+  function closePlayerModal() {
+    setPlayerToEdit(undefined);
+    setShowPlayerModal(false);
+  }
+  function openPlayerModal() {
+    setShowPlayerModal(true);
+  }
+
+  function editPlayer(p: Player) {
+    setPlayerToEdit(p);
   }
 
   return (
     <AdminPageContainer>
-      {showPlayerModal && <PlayerModal dismiss={togglePlayerModal} />}
+      {showPlayerModal && <PlayerModal dismiss={closePlayerModal} />}
+      {playerToEdit && (
+        <PlayerModal dismiss={closePlayerModal} editPlayer={playerToEdit} />
+      )}
       <EditFormHeader text="Manage Player Library" />
       <DataTableWrapper>
         <Styled.AddButtonWrapper>
@@ -66,7 +80,7 @@ export default function AdminPlayer() {
             color="GREEN"
             width="125px"
             height="30px"
-            onClick={togglePlayerModal}
+            onClick={openPlayerModal}
           >
             Add Player
           </StyledButton>
@@ -99,7 +113,7 @@ export default function AdminPlayer() {
             </form>
           }
           data={filteredPlayers}
-          columns={columns}
+          columns={columns(editPlayer)}
           dense
           pagination
           paginationPerPage={20}

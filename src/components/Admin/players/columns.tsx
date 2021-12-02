@@ -1,8 +1,9 @@
 import React from "react";
 import { Player } from "../../../store/library/players/types";
 import SubtleLink from "../../shared/SubtleLink";
+import { StyledLink } from "../components/EditLink";
 
-const dataTableColumns = [
+const columns = (editToggle: (player: Player) => void) => [
   {
     name: "Name",
     selector: "name",
@@ -23,6 +24,18 @@ const dataTableColumns = [
     selector: (row: Player) => row.createdAt.slice(0, 10),
     sortable: true,
   },
+  {
+    name: "",
+    sortable: false,
+    cell: (row: Player) => (
+      <>
+        <StyledLink as="div" onClick={() => editToggle(row)}>
+          Edit
+        </StyledLink>
+      </>
+    ),
+    grow: 0,
+  },
 ];
 
-export default dataTableColumns;
+export default columns;

@@ -168,10 +168,10 @@ router.post("/scrape/bulk", isAdmin, async (req, res, next) => {
 });
 
 router.put("/:playerId", isAdmin, async (req, res, next) => {
-  const { name, fullName, birthday, hallOfFame } = req.body;
+  const { name, fullName, birthday, hallOfFame, url } = req.body;
   try {
     await Player.update(
-      { name, fullName, birthday, hallOfFame },
+      { name, fullName, birthday, hallOfFame, url },
       { where: { id: req.params.playerId } }
     );
     const updatedPlayer = await Player.findByPk(req.params.playerId);

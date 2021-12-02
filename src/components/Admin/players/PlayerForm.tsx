@@ -6,6 +6,7 @@ import FieldData from "../components/form/FieldData";
 import StyledButton from "../components/StyledButton";
 import * as StyledInputs from "../components/form/Inputs";
 import validate from "validate.js";
+import { Player } from "../../../store/library/players/types";
 
 interface Props {
   handleSubmit(playerData: {
@@ -15,15 +16,24 @@ interface Props {
     birthday: string;
     hallOfFame: boolean;
   }): void;
+  editPlayer?: Player;
 }
 
 export default function PlayerForm(props: Props) {
-  const [name, setName] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [url, setUrl] = useState("");
-  const [validUrl, setValidUrl] = useState(false);
-  const [dob, setDob] = useState("");
-  const [hof, setHof] = useState(false);
+  const [name, setName] = useState(
+    props.editPlayer ? props.editPlayer.name : ""
+  );
+  const [fullName, setFullName] = useState(
+    props.editPlayer ? props.editPlayer.fullName : ""
+  );
+  const [url, setUrl] = useState(props.editPlayer ? props.editPlayer.url : "");
+  const [validUrl, setValidUrl] = useState(props.editPlayer ? true : false);
+  const [dob, setDob] = useState(
+    props.editPlayer ? props.editPlayer.birthday : ""
+  );
+  const [hof, setHof] = useState(
+    props.editPlayer ? props.editPlayer.hallOfFame : false
+  );
 
   function handleTextChange(e: React.ChangeEvent<HTMLInputElement>) {
     switch (e.target.id) {

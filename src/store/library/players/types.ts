@@ -19,6 +19,9 @@ export const GET_ALL_PLAYERS_FAILURE = "GET_ALL_PLAYERS_FAILURE";
 export const CREATE_PLAYER_REQUEST = "CREATE_PLAYER_REQUEST";
 export const CREATE_PLAYER_SUCCESS = "CREATE_PLAYER_SUCCESS";
 export const CREATE_PLAYER_FAILURE = "CREATE_PLAYER_FAILURE";
+export const UPDATE_PLAYER_REQUEST = "UPDATE_PLAYER_REQUEST";
+export const UPDATE_PLAYER_SUCCESS = "UPDATE_PLAYER_SUCCESS";
+export const UPDATE_PLAYER_FAILURE = "UPDATE_PLAYER_FAILURE";
 export const BULK_CREATE_PLAYER_REQUEST = "BULK_CREATE_PLAYER_REQUEST";
 export const BULK_CREATE_PLAYER_SUCCESS = "BULK_CREATE_PLAYER_SUCCESS";
 export const BULK_CREATE_PLAYER_FAILURE = "BULK_CREATE_PLAYER_FAILURE";
@@ -46,6 +49,17 @@ interface CreatePlayerFailure {
   type: typeof CREATE_PLAYER_FAILURE;
 }
 
+interface UpdatePlayerRequest {
+  type: typeof UPDATE_PLAYER_REQUEST;
+}
+interface UpdatePlayerSuccess {
+  type: typeof UPDATE_PLAYER_SUCCESS;
+  player: Player;
+}
+interface UpdatePlayerFailure {
+  type: typeof UPDATE_PLAYER_FAILURE;
+}
+
 interface BulkCreatePlayerRequest {
   type: typeof BULK_CREATE_PLAYER_REQUEST;
 }
@@ -64,6 +78,9 @@ export type PlayerActionCreators =
   | CreatePlayerRequest
   | CreatePlayerFailure
   | CreatePlayerSuccess
+  | UpdatePlayerRequest
+  | UpdatePlayerSuccess
+  | UpdatePlayerFailure
   | BulkCreatePlayerRequest
   | BulkCreatePlayerSuccess
   | BulkCreatePlayerFailure;
