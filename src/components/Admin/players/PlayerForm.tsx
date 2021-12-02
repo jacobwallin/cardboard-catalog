@@ -56,6 +56,8 @@ export default function PlayerForm(props: Props) {
           )
         ) {
           setValidUrl(true);
+        } else {
+          setValidUrl(false);
         }
         break;
       case "dob":
