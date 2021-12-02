@@ -25,6 +25,12 @@ const columns = (editToggle: (player: Player) => void) => [
     sortable: true,
   },
   {
+    name: "HOF",
+    selector: "hallOfFame",
+    cell: (row: Player) => (row.hallOfFame ? "HOF" : ""),
+    sortable: true,
+  },
+  {
     name: "",
     sortable: false,
     cell: (row: Player) => (
