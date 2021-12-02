@@ -138,7 +138,20 @@ export default function PlayerForm(props: Props) {
         width="125px"
         height="30px"
         onClick={handleSubmit}
-        disabled={name === "" || fullName === "" || dob === "" || !validUrl}
+        disabled={
+          props.editPlayer
+            ? !detectFormChanges(
+                [
+                  props.editPlayer.name,
+                  props.editPlayer.fullName,
+                  props.editPlayer.birthday,
+                  props.editPlayer.url,
+                  props.editPlayer.hallOfFame,
+                ],
+                [name, fullName, dob, url, hof]
+              )
+            : name === "" || fullName === "" || dob === "" || !validUrl
+        }
       >
         Save
       </StyledButton>
