@@ -13,7 +13,6 @@ import { Brand } from "../../../store/library/brands/types";
 import { GradingCompany } from "../../../store/library/grading_companies/types";
 import BrandModal from "./BrandModal";
 import CompanyModal from "./CompanyModal";
-import * as Styled from "./styled";
 
 export default function AdminOther() {
   const dispatch = useDispatch();
