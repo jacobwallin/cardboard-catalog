@@ -35,7 +35,7 @@ export default function AdminTeams() {
             <StyledButton
               color="GREEN"
               width="125px"
-              height="30px"
+              height="27px"
               fontSize=".9rem"
             >
               Add Team

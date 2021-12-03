@@ -79,7 +79,7 @@ export default function AdminPlayer() {
           <StyledButton
             color="GREEN"
             width="125px"
-            height="30px"
+            height="27px"
             onClick={openPlayerModal}
           >
             Add Player
