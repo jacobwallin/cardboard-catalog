@@ -20,7 +20,7 @@ export const fetchTeamsByLeague =
   (leagueId: number): ThunkAction<void, RootState, unknown, TeamsActionTypes> =>
   (dispatch) => {
     dispatch(actions.getTeamsByLeagueRequest());
-    get(`/api/teams/league/${leagueId}"`, dispatch)
+    get(`/api/teams/league/${leagueId}`, dispatch)
       .then((teams: Team[]) => {
         dispatch(actions.getTeamsByLeagueSuccess(teams));
       })
