@@ -42,7 +42,7 @@ export default function AdminSets(props: any) {
   return (
     <AdminPageContainer>
       {createSet && <CreateSetModal handleCancel={toggleModal} />}
-      <EditFormHeader text="Manage Set Library" />
+      <EditFormHeader text="Manage Sets" />
       <DataTableWrapper>
         <DataTable
           title={`Card Sets`}

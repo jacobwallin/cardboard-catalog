@@ -73,13 +73,13 @@ export default function AdminPlayer() {
       {playerToEdit && (
         <PlayerModal dismiss={closePlayerModal} editPlayer={playerToEdit} />
       )}
-      <EditFormHeader text="Manage Player Library" />
+      <EditFormHeader text="Manage Players" />
       <DataTableWrapper>
         <Styled.AddButtonWrapper>
           <StyledButton
             color="GREEN"
             width="125px"
-            height="30px"
+            height="27px"
             onClick={openPlayerModal}
           >
             Add Player
