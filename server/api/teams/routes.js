@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { isAdmin } = require("../../middleware");
 
 const { Team, League } = require("../../db/models");
 
@@ -24,7 +25,7 @@ router.get("/league/:leagueId", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", isAdmin, async (req, res, next) => {
   const { name, leagueId } = req.body;
   try {
     const newTeam = await Team.create({ name, leagueId });
@@ -34,7 +35,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.put("/:teamId", async (req, res, next) => {
+router.put("/:teamId", isAdmin, async (req, res, next) => {
   const { name } = req.body;
   try {
     const team = await Team.findByPk(req.params.teamId);

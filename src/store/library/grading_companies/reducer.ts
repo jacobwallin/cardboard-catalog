@@ -1,16 +1,21 @@
-import {
-  GradingCompanyActionTypes,
-  GET_ALL_GRADING_COMPANIES_SUCCESS,
-  GradingCompany,
-} from "./types";
+import * as types from "./types";
 
 const gradingCompaniesReducer = (
-  state: GradingCompany[] = [],
-  action: GradingCompanyActionTypes
+  state: types.GradingCompany[] = [],
+  action: types.GradingCompanyActionTypes
 ) => {
   switch (action.type) {
-    case GET_ALL_GRADING_COMPANIES_SUCCESS:
+    case types.GET_ALL_GRADING_COMPANIES_SUCCESS:
       return action.gradingCompanies;
+    case types.CREATE_GRADING_COMPANY_SUCCESS:
+      return [...state, action.company];
+    case types.UPDATE_GRADING_COMPANY_SUCCESS:
+      return state.map((c) => {
+        if (c.id === action.company.id) {
+          return action.company;
+        }
+        return c;
+      });
     default:
       return state;
   }
