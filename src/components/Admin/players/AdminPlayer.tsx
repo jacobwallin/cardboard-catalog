@@ -73,7 +73,7 @@ export default function AdminPlayer() {
       {playerToEdit && (
         <PlayerModal dismiss={closePlayerModal} editPlayer={playerToEdit} />
       )}
-      <EditFormHeader text="Manage Player Library" />
+      <EditFormHeader text="Manage Players" />
       <DataTableWrapper>
         <Styled.AddButtonWrapper>
           <StyledButton
