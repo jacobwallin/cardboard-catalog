@@ -1,9 +1,8 @@
 import styled from "styled-components";
 
 export const PageTitle = styled.div`
-  font-size: 1.6rem;
-  margin: 10px 0 40px 0;
-  font-weight: 500;
+  font-size: 1.7rem;
+  margin: 40px 0 0px 0;
   align-self: center;
 `;
 

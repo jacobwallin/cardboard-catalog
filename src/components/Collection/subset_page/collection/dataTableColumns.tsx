@@ -103,14 +103,6 @@ export const deleteColumns = (hideParallel: boolean) => {
       minWidth: "auto",
     },
     {
-      name: "Qty",
-      cell: (row: DeleteTableDataPoint) => 1,
-      sortable: true,
-      style: modifiedStyles,
-      grow: 1,
-      minWidth: "auto",
-    },
-    {
       name: "Name",
       selector: (row: DeleteTableDataPoint) => row.card.cardData.name,
       cell: (row: DeleteTableDataPoint) => (
