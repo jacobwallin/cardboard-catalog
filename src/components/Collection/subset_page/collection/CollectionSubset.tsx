@@ -286,6 +286,7 @@ export default function CollectionSubset(props: Props) {
             selectableRows
             onSelectedRowsChange={addSelectedCardsChange}
             clearSelectedRows={clearSelected}
+            selectableRowsHighlight
             noDataComponent={
               <NoDataMessage>
                 There are no cards from this set in your collection.

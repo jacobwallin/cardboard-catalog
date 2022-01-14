@@ -197,6 +197,7 @@ export default function BrowseSubset(props: Props) {
             selectableRows={checklistToggleSelect}
             onSelectedRowsChange={addSelectedCardsChange}
             clearSelectedRows={clearSelected}
+            selectableRowsHighlight
             customStyles={customStyles}
             noDataComponent={
               <NoDataMessage>No cards belong to this set.</NoDataMessage>
