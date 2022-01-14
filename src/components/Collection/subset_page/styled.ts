@@ -16,6 +16,7 @@ export const ShowAllCards = styled.div`
 `;
 
 export const SelectParallel = styled.div`
+  margin-left: 10px;
   display: flex;
   flex-direction: column;
   align-items: right;
