@@ -23,7 +23,7 @@ export default function BrowseSubset(props: Props) {
   );
 
   // toggles showing checkboxes to select cards to add to collection
-  const [checklistToggleSelect, setChecklistToggleSelect] = useState(true);
+  const [checklistToggleSelect, setChecklistToggleSelect] = useState(false);
   // toggles add card form modal when user wants to add cards to collection
   const [showAddCardForm, setShowAddCardForm] = useState(false);
   const [clearSelected, setClearSelected] = useState(true);
