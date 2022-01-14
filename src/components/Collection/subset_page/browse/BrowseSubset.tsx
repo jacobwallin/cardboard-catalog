@@ -18,6 +18,7 @@ import {
   ContentTitle,
   ContentData,
 } from "../../shared";
+import { createDebuggerStatement } from "typescript";
 interface Props {
   tableData: any[];
 }
@@ -103,6 +104,10 @@ export default function BrowseSubset(props: Props) {
     setSelectedCardsQty(totalCards);
   }
 
+  function rowSelectCritera(row: TableDataPoint) {
+    return selectedCards.findIndex((card) => card.card.id === row.id) !== -1;
+  }
+
   function showForm() {
     const formData: CardFormData[] = selectedCards.reduce(
       (data: CardFormData[], card) => {
@@ -155,7 +160,6 @@ export default function BrowseSubset(props: Props) {
   }
 
   function hideForm() {
-    setSelectedCards([]);
     setShowAddCardForm(!showAddCardForm);
   }
 
@@ -262,6 +266,7 @@ export default function BrowseSubset(props: Props) {
             paginationPerPage={20}
             selectableRows={checklistToggleSelect}
             onSelectedRowsChange={addSelectedCardsChange}
+            selectableRowSelected={rowSelectCritera}
             clearSelectedRows={clearSelected}
             selectableRowsHighlight
             customStyles={customStyles}
