@@ -79,10 +79,9 @@ export default function BrowseSubset(props: Props) {
   }
 
   function addSelectedCardsChange(stuff: Stuff) {
-    // set selected rows
-
     let totalCards = 0;
 
+    // set currectly selected cards and qty
     setSelectedCards(
       stuff.selectedRows.map((row) => {
         const currentlySelected = selectedCards.find(
@@ -100,45 +99,64 @@ export default function BrowseSubset(props: Props) {
       })
     );
 
+    // set total qty of selected cards
     setSelectedCardsQty(totalCards);
+  }
 
-    // const formData: CardFormData[] = stuff.selectedRows.map((row) => {
-    //   return {
-    //     cardId: row.id,
-    //     serialNumber: "",
-    //     grade: "",
-    //     gradingCompanyId: -1,
-    //     serialNumberError: false,
-    //     gradeError: false,
-    //     gradingCompanyError: false,
-    //     serialized: row.series.serialized,
-    //     shortPrint: row.series.shortPrint,
-    //     auto: row.series.auto,
-    //     relic: row.series.relic,
-    //     manufacturedRelic: row.series.manufacturedRelic,
-    //     refractor: row.series.refractor,
-    //     qtyInCollection: userCardsInSubset.filter(
-    //       (userCard) => userCard.cardId === row.id
-    //     ).length,
-    //     card: {
-    //       id: row.id,
-    //       seriesId: row.seriesId,
-    //       cardDataId: row.cardDataId,
-    //       card_datum: row.cardData,
-    //       serializedTo: null,
-    //       value: null,
-    //       createdBy: 0,
-    //       updatedBy: 0,
-    //       createdByUser: {
-    //         username: "",
-    //       },
-    //       updatedByUser: {
-    //         username: "",
-    //       },
-    //     },
-    //   };
-    // });
-    // setAddCardFormData(formData);
+  function showForm() {
+    const formData: CardFormData[] = selectedCards.reduce(
+      (data: CardFormData[], card) => {
+        const row = card.card;
+        for (let i = 0; i < card.qty; i++) {
+          data.push({
+            cardId: row.id,
+            serialNumber: "",
+            grade: "",
+            gradingCompanyId: -1,
+            serialNumberError: false,
+            gradeError: false,
+            gradingCompanyError: false,
+            serialized: row.series.serialized,
+            shortPrint: row.series.shortPrint,
+            auto: row.series.auto,
+            relic: row.series.relic,
+            manufacturedRelic: row.series.manufacturedRelic,
+            refractor: row.series.refractor,
+            qtyInCollection: userCardsInSubset.filter(
+              (userCard) => userCard.cardId === row.id
+            ).length,
+            card: {
+              id: row.id,
+              seriesId: row.seriesId,
+              cardDataId: row.cardDataId,
+              card_datum: row.cardData,
+              serializedTo: null,
+              value: null,
+              createdBy: 0,
+              updatedBy: 0,
+              createdByUser: {
+                username: "",
+              },
+              updatedByUser: {
+                username: "",
+              },
+            },
+          });
+        }
+
+        return data;
+      },
+      []
+    );
+
+    setAddCardFormData(formData);
+
+    setShowAddCardForm(true);
+  }
+
+  function hideForm() {
+    setSelectedCards([]);
+    setShowAddCardForm(!showAddCardForm);
   }
 
   return (
@@ -151,7 +169,7 @@ export default function BrowseSubset(props: Props) {
               height="30px"
               width="175px"
               fontSize="13px"
-              onClick={(e) => setShowAddCardForm(!showAddCardForm)}
+              onClick={hideForm}
             >
               Return to Checklist
             </StyledButton>
@@ -198,7 +216,7 @@ export default function BrowseSubset(props: Props) {
                 height="25px"
                 width="100px"
                 fontSize="13px"
-                // onClick={(e) => setShowAddCardForm(!showAddCardForm)}
+                onClick={showForm}
               >
                 Add
               </StyledButton>
