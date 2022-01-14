@@ -10,11 +10,11 @@ import AddCardsForm, {
   CardFormData,
 } from "../../../add_cards_form/AddCardsForm";
 import * as Styled from "../styled";
-import sortSeries from "../sortSeries";
 import { NoDataMessage } from "../../../shared/NoDataMessage";
 import { TotalCards } from "../../shared";
+import { SeriesTableData } from "../createTableData";
 interface Props {
-  tableData: any[];
+  tableData: SeriesTableData;
 }
 export default function BrowseSubset(props: Props) {
   const subset = useSelector((state: RootState) => state.library.subsets);
@@ -22,9 +22,6 @@ export default function BrowseSubset(props: Props) {
     (state: RootState) => state.collection.browse.cardsInSingleSubset.cards
   );
 
-  const [selectedSeriesId, setSelectedSeriesId] = useState(
-    subset.baseSeriesId || 1
-  );
   // toggles showing checkboxes to select cards to add to collection
   const [checklistToggleSelect, setChecklistToggleSelect] = useState(true);
   // toggles add card form modal when user wants to add cards to collection
@@ -35,10 +32,6 @@ export default function BrowseSubset(props: Props) {
   >([]);
   const [selectedCardsQty, setSelectedCardsQty] = useState(0);
   const [addCardFormData, setAddCardFormData] = useState<CardFormData[]>([]);
-
-  function handleSeriesChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    setSelectedSeriesId(+event.target.value);
-  }
 
   useEffect(() => {
     if (!showAddCardForm) {
@@ -179,29 +172,6 @@ export default function BrowseSubset(props: Props) {
         <>
           <Styled.PageTitle>Set Checklist</Styled.PageTitle>
 
-          {subset.series.length > 1 && (
-            <Styled.SelectParallel>
-              <Styled.SelectLabel>Select Parallel Set</Styled.SelectLabel>
-              <Styled.SeriesSelect
-                value={selectedSeriesId}
-                onChange={handleSeriesChange}
-                disabled={checklistToggleSelect}
-              >
-                {subset.series
-                  .sort((a, b) => {
-                    return sortSeries(a, b, subset.baseSeriesId || 0);
-                  })
-                  .map((series) => {
-                    return (
-                      <option key={series.id} value={series.id}>
-                        {series.name}
-                        {series.serialized && ` /${series.serialized}`}
-                      </option>
-                    );
-                  })}
-              </Styled.SeriesSelect>
-            </Styled.SelectParallel>
-          )}
           {selectedCards.length > 0 && (
             <Styled.AddCardsContainer>
               <Styled.AddCardsTotal>
@@ -222,13 +192,7 @@ export default function BrowseSubset(props: Props) {
           )}
           <Styled.TableHeader>
             <Styled.TableHeaderRow>
-              <TotalCards
-                totalCards={
-                  props.tableData.find(
-                    (series) => series.seriesId === selectedSeriesId
-                  ).cards.length
-                }
-              />
+              <TotalCards totalCards={props.tableData.cards.length} />
               <StyledButton
                 color={checklistToggleSelect ? "YELLOW" : "GRAY"}
                 height="25px"
@@ -244,16 +208,12 @@ export default function BrowseSubset(props: Props) {
             noHeader
             dense
             columns={columns(
-              selectedSeriesId === subset.baseSeriesId,
+              props.tableData.seriesId === subset.baseSeriesId,
               !checklistToggleSelect,
               selectedCards,
               changeSelectedCardQty
             )}
-            data={
-              props.tableData.find(
-                (series) => series.seriesId === selectedSeriesId
-              ).cards
-            }
+            data={props.tableData.cards}
             highlightOnHover
             pagination
             paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}

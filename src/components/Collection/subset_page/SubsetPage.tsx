@@ -12,6 +12,8 @@ import SubsetHeader from "../header/SubsetHeader";
 import BrowseSubset from "./browse/BrowseSubset";
 import CollectionSubset from "./collection/CollectionSubset";
 import { LoadingDots } from "../../shared/Loading";
+import * as Styled from "./styled";
+import sortSeries from "./sortSeries";
 
 import { createLoadingSelector } from "../../../store/loading/reducer";
 const loadingSelector = createLoadingSelector([
@@ -36,6 +38,10 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
     props.location.search.slice(props.location.search.length - 4) === "coll"
   );
 
+  const [selectedSeriesId, setSelectedSeriesId] = useState(
+    subset.baseSeriesId || 1
+  );
+
   useEffect(() => {
     // get the complete subset data from the library api and all the user's cards that belong to the subset from the collection api
     dispatch(fetchSubset(+props.match.params.subsetId));
@@ -48,6 +54,10 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
 
   function showCollectionClicked() {
     setShowCollection(true);
+  }
+
+  function handleSeriesChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    setSelectedSeriesId(+event.target.value);
   }
 
   // DataTable wants a string[] ???
@@ -72,10 +82,41 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
           handleCollectionClick={showCollectionClicked}
           collectionSelected={showCollection}
         />
+        {subset.series.length > 1 && (
+          <Styled.SelectParallel>
+            <Styled.SelectLabel>Select Parallel Set</Styled.SelectLabel>
+            <Styled.SeriesSelect
+              value={selectedSeriesId}
+              onChange={handleSeriesChange}
+              // disabled={checklistToggleSelect}
+            >
+              {subset.series
+                .sort((a, b) => {
+                  return sortSeries(a, b, subset.baseSeriesId || 0);
+                })
+                .map((series) => {
+                  return (
+                    <option key={series.id} value={series.id}>
+                      {series.name}
+                      {series.serialized && ` /${series.serialized}`}
+                    </option>
+                  );
+                })}
+            </Styled.SeriesSelect>
+          </Styled.SelectParallel>
+        )}
         {!showCollection ? (
-          <BrowseSubset tableData={tableData} />
+          <BrowseSubset
+            tableData={tableData.find(
+              (series: any) => series.seriesId === selectedSeriesId
+            )}
+          />
         ) : (
-          <CollectionSubset tableData={tableData} />
+          <CollectionSubset
+            tableData={tableData.find(
+              (series: any) => series.seriesId === selectedSeriesId
+            )}
+          />
         )}
       </CollectionContainer>
     </CollectionWrapper>
