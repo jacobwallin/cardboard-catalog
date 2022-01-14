@@ -23,7 +23,7 @@ import { createStatusSelector } from "../../../../store/loading/reducer";
 const deleteStatusSelector = createStatusSelector("DELETE_CARDS");
 
 interface Props {
-  tableData: any[];
+  tableData: SeriesTableData;
 }
 export default function CollectionSubset(props: Props) {
   const dispatch = useDispatch();
@@ -44,11 +44,6 @@ export default function CollectionSubset(props: Props) {
   const [selectedCardIds, setSelectedCardIds] = useState<number[]>([]);
   const [numCardsDeleted, setNumCardsDeleted] = useState(0);
 
-  // holds data for selected series
-  const [cardsBySeries, setCardsBySeries] = useState<SeriesTableData>(
-    props.tableData.find((series) => series.seriesId === selectedSeriesId)
-  );
-
   function handleSeriesChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setSelectedSeriesId(+event.target.value);
   }
@@ -59,12 +54,6 @@ export default function CollectionSubset(props: Props) {
       setClearSelected(true);
     }
   }, [deleteRequestStatus]);
-
-  useEffect(() => {
-    setCardsBySeries(
-      props.tableData.find((series) => series.seriesId === selectedSeriesId)
-    );
-  }, [selectedSeriesId, props.tableData]);
 
   interface Stuff {
     allSelected: boolean;
@@ -124,7 +113,7 @@ export default function CollectionSubset(props: Props) {
                 columns={deleteColumns(
                   selectedSeriesId === subset.baseSeriesId
                 )}
-                data={cardsBySeries.userCards.filter((userCard) =>
+                data={props.tableData.userCards.filter((userCard) =>
                   selectedCardIds.some((id) => id === userCard.id)
                 )}
                 highlightOnHover
@@ -158,127 +147,92 @@ export default function CollectionSubset(props: Props) {
         </Background>
       )}
 
-      {props.tableData.length > 0 && (
-        <>
-          {subset.series.length > 1 && (
-            <SharedStyled.SelectParallel>
-              <SharedStyled.SelectLabel>
-                Select Parallel Set
-              </SharedStyled.SelectLabel>
-              <SharedStyled.SeriesSelect
-                value={selectedSeriesId}
-                onChange={handleSeriesChange}
-              >
-                {subset.series
-                  .sort((a, b) => {
-                    return sortSeries(a, b, subset.baseSeriesId || 0);
-                  })
-                  .map((series) => {
-                    return (
-                      <option key={series.id} value={series.id}>
-                        {series.name}
-                        {series.serialized && ` /${series.serialized}`}
-                        {props.tableData.find((s) => s.seriesId === series.id)!
-                          .totalCards > 0 &&
-                          ` (${
-                            props.tableData.find(
-                              (s) => s.seriesId === series.id
-                            )!.totalCards
-                          } Cards)`}
-                      </option>
-                    );
-                  })}
-              </SharedStyled.SeriesSelect>
-            </SharedStyled.SelectParallel>
-          )}
-
-          <Styled.Collection>
-            <Styled.CardsInCollection>
-              {cardsBySeries.distinctCards > 0 &&
-                cardsBySeries.distinctCards === cardsBySeries.cards.length && (
-                  <Styled.Svg>
-                    <img src={MedalIcon} alt="medal" />
-                  </Styled.Svg>
-                )}
-              <Styled.CardCount>{`${cardsBySeries.distinctCards} / ${cardsBySeries.cards.length} cards in set`}</Styled.CardCount>
-            </Styled.CardsInCollection>
-            <Styled.ProgressBar>
-              <Styled.Progress
-                percentage={
-                  cardsBySeries.cards.length === 0
-                    ? 0
-                    : (cardsBySeries.distinctCards /
-                        cardsBySeries.cards.length) *
-                      100
-                }
-              >
-                {`${Number(
-                  (cardsBySeries.cards.length === 0
-                    ? 0
-                    : (cardsBySeries.distinctCards /
-                        cardsBySeries.cards.length) *
-                      100
-                  ).toFixed(1)
-                )}%`}
-              </Styled.Progress>
-            </Styled.ProgressBar>
-          </Styled.Collection>
-          {cardsBySeries.distinctCards < cardsBySeries.cards.length && (
-            <SharedStyled.ShowAllCards>
-              <SharedStyled.SelectLabel>
-                Show Missing Cards:
-              </SharedStyled.SelectLabel>
-              <input
-                type="checkbox"
-                onChange={handleShowAllChange}
-                checked={showAllCards}
-                disabled={deleteCardsToggle}
-              />
-            </SharedStyled.ShowAllCards>
-          )}
-          <SharedStyled.TableHeader>
-            {selectedCardIds.length > 0 && (
-              <SharedStyled.AddCardsContainer>
-                <SharedStyled.AddCardsTotal>
-                  {`${selectedCardIds.length} ${
-                    selectedCardIds.length > 1 ? "Cards" : "Card"
-                  } Selected`}
-                </SharedStyled.AddCardsTotal>
-                <StyledButton
-                  color="RED"
-                  height="25px"
-                  width="100px"
-                  fontSize="13px"
-                  onClick={toggleConfirmDeleteModal}
-                >
-                  Delete
-                </StyledButton>
-              </SharedStyled.AddCardsContainer>
+      <Styled.Collection>
+        <Styled.CardsInCollection>
+          {props.tableData.distinctCards > 0 &&
+            props.tableData.distinctCards === props.tableData.cards.length && (
+              <Styled.Svg>
+                <img src={MedalIcon} alt="medal" />
+              </Styled.Svg>
             )}
-            <SharedStyled.TableHeaderRow>
-              <TotalCards totalCards={cardsBySeries.totalCards} />
-              {cardsBySeries.totalCards > 0 && (
-                <StyledButton
-                  color={deleteCardsToggle ? "YELLOW" : "GRAY"}
-                  height="25px"
-                  width="100px"
-                  fontSize="13px"
-                  onClick={toggleDeleteChecklist}
-                >
-                  {deleteCardsToggle ? "Cancel" : "Delete"}
-                </StyledButton>
-              )}
-            </SharedStyled.TableHeaderRow>
-          </SharedStyled.TableHeader>
-        </>
+          <Styled.CardCount>{`${props.tableData.distinctCards} / ${props.tableData.cards.length} cards in set`}</Styled.CardCount>
+        </Styled.CardsInCollection>
+        <Styled.ProgressBar>
+          <Styled.Progress
+            percentage={
+              props.tableData.cards.length === 0
+                ? 0
+                : (props.tableData.distinctCards /
+                    props.tableData.cards.length) *
+                  100
+            }
+          >
+            {`${Number(
+              (props.tableData.cards.length === 0
+                ? 0
+                : (props.tableData.distinctCards /
+                    props.tableData.cards.length) *
+                  100
+              ).toFixed(1)
+            )}%`}
+          </Styled.Progress>
+        </Styled.ProgressBar>
+      </Styled.Collection>
+      {props.tableData.distinctCards < props.tableData.cards.length && (
+        <SharedStyled.ShowAllCards>
+          <SharedStyled.SelectLabel>
+            Show Missing Cards:
+          </SharedStyled.SelectLabel>
+          <input
+            type="checkbox"
+            onChange={handleShowAllChange}
+            checked={showAllCards}
+            disabled={deleteCardsToggle}
+          />
+        </SharedStyled.ShowAllCards>
       )}
+      <SharedStyled.TableHeader>
+        {selectedCardIds.length > 0 && (
+          <SharedStyled.AddCardsContainer>
+            <SharedStyled.AddCardsTotal>
+              {`${selectedCardIds.length} ${
+                selectedCardIds.length > 1 ? "Cards" : "Card"
+              } Selected`}
+            </SharedStyled.AddCardsTotal>
+            <StyledButton
+              color="RED"
+              height="25px"
+              width="100px"
+              fontSize="13px"
+              onClick={toggleConfirmDeleteModal}
+            >
+              Delete
+            </StyledButton>
+          </SharedStyled.AddCardsContainer>
+        )}
+        <SharedStyled.TableHeaderRow>
+          <TotalCards totalCards={props.tableData.totalCards} />
+          {props.tableData.totalCards > 0 && (
+            <StyledButton
+              color={deleteCardsToggle ? "YELLOW" : "GRAY"}
+              height="25px"
+              width="100px"
+              fontSize="13px"
+              onClick={toggleDeleteChecklist}
+            >
+              {deleteCardsToggle ? "Cancel" : "Delete"}
+            </StyledButton>
+          )}
+        </SharedStyled.TableHeaderRow>
+      </SharedStyled.TableHeader>
+
       <DataTableContainer>
         {deleteCardsToggle && (
           <DataTable
             noHeader
             dense
             columns={deleteColumns(selectedSeriesId === subset.baseSeriesId)}
-            data={cardsBySeries.userCards}
+            data={props.tableData.userCards}
             highlightOnHover
             pagination
             paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
@@ -299,7 +253,7 @@ export default function CollectionSubset(props: Props) {
             noHeader
             dense
             columns={columns(selectedSeriesId === subset.baseSeriesId)}
-            data={cardsBySeries.cards.filter((card) => {
+            data={props.tableData.cards.filter((card) => {
               return showAllCards || card.quantity > 0;
             })}
             highlightOnHover
