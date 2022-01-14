@@ -38,6 +38,7 @@ export default function BrowseSubset(props: Props) {
   const [selectedCards, setSelectedCards] = useState<
     { card: TableDataPoint; qty: number }[]
   >([]);
+  const [selectedCardsQty, setSelectedCardsQty] = useState(0);
   const [addCardFormData, setAddCardFormData] = useState<CardFormData[]>([]);
 
   function handleSeriesChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -65,6 +66,8 @@ export default function BrowseSubset(props: Props) {
     setSelectedCards(
       selectedCards.map((card) => {
         if (card.card.id === +e.target.name) {
+          // adjust total qty of cards to be added
+          setSelectedCardsQty(selectedCardsQty - card.qty + +e.target.value);
           return {
             card: card.card,
             qty: +e.target.value,
@@ -76,21 +79,28 @@ export default function BrowseSubset(props: Props) {
   }
 
   function addSelectedCardsChange(stuff: Stuff) {
-    console.log("ASDFASDF", stuff);
-
     // set selected rows
+
+    let totalCards = 0;
+
     setSelectedCards(
       stuff.selectedRows.map((row) => {
         const currentlySelected = selectedCards.find(
           (card) => card.card.id === row.id
         );
-        if (currentlySelected) return currentlySelected;
+        if (currentlySelected) {
+          totalCards += currentlySelected.qty;
+          return currentlySelected;
+        }
+        totalCards += 1;
         return {
           card: row,
           qty: 1,
         };
       })
     );
+
+    setSelectedCardsQty(totalCards);
 
     // const formData: CardFormData[] = stuff.selectedRows.map((row) => {
     //   return {
@@ -176,11 +186,11 @@ export default function BrowseSubset(props: Props) {
               </Styled.SeriesSelect>
             </Styled.SelectParallel>
           )}
-          {addCardFormData.length > 0 && (
+          {selectedCards.length > 0 && (
             <Styled.AddCardsContainer>
               <Styled.AddCardsTotal>
-                {`${addCardFormData.length} ${
-                  addCardFormData.length > 1 ? "Cards" : "Card"
+                {`${selectedCardsQty} ${
+                  selectedCardsQty > 1 ? "Cards" : "Card"
                 } Ready to Add`}
               </Styled.AddCardsTotal>
               <StyledButton
@@ -188,7 +198,7 @@ export default function BrowseSubset(props: Props) {
                 height="25px"
                 width="100px"
                 fontSize="13px"
-                onClick={(e) => setShowAddCardForm(!showAddCardForm)}
+                // onClick={(e) => setShowAddCardForm(!showAddCardForm)}
               >
                 Add
               </StyledButton>
