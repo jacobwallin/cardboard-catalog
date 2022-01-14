@@ -85,15 +85,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
       <CollectionContainer>
         <SubsetHeader
           title={subset.set.name}
-          subTitle={
-            subset.baseSeriesId === selectedSeriesId
-              ? `${subset.name}`
-              : `${subset.name} ${
-                  subset.series.find(
-                    (series) => series.id === selectedSeriesId
-                  )!.name
-                }`
-          }
+          subTitle={subset.name}
           handleBrowseClick={showChecklistClicked}
           handleCollectionClick={showCollectionClicked}
           collectionSelected={showCollection}
