@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const PageTitle = styled.div`
   font-size: 1.7rem;
-  margin: 40px 0 0px 0;
+  margin: 40px 0 40px 0;
   align-self: center;
 `;
 
@@ -39,11 +39,10 @@ export const SelectLabel = styled.div`
 
 export const AddCardsContainer = styled.div`
   width: 100%;
-  margin-top: 15px;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   display: flex;
   flex-direction: row;
-  justify-content: right;
+  justify-content: left;
   align-items: center;
   gap: 20px;
 `;
@@ -99,7 +98,6 @@ export const TableHeader = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 50px;
 `;
 
 export const TableHeaderRow = styled.div`

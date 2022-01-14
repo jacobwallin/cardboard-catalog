@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Collection = styled.div`
   align-self: flex-start;
-  margin-top: 35px;
+  margin-bottom: 35px;
   display: flex;
   flex-direction: column;
   width: 225px;
