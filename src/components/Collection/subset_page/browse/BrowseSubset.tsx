@@ -18,7 +18,6 @@ import {
   ContentTitle,
   ContentData,
 } from "../../shared";
-
 interface Props {
   tableData: any[];
 }
@@ -32,10 +31,13 @@ export default function BrowseSubset(props: Props) {
     subset.baseSeriesId || 1
   );
   // toggles showing checkboxes to select cards to add to collection
-  const [checklistToggleSelect, setChecklistToggleSelect] = useState(false);
+  const [checklistToggleSelect, setChecklistToggleSelect] = useState(true);
   // toggles add card form modal when user wants to add cards to collection
   const [showAddCardForm, setShowAddCardForm] = useState(false);
   const [clearSelected, setClearSelected] = useState(true);
+  const [selectedCards, setSelectedCards] = useState<
+    { card: TableDataPoint; qty: number }[]
+  >([]);
   const [addCardFormData, setAddCardFormData] = useState<CardFormData[]>([]);
 
   function handleSeriesChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -58,44 +60,75 @@ export default function BrowseSubset(props: Props) {
     selectedCount: number;
     selectedRows: Array<TableDataPoint>;
   }
+
+  function changeSelectedCardQty(e: React.ChangeEvent<HTMLSelectElement>) {
+    setSelectedCards(
+      selectedCards.map((card) => {
+        if (card.card.id === +e.target.name) {
+          return {
+            card: card.card,
+            qty: +e.target.value,
+          };
+        }
+        return card;
+      })
+    );
+  }
+
   function addSelectedCardsChange(stuff: Stuff) {
-    const formData: CardFormData[] = stuff.selectedRows.map((row) => {
-      return {
-        cardId: row.id,
-        serialNumber: "",
-        grade: "",
-        gradingCompanyId: -1,
-        serialNumberError: false,
-        gradeError: false,
-        gradingCompanyError: false,
-        serialized: row.series.serialized,
-        shortPrint: row.series.shortPrint,
-        auto: row.series.auto,
-        relic: row.series.relic,
-        manufacturedRelic: row.series.manufacturedRelic,
-        refractor: row.series.refractor,
-        qtyInCollection: userCardsInSubset.filter(
-          (userCard) => userCard.cardId === row.id
-        ).length,
-        card: {
-          id: row.id,
-          seriesId: row.seriesId,
-          cardDataId: row.cardDataId,
-          card_datum: row.cardData,
-          serializedTo: null,
-          value: null,
-          createdBy: 0,
-          updatedBy: 0,
-          createdByUser: {
-            username: "",
-          },
-          updatedByUser: {
-            username: "",
-          },
-        },
-      };
-    });
-    setAddCardFormData(formData);
+    console.log("ASDFASDF", stuff);
+
+    // set selected rows
+    setSelectedCards(
+      stuff.selectedRows.map((row) => {
+        const currentlySelected = selectedCards.find(
+          (card) => card.card.id === row.id
+        );
+        if (currentlySelected) return currentlySelected;
+        return {
+          card: row,
+          qty: 1,
+        };
+      })
+    );
+
+    // const formData: CardFormData[] = stuff.selectedRows.map((row) => {
+    //   return {
+    //     cardId: row.id,
+    //     serialNumber: "",
+    //     grade: "",
+    //     gradingCompanyId: -1,
+    //     serialNumberError: false,
+    //     gradeError: false,
+    //     gradingCompanyError: false,
+    //     serialized: row.series.serialized,
+    //     shortPrint: row.series.shortPrint,
+    //     auto: row.series.auto,
+    //     relic: row.series.relic,
+    //     manufacturedRelic: row.series.manufacturedRelic,
+    //     refractor: row.series.refractor,
+    //     qtyInCollection: userCardsInSubset.filter(
+    //       (userCard) => userCard.cardId === row.id
+    //     ).length,
+    //     card: {
+    //       id: row.id,
+    //       seriesId: row.seriesId,
+    //       cardDataId: row.cardDataId,
+    //       card_datum: row.cardData,
+    //       serializedTo: null,
+    //       value: null,
+    //       createdBy: 0,
+    //       updatedBy: 0,
+    //       createdByUser: {
+    //         username: "",
+    //       },
+    //       updatedByUser: {
+    //         username: "",
+    //       },
+    //     },
+    //   };
+    // });
+    // setAddCardFormData(formData);
   }
 
   return (
@@ -184,7 +217,12 @@ export default function BrowseSubset(props: Props) {
           <DataTable
             noHeader
             dense
-            columns={columns(selectedSeriesId === subset.baseSeriesId)}
+            columns={columns(
+              selectedSeriesId === subset.baseSeriesId,
+              !checklistToggleSelect,
+              selectedCards,
+              changeSelectedCardQty
+            )}
             data={
               props.tableData.find(
                 (series) => series.seriesId === selectedSeriesId
