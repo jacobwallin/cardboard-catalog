@@ -42,6 +42,8 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
     subset.baseSeriesId || 1
   );
 
+  const [disableSeriesSelect, setDisableSeriesSelect] = useState(false);
+
   useEffect(() => {
     // get the complete subset data from the library api and all the user's cards that belong to the subset from the collection api
     dispatch(fetchSubset(+props.match.params.subsetId));
@@ -50,10 +52,16 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
 
   function showChecklistClicked() {
     setShowCollection(false);
+    setDisableSeriesSelect(false);
   }
 
   function showCollectionClicked() {
     setShowCollection(true);
+    setDisableSeriesSelect(false);
+  }
+
+  function toggleDisableSeriesSelect() {
+    setDisableSeriesSelect(!disableSeriesSelect);
   }
 
   function handleSeriesChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -88,7 +96,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
             <Styled.SeriesSelect
               value={selectedSeriesId}
               onChange={handleSeriesChange}
-              // disabled={checklistToggleSelect}
+              disabled={disableSeriesSelect}
             >
               {subset.series
                 .sort((a, b) => {
@@ -110,6 +118,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
             tableData={tableData.find(
               (series: any) => series.seriesId === selectedSeriesId
             )}
+            toggleDisableSeriesSelect={toggleDisableSeriesSelect}
           />
         ) : (
           <CollectionSubset

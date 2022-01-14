@@ -15,6 +15,7 @@ import { TotalCards } from "../../shared";
 import { SeriesTableData } from "../createTableData";
 interface Props {
   tableData: SeriesTableData;
+  toggleDisableSeriesSelect(): void;
 }
 export default function BrowseSubset(props: Props) {
   const subset = useSelector((state: RootState) => state.library.subsets);
@@ -144,10 +145,13 @@ export default function BrowseSubset(props: Props) {
     setAddCardFormData(formData);
 
     setShowAddCardForm(true);
+
+    props.toggleDisableSeriesSelect();
   }
 
   function hideForm() {
     setShowAddCardForm(!showAddCardForm);
+    props.toggleDisableSeriesSelect();
   }
 
   return (
