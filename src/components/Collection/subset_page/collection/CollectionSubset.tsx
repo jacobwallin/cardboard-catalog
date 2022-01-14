@@ -252,7 +252,7 @@ export default function CollectionSubset(props: Props) {
           <DataTable
             noHeader
             dense
-            columns={columns(selectedSeriesId === subset.baseSeriesId)}
+            columns={columns()}
             data={props.tableData.cards.filter((card) => {
               return showAllCards || card.quantity > 0;
             })}

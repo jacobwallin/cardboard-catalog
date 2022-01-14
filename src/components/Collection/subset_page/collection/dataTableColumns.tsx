@@ -7,7 +7,7 @@ import sortCardNumbers from "../../../../utils/sortCardNumbers";
 
 let modifiedStyles = { ...tableStyles, fontSize: "12px" };
 
-export const columns = (hideParallel: boolean) => {
+export const columns = () => {
   return [
     {
       name: "#",
@@ -59,14 +59,6 @@ export const columns = (hideParallel: boolean) => {
       sortable: false,
       style: modifiedStyles,
       grow: 4,
-    },
-    {
-      name: "Parallel Set",
-      selector: (row: TableDataPoint) => row.series.name,
-      sortable: true,
-      style: modifiedStyles,
-      grow: 4,
-      omit: hideParallel,
     },
   ];
 };
