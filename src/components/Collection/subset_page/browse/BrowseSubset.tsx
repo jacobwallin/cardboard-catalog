@@ -12,13 +12,7 @@ import AddCardsForm, {
 import * as Styled from "../styled";
 import sortSeries from "../sortSeries";
 import { NoDataMessage } from "../../../shared/NoDataMessage";
-import {
-  TotalCards,
-  ContentContainer,
-  ContentTitle,
-  ContentData,
-} from "../../shared";
-import { createDebuggerStatement } from "typescript";
+import { TotalCards } from "../../shared";
 interface Props {
   tableData: any[];
 }
