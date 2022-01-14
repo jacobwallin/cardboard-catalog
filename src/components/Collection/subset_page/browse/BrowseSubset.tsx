@@ -34,6 +34,8 @@ export default function BrowseSubset(props: Props) {
   const [selectedCardsQty, setSelectedCardsQty] = useState(0);
   const [addCardFormData, setAddCardFormData] = useState<CardFormData[]>([]);
 
+  console.log("TABLE DATA: ", props.tableData)
+
   useEffect(() => {
     if (!showAddCardForm) {
       setAddCardFormData([]);

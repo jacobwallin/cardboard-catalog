@@ -38,9 +38,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
     props.location.search.slice(props.location.search.length - 4) === "coll"
   );
 
-  const [selectedSeriesId, setSelectedSeriesId] = useState(
-    subset.baseSeriesId || 1
-  );
+  const [selectedSeriesId, setSelectedSeriesId] = useState(-1)
 
   const [disableSeriesSelect, setDisableSeriesSelect] = useState(false);
 
@@ -49,6 +47,10 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
     dispatch(fetchSubset(+props.match.params.subsetId));
     dispatch(fetchCardsInSingleSubset(+props.match.params.subsetId));
   }, []);
+
+  useEffect(() => {
+    setSelectedSeriesId(subset.baseSeriesId || -1)
+  }, [subset])
 
   function showChecklistClicked() {
     setShowCollection(false);
@@ -71,7 +73,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
   // DataTable wants a string[] ???
   const tableData: any = createTableData(subset, userCardsInSubset);
 
-  if (isLoading || +props.match.params.subsetId !== subset.id)
+  if (isLoading || +props.match.params.subsetId !== subset.id || selectedSeriesId === -1)
     return (
       <CollectionWrapper>
         <CollectionContainer>
