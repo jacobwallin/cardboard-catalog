@@ -208,7 +208,6 @@ export default function BrowseSubset(props: Props) {
             noHeader
             dense
             columns={columns(
-              props.tableData.seriesId === subset.baseSeriesId,
               !checklistToggleSelect,
               selectedCards,
               changeSelectedCardQty

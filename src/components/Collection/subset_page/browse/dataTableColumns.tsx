@@ -4,7 +4,6 @@ import CardNumber from "../CardNumber";
 import sortCardNumbers from "../../../../utils/sortCardNumbers";
 
 const columns = (
-  hideParallel: boolean,
   hideQty: boolean,
   selectedCards: { card: TableDataPoint; qty: number }[],
   handleQtyToAddChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
@@ -91,14 +90,6 @@ const columns = (
       sortable: true,
       // style: modifiedStyles,
       grow: 2,
-    },
-    {
-      name: "Parallel Set",
-      selector: (row: TableDataPoint) => row.series.name,
-      sortable: true,
-      // style: modifiedStyles,
-      grow: 2,
-      omit: hideParallel,
     },
   ];
 };
