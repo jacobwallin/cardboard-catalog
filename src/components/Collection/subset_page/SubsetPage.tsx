@@ -4,7 +4,6 @@ import { RouteComponentProps } from "react-router-dom";
 import { RootState } from "../../../store";
 import { fetchSubset } from "../../../store/library/subsets/thunks";
 import { fetchCardsInSingleSubset } from "../../../store/collection/browse/thunks";
-
 import CollectionWrapper from "../../shared/CollectionWrapper";
 import CollectionContainer from "../../shared/CollectionContainer";
 import { createTableData } from "./createTableData";
@@ -14,6 +13,7 @@ import CollectionSubset from "./collection/CollectionSubset";
 import { LoadingDots } from "../../shared/Loading";
 import * as Styled from "./styled";
 import sortSeries from "./sortSeries";
+import { SeriesTableData } from "./createTableData";
 
 import { createLoadingSelector } from "../../../store/loading/reducer";
 const loadingSelector = createLoadingSelector([
@@ -28,29 +28,73 @@ type Params = {
 const SubsetPage = (props: RouteComponentProps<Params>) => {
   const dispatch = useDispatch();
 
+  // subset and user's cards in subset data
+  const isLoading = useSelector((state: RootState) => loadingSelector(state));
   const subset = useSelector((state: RootState) => state.library.subsets);
   const userCardsInSubset = useSelector(
     (state: RootState) => state.collection.browse.cardsInSingleSubset
   );
-  const isLoading = useSelector((state: RootState) => loadingSelector(state));
 
+  // ui state, toggles between collection and checklist view
   const [showCollection, setShowCollection] = useState(
     props.location.search.slice(props.location.search.length - 4) === "coll"
   );
 
-  const [selectedSeriesId, setSelectedSeriesId] = useState(-1)
-
+  // disables series select when adding cards to collection
   const [disableSeriesSelect, setDisableSeriesSelect] = useState(false);
 
+  // currently selected series id and it's index in tableData
+  const [selectedSeriesId, setSelectedSeriesId] = useState(0);
+  const [selectedSeriesIdx, setSelectedSeriesIdx] = useState(-1);
+
+  // table data
+  const [tableData, setTableData] = useState<SeriesTableData[]>([]);
+
+  // initial data fetch
   useEffect(() => {
-    // get the complete subset data from the library api and all the user's cards that belong to the subset from the collection api
     dispatch(fetchSubset(+props.match.params.subsetId));
     dispatch(fetchCardsInSingleSubset(+props.match.params.subsetId));
   }, []);
 
+  // create table data once fetched
   useEffect(() => {
-    setSelectedSeriesId(subset.baseSeriesId || -1)
-  }, [subset])
+    if (
+      !isLoading &&
+      subset.id !== 0 &&
+      userCardsInSubset.subsetId !== 0 &&
+      selectedSeriesIdx === -1
+    ) {
+      const data = createTableData(subset, userCardsInSubset);
+      setTableData(data);
+
+      const selectedSeries = data.find(
+        (series) => series.seriesId === subset.baseSeriesId
+      );
+      if (selectedSeries) {
+        setSelectedSeriesIdx(selectedSeries.seriesId);
+        setSelectedSeriesId(selectedSeries.seriesId);
+      } else {
+        setSelectedSeriesIdx(data[0].seriesId);
+        setSelectedSeriesId(data[0].seriesId);
+      }
+    }
+  }, [isLoading, selectedSeriesIdx, subset, userCardsInSubset]);
+
+  // find new series index when selected series changes
+  useEffect(() => {
+    if (selectedSeriesId !== 0) {
+      const selectedSeries = tableData.find(
+        (series) => series.seriesId === selectedSeriesId
+      );
+      if (selectedSeries) {
+        setSelectedSeriesIdx(selectedSeries.seriesId);
+        setSelectedSeriesId(selectedSeries.seriesId);
+      } else {
+        setSelectedSeriesIdx(tableData[0].seriesId);
+        setSelectedSeriesId(tableData[0].seriesId);
+      }
+    }
+  }, [selectedSeriesId, tableData, subset]);
 
   function showChecklistClicked() {
     setShowCollection(false);
@@ -70,10 +114,8 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
     setSelectedSeriesId(+event.target.value);
   }
 
-  // DataTable wants a string[] ???
-  const tableData: any = createTableData(subset, userCardsInSubset);
-
-  if (isLoading || +props.match.params.subsetId !== subset.id || selectedSeriesId === -1)
+  // show loading indicator until tableData has been fetched and generated
+  if (tableData.length === 0 || selectedSeriesIdx === -1)
     return (
       <CollectionWrapper>
         <CollectionContainer>
@@ -117,17 +159,11 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
         )}
         {!showCollection ? (
           <BrowseSubset
-            tableData={tableData.find(
-              (series: any) => series.seriesId === selectedSeriesId
-            )}
+            tableData={tableData[selectedSeriesIdx]}
             toggleDisableSeriesSelect={toggleDisableSeriesSelect}
           />
         ) : (
-          <CollectionSubset
-            tableData={tableData.find(
-              (series: any) => series.seriesId === selectedSeriesId
-            )}
-          />
+          <CollectionSubset tableData={tableData[selectedSeriesIdx]} />
         )}
       </CollectionContainer>
     </CollectionWrapper>
