@@ -33,7 +33,6 @@ export interface DeleteTableDataPoint {
     series: Series;
   };
 }
-
 export interface SeriesTableData {
   seriesId: number;
   totalCards: number;
@@ -42,10 +41,14 @@ export interface SeriesTableData {
   userCards: DeleteTableDataPoint[];
 }
 
+export interface TableData {
+  [key: number]: SeriesTableData;
+}
+
 export function createTableData(
   librarySubsetData: SubsetState,
   userCardData: { cards: UserCard[]; subsetId: number }
-): SeriesTableData[] {
+): TableData {
   // create hash table with the id and quantity of each card user has in collection
   interface UserCardTotals {
     [details: number]: number;
@@ -70,8 +73,8 @@ export function createTableData(
       return { ...hashTable, [cardData.id]: cardData };
     }, {});
 
-  const newTableData: SeriesTableData[] = librarySubsetData.series.map(
-    (series) => {
+  const newTableData = librarySubsetData.series.reduce(
+    (tableData: TableData, series) => {
       const ser: SeriesTableData = {
         seriesId: series.id,
         totalCards: 0,
@@ -117,8 +120,10 @@ export function createTableData(
           return sortCardNumbers(cardA.cardData.number, cardB.cardData.number);
         });
 
-      return ser;
-    }
+      tableData[series.id] = ser;
+      return tableData;
+    },
+    {}
   );
 
   return newTableData;

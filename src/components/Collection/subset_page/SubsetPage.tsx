@@ -13,7 +13,7 @@ import CollectionSubset from "./collection/CollectionSubset";
 import { LoadingDots } from "../../shared/Loading";
 import * as Styled from "./styled";
 import sortSeries from "./sortSeries";
-import { SeriesTableData } from "./createTableData";
+import { TableData } from "./createTableData";
 
 import { createLoadingSelector } from "../../../store/loading/reducer";
 const loadingSelector = createLoadingSelector([
@@ -45,10 +45,9 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
 
   // currently selected series id and it's index in tableData
   const [selectedSeriesId, setSelectedSeriesId] = useState(0);
-  const [selectedSeriesIdx, setSelectedSeriesIdx] = useState(-1);
 
   // table data
-  const [tableData, setTableData] = useState<SeriesTableData[]>([]);
+  const [tableData, setTableData] = useState<TableData>({});
 
   // initial data fetch
   useEffect(() => {
@@ -58,43 +57,16 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
 
   // create table data once fetched
   useEffect(() => {
-    if (
-      !isLoading &&
-      subset.id !== 0 &&
-      userCardsInSubset.subsetId !== 0 &&
-      selectedSeriesIdx === -1
-    ) {
+    if (!isLoading && subset.id !== 0 && userCardsInSubset.subsetId !== 0) {
+      // create table data
       const data = createTableData(subset, userCardsInSubset);
       setTableData(data);
 
-      const selectedSeries = data.find(
-        (series) => series.seriesId === subset.baseSeriesId
-      );
-      if (selectedSeries) {
-        setSelectedSeriesIdx(selectedSeries.seriesId);
-        setSelectedSeriesId(selectedSeries.seriesId);
-      } else {
-        setSelectedSeriesIdx(data[0].seriesId);
-        setSelectedSeriesId(data[0].seriesId);
-      }
+      // get base series id or in case it is null, the first series in the array
+      const selectedSeries = data[subset.baseSeriesId || subset.series[0].id];
+      setSelectedSeriesId(selectedSeries.seriesId);
     }
-  }, [isLoading, selectedSeriesIdx, subset, userCardsInSubset]);
-
-  // find new series index when selected series changes
-  useEffect(() => {
-    if (selectedSeriesId !== 0) {
-      const selectedSeries = tableData.find(
-        (series) => series.seriesId === selectedSeriesId
-      );
-      if (selectedSeries) {
-        setSelectedSeriesIdx(selectedSeries.seriesId);
-        setSelectedSeriesId(selectedSeries.seriesId);
-      } else {
-        setSelectedSeriesIdx(tableData[0].seriesId);
-        setSelectedSeriesId(tableData[0].seriesId);
-      }
-    }
-  }, [selectedSeriesId, tableData, subset]);
+  }, [isLoading, subset, userCardsInSubset]);
 
   function showChecklistClicked() {
     setShowCollection(false);
@@ -115,7 +87,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
   }
 
   // show loading indicator until tableData has been fetched and generated
-  if (tableData.length === 0 || selectedSeriesIdx === -1)
+  if (selectedSeriesId === 0)
     return (
       <CollectionWrapper>
         <CollectionContainer>
@@ -159,11 +131,11 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
         )}
         {!showCollection ? (
           <BrowseSubset
-            tableData={tableData[selectedSeriesIdx]}
+            tableData={tableData[selectedSeriesId]}
             toggleDisableSeriesSelect={toggleDisableSeriesSelect}
           />
         ) : (
-          <CollectionSubset tableData={tableData[selectedSeriesIdx]} />
+          <CollectionSubset tableData={tableData[selectedSeriesId]} />
         )}
       </CollectionContainer>
     </CollectionWrapper>
