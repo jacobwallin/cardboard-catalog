@@ -57,7 +57,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
 
   // create table data once fetched
   useEffect(() => {
-    if (!isLoading && subset.id !== 0 && userCardsInSubset.subsetId !== 0) {
+    if (!isLoading && subset.id === +props.match.params.subsetId) {
       // create table data
       const data = createTableData(subset, userCardsInSubset);
       setTableData(data);
@@ -66,7 +66,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
       const selectedSeries = data[subset.baseSeriesId || subset.series[0].id];
       setSelectedSeriesId(selectedSeries.seriesId);
     }
-  }, [isLoading, subset, userCardsInSubset]);
+  }, [isLoading, subset, userCardsInSubset, props]);
 
   function showChecklistClicked() {
     setShowCollection(false);
