@@ -123,6 +123,10 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
                     <option key={series.id} value={series.id}>
                       {series.name}
                       {series.serialized && ` /${series.serialized}`}
+                      {tableData[series.id].totalCards > 0 &&
+                        (tableData[series.id].totalCards > 1
+                          ? ` (${tableData[series.id].totalCards} Cards)`
+                          : ` (${tableData[series.id].totalCards} Card)`)}
                     </option>
                   );
                 })}
