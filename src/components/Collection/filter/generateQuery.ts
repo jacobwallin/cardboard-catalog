@@ -56,7 +56,7 @@ export default function generateQuery(
   if (filters.shortPrint !== 0) {
     query += `&short-print=${filters.shortPrint === 1 ? "true" : "false"}`;
     bubbles.push({
-      name: "Short Pring",
+      name: "Short Print",
       filter: filters.shortPrint === 1 ? "True" : "False",
     });
   }
