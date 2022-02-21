@@ -13,12 +13,17 @@ export default function aggregate(sets: SetSummary[]): Return {
     }
     return uniqueYears;
   }, []);
-  const brands = sets.reduce((uniqueBrands: Brand[], set) => {
-    if (uniqueBrands.findIndex((brand) => brand.id === set.brandId) === -1) {
-      uniqueBrands.push(set.brand);
-    }
-    return uniqueBrands;
-  }, []);
+  const brands = sets
+    .reduce((uniqueBrands: Brand[], set) => {
+      if (uniqueBrands.findIndex((brand) => brand.id === set.brandId) === -1) {
+        uniqueBrands.push(set.brand);
+      }
+      return uniqueBrands;
+    }, [])
+    .sort((brandA, brandB) => {
+      if (brandA.name < brandB.name) return -1;
+      return 1;
+    });
 
   return {
     years,
