@@ -20,3 +20,10 @@ export const SvgWrapper = styled.div`
   width: 20px;
   height: 20px;
 `;
+
+export const FilterContainer = styled.div`
+  display: flex;
+  align-self: flex-end;
+  padding: 10px 10px 0 0;
+  gap: 10px;
+`;
