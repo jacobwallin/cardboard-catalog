@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route, useRouteMatch } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import AdminSets from "./all-sets/AdminSets";
@@ -13,12 +13,30 @@ import * as Styled from "./styled";
 export default function Admin() {
   const { path } = useRouteMatch();
 
+  const [yearFilter, setYearFilter] = useState(0);
+  const [brandFilter, setBrandFilter] = useState(0);
+
+  function handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    if (e.target.id === "year") {
+      setYearFilter(+e.target.value);
+    }
+    if (e.target.id === "brand") {
+      setBrandFilter(+e.target.value);
+    }
+  }
+
   return (
     <Styled.AdminWrapper>
       <Sidebar />
       <Styled.AdminInnerWrapper>
         <Styled.AdminContainer>
-          <Route exact path={path} component={AdminSets} />
+          <Route exact path={path}>
+            <AdminSets
+              yearFilter={yearFilter}
+              brandFilter={brandFilter}
+              handleSelectChange={handleSelectChange}
+            />
+          </Route>
           <Route exact path={`${path}/edit/set/:setId`} component={AdminSet} />
           <Route
             exact
