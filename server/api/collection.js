@@ -81,29 +81,6 @@ router.get("/subset/:subsetId", async (req, res, next) => {
   }
 });
 
-router.post("/add", async (req, res, next) => {
-  const { cardsToAdd } = req.body;
-  const userId = req.user.id;
-  try {
-    // bulk create user card entries
-    const userCards = await UserCard.bulkCreate(
-      cardsToAdd.map((cardInfo) => {
-        return {
-          serialNumber: cardInfo.serialNumber,
-          grade: cardInfo.grade,
-          cardId: cardInfo.cardId,
-          gradingCompanyId: cardInfo.gradingCompanyId,
-          userId: userId,
-        };
-      })
-    );
-
-    res.status(201).json(userCards);
-  } catch (error) {
-    next(error);
-  }
-});
-
 router.post("/delete/bulk", async (req, res, next) => {
   const { userCardIds } = req.body;
 
