@@ -35,8 +35,8 @@ UserCard.belongsToMany(Transaction, {
 });
 
 // One to many user and groups
-User.belongsTo(Transaction);
-Transaction.hasMany(User);
+Transaction.belongsTo(User);
+User.hasMany(Transaction);
 
 // One to many association between sets and subsets
 Subset.belongsTo(Set, {
