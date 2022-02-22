@@ -34,6 +34,10 @@ UserCard.belongsToMany(Transaction, {
   through: { model: TransactionUserCard },
 });
 
+// One to many user and groups
+User.belongsTo(Transaction);
+Transaction.hasMany(User);
+
 // One to many association between sets and subsets
 Subset.belongsTo(Set, {
   foreignKey: {
