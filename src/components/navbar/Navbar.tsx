@@ -46,7 +46,7 @@ export default function Navbar() {
                 className="navbar-link"
                 onClick={toggleHamburgerActive}
               >
-                Quick Add
+                Transactions
               </Styled.StyledLink>
               <Styled.StyledLink
                 to="/browse"
