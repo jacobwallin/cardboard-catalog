@@ -11,6 +11,7 @@ const teams = require("./teams/routes");
 const leagues = require("./leagues/routes");
 const brands = require("./brands/routes");
 const gradingCompanies = require("./grading_companies/routes");
+const transactions = require("./transactions/routes");
 
 router.use("/collection", collection);
 router.use("/sets", sets);
@@ -23,5 +24,6 @@ router.use("/teams", teams);
 router.use("/leagues", leagues);
 router.use("/brands", brands);
 router.use("/grading_companies", gradingCompanies);
+router.use("/transactions", transactions);
 
 module.exports = router;
