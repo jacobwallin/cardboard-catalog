@@ -20,6 +20,8 @@ const UserCard = db.define(
   {
     freezeTableName: true,
 
+    paranoid: true,
+
     indexes: [
       {
         unique: false,
