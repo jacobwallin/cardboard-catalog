@@ -262,7 +262,7 @@ User.hasMany(Card, {
   },
 });
 
-db.sync({ alter: true });
+// db.sync({ alter: true });
 
 module.exports = {
   User,
