@@ -6,13 +6,8 @@ import styled from "styled-components";
 import GlobalStyles from "./globalStyles";
 import Navbar from "./components/navbar/Navbar";
 import AdminRoute from "./components/Protected_Routes/AdminRoute";
-import {
-  HomePage,
-  Collection,
-  Transactions,
-  PageNotFound,
-  Admin,
-} from "./components/Views";
+import { Collection, PageNotFound, Admin } from "./components/Views";
+import Transactions from "./components/transactions/Transactions";
 import Browse from "./components/browse/Browse";
 import Login from "./components/login/Login";
 import SetPage from "./components/Collection/set_page/SetPage";
@@ -50,7 +45,7 @@ function App() {
               <Route path="/browse">
                 <Browse />
               </Route>
-              <Route path="/add">
+              <Route path="/transactions">
                 <Transactions />
               </Route>
               <AdminRoute path="/admin">

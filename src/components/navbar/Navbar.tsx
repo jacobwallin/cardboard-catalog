@@ -42,7 +42,7 @@ export default function Navbar() {
                 Collection
               </Styled.StyledLink>
               <Styled.StyledLink
-                to="/add"
+                to="/transactions"
                 className="navbar-link"
                 onClick={toggleHamburgerActive}
               >
