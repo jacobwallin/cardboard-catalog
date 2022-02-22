@@ -14,6 +14,19 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.get("/:transactionId", async (req, res, next) => {
+  try {
+    const transaction = await Transaction.findOne({
+      where: { userId: req.user.id, id: req.params.transactionId },
+      include: [UserCard],
+    });
+
+    res.json(transaction);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post("/quickadd", async (req, res, next) => {
   // add cards to user's collection
   const { cardsToAdd } = req.body;

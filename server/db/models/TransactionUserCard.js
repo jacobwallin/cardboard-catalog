@@ -12,6 +12,8 @@ const TransactionUserCard = db.define(
     },
     deleted: {
       type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
   },
   {
