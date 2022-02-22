@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
-import { Card } from "../../store/library/series/types";
-import { fetchAllSetData } from "../../store/library/sets/thunks";
-import { fetchAllGradingCompanies } from "../../store/library/grading_companies/thunks";
-import { addCards } from "../../store/collection/browse/thunks";
-import { CardData } from "../../store/collection/browse/types";
+import { RootState } from "../../../store";
+import { Card } from "../../../store/library/series/types";
+import { fetchAllSetData } from "../../../store/library/sets/thunks";
+import { fetchAllGradingCompanies } from "../../../store/library/grading_companies/thunks";
+import { addCards } from "../../../store/collection/browse/thunks";
+import { CardData } from "../../../store/collection/browse/types";
 import AddCardsLine from "./add_cards_line/AddCardsLine";
-import StyledButton from "../Admin/components/StyledButton";
+import StyledButton from "../../Admin/components/StyledButton";
 import SelectCardForm from "./select_card_form/SelectCardForm";
 
 import {
   createLoadingSelector,
   createStatusSelector,
-} from "../../store/loading/reducer";
+} from "../../../store/loading/reducer";
 import * as validate from "./validateCardData";
 
 import * as Styled from "./styled";

@@ -1,5 +1,5 @@
 import { CardFormData } from "./AddCardsForm";
-import { GradingCompany } from "../../store/library/grading_companies/types";
+import { GradingCompany } from "../../../store/library/grading_companies/types";
 
 // grade must convert properly to number, be in the range [0,10], and divisible by 0.5
 export function grade(grade: string) {

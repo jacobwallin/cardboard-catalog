@@ -1,10 +1,15 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-export const TransactionType = styled.div`
+export const TransactionLink = styled(Link)`
   width: 100px;
   height: 75px;
   border: 1px solid gray;
   border-radius: 5px;
+
+  &:hover {
+    color: red;
+  }
 `;
 
 export const Header = styled.div`

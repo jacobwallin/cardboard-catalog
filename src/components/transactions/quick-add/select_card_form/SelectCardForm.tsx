@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../../store";
+import { RootState } from "../../../../store";
 import { CardFormData } from "../AddCardsForm";
-import StyledButton from "../../Admin/components/StyledButton";
-import { SetSummary } from "../../../store/library/sets/types";
-import { fetchSet } from "../../../store/library/sets/thunks";
-import { fetchSubset } from "../../../store/library/subsets/thunks";
-import { fetchSeriesById } from "../../../store/library/series/thunks";
-import { fetchCardsInSingleSubset } from "../../../store/collection/browse/thunks";
+import StyledButton from "../../../Admin/components/StyledButton";
+import { SetSummary } from "../../../../store/library/sets/types";
+import { fetchSet } from "../../../../store/library/sets/thunks";
+import { fetchSubset } from "../../../../store/library/subsets/thunks";
+import { fetchSeriesById } from "../../../../store/library/series/thunks";
+import { fetchCardsInSingleSubset } from "../../../../store/collection/browse/thunks";
 import * as Styled from "./styled";
-import sortCardNumbers from "../../../utils/sortCardNumbers";
-import sortSeries from "../../Collection/subset_page/sortSeries";
-import { createLoadingSelector } from "../../../store/loading/reducer";
+import sortCardNumbers from "../../../../utils/sortCardNumbers";
+import sortSeries from "../../../Collection/subset_page/sortSeries";
+import { createLoadingSelector } from "../../../../store/loading/reducer";
 
 const setLoadingSelector = createLoadingSelector(["GET_SINGLE_SET"]);
 const subsetLoadingSelector = createLoadingSelector([

@@ -8,13 +8,15 @@ export default function Transactions() {
   return (
     <CollectionWrapper>
       <CollectionContainer>
-        <TransactionsHeader title="Transactions" />
-        <Styled.Header>Create New Transaction</Styled.Header>
+        <TransactionsHeader title="Create Transaction" />
+        <Styled.Header>Select Transaction Type</Styled.Header>
         <Styled.TransactionsContainer>
-          <Styled.TransactionType>Quick Add</Styled.TransactionType>
-          <Styled.TransactionType>Rip Pack</Styled.TransactionType>
-          <Styled.TransactionType>Trade</Styled.TransactionType>
-          <Styled.TransactionType>Sale / Purchase</Styled.TransactionType>
+          <Styled.TransactionLink to="/transactions/add">
+            Quick Add
+          </Styled.TransactionLink>
+          {/* <Styled.TransactionLink>Rip Pack</Styled.TransactionLink>
+          <Styled.TransactionLink>Trade</Styled.TransactionLink>
+          <Styled.TransactionLink>Sale / Purchase</Styled.TransactionLink> */}
         </Styled.TransactionsContainer>
         <Styled.Header>Transaction History</Styled.Header>
       </CollectionContainer>
