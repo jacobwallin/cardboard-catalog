@@ -34,13 +34,17 @@ UserCard.belongsToMany(Transaction, {
   through: { model: TransactionUserCard },
 });
 
-// One to many user and groups
+// One to many user and transactions
 Transaction.belongsTo(User, {
   foreignKey: {
     allowNull: false,
   },
 });
 User.hasMany(Transaction);
+
+// One to many transaction and sets
+Transaction.belongsTo(Set);
+Set.hasMany(Transaction);
 
 // One to many association between sets and subsets
 Subset.belongsTo(Set, {
@@ -258,7 +262,7 @@ User.hasMany(Card, {
   },
 });
 
-// db.sync({ alter: true });
+db.sync({ alter: true });
 
 module.exports = {
   User,
