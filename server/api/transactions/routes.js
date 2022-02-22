@@ -1,6 +1,17 @@
 const router = require("express").Router();
 
-const { Transaction, UserCard } = require("../../db/models");
+const {
+  Transaction,
+  UserCard,
+  Card,
+  CardData,
+  Series,
+  Subset,
+  Team,
+  GradingCompany,
+  Set,
+  Player,
+} = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -18,7 +29,61 @@ router.get("/:transactionId", async (req, res, next) => {
   try {
     const transaction = await Transaction.findOne({
       where: { userId: req.user.id, id: req.params.transactionId },
-      include: [UserCard],
+      include: {
+        model: UserCard,
+        include: [
+          {
+            model: Card,
+            attributes: {
+              exclude: ["createdAt", "updatedAt", "updatedBy", "createdBy"],
+            },
+            include: [
+              {
+                model: CardData,
+                attributes: {
+                  exclude: ["createdAt", "updatedAt", "updatedBy", "createdBy"],
+                },
+                include: [
+                  {
+                    model: Team,
+                    attributes: ["name"],
+                  },
+                  { model: Player },
+                ],
+              },
+              {
+                model: Series,
+                attributes: {
+                  exclude: ["createdAt", "updatedAt", "updatedBy", "createdBy"],
+                },
+                include: {
+                  model: Subset,
+                  attributes: {
+                    exclude: [
+                      "createdAt",
+                      "updatedAt",
+                      "updatedBy",
+                      "createdBy",
+                    ],
+                  },
+                  include: {
+                    model: Set,
+                    attributes: {
+                      exclude: [
+                        "createdAt",
+                        "updatedAt",
+                        "updatedBy",
+                        "createdBy",
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          GradingCompany,
+        ],
+      },
     });
 
     res.json(transaction);

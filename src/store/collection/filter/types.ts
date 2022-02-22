@@ -84,6 +84,7 @@ interface Player {
   fullName: string;
   birthday: string;
   hallOfFame: boolean;
+  url: string;
   card_data_player: {
     cardDatumId: number;
     playerId: number;
