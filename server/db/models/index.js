@@ -11,6 +11,8 @@ const Team = require("./Team");
 const Player = require("./Player");
 const GradingCompany = require("./GradingCompany");
 const CardDataPlayer = require("./CardDataPlayer");
+const Transaction = require("./Transaction");
+const TransactionUserCard = require("./TransactionUserCard");
 
 const db = require("../db");
 
@@ -23,9 +25,14 @@ UserCard.belongsTo(Card, {
 Card.hasMany(UserCard, {
   onDelete: "CASCADE",
 });
-// prevent unique key from being created to allow the same card to be added to the same user multiple times
-// User.belongsToMany(Card, { through: { model: UserCard, unique: false } });
-// Card.belongsToMany(User, { through: { model: UserCard, unique: false } });
+
+// many many between transactions and user_cards
+Transaction.belongsToMany(UserCard, {
+  through: { model: TransactionUserCard },
+});
+UserCard.belongsToMany(Transaction, {
+  through: { model: TransactionUserCard },
+});
 
 // One to many association between sets and subsets
 Subset.belongsTo(Set, {

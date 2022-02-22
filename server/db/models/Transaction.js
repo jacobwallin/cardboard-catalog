@@ -11,9 +11,6 @@ const Team = db.define("transaction", {
   date: {
     type: DataTypes.DATEONLY,
   },
-  setId: {
-    type: DataTypes.INTEGER,
-  },
   platform: {
     type: DataTypes.STRING,
   },
