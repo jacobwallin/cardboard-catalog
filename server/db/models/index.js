@@ -270,4 +270,6 @@ module.exports = {
   Player,
   GradingCompany,
   CardDataPlayer,
+  Transaction,
+  TransactionUserCard,
 };
