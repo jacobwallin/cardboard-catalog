@@ -8,8 +8,7 @@ router.get("/", async (req, res, next) => {
       where: { userId: req.user.id },
     });
 
-    res.json({ yousuck: true });
-    // res.json(allTransactions);
+    res.json(allTransactions);
   } catch (error) {
     next(error);
   }
@@ -34,13 +33,18 @@ router.post("/quickadd", async (req, res, next) => {
     );
 
     // create new transaction
-    Transaction.create({
+    const newTransaction = await Transaction.create({
       title: "test",
       note: "this is a test transaction!",
+      userId: req.user.id,
     });
+
+    // add cards to transaction
+    await newTransaction.setUser_cards(userCards);
 
     res.status(201).json(userCards);
   } catch (error) {
+    console.log(error.message);
     next(error);
   }
 });

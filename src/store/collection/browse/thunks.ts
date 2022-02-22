@@ -56,7 +56,7 @@ export const addCards =
   ): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
   (dispatch) => {
     dispatch(actions.addCardsRequest());
-    post(`/api/collection/add`, { cardsToAdd: cardData }, dispatch)
+    post(`/api/transactions/quickadd`, { cardsToAdd: cardData }, dispatch)
       .then((newCards: NewCardsResponse[]) => {
         dispatch(actions.addCardsSuccess(newCards, cardData, subsetId));
       })
