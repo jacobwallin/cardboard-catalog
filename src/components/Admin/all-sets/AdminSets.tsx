@@ -71,7 +71,11 @@ export default function AdminSets(props: Props) {
           >
             <option value={0}>Select Year</option>
             {filterData.years.map((year) => {
-              return <option value={year}>{year}</option>;
+              return (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              );
             })}
           </SelectFilter>
           <SelectFilter
@@ -81,7 +85,11 @@ export default function AdminSets(props: Props) {
           >
             <option value={0}>Select Brand</option>
             {filterData.brands.map((brand) => {
-              return <option value={brand.id}>{brand.name}</option>;
+              return (
+                <option key={brand.id} value={brand.id}>
+                  {brand.name}
+                </option>
+              );
             })}
           </SelectFilter>
         </Styled.FilterContainer>
