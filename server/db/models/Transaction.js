@@ -14,14 +14,15 @@ const Team = db.define("transaction", {
       },
     },
   },
+  date: {
+    type: DataTypes.DATEONLY,
+    allowNull: false,
+  },
   title: {
     type: DataTypes.STRING,
   },
   note: {
     type: DataTypes.TEXT,
-  },
-  date: {
-    type: DataTypes.DATEONLY,
   },
   platform: {
     type: DataTypes.STRING,
