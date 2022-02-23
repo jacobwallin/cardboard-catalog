@@ -165,6 +165,7 @@ router.post("/", async (req, res, next) => {
       );
     }
 
+    // re-query transaction with joins
     const transactionWithJoins = await Transaction.findByPk(newTransaction.id, {
       include: {
         model: UserCard,
@@ -172,9 +173,9 @@ router.post("/", async (req, res, next) => {
       },
     });
 
+    // send response
     res.status(201).json(transactionWithJoins);
   } catch (error) {
-    console.log(error.message);
     next(error);
   }
 });
