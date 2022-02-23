@@ -111,6 +111,8 @@ router.post("/", async (req, res, next) => {
 
   const userId = req.user.id;
   try {
+    // if transaction type is a quick add or delete, check first if one was created for the current day
+
     // create new transaction
     const newTransaction = await Transaction.create({
       userId: req.user.id,
@@ -178,6 +180,15 @@ router.post("/", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+});
+
+router.put("/:transactionId", async (req, res, next) => {
+  // update transaction data
+  // resolve cards added / removed
+});
+
+router.delete("/:transactionId", async (req, res, next) => {
+  // deleting transaction should also undo all effects on collection (adding / deleting cards)
 });
 
 module.exports = router;
