@@ -11,6 +11,7 @@ const {
   GradingCompany,
   Set,
   Player,
+  TransactionUserCard,
 } = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
@@ -31,6 +32,7 @@ router.get("/:transactionId", async (req, res, next) => {
       where: { userId: req.user.id, id: req.params.transactionId },
       include: {
         model: UserCard,
+        paranoid: false,
         include: [
           {
             model: Card,
@@ -92,35 +94,85 @@ router.get("/:transactionId", async (req, res, next) => {
   }
 });
 
-router.post("/quickadd", async (req, res, next) => {
-  // add cards to user's collection
-  const { cardsToAdd } = req.body;
+router.post("/", async (req, res, next) => {
+  // get transaction data
+  const {
+    type,
+    cardsAdded,
+    cardsRemoved,
+    money,
+    platform,
+    individual,
+    setId,
+    title,
+    notes,
+    date,
+  } = req.body;
+
   const userId = req.user.id;
   try {
-    // bulk create user card entries
-    const userCards = await UserCard.bulkCreate(
-      cardsToAdd.map((cardInfo) => {
-        return {
-          serialNumber: cardInfo.serialNumber,
-          grade: cardInfo.grade,
-          cardId: cardInfo.cardId,
-          gradingCompanyId: cardInfo.gradingCompanyId,
-          userId: userId,
-        };
-      })
-    );
-
     // create new transaction
     const newTransaction = await Transaction.create({
-      title: "test",
-      note: "this is a test transaction!",
       userId: req.user.id,
+      type,
+      date,
+      title,
+      notes,
+      platform,
+      individual,
+      money,
+      setId,
     });
 
-    // add cards to transaction
-    await newTransaction.setUser_cards(userCards);
+    // add cards to collection and associate with transaction
+    if (cardsAdded) {
+      const newUserCards = await UserCard.bulkCreate(
+        cardsAdded.map((cardInfo) => {
+          return {
+            serialNumber: cardInfo.serialNumber,
+            grade: cardInfo.grade,
+            cardId: cardInfo.cardId,
+            gradingCompanyId: cardInfo.gradingCompanyId,
+            userId: userId,
+          };
+        })
+      );
+      // add cards to transaction
+      await newTransaction.addUser_cards(newUserCards);
+    }
 
-    res.status(201).json(userCards);
+    // delete cards from collection and associate with transaction
+    if (cardsRemoved) {
+      // get user card instances for each id given
+      const userCards = await Promise.all(
+        cardsRemoved.map((userCardId) => {
+          return UserCard.findByPk(userCardId);
+        })
+      );
+
+      // paranoid delete each user card
+      await Promise.all(userCards.map((userCard) => userCard.destroy()));
+
+      // add each user card to transaction user card join table, marking deleted as true
+      await Promise.all(
+        userCards.map((userCard) => {
+          return TransactionUserCard.create({
+            transactionId: newTransaction.id,
+            userCardId: userCard.id,
+            deleted: true,
+          });
+        })
+      );
+    }
+
+    const transactionWithJoins = await Transaction.findByPk(newTransaction.id, {
+      include: {
+        model: UserCard,
+        paranoid: false,
+      },
+    });
+
+    res.status(201).json(transactionWithJoins);
   } catch (error) {
     console.log(error.message);
     next(error);
