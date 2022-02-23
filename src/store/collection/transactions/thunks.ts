@@ -1,8 +1,8 @@
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../index";
 import * as actions from "./actions";
-import { TransactionActions } from "./types";
-import { get } from "../../../utils/fetch";
+import { TransactionActions, TransactionPostData } from "./types";
+import { get, post } from "../../../utils/fetch";
 
 export const fetchTransaction =
   (
@@ -29,5 +29,20 @@ export const fetchAllTransactions =
       })
       .catch((err) => {
         dispatch(actions.getAllTransactionsFailure());
+      });
+  };
+
+export const addTransaction =
+  (
+    data: TransactionPostData
+  ): ThunkAction<void, RootState, unknown, TransactionActions> =>
+  (dispatch) => {
+    dispatch(actions.addTransactionRequest());
+    post(`/api/transactions/`, { ...data }, dispatch)
+      .then((payload) => {
+        dispatch(actions.addTransactionSuccess(payload));
+      })
+      .catch((err) => {
+        dispatch(actions.addTransactionFailure());
       });
   };

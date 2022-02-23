@@ -88,3 +88,31 @@ export interface TransactionSummary {
   updatedAt: string;
   userId: number;
 }
+
+// data needed to post new transaction
+export interface TransactionPostData {
+  type: "QUICK" | "TRADE" | "SALE" | "PURCHASE" | "RIP";
+  cardsAdded?: CardData[];
+  userCardsRemoved?: number[];
+  money?: number;
+  platform?: string;
+  individual?: string;
+  setId?: number;
+  title?: string;
+  notes?: string;
+  date?: string;
+}
+
+export interface CardData {
+  cardId: number;
+  serialNumber?: number;
+  grade?: number;
+  gradingCompanyId?: number;
+  card: {
+    id: number;
+    value: number | null;
+    serializedTo: number | null;
+    seriesId: number;
+    cardDataId: number;
+  };
+}
