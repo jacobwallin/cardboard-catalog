@@ -92,6 +92,7 @@ export interface TransactionSummary {
 // data needed to post new transaction
 export interface TransactionPostData {
   type: "QUICK" | "TRADE" | "SALE" | "PURCHASE" | "RIP";
+  date: string;
   cardsAdded?: CardData[];
   userCardsRemoved?: number[];
   money?: number;
@@ -100,7 +101,6 @@ export interface TransactionPostData {
   setId?: number;
   title?: string;
   notes?: string;
-  date?: string;
 }
 
 export interface CardData {

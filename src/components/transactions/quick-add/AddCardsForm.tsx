@@ -4,7 +4,7 @@ import { RootState } from "../../../store";
 import { Card } from "../../../store/library/series/types";
 import { fetchAllSetData } from "../../../store/library/sets/thunks";
 import { fetchAllGradingCompanies } from "../../../store/library/grading_companies/thunks";
-import { addCards } from "../../../store/collection/browse/thunks";
+import { addTransaction } from "../../../store/collection/transactions/thunks";
 import { CardData } from "../../../store/collection/browse/types";
 import AddCardsLine from "./add_cards_line/AddCardsLine";
 import StyledButton from "../../Admin/components/StyledButton";
@@ -35,8 +35,8 @@ export interface CardFormData {
   refractor: boolean;
 }
 
-const postingCards = createLoadingSelector(["ADD_CARDS"]);
-const postingCardsStatusSelector = createStatusSelector("ADD_CARDS");
+const postingCards = createLoadingSelector(["ADD_TRANSACTION"]);
+const postingCardsStatusSelector = createStatusSelector("ADD_TRANSACTION");
 
 interface Props {
   formData?: CardFormData[];
@@ -193,7 +193,19 @@ export default function AddCardsForm(props: Props) {
         return newData;
       });
 
-      dispatch(addCards(postData, props.subsetId || subsetId));
+      // get current date for transaction
+      const date = new Date();
+      let dateString = String(date.getFullYear()) + "-";
+      dateString += String(date.getMonth() + 1).padStart(2, "0") + "-";
+      dateString += String(date.getDate()).padStart(2, "0");
+
+      dispatch(
+        addTransaction({
+          type: "QUICK",
+          date: dateString,
+          cardsAdded: postData,
+        })
+      );
 
       // set how many cards were successfully added to display success message to user
       setCardsSuccessfullyAdded(cardData.length);

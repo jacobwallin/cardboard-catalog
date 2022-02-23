@@ -38,7 +38,7 @@ export const addTransaction =
   ): ThunkAction<void, RootState, unknown, TransactionActions> =>
   (dispatch) => {
     dispatch(actions.addTransactionRequest());
-    post(`/api/transactions/`, { ...data }, dispatch)
+    post(`/api/transactions`, { ...data }, dispatch)
       .then((payload) => {
         dispatch(actions.addTransactionSuccess(payload));
       })
