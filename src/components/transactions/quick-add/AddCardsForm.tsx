@@ -40,6 +40,7 @@ const postingCardsStatusSelector = createStatusSelector("ADD_TRANSACTION");
 
 interface Props {
   formData?: CardFormData[];
+  handleCardDataChange(cardData: CardFormData[]): void;
 }
 export default function AddCardsForm(props: Props) {
   const dispatch = useDispatch();

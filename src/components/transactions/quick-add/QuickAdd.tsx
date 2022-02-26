@@ -6,7 +6,7 @@ export default function QuickAdd() {
   return (
     <>
       <TransactionsHeader title="Add To Your Collection" />
-      <AddCardsForm />
+      {/* <AddCardsForm /> */}
     </>
   );
 }
