@@ -20,8 +20,6 @@ export default function Trade() {
     setReceivedCards(receivedCards);
   }
 
-  // need to be able to pass in current state to each component so it persists when user switches from on step to another
-
   switch (currentStep) {
     case 1:
       return (

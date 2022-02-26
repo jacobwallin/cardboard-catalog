@@ -40,7 +40,6 @@ const postingCardsStatusSelector = createStatusSelector("ADD_TRANSACTION");
 
 interface Props {
   formData?: CardFormData[];
-  subsetId?: number;
 }
 export default function AddCardsForm(props: Props) {
   const dispatch = useDispatch();
@@ -58,9 +57,6 @@ export default function AddCardsForm(props: Props) {
   const series = useSelector((state: RootState) => state.library.series.series);
   const gradingCompanies = useSelector(
     (state: RootState) => state.library.gradingCompanies
-  );
-  const subsetId = useSelector(
-    (state: RootState) => state.collection.browse.cardsInSingleSubset.subsetId
   );
 
   // LOADING STATUS FOR POSTING CARDS

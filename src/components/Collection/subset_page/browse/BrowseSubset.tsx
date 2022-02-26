@@ -169,7 +169,7 @@ export default function BrowseSubset(props: Props) {
               Return to Checklist
             </StyledButton>
           </Styled.CloseButtonWrapper>
-          <AddCardsForm formData={addCardFormData} subsetId={subset.id} />
+          <AddCardsForm formData={addCardFormData} />
         </>
       )}
       {!showAddCardForm && (
