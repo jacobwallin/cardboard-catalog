@@ -14,9 +14,9 @@ export default function Main() {
           <Styled.TransactionLink to="/transactions/add">
             Quick Add
           </Styled.TransactionLink>
-          {/* <Styled.TransactionLink>Rip Pack</Styled.TransactionLink>
-          <Styled.TransactionLink>Trade</Styled.TransactionLink>
-          <Styled.TransactionLink>Sale / Purchase</Styled.TransactionLink> */}
+          <Styled.TransactionLink to="/transactions/trade">
+            Trade
+          </Styled.TransactionLink>
         </Styled.TransactionsContainer>
         <Styled.Header>Transaction History</Styled.Header>
       </CollectionContainer>

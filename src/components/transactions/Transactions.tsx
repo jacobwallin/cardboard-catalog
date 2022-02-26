@@ -4,6 +4,7 @@ import CollectionWrapper from "../shared/CollectionWrapper";
 import CollectionContainer from "../shared/CollectionContainer";
 import Main from "./main/Main";
 import QuickAdd from "./quick-add/QuickAdd";
+import Trade from "./trade/Trade";
 
 export default function Transactions() {
   return (
@@ -15,6 +16,9 @@ export default function Transactions() {
           </Route>
           <Route path={`/transactions/add`}>
             <QuickAdd />
+          </Route>
+          <Route path={`/transactions/trade`}>
+            <Trade />
           </Route>
         </Switch>
       </CollectionContainer>
