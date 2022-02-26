@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import SelectTraded from "./select-traded/SelectTraded";
+import SelectReceived from "./select-received/SelectReceived";
+import ConfirmTrade from "./confirm/ConfirmTrade";
 
 type StepNumbers = 1 | 2 | 3;
 
@@ -6,11 +9,16 @@ export default function Trade() {
   // track current step of trade data entry use is on
   const [currentStep, setCurrentStep] = useState<StepNumbers>(1);
 
-  // step 1: enter cards traded
+  // need to track state for cards traded, cards received, and trade details
 
-  // step 2: enter cards received
+  // need to be able to pass in current state to each component so it persists when user switches from on step to another
 
-  // step 3: enter trade details and confirm transaction
-
-  return <div>Do we have a deal?</div>;
+  switch (currentStep) {
+    case 1:
+      return <SelectTraded />;
+    case 2:
+      return <SelectReceived />;
+    case 3:
+      return <ConfirmTrade />;
+  }
 }
