@@ -10,9 +10,13 @@ export default function Trade() {
   // track current step of trade data entry use is on
   const [currentStep, setCurrentStep] = useState<StepNumbers>(2);
 
-  // state for cards traded and received
+  // form state for cards traded and received
   const [tradedCards, setTradedCards] = useState<CardFormData[]>([]);
   const [receivedCards, setReceivedCards] = useState<CardFormData[]>([]);
+
+  // data formatted to send to server
+  const [tradedCardData, setTradedCardData] = useState<CardData[]>([]);
+  const [receivedCardData, setReceivedCardData] = useState<CardData[]>([]);
 
   function handleTradedCardsChange(tradedCards: CardFormData[]) {
     setTradedCards(tradedCards);
@@ -22,10 +26,15 @@ export default function Trade() {
   }
 
   function submitTradedCards(cardData: CardData[]) {
-    // save card data
-    //
+    setTradedCardData(cardData);
   }
-  function submitReceivedCards(cardData: CardData[]) {}
+  function submitReceivedCards(cardData: CardData[]) {
+    setReceivedCardData(cardData);
+  }
+
+  function submitTrade() {
+    // send data to api
+  }
 
   return (
     <>
@@ -36,6 +45,7 @@ export default function Trade() {
           <SelectTraded
             tradedCards={tradedCards}
             handleTradedCardsChange={handleTradedCardsChange}
+            submit={submitTradedCards}
           />
         </>
       )}
@@ -44,6 +54,7 @@ export default function Trade() {
           <SelectReceived
             receivedCards={receivedCards}
             handleReceivedCardsChange={handleReceivedCardsChange}
+            submit={submitReceivedCards}
           />
         </>
       )}

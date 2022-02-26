@@ -41,6 +41,7 @@ const postingCardsStatusSelector = createStatusSelector("ADD_TRANSACTION");
 interface Props {
   cardData: CardFormData[];
   setCardData(cardData: CardFormData[]): void;
+  submit(cardData: CardData[]): void;
   hideSelectCardForm?: boolean;
 }
 export default function AddCardsForm(props: Props) {
