@@ -4,7 +4,6 @@ import { RootState } from "../../../store";
 import { Card } from "../../../store/library/series/types";
 import { fetchAllSetData } from "../../../store/library/sets/thunks";
 import { fetchAllGradingCompanies } from "../../../store/library/grading_companies/thunks";
-import { addTransaction } from "../../../store/collection/transactions/thunks";
 import { CardData } from "../../../store/collection/browse/types";
 import AddCardsLine from "./add_cards_line/AddCardsLine";
 import StyledButton from "../../Admin/components/StyledButton";
@@ -47,7 +46,7 @@ interface Props {
 export default function AddCardsForm(props: Props) {
   const dispatch = useDispatch();
 
-  const { cardData, setCardData, hideSelectCardForm } = props;
+  const { cardData, setCardData, submit, hideSelectCardForm } = props;
 
   // error message will be displayed to user if form is not filled out correctly
   const [validationError, setValidationError] = useState(false);
@@ -189,19 +188,8 @@ export default function AddCardsForm(props: Props) {
         return newData;
       });
 
-      // get current date for transaction
-      const date = new Date();
-      let dateString = String(date.getFullYear()) + "-";
-      dateString += String(date.getMonth() + 1).padStart(2, "0") + "-";
-      dateString += String(date.getDate()).padStart(2, "0");
-
-      dispatch(
-        addTransaction({
-          type: "QUICK",
-          date: dateString,
-          cardsAdded: postData,
-        })
-      );
+      // submit API data
+      submit(postData);
 
       // set how many cards were successfully added to display success message to user
       setCardsSuccessfullyAdded(cardData.length);
