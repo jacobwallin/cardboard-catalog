@@ -111,20 +111,32 @@ router.post("/", async (req, res, next) => {
 
   const userId = req.user.id;
   try {
-    // if transaction type is a quick add or delete, check first if one was created for the current day
+    let transaction = undefined;
+    if (type === "QUICK" || "DELETE") {
+      // if transaction type is a quick add or delete, check first if one was created for the current day
+      transaction = await Transaction.findOne({
+        where: {
+          userId: req.user.id,
+          type: type,
+          date: date,
+        },
+      });
+    }
 
-    // create new transaction
-    const newTransaction = await Transaction.create({
-      userId: req.user.id,
-      type,
-      date,
-      title,
-      notes,
-      platform,
-      individual,
-      money,
-      setId,
-    });
+    if (!transaction) {
+      // create new transaction
+      transaction = await Transaction.create({
+        userId: req.user.id,
+        type,
+        date,
+        title,
+        notes,
+        platform,
+        individual,
+        money,
+        setId,
+      });
+    }
 
     // add cards to collection and associate with transaction
     if (cardsAdded) {
@@ -140,7 +152,7 @@ router.post("/", async (req, res, next) => {
         })
       );
       // add cards to transaction
-      await newTransaction.addUser_cards(newUserCards);
+      await transaction.addUser_cards(newUserCards);
     }
 
     // delete cards from collection and associate with transaction
@@ -159,7 +171,7 @@ router.post("/", async (req, res, next) => {
       await Promise.all(
         userCards.map((userCard) => {
           return TransactionUserCard.create({
-            transactionId: newTransaction.id,
+            transactionId: transaction.id,
             userCardId: userCard.id,
             deleted: true,
           });
@@ -168,7 +180,7 @@ router.post("/", async (req, res, next) => {
     }
 
     // re-query transaction with joins
-    const transactionWithJoins = await Transaction.findByPk(newTransaction.id, {
+    const transactionWithJoins = await Transaction.findByPk(transaction.id, {
       include: {
         model: UserCard,
         paranoid: false,
