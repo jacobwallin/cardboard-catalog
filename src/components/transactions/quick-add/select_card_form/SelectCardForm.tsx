@@ -22,12 +22,11 @@ const seriesLoadingSelector = createLoadingSelector(["GET_SERIES"]);
 
 interface Props {
   addCard(card: CardFormData): void;
-  cardData: CardFormData[];
 }
 
 export default function SelectCardForm(props: Props) {
   const dispatch = useDispatch();
-  const { addCard, cardData } = props;
+  const { addCard } = props;
 
   // LIBRARY STORE DATA
   const allSets = useSelector((state: RootState) => state.library.sets.allSets);
@@ -186,7 +185,6 @@ export default function SelectCardForm(props: Props) {
         name="select-year"
         id="select-year"
         onChange={handleSelectChange}
-        disabled={cardData.length > 0}
       >
         <option value={-1}>Select Year</option>
         {aggregateYears(allSets).map((year) => {
@@ -201,7 +199,7 @@ export default function SelectCardForm(props: Props) {
         value={selectedSetId}
         name="select-set"
         id="select-set"
-        disabled={selectedYear === -1 || cardData.length > 0}
+        disabled={selectedYear === -1}
         onChange={handleSelectChange}
       >
         <option value={-1}>Select Set</option>
@@ -217,7 +215,7 @@ export default function SelectCardForm(props: Props) {
         value={selectedSubsetId}
         name="select-subset"
         id="select-subset"
-        disabled={selectedSetId === -1 || cardData.length > 0 || loadingSet}
+        disabled={selectedSetId === -1 || loadingSet}
         onChange={handleSelectChange}
       >
         <option value={-1}>Select Subset</option>
@@ -247,9 +245,7 @@ export default function SelectCardForm(props: Props) {
         value={selectedSeriesId}
         name="select-series"
         id="select-series"
-        disabled={
-          selectedSubsetId === -1 || cardData.length > 0 || loadingSubset
-        }
+        disabled={selectedSubsetId === -1 || loadingSubset}
         onChange={handleSelectChange}
       >
         <option value={-1}>Select Parallel</option>

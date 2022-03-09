@@ -31,9 +31,11 @@ export default function Trade() {
 
   function submitTradedCards(cardData: CardData[]) {
     setTradedCardData(cardData);
+    setCurrentStep(2);
   }
   function submitReceivedCards(cardData: CardData[]) {
     setReceivedCardData(cardData);
+    setCurrentStep(3);
   }
 
   function submitTrade() {
