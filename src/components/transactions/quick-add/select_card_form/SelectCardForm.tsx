@@ -91,7 +91,6 @@ export default function SelectCardForm(props: Props) {
     if (selectFrom === "COLLECTION") {
       dispatch(fetchCardsBySet());
     } else {
-      console.log("FETCHING DATABASE ALL SETS");
       dispatch(fetchAllSetData());
     }
   }, []);
@@ -102,7 +101,6 @@ export default function SelectCardForm(props: Props) {
       if (selectFrom === "COLLECTION") {
         dispatch(fetchCardsBySubset(selectedSetId));
       } else {
-        console.log("FETCHING DATABASE SET");
         dispatch(fetchSet(selectedSetId));
       }
     }
@@ -111,7 +109,6 @@ export default function SelectCardForm(props: Props) {
   useEffect(() => {
     // fetch subset data, same data is needed regardless of selectFrom
     if (selectedSubsetId !== -1) {
-      console.log("FETCHING SUBSET DATA");
       dispatch(fetchSubset(selectedSubsetId));
       dispatch(fetchCardsInSingleSubset(selectedSubsetId));
     }
@@ -120,10 +117,8 @@ export default function SelectCardForm(props: Props) {
   // AGGREGATE DATA FOR FORM
   useEffect(() => {
     if (selectFrom === "COLLECTION") {
-      console.log("AGGREGATE COLL YEARS");
       setYearOptions(aggregate.collectionYears(userAllSets));
     } else {
-      console.log("AGGREGATE DB YEARS");
       setYearOptions(aggregate.aggregateYears(allSets));
     }
   }, [allSets, userAllSets, selectFrom]);
@@ -131,12 +126,10 @@ export default function SelectCardForm(props: Props) {
   useEffect(() => {
     if (selectedYear !== -1) {
       if (selectFrom === "COLLECTION") {
-        console.log("AGGREGATE COLL SETS IN YEAR");
         setSetOptions(
           aggregate.collectionSetsInYear(userAllSets, selectedYear)
         );
       } else {
-        console.log("AGGREGATE DB SETS IN YEAR");
         setSetOptions(aggregate.aggregateSets(allSets, selectedYear));
       }
     }
@@ -148,10 +141,8 @@ export default function SelectCardForm(props: Props) {
       (set.id === selectedSetId || userSet.setId === selectedSetId)
     ) {
       if (selectFrom === "COLLECTION") {
-        console.log("AGGREGATE COLL SUBSET");
         setSubsetOptions(aggregate.collectionSubsets(userSet.subsets));
       } else {
-        console.log("AGGREGATE DB SUBSET");
         setSubsetOptions(aggregate.aggregateSubsets(set));
       }
     }
@@ -163,7 +154,6 @@ export default function SelectCardForm(props: Props) {
       subset.id === selectedSubsetId &&
       userSubset.subsetId === selectedSubsetId
     ) {
-      console.log("AGGREGATE SERIES");
       setSeriesOptions(aggregate.aggregateSubset(subset, userSubset));
     }
   }, [subset, userSubset, selectedSubsetId]);
@@ -171,13 +161,11 @@ export default function SelectCardForm(props: Props) {
   useEffect(() => {
     if (selectedSeriesId !== -1) {
       if (selectFrom === "COLLECTION") {
-        console.log("AGGREGATE COLL CARDS");
         const userCards = seriesOptions.find(
           (series) => series.series.id === selectedSeriesId
         )!.userCards;
         setCollectionCardOptions(userCards);
       } else {
-        console.log("AGGREGATE DB CARDS");
         const cards = seriesOptions.find(
           (series) => series.series.id === selectedSeriesId
         )!.cards;

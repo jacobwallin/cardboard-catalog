@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { Card } from "../../../store/library/series/types";
 import { CardData } from "../../../store/collection/browse/types";
