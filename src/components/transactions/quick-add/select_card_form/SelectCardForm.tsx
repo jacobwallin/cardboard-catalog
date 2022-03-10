@@ -7,7 +7,9 @@ import { SetSummary } from "../../../../store/library/sets/types";
 import { fetchAllSetData } from "../../../../store/library/sets/thunks";
 import { fetchAllGradingCompanies } from "../../../../store/library/grading_companies/thunks";
 import { fetchSet } from "../../../../store/library/sets/thunks";
+import { fetchCardsBySet } from "../../../../store/collection/browse/thunks";
 import { fetchSubset } from "../../../../store/library/subsets/thunks";
+import { fetchCardsBySubset } from "../../../../store/collection/browse/thunks";
 import { fetchSeriesById } from "../../../../store/library/series/thunks";
 import { fetchCardsInSingleSubset } from "../../../../store/collection/browse/thunks";
 import * as Styled from "./styled";
@@ -66,16 +68,24 @@ export default function SelectCardForm(props: Props) {
     seriesLoadingSelector(state)
   );
 
-  // FETCH FORM DATA AS NEEDED WHEN USER MAKES SELECTIONS
   useEffect(() => {
-    dispatch(fetchAllSetData());
+    // initial data load, either get all sets or only sets in user's collection
     dispatch(fetchAllGradingCompanies());
+    if (selectFrom === "COLLECTION") {
+      dispatch(fetchAllSetData());
+    } else {
+      dispatch(fetchCardsBySet());
+    }
   }, []);
 
   useEffect(() => {
-    // fetch subset data, but only if a subset is selected
+    // fetch set data, but only if a set is selected
     if (selectedSetId !== -1) {
-      dispatch(fetchSet(selectedSetId));
+      if (selectFrom === "COLLECTION") {
+        dispatch(fetchCardsBySubset(selectedSetId));
+      } else {
+        dispatch(fetchSet(selectedSetId));
+      }
     }
   }, [selectedSetId]);
 
