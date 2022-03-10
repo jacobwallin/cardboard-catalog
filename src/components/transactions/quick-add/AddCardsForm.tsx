@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { Card } from "../../../store/library/series/types";
-import { fetchAllSetData } from "../../../store/library/sets/thunks";
-import { fetchAllGradingCompanies } from "../../../store/library/grading_companies/thunks";
 import { CardData } from "../../../store/collection/browse/types";
 import AddCardsLine from "./add_cards_line/AddCardsLine";
 import StyledButton from "../../Admin/components/StyledButton";
@@ -63,11 +61,6 @@ export default function AddCardsForm(props: Props) {
   const postingCardsStatus = useSelector((state: RootState) =>
     postingCardsStatusSelector(state)
   );
-
-  useEffect(() => {
-    dispatch(fetchAllSetData());
-    dispatch(fetchAllGradingCompanies());
-  }, []);
 
   // reset card data only if post to server is successfull
   // data will remain if there is a server error so user can re-submit
@@ -200,7 +193,9 @@ export default function AddCardsForm(props: Props) {
 
   return (
     <Styled.FormContainer>
-      {!hideSelectCardForm && <SelectCardForm addCard={addCard} />}
+      {!hideSelectCardForm && (
+        <SelectCardForm addCard={addCard} selectFrom="COLLECTION" />
+      )}
       <Styled.SubmitContainer>
         <Styled.TotalCardsLabel>
           {cardData.length > 0 && `Total Cards: ${cardData.length}`}

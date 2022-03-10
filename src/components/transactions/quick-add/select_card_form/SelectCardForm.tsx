@@ -4,6 +4,8 @@ import { RootState } from "../../../../store";
 import { CardFormData } from "../AddCardsForm";
 import StyledButton from "../../../Admin/components/StyledButton";
 import { SetSummary } from "../../../../store/library/sets/types";
+import { fetchAllSetData } from "../../../../store/library/sets/thunks";
+import { fetchAllGradingCompanies } from "../../../../store/library/grading_companies/thunks";
 import { fetchSet } from "../../../../store/library/sets/thunks";
 import { fetchSubset } from "../../../../store/library/subsets/thunks";
 import { fetchSeriesById } from "../../../../store/library/series/thunks";
@@ -22,11 +24,12 @@ const seriesLoadingSelector = createLoadingSelector(["GET_SERIES"]);
 
 interface Props {
   addCard(card: CardFormData): void;
+  selectFrom: "COLLECTION" | "DATABASE";
 }
 
 export default function SelectCardForm(props: Props) {
   const dispatch = useDispatch();
-  const { addCard } = props;
+  const { addCard, selectFrom } = props;
 
   // LIBRARY STORE DATA
   const allSets = useSelector((state: RootState) => state.library.sets.allSets);
@@ -59,6 +62,11 @@ export default function SelectCardForm(props: Props) {
 
   // FETCH FORM DATA AS NEEDED WHEN USER MAKES SELECTIONS
   useEffect(() => {
+    dispatch(fetchAllSetData());
+    dispatch(fetchAllGradingCompanies());
+  }, []);
+
+  useEffect(() => {
     // fetch subset data, but only if a subset is selected
     if (selectedSetId !== -1) {
       dispatch(fetchSet(selectedSetId));
@@ -80,6 +88,7 @@ export default function SelectCardForm(props: Props) {
     }
   }, [selectedSeriesId]);
 
+  // automatically set card prefix in card number field
   useEffect(() => {
     if (subset.prefix !== "") {
       if (subset.card_data.length > 0) {
