@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import TransactionsHeader from "../../Collection/header/TransactionsHeader";
 import SelectTraded from "./select-traded/SelectTraded";
 import SelectReceived from "./select-received/SelectReceived";
 import ConfirmTrade from "./confirm/ConfirmTrade";
 import { CardFormData } from "../quick-add/AddCardsForm";
 import { CardData } from "../../../store/collection/browse/types";
 import { addTransaction } from "../../../store/collection/transactions/thunks";
+import * as Styled from "./styled";
 type StepNumbers = 1 | 2 | 3;
 
 export default function Trade() {
@@ -59,7 +61,21 @@ export default function Trade() {
 
   return (
     <>
-      <div>Enter A Trade</div>
+      <TransactionsHeader title="Enter Trade" />
+      <Styled.StepContainer>
+        <Styled.TradeStep>
+          <Styled.StepNumber>Step 1</Styled.StepNumber>
+          <Styled.StepTitle>Cards Traded</Styled.StepTitle>
+        </Styled.TradeStep>
+        <Styled.TradeStep>
+          <Styled.StepNumber>Step 2</Styled.StepNumber>
+          <Styled.StepTitle>Cards Received</Styled.StepTitle>
+        </Styled.TradeStep>
+        <Styled.TradeStep>
+          <Styled.StepNumber>Step 3</Styled.StepNumber>
+          <Styled.StepTitle>Confirm</Styled.StepTitle>
+        </Styled.TradeStep>
+      </Styled.StepContainer>
 
       {currentStep === 1 && (
         <>

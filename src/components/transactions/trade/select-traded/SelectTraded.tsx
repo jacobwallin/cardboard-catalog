@@ -12,12 +12,12 @@ export default function SelectTraded(props: Props) {
   const { tradedCards, handleTradedCardsChange, submit } = props;
   return (
     <>
-      <div>select the cards you traded</div>
       <AddCardsForm
         selectFrom="COLLECTION"
         cardData={tradedCards}
         setCardData={handleTradedCardsChange}
         submit={submit}
+        title="Select Cards You Traded"
       />
     </>
   );

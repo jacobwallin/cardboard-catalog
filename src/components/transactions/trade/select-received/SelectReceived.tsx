@@ -19,6 +19,7 @@ export default function SelectReceived(props: Props) {
         cardData={receivedCards}
         setCardData={handleReceivedCardsChange}
         submit={submit}
+        title="Select Cards You Received"
       />
     </>
   );
