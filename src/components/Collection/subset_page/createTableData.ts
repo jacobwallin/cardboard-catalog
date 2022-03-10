@@ -29,6 +29,7 @@ export interface DeleteTableDataPoint {
     id: number;
     value: number | null;
     cardDataId: number;
+    serializedTo: number | null;
     seriesId: number;
     cardData: CardData;
     series: Series;

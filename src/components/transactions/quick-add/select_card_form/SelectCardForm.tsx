@@ -275,6 +275,43 @@ export default function SelectCardForm(props: Props) {
   function handleAddCard(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (selectFrom === "COLLECTION") {
+      const userCard = collectionCardOptions.find(
+        (userCard) => userCard.id === selectedCardId
+      )!;
+      if (userCard) {
+        const newCardData: CardFormData = {
+          cardId: selectedCardId,
+          serialNumber:
+            userCard.serialNumber === null ? "" : String(userCard.serialNumber),
+          grade: userCard.grade === null ? "" : String(userCard.grade),
+          gradingCompanyId: userCard.gradingCompanyId || -1,
+          card: {
+            ...userCard.card,
+            card_datum: userCard.card.cardData,
+            createdBy: 0,
+            updatedBy: 0,
+            createdByUser: {
+              username: "",
+            },
+            updatedByUser: {
+              username: "",
+            },
+          },
+          serialNumberError: false,
+          gradeError: false,
+          gradingCompanyError: false,
+          qtyInCollection: userSubset.cards.filter(
+            (userCardy) => userCardy.cardId === userCard.card.id
+          ).length,
+          serialized: series.serialized,
+          shortPrint: series.shortPrint,
+          auto: series.auto,
+          relic: series.relic,
+          manufacturedRelic: series.manufacturedRelic,
+          refractor: series.refractor,
+        };
+        addCard(newCardData);
+      }
     } else {
       const card = databaseCardOptions.find(
         (card) => card.id === selectedCardId
