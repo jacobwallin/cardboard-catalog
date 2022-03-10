@@ -1,4 +1,5 @@
 import React from "react";
+import AddCardsForm from "../../quick-add/AddCardsForm";
 import { CardFormData } from "../../quick-add/AddCardsForm";
 import { CardData } from "../../../../store/collection/browse/types";
 interface Props {
@@ -8,5 +9,16 @@ interface Props {
 }
 
 export default function SelectTraded(props: Props) {
-  return <div>select the cards you traded</div>;
+  const { tradedCards, handleTradedCardsChange, submit } = props;
+  return (
+    <>
+      <div>select the cards you traded</div>
+      <AddCardsForm
+        selectFrom="COLLECTION"
+        cardData={tradedCards}
+        setCardData={handleTradedCardsChange}
+        submit={submit}
+      />
+    </>
+  );
 }

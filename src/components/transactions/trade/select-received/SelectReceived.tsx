@@ -12,10 +12,14 @@ interface Props {
 export default function SelectReceived(props: Props) {
   const { receivedCards, handleReceivedCardsChange, submit } = props;
   return (
-    <AddCardsForm
-      cardData={receivedCards}
-      setCardData={handleReceivedCardsChange}
-      submit={submit}
-    />
+    <>
+      <div>select the cards you received</div>
+      <AddCardsForm
+        selectFrom="DATABASE"
+        cardData={receivedCards}
+        setCardData={handleReceivedCardsChange}
+        submit={submit}
+      />
+    </>
   );
 }
