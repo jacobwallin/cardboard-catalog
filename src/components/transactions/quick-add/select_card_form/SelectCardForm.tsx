@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../../store";
 import { CardFormData } from "../AddCardsForm";
+
 import StyledButton from "../../../Admin/components/StyledButton";
 import { fetchAllSetData } from "../../../../store/library/sets/thunks";
 import { fetchAllGradingCompanies } from "../../../../store/library/grading_companies/thunks";
@@ -17,6 +18,7 @@ import {
 } from "../../../Collection/subset_page/createTableData";
 import * as aggregate from "./aggregate";
 import { SetSummary } from "../../../../store/library/sets/types";
+import { Series } from "../../../../store/library/subsets/types";
 import * as Styled from "./styled";
 import { createLoadingSelector } from "../../../../store/loading/reducer";
 
@@ -51,7 +53,6 @@ export default function SelectCardForm(props: Props) {
   const userSubset = useSelector(
     (state: RootState) => state.collection.browse.cardsInSingleSubset
   );
-  const series = useSelector((state: RootState) => state.library.series.series);
 
   // SELECT FORM DATA
   const [yearOptions, setYearOptions] = useState<number[]>([]);
@@ -60,6 +61,7 @@ export default function SelectCardForm(props: Props) {
     []
   );
   const [seriesOptions, setSeriesOptions] = useState<SeriesTableData[]>([]);
+
   const [databaseCardOptions, setDatabaseCardOptions] = useState<
     TableDataPoint[]
   >([]);
@@ -291,12 +293,12 @@ export default function SelectCardForm(props: Props) {
           qtyInCollection: userSubset.cards.filter(
             (userCardy) => userCardy.cardId === userCard.card.id
           ).length,
-          serialized: series.serialized,
-          shortPrint: series.shortPrint,
-          auto: series.auto,
-          relic: series.relic,
-          manufacturedRelic: series.manufacturedRelic,
-          refractor: series.refractor,
+          serialized: userCard.card.series.serialized,
+          shortPrint: userCard.card.series.shortPrint,
+          auto: userCard.card.series.auto,
+          relic: userCard.card.series.relic,
+          manufacturedRelic: userCard.card.series.manufacturedRelic,
+          refractor: userCard.card.series.refractor,
         };
         addCard(newCardData);
       }
@@ -328,12 +330,12 @@ export default function SelectCardForm(props: Props) {
           qtyInCollection: userSubset.cards.filter(
             (userCard) => userCard.cardId === card.id
           ).length,
-          serialized: series.serialized,
-          shortPrint: series.shortPrint,
-          auto: series.auto,
-          relic: series.relic,
-          manufacturedRelic: series.manufacturedRelic,
-          refractor: series.refractor,
+          serialized: card.series.serialized,
+          shortPrint: card.series.shortPrint,
+          auto: card.series.auto,
+          relic: card.series.relic,
+          manufacturedRelic: card.series.manufacturedRelic,
+          refractor: card.series.refractor,
         };
         addCard(newCardData);
       }
