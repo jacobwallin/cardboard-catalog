@@ -135,6 +135,7 @@ export interface SubsetCards {
   subsetDescription: string;
   distinctCards: string;
   totalCards: string;
+  prefix: string;
   setId: number;
 }
 export interface UserCard {
