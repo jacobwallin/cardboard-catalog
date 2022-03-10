@@ -90,19 +90,12 @@ export default function SelectCardForm(props: Props) {
   }, [selectedSetId]);
 
   useEffect(() => {
-    // fetch subset data, but only if a subset is selected
+    // fetch subset data, same data is needed regardless of selectFrom
     if (selectedSubsetId !== -1) {
       dispatch(fetchSubset(selectedSubsetId));
       dispatch(fetchCardsInSingleSubset(selectedSubsetId));
     }
   }, [selectedSubsetId]);
-
-  useEffect(() => {
-    // fetch subset data, but only if a subset is selected
-    if (selectedSeriesId !== -1) {
-      dispatch(fetchSeriesById(selectedSeriesId));
-    }
-  }, [selectedSeriesId]);
 
   // automatically set card prefix in card number field
   useEffect(() => {
