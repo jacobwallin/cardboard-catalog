@@ -22,6 +22,7 @@ export const fetchCardsBySubset =
     setId: number
   ): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
   (dispatch) => {
+    dispatch(actions.getCardsBySubsetRequest());
     get(`/api/collection/set/${setId}`, dispatch)
       .then((data) => {
         dispatch(

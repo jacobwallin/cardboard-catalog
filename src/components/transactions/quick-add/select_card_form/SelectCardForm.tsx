@@ -22,7 +22,7 @@ import { createLoadingSelector } from "../../../../store/loading/reducer";
 
 const setLoadingSelector = createLoadingSelector([
   "GET_SINGLE_SET",
-  "GET_CARDS_BY_SET",
+  "GET_CARDS_BY_SUBSET",
 ]);
 const subsetLoadingSelector = createLoadingSelector([
   "GET_SUBSET",
@@ -163,7 +163,7 @@ export default function SelectCardForm(props: Props) {
       subset.id === selectedSubsetId &&
       userSubset.subsetId === selectedSubsetId
     ) {
-      console.log("AGGREGATE DB SERIES");
+      console.log("AGGREGATE SERIES");
       setSeriesOptions(aggregate.aggregateSubset(subset, userSubset));
     }
   }, [subset, userSubset, selectedSubsetId]);
@@ -171,6 +171,7 @@ export default function SelectCardForm(props: Props) {
   useEffect(() => {
     if (selectedSeriesId !== -1) {
       if (selectFrom === "COLLECTION") {
+        console.log("AGGREGATE COLL CARDS");
         const userCards = seriesOptions.find(
           (series) => series.series.id === selectedSeriesId
         )!.userCards;
