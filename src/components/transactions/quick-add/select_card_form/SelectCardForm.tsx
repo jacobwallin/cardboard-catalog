@@ -148,7 +148,8 @@ export default function SelectCardForm(props: Props) {
       (set.id === selectedSetId || userSet.setId === selectedSetId)
     ) {
       if (selectFrom === "COLLECTION") {
-        // setSubsetOptions(aggregate.)
+        console.log("AGGREGATE COLL SUBSET");
+        setSubsetOptions(aggregate.collectionSubsets(userSet.subsets));
       } else {
         console.log("AGGREGATE DB SUBSET");
         setSubsetOptions(aggregate.aggregateSubsets(set));

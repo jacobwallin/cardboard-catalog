@@ -134,5 +134,17 @@ export function collectionSetsInYear(
 }
 
 export function collectionSubsets(userSubsets: SubsetCards[]): SubsetData[] {
-  return [];
+  return userSubsets
+    .map((subset) => {
+      return {
+        id: subset.subsetId,
+        name: subset.subsetName,
+        prefix: subset.prefix,
+      };
+    })
+    .sort((subsetA, subsetB) => {
+      if (subsetA.name < subsetB.name) return -1;
+      if (subsetA.name > subsetB.name) return 1;
+      return 0;
+    });
 }
