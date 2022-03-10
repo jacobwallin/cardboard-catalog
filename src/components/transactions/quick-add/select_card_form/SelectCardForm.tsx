@@ -260,28 +260,44 @@ export default function SelectCardForm(props: Props) {
 
   function handleAddCard(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const card = series.cards.find((card) => card.id === selectedCardId)!;
-    if (card) {
-      const newCardData: CardFormData = {
-        cardId: selectedCardId,
-        serialNumber: "",
-        grade: "",
-        gradingCompanyId: -1,
-        card: card,
-        serialNumberError: false,
-        gradeError: false,
-        gradingCompanyError: false,
-        qtyInCollection: userSubset.cards.filter(
-          (userCard) => userCard.cardId === card.id
-        ).length,
-        serialized: series.serialized,
-        shortPrint: series.shortPrint,
-        auto: series.auto,
-        relic: series.relic,
-        manufacturedRelic: series.manufacturedRelic,
-        refractor: series.refractor,
-      };
-      addCard(newCardData);
+    if (selectFrom === "COLLECTION") {
+    } else {
+      const card = databaseCardOptions.find(
+        (card) => card.id === selectedCardId
+      )!;
+      if (card) {
+        const newCardData: CardFormData = {
+          cardId: selectedCardId,
+          serialNumber: "",
+          grade: "",
+          gradingCompanyId: -1,
+          card: {
+            ...card,
+            card_datum: card.cardData,
+            createdBy: 0,
+            updatedBy: 0,
+            createdByUser: {
+              username: "",
+            },
+            updatedByUser: {
+              username: "",
+            },
+          },
+          serialNumberError: false,
+          gradeError: false,
+          gradingCompanyError: false,
+          qtyInCollection: userSubset.cards.filter(
+            (userCard) => userCard.cardId === card.id
+          ).length,
+          serialized: series.serialized,
+          shortPrint: series.shortPrint,
+          auto: series.auto,
+          relic: series.relic,
+          manufacturedRelic: series.manufacturedRelic,
+          refractor: series.refractor,
+        };
+        addCard(newCardData);
+      }
     }
   }
 

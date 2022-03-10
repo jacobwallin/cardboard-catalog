@@ -9,7 +9,8 @@ import sortCardNumbers from "../../../utils/sortCardNumbers";
 export interface TableDataPoint {
   id: number;
   cardDataId: number;
-  value: number;
+  value: number | null;
+  serializedTo: number | null;
   seriesId: number;
   quantity: number;
   cardData: CardData;
