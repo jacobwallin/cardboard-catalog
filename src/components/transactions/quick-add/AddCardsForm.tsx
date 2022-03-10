@@ -42,8 +42,6 @@ interface Props {
   hideSelectCardForm?: boolean;
 }
 export default function AddCardsForm(props: Props) {
-  const dispatch = useDispatch();
-
   const { cardData, setCardData, submit, hideSelectCardForm } = props;
 
   // error message will be displayed to user if form is not filled out correctly
@@ -194,7 +192,7 @@ export default function AddCardsForm(props: Props) {
   return (
     <Styled.FormContainer>
       {!hideSelectCardForm && (
-        <SelectCardForm addCard={addCard} selectFrom="DATABASE" />
+        <SelectCardForm addCard={addCard} selectFrom="COLLECTION" />
       )}
       <Styled.SubmitContainer>
         <Styled.TotalCardsLabel>

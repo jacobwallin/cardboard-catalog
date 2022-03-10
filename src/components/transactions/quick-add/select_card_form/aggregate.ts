@@ -4,6 +4,10 @@ import createTableData, {
 import { SetSummary, Set } from "../../../../store/library/sets/types";
 import { SubsetState } from "../../../../store/library/subsets/types";
 import { UserCard } from "../../../../store/collection/browse/types";
+import {
+  SetCards,
+  SubsetCards,
+} from "../../../../store/collection/browse/types";
 import sortSeries from "../../../Collection/subset_page/sortSeries";
 
 // these functions aggregate the API data for each of the select drop down menus
@@ -73,4 +77,62 @@ export function aggregateSubset(
         librarySubsetData.baseSeriesId || 0
       );
     });
+}
+
+export function collectionYears(collectionSets: SetCards[]): number[] {
+  let distinctYears = collectionSets.reduce(
+    (years: { [key: number]: boolean }, set) => {
+      if (!years[set.year]) {
+        years[set.year] = true;
+      }
+      return years;
+    },
+    {}
+  );
+
+  const years: number[] = Object.keys(distinctYears)
+    .map((yearString) => +yearString)
+    .sort((yearA, yearB) => {
+      return yearB - yearA;
+    });
+
+  return years;
+}
+
+export function collectionSetsInYear(
+  collectionSets: SetCards[],
+  year: number
+): SetSummary[] {
+  // must return SetSummary to give selectcardform the same data format, unnecessary information is given dummy values
+  return collectionSets
+    .filter((set) => set.year === year)
+    .map((set) => {
+      return {
+        id: set.setId,
+        name: set.setName,
+        release_date: set.release_date,
+        year: set.year,
+        complete: false,
+        description: set.setDescription,
+        createdAt: "",
+        updatedAt: "",
+        createdBy: 0,
+        updatedBy: 0,
+        baseSubsetId: 0,
+        leagueId: 0,
+        brandId: 0,
+        league: {
+          name: "",
+          id: 0,
+        },
+        brand: {
+          name: "",
+          id: 0,
+        },
+      };
+    });
+}
+
+export function collectionSubsets(userSubsets: SubsetCards[]): SubsetData[] {
+  return [];
 }

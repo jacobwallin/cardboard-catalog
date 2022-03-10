@@ -18,8 +18,6 @@ import {
 import * as aggregate from "./aggregate";
 import { SetSummary } from "../../../../store/library/sets/types";
 import * as Styled from "./styled";
-import sortCardNumbers from "../../../../utils/sortCardNumbers";
-import sortSeries from "../../../Collection/subset_page/sortSeries";
 import { createLoadingSelector } from "../../../../store/loading/reducer";
 
 const setLoadingSelector = createLoadingSelector([
@@ -122,6 +120,8 @@ export default function SelectCardForm(props: Props) {
   // AGGREGATE DATA FOR FORM
   useEffect(() => {
     if (selectFrom === "COLLECTION") {
+      console.log("AGGREGATE COLL YEARS");
+      setYearOptions(aggregate.collectionYears(userAllSets));
     } else {
       console.log("AGGREGATE DB YEARS");
       setYearOptions(aggregate.aggregateYears(allSets));
@@ -131,8 +131,12 @@ export default function SelectCardForm(props: Props) {
   useEffect(() => {
     if (selectedYear !== -1) {
       if (selectFrom === "COLLECTION") {
+        console.log("AGGREGATE COLL SETS IN YEAR");
+        setSetOptions(
+          aggregate.collectionSetsInYear(userAllSets, selectedYear)
+        );
       } else {
-        console.log("AGGREGATE DB YEARS");
+        console.log("AGGREGATE DB SETS IN YEAR");
         setSetOptions(aggregate.aggregateSets(allSets, selectedYear));
       }
     }
@@ -144,6 +148,7 @@ export default function SelectCardForm(props: Props) {
       (set.id === selectedSetId || userSet.setId === selectedSetId)
     ) {
       if (selectFrom === "COLLECTION") {
+        // setSubsetOptions(aggregate.)
       } else {
         console.log("AGGREGATE DB SUBSET");
         setSubsetOptions(aggregate.aggregateSubsets(set));
@@ -179,8 +184,8 @@ export default function SelectCardForm(props: Props) {
     }
   }, [seriesOptions, selectedSeriesId, selectFrom]);
 
-  // automatically set card prefix in card number field
   useEffect(() => {
+    // automatically set card prefix in card number field
     if (subset.prefix !== "") {
       if (subset.card_data.length > 0) {
         const cardNumber = subset.card_data[0].number;
@@ -344,7 +349,6 @@ export default function SelectCardForm(props: Props) {
         <option value={-1}>Select Subset</option>
         {
           // only render drop down options once the correct subset has been fetched from API
-          // TODO: cannot check against set.id if selecting from collection
           (set.id === selectedSetId || userSet.setId === selectedSetId) &&
             subsetOptions.map((subset) => {
               return (
