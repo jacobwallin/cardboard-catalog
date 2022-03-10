@@ -35,6 +35,7 @@ export interface DeleteTableDataPoint {
 }
 export interface SeriesTableData {
   seriesId: number;
+  series: Series;
   totalCards: number;
   distinctCards: number;
   cards: TableDataPoint[];
@@ -77,6 +78,7 @@ export function createTableData(
     (tableData: TableData, series) => {
       const ser: SeriesTableData = {
         seriesId: series.id,
+        series: series,
         totalCards: 0,
         distinctCards: 0,
         cards: [],

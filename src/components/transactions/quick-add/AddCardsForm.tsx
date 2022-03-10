@@ -194,7 +194,7 @@ export default function AddCardsForm(props: Props) {
   return (
     <Styled.FormContainer>
       {!hideSelectCardForm && (
-        <SelectCardForm addCard={addCard} selectFrom="COLLECTION" />
+        <SelectCardForm addCard={addCard} selectFrom="DATABASE" />
       )}
       <Styled.SubmitContainer>
         <Styled.TotalCardsLabel>

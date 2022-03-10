@@ -3,26 +3,33 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../../store";
 import { CardFormData } from "../AddCardsForm";
 import StyledButton from "../../../Admin/components/StyledButton";
-import { SetSummary } from "../../../../store/library/sets/types";
 import { fetchAllSetData } from "../../../../store/library/sets/thunks";
 import { fetchAllGradingCompanies } from "../../../../store/library/grading_companies/thunks";
 import { fetchSet } from "../../../../store/library/sets/thunks";
 import { fetchCardsBySet } from "../../../../store/collection/browse/thunks";
 import { fetchSubset } from "../../../../store/library/subsets/thunks";
 import { fetchCardsBySubset } from "../../../../store/collection/browse/thunks";
-import { fetchSeriesById } from "../../../../store/library/series/thunks";
 import { fetchCardsInSingleSubset } from "../../../../store/collection/browse/thunks";
+import {
+  SeriesTableData,
+  DeleteTableDataPoint,
+  TableDataPoint,
+} from "../../../Collection/subset_page/createTableData";
+import * as aggregate from "./aggregate";
+import { SetSummary } from "../../../../store/library/sets/types";
 import * as Styled from "./styled";
 import sortCardNumbers from "../../../../utils/sortCardNumbers";
 import sortSeries from "../../../Collection/subset_page/sortSeries";
 import { createLoadingSelector } from "../../../../store/loading/reducer";
 
-const setLoadingSelector = createLoadingSelector(["GET_SINGLE_SET"]);
+const setLoadingSelector = createLoadingSelector([
+  "GET_SINGLE_SET",
+  "GET_CARDS_BY_SET",
+]);
 const subsetLoadingSelector = createLoadingSelector([
   "GET_SUBSET",
   "GET_CARDS_IN_SINGLE_SUBSET",
 ]);
-const seriesLoadingSelector = createLoadingSelector(["GET_SERIES"]);
 
 interface Props {
   addCard(card: CardFormData): void;
@@ -44,9 +51,23 @@ export default function SelectCardForm(props: Props) {
   );
   const subset = useSelector((state: RootState) => state.library.subsets);
   const userSubset = useSelector(
-    (state: RootState) => state.collection.browse.cardsInSingleSubset.cards
+    (state: RootState) => state.collection.browse.cardsInSingleSubset
   );
   const series = useSelector((state: RootState) => state.library.series.series);
+
+  // SELECT FORM DATA
+  const [yearOptions, setYearOptions] = useState<number[]>([]);
+  const [setOptions, setSetOptions] = useState<SetSummary[]>([]);
+  const [subsetOptions, setSubsetOptions] = useState<aggregate.SubsetData[]>(
+    []
+  );
+  const [seriesOptions, setSeriesOptions] = useState<SeriesTableData[]>([]);
+  const [databaseCardOptions, setDatabaseCardOptions] = useState<
+    TableDataPoint[]
+  >([]);
+  const [collectionCardOptions, setCollectionCardOptions] = useState<
+    DeleteTableDataPoint[]
+  >([]);
 
   // CONTROLLED FORM DATA
   const [selectedYear, setSelectedYear] = useState(-1);
@@ -64,17 +85,16 @@ export default function SelectCardForm(props: Props) {
   const loadingSubset = useSelector((state: RootState) =>
     subsetLoadingSelector(state)
   );
-  const loadingSeries = useSelector((state: RootState) =>
-    seriesLoadingSelector(state)
-  );
 
+  // FETCH DATA
   useEffect(() => {
     // initial data load, either get all sets or only sets in user's collection
     dispatch(fetchAllGradingCompanies());
     if (selectFrom === "COLLECTION") {
-      dispatch(fetchAllSetData());
-    } else {
       dispatch(fetchCardsBySet());
+    } else {
+      console.log("FETCHING DATABASE ALL SETS");
+      dispatch(fetchAllSetData());
     }
   }, []);
 
@@ -84,6 +104,7 @@ export default function SelectCardForm(props: Props) {
       if (selectFrom === "COLLECTION") {
         dispatch(fetchCardsBySubset(selectedSetId));
       } else {
+        console.log("FETCHING DATABASE SET");
         dispatch(fetchSet(selectedSetId));
       }
     }
@@ -92,10 +113,71 @@ export default function SelectCardForm(props: Props) {
   useEffect(() => {
     // fetch subset data, same data is needed regardless of selectFrom
     if (selectedSubsetId !== -1) {
+      console.log("FETCHING SUBSET DATA");
       dispatch(fetchSubset(selectedSubsetId));
       dispatch(fetchCardsInSingleSubset(selectedSubsetId));
     }
   }, [selectedSubsetId]);
+
+  // AGGREGATE DATA FOR FORM
+  useEffect(() => {
+    if (selectFrom === "COLLECTION") {
+    } else {
+      console.log("AGGREGATE DB YEARS");
+      setYearOptions(aggregate.aggregateYears(allSets));
+    }
+  }, [allSets, userAllSets, selectFrom]);
+
+  useEffect(() => {
+    if (selectedYear !== -1) {
+      if (selectFrom === "COLLECTION") {
+      } else {
+        console.log("AGGREGATE DB YEARS");
+        setSetOptions(aggregate.aggregateSets(allSets, selectedYear));
+      }
+    }
+  }, [allSets, userAllSets, selectedYear, selectFrom]);
+
+  useEffect(() => {
+    if (
+      selectedSetId !== -1 &&
+      (set.id === selectedSetId || userSet.setId === selectedSetId)
+    ) {
+      if (selectFrom === "COLLECTION") {
+      } else {
+        console.log("AGGREGATE DB SUBSET");
+        setSubsetOptions(aggregate.aggregateSubsets(set));
+      }
+    }
+  }, [set, userSet, selectedSetId, selectFrom]);
+
+  useEffect(() => {
+    if (
+      selectedSubsetId !== -1 &&
+      subset.id === selectedSubsetId &&
+      userSubset.subsetId === selectedSubsetId
+    ) {
+      console.log("AGGREGATE DB SERIES");
+      setSeriesOptions(aggregate.aggregateSubset(subset, userSubset));
+    }
+  }, [subset, userSubset, selectedSubsetId]);
+
+  useEffect(() => {
+    if (selectedSeriesId !== -1) {
+      if (selectFrom === "COLLECTION") {
+        const userCards = seriesOptions.find(
+          (series) => series.series.id === selectedSeriesId
+        )!.userCards;
+        setCollectionCardOptions(userCards);
+      } else {
+        console.log("AGGREGATE DB CARDS");
+        const cards = seriesOptions.find(
+          (series) => series.series.id === selectedSeriesId
+        )!.cards;
+        setDatabaseCardOptions(cards);
+      }
+    }
+  }, [seriesOptions, selectedSeriesId, selectFrom]);
 
   // automatically set card prefix in card number field
   useEffect(() => {
@@ -141,10 +223,13 @@ export default function SelectCardForm(props: Props) {
         break;
       case "select-card":
         setSelectedCardId(+event.target.value);
-        setCardIdField(
-          series.cards.find((card) => card.id === +event.target.value)
-            ?.card_datum.number!
-        );
+        if (selectFrom === "COLLECTION") {
+        } else {
+          const card = databaseCardOptions.find(
+            (card) => card.id === +event.target.value
+          )!;
+          setCardIdField(card.cardData.number);
+        }
         break;
     }
   }
@@ -152,16 +237,20 @@ export default function SelectCardForm(props: Props) {
   function handleInputChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
+    // set input value, subset prefix cannot be deleted
     if (event.target.value.indexOf(prefix) !== -1) {
       setCardIdField(event.target.value.toUpperCase());
     } else {
       setCardIdField(prefix);
     }
-    const card = series.cards.find(
-      (card) =>
-        card.card_datum.number.toUpperCase() ===
-        event.target.value.toUpperCase()
-    );
+    // set the selectedCardId to change the selected card when input changes
+    let card = undefined;
+    if (selectFrom === "COLLECTION") {
+    } else {
+      card = databaseCardOptions.find(
+        (card) => card.cardData.number === event.target.value
+      );
+    }
     if (card) {
       setSelectedCardId(card.id);
     } else {
@@ -182,7 +271,7 @@ export default function SelectCardForm(props: Props) {
         serialNumberError: false,
         gradeError: false,
         gradingCompanyError: false,
-        qtyInCollection: userSubset.filter(
+        qtyInCollection: userSubset.cards.filter(
           (userCard) => userCard.cardId === card.id
         ).length,
         serialized: series.serialized,
@@ -205,7 +294,7 @@ export default function SelectCardForm(props: Props) {
         onChange={handleSelectChange}
       >
         <option value={-1}>Select Year</option>
-        {aggregateYears(allSets).map((year) => {
+        {yearOptions.map((year) => {
           return (
             <option key={year} value={year}>
               {year}
@@ -221,7 +310,7 @@ export default function SelectCardForm(props: Props) {
         onChange={handleSelectChange}
       >
         <option value={-1}>Select Set</option>
-        {aggregateSets(allSets, selectedYear).map((set) => {
+        {setOptions.map((set) => {
           return (
             <option key={set.id} value={set.id}>
               {set.name}
@@ -239,24 +328,16 @@ export default function SelectCardForm(props: Props) {
         <option value={-1}>Select Subset</option>
         {
           // only render drop down options once the correct subset has been fetched from API
-          set.id === selectedSetId &&
-            set.subsets
-              .sort((subsetA, subsetB) => {
-                if (subsetA.id === set.baseSubsetId) return -1;
-                if (subsetB.id === set.baseSubsetId) return 1;
-
-                if (subsetA.name < subsetB.name) return -1;
-                if (subsetA.name > subsetB.name) return 1;
-                return 0;
-              })
-              .map((subset) => {
-                return (
-                  <option key={subset.id} value={subset.id}>
-                    {`${subset.name}`}
-                    {subset.prefix !== "" && ` (${subset.prefix})`}
-                  </option>
-                );
-              })
+          // TODO: cannot check against set.id if selecting from collection
+          (set.id === selectedSetId || userSet.setId === selectedSetId) &&
+            subsetOptions.map((subset) => {
+              return (
+                <option key={subset.id} value={subset.id}>
+                  {`${subset.name}`}
+                  {subset.prefix !== "" && ` (${subset.prefix})`}
+                </option>
+              );
+            })
         }
       </Styled.Select>
       <Styled.Select
@@ -270,18 +351,14 @@ export default function SelectCardForm(props: Props) {
         {
           // only render drop down options once the correct subset has been fetched from API
           subset.id === selectedSubsetId &&
-            subset.series
-              .sort((seriesA, seriesB) => {
-                return sortSeries(seriesA, seriesB, subset.baseSeriesId || 0);
-              })
-              .map((series) => {
-                return (
-                  <option key={series.id} value={series.id}>
-                    {series.name}
-                    {series.serialized && ` /${series.serialized}`}
-                  </option>
-                );
-              })
+            seriesOptions.map((series) => {
+              return (
+                <option key={series.series.id} value={series.series.id}>
+                  {series.series.name}
+                  {series.series.serialized && ` /${series.series.serialized}`}
+                </option>
+              );
+            })
         }
       </Styled.Select>
       <Styled.SelectCardContainer onSubmit={handleAddCard}>
@@ -289,27 +366,18 @@ export default function SelectCardForm(props: Props) {
           value={selectedCardId}
           name="select-card"
           id="select-card"
-          disabled={selectedSeriesId === -1 || loadingSeries}
+          disabled={selectedSeriesId === -1}
           onChange={handleSelectChange}
         >
           <option value={-1}>Select Card</option>
-          {series.id === selectedSeriesId &&
-            series.cards
-              .sort((cardA, cardB) => {
-                return sortCardNumbers(
-                  cardA.card_datum.number,
-                  cardB.card_datum.number
-                );
-              })
-              .map((card) => {
-                return (
-                  <option key={card.id} value={card.id}>
-                    {`${card.card_datum.number} - ${card.card_datum.name}`}
-                    {card.card_datum.note !== "" &&
-                      ` (${card.card_datum.note})`}
-                  </option>
-                );
-              })}
+          {databaseCardOptions.map((card) => {
+            return (
+              <option key={card.id} value={card.id}>
+                {`${card.cardData.number} - ${card.cardData.name}`}
+                {card.cardData.note !== "" && ` (${card.cardData.note})`}
+              </option>
+            );
+          })}
         </Styled.Select>
         <Styled.Input
           type="text"
@@ -330,28 +398,4 @@ export default function SelectCardForm(props: Props) {
       </Styled.SelectCardContainer>
     </>
   );
-}
-// these functions aggregate the API data for each of the select drop down menus
-function aggregateYears(allSets: SetSummary[]): number[] {
-  let yearsArray: number[] = [];
-  allSets.forEach((set) => {
-    if (
-      yearsArray.length === 0 ||
-      yearsArray[yearsArray.length - 1] !== set.year
-    ) {
-      yearsArray.push(set.year);
-    }
-  });
-  return yearsArray;
-}
-function aggregateSets(allSets: SetSummary[], year: number): SetSummary[] {
-  return allSets
-    .filter((set) => {
-      return set.year === year;
-    })
-    .sort((setA, setB) => {
-      if (setA.name < setB.name) return -1;
-      if (setA.name > setB.name) return 1;
-      return 0;
-    });
 }
