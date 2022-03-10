@@ -230,6 +230,10 @@ export default function SelectCardForm(props: Props) {
       case "select-card":
         setSelectedCardId(+event.target.value);
         if (selectFrom === "COLLECTION") {
+          const userCard = collectionCardOptions.find(
+            (userCard) => userCard.id === +event.target.value
+          )!;
+          setCardIdField(userCard.card.cardData.number);
         } else {
           const card = databaseCardOptions.find(
             (card) => card.id === +event.target.value
@@ -252,6 +256,9 @@ export default function SelectCardForm(props: Props) {
     // set the selectedCardId to change the selected card when input changes
     let card = undefined;
     if (selectFrom === "COLLECTION") {
+      card = collectionCardOptions.find(
+        (userCard) => userCard.card.cardData.number === event.target.value
+      );
     } else {
       card = databaseCardOptions.find(
         (card) => card.cardData.number === event.target.value
