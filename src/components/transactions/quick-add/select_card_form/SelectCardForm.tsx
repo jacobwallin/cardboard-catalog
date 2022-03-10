@@ -391,14 +391,24 @@ export default function SelectCardForm(props: Props) {
           onChange={handleSelectChange}
         >
           <option value={-1}>Select Card</option>
-          {databaseCardOptions.map((card) => {
-            return (
-              <option key={card.id} value={card.id}>
-                {`${card.cardData.number} - ${card.cardData.name}`}
-                {card.cardData.note !== "" && ` (${card.cardData.note})`}
-              </option>
-            );
-          })}
+          {selectFrom === "COLLECTION"
+            ? collectionCardOptions.map((userCard) => {
+                return (
+                  <option key={userCard.id} value={userCard.id}>
+                    {`${userCard.card.cardData.number} - ${userCard.card.cardData.name}`}
+                    {userCard.card.cardData.note !== "" &&
+                      ` (${userCard.card.cardData.note})`}
+                  </option>
+                );
+              })
+            : databaseCardOptions.map((card) => {
+                return (
+                  <option key={card.id} value={card.id}>
+                    {`${card.cardData.number} - ${card.cardData.name}`}
+                    {card.cardData.note !== "" && ` (${card.cardData.note})`}
+                  </option>
+                );
+              })}
         </Styled.Select>
         <Styled.Input
           type="text"
@@ -420,3 +430,5 @@ export default function SelectCardForm(props: Props) {
     </>
   );
 }
+
+// TODO: disabled select option if it has already been added (pass down cardData from AddCardsForm)
