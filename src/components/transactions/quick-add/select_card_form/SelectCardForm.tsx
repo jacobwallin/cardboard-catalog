@@ -33,12 +33,18 @@ export default function SelectCardForm(props: Props) {
 
   // LIBRARY STORE DATA
   const allSets = useSelector((state: RootState) => state.library.sets.allSets);
+  const userAllSets = useSelector(
+    (state: RootState) => state.collection.browse.cardsBySet
+  );
   const set = useSelector((state: RootState) => state.library.sets.set);
+  const userSet = useSelector(
+    (state: RootState) => state.collection.browse.cardsBySubset
+  );
   const subset = useSelector((state: RootState) => state.library.subsets);
-  const series = useSelector((state: RootState) => state.library.series.series);
-  const userCardsInSubset = useSelector(
+  const userSubset = useSelector(
     (state: RootState) => state.collection.browse.cardsInSingleSubset.cards
   );
+  const series = useSelector((state: RootState) => state.library.series.series);
 
   // CONTROLLED FORM DATA
   const [selectedYear, setSelectedYear] = useState(-1);
@@ -173,7 +179,7 @@ export default function SelectCardForm(props: Props) {
         serialNumberError: false,
         gradeError: false,
         gradingCompanyError: false,
-        qtyInCollection: userCardsInSubset.filter(
+        qtyInCollection: userSubset.filter(
           (userCard) => userCard.cardId === card.id
         ).length,
         serialized: series.serialized,
