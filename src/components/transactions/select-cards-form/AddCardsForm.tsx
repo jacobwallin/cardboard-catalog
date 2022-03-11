@@ -210,9 +210,6 @@ export default function AddCardsForm(props: Props) {
         />
       )}
       <Styled.SubmitContainer>
-        <Styled.TotalCardsLabel>
-          {cardData.length > 0 && `Total Cards: ${cardData.length}`}
-        </Styled.TotalCardsLabel>
         <StyledButton
           id="submit-cards-button"
           onClick={handleSubmit}
