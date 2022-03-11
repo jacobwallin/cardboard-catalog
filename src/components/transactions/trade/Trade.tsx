@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 import TransactionsHeader from "../../Collection/header/TransactionsHeader";
 import SelectTraded from "./select-traded/SelectTraded";
 import SelectReceived from "./select-received/SelectReceived";
@@ -10,6 +11,9 @@ import { addTransaction } from "../../../store/collection/transactions/thunks";
 import { FormData } from "./confirm/trade-form/TradeForm";
 import * as Styled from "./styled";
 import Step, { StepNumbers } from "./Step";
+import { RootState } from "../../../store";
+import { createStatusSelector } from "../../../store/loading/reducer";
+const addTradeStatusSelector = createStatusSelector("ADD_TRANSACTION");
 
 export default function Trade() {
   const dispatch = useDispatch();
@@ -24,6 +28,11 @@ export default function Trade() {
   // data formatted to send to server
   const [tradedCardData, setTradedCardData] = useState<CardData[]>([]);
   const [receivedCardData, setReceivedCardData] = useState<CardData[]>([]);
+
+  const [tradeSubmitted, setTradeSubmitted] = useState<boolean>(false);
+  const addTransactionStatus = useSelector((state: RootState) =>
+    addTradeStatusSelector(state)
+  );
 
   function handleTradedCardsChange(tradedCards: CardFormData[]) {
     setTradedCards(tradedCards);
@@ -46,12 +55,8 @@ export default function Trade() {
   }
 
   function submitTrade(tradeDetails: FormData) {
-    // validate data
-
-    // set step to active to give user completion visual
+    // step 3 will be shown as completed
     setCurrentStep(4);
-
-    // send data to api
 
     // get current date for transaction
     const date = new Date();
@@ -67,6 +72,12 @@ export default function Trade() {
         userCardsRemoved: tradedCardData.map((userCard) => userCard.cardId),
       })
     );
+    setTradeSubmitted(true);
+  }
+
+  // redirect to transaction page once trade is successfully created
+  if (addTransactionStatus === "SUCCESS" && tradeSubmitted) {
+    return <Redirect to="/transactions" />;
   }
 
   return (
