@@ -7,7 +7,7 @@ import { ReactComponent as XIcon } from "./close.svg";
 import CardNumber from "../../../Collection/subset_page/CardNumber";
 import * as Styled from "./styled";
 
-interface AcceptChanges {
+interface Props {
   serialized: number | null;
   index: number;
   card: CardFormData;
@@ -21,15 +21,6 @@ interface AcceptChanges {
   clearGradeData?(cardIndex: number): any;
   preventGradeChanges: boolean;
 }
-
-interface NoChanges {
-  serialized: number | null;
-  index: number;
-  card: CardFormData;
-  preventGradeChanges: true;
-}
-
-type Props = AcceptChanges;
 
 export default function AddCardsLine(props: Props) {
   const [addCardGrade, setAddCardGrade] = useState(false);
@@ -54,21 +45,23 @@ export default function AddCardsLine(props: Props) {
   return (
     <Styled.Container>
       <Styled.CardInfoContainer>
-        <Styled.DeleteButtonContainer>
-          <StyledButton
-            as="div"
-            color="RED"
-            width="30px"
-            height="30px"
-            onClick={() => {
-              if (props.handleDelete) props.handleDelete(props.index);
-            }}
-          >
-            <Styled.CloseIcon>
-              <XIcon />
-            </Styled.CloseIcon>
-          </StyledButton>
-        </Styled.DeleteButtonContainer>
+        {props.handleDelete && (
+          <Styled.DeleteButtonContainer>
+            <StyledButton
+              as="div"
+              color="RED"
+              width="30px"
+              height="30px"
+              onClick={() => {
+                if (props.handleDelete) props.handleDelete(props.index);
+              }}
+            >
+              <Styled.CloseIcon>
+                <XIcon />
+              </Styled.CloseIcon>
+            </StyledButton>
+          </Styled.DeleteButtonContainer>
+        )}
         <Styled.CardNumber>
           <CardNumber
             number={props.card.card.card_datum.number}

@@ -20,6 +20,7 @@ interface AcceptChanges {
 interface NoChanges {
   cardData: CardFormData[];
   preventGradeChanges: true;
+  handleDelete?(cardIndex: number): any;
 }
 
 type Props = AcceptChanges | NoChanges;
@@ -59,6 +60,7 @@ export default function SelectedCards(props: Props) {
                 index={index}
                 card={card}
                 preventGradeChanges={true}
+                handleDelete={props.handleDelete}
               />
             );
           } else {
