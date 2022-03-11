@@ -112,7 +112,7 @@ router.post("/", async (req, res, next) => {
   const userId = req.user.id;
   try {
     let transaction = undefined;
-    if (type === "QUICK" || "DELETE") {
+    if (type === "QUICK" || type === "DELETE") {
       // if transaction type is a quick add or delete, check first if one was created for the current day
       transaction = await Transaction.findOne({
         where: {

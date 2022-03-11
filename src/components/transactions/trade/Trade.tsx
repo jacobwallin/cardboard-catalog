@@ -62,7 +62,7 @@ export default function Trade() {
     dispatch(
       addTransaction({
         type: "TRADE",
-        date: dateString,
+        ...tradeDetails,
         cardsAdded: receivedCardData,
         userCardsRemoved: tradedCardData.map((userCard) => userCard.cardId),
       })
@@ -111,7 +111,7 @@ export default function Trade() {
           />
         </>
       )}
-      {currentStep === 3 && (
+      {(currentStep === 3 || currentStep === 4) && (
         <>
           <ConfirmTrade
             tradedCards={tradedCards}

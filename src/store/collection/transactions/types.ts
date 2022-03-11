@@ -95,12 +95,12 @@ export interface TransactionPostData {
   date: string;
   cardsAdded?: CardData[];
   userCardsRemoved?: number[];
-  money?: number;
-  platform?: string;
-  individual?: string;
+  money?: number | null;
+  platform?: string | null;
+  individual?: string | null;
   setId?: number;
-  title?: string;
-  notes?: string;
+  title?: string | null;
+  notes?: string | null;
 }
 
 export interface CardData {

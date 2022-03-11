@@ -4,9 +4,9 @@ import StyledButton from "../../../../Admin/components/StyledButton";
 
 export interface FormData {
   date: string;
-  note: string;
-  individual: string;
-  money: number;
+  note: string | null;
+  individual: string | null;
+  money: number | null;
 }
 
 interface Props {
@@ -40,9 +40,9 @@ export default function TradeForm(props: Props) {
   function submit() {
     props.handleSubmit({
       date: date,
-      note: note,
-      individual: individual,
-      money: +money,
+      note: note === "" ? null : note,
+      individual: individual === "" ? null : individual,
+      money: money === "" ? null : +money,
     });
   }
 
