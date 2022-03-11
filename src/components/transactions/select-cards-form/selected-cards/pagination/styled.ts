@@ -4,16 +4,22 @@ export const MenuContainer = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
-  border: 1px solid blue;
+  color: #555;
 `;
 
 export const ControlsContainer = styled.div`
   display: flex;
   align-items: center;
+  svg {
+    fill: #555;
+  }
 `;
 
 export const TotalCards = styled.div`
   margin-left: auto;
+  font-size: 0.9rem;
+  color: black;
+  font-weight: 500;
 `;
 
 export const RowsPerPage = styled.select`
@@ -27,7 +33,7 @@ export const RowsPerPage = styled.select`
   padding-left: 8px;
   padding-right: 12px;
   box-sizing: content-box;
-  font-size: inherit;
+  font-size: 0.9rem;
   color: inherit;
   border: none;
   background-color: transparent;
@@ -38,7 +44,7 @@ export const RowsPerPage = styled.select`
 `;
 
 export const RowsPerPageLabel = styled.label`
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 `;
 
 export const RowsContainer = styled.div`
@@ -66,4 +72,16 @@ export const RowsContainer = styled.div`
 
 export const PageStatus = styled.div`
   margin: 0 10px 0 10px;
+  font-size: 0.9rem;
+`;
+
+export const SvgWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  &:hover {
+    background: #ddd;
+    cursor: pointer;
+  }
 `;
