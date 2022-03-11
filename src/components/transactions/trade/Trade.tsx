@@ -8,9 +8,7 @@ import { CardFormData } from "../quick-add/AddCardsForm";
 import { CardData } from "../../../store/collection/browse/types";
 import { addTransaction } from "../../../store/collection/transactions/thunks";
 import * as Styled from "./styled";
-import Step from "./Step";
-
-type StepNumbers = 1 | 2 | 3;
+import Step, { StepNumbers } from "./Step";
 
 export default function Trade() {
   const dispatch = useDispatch();
@@ -50,6 +48,7 @@ export default function Trade() {
     // validate data
 
     // set step to active to give user completion visual
+    setCurrentStep(4);
 
     // send data to api
 
@@ -73,13 +72,24 @@ export default function Trade() {
     <>
       <TransactionsHeader title="Enter Trade" />
       <Styled.StepContainer>
-        <Step currentStepNumber={currentStep} number={1} title="Cards Traded" />
+        <Step
+          currentStepNumber={currentStep}
+          number={1}
+          title="Cards Traded"
+          returnToStep={returnToPreviousStep}
+        />
         <Step
           currentStepNumber={currentStep}
           number={2}
           title="Cards Received"
+          returnToStep={returnToPreviousStep}
         />
-        <Step currentStepNumber={currentStep} number={3} title="Confirm" />
+        <Step
+          currentStepNumber={currentStep}
+          number={3}
+          title="Confirm"
+          returnToStep={returnToPreviousStep}
+        />
       </Styled.StepContainer>
 
       {currentStep === 1 && (
