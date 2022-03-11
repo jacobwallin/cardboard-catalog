@@ -62,36 +62,52 @@ export interface TransactionsState {
   allTransactions: TransactionSummary[];
 }
 
+export type TransactionTypes = "QUICK" | "TRADE" | "SALE" | "PURCHASE" | "RIP";
+
 export interface SingleTransaction {
   id: number;
+  type: TransactionTypes;
+  date: string;
   title: string | null;
   note: string | null;
-  date: string | null;
   platform: string | null;
   individual: string | null;
   money: number | null;
   createdAt: string;
   updatedAt: string;
   userId: number;
+  setId: number | null;
   cards: UserCard[];
 }
 
 export interface TransactionSummary {
   id: number;
-  title: string;
-  note: string;
+  type: TransactionTypes;
   date: string;
-  platform: string;
-  individual: string;
-  money: number;
+  title: string | null;
+  note: string | null;
+  platform: string | null;
+  individual: string | null;
+  money: number | null;
   createdAt: string;
   updatedAt: string;
   userId: number;
+  setId: number | null;
+  transaction_user_cards: TransactionUserCard[];
+}
+
+interface TransactionUserCard {
+  id: number;
+  deleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+  transactionId: number;
+  userCardId: number;
 }
 
 // data needed to post new transaction
 export interface TransactionPostData {
-  type: "QUICK" | "TRADE" | "SALE" | "PURCHASE" | "RIP";
+  type: TransactionTypes;
   date: string;
   cardsAdded?: CardData[];
   userCardsRemoved?: number[];
