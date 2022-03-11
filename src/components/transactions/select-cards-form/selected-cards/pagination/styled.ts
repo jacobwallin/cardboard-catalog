@@ -9,6 +9,7 @@ export const MenuContainer = styled.div`
 
 export const ControlsContainer = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 export const TotalCards = styled.div`
@@ -63,4 +64,6 @@ export const RowsContainer = styled.div`
   }
 `;
 
-export const PageStatus = styled.div``;
+export const PageStatus = styled.div`
+  margin: 0 10px 0 10px;
+`;
