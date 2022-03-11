@@ -1,11 +1,10 @@
-import {
-  TransactionSummary,
-  TransactionTypes,
-} from "../../../store/collection/transactions/types";
+import { TransactionSummary } from "../../../store/collection/transactions/types";
+
+import formatTimestamp from "../../../utils/formatTimestamp";
 
 export interface TransactionTableData {
   id: number;
-  type: TransactionTypes;
+  type: string;
   date: string;
   title: string | null;
   note: string | null;
@@ -20,6 +19,15 @@ export interface TransactionTableData {
   cardsRemoved: number;
 }
 
+// display names for each transaction types
+const transactionTypeMap = {
+  QUICK: "Quick Add",
+  TRADE: "Trade",
+  SALE: "Sale",
+  PURCHASE: "Purchase",
+  RIP: "Rip",
+};
+
 export default function createTableData(
   transactions: TransactionSummary[]
 ): TransactionTableData[] {
@@ -27,6 +35,8 @@ export default function createTableData(
     const { transaction_user_cards, ...rest } = transaction;
     const tableRow: TransactionTableData = {
       ...rest,
+      type: transactionTypeMap[rest.type],
+      createdAt: formatTimestamp(rest.createdAt),
       cardsAdded: 0,
       cardsRemoved: 0,
     };
@@ -43,7 +53,7 @@ export default function createTableData(
 
 export const columns = [
   {
-    name: "Date",
+    name: "Transaction Date",
     selector: "date",
     sortable: true,
     // minWidth: "50px",
@@ -75,5 +85,12 @@ export const columns = [
     // maxWidth: "75px",
     // style: tableStyles,
     // grow: 0,
+  },
+  {
+    name: "Created On",
+    selector: "createdAt",
+    sortable: true,
+    // minWidth: "50px",
+    // grow: 2,
   },
 ];
