@@ -33,7 +33,7 @@ export const TradeStep = styled.div<{ status: StepStatus }>`
       case "ACTIVE":
         return "black";
       case "INACTIVE":
-        return "lightgray";
+        return "gray";
       case "COMPLETE":
         return "gray";
     }

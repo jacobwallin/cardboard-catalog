@@ -2,16 +2,25 @@ import React from "react";
 import * as Styled from "./styled";
 
 interface Props {
-  status: Styled.StepStatus;
   number: number;
+  currentStepNumber: number;
   title: string;
 }
 
 export default function Step(props: Props) {
-  const { status, number, title } = props;
+  const { currentStepNumber, number, title } = props;
+
   return (
     <>
-      <Styled.TradeStep status={status}>
+      <Styled.TradeStep
+        status={
+          currentStepNumber < number
+            ? "INACTIVE"
+            : currentStepNumber > number
+            ? "COMPLETE"
+            : "ACTIVE"
+        }
+      >
         <Styled.StepNumber>Step {number}</Styled.StepNumber>
         <Styled.StepTitle>{title}</Styled.StepTitle>
       </Styled.TradeStep>

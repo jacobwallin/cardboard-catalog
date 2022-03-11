@@ -9,6 +9,7 @@ import { CardData } from "../../../store/collection/browse/types";
 import { addTransaction } from "../../../store/collection/transactions/thunks";
 import * as Styled from "./styled";
 import Step from "./Step";
+
 type StepNumbers = 1 | 2 | 3;
 
 export default function Trade() {
@@ -25,10 +26,6 @@ export default function Trade() {
   const [tradedCardData, setTradedCardData] = useState<CardData[]>([]);
   const [receivedCardData, setReceivedCardData] = useState<CardData[]>([]);
 
-  const [step1Status, setStep1Status] = useState<Styled.StepStatus>("ACTIVE");
-  const [step2Status, setStep2Status] = useState<Styled.StepStatus>("INACTIVE");
-  const [step3Status, setStep3Status] = useState<Styled.StepStatus>("COMPLETE");
-
   function handleTradedCardsChange(tradedCards: CardFormData[]) {
     setTradedCards(tradedCards);
   }
@@ -39,21 +36,20 @@ export default function Trade() {
   function submitTradedCards(cardData: CardData[]) {
     setTradedCardData(cardData);
     setCurrentStep(2);
-    setStep1Status("COMPLETE");
-    setStep2Status("ACTIVE");
   }
   function submitReceivedCards(cardData: CardData[]) {
     setReceivedCardData(cardData);
     setCurrentStep(3);
-    setStep2Status("COMPLETE");
-    setStep3Status("ACTIVE");
+  }
+
+  function returnToPreviousStep(stepNumber: StepNumbers) {
+    setCurrentStep(stepNumber);
   }
 
   function submitTrade() {
     // validate data
 
     // set step to active to give user completion visual
-    setStep2Status("COMPLETE");
 
     // send data to api
 
@@ -77,9 +73,13 @@ export default function Trade() {
     <>
       <TransactionsHeader title="Enter Trade" />
       <Styled.StepContainer>
-        <Step status={step1Status} number={1} title="Cards Traded" />
-        <Step status={step2Status} number={2} title="Cards Received" />
-        <Step status={step3Status} number={3} title="Confirm" />
+        <Step currentStepNumber={currentStep} number={1} title="Cards Traded" />
+        <Step
+          currentStepNumber={currentStep}
+          number={2}
+          title="Cards Received"
+        />
+        <Step currentStepNumber={currentStep} number={3} title="Confirm" />
       </Styled.StepContainer>
 
       {currentStep === 1 && (
