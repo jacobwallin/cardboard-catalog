@@ -14,7 +14,7 @@ export default function Trade() {
   const dispatch = useDispatch();
 
   // track current step of trade data entry use is on
-  const [currentStep, setCurrentStep] = useState<StepNumbers>(1);
+  const [currentStep, setCurrentStep] = useState<StepNumbers>(3);
 
   // form state for cards traded and received
   const [tradedCards, setTradedCards] = useState<CardFormData[]>([]);
