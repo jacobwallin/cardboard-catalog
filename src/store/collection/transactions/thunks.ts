@@ -1,7 +1,11 @@
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../index";
 import * as actions from "./actions";
-import { TransactionActions, TransactionPostData } from "./types";
+import {
+  TransactionActions,
+  TransactionPostData,
+  TransactionSummary,
+} from "./types";
 import { get, post } from "../../../utils/fetch";
 
 export const fetchTransaction =
@@ -24,7 +28,7 @@ export const fetchAllTransactions =
   (dispatch) => {
     dispatch(actions.getAllTransactionsRequest());
     get(`/api/transactions/`, dispatch)
-      .then((payload) => {
+      .then((payload: TransactionSummary[]) => {
         dispatch(actions.getAllTransactionsSuccess(payload));
       })
       .catch((err) => {
