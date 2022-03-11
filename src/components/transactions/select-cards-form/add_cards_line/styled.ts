@@ -64,13 +64,13 @@ interface StyledInputProps {
 export const StyledInput = styled.input<StyledInputProps>`
   width: 60px;
   padding: 5px;
-  height: 65%;
+  height: 20px;
   border: ${(props) => props.error && "1px solid red"};
 `;
 
 export const SerialNumberLabel = styled.label<StyledInputProps>`
   height: 35%;
-  font-size: 0.7em;
+  font-size: 0.5em;
   color: ${(props) => props.error && "red"};
 `;
 export const GradeLabel = styled.label`
