@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { Card } from "../../../store/library/series/types";
 import { CardData } from "../../../store/collection/browse/types";
-import AddCardsLine from "./add_cards_line/AddCardsLine";
 import StyledButton from "../../Admin/components/StyledButton";
 import SelectCardForm from "./select_card_form/SelectCardForm";
+import SelectedCards from "./selected-cards/SelectedCards";
 
 import {
   createLoadingSelector,
@@ -14,6 +14,7 @@ import {
 import * as validate from "./validateCardData";
 
 import * as Styled from "./styled";
+
 export interface CardFormData {
   cardId: number;
   serialNumber: string;
@@ -238,24 +239,15 @@ export default function AddCardsForm(props: Props) {
         </Styled.PostResultMessage>
       )}
 
-      <Styled.CardDataContainer>
-        {cardData.map((card, index) => {
-          return (
-            <AddCardsLine
-              key={String(card.cardId) + String(index)}
-              serialized={series.serialized}
-              index={index}
-              card={card}
-              clearGradeData={clearGradeData}
-              handleDelete={handleDeleteCard}
-              handleSerializedChange={handleSerializedChange}
-              handleGradeChange={handleGradeChange}
-              handleGradingCompanyIdChange={handleGradingCompanyIdChange}
-              preventGradeChanges={selectFrom === "COLLECTION"}
-            />
-          );
-        })}
-      </Styled.CardDataContainer>
+      <SelectedCards
+        cardData={cardData}
+        handleDelete={handleDeleteCard}
+        handleSerializedChange={handleSerializedChange}
+        handleGradeChange={handleGradeChange}
+        handleGradingCompanyIdChange={handleGradingCompanyIdChange}
+        clearGradeData={clearGradeData}
+        preventGradeChanges={selectFrom === "COLLECTION"}
+      />
     </Styled.FormContainer>
   );
 }
