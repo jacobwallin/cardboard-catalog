@@ -1,6 +1,6 @@
 import React from "react";
-import { CardFormData } from "../../quick-add/AddCardsForm";
-import AddCardsForm from "../../quick-add/AddCardsForm";
+import { CardFormData } from "../../select-cards-form/AddCardsForm";
+import AddCardsForm from "../../select-cards-form/AddCardsForm";
 import { CardData } from "../../../../store/collection/browse/types";
 
 interface Props {

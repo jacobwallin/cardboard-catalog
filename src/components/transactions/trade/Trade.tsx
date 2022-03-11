@@ -4,7 +4,7 @@ import TransactionsHeader from "../../Collection/header/TransactionsHeader";
 import SelectTraded from "./select-traded/SelectTraded";
 import SelectReceived from "./select-received/SelectReceived";
 import ConfirmTrade from "./confirm/ConfirmTrade";
-import { CardFormData } from "../quick-add/AddCardsForm";
+import { CardFormData } from "../select-cards-form/AddCardsForm";
 import { CardData } from "../../../store/collection/browse/types";
 import { addTransaction } from "../../../store/collection/transactions/thunks";
 import * as Styled from "./styled";

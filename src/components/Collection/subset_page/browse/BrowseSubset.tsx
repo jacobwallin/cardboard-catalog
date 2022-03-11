@@ -8,7 +8,7 @@ import { CollectionPageContainer } from "../../shared";
 import StyledButton from "../../../Admin/components/StyledButton";
 import AddCardsForm, {
   CardFormData,
-} from "../../../transactions/quick-add/AddCardsForm";
+} from "../../../transactions/select-cards-form/AddCardsForm";
 import * as Styled from "../styled";
 import { NoDataMessage } from "../../../shared/NoDataMessage";
 import { TotalCards } from "../../shared";
