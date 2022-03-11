@@ -100,7 +100,7 @@ router.post("/", async (req, res, next) => {
   const {
     type,
     cardsAdded,
-    cardsRemoved,
+    userCardsRemoved,
     money,
     platform,
     individual,
@@ -157,10 +157,10 @@ router.post("/", async (req, res, next) => {
     }
 
     // delete cards from collection and associate with transaction
-    if (cardsRemoved) {
+    if (userCardsRemoved) {
       // get user card instances for each id given
       const userCards = await Promise.all(
-        cardsRemoved.map((userCardId) => {
+        userCardsRemoved.map((userCardId) => {
           return UserCard.findByPk(userCardId);
         })
       );
