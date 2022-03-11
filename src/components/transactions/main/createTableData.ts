@@ -53,7 +53,7 @@ export default function createTableData(
 
 export const columns = [
   {
-    name: "Transaction Date",
+    name: "Date",
     selector: "date",
     sortable: true,
     // minWidth: "50px",
