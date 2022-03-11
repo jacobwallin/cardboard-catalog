@@ -8,6 +8,7 @@ import { CardFormData } from "../quick-add/AddCardsForm";
 import { CardData } from "../../../store/collection/browse/types";
 import { addTransaction } from "../../../store/collection/transactions/thunks";
 import * as Styled from "./styled";
+import Step from "./Step";
 type StepNumbers = 1 | 2 | 3;
 
 export default function Trade() {
@@ -23,6 +24,10 @@ export default function Trade() {
   // data formatted to send to server
   const [tradedCardData, setTradedCardData] = useState<CardData[]>([]);
   const [receivedCardData, setReceivedCardData] = useState<CardData[]>([]);
+
+  const [step1Status, setStep1Status] = useState<Styled.StepStatus>("ACTIVE");
+  const [step2Status, setStep2Status] = useState<Styled.StepStatus>("INACTIVE");
+  const [step3Status, setStep3Status] = useState<Styled.StepStatus>("INACTIVE");
 
   function handleTradedCardsChange(tradedCards: CardFormData[]) {
     setTradedCards(tradedCards);
@@ -63,18 +68,9 @@ export default function Trade() {
     <>
       <TransactionsHeader title="Enter Trade" />
       <Styled.StepContainer>
-        <Styled.TradeStep>
-          <Styled.StepNumber>Step 1</Styled.StepNumber>
-          <Styled.StepTitle>Cards Traded</Styled.StepTitle>
-        </Styled.TradeStep>
-        <Styled.TradeStep>
-          <Styled.StepNumber>Step 2</Styled.StepNumber>
-          <Styled.StepTitle>Cards Received</Styled.StepTitle>
-        </Styled.TradeStep>
-        <Styled.TradeStep>
-          <Styled.StepNumber>Step 3</Styled.StepNumber>
-          <Styled.StepTitle>Confirm</Styled.StepTitle>
-        </Styled.TradeStep>
+        <Step status={step1Status} number={1} title="Cards Traded" />
+        <Step status={step2Status} number={2} title="Cards Received" />
+        <Step status={step3Status} number={3} title="Confirm" />
       </Styled.StepContainer>
 
       {currentStep === 1 && (

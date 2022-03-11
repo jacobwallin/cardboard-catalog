@@ -13,7 +13,6 @@ export default function SelectReceived(props: Props) {
   const { receivedCards, handleReceivedCardsChange, submit } = props;
   return (
     <>
-      <div>select the cards you received</div>
       <AddCardsForm
         selectFrom="DATABASE"
         cardData={receivedCards}

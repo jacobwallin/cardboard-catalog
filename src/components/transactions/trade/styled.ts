@@ -7,7 +7,9 @@ export const StepContainer = styled.div`
   justify-content: center;
 `;
 
-export const TradeStep = styled.div`
+export type StepStatus = "ACTIVE" | "INACTIVE" | "COMPLETE";
+
+export const TradeStep = styled.div<{ status: StepStatus }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,8 +17,18 @@ export const TradeStep = styled.div`
   align-items: center;
   width: 125px;
   height: 50px;
-  border: 1px solid lightgrey;
+  border: ${(props) => {
+    switch (props.status) {
+      case "ACTIVE":
+        return "1px solid black";
+      case "INACTIVE":
+        return "1px solid lightgray";
+      case "COMPLETE":
+        return "1px solid green";
+    }
+  }};
   border-radius: 5px;
+  color: ${(props) => props.status === "INACTIVE" && "gray"};
 `;
 
 export const StepNumber = styled.div`
