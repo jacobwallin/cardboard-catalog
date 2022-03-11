@@ -106,7 +106,7 @@ router.post("/", async (req, res, next) => {
     individual,
     setId,
     title,
-    notes,
+    note,
     date,
   } = req.body;
 
@@ -131,7 +131,7 @@ router.post("/", async (req, res, next) => {
         type,
         date,
         title,
-        notes,
+        note,
         platform,
         individual,
         money,
