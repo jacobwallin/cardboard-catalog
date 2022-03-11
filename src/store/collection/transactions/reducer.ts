@@ -24,6 +24,12 @@ export default function cardReducer(
   action: types.TransactionActions
 ): types.TransactionsState {
   switch (action.type) {
+    case types.GET_ALL_TRANSACTIONS_SUCCESS:
+      return {
+        ...state,
+        allTransactions: action.allTransactions,
+      };
+
     default:
       return state;
   }
