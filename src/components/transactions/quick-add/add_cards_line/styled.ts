@@ -5,13 +5,12 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: flex-end;
   width: 100%;
-  max-width: 600px;
   border-radius: 5px;
   background: white;
-  border-bottom: 1px solid lightgrey;
-  box-shadow: 0 0.46875rem 2.1875rem rgb(4 9 20 / 3%),
+  border: 1px solid lightgrey;
+  /* box-shadow: 0 0.46875rem 2.1875rem rgb(4 9 20 / 3%),
     0 0.9375rem 1.40625rem rgb(4 9 20 / 3%),
-    0 0.25rem 0.53125rem rgb(4 9 20 / 5%), 0 0.125rem 0.1875rem rgb(4 9 20 / 3%);
+    0 0.25rem 0.53125rem rgb(4 9 20 / 5%), 0 0.125rem 0.1875rem rgb(4 9 20 / 3%); */
 `;
 
 export const CardInfoContainer = styled.div`

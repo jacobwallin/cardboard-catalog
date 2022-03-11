@@ -101,19 +101,21 @@ export default function AddCardsLine(props: Props) {
             </Styled.SerialNumberLabel>
           </Styled.EnterSNContainer>
         )}
-        <Styled.GradedContainer>
-          <input
-            id="graded"
-            type="checkbox"
-            checked={addCardGrade}
-            onChange={handleGradedChange}
-            style={{ height: "14px" }}
-            disabled={props.preventGradeChanges}
-          />
-          <Styled.SerialNumberLabel htmlFor="graded">
-            Graded
-          </Styled.SerialNumberLabel>
-        </Styled.GradedContainer>
+        {(!props.preventGradeChanges || addCardGrade === true) && (
+          <Styled.GradedContainer>
+            <input
+              id="graded"
+              type="checkbox"
+              checked={addCardGrade}
+              onChange={handleGradedChange}
+              style={{ height: "14px" }}
+              disabled={props.preventGradeChanges}
+            />
+            <Styled.SerialNumberLabel htmlFor="graded">
+              Graded
+            </Styled.SerialNumberLabel>
+          </Styled.GradedContainer>
+        )}
       </Styled.CardInfoContainer>
 
       {addCardGrade && (
