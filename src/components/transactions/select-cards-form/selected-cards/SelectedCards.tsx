@@ -4,7 +4,7 @@ import { CardFormData } from "../AddCardsForm";
 import * as Styled from "./styled";
 import PaginationController from "./pagination/PaginationController";
 
-interface Props {
+interface AcceptChanges {
   cardData: CardFormData[];
   handleDelete(cardIndex: number): any;
   handleSerializedChange(cardIndex: number, serialNumber: string): any;
@@ -14,8 +14,15 @@ interface Props {
     gradingCompanyId: number
   ): any;
   clearGradeData(cardIndex: number): any;
-  preventGradeChanges: boolean;
+  preventGradeChanges: false;
 }
+
+interface NoChanges {
+  cardData: CardFormData[];
+  preventGradeChanges: true;
+}
+
+type Props = AcceptChanges | NoChanges;
 
 export default function SelectedCards(props: Props) {
   const { cardData } = props;
@@ -44,20 +51,34 @@ export default function SelectedCards(props: Props) {
       {cardData
         .slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
         .map((card, index) => {
-          return (
-            <AddCardsLine
-              key={String(card.cardId) + String(index)}
-              serialized={card.serialized}
-              index={index}
-              card={card}
-              clearGradeData={props.clearGradeData}
-              handleDelete={props.handleDelete}
-              handleSerializedChange={props.handleSerializedChange}
-              handleGradeChange={props.handleGradeChange}
-              handleGradingCompanyIdChange={props.handleGradingCompanyIdChange}
-              preventGradeChanges={props.preventGradeChanges}
-            />
-          );
+          if (props.preventGradeChanges) {
+            return (
+              <AddCardsLine
+                key={String(card.cardId) + String(index)}
+                serialized={card.serialized}
+                index={index}
+                card={card}
+                preventGradeChanges={true}
+              />
+            );
+          } else {
+            return (
+              <AddCardsLine
+                key={String(card.cardId) + String(index)}
+                serialized={card.serialized}
+                index={index}
+                card={card}
+                clearGradeData={props.clearGradeData}
+                handleDelete={props.handleDelete}
+                handleSerializedChange={props.handleSerializedChange}
+                handleGradeChange={props.handleGradeChange}
+                handleGradingCompanyIdChange={
+                  props.handleGradingCompanyIdChange
+                }
+                preventGradeChanges={false}
+              />
+            );
+          }
         })}
     </Styled.CardDataContainer>
   );

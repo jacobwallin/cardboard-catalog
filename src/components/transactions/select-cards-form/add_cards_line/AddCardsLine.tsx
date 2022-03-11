@@ -7,20 +7,29 @@ import { ReactComponent as XIcon } from "./close.svg";
 import CardNumber from "../../../Collection/subset_page/CardNumber";
 import * as Styled from "./styled";
 
-interface Props {
+interface AcceptChanges {
   serialized: number | null;
   index: number;
   card: CardFormData;
-  handleDelete(cardIndex: number): any;
-  handleSerializedChange(cardIndex: number, serialNumber: string): any;
-  handleGradeChange(cardIndex: number, grade: string): any;
-  handleGradingCompanyIdChange(
+  handleDelete?(cardIndex: number): any;
+  handleSerializedChange?(cardIndex: number, serialNumber: string): any;
+  handleGradeChange?(cardIndex: number, grade: string): any;
+  handleGradingCompanyIdChange?(
     cardIndex: number,
     gradingCompanyId: number
   ): any;
-  clearGradeData(cardIndex: number): any;
+  clearGradeData?(cardIndex: number): any;
   preventGradeChanges: boolean;
 }
+
+interface NoChanges {
+  serialized: number | null;
+  index: number;
+  card: CardFormData;
+  preventGradeChanges: true;
+}
+
+type Props = AcceptChanges;
 
 export default function AddCardsLine(props: Props) {
   const [addCardGrade, setAddCardGrade] = useState(false);
@@ -36,7 +45,7 @@ export default function AddCardsLine(props: Props) {
   }, [props.card.grade]);
 
   function handleGradedChange() {
-    if (addCardGrade) {
+    if (addCardGrade && props.clearGradeData) {
       props.clearGradeData(props.index);
     }
     setAddCardGrade(!addCardGrade);
@@ -51,7 +60,9 @@ export default function AddCardsLine(props: Props) {
             color="RED"
             width="30px"
             height="30px"
-            onClick={() => props.handleDelete(props.index)}
+            onClick={() => {
+              if (props.handleDelete) props.handleDelete(props.index);
+            }}
           >
             <Styled.CloseIcon>
               <XIcon />
@@ -89,7 +100,8 @@ export default function AddCardsLine(props: Props) {
               placeholder={`/${props.serialized}`}
               value={props.card.serialNumber}
               onChange={(event) => {
-                props.handleSerializedChange(props.index, event.target.value);
+                if (props.handleSerializedChange)
+                  props.handleSerializedChange(props.index, event.target.value);
               }}
               error={props.card.serialNumberError}
               disabled={props.preventGradeChanges}
@@ -134,7 +146,8 @@ export default function AddCardsLine(props: Props) {
               placeholder="1-10"
               value={props.card.grade}
               onChange={(event) => {
-                props.handleGradeChange(props.index, event.target.value);
+                if (props.handleGradeChange)
+                  props.handleGradeChange(props.index, event.target.value);
               }}
               disabled={props.preventGradeChanges}
             />
@@ -144,10 +157,11 @@ export default function AddCardsLine(props: Props) {
               disabled={props.card.grade === "" || props.preventGradeChanges}
               value={props.card.gradingCompanyId}
               onChange={(event) => {
-                props.handleGradingCompanyIdChange(
-                  props.index,
-                  +event.target.value
-                );
+                if (props.handleGradingCompanyIdChange)
+                  props.handleGradingCompanyIdChange(
+                    props.index,
+                    +event.target.value
+                  );
               }}
             >
               <option value={-1}>Select</option>

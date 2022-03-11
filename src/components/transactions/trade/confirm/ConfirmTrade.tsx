@@ -1,6 +1,7 @@
 import React from "react";
-import { CardData } from "../../../../store/collection/browse/types";
 import { CardFormData } from "../../select-cards-form/AddCardsForm";
+import * as Styled from "./styled";
+import SelectedCards from "../../select-cards-form/selected-cards/SelectedCards";
 
 interface Props {
   tradedCards: CardFormData[];
@@ -12,14 +13,12 @@ export default function ConfirmTrade(props: Props) {
   return (
     <>
       <div>enter trade details and confirm cards traded and received.</div>
-      <p>traded cards: </p>
-      {tradedCards.map((card) => {
-        return <div>{card.card.card_datum.name}</div>;
-      })}
-      <p>received cards: </p>
-      {receivedCards.map((card) => {
-        return <div>{card.card.card_datum.name}</div>;
-      })}
+      <Styled.ConfirmContainer>
+        <Styled.SelectedCardsHeader>Cards Traded</Styled.SelectedCardsHeader>
+        <SelectedCards cardData={tradedCards} preventGradeChanges={true} />
+        <Styled.SelectedCardsHeader>Cards Received</Styled.SelectedCardsHeader>
+        <SelectedCards cardData={receivedCards} preventGradeChanges={true} />
+      </Styled.ConfirmContainer>
     </>
   );
 }
