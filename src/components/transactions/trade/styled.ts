@@ -20,15 +20,29 @@ export const TradeStep = styled.div<{ status: StepStatus }>`
   border: ${(props) => {
     switch (props.status) {
       case "ACTIVE":
-        return "1px solid black";
+        return "2px solid black";
       case "INACTIVE":
         return "1px solid lightgray";
       case "COMPLETE":
-        return "1px solid green";
+        return "2px solid green";
     }
   }};
   border-radius: 5px;
-  color: ${(props) => props.status === "INACTIVE" && "gray"};
+  color: ${(props) => {
+    switch (props.status) {
+      case "ACTIVE":
+        return "black";
+      case "INACTIVE":
+        return "lightgray";
+      case "COMPLETE":
+        return "gray";
+    }
+  }};
+
+  &:hover {
+    color: ${(props) => props.status === "COMPLETE" && "black"};
+    cursor: ${(props) => props.status === "COMPLETE" && "pointer"};
+  }
 `;
 
 export const StepNumber = styled.div`
