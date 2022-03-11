@@ -1,11 +1,17 @@
 import styled from "styled-components";
 
+const breakpoint = "500px";
+
 export const MenuContainer = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
   margin-top: 5px;
   color: #555;
+  @media (max-width: ${breakpoint}) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 export const ControlsContainer = styled.div`
@@ -21,6 +27,9 @@ export const TotalCards = styled.div`
   font-size: 0.9rem;
   color: black;
   font-weight: 500;
+  @media (max-width: ${breakpoint}) {
+    margin-left: 0;
+  }
 `;
 
 export const RowsPerPage = styled.select`
@@ -68,6 +77,9 @@ export const RowsContainer = styled.div`
     -ms-user-select: none;
     user-select: none;
     pointer-events: none;
+  }
+  @media (max-width: ${breakpoint}) {
+    margin-right: 0;
   }
 `;
 
