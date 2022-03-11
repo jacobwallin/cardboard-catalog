@@ -92,6 +92,7 @@ export default function AddCardsLine(props: Props) {
                 props.handleSerializedChange(props.index, event.target.value);
               }}
               error={props.card.serialNumberError}
+              disabled={props.preventGradeChanges}
             />
             <Styled.SerialNumberLabel
               error={props.card.serialNumberError}
