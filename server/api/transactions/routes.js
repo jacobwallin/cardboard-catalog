@@ -18,6 +18,7 @@ router.get("/", async (req, res, next) => {
   try {
     const allTransactions = await Transaction.findAll({
       where: { userId: req.user.id },
+      include: TransactionUserCard,
     });
 
     res.json(allTransactions);

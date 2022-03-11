@@ -33,6 +33,10 @@ Transaction.belongsToMany(UserCard, {
 UserCard.belongsToMany(Transaction, {
   through: { model: TransactionUserCard },
 });
+TransactionUserCard.belongsTo(Transaction);
+Transaction.hasMany(TransactionUserCard);
+TransactionUserCard.belongsTo(UserCard);
+UserCard.hasMany(TransactionUserCard);
 
 // One to many user and transactions
 Transaction.belongsTo(User, {
