@@ -7,6 +7,7 @@ import ConfirmTrade from "./confirm/ConfirmTrade";
 import { CardFormData } from "../select-cards-form/AddCardsForm";
 import { CardData } from "../../../store/collection/browse/types";
 import { addTransaction } from "../../../store/collection/transactions/thunks";
+import { FormData } from "./confirm/trade-form/TradeForm";
 import * as Styled from "./styled";
 import Step, { StepNumbers } from "./Step";
 
@@ -44,7 +45,7 @@ export default function Trade() {
     setCurrentStep(stepNumber);
   }
 
-  function submitTrade() {
+  function submitTrade(tradeDetails: FormData) {
     // validate data
 
     // set step to active to give user completion visual
@@ -58,14 +59,14 @@ export default function Trade() {
     dateString += String(date.getMonth() + 1).padStart(2, "0") + "-";
     dateString += String(date.getDate()).padStart(2, "0");
 
-    // dispatch(
-    //   addTransaction({
-    //     type: "TRADE",
-    //     date: dateString,
-    //     cardsAdded: receivedCardData,
-    //     userCardsRemoved: tradedCardData
-    //   })
-    // );
+    dispatch(
+      addTransaction({
+        type: "TRADE",
+        date: dateString,
+        cardsAdded: receivedCardData,
+        userCardsRemoved: tradedCardData.map((userCard) => userCard.cardId),
+      })
+    );
   }
 
   return (
@@ -115,6 +116,7 @@ export default function Trade() {
           <ConfirmTrade
             tradedCards={tradedCards}
             receivedCards={receivedCards}
+            handleSubmit={submitTrade}
           />
         </>
       )}

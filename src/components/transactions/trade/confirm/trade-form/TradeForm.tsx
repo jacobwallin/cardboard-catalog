@@ -2,7 +2,18 @@ import React, { useState } from "react";
 import * as Styled from "./styled";
 import StyledButton from "../../../../Admin/components/StyledButton";
 
-export default function TradeForm() {
+export interface FormData {
+  date: string;
+  note: string;
+  individual: string;
+  money: number;
+}
+
+interface Props {
+  handleSubmit(data: FormData): void;
+}
+
+export default function TradeForm(props: Props) {
   const [date, setDate] = useState("");
   const [note, setNote] = useState("");
   const [individual, setIndividual] = useState("");
@@ -26,10 +37,19 @@ export default function TradeForm() {
     setNote(e.target.value);
   }
 
+  function submit() {
+    props.handleSubmit({
+      date: date,
+      note: note,
+      individual: individual,
+      money: +money,
+    });
+  }
+
   return (
     <Styled.Container>
       <Styled.InputContainer>
-        <Styled.Label htmlFor="date">Date of Trade</Styled.Label>
+        <Styled.Label htmlFor="date">*Date of Trade</Styled.Label>
         <Styled.DateInput id="date" value={date} onChange={handleInputChange} />
       </Styled.InputContainer>
       <Styled.Flex>
@@ -56,7 +76,8 @@ export default function TradeForm() {
       </Styled.InputContainer>
       <StyledButton
         id="submit-cards-button"
-        // onClick={handleSubmit}
+        onClick={submit}
+        disabled={date === ""}
         color="GREEN"
         height="35px"
         width="130px"

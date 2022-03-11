@@ -19,7 +19,7 @@ export const SelectedCardsHeader = styled.div`
 export const PageTitle = styled.div`
   width: 100%;
   text-align: left;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   margin: 40px 0 0px 0px;
   font-weight: 500;
 `;

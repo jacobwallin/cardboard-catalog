@@ -52,7 +52,7 @@ export const PostResultMessage = styled.h3<PostResultMessageProps>`
 export const SelectFormTitle = styled.div`
   width: 100%;
   text-align: left;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   margin: 30px 0 0px 20px;
   font-weight: 500;
 `;
