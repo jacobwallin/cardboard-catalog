@@ -18,7 +18,6 @@ import {
 } from "../../../Collection/subset_page/createTableData";
 import * as aggregate from "./aggregate";
 import { SetSummary } from "../../../../store/library/sets/types";
-import { Series } from "../../../../store/library/subsets/types";
 import * as Styled from "./styled";
 import { createLoadingSelector } from "../../../../store/loading/reducer";
 
@@ -34,11 +33,12 @@ const subsetLoadingSelector = createLoadingSelector([
 interface Props {
   addCard(card: CardFormData): void;
   selectFrom: "COLLECTION" | "DATABASE";
+  cardData: CardFormData[];
 }
 
 export default function SelectCardForm(props: Props) {
   const dispatch = useDispatch();
-  const { addCard, selectFrom } = props;
+  const { addCard, selectFrom, cardData } = props;
 
   // LIBRARY STORE DATA
   const allSets = useSelector((state: RootState) => state.library.sets.allSets);
@@ -247,9 +247,12 @@ export default function SelectCardForm(props: Props) {
     // set the selectedCardId to change the selected card when input changes
     let card = undefined;
     if (selectFrom === "COLLECTION") {
-      card = collectionCardOptions.find(
-        (userCard) => userCard.card.cardData.number === event.target.value
-      );
+      card = collectionCardOptions.find((userCard) => {
+        return (
+          userCard.card.cardData.number === event.target.value &&
+          cardData.findIndex((card) => card.cardId === userCard.id) === -1
+        );
+      });
     } else {
       card = databaseCardOptions.find(
         (card) => card.cardData.number === event.target.value
@@ -301,6 +304,9 @@ export default function SelectCardForm(props: Props) {
           refractor: userCard.card.series.refractor,
         };
         addCard(newCardData);
+        // reset selected card, same card cannot be added twice from collection
+        setSelectedCardId(-1);
+        setCardIdField(prefix);
       }
     } else {
       const card = databaseCardOptions.find(
@@ -429,7 +435,15 @@ export default function SelectCardForm(props: Props) {
           {selectFrom === "COLLECTION"
             ? collectionCardOptions.map((userCard) => {
                 return (
-                  <option key={userCard.id} value={userCard.id}>
+                  <option
+                    key={userCard.id}
+                    value={userCard.id}
+                    disabled={
+                      cardData.findIndex(
+                        (card) => card.cardId === userCard.id
+                      ) !== -1
+                    }
+                  >
                     {`${userCard.card.cardData.number} - ${userCard.card.cardData.name}`}
                     {userCard.card.cardData.note !== "" &&
                       ` (${userCard.card.cardData.note})`}

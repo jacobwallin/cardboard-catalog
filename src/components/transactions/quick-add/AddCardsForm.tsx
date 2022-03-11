@@ -202,7 +202,11 @@ export default function AddCardsForm(props: Props) {
     <Styled.FormContainer>
       {title && <Styled.SelectFormTitle>{title}</Styled.SelectFormTitle>}
       {!hideSelectCardForm && (
-        <SelectCardForm addCard={addCard} selectFrom={selectFrom} />
+        <SelectCardForm
+          addCard={addCard}
+          selectFrom={selectFrom}
+          cardData={cardData}
+        />
       )}
       <Styled.SubmitContainer>
         <Styled.TotalCardsLabel>
