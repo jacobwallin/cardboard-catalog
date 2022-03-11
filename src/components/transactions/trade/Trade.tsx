@@ -58,12 +58,6 @@ export default function Trade() {
     // step 3 will be shown as completed
     setCurrentStep(4);
 
-    // get current date for transaction
-    const date = new Date();
-    let dateString = String(date.getFullYear()) + "-";
-    dateString += String(date.getMonth() + 1).padStart(2, "0") + "-";
-    dateString += String(date.getDate()).padStart(2, "0");
-
     dispatch(
       addTransaction({
         type: "TRADE",
