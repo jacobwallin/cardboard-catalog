@@ -25,6 +25,7 @@ export default function SelectedCards(props: Props) {
 
   function rowsPerPageChange(e: React.ChangeEvent<HTMLSelectElement>) {
     setRowsPerPage(+e.target.value);
+    setCurrentPage(1);
   }
 
   function setPage(pageNumber: number) {
@@ -40,22 +41,24 @@ export default function SelectedCards(props: Props) {
         totalCards={cardData.length}
         currentPage={currentPage}
       />
-      {cardData.map((card, index) => {
-        return (
-          <AddCardsLine
-            key={String(card.cardId) + String(index)}
-            serialized={card.serialized}
-            index={index}
-            card={card}
-            clearGradeData={props.clearGradeData}
-            handleDelete={props.handleDelete}
-            handleSerializedChange={props.handleSerializedChange}
-            handleGradeChange={props.handleGradeChange}
-            handleGradingCompanyIdChange={props.handleGradingCompanyIdChange}
-            preventGradeChanges={props.preventGradeChanges}
-          />
-        );
-      })}
+      {cardData
+        .slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
+        .map((card, index) => {
+          return (
+            <AddCardsLine
+              key={String(card.cardId) + String(index)}
+              serialized={card.serialized}
+              index={index}
+              card={card}
+              clearGradeData={props.clearGradeData}
+              handleDelete={props.handleDelete}
+              handleSerializedChange={props.handleSerializedChange}
+              handleGradeChange={props.handleGradeChange}
+              handleGradingCompanyIdChange={props.handleGradingCompanyIdChange}
+              preventGradeChanges={props.preventGradeChanges}
+            />
+          );
+        })}
     </Styled.CardDataContainer>
   );
 }
