@@ -3,8 +3,16 @@ import styled from "styled-components";
 export const MenuContainer = styled.div`
   display: flex;
   width: 100%;
-  justify-content: center;
+  align-items: center;
   border: 1px solid blue;
+`;
+
+export const ControlsContainer = styled.div`
+  display: flex;
+`;
+
+export const TotalCards = styled.div`
+  margin-left: auto;
 `;
 
 export const RowsPerPage = styled.select`
@@ -33,6 +41,7 @@ export const RowsPerPageLabel = styled.label`
 `;
 
 export const RowsContainer = styled.div`
+  margin-right: auto;
   display: flex;
   align-items: center;
   gap: 7px;
