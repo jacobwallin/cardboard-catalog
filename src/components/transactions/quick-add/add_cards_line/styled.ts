@@ -18,9 +18,8 @@ export const CardInfoContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 5px 5px 5px 5px;
+  padding: 2px 5px 2px 5px;
   width: 100%;
-  min-height: 45px;
 `;
 
 export const GradeContainer = styled.div`
