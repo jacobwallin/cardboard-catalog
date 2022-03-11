@@ -35,39 +35,6 @@ export default function collectionReducer(
         ...state,
         initialDataLoadComplete: action.status,
       };
-    case types.ADD_CARDS_SUCCESS:
-      // if subsetId matches (this means cards were added from subset page and not quick add), append cards
-      if (state.cardsInSingleSubset.subsetId === action.subsetId) {
-        const cardAdded = action.newCards.map((card) => {
-          const cardData = action.cardData.find(
-            (cd) => cd.card.id === card.cardId
-          )!;
-          return {
-            ...card,
-            card: {
-              ...cardData.card,
-            },
-          };
-        });
-        return {
-          ...initialState,
-          cardsInSingleSubset: {
-            cards: [...state.cardsInSingleSubset.cards, ...cardAdded],
-            subsetId: state.cardsInSingleSubset.subsetId,
-          },
-        };
-      }
-      return initialState;
-    case types.DELETE_CARDS_SUCCESS:
-      return {
-        ...initialState,
-        cardsInSingleSubset: {
-          subsetId: state.cardsInSingleSubset.subsetId,
-          cards: state.cardsInSingleSubset.cards.filter(
-            (userCard) => !action.userCardIds.some((id) => id === userCard.id)
-          ),
-        },
-      };
     default:
       return state;
   }

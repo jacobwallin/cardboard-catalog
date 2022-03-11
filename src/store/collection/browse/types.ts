@@ -164,7 +164,6 @@ export interface CardData {
   serialNumber?: number;
   grade?: number;
   gradingCompanyId?: number;
-  card: Card;
 }
 
 // server response with cards added to collection

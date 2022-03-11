@@ -1,4 +1,5 @@
 import { UserCard } from "../filter/types";
+import { CardData } from "../browse/types";
 
 // ACTION TYPES
 export const GET_TRANSACTION_REQUEST = "GET_TRANSACTION_REQUEST";
@@ -117,18 +118,4 @@ export interface TransactionPostData {
   setId?: number;
   title?: string | null;
   notes?: string | null;
-}
-
-export interface CardData {
-  cardId: number;
-  serialNumber?: number;
-  grade?: number;
-  gradingCompanyId?: number;
-  card: {
-    id: number;
-    value: number | null;
-    serializedTo: number | null;
-    seriesId: number;
-    cardDataId: number;
-  };
 }

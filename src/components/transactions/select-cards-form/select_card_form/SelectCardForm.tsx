@@ -279,6 +279,7 @@ export default function SelectCardForm(props: Props) {
       )!;
       if (userCard) {
         const newCardData: CardFormData = {
+          // this id will actually be the UserCard id, not the actual card id since it is being selected from the user's collection
           cardId: selectedCardId,
           serialNumber:
             userCard.serialNumber === null ? "" : String(userCard.serialNumber),

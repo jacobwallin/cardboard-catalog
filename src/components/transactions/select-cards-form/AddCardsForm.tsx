@@ -174,8 +174,7 @@ export default function AddCardsForm(props: Props) {
     if (!errorsFound) {
       const postData: CardData[] = cardData.map((card) => {
         let newData: CardData = {
-          cardId: card.card.id,
-          card: card.card,
+          cardId: card.cardId,
         };
         if (card.serialNumber !== "") {
           newData.serialNumber = +card.serialNumber;
