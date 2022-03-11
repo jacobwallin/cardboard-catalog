@@ -1,17 +1,35 @@
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store";
 import { fetchAllTransactions } from "../../../store/collection/transactions/thunks";
 import CollectionWrapper from "../../shared/CollectionWrapper";
 import CollectionContainer from "../../shared/CollectionContainer";
 import TransactionsHeader from "../../Collection/header/TransactionsHeader";
 import * as Styled from "../styled";
+import createTableData, {
+  TransactionTableData,
+  columns,
+} from "./createTableData";
+import DataTable from "react-data-table-component";
 
 export default function Main() {
   const dispatch = useDispatch();
 
+  const allTransactions = useSelector(
+    (state: RootState) => state.collection.transactions.allTransactions
+  );
+  const [tableData, setTableData] = useState<TransactionTableData[]>([]);
+
   useEffect(() => {
     dispatch(fetchAllTransactions());
   }, []);
+
+  useEffect(() => {
+    if (allTransactions.length > 0) {
+      console.log("CREATED TABLE DATA");
+      setTableData(createTableData(allTransactions));
+    }
+  }, [allTransactions]);
 
   return (
     <CollectionWrapper>
@@ -27,6 +45,16 @@ export default function Main() {
           </Styled.TransactionLink>
         </Styled.TransactionsContainer>
         <Styled.Header>Transaction History</Styled.Header>
+        <DataTable
+          noHeader
+          dense
+          columns={columns}
+          data={tableData}
+          highlightOnHover
+          pagination
+          paginationRowsPerPageOptions={[10, 20]}
+          paginationPerPage={20}
+        />
       </CollectionContainer>
     </CollectionWrapper>
   );

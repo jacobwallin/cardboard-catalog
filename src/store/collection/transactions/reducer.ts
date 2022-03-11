@@ -3,6 +3,7 @@ import * as types from "./types";
 const initialState: types.TransactionsState = {
   transaction: {
     id: 0,
+    type: "QUICK",
     title: "",
     note: "",
     date: "",
@@ -12,6 +13,7 @@ const initialState: types.TransactionsState = {
     createdAt: "",
     updatedAt: "",
     userId: 0,
+    setId: 0,
     cards: [],
   },
   allTransactions: [],
