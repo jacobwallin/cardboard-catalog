@@ -19,6 +19,7 @@ interface Props {
     gradingCompanyId: number
   ): any;
   clearGradeData(cardIndex: number): any;
+  preventGradeChanges: boolean;
 }
 
 export default function AddCardsLine(props: Props) {
@@ -107,6 +108,7 @@ export default function AddCardsLine(props: Props) {
             checked={addCardGrade}
             onChange={handleGradedChange}
             style={{ height: "14px" }}
+            disabled={props.preventGradeChanges}
           />
           <Styled.SerialNumberLabel htmlFor="graded">
             Graded
@@ -127,11 +129,12 @@ export default function AddCardsLine(props: Props) {
               onChange={(event) => {
                 props.handleGradeChange(props.index, event.target.value);
               }}
+              disabled={props.preventGradeChanges}
             />
             <Styled.GradeLabel htmlFor="company">Company: </Styled.GradeLabel>
             <select
               id="company"
-              disabled={props.card.grade === ""}
+              disabled={props.card.grade === "" || props.preventGradeChanges}
               value={props.card.gradingCompanyId}
               onChange={(event) => {
                 props.handleGradingCompanyIdChange(

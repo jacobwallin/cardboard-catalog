@@ -247,6 +247,7 @@ export default function AddCardsForm(props: Props) {
               handleSerializedChange={handleSerializedChange}
               handleGradeChange={handleGradeChange}
               handleGradingCompanyIdChange={handleGradingCompanyIdChange}
+              preventGradeChanges={selectFrom === "COLLECTION"}
             />
           );
         })}
