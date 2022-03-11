@@ -156,9 +156,15 @@ export default function SelectCardForm(props: Props) {
       subset.id === selectedSubsetId &&
       userSubset.subsetId === selectedSubsetId
     ) {
-      setSeriesOptions(aggregate.aggregateSubset(subset, userSubset));
+      setSeriesOptions(
+        aggregate.aggregateSubset(
+          subset,
+          userSubset,
+          selectFrom === "COLLECTION"
+        )
+      );
     }
-  }, [subset, userSubset, selectedSubsetId]);
+  }, [subset, userSubset, selectedSubsetId, selectFrom]);
 
   useEffect(() => {
     if (selectedSeriesId !== -1) {

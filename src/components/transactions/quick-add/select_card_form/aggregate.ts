@@ -65,11 +65,18 @@ export function aggregateSubsets(set: Set): SubsetData[] {
 
 export function aggregateSubset(
   librarySubsetData: SubsetState,
-  userCardData: { cards: UserCard[]; subsetId: number }
+  userCardData: { cards: UserCard[]; subsetId: number },
+  subsetsWithUserCardsOnly: boolean
 ): SeriesTableData[] {
   const tableData = createTableData(librarySubsetData, userCardData);
   return Object.keys(tableData)
     .map((seriesId) => tableData[+seriesId])
+    .filter((series) => {
+      if (subsetsWithUserCardsOnly) {
+        return series.userCards.length > 0;
+      }
+      return true;
+    })
     .sort((seriesA, seriesB) => {
       return sortSeries(
         seriesA.series,
