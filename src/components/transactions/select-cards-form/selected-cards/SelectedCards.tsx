@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import AddCardsLine from "../add_cards_line/AddCardsLine";
 import { CardFormData } from "../AddCardsForm";
 import * as Styled from "./styled";
+import PaginationController from "./pagination/PaginationController";
 
 interface Props {
   cardData: CardFormData[];
@@ -18,8 +19,27 @@ interface Props {
 
 export default function SelectedCards(props: Props) {
   const { cardData } = props;
+
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  function rowsPerPageChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    setRowsPerPage(+e.target.value);
+  }
+
+  function setPage(pageNumber: number) {
+    setCurrentPage(pageNumber);
+  }
+
   return (
     <Styled.CardDataContainer>
+      <PaginationController
+        rowsPerPage={rowsPerPage}
+        rowsPerPageChange={rowsPerPageChange}
+        setCurrentPage={setPage}
+        totalCards={cardData.length}
+        currentPage={currentPage}
+      />
       {cardData.map((card, index) => {
         return (
           <AddCardsLine
