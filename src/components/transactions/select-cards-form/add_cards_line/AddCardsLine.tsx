@@ -98,7 +98,11 @@ export default function AddCardsLine(props: Props) {
               error={props.card.serialNumberError}
               htmlFor="SN"
             >
-              {props.card.serialNumberError ? "Invalid S/N" : "Enter S/N"}
+              {props.card.serialNumberError
+                ? "Invalid S/N"
+                : props.preventGradeChanges
+                ? "S/N"
+                : "Enter S/N"}
             </Styled.SerialNumberLabel>
           </Styled.EnterSNContainer>
         )}
