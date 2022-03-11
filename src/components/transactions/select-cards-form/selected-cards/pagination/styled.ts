@@ -4,6 +4,7 @@ export const MenuContainer = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
+  margin-top: 5px;
   color: #555;
 `;
 
