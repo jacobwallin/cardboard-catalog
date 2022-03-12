@@ -22,7 +22,7 @@ export interface TransactionTableData {
 }
 
 // display names for each transaction types
-const transactionTypeMap = {
+export const transactionTypeMap = {
   QUICK: "Quick Add",
   TRADE: "Trade",
   SALE: "Sale",

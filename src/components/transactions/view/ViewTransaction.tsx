@@ -6,6 +6,11 @@ import { fetchTransaction } from "../../../store/collection/transactions/thunks"
 import PageContainer from "../../shared/PageContainer";
 import DataTable from "react-data-table-component";
 import dataFieldsByTransactionType from "./dataFieldsByType";
+import * as Styled from "./styled";
+import { transactionTypeMap } from "../main/screateTableData";
+import TransactionsHeader from "../../Collection/header/TransactionsHeader";
+import { convertDateString } from "../../../utils/formatTimestamp";
+import { LoadingSpinner } from "../../shared/Loading";
 
 export default function ViewTransaction() {
   const dispatch = useDispatch();
@@ -19,5 +24,28 @@ export default function ViewTransaction() {
     dispatch(fetchTransaction(+transactionId));
   }, []);
 
-  return <PageContainer>{}</PageContainer>;
+  if (+transactionId !== transaction.id) {
+    return <LoadingSpinner />;
+  }
+  return (
+    <>
+      <TransactionsHeader title="View Transaction" />
+      <PageContainer>
+        <Styled.DataContainer>
+          <Styled.DataFieldContainer>
+            <Styled.DataTitle>Date</Styled.DataTitle>
+            <Styled.DataValue>
+              {convertDateString(transaction.date)}
+            </Styled.DataValue>
+          </Styled.DataFieldContainer>
+          <Styled.DataFieldContainer>
+            <Styled.DataTitle>Type</Styled.DataTitle>
+            <Styled.DataValue>
+              {transactionTypeMap[transaction.type]}
+            </Styled.DataValue>
+          </Styled.DataFieldContainer>
+        </Styled.DataContainer>
+      </PageContainer>
+    </>
+  );
 }
