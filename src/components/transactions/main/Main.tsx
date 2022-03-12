@@ -32,9 +32,9 @@ export default function Main() {
 
   return (
     <>
-      <TransactionsHeader title="Create Transaction" />
+      <TransactionsHeader title="Transactions" />
       <PageContainer>
-        <Styled.Header>Select Transaction Type</Styled.Header>
+        <Styled.Header>Create New Transaction</Styled.Header>
         <Styled.TransactionsContainer>
           <Styled.TransactionLink to="/transactions/add">
             Quick Add
