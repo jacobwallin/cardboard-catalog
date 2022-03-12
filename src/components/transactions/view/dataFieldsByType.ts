@@ -1,12 +1,15 @@
 import { TransactionTypes } from "../../../store/collection/transactions/types";
 
-type TransactionData = "TITLE" | "NOTE" | "PLATFORM" | "INDIVIDUAL" | "MONEY";
+type TransactionDataFields =
+  | "TITLE"
+  | "NOTE"
+  | "PLATFORM"
+  | "INDIVIDUAL"
+  | "MONEY";
 
-interface DataFields {
-  [type: string]: TransactionData;
-}
-
-const dataFields: DataFields = {
+const dataFields: {
+  [type: string]: TransactionDataFields;
+} = {
   TITLE: "TITLE",
   NOTE: "NOTE",
   PLATFORM: "PLATFORM",
@@ -14,11 +17,9 @@ const dataFields: DataFields = {
   MONEY: "MONEY",
 };
 
-type DataFieldsByTransactionType = {
-  [K in TransactionTypes]: TransactionData[];
-};
-
-const dataFieldsByTransactionType: DataFieldsByTransactionType = {
+const dataFieldsByTransactionType: {
+  [K in TransactionTypes]: TransactionDataFields[];
+} = {
   QUICK: [],
   TRADE: [dataFields.NOTE, dataFields.INDIVIDUAL, dataFields.MONEY],
   SALE: [
