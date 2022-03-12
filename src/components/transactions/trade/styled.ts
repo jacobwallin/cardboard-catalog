@@ -20,7 +20,7 @@ export const TradeStep = styled.div<{ status: StepStatus }>`
   border: ${(props) => {
     switch (props.status) {
       case "ACTIVE":
-        return "2px solid black";
+        return "1px solid black";
       case "INACTIVE":
         return "1px solid lightgray";
       case "COMPLETE":
