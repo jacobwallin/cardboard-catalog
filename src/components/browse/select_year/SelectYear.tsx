@@ -4,7 +4,7 @@ import { RootState } from "../../../store";
 import DataTable from "react-data-table-component";
 import dataTableColumns from "./dataTableColumns";
 import aggregateByYear from "./aggregateByYear";
-import { CollectionPageContainer } from "../../Collection/shared";
+import PageContainer from "../../shared/PageContainer";
 import DateTableHeader from "../../shared/DataTableHeader";
 import { createLoadingSelector } from "../../../store/loading/reducer";
 import { LoadingDots } from "../../shared/Loading";
@@ -16,7 +16,7 @@ export default function SelectYear() {
   const isLoading = useSelector((state: RootState) => loadingSelector(state));
 
   return (
-    <CollectionPageContainer>
+    <PageContainer>
       <DateTableHeader>Select Year</DateTableHeader>
       <DataTable
         noHeader
@@ -30,6 +30,6 @@ export default function SelectYear() {
         paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
         paginationPerPage={20}
       />
-    </CollectionPageContainer>
+    </PageContainer>
   );
 }

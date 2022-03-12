@@ -4,7 +4,7 @@ import { RootState } from "../../../../store";
 import DataTable from "react-data-table-component";
 import columns from "./dataTableColumns";
 import { TableDataPoint } from "../createTableData";
-import { CollectionPageContainer } from "../../shared";
+import PageContainer from "../../../shared/PageContainer";
 import StyledButton from "../../../Admin/components/StyledButton";
 import AddCardsForm, {
   CardFormData,
@@ -155,7 +155,7 @@ export default function BrowseSubset(props: Props) {
   }
 
   return (
-    <CollectionPageContainer>
+    <PageContainer>
       {showAddCardForm && (
         <>
           <Styled.CloseButtonWrapper>
@@ -233,7 +233,7 @@ export default function BrowseSubset(props: Props) {
           />
         </>
       )}
-    </CollectionPageContainer>
+    </PageContainer>
   );
 }
 

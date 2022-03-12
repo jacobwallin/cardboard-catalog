@@ -6,14 +6,14 @@ import DataTable from "react-data-table-component";
 import { columns, deleteColumns } from "./dataTableColumns";
 import dataTableConditionalStyles from "./dataTableConditionalStyles";
 import { DeleteTableDataPoint } from "../createTableData";
-import { CollectionPageContainer, DataTableContainer } from "../../shared";
+import { DataTableContainer } from "../../shared";
 import ModalWindow from "../../../Admin/components/modal/ModalWindow";
 import Background from "../../../shared/Background";
 import StyledButton from "../../../Admin/components/StyledButton";
+import PageContainer from "../../../shared/PageContainer";
 import { NoDataMessage } from "../../../shared/NoDataMessage";
 import * as SharedStyled from "../styled";
 import * as Styled from "./styled";
-import sortSeries from "../sortSeries";
 import MedalIcon from "./medal.svg";
 import { SeriesTableData } from "../createTableData";
 import { TotalCards } from "../../shared";
@@ -94,7 +94,7 @@ export default function CollectionSubset(props: Props) {
   }
 
   return (
-    <CollectionPageContainer>
+    <PageContainer>
       <SharedStyled.PageTitle>Your Collection</SharedStyled.PageTitle>
       {showAddCardForm && (
         <Background>
@@ -269,6 +269,6 @@ export default function CollectionSubset(props: Props) {
           />
         )}
       </DataTableContainer>
-    </CollectionPageContainer>
+    </PageContainer>
   );
 }

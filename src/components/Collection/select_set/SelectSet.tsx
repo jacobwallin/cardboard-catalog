@@ -6,6 +6,7 @@ import { RootState } from "../../../store";
 import { createLoadingSelector } from "../../../store/loading/reducer";
 import DataTable from "react-data-table-component";
 import * as Shared from "../shared";
+import PageContainer from "../../shared/PageContainer";
 import columns from "./dataTableColumns";
 import { LoadingDots } from "../../shared/Loading";
 import { Redirect } from "react-router";
@@ -40,7 +41,7 @@ const SelectSet: React.FC<RouteComponentProps<TParams>> = (props) => {
   if (isLoading) return <LoadingDots />;
 
   return (
-    <Shared.CollectionPageContainer>
+    <PageContainer>
       <Shared.DataTableContainer>
         <DataTable
           title={
@@ -64,7 +65,7 @@ const SelectSet: React.FC<RouteComponentProps<TParams>> = (props) => {
           paginationPerPage={20}
         />
       </Shared.DataTableContainer>
-    </Shared.CollectionPageContainer>
+    </PageContainer>
   );
 };
 

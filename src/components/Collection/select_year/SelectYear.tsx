@@ -7,6 +7,7 @@ import DataTable from "react-data-table-component";
 import { aggregateCardsByYear } from "./aggregateCards";
 import columns from "./dataTableColumns";
 import * as Shared from "../shared";
+import PageContainer from "../../shared/PageContainer";
 import { LoadingDots } from "../../shared/Loading";
 import { NoDataMessage } from "../../shared/NoDataMessage";
 
@@ -34,7 +35,7 @@ const SelectYear = () => {
   if (isLoading) return <LoadingDots />;
 
   return (
-    <Shared.CollectionPageContainer>
+    <PageContainer>
       <Shared.DataTableContainer>
         <DataTable
           dense
@@ -60,7 +61,7 @@ const SelectYear = () => {
           paginationPerPage={20}
         />
       </Shared.DataTableContainer>
-    </Shared.CollectionPageContainer>
+    </PageContainer>
   );
 };
 

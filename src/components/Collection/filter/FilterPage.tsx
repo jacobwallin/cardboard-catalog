@@ -20,11 +20,8 @@ import {
   TableColumns,
   initialTableColumns,
 } from "./types";
-import {
-  CollectionPageContainer,
-  DataTableContainer,
-  TotalCards,
-} from "../shared";
+import { DataTableContainer, TotalCards } from "../shared";
+import PageContainer from "../../shared/PageContainer";
 import { LoadingDots } from "../../shared/Loading";
 import generateQuery from "./generateQuery";
 import Filter from "./Filter";
@@ -262,7 +259,7 @@ export default function FilterPage() {
   }
 
   return (
-    <CollectionPageContainer>
+    <PageContainer>
       {showPdfModal && (
         <PdfModal
           dismiss={togglePdfModal}
@@ -388,6 +385,6 @@ export default function FilterPage() {
           // paginationResetDefaultPage
         />
       </DataTableContainer>
-    </CollectionPageContainer>
+    </PageContainer>
   );
 }

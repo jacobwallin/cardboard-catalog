@@ -8,6 +8,7 @@ import { createLoadingSelector } from "../../../store/loading/reducer";
 import DataTable from "react-data-table-component";
 import columns from "./dataTableColumns";
 import * as Shared from "../shared";
+import PageContainer from "../../shared/PageContainer";
 import CollectionWrapper from "../../shared/CollectionWrapper";
 import CollectionContainer from "../../shared/CollectionContainer";
 import SetHeader from "../header/SetHeader";
@@ -49,7 +50,7 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
     <CollectionWrapper>
       <CollectionContainer>
         <SetHeader title={set.name} />
-        <Shared.CollectionPageContainer>
+        <PageContainer>
           {set.description !== "" && (
             <Shared.ContentContainer>
               <Shared.ContentTitle>About:</Shared.ContentTitle>
@@ -147,7 +148,7 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
               paginationPerPage={20}
             />
           </Shared.DataTableContainer>
-        </Shared.CollectionPageContainer>
+        </PageContainer>
       </CollectionContainer>
     </CollectionWrapper>
   );

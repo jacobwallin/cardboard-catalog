@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useParams, Redirect } from "react-router";
 import { RootState } from "../../../store";
 import DataTable from "react-data-table-component";
-import { CollectionPageContainer } from "../../Collection/shared";
+import PageContainer from "../../shared/PageContainer";
 import dataTableColumns from "./dataTableColumns";
 import DateTableHeader from "../../shared/DataTableHeader";
 import { createLoadingSelector } from "../../../store/loading/reducer";
@@ -23,7 +23,7 @@ export default function SelectSet() {
   }
 
   return (
-    <CollectionPageContainer>
+    <PageContainer>
       <DateTableHeader>{`Sets from ${year}`}</DateTableHeader>
       <DataTable
         noHeader
@@ -37,6 +37,6 @@ export default function SelectSet() {
         paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
         paginationPerPage={20}
       />
-    </CollectionPageContainer>
+    </PageContainer>
   );
 }
