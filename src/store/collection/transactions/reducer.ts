@@ -29,7 +29,11 @@ export default function cardReducer(
         ...state,
         allTransactions: action.allTransactions,
       };
-
+    case types.GET_TRANSACTION_SUCCESS:
+      return {
+        ...state,
+        transaction: action.transaction,
+      };
     default:
       return state;
   }
