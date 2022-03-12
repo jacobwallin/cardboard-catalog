@@ -5,6 +5,7 @@ import CollectionContainer from "../shared/CollectionContainer";
 import Main from "./main/Main";
 import QuickAdd from "./quick-add/QuickAdd";
 import Trade from "./trade/Trade";
+import ViewTransaction from "./view/ViewTransaction";
 
 export default function Transactions() {
   return (
@@ -19,6 +20,9 @@ export default function Transactions() {
           </Route>
           <Route path={`/transactions/trade`}>
             <Trade />
+          </Route>
+          <Route path={`/transaction/:transactionId`}>
+            <ViewTransaction />
           </Route>
         </Switch>
       </CollectionContainer>
