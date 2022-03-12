@@ -12,6 +12,10 @@ export default function formatTimestamp(timestamp: string): string {
     +splitTimestamp[5].slice(0, splitTimestamp[5].length - 1)
   );
 
+  return getDateString(date);
+}
+
+export function getDateString(date: Date): string {
   // add trailing zero and adjust for zero indexed month
   const month = `0${date.getMonth() + 1}`;
 
