@@ -31,28 +31,30 @@ export default function Main() {
   }, [allTransactions]);
 
   return (
-    <PageContainer>
+    <>
       <TransactionsHeader title="Create Transaction" />
-      <Styled.Header>Select Transaction Type</Styled.Header>
-      <Styled.TransactionsContainer>
-        <Styled.TransactionLink to="/transactions/add">
-          Quick Add
-        </Styled.TransactionLink>
-        <Styled.TransactionLink to="/transactions/trade">
-          Trade
-        </Styled.TransactionLink>
-      </Styled.TransactionsContainer>
-      <Styled.Header>Transaction History</Styled.Header>
-      <DataTable
-        noHeader
-        dense
-        columns={columns}
-        data={tableData}
-        highlightOnHover
-        pagination
-        paginationRowsPerPageOptions={[10, 20]}
-        paginationPerPage={20}
-      />
-    </PageContainer>
+      <PageContainer>
+        <Styled.Header>Select Transaction Type</Styled.Header>
+        <Styled.TransactionsContainer>
+          <Styled.TransactionLink to="/transactions/add">
+            Quick Add
+          </Styled.TransactionLink>
+          <Styled.TransactionLink to="/transactions/trade">
+            Trade
+          </Styled.TransactionLink>
+        </Styled.TransactionsContainer>
+        <Styled.Header>Transaction History</Styled.Header>
+        <DataTable
+          noHeader
+          dense
+          columns={columns}
+          data={tableData}
+          highlightOnHover
+          pagination
+          paginationRowsPerPageOptions={[10, 20]}
+          paginationPerPage={20}
+        />
+      </PageContainer>
+    </>
   );
 }
