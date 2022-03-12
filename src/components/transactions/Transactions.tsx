@@ -21,7 +21,7 @@ export default function Transactions() {
           <Route path={`/transactions/trade`}>
             <Trade />
           </Route>
-          <Route path={`/transaction/:transactionId`}>
+          <Route path={`/transactions/:transactionId`}>
             <ViewTransaction />
           </Route>
         </Switch>

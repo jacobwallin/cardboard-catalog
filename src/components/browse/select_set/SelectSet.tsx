@@ -13,7 +13,7 @@ const loadingSelector = createLoadingSelector(["GET_ALL_SETS"]);
 
 export default function SelectSet() {
   // year url param
-  const { year } = useParams();
+  const { year } = useParams<{ year: string }>();
   const sets = useSelector((state: RootState) => state.library.sets.allSets);
   const isLoading = useSelector((state: RootState) => loadingSelector(state));
 
