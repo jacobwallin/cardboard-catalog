@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { fetchAllTransactions } from "../../../store/collection/transactions/thunks";
-import CollectionWrapper from "../../shared/CollectionWrapper";
-import CollectionContainer from "../../shared/CollectionContainer";
 import PageContainer from "../../shared/PageContainer";
 import TransactionsHeader from "../../Collection/header/TransactionsHeader";
 import * as Styled from "../styled";
@@ -33,7 +31,7 @@ export default function Main() {
   }, [allTransactions]);
 
   return (
-    <>
+    <PageContainer>
       <TransactionsHeader title="Create Transaction" />
       <Styled.Header>Select Transaction Type</Styled.Header>
       <Styled.TransactionsContainer>
@@ -55,6 +53,6 @@ export default function Main() {
         paginationRowsPerPageOptions={[10, 20]}
         paginationPerPage={20}
       />
-    </>
+    </PageContainer>
   );
 }
