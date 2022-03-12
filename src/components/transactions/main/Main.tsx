@@ -8,7 +8,7 @@ import * as Styled from "../styled";
 import createTableData, {
   TransactionTableData,
   columns,
-} from "./createTableData";
+} from "./screateTableData";
 import DataTable from "react-data-table-component";
 
 export default function Main() {

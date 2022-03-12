@@ -1,4 +1,6 @@
+import React from "react";
 import { TransactionSummary } from "../../../store/collection/transactions/types";
+import StyledLink from "../../Collection/shared/StyledLink";
 
 import formatTimestamp from "../../../utils/formatTimestamp";
 
@@ -92,5 +94,14 @@ export const columns = [
     sortable: true,
     // minWidth: "50px",
     // grow: 2,
+  },
+  {
+    name: "",
+    sortable: false,
+    cell: (row: TransactionTableData) => (
+      <StyledLink to={`/transactions/${row.id}`}>View</StyledLink>
+    ),
+    maxWidth: "80px",
+    minWidth: "80px",
   },
 ];
