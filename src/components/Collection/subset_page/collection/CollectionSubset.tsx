@@ -102,6 +102,11 @@ export default function CollectionSubset(props: Props) {
     setCardFormData(cardFormData);
   }
 
+  function hideForm() {
+    setShowAddCardForm(!showAddCardForm);
+    props.toggleDisableSeriesSelect();
+  }
+
   function showForm() {
     const formData: CardFormData[] = selectedCards.reduce(
       (data: CardFormData[], card) => {
@@ -155,14 +160,21 @@ export default function CollectionSubset(props: Props) {
   return (
     <PageContainer>
       {showAddCardForm && (
-        <AddCardsForm
-          selectFrom="NONE"
-          cardData={cardFormData}
-          submit={handleDelete}
-          setCardData={setAddCardFormData}
-          canEditSelectedCards={false}
-          title="Delete Cards from Your Collection"
-        />
+        <>
+          <SharedStyled.CloseButtonWrapper>
+            <SharedStyled.BackButton onClick={hideForm}>
+              Return to Checklist
+            </SharedStyled.BackButton>
+          </SharedStyled.CloseButtonWrapper>
+          <AddCardsForm
+            selectFrom="NONE"
+            cardData={cardFormData}
+            submit={handleDelete}
+            setCardData={setAddCardFormData}
+            canEditSelectedCards={false}
+            title="Delete Cards from Your Collection"
+          />
+        </>
       )}
       {!showAddCardForm && (
         <>

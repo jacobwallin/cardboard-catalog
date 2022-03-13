@@ -182,15 +182,9 @@ export default function BrowseSubset(props: Props) {
       {showAddCardForm && (
         <>
           <Styled.CloseButtonWrapper>
-            <StyledButton
-              color="GRAY"
-              height="30px"
-              width="175px"
-              fontSize="13px"
-              onClick={hideForm}
-            >
+            <Styled.BackButton onClick={hideForm}>
               Return to Checklist
-            </StyledButton>
+            </Styled.BackButton>
           </Styled.CloseButtonWrapper>
           <AddCardsForm
             selectFrom="NONE"

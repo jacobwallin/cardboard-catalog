@@ -76,13 +76,6 @@ export const ConfirmDeleteButtons = styled.div`
   margin: 15px;
 `;
 
-export const CloseButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  width: 100%;
-  margin: 15px;
-`;
-
 export const ConfirmDeleteTitle = styled.div`
   text-align: center;
   padding: 20px;
@@ -106,4 +99,20 @@ export const TableHeaderRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+`;
+
+export const CloseButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  margin: 25px 0 0 15px;
+`;
+
+export const BackButton = styled.div`
+  font-size: 1rem;
+  color: #777;
+  &:hover {
+    color: black;
+    cursor: pointer;
+  }
 `;
