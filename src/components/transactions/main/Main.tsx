@@ -43,7 +43,7 @@ export default function Main() {
             Trade
           </Styled.TransactionLink>
         </Styled.TransactionsContainer>
-        <Styled.Header>Transaction History</Styled.Header>
+        <Styled.Header>Transaction Log</Styled.Header>
         <DataTable
           noHeader
           dense
