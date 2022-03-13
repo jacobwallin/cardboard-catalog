@@ -215,7 +215,7 @@ export default function AddCardsForm(props: Props) {
           disabled={isPostingCards || cardData.length === 0}
           color="GREEN"
           height="40px"
-          width="130px"
+          width="120px"
         >
           Submit
         </StyledButton>
