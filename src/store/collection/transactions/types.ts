@@ -38,7 +38,7 @@ interface GetAllTransactionsFailure {
 interface AddTransactionRequest {
   type: typeof ADD_TRANSACTION_REQUEST;
 }
-interface AddTransactionSuccess {
+export interface AddTransactionSuccess {
   type: typeof ADD_TRANSACTION_SUCCESS;
   newTransaction: SingleTransaction;
 }
