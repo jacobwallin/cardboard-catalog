@@ -61,3 +61,8 @@ export const deleteCards = (userCardIds: number[]): CollectionActionTypes => ({
   type: types.DELETE_CARDS,
   userCardIds,
 });
+
+export const setInitialDataLoad = (status: boolean): CollectionActionTypes => ({
+  type: types.SET_INITIAL_DATA_LOAD,
+  status,
+});
