@@ -214,7 +214,7 @@ export default function AddCardsForm(props: Props) {
           onClick={handleSubmit}
           disabled={isPostingCards || cardData.length === 0}
           color="GREEN"
-          height="40px"
+          height="35px"
           width="120px"
         >
           Submit
