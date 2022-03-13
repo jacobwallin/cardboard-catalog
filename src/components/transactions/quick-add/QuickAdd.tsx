@@ -26,11 +26,14 @@ export default function QuickAdd() {
 
   function submitTrade(cardData: CardData[]) {
     dispatch(
-      addTransaction({
-        type: "ADD",
-        date: getDateString(new Date()),
-        cardsAdded: cardData,
-      })
+      addTransaction(
+        {
+          type: "ADD",
+          date: getDateString(new Date()),
+          cardsAdded: cardData,
+        },
+        false
+      )
     );
     setTransactionSubmitted(true);
   }

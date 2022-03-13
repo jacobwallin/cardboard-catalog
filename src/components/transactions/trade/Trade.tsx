@@ -59,12 +59,15 @@ export default function Trade() {
     setCurrentStep(4);
 
     dispatch(
-      addTransaction({
-        type: "TRADE",
-        ...tradeDetails,
-        cardsAdded: receivedCardData,
-        userCardsRemoved: tradedCardData.map((userCard) => userCard.cardId),
-      })
+      addTransaction(
+        {
+          type: "TRADE",
+          ...tradeDetails,
+          cardsAdded: receivedCardData,
+          userCardsRemoved: tradedCardData.map((userCard) => userCard.cardId),
+        },
+        false
+      )
     );
     setTradeSubmitted(true);
   }

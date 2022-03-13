@@ -47,11 +47,14 @@ export default function BrowseSubset(props: Props) {
   // submit selected cards to be added to collection
   function submitAddCards(cardData: CardData[]) {
     dispatch(
-      addTransaction({
-        type: "ADD",
-        date: getDateString(new Date()),
-        cardsAdded: cardData,
-      })
+      addTransaction(
+        {
+          type: "ADD",
+          date: getDateString(new Date()),
+          cardsAdded: cardData,
+        },
+        true
+      )
     );
   }
 

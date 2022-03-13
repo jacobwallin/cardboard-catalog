@@ -1,4 +1,3 @@
-import { CardActions } from "@material-ui/core";
 import * as types from "./types";
 
 const initialState: types.CollectionState = {
@@ -40,7 +39,16 @@ export default function collectionReducer(
       return {
         ...state,
         cardsInSingleSubset: {
-          cards: [...state.cardsInSingleSubset.cards, ...action.newCards],
+          cards: [
+            ...state.cardsInSingleSubset.cards,
+            ...action.newCards.filter((newCard) => {
+              return (
+                state.cardsInSingleSubset.cards.findIndex(
+                  (c) => c.id === newCard.id
+                ) === -1
+              );
+            }),
+          ],
           subsetId: state.cardsInSingleSubset.subsetId,
         },
       };
