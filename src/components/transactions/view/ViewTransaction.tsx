@@ -25,7 +25,7 @@ export default function ViewTransaction() {
   }, []);
 
   if (+transactionId !== transaction.id) {
-    return <LoadingSpinner />;
+    return <h2>LOADING...</h2>;
   }
   return (
     <>

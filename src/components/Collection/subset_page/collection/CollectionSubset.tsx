@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../../store";
+import { addTransaction } from "../../../../store/collection/transactions/thunks";
 import DataTable from "react-data-table-component";
 import { columns, deleteColumns } from "./dataTableColumns";
 import dataTableConditionalStyles from "./dataTableConditionalStyles";
@@ -16,10 +17,11 @@ import * as Styled from "./styled";
 import MedalIcon from "./medal.svg";
 import { SeriesTableData } from "../createTableData";
 import { TotalCards } from "../../shared";
+import { getDateString } from "../../../../utils/formatTimestamp";
 
 import { createStatusSelector } from "../../../../store/loading/reducer";
 
-const deleteStatusSelector = createStatusSelector("DELETE_CARDS");
+const deleteStatusSelector = createStatusSelector("ADD_TRANSACTION");
 
 interface Props {
   tableData: SeriesTableData;
@@ -75,7 +77,13 @@ export default function CollectionSubset(props: Props) {
   }
 
   function handleDelete() {
-    // dispatch(deleteCards(selectedCardIds));
+    dispatch(
+      addTransaction({
+        type: "DELETE",
+        date: getDateString(new Date()),
+        userCardsRemoved: selectedCardIds,
+      })
+    );
   }
 
   function toggleDeleteChecklist() {

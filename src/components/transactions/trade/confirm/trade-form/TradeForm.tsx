@@ -49,7 +49,7 @@ export default function TradeForm(props: Props) {
   return (
     <Styled.Container>
       <Styled.InputContainer>
-        <Styled.Label htmlFor="date">*Date of Trade</Styled.Label>
+        <Styled.Label htmlFor="date">Date of Trade*</Styled.Label>
         <Styled.DateInput id="date" value={date} onChange={handleInputChange} />
       </Styled.InputContainer>
       <Styled.Flex>
