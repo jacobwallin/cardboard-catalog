@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../../store";
-import { deleteCards } from "../../../../store/collection/browse/thunks";
 import DataTable from "react-data-table-component";
 import { columns, deleteColumns } from "./dataTableColumns";
 import dataTableConditionalStyles from "./dataTableConditionalStyles";
@@ -76,7 +75,7 @@ export default function CollectionSubset(props: Props) {
   }
 
   function handleDelete() {
-    dispatch(deleteCards(selectedCardIds));
+    // dispatch(deleteCards(selectedCardIds));
   }
 
   function toggleDeleteChecklist() {

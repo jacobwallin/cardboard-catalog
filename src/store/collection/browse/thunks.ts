@@ -49,35 +49,3 @@ export const fetchCardsInSingleSubset =
         dispatch(actions.getSingleSubsetCardsFailure());
       });
   };
-
-export const addCards =
-  (
-    cardData: CardData[],
-    subsetId: number
-  ): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
-  (dispatch) => {
-    dispatch(actions.addCardsRequest());
-    post(`/api/transactions/quickadd`, { cardsToAdd: cardData }, dispatch)
-      .then((newCards: NewCardsResponse[]) => {
-        dispatch(actions.addCardsSuccess(newCards, cardData, subsetId));
-      })
-      .catch((err) => {
-        dispatch(actions.addCardsFailure());
-      });
-  };
-
-export const deleteCards =
-  (
-    userCardIds: number[]
-  ): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
-  (dispatch) => {
-    dispatch(actions.deleteCardsRequest());
-
-    post(`/api/collection/delete/bulk`, { userCardIds }, dispatch)
-      .then((response) => {
-        dispatch(actions.deleteCardsSuccess(userCardIds));
-      })
-      .catch((err) => {
-        dispatch(actions.deleteCardsFailure());
-      });
-  };

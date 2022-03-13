@@ -3,7 +3,7 @@ import * as types from "./types";
 const initialState: types.TransactionsState = {
   transaction: {
     id: 0,
-    type: "QUICK",
+    type: "ADD",
     title: "",
     note: "",
     date: "",

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../../store";
+import { CardData } from "../../../../store/collection/browse/types";
+import { addTransaction } from "../../../../store/collection/transactions/thunks";
 import DataTable from "react-data-table-component";
 import columns from "./dataTableColumns";
 import { TableDataPoint } from "../createTableData";
@@ -13,12 +15,14 @@ import * as Styled from "../styled";
 import { NoDataMessage } from "../../../shared/NoDataMessage";
 import { TotalCards } from "../../shared";
 import { SeriesTableData } from "../createTableData";
+import { getDateString } from "../../../../utils/formatTimestamp";
+
 interface Props {
   tableData: SeriesTableData;
   toggleDisableSeriesSelect(): void;
 }
 export default function BrowseSubset(props: Props) {
-  const subset = useSelector((state: RootState) => state.library.subsets);
+  const dispatch = useDispatch();
   const userCardsInSubset = useSelector(
     (state: RootState) => state.collection.browse.cardsInSingleSubset.cards
   );
@@ -39,6 +43,22 @@ export default function BrowseSubset(props: Props) {
       setAddCardFormData([]);
     }
   }, [showAddCardForm]);
+
+  // submit selected cards to be added to collection
+  function submitAddCards(cardData: CardData[]) {
+    dispatch(
+      addTransaction({
+        type: "ADD",
+        date: getDateString(new Date()),
+        cardsAdded: cardData,
+      })
+    );
+  }
+
+  // handle form state for AddCardsForm component
+  function setCardData(cardData: CardFormData[]) {
+    setAddCardFormData(cardData);
+  }
 
   function toggleCheckboxes() {
     setChecklistToggleSelect(!checklistToggleSelect);
@@ -169,7 +189,12 @@ export default function BrowseSubset(props: Props) {
               Return to Checklist
             </StyledButton>
           </Styled.CloseButtonWrapper>
-          {/* <AddCardsForm formData={addCardFormData} /> */}
+          <AddCardsForm
+            selectFrom="NONE"
+            cardData={addCardFormData}
+            setCardData={setCardData}
+            submit={submitAddCards}
+          />
         </>
       )}
       {!showAddCardForm && (

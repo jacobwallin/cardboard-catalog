@@ -63,7 +63,13 @@ export interface TransactionsState {
   allTransactions: TransactionSummary[];
 }
 
-export type TransactionTypes = "QUICK" | "TRADE" | "SALE" | "PURCHASE" | "RIP";
+export type TransactionTypes =
+  | "ADD"
+  | "DELETE"
+  | "TRADE"
+  | "SALE"
+  | "PURCHASE"
+  | "RIP";
 
 export interface SingleTransaction {
   id: number;

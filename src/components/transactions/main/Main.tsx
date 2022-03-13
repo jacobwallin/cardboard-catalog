@@ -37,7 +37,7 @@ export default function Main() {
         <Styled.Header>Create New Transaction</Styled.Header>
         <Styled.TransactionsContainer>
           <Styled.TransactionLink to="/transactions/add">
-            Quick Add
+            Add Cards
           </Styled.TransactionLink>
           <Styled.TransactionLink to="/transactions/trade">
             Trade

@@ -7,7 +7,7 @@ const Team = db.define("transaction", {
     allowNull: false,
     validate: {
       customValidator: (value) => {
-        const enums = ["QUICK", "TRADE", "SALE", "PURCHASE", "RIP"];
+        const enums = ["ADD", "DELETE", "TRADE", "SALE", "PURCHASE", "RIP"];
         if (!enums.includes(value)) {
           throw new Error("not a valid option");
         }

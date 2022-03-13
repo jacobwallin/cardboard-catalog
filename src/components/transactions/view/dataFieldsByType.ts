@@ -20,7 +20,8 @@ const dataFields: {
 const dataFieldsByTransactionType: {
   [K in TransactionTypes]: TransactionDataFields[];
 } = {
-  QUICK: [],
+  ADD: [],
+  DELETE: [],
   TRADE: [dataFields.NOTE, dataFields.INDIVIDUAL, dataFields.MONEY],
   SALE: [
     dataFields.NOTE,

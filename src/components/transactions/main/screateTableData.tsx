@@ -23,7 +23,8 @@ export interface TransactionTableData {
 
 // display names for each transaction types
 export const transactionTypeMap = {
-  QUICK: "Quick Add",
+  ADD: "Add Cards",
+  DELETE: "Delete Cards",
   TRADE: "Trade",
   SALE: "Sale",
   PURCHASE: "Purchase",

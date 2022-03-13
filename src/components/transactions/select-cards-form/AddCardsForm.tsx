@@ -37,22 +37,14 @@ const postingCards = createLoadingSelector(["ADD_TRANSACTION"]);
 const postingCardsStatusSelector = createStatusSelector("ADD_TRANSACTION");
 
 interface Props {
-  selectFrom: "COLLECTION" | "DATABASE";
+  selectFrom: "COLLECTION" | "DATABASE" | "NONE";
   cardData: CardFormData[];
   setCardData(cardData: CardFormData[]): void;
   submit(cardData: CardData[]): void;
-  hideSelectCardForm?: boolean;
   title?: string;
 }
 export default function AddCardsForm(props: Props) {
-  const {
-    selectFrom,
-    cardData,
-    setCardData,
-    submit,
-    hideSelectCardForm,
-    title,
-  } = props;
+  const { selectFrom, cardData, setCardData, submit, title } = props;
 
   // error message will be displayed to user if form is not filled out correctly
   const [validationError, setValidationError] = useState(false);
@@ -201,7 +193,7 @@ export default function AddCardsForm(props: Props) {
   return (
     <Styled.FormContainer>
       {title && <Styled.SelectFormTitle>{title}</Styled.SelectFormTitle>}
-      {!hideSelectCardForm && (
+      {selectFrom !== "NONE" && (
         <SelectCardForm
           addCard={addCard}
           selectFrom={selectFrom}
