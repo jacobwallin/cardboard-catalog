@@ -10,7 +10,6 @@ import * as Styled from "./styled";
 import { transactionTypeMap } from "../main/screateTableData";
 import TransactionsHeader from "../../Collection/header/TransactionsHeader";
 import { convertDateString } from "../../../utils/formatTimestamp";
-import { LoadingSpinner } from "../../shared/Loading";
 
 export default function ViewTransaction() {
   const dispatch = useDispatch();
@@ -30,6 +29,7 @@ export default function ViewTransaction() {
   return (
     <>
       <TransactionsHeader title="View Transaction" />
+      <h1>COMING SOON</h1>
       <PageContainer>
         <Styled.DataContainer>
           <Styled.DataFieldContainer>

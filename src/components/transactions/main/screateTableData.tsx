@@ -34,24 +34,29 @@ export const transactionTypeMap = {
 export default function createTableData(
   transactions: TransactionSummary[]
 ): TransactionTableData[] {
-  return transactions.map((transaction) => {
-    const { transaction_user_cards, ...rest } = transaction;
-    const tableRow: TransactionTableData = {
-      ...rest,
-      type: transactionTypeMap[rest.type],
-      createdAt: formatTimestamp(rest.createdAt),
-      cardsAdded: 0,
-      cardsRemoved: 0,
-    };
-    tableRow.cardsAdded = transaction_user_cards.filter(
-      (instance) => !instance.deleted
-    ).length;
-    tableRow.cardsRemoved = transaction_user_cards.filter(
-      (instance) => instance.deleted
-    ).length;
+  return transactions
+    .sort((tA, tB) => {
+      if (tA.date < tB.date) return 1;
+      return -1;
+    })
+    .map((transaction) => {
+      const { transaction_user_cards, ...rest } = transaction;
+      const tableRow: TransactionTableData = {
+        ...rest,
+        type: transactionTypeMap[rest.type],
+        createdAt: formatTimestamp(rest.createdAt),
+        cardsAdded: 0,
+        cardsRemoved: 0,
+      };
+      tableRow.cardsAdded = transaction_user_cards.filter(
+        (instance) => !instance.deleted
+      ).length;
+      tableRow.cardsRemoved = transaction_user_cards.filter(
+        (instance) => instance.deleted
+      ).length;
 
-    return tableRow;
-  });
+      return tableRow;
+    });
 }
 
 export const columns = [
