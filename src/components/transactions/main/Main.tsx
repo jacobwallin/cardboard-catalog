@@ -20,14 +20,11 @@ export default function Main() {
   const [tableData, setTableData] = useState<TransactionTableData[]>([]);
 
   useEffect(() => {
-    if (allTransactions.length === 0) {
-      dispatch(fetchAllTransactions());
-    }
+    dispatch(fetchAllTransactions());
   }, []);
 
   useEffect(() => {
     if (allTransactions.length > 0) {
-      console.log("CREATED TABLE DATA");
       setTableData(createTableData(allTransactions));
     }
   }, [allTransactions]);
