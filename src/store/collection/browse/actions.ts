@@ -49,37 +49,15 @@ export const getSingleSubsetCardsSuccess = (payload: {
 export const getSingleSubsetCardsFailure = (): CollectionActionTypes => ({
   type: types.GET_CARDS_IN_SINGLE_SUBSET_FAILURE,
 });
-export const addCardsRequest = (): CollectionActionTypes => ({
-  type: types.ADD_CARDS_REQUEST,
-});
-export const addCardsSuccess = (
-  newCards: types.NewCardsResponse[],
-  cardData: types.CardData[],
-  subsetId: number
+
+export const addCards = (
+  newCards: types.UserCard[]
 ): CollectionActionTypes => ({
-  type: types.ADD_CARDS_SUCCESS,
+  type: types.ADD_CARDS,
   newCards,
-  cardData,
-  subsetId,
-});
-export const addCardsFailure = (): CollectionActionTypes => ({
-  type: types.ADD_CARDS_FAILURE,
 });
 
-export const deleteCardsRequest = (): CollectionActionTypes => ({
-  type: types.DELETE_CARDS_REQUEST,
-});
-export const deleteCardsSuccess = (
-  userCardIds: number[]
-): CollectionActionTypes => ({
-  type: types.DELETE_CARDS_SUCCESS,
+export const deleteCards = (userCardIds: number[]): CollectionActionTypes => ({
+  type: types.DELETE_CARDS,
   userCardIds,
-});
-export const deleteCardsFailure = (): CollectionActionTypes => ({
-  type: types.DELETE_CARDS_FAILURE,
-});
-
-export const setInitialDataLoad = (status: boolean): CollectionActionTypes => ({
-  type: types.SET_INITIAL_DATA_LOAD,
-  status,
 });

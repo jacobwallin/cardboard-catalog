@@ -1,6 +1,8 @@
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../index";
 import * as actions from "./actions";
+import { addCards, deleteCards } from "../browse/actions";
+import { CollectionActionTypes } from "../browse/types";
 import {
   TransactionActions,
   TransactionPostData,
@@ -40,15 +42,29 @@ export const fetchAllTransactions =
 export const addTransaction =
   (
     data: TransactionPostData,
-    cardsAdded?: UserCard,
-    userCardsRemoved?: number[]
-  ): ThunkAction<void, RootState, unknown, TransactionActions> =>
+    cardData?: {
+      cardsAdded?: UserCard[];
+      userCardsRemoved?: number[];
+    }
+  ): ThunkAction<
+    void,
+    RootState,
+    unknown,
+    TransactionActions | CollectionActionTypes
+  > =>
   (dispatch) => {
     dispatch(actions.addTransactionRequest());
     post(`/api/transactions`, { ...data }, dispatch)
       .then((payload) => {
         dispatch(actions.addTransactionSuccess(payload));
         // if cards added or deleted argument was sent, dispatch action to adjust subset data
+        if (cardData) {
+          if (cardData.cardsAdded) {
+            dispatch(addCards(cardData.cardsAdded));
+          } else if (cardData.userCardsRemoved) {
+            dispatch(deleteCards(cardData.userCardsRemoved));
+          }
+        }
       })
       .catch((err) => {
         dispatch(actions.addTransactionFailure());

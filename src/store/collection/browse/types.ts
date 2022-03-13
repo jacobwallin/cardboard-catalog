@@ -11,12 +11,8 @@ export const GET_CARDS_IN_SINGLE_SUBSET_SUCCESS =
   "GET_CARDS_IN_SINGLE_SUBSET_SUCCESS";
 export const GET_CARDS_IN_SINGLE_SUBSET_FAILURE =
   "GET_CARDS_IN_SINGLE_SUBSET_FAILURE";
-export const ADD_CARDS_REQUEST = "ADD_CARDS_REQUEST";
-export const ADD_CARDS_SUCCESS = "ADD_CARDS_SUCCESS";
-export const ADD_CARDS_FAILURE = "ADD_CARDS_FAILURE";
-export const DELETE_CARDS_REQUEST = "DELETE_CARDS_REQUEST";
-export const DELETE_CARDS_SUCCESS = "DELETE_CARDS_SUCCESS";
-export const DELETE_CARDS_FAILURE = "DELETE_CARDS_FAILURE";
+export const ADD_CARDS = "ADD_CARDS";
+export const DELETE_CARDS = "DELETE_CARDS";
 export const SET_INITIAL_DATA_LOAD = "SET_INITIAL_DATA_LOAD";
 
 // --- ACTIONS ---
@@ -58,34 +54,19 @@ interface GetCardsInSingleSubsetSuccess {
 interface GetCardsInSingleSubsetFailure {
   type: typeof GET_CARDS_IN_SINGLE_SUBSET_FAILURE;
 }
-
-interface AddCardsRequest {
-  type: typeof ADD_CARDS_REQUEST;
-}
-export interface AddCardsSuccess {
-  type: typeof ADD_CARDS_SUCCESS;
-  newCards: NewCardsResponse[];
-  cardData: CardData[];
-  subsetId: number;
-}
-interface AddCardsFailure {
-  type: typeof ADD_CARDS_FAILURE;
-}
-
-interface DeleteCardsRequest {
-  type: typeof DELETE_CARDS_REQUEST;
-}
-interface DeleteCardsSuccess {
-  type: typeof DELETE_CARDS_SUCCESS;
-  userCardIds: number[];
-}
-interface DeleteCardsFailure {
-  type: typeof DELETE_CARDS_FAILURE;
-}
-
 interface SetInitialDataLoad {
   type: typeof SET_INITIAL_DATA_LOAD;
   status: boolean;
+}
+
+export interface AddCards {
+  type: typeof ADD_CARDS;
+  newCards: UserCard[];
+}
+
+export interface DeleteCards {
+  type: typeof DELETE_CARDS;
+  userCardIds: number[];
 }
 
 export type CollectionActionTypes =
@@ -98,14 +79,9 @@ export type CollectionActionTypes =
   | GetCardsInSingleSubsetSuccess
   | GetCardsInSingleSubsetRequest
   | GetCardsInSingleSubsetFailure
-  | AddCardsRequest
-  | AddCardsSuccess
-  | AddCardsFailure
-  | DeleteCardsRequest
-  | DeleteCardsSuccess
-  | DeleteCardsFailure
+  | AddCards
+  | DeleteCards
   | SetInitialDataLoad;
-
 // ---- *** COLLECTION REDUCER STATE TYPE *** ----
 export interface CollectionState {
   cardsBySet: SetCards[];
