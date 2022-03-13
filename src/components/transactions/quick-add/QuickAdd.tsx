@@ -51,6 +51,7 @@ export default function QuickAdd() {
         cardData={cardsAdded}
         submit={submitTrade}
         setCardData={setCardData}
+        canEditSelectedCards={true}
         title="Select Cards"
       />
     </>

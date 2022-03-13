@@ -41,10 +41,18 @@ interface Props {
   cardData: CardFormData[];
   setCardData(cardData: CardFormData[]): void;
   submit(cardData: CardData[]): void;
+  canEditSelectedCards: boolean;
   title?: string;
 }
 export default function AddCardsForm(props: Props) {
-  const { selectFrom, cardData, setCardData, submit, title } = props;
+  const {
+    selectFrom,
+    cardData,
+    setCardData,
+    submit,
+    canEditSelectedCards,
+    title,
+  } = props;
 
   // error message will be displayed to user if form is not filled out correctly
   const [validationError, setValidationError] = useState(false);
@@ -234,7 +242,7 @@ export default function AddCardsForm(props: Props) {
         handleGradeChange={handleGradeChange}
         handleGradingCompanyIdChange={handleGradingCompanyIdChange}
         clearGradeData={clearGradeData}
-        preventGradeChanges={selectFrom === "COLLECTION"}
+        preventGradeChanges={!canEditSelectedCards}
       />
     </Styled.FormContainer>
   );

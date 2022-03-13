@@ -17,6 +17,7 @@ export default function SelectTraded(props: Props) {
         cardData={tradedCards}
         setCardData={handleTradedCardsChange}
         submit={submit}
+        canEditSelectedCards={false}
         title="Select Cards You Traded"
       />
     </>

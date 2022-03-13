@@ -139,7 +139,10 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
             toggleDisableSeriesSelect={toggleDisableSeriesSelect}
           />
         ) : (
-          <CollectionSubset tableData={tableData[selectedSeriesId]} />
+          <CollectionSubset
+            tableData={tableData[selectedSeriesId]}
+            toggleDisableSeriesSelect={toggleDisableSeriesSelect}
+          />
         )}
       </CollectionContainer>
     </CollectionWrapper>

@@ -197,6 +197,8 @@ export default function BrowseSubset(props: Props) {
             cardData={addCardFormData}
             setCardData={setCardData}
             submit={submitAddCards}
+            canEditSelectedCards={true}
+            title="Add Cards to Your Collection"
           />
         </>
       )}

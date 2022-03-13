@@ -143,15 +143,3 @@ export interface CardData {
   grade?: number;
   gradingCompanyId?: number;
 }
-
-// server response with cards added to collection
-export interface NewCardsResponse {
-  id: number;
-  serialNumber: number | null;
-  createdAt: string;
-  updatedAt: string;
-  userId: number;
-  cardId: number;
-  gradingCompanyId: number | null;
-  grade: number | null;
-}
