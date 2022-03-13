@@ -82,6 +82,7 @@ export type CollectionActionTypes =
   | AddCards
   | DeleteCards
   | SetInitialDataLoad;
+
 // ---- *** COLLECTION REDUCER STATE TYPE *** ----
 export interface CollectionState {
   cardsBySet: SetCards[];

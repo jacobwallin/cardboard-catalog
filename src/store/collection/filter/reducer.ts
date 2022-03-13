@@ -1,10 +1,5 @@
 import * as types from "./types";
 
-import {
-  ADD_TRANSACTION_SUCCESS,
-  AddTransactionSuccess,
-} from "../transactions/types";
-
 const initialState: types.FilterCollectionState = {
   count: 0,
   rows: [],
@@ -14,7 +9,7 @@ const initialState: types.FilterCollectionState = {
 
 export default function cardReducer(
   state: types.FilterCollectionState = initialState,
-  action: types.FilterCollectionActions | AddTransactionSuccess
+  action: types.FilterCollectionActions
 ): types.FilterCollectionState {
   switch (action.type) {
     case types.GET_CARDS_SUCCESS:
@@ -29,8 +24,6 @@ export default function cardReducer(
         ...state,
         pdfData: action.payload.rows,
       };
-    case ADD_TRANSACTION_SUCCESS:
-      return initialState;
     default:
       return state;
   }
