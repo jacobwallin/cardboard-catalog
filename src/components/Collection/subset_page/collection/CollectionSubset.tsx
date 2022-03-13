@@ -78,14 +78,11 @@ export default function CollectionSubset(props: Props) {
 
   function handleDelete() {
     dispatch(
-      addTransaction(
-        {
-          type: "DELETE",
-          date: getDateString(new Date()),
-          userCardsRemoved: selectedCardIds,
-        },
-        { userCardsRemoved: selectedCardIds }
-      )
+      addTransaction({
+        type: "DELETE",
+        date: getDateString(new Date()),
+        userCardsRemoved: selectedCardIds,
+      })
     );
   }
 

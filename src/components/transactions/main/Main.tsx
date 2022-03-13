@@ -20,7 +20,9 @@ export default function Main() {
   const [tableData, setTableData] = useState<TransactionTableData[]>([]);
 
   useEffect(() => {
-    dispatch(fetchAllTransactions());
+    if (allTransactions.length === 0) {
+      dispatch(fetchAllTransactions());
+    }
   }, []);
 
   useEffect(() => {

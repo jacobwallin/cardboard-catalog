@@ -185,6 +185,10 @@ router.post("/", async (req, res, next) => {
       include: {
         model: UserCard,
         paranoid: false,
+        include: {
+          model: Card,
+          attributes: ["id", "value", "serializedTo", "seriesId", "cardDataId"],
+        },
       },
     });
 

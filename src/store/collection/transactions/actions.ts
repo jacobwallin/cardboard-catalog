@@ -30,7 +30,7 @@ export const addTransactionRequest = (): types.TransactionActions => ({
   type: types.ADD_TRANSACTION_REQUEST,
 });
 export const addTransactionSuccess = (
-  newTransaction: types.SingleTransaction
+  newTransaction: types.AddTransactionResponse
 ): types.TransactionActions => ({
   type: types.ADD_TRANSACTION_SUCCESS,
   newTransaction,

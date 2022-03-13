@@ -40,7 +40,7 @@ interface AddTransactionRequest {
 }
 export interface AddTransactionSuccess {
   type: typeof ADD_TRANSACTION_SUCCESS;
-  newTransaction: SingleTransaction;
+  newTransaction: AddTransactionResponse;
 }
 interface AddTransactionFailure {
   type: typeof ADD_TRANSACTION_FAILURE;
@@ -124,4 +124,47 @@ export interface TransactionPostData {
   setId?: number;
   title?: string | null;
   notes?: string | null;
+}
+
+export interface AddTransactionResponse {
+  id: number;
+  type: TransactionTypes;
+  date: string;
+  title: string | null;
+  note: string | null;
+  platform: string | null;
+  individual: string | null;
+  money: number | null;
+  createdAt: string;
+  updatedAt: string;
+  userId: number;
+  setId: number | null;
+  user_cards: NewTransactionUserCard[];
+}
+
+interface NewTransactionUserCard {
+  id: number;
+  serialNumber: number | null;
+  grade: number | null;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  userId: number;
+  cardId: number;
+  gradingCompanyId: number | null;
+  card: {
+    id: number;
+    value: number | null;
+    serializedTo: number | null;
+    seriesId: number;
+    cardDataId: number;
+  };
+  transaction_user_card: {
+    id: number;
+    deleted: boolean;
+    createdAt: string;
+    updatedAt: string;
+    transactionId: number;
+    userCardId: number;
+  };
 }

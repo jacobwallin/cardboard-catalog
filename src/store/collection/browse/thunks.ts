@@ -1,8 +1,8 @@
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../index";
 import * as actions from "./actions";
-import { CollectionActionTypes, CardData, NewCardsResponse } from "./types";
-import { get, post } from "../../../utils/fetch";
+import { CollectionActionTypes } from "./types";
+import { get } from "../../../utils/fetch";
 
 export const fetchCardsBySet =
   (): ThunkAction<any, RootState, any, CollectionActionTypes> => (dispatch) => {

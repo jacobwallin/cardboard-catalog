@@ -34,6 +34,25 @@ export default function cardReducer(
         ...state,
         transaction: action.transaction,
       };
+    case types.ADD_TRANSACTION_SUCCESS:
+      const transaction_user_cards = action.newTransaction.user_cards.map(
+        (user_card) => {
+          return user_card.transaction_user_card;
+        }
+      );
+      const newTransaction = {
+        ...action.newTransaction,
+        transaction_user_cards: transaction_user_cards,
+      };
+      return {
+        ...state,
+        allTransactions: [
+          ...state.allTransactions.filter(
+            (transaction) => transaction.id !== newTransaction.id
+          ),
+          newTransaction,
+        ],
+      };
     default:
       return state;
   }

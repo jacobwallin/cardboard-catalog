@@ -118,12 +118,13 @@ export interface SubsetCards {
 export interface UserCard {
   id: number;
   serialNumber: number | null;
+  grade: number | null;
   createdAt: string;
   updatedAt: string;
+  deletedAt: string | null;
   userId: number;
   cardId: number;
   gradingCompanyId: number | null;
-  grade: number | null;
   card: Card;
 }
 

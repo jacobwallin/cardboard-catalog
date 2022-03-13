@@ -13,6 +13,7 @@ export interface UserCard {
   gradingCompanyId: number | null;
   createdAt: string;
   updatedAt: string;
+  deletedAt: string | null;
   userId: number;
   cardId: number;
   grading_company: {
