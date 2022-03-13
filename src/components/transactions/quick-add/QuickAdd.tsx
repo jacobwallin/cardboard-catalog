@@ -24,7 +24,7 @@ export default function QuickAdd() {
     setCardsAdded(cardData);
   }
 
-  function submitTrade(cardData: CardData[]) {
+  function submit(cardData: CardData[]) {
     dispatch(
       addTransaction(
         {
@@ -49,7 +49,7 @@ export default function QuickAdd() {
       <AddCardsForm
         selectFrom="DATABASE"
         cardData={cardsAdded}
-        submit={submitTrade}
+        submit={submit}
         setCardData={setCardData}
         canEditSelectedCards={true}
         title="Select Cards"
