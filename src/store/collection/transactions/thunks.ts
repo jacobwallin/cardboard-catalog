@@ -6,6 +6,7 @@ import {
   TransactionPostData,
   TransactionSummary,
 } from "./types";
+import { UserCard } from "../browse/types";
 import { get, post } from "../../../utils/fetch";
 
 export const fetchTransaction =
@@ -38,13 +39,16 @@ export const fetchAllTransactions =
 
 export const addTransaction =
   (
-    data: TransactionPostData
+    data: TransactionPostData,
+    cardsAdded?: UserCard,
+    userCardsRemoved?: number[]
   ): ThunkAction<void, RootState, unknown, TransactionActions> =>
   (dispatch) => {
     dispatch(actions.addTransactionRequest());
     post(`/api/transactions`, { ...data }, dispatch)
       .then((payload) => {
         dispatch(actions.addTransactionSuccess(payload));
+        // if cards added or deleted argument was sent, dispatch action to adjust subset data
       })
       .catch((err) => {
         dispatch(actions.addTransactionFailure());
