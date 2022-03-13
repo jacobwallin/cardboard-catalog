@@ -55,15 +55,6 @@ export const addTransaction =
       .then((payload: AddTransactionResponse) => {
         dispatch(actions.addTransactionSuccess(payload));
         if (data.type === "ADD" && createdFromSubsetPage) {
-          console.log(
-            "ADDING CARDS",
-            payload.user_cards
-              .filter((userCard) => !userCard.transaction_user_card.deleted)
-              .map((userCard) => {
-                const { transaction_user_card, ...newUserCard } = userCard;
-                return newUserCard;
-              })
-          );
           dispatch(
             addCards(
               payload.user_cards
