@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { RootState } from "../../../store";
@@ -10,10 +10,16 @@ import * as Styled from "./styled";
 import { transactionTypeMap } from "../main/screateTableData";
 import TransactionsHeader from "../../Collection/header/TransactionsHeader";
 import { convertDateString } from "../../../utils/formatTimestamp";
+import { UserCardWithTransaction } from "../../../store/collection/transactions/types";
 
 export default function ViewTransaction() {
   const dispatch = useDispatch();
   const { transactionId } = useParams<{ transactionId: string }>();
+
+  const [cardsAdded, setCardsAdded] = useState<UserCardWithTransaction[]>([]);
+  const [cardsRemoved, setCardsRemoved] = useState<UserCardWithTransaction[]>(
+    []
+  );
 
   const transaction = useSelector(
     (state: RootState) => state.collection.transactions.transaction
@@ -22,6 +28,21 @@ export default function ViewTransaction() {
   useEffect(() => {
     dispatch(fetchTransaction(+transactionId));
   }, []);
+
+  useEffect(() => {
+    if (transaction.user_cards.length > 0) {
+      setCardsAdded(
+        transaction.user_cards.filter(
+          (card) => !card.transaction_user_card.deleted
+        )
+      );
+      setCardsRemoved(
+        transaction.user_cards.filter(
+          (card) => card.transaction_user_card.deleted
+        )
+      );
+    }
+  }, [transaction]);
 
   if (+transactionId !== transaction.id) {
     return <h2>LOADING...</h2>;

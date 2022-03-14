@@ -14,7 +14,7 @@ const initialState: types.TransactionsState = {
     updatedAt: "",
     userId: 0,
     setId: 0,
-    cards: [],
+    user_cards: [],
   },
   allTransactions: [],
 };
