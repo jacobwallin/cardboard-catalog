@@ -16,6 +16,7 @@ export const DataTitle = styled.div`
 export const DataValue = styled.div`
   font-size: 1rem;
   padding-left: 10px;
+  white-space: pre-wrap;
 `;
 
 export const DataFieldContainer = styled.div`
