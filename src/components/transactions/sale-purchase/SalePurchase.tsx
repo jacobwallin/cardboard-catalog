@@ -85,7 +85,9 @@ export default function SalePurchase(props: Props) {
 
   return (
     <>
-      <TransactionsHeader title="Enter Sale" />
+      <TransactionsHeader
+        title={transactionType === "SALE" ? "Enter Sale" : "Enter Purchase"}
+      />
       <StepContainer>
         <Step
           currentStepNumber={currentStep}
