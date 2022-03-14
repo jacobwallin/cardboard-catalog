@@ -6,12 +6,14 @@ import CollectionHeader from "./header/CollectionHeader";
 import FilterPage from "./filter/FilterPage";
 import CollectionWrapper from "../shared/CollectionWrapper";
 import CollectionContainer from "../shared/CollectionContainer";
+import Breadcrumbs from "../breadcrumbs/Breadcrumbs";
 
 export default function Collection() {
   const { path } = useRouteMatch();
   return (
     <CollectionWrapper>
       <CollectionContainer>
+        <Breadcrumbs />
         <CollectionHeader title="Your Collection" />
         <Switch>
           <Route exact path={path} component={SelectYear} />

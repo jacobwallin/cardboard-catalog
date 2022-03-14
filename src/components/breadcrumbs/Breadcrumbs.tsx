@@ -1,18 +1,34 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { Link, useLocation } from "react-router-dom";
+import * as Styled from "./styled";
 
-interface Breadcrumb {
-  name: string;
-  url: string;
+interface Crumb {
+  link: string;
+  title: string;
 }
 
-interface Props {
-  breadcrumbs: Breadcrumb[];
-}
+export default function Breadcrumbs() {
+  const location = useLocation();
 
-export default function Breadcrumbs(props: Props) {
-  const { breadcrumbs } = props;
-  return breadcrumbs.map((crumb) => {
-    return <Link to={crumb.url}>{crumb.name}</Link>;
-  });
+  const [breadcrumbs, setBreadcrumbs] = useState<Crumb[]>([]);
+
+  useEffect(() => {
+    // split pathname and update links
+    const splitPathname = location.pathname.split("/").slice(1);
+    console.log("WE SPLIT IT:", splitPathname);
+  }, [location]);
+
+  return (
+    <Styled.BreadcrumbsContainer>
+      {breadcrumbs.map((crumb) => {
+        return (
+          <Styled.BreadcrumbLink to={crumb.link}>
+            {crumb.title}
+          </Styled.BreadcrumbLink>
+        );
+      })}
+    </Styled.BreadcrumbsContainer>
+  );
 }
