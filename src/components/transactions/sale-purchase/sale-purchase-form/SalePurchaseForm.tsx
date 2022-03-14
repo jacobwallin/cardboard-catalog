@@ -83,8 +83,9 @@ export default function SalePurchaseForm(props: Props) {
         />
       </FormComponents.InputContainer>
       <FormComponents.InputContainer>
-        <FormComponents.Label htmlFor="money">$</FormComponents.Label>
+        <FormComponents.Label htmlFor="money">$ Received</FormComponents.Label>
         <FormComponents.NumberInput
+          min="0"
           id="money"
           value={money}
           onChange={handleInputChange}
