@@ -39,6 +39,8 @@ export default function Breadcrumbs() {
           setBreadcrumbs(createSubsetCrumbs(subset, location.search));
         }
         break;
+      case "admin":
+        break;
       default:
         setBreadcrumbs(createCrumbs(pageNames));
         break;

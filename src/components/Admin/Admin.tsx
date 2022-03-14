@@ -9,6 +9,7 @@ import AdminPlayers from "./players/AdminPlayer";
 import AdminTeams from "./teams/AdminTeams";
 import AdminOther from "./other/AdminOther";
 import * as Styled from "./styled";
+import Breadcrumbs from "../breadcrumbs/Breadcrumbs";
 
 export default function Admin() {
   const { path } = useRouteMatch();
@@ -30,6 +31,7 @@ export default function Admin() {
       <Sidebar />
       <Styled.AdminInnerWrapper>
         <Styled.AdminContainer>
+          <Breadcrumbs />
           <Route exact path={path}>
             <AdminSets
               yearFilter={yearFilter}
