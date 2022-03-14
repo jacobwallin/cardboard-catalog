@@ -21,10 +21,12 @@ interface Props {
 }
 
 export default function SalePurchase(props: Props) {
+  const { transactionType } = props;
   const dispatch = useDispatch();
   // track current step of sale data entry use is on
   const [currentStep, setCurrentStep] = useState(2);
-  const [soldCards, setSoldCards] = useState<CardFormData[]>([]);
+  const [selectedCards, setSelectedCards] = useState<CardFormData[]>([]);
+  const [selectedCardData, setSelectedCardData] = useState<CardData[]>([]);
   const [saleSubmitted, setSaleSubmitted] = useState<boolean>(false);
 
   const addTransactionStatus = useSelector((state: RootState) =>
@@ -35,28 +37,43 @@ export default function SalePurchase(props: Props) {
     setCurrentStep(stepNumber);
   }
 
-  function handleSoldCardsChange(soldCards: CardFormData[]) {
-    setSoldCards(soldCards);
+  function handleSoldCardsChange(selectedCards: CardFormData[]) {
+    setSelectedCards(selectedCards);
   }
 
   function submitSoldCards(cardData: CardData[]) {
+    setSelectedCardData(cardData);
     setCurrentStep(2);
   }
 
-  function submitSale(saleDetails: FormData) {
-    // step 3 will be shown as completed
-    setCurrentStep(4);
+  function submitSale(transactionDetails: FormData) {
+    // step 2 will be shown as completed
+    setCurrentStep(3);
 
-    dispatch(
-      addTransaction(
-        {
-          type: "SALE",
-          ...saleDetails,
-          userCardsRemoved: soldCards.map((userCard) => userCard.cardId),
-        },
-        false
-      )
-    );
+    if (transactionType === "SALE") {
+      dispatch(
+        addTransaction(
+          {
+            type: "SALE",
+            ...transactionDetails,
+            userCardsRemoved: selectedCards.map((userCard) => userCard.cardId),
+          },
+          false
+        )
+      );
+    } else {
+      dispatch(
+        addTransaction(
+          {
+            type: "PURCHASE",
+            ...transactionDetails,
+            cardsAdded: selectedCardData,
+          },
+          false
+        )
+      );
+    }
+
     setSaleSubmitted(true);
   }
 
@@ -72,7 +89,7 @@ export default function SalePurchase(props: Props) {
         <Step
           currentStepNumber={currentStep}
           number={1}
-          title="Cards Sold"
+          title={transactionType === "SALE" ? "Cards Sold" : "Cards Purchased"}
           returnToStep={returnToPreviousStep}
         />
         <Step
@@ -83,21 +100,36 @@ export default function SalePurchase(props: Props) {
         />
       </StepContainer>
 
-      {currentStep === 1 && (
-        <AddCardsForm
-          selectFrom="COLLECTION"
-          cardData={soldCards}
-          setCardData={handleSoldCardsChange}
-          submit={submitSoldCards}
-          title="Select Cards Sold"
-          canEditSelectedCards={false}
-        />
-      )}
+      {currentStep === 1 &&
+        (transactionType === "SALE" ? (
+          <AddCardsForm
+            selectFrom="COLLECTION"
+            cardData={selectedCards}
+            setCardData={handleSoldCardsChange}
+            submit={submitSoldCards}
+            title="Select Cards Sold"
+            canEditSelectedCards={false}
+          />
+        ) : (
+          <AddCardsForm
+            selectFrom="DATABASE"
+            cardData={selectedCards}
+            setCardData={handleSoldCardsChange}
+            submit={submitSoldCards}
+            title="Select Cards Purchased"
+            canEditSelectedCards={false}
+          />
+        ))}
       {currentStep === 2 && (
         <PageContainer>
-          <SalePurchaseForm handleSubmit={submitSale} />
-          <SelectedCardsTitle>Cards Sold</SelectedCardsTitle>
-          <SelectedCards cardData={soldCards} preventGradeChanges={true} />
+          <SalePurchaseForm
+            handleSubmit={submitSale}
+            transactionType={transactionType}
+          />
+          <SelectedCardsTitle>
+            {transactionType === "SALE" ? "Cards Sold" : "Cards Purchased"}
+          </SelectedCardsTitle>
+          <SelectedCards cardData={selectedCards} preventGradeChanges={true} />
         </PageContainer>
       )}
     </>

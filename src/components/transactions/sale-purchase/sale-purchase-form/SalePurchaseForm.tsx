@@ -12,9 +12,12 @@ export interface FormData {
 
 interface Props {
   handleSubmit(data: FormData): void;
+  transactionType: "SALE" | "PURCHASE";
 }
 
 export default function SalePurchaseForm(props: Props) {
+  const { transactionType } = props;
+
   const [date, setDate] = useState("");
   const [note, setNote] = useState("");
   const [platform, setPlatform] = useState("");
@@ -33,7 +36,9 @@ export default function SalePurchaseForm(props: Props) {
         setPlatform(e.target.value);
         break;
       case "money":
-        setMoney(e.target.value);
+        if (+e.target.value >= 0) {
+          setMoney(e.target.value);
+        }
         break;
     }
   }
@@ -48,7 +53,8 @@ export default function SalePurchaseForm(props: Props) {
       note: note === "" ? null : note,
       platform: platform === "" ? null : platform,
       individual: individual === "" ? null : individual,
-      money: money === "" ? null : +money,
+      money:
+        money === "" ? null : transactionType === "SALE" ? +money : -+money,
     });
   }
 
@@ -56,7 +62,7 @@ export default function SalePurchaseForm(props: Props) {
     <FormComponents.Container>
       <FormComponents.InputContainer>
         <FormComponents.Label htmlFor="date">
-          Date of Sale*
+          {transactionType === "SALE" ? "Date of Sale*" : "Date of Purchase*"}
         </FormComponents.Label>
         <FormComponents.DateInput
           id="date"
@@ -66,7 +72,7 @@ export default function SalePurchaseForm(props: Props) {
       </FormComponents.InputContainer>
       <FormComponents.InputContainer>
         <FormComponents.Label htmlFor="platform">
-          Sold Through
+          {transactionType === "SALE" ? "Sold Through" : "Purchased Through"}
         </FormComponents.Label>
         <FormComponents.TextInput
           id="platform"
@@ -75,15 +81,20 @@ export default function SalePurchaseForm(props: Props) {
         />
       </FormComponents.InputContainer>
       <FormComponents.InputContainer>
-        <FormComponents.Label htmlFor="ind">Sold To</FormComponents.Label>
+        <FormComponents.Label htmlFor="ind">
+          {transactionType === "SALE" ? "Sold To" : "Purchased From"}
+        </FormComponents.Label>
         <FormComponents.TextInput
           id="ind"
           value={individual}
           onChange={handleInputChange}
         />
       </FormComponents.InputContainer>
+
       <FormComponents.InputContainer>
-        <FormComponents.Label htmlFor="money">$ Received</FormComponents.Label>
+        <FormComponents.Label htmlFor="money">
+          {transactionType === "SALE" ? "$ Received" : "$ Spent"}
+        </FormComponents.Label>
         <FormComponents.NumberInput
           min="0"
           id="money"
@@ -91,6 +102,7 @@ export default function SalePurchaseForm(props: Props) {
           onChange={handleInputChange}
         />
       </FormComponents.InputContainer>
+
       <FormComponents.InputContainer>
         <FormComponents.Label htmlFor="note">Note</FormComponents.Label>
         <FormComponents.Textarea
@@ -107,7 +119,7 @@ export default function SalePurchaseForm(props: Props) {
         height="35px"
         width="130px"
       >
-        Submit Sale
+        {transactionType === "SALE" ? "Submit Sale" : "Submit Purchase"}
       </StyledButton>
     </FormComponents.Container>
   );
