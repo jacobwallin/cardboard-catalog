@@ -46,7 +46,7 @@ const dataTableColumns = [
   {
     name: "",
     sortable: false,
-    cell: (row: SetSummary) => <EditLink to={`/admin/edit/set/${row.id}`} />,
+    cell: (row: SetSummary) => <EditLink to={`/admin/set/${row.id}`} />,
     grow: 0,
   },
 ];

@@ -86,7 +86,7 @@ export const seriesDataTableColumns = [
   {
     name: "",
     sortable: false,
-    cell: (row: Series) => <EditLink to={`/admin/edit/series/${row.id}`} />,
+    cell: (row: Series) => <EditLink to={`/admin/series/${row.id}`} />,
     grow: 0,
   },
 ];

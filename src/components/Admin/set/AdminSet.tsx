@@ -26,7 +26,7 @@ const columns = [
   {
     name: "",
     sortable: false,
-    cell: (row: any) => <EditLink to={`/admin/edit/subset/${row.id}`} />,
+    cell: (row: any) => <EditLink to={`/admin/subset/${row.id}`} />,
     grow: 0,
   },
 ];

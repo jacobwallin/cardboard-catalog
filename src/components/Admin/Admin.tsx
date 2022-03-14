@@ -39,15 +39,15 @@ export default function Admin() {
               handleSelectChange={handleSelectChange}
             />
           </Route>
-          <Route exact path={`${path}/edit/set/:setId`} component={AdminSet} />
+          <Route exact path={`${path}/set/:setId`} component={AdminSet} />
           <Route
             exact
-            path={`${path}/edit/subset/:subsetId`}
+            path={`${path}/subset/:subsetId`}
             component={AdminSubset}
           />
           <Route
             exact
-            path={`${path}/edit/series/:seriesId`}
+            path={`${path}/series/:seriesId`}
             component={AdminSeries}
           />
           <Route exact path={`${path}/players`} component={AdminPlayers} />
