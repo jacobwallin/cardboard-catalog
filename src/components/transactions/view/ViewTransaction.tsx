@@ -29,7 +29,6 @@ export default function ViewTransaction() {
   return (
     <>
       <TransactionsHeader title="View Transaction" />
-      <h1>COMING SOON</h1>
       <PageContainer>
         <Styled.DataContainer>
           <Styled.DataFieldContainer>
@@ -44,46 +43,47 @@ export default function ViewTransaction() {
               {transactionTypeMap[transaction.type]}
             </Styled.DataValue>
           </Styled.DataFieldContainer>
-          {transaction.platform &&
-            dataFieldsByTransactionType[transaction.type].PLATFORM.shown && (
-              <Styled.DataFieldContainer>
-                <Styled.DataTitle>
-                  {dataFieldsByTransactionType[transaction.type].PLATFORM.title}
-                </Styled.DataTitle>
-                <Styled.DataValue>{transaction.platform}</Styled.DataValue>
-              </Styled.DataFieldContainer>
-            )}
-          {transaction.individual &&
-            dataFieldsByTransactionType[transaction.type].INDIVIDUAL.shown && (
-              <Styled.DataFieldContainer>
-                <Styled.DataTitle>
-                  {
-                    dataFieldsByTransactionType[transaction.type].INDIVIDUAL
-                      .title
-                  }
-                </Styled.DataTitle>
-                <Styled.DataValue>{transaction.individual}</Styled.DataValue>
-              </Styled.DataFieldContainer>
-            )}
-          {transaction.money &&
-            dataFieldsByTransactionType[transaction.type].MONEY.shown && (
-              <Styled.DataFieldContainer>
-                <Styled.DataTitle>
-                  {dataFieldsByTransactionType[transaction.type].MONEY.title}
-                </Styled.DataTitle>
-                <Styled.DataValue>{transaction.money}</Styled.DataValue>
-              </Styled.DataFieldContainer>
-            )}
+          {dataFieldsByTransactionType[transaction.type].PLATFORM.shown && (
+            <Styled.DataFieldContainer>
+              <Styled.DataTitle>
+                {dataFieldsByTransactionType[transaction.type].PLATFORM.title}
+              </Styled.DataTitle>
+              <Styled.DataValue>
+                {transaction.platform === null ? "-" : transaction.platform}
+              </Styled.DataValue>
+            </Styled.DataFieldContainer>
+          )}
+          {dataFieldsByTransactionType[transaction.type].INDIVIDUAL.shown && (
+            <Styled.DataFieldContainer>
+              <Styled.DataTitle>
+                {dataFieldsByTransactionType[transaction.type].INDIVIDUAL.title}
+              </Styled.DataTitle>
+              <Styled.DataValue>
+                {transaction.individual === null ? "-" : transaction.individual}
+              </Styled.DataValue>
+            </Styled.DataFieldContainer>
+          )}
+          {dataFieldsByTransactionType[transaction.type].MONEY.shown && (
+            <Styled.DataFieldContainer>
+              <Styled.DataTitle>
+                {dataFieldsByTransactionType[transaction.type].MONEY.title}
+              </Styled.DataTitle>
+              <Styled.DataValue>
+                {transaction.money === null ? "-" : transaction.money}
+              </Styled.DataValue>
+            </Styled.DataFieldContainer>
+          )}
 
-          {transaction.note &&
-            dataFieldsByTransactionType[transaction.type].NOTE.shown && (
-              <Styled.DataFieldContainer>
-                <Styled.DataTitle>
-                  {dataFieldsByTransactionType[transaction.type].NOTE.title}
-                </Styled.DataTitle>
-                <Styled.DataValue>{transaction.note}</Styled.DataValue>
-              </Styled.DataFieldContainer>
-            )}
+          {dataFieldsByTransactionType[transaction.type].NOTE.shown && (
+            <Styled.DataFieldContainer>
+              <Styled.DataTitle>
+                {dataFieldsByTransactionType[transaction.type].NOTE.title}
+              </Styled.DataTitle>
+              <Styled.DataValue>
+                {transaction.note === null ? "-" : transaction.note}
+              </Styled.DataValue>
+            </Styled.DataFieldContainer>
+          )}
         </Styled.DataContainer>
       </PageContainer>
     </>
