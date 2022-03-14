@@ -26,7 +26,7 @@ const dataTableColumns = [
     sortable: true,
   },
   {
-    name: "Date Created",
+    name: "Date Added",
     selector: (row: SetSummary) => row.createdAt.slice(0, 10),
     sortable: true,
   },
