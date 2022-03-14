@@ -1,13 +1,11 @@
 import React from "react";
 import * as Styled from "./styled";
 
-export type StepNumbers = 1 | 2 | 3 | 4;
-
 interface Props {
-  number: StepNumbers;
-  currentStepNumber: StepNumbers;
+  number: number;
+  currentStepNumber: number;
   title: string;
-  returnToStep(number: StepNumbers): void;
+  returnToStep(number: number): void;
 }
 
 export default function Step(props: Props) {

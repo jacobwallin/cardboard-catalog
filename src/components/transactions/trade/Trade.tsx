@@ -10,7 +10,7 @@ import { CardData } from "../../../store/collection/browse/types";
 import { addTransaction } from "../../../store/collection/transactions/thunks";
 import { FormData } from "./confirm/trade-form/TradeForm";
 import { StepContainer } from "../shared/StepContainer";
-import Step, { StepNumbers } from "../shared/transaction-step/Step";
+import Step from "../shared/transaction-step/Step";
 import { RootState } from "../../../store";
 import { createStatusSelector } from "../../../store/loading/reducer";
 const addTradeStatusSelector = createStatusSelector("ADD_TRANSACTION");
@@ -19,7 +19,7 @@ export default function Trade() {
   const dispatch = useDispatch();
 
   // track current step of trade data entry use is on
-  const [currentStep, setCurrentStep] = useState<StepNumbers>(1);
+  const [currentStep, setCurrentStep] = useState(1);
 
   // form state for cards traded and received
   const [tradedCards, setTradedCards] = useState<CardFormData[]>([]);
@@ -50,7 +50,7 @@ export default function Trade() {
     setCurrentStep(3);
   }
 
-  function returnToPreviousStep(stepNumber: StepNumbers) {
+  function returnToPreviousStep(stepNumber: number) {
     setCurrentStep(stepNumber);
   }
 
