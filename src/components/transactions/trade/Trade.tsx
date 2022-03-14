@@ -9,8 +9,8 @@ import { CardFormData } from "../select-cards-form/AddCardsForm";
 import { CardData } from "../../../store/collection/browse/types";
 import { addTransaction } from "../../../store/collection/transactions/thunks";
 import { FormData } from "./confirm/trade-form/TradeForm";
-import * as Styled from "./styled";
-import Step, { StepNumbers } from "./Step";
+import { StepContainer } from "../shared/StepContainer";
+import Step, { StepNumbers } from "../shared/transaction-step/Step";
 import { RootState } from "../../../store";
 import { createStatusSelector } from "../../../store/loading/reducer";
 const addTradeStatusSelector = createStatusSelector("ADD_TRANSACTION");
@@ -80,7 +80,7 @@ export default function Trade() {
   return (
     <>
       <TransactionsHeader title="Enter Trade" />
-      <Styled.StepContainer>
+      <StepContainer>
         <Step
           currentStepNumber={currentStep}
           number={1}
@@ -99,7 +99,7 @@ export default function Trade() {
           title="Confirm"
           returnToStep={returnToPreviousStep}
         />
-      </Styled.StepContainer>
+      </StepContainer>
 
       {currentStep === 1 && (
         <>
