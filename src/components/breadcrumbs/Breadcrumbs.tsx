@@ -50,7 +50,7 @@ export default function Breadcrumbs() {
       {breadcrumbs.length > 1 &&
         breadcrumbs.map((crumb, index) => {
           return (
-            <>
+            <React.Fragment key={crumb.link}>
               {index !== 0 && <span style={{ color: "gray" }}>{` / `}</span>}
               {index !== breadcrumbs.length - 1 ? (
                 <Styled.BreadcrumbLink to={crumb.link}>
@@ -59,7 +59,7 @@ export default function Breadcrumbs() {
               ) : (
                 <span style={{ color: "gray" }}>{crumb.title}</span>
               )}
-            </>
+            </React.Fragment>
           );
         })}
     </Styled.BreadcrumbsContainer>

@@ -9,6 +9,7 @@ import CollectionWrapper from "../shared/CollectionWrapper";
 import CollectionContainer from "../shared/CollectionContainer";
 import SelectYear from "./select_year/SelectYear";
 import SelectSet from "./select_set/SelectSet";
+import Breadcrumbs from "../breadcrumbs/Breadcrumbs";
 
 export default function Browse() {
   const { path } = useRouteMatch();
@@ -21,6 +22,7 @@ export default function Browse() {
   return (
     <CollectionWrapper>
       <CollectionContainer>
+        <Breadcrumbs />
         <BrowseHeader title="Browse Database" />
         <Switch>
           <Route exact path={`${path}`}>
