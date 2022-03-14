@@ -76,13 +76,24 @@ export default function Breadcrumbs() {
         breadcrumbs.map((crumb, index) => {
           return (
             <React.Fragment key={crumb.link}>
-              {index !== 0 && <span style={{ color: "gray" }}>{` / `}</span>}
+              {index !== 0 && (
+                <Styled.BreadcrumbSpan
+                  color={breadcrumbs[0].link === "/admin" ? "black" : "gray"}
+                >{` / `}</Styled.BreadcrumbSpan>
+              )}
               {index !== breadcrumbs.length - 1 ? (
-                <Styled.BreadcrumbLink to={crumb.link}>
+                <Styled.BreadcrumbLink
+                  to={crumb.link}
+                  color={breadcrumbs[0].link === "/admin" ? "black" : "gray"}
+                >
                   {crumb.title}
                 </Styled.BreadcrumbLink>
               ) : (
-                <span style={{ color: "gray" }}>{crumb.title}</span>
+                <Styled.BreadcrumbSpan
+                  color={breadcrumbs[0].link === "/admin" ? "black" : "gray"}
+                >
+                  {crumb.title}
+                </Styled.BreadcrumbSpan>
               )}
             </React.Fragment>
           );

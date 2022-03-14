@@ -13,6 +13,7 @@ export const AdminWrapper = styled.div`
 `;
 export const AdminInnerWrapper = styled.div`
   width: 100%;
+  margin-top: 10px;
   display: flex;
   flex-direction: row;
   justify-content: center;
