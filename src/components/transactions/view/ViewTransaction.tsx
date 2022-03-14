@@ -11,6 +11,8 @@ import { transactionTypeMap } from "../main/screateTableData";
 import TransactionsHeader from "../../Collection/header/TransactionsHeader";
 import { convertDateString } from "../../../utils/formatTimestamp";
 import { UserCardWithTransaction } from "../../../store/collection/transactions/types";
+import columns from "./columns";
+import { SelectedCardsTitle } from "../shared/SelectedCardsTitle";
 
 export default function ViewTransaction() {
   const dispatch = useDispatch();
@@ -106,6 +108,34 @@ export default function ViewTransaction() {
             </Styled.DataFieldContainer>
           )}
         </Styled.DataContainer>
+        {cardsAdded.length > 0 && (
+          <>
+            <SelectedCardsTitle>Cards Added</SelectedCardsTitle>
+            <DataTable
+              dense
+              noHeader
+              columns={columns}
+              data={cardsAdded}
+              pagination
+              paginationRowsPerPageOptions={[10, 15, 20, 25, 50]}
+              paginationPerPage={10}
+            />
+          </>
+        )}
+        {cardsRemoved.length > 0 && (
+          <>
+            <SelectedCardsTitle>Cards Removed</SelectedCardsTitle>
+            <DataTable
+              dense
+              noHeader
+              columns={columns}
+              data={cardsRemoved}
+              pagination
+              paginationRowsPerPageOptions={[10, 15, 20, 25, 50]}
+              paginationPerPage={10}
+            />
+          </>
+        )}
       </PageContainer>
     </>
   );

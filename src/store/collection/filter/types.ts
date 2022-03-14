@@ -33,6 +33,7 @@ export interface UserCard {
       id: number;
       name: string;
       number: string;
+      note: string;
       rookie: boolean;
       subsetId: number;
       teamId: number;
