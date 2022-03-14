@@ -23,11 +23,12 @@ interface Props {
 export default function SalePurchase(props: Props) {
   const { transactionType } = props;
   const dispatch = useDispatch();
-  // track current step of sale data entry use is on
-  const [currentStep, setCurrentStep] = useState(2);
+  // track current step of sale or purchase data entry use is on
+  const [currentStep, setCurrentStep] = useState(1);
   const [selectedCards, setSelectedCards] = useState<CardFormData[]>([]);
   const [selectedCardData, setSelectedCardData] = useState<CardData[]>([]);
-  const [saleSubmitted, setSaleSubmitted] = useState<boolean>(false);
+  const [transactionSubmitted, setTransactionSubmitted] =
+    useState<boolean>(false);
 
   const addTransactionStatus = useSelector((state: RootState) =>
     addTradeStatusSelector(state)
@@ -74,11 +75,11 @@ export default function SalePurchase(props: Props) {
       );
     }
 
-    setSaleSubmitted(true);
+    setTransactionSubmitted(true);
   }
 
-  // redirect to transaction page once sale is successfully created
-  if (addTransactionStatus === "SUCCESS" && saleSubmitted) {
+  // redirect to transaction page once sale or purchase is successfully created
+  if (addTransactionStatus === "SUCCESS" && transactionSubmitted) {
     return <Redirect to="/transactions" />;
   }
 
