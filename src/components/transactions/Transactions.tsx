@@ -3,7 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import CollectionWrapper from "../shared/CollectionWrapper";
 import CollectionContainer from "../shared/CollectionContainer";
 import Main from "./main/Main";
-import QuickAdd from "./quick-add/QuickAdd";
+import QuickAdd from "./add/AddCards";
 import Trade from "./trade/Trade";
 import ViewTransaction from "./view/ViewTransaction";
 

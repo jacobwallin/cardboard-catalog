@@ -10,7 +10,7 @@ import { getDateString } from "../../../utils/formatTimestamp";
 import { createStatusSelector } from "../../../store/loading/reducer";
 const addTradeStatusSelector = createStatusSelector("ADD_TRANSACTION");
 
-export default function QuickAdd() {
+export default function AddCards() {
   const dispatch = useDispatch();
 
   const [cardsAdded, setCardsAdded] = useState<CardFormData[]>([]);
