@@ -39,6 +39,23 @@ export default function Breadcrumbs() {
           setBreadcrumbs(createSubsetCrumbs(subset, location.search));
         }
         break;
+      case "transactions":
+        console.log("THIS is a number???", +pageNames[1]);
+        if (pageNames[1] && !isNaN(+pageNames[1])) {
+          setBreadcrumbs([
+            {
+              link: "/transactions",
+              title: "Transactions",
+            },
+            {
+              link: `/transactions/${pageNames[1]}`,
+              title: "View",
+            },
+          ]);
+        } else {
+          setBreadcrumbs(createCrumbs(pageNames));
+        }
+        break;
       case "admin":
         if (pageNames.length > 1) {
           switch (pageNames[1]) {
