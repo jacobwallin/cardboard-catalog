@@ -38,8 +38,17 @@ export default function Main() {
           <Styled.TransactionLink to="/transactions/add">
             Add Cards
           </Styled.TransactionLink>
+          <Styled.TransactionLink to="/transactions/remove">
+            Remove Cards
+          </Styled.TransactionLink>
           <Styled.TransactionLink to="/transactions/trade">
             Trade
+          </Styled.TransactionLink>
+          <Styled.TransactionLink to="/transactions/trade">
+            Sale
+          </Styled.TransactionLink>
+          <Styled.TransactionLink to="/transactions/trade">
+            Purchase
           </Styled.TransactionLink>
         </Styled.TransactionsContainer>
         <Styled.Header>Transaction Log</Styled.Header>

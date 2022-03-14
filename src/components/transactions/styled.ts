@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export const TransactionLink = styled(Link)`
-  width: 100px;
-  height: 45px;
+  width: 110px;
+  height: 40px;
   border: 1px solid gray;
   border-radius: 5px;
   text-decoration: none;

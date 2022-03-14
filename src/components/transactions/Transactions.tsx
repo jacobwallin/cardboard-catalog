@@ -3,7 +3,8 @@ import { Switch, Route } from "react-router-dom";
 import CollectionWrapper from "../shared/CollectionWrapper";
 import CollectionContainer from "../shared/CollectionContainer";
 import Main from "./main/Main";
-import QuickAdd from "./add/AddCards";
+import AddCards from "./add/AddCards";
+import RemoveCards from "./remove/RemoveCards";
 import Trade from "./trade/Trade";
 import ViewTransaction from "./view/ViewTransaction";
 
@@ -16,7 +17,10 @@ export default function Transactions() {
             <Main />
           </Route>
           <Route path={`/transactions/add`}>
-            <QuickAdd />
+            <AddCards />
+          </Route>
+          <Route path={`/transactions/remove`}>
+            <RemoveCards />
           </Route>
           <Route path={`/transactions/trade`}>
             <Trade />
