@@ -4,6 +4,7 @@ import { StepContainer } from "../shared/transaction-step/styled";
 import TransactionsHeader from "../../Collection/header/TransactionsHeader";
 import AddCardsForm, { CardFormData } from "../select-cards-form/AddCardsForm";
 import { CardData } from "../../../store/collection/browse/types";
+import SalePurchaseForm from "../shared/sale-purchase-form/SalePurchaseForm";
 
 export default function Sale() {
   // track current step of trade data entry use is on
@@ -41,17 +42,16 @@ export default function Sale() {
       </StepContainer>
 
       {currentStep === 1 && (
-        <>
-          <AddCardsForm
-            selectFrom="COLLECTION"
-            cardData={soldCards}
-            setCardData={handleSoldCardsChange}
-            submit={submitSoldCards}
-            title="Select Cards Sold"
-            canEditSelectedCards={false}
-          />
-        </>
+        <AddCardsForm
+          selectFrom="COLLECTION"
+          cardData={soldCards}
+          setCardData={handleSoldCardsChange}
+          submit={submitSoldCards}
+          title="Select Cards Sold"
+          canEditSelectedCards={false}
+        />
       )}
+      {currentStep === 2 && <SalePurchaseForm />}
     </>
   );
 }
