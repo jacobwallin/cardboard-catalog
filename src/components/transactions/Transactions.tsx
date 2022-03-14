@@ -8,11 +8,13 @@ import RemoveCards from "./remove/RemoveCards";
 import Trade from "./trade/Trade";
 import SalePurchase from "./sale-purchase/SalePurchase";
 import ViewTransaction from "./view/ViewTransaction";
+import Breadcrumbs from "../breadcrumbs/Breadcrumbs";
 
 export default function Transactions() {
   return (
     <CollectionWrapper>
       <CollectionContainer>
+        <Breadcrumbs />
         <Switch>
           <Route exact path={`/transactions`}>
             <Main />

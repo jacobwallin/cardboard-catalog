@@ -13,6 +13,7 @@ import CollectionWrapper from "../../shared/CollectionWrapper";
 import CollectionContainer from "../../shared/CollectionContainer";
 import SetHeader from "../header/SetHeader";
 import { LoadingDots } from "../../shared/Loading";
+import Breadcrumbs from "../../breadcrumbs/Breadcrumbs";
 
 const loadingSelector = createLoadingSelector([
   "GET_SINGLE_SET",
@@ -49,6 +50,7 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
   return (
     <CollectionWrapper>
       <CollectionContainer>
+        <Breadcrumbs />
         <SetHeader title={set.name} />
         <PageContainer>
           {set.description !== "" && (

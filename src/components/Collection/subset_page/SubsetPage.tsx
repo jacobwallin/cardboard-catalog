@@ -14,6 +14,7 @@ import { LoadingDots } from "../../shared/Loading";
 import * as Styled from "./styled";
 import sortSeries from "./sortSeries";
 import { TableData } from "./createTableData";
+import Breadcrumbs from "../../breadcrumbs/Breadcrumbs";
 
 import { createLoadingSelector } from "../../../store/loading/reducer";
 const loadingSelector = createLoadingSelector([
@@ -99,6 +100,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
   return (
     <CollectionWrapper>
       <CollectionContainer>
+        <Breadcrumbs />
         <SubsetHeader
           title={subset.set.name}
           subTitle={subset.name}
