@@ -120,7 +120,7 @@ export default function SalePurchase(props: Props) {
             setCardData={handleSoldCardsChange}
             submit={submitSoldCards}
             title="Select Cards Purchased"
-            canEditSelectedCards={false}
+            canEditSelectedCards={true}
           />
         ))}
       {currentStep === 2 && (
