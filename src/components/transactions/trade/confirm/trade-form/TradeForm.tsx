@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import * as Styled from "./styled";
+import * as FormComponents from "../../../shared/FormComponents";
 import StyledButton from "../../../../Admin/components/StyledButton";
 
 export interface FormData {
@@ -47,33 +48,43 @@ export default function TradeForm(props: Props) {
   }
 
   return (
-    <Styled.Container>
-      <Styled.InputContainer>
-        <Styled.Label htmlFor="date">Date of Trade*</Styled.Label>
-        <Styled.DateInput id="date" value={date} onChange={handleInputChange} />
-      </Styled.InputContainer>
+    <FormComponents.Container>
+      <FormComponents.InputContainer>
+        <FormComponents.Label htmlFor="date">
+          Date of Trade*
+        </FormComponents.Label>
+        <FormComponents.DateInput
+          id="date"
+          value={date}
+          onChange={handleInputChange}
+        />
+      </FormComponents.InputContainer>
       <Styled.Flex>
-        <Styled.InputContainer>
-          <Styled.Label htmlFor="ind">Traded To</Styled.Label>
-          <Styled.TextInput
+        <FormComponents.InputContainer>
+          <FormComponents.Label htmlFor="ind">Traded To</FormComponents.Label>
+          <FormComponents.TextInput
             id="ind"
             value={individual}
             onChange={handleInputChange}
           />
-        </Styled.InputContainer>
-        <Styled.InputContainer>
-          <Styled.Label htmlFor="money">$</Styled.Label>
-          <Styled.NumberInput
+        </FormComponents.InputContainer>
+        <FormComponents.InputContainer>
+          <FormComponents.Label htmlFor="money">$</FormComponents.Label>
+          <FormComponents.NumberInput
             id="money"
             value={money}
             onChange={handleInputChange}
           />
-        </Styled.InputContainer>
+        </FormComponents.InputContainer>
       </Styled.Flex>
-      <Styled.InputContainer>
-        <Styled.Label htmlFor="note">Note</Styled.Label>
-        <Styled.Textarea id="note" value={note} onChange={handleNoteChange} />
-      </Styled.InputContainer>
+      <FormComponents.InputContainer>
+        <FormComponents.Label htmlFor="note">Note</FormComponents.Label>
+        <FormComponents.Textarea
+          id="note"
+          value={note}
+          onChange={handleNoteChange}
+        />
+      </FormComponents.InputContainer>
       <StyledButton
         id="submit-cards-button"
         onClick={submit}
@@ -84,6 +95,6 @@ export default function TradeForm(props: Props) {
       >
         Submit Trade
       </StyledButton>
-    </Styled.Container>
+    </FormComponents.Container>
   );
 }
