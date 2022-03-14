@@ -84,7 +84,18 @@ export interface SingleTransaction {
   updatedAt: string;
   userId: number;
   setId: number | null;
-  cards: UserCard[];
+  cards: UserCardWithTransaction[];
+}
+
+interface UserCardWithTransaction extends UserCard {
+  transaction_user_card: {
+    id: number;
+    deleted: boolean;
+    createdAt: string;
+    updatedAt: string;
+    transactionId: number;
+    userCardId: number;
+  };
 }
 
 export interface TransactionSummary {
