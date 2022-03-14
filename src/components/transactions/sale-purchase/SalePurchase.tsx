@@ -16,7 +16,11 @@ import SelectedCards from "../select-cards-form/selected-cards/SelectedCards";
 import { SelectedCardsTitle } from "../shared/SelectedCardsTitle";
 const addTradeStatusSelector = createStatusSelector("ADD_TRANSACTION");
 
-export default function Sale() {
+interface Props {
+  transactionType: "SALE" | "PURCHASE";
+}
+
+export default function SalePurchase(props: Props) {
   const dispatch = useDispatch();
   // track current step of sale data entry use is on
   const [currentStep, setCurrentStep] = useState(2);

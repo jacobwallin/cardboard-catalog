@@ -6,7 +6,7 @@ import Main from "./main/Main";
 import AddCards from "./add/AddCards";
 import RemoveCards from "./remove/RemoveCards";
 import Trade from "./trade/Trade";
-import Sale from "./sale-purchase/Sale";
+import SalePurchase from "./sale-purchase/SalePurchase";
 import ViewTransaction from "./view/ViewTransaction";
 
 export default function Transactions() {
@@ -27,7 +27,10 @@ export default function Transactions() {
             <Trade />
           </Route>
           <Route path={`/transactions/sale`}>
-            <Sale />
+            <SalePurchase transactionType="SALE" />
+          </Route>
+          <Route path={`/transactions/purchase`}>
+            <SalePurchase transactionType="PURCHASE" />
           </Route>
           <Route path={`/transactions/:transactionId`}>
             <ViewTransaction />
