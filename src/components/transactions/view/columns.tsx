@@ -2,6 +2,7 @@ import React from "react";
 import { UserCardWithTransaction } from "../../../store/collection/transactions/types";
 import CardNumber from "../../Collection/subset_page/CardNumber";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
+import { getFullSetName } from "../../Collection/filter/columns";
 
 const columns = [
   {
@@ -37,6 +38,12 @@ const columns = [
         <div style={{ color: "gray" }}>{row.card.card_datum.note}</div>
       </div>
     ),
+    sortable: true,
+    grow: 2,
+  },
+  {
+    name: "Set",
+    selector: (row: UserCardWithTransaction) => getFullSetName(row),
     sortable: true,
     grow: 4,
   },

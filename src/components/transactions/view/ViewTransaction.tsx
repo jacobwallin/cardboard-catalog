@@ -5,7 +5,7 @@ import { RootState } from "../../../store";
 import { fetchTransaction } from "../../../store/collection/transactions/thunks";
 import PageContainer from "../../shared/PageContainer";
 import DataTable from "react-data-table-component";
-import dataFieldsByTransactionType, { dataFields } from "./dataFieldsByType";
+import dataFieldsByTransactionType from "./dataFieldsByType";
 import * as Styled from "./styled";
 import { transactionTypeMap } from "../main/screateTableData";
 import TransactionsHeader from "../../Collection/header/TransactionsHeader";
