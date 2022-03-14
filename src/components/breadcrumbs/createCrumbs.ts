@@ -43,11 +43,18 @@ export function createSetCrumbs(set: Set, search: string): Crumb[] {
     title: String(set.year),
   });
 
-  link += `/${set.id}`;
-  crumbs.push({
-    link: `/set/${set.id}${search}`,
-    title: set.name,
-  });
+  // check if set name starts with the year and remove it to remove redundancy
+  if (set.name.split(" ")[0] === String(set.year)) {
+    crumbs.push({
+      link: `/set/${set.id}${search}`,
+      title: set.name.split(" ").slice(1).join(" "),
+    });
+  } else {
+    crumbs.push({
+      link: `/set/${set.id}${search}`,
+      title: set.name,
+    });
+  }
 
   return crumbs;
 }
@@ -80,10 +87,18 @@ export function createSubsetCrumbs(
     title: String(subset.set.year),
   });
 
-  crumbs.push({
-    link: `/set/${subset.set.id}${search}`,
-    title: String(subset.set.name),
-  });
+  // check if set name starts with the year and remove it to remove redundancy
+  if (subset.set.name.split(" ")[0] === String(subset.set.year)) {
+    crumbs.push({
+      link: `/set/${subset.set.id}${search}`,
+      title: subset.set.name.split(" ").slice(1).join(" "),
+    });
+  } else {
+    crumbs.push({
+      link: `/set/${subset.set.id}${search}`,
+      title: subset.set.name,
+    });
+  }
 
   crumbs.push({
     link: `/subset/${subset.id}${search}`,
