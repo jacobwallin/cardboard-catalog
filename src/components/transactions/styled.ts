@@ -32,4 +32,8 @@ export const TransactionsContainer = styled.div`
   gap: 20px;
   margin: 0 0 50px 25px;
   align-self: flex-start;
+
+  @media only screen and (max-width: 700px) {
+    flex-direction: column;
+  }
 `;
