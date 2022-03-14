@@ -44,10 +44,10 @@ export default function Main() {
           <Styled.TransactionLink to="/transactions/trade">
             Trade
           </Styled.TransactionLink>
-          <Styled.TransactionLink to="/transactions/trade">
+          <Styled.TransactionLink to="/transactions/sale">
             Sale
           </Styled.TransactionLink>
-          <Styled.TransactionLink to="/transactions/trade">
+          <Styled.TransactionLink to="/transactions/purchase">
             Purchase
           </Styled.TransactionLink>
         </Styled.TransactionsContainer>
