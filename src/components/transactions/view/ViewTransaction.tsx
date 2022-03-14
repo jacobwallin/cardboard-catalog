@@ -5,7 +5,7 @@ import { RootState } from "../../../store";
 import { fetchTransaction } from "../../../store/collection/transactions/thunks";
 import PageContainer from "../../shared/PageContainer";
 import DataTable from "react-data-table-component";
-import dataFieldsByTransactionType from "./dataFieldsByType";
+import dataFieldsByTransactionType, { dataFields } from "./dataFieldsByType";
 import * as Styled from "./styled";
 import { transactionTypeMap } from "../main/screateTableData";
 import TransactionsHeader from "../../Collection/header/TransactionsHeader";
@@ -44,6 +44,46 @@ export default function ViewTransaction() {
               {transactionTypeMap[transaction.type]}
             </Styled.DataValue>
           </Styled.DataFieldContainer>
+          {transaction.platform &&
+            dataFieldsByTransactionType[transaction.type].PLATFORM.shown && (
+              <Styled.DataFieldContainer>
+                <Styled.DataTitle>
+                  {dataFieldsByTransactionType[transaction.type].PLATFORM.title}
+                </Styled.DataTitle>
+                <Styled.DataValue>{transaction.platform}</Styled.DataValue>
+              </Styled.DataFieldContainer>
+            )}
+          {transaction.individual &&
+            dataFieldsByTransactionType[transaction.type].INDIVIDUAL.shown && (
+              <Styled.DataFieldContainer>
+                <Styled.DataTitle>
+                  {
+                    dataFieldsByTransactionType[transaction.type].INDIVIDUAL
+                      .title
+                  }
+                </Styled.DataTitle>
+                <Styled.DataValue>{transaction.individual}</Styled.DataValue>
+              </Styled.DataFieldContainer>
+            )}
+          {transaction.money &&
+            dataFieldsByTransactionType[transaction.type].MONEY.shown && (
+              <Styled.DataFieldContainer>
+                <Styled.DataTitle>
+                  {dataFieldsByTransactionType[transaction.type].MONEY.title}
+                </Styled.DataTitle>
+                <Styled.DataValue>{transaction.money}</Styled.DataValue>
+              </Styled.DataFieldContainer>
+            )}
+
+          {transaction.note &&
+            dataFieldsByTransactionType[transaction.type].NOTE.shown && (
+              <Styled.DataFieldContainer>
+                <Styled.DataTitle>
+                  {dataFieldsByTransactionType[transaction.type].NOTE.title}
+                </Styled.DataTitle>
+                <Styled.DataValue>{transaction.note}</Styled.DataValue>
+              </Styled.DataFieldContainer>
+            )}
         </Styled.DataContainer>
       </PageContainer>
     </>

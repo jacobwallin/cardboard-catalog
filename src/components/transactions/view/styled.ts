@@ -21,3 +21,12 @@ export const DataValue = styled.div`
 export const DataFieldContainer = styled.div`
   align-self: flex-start;
 `;
+
+export const Flex = styled.div`
+  display: flex;
+  gap: 15px;
+
+  @media (max-width: 800px) {
+    flex-direction: column;
+  }
+`;
