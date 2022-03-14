@@ -96,7 +96,7 @@ export default function Trade() {
         <Step
           currentStepNumber={currentStep}
           number={3}
-          title="Confirm"
+          title="Submit"
           returnToStep={returnToPreviousStep}
         />
       </StepContainer>
