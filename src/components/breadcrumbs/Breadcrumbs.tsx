@@ -6,12 +6,11 @@ import * as Styled from "./styled";
 import createCrumbs, {
   createSetCrumbs,
   createSubsetCrumbs,
+  createAdminSetCrumbs,
+  createAdminSubsetCrumbs,
+  createAdminSeriesCrumbs,
+  Crumb,
 } from "./createCrumbs";
-
-interface Crumb {
-  link: string;
-  title: string;
-}
 
 export default function Breadcrumbs() {
   const location = useLocation();
@@ -22,6 +21,7 @@ export default function Breadcrumbs() {
 
   const set = useSelector((state: RootState) => state.library.sets.set);
   const subset = useSelector((state: RootState) => state.library.subsets);
+  const series = useSelector((state: RootState) => state.library.series.series);
 
   useEffect(() => {
     setPageNames(location.pathname.split(/[/]/).slice(1));
@@ -40,12 +40,35 @@ export default function Breadcrumbs() {
         }
         break;
       case "admin":
+        if (pageNames.length > 1) {
+          switch (pageNames[1]) {
+            case "set":
+              if (+pageNames[2] === set.id)
+                setBreadcrumbs(createAdminSetCrumbs(set));
+              break;
+            case "subset":
+              if (+pageNames[2] === subset.id)
+                setBreadcrumbs(createAdminSubsetCrumbs(subset));
+              break;
+            case "series":
+              if (+pageNames[2] === series.id)
+                setBreadcrumbs(createAdminSeriesCrumbs(series));
+              break;
+          }
+        } else {
+          setBreadcrumbs([
+            {
+              link: "/admin",
+              title: "Admin",
+            },
+          ]);
+        }
         break;
       default:
         setBreadcrumbs(createCrumbs(pageNames));
         break;
     }
-  }, [set, subset, pageNames, location]);
+  }, [set, subset, series, pageNames, location]);
 
   return (
     <Styled.BreadcrumbsContainer>

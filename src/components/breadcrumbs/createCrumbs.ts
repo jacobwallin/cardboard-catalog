@@ -1,7 +1,8 @@
 import { Set } from "../../store/library/sets/types";
 import { SubsetState } from "../../store/library/subsets/types";
+import { Series } from "../../store/library/series/types";
 
-interface Crumb {
+export interface Crumb {
   link: string;
   title: string;
 }
@@ -103,6 +104,63 @@ export function createSubsetCrumbs(
   crumbs.push({
     link: `/subset/${subset.id}${search}`,
     title: String(subset.name),
+  });
+
+  return crumbs;
+}
+
+export function createAdminSetCrumbs(set: Set) {
+  let crumbs: Crumb[] = [];
+
+  crumbs.push({
+    link: "/admin",
+    title: "Admin",
+  });
+  crumbs.push({
+    link: `/admin/set/${set.id}`,
+    title: `${set.name}`,
+  });
+
+  return crumbs;
+}
+
+export function createAdminSubsetCrumbs(subset: SubsetState): Crumb[] {
+  let crumbs: Crumb[] = [];
+
+  crumbs.push({
+    link: "/admin",
+    title: "Admin",
+  });
+  crumbs.push({
+    link: `/admin/set/${subset.set.id}`,
+    title: `${subset.set.name}`,
+  });
+  crumbs.push({
+    link: `/admin/subset/${subset.id}`,
+    title: `${subset.name}`,
+  });
+
+  return crumbs;
+}
+
+export function createAdminSeriesCrumbs(series: Series): Crumb[] {
+  let crumbs: Crumb[] = [];
+
+  crumbs.push({
+    link: "/admin",
+    title: "Admin",
+  });
+  crumbs.push({
+    link: `/admin/set/${series.subset.set.id}`,
+    title: `${series.subset.set.name}`,
+  });
+  crumbs.push({
+    link: `/admin/subset/${series.subset.id}`,
+    title: `${series.subset.name}`,
+  });
+  crumbs.push({
+    link: `/admin/series/${series.id}`,
+    title: `${series.name}`,
   });
 
   return crumbs;
