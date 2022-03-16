@@ -163,10 +163,7 @@ export default function AddCardsForm(props: Props) {
     setValidationError(false);
 
     // validate data
-    const { errorsFound, validatedCardData } = validate.allCardData(
-      cardData,
-      series.serialized
-    );
+    const { errorsFound, validatedCardData } = validate.allCardData(cardData);
 
     setValidationError(errorsFound);
 

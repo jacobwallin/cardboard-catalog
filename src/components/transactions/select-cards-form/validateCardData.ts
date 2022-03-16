@@ -29,10 +29,10 @@ export function gradingCompany(id: number, gradingCompanies: GradingCompany[]) {
   return false;
 }
 
-export function allCardData(
-  cardData: CardFormData[],
-  serialNumberLimit: number | null
-): { errorsFound: boolean; validatedCardData: CardFormData[] } {
+export function allCardData(cardData: CardFormData[]): {
+  errorsFound: boolean;
+  validatedCardData: CardFormData[];
+} {
   let errorsFound = false;
   const validatedCardData = cardData.map((data) => {
     // if a validatino error already exists, value will not change
@@ -45,7 +45,7 @@ export function allCardData(
     }
 
     // make sure a serial number is entered by the user if the series is serialized
-    if (serialNumberLimit) {
+    if (data.serialized) {
       if (data.serialNumber === "") {
         errorsFound = true;
         serialNumberError = true;
