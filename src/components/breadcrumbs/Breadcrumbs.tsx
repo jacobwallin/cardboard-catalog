@@ -40,7 +40,6 @@ export default function Breadcrumbs() {
         }
         break;
       case "transactions":
-        console.log("THIS is a number???", +pageNames[1]);
         if (pageNames[1] && !isNaN(+pageNames[1])) {
           setBreadcrumbs([
             {
