@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSet } from "../../../store/library/sets/thunks";
 import { RootState } from "../../../store";
@@ -33,12 +33,13 @@ const columns = [
 
 const isLoadingSelector = createLoadingSelector(["GET_SINGLE_SET"]);
 const creatingSubsetSelector = createLoadingSelector(["CREATE_SUBSET"]);
-interface Params {
+interface RouteParams {
   setId: string;
 }
 
-export default function SetAdminPage(props: RouteComponentProps<Params>) {
+export default function SetAdminPage() {
   const dispatch = useDispatch();
+  let { setId } = useParams<RouteParams>();
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
   const creatingSubset = useSelector((state: RootState) =>
     creatingSubsetSelector(state)
@@ -46,7 +47,7 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
   const set = useSelector((state: RootState) => state.library.sets.set);
 
   useEffect(() => {
-    dispatch(fetchSet(+props.match.params.setId));
+    dispatch(fetchSet(+setId));
   }, []);
 
   // hide create subset modal once the server has completed the post request
@@ -66,7 +67,7 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
     return subset.id === set.baseSubsetId;
   });
 
-  if (isLoading || set.id !== +props.match.params.setId) {
+  if (isLoading || set.id !== +setId) {
     return (
       <AdminPageContainer>
         <LoadingDots />
@@ -77,7 +78,7 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
   return (
     <AdminPageContainer>
       <EditFormHeader text={`${set.name}`} />
-      <EditSet setId={+props.match.params.setId} />
+      <EditSet setId={+setId} />
       <DataTableWrapper>
         <DataTable
           dense
@@ -110,7 +111,7 @@ export default function SetAdminPage(props: RouteComponentProps<Params>) {
       {showCreateSubsetModal && (
         <CreateSubsetModal
           handleCancel={toggleCreateSubsetModal}
-          setId={+props.match.params.setId}
+          setId={+setId}
         />
       )}
     </AdminPageContainer>

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
 import { fetchCardsBySet } from "../../../store/collection/browse/thunks";
 import { RootState } from "../../../store";
 import { createLoadingSelector } from "../../../store/loading/reducer";
@@ -13,14 +13,17 @@ import { Redirect } from "react-router";
 
 const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
 
-type TParams = { year: string };
+interface RouteParams {
+  year: string;
+}
 
-const SelectSet: React.FC<RouteComponentProps<TParams>> = (props) => {
+const SelectSet = () => {
   const dispatch = useDispatch();
+  let { year } = useParams<RouteParams>();
 
   const cardsBySetForYear = useSelector(
     (state: RootState) => state.collection.browse.cardsBySet
-  ).filter((set) => set.year === +props.match.params.year);
+  ).filter((set) => set.year === +year);
 
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
   const initialDataLoadComplete = useSelector(
@@ -34,7 +37,7 @@ const SelectSet: React.FC<RouteComponentProps<TParams>> = (props) => {
   }, []);
 
   // render 404 if year param is not a year
-  if (!/^\d{4}$/.test(props.match.params.year)) {
+  if (!/^\d{4}$/.test(year)) {
     return <Redirect to="/404" />;
   }
 
@@ -45,7 +48,7 @@ const SelectSet: React.FC<RouteComponentProps<TParams>> = (props) => {
       <Shared.DataTableContainer>
         <DataTable
           title={
-            <Shared.DataTableTitle>{`Sets from ${props.match.params.year}`}</Shared.DataTableTitle>
+            <Shared.DataTableTitle>{`Sets from ${year}`}</Shared.DataTableTitle>
           }
           actions={
             <Shared.TotalCards

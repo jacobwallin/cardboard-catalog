@@ -16,9 +16,15 @@ export default function Collection() {
         <Breadcrumbs />
         <CollectionHeader title="Your Collection" />
         <Switch>
-          <Route exact path={path} component={SelectYear} />
-          <Route exact path={`${path}/filter`} component={FilterPage} />
-          <Route exact path={`${path}/:year`} component={SelectSet} />
+          <Route exact path={path}>
+            <SelectYear />
+          </Route>
+          <Route exact path={`${path}/filter`}>
+            <FilterPage />
+          </Route>
+          <Route exact path={`${path}/:year`}>
+            <SelectSet />
+          </Route>
           <Route>
             <Redirect to="/404" />
           </Route>

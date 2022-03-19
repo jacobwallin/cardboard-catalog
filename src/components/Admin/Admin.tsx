@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Route, useRouteMatch } from "react-router-dom";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import AdminSets from "./all-sets/AdminSets";
 import AdminSet from "./set/AdminSet";
@@ -32,27 +32,33 @@ export default function Admin() {
       <Styled.AdminInnerWrapper>
         <Styled.AdminContainer>
           <Breadcrumbs />
-          <Route exact path={path}>
-            <AdminSets
-              yearFilter={yearFilter}
-              brandFilter={brandFilter}
-              handleSelectChange={handleSelectChange}
-            />
-          </Route>
-          <Route exact path={`${path}/set/:setId`} component={AdminSet} />
-          <Route
-            exact
-            path={`${path}/subset/:subsetId`}
-            component={AdminSubset}
-          />
-          <Route
-            exact
-            path={`${path}/series/:seriesId`}
-            component={AdminSeries}
-          />
-          <Route exact path={`${path}/players`} component={AdminPlayers} />
-          <Route exact path={`${path}/teams`} component={AdminTeams} />
-          <Route exact path={`${path}/other`} component={AdminOther} />
+          <Switch>
+            <Route exact path={path}>
+              <AdminSets
+                yearFilter={yearFilter}
+                brandFilter={brandFilter}
+                handleSelectChange={handleSelectChange}
+              />
+            </Route>
+            <Route exact path={`${path}/set/:setId`}>
+              <AdminSet />
+            </Route>
+            <Route exact path={`${path}/subset/:subsetId`}>
+              <AdminSubset />
+            </Route>
+            <Route exact path={`${path}/series/:seriesId`}>
+              <AdminSeries />
+            </Route>
+            <Route exact path={`${path}/players`}>
+              <AdminPlayers />
+            </Route>
+            <Route exact path={`${path}/teams`}>
+              <AdminTeams />
+            </Route>
+            <Route exact path={`${path}/other`}>
+              <AdminOther />
+            </Route>
+          </Switch>
         </Styled.AdminContainer>
       </Styled.AdminInnerWrapper>
     </Styled.AdminWrapper>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { RootState } from "../../../store";
 import { CardData } from "../../../store/library/subsets/types";
 import { fetchSubset } from "../../../store/library/subsets/thunks";
@@ -43,12 +43,13 @@ const modalLoadingSelector = createLoadingSelector([
 const deletingCardSelector = createStatusSelector("DELETE_CARD");
 const deletingAllCardsSelector = createStatusSelector("DELETE_ALL_CARDS");
 
-interface Params {
+interface RouteParams {
   subsetId: string;
 }
 
-export default function AdminSubset(props: RouteComponentProps<Params>) {
+export default function AdminSubset() {
   const dispatch = useDispatch();
+  let { subsetId } = useParams<RouteParams>();
   const [showCreateSeriesModal, setShowCreateSeriesModal] = useState(false);
   const [showCreateCardModal, setShowCreateCardModal] = useState(false);
   const [showScrapeCardModal, setShowScrapeCardModal] = useState(false);
@@ -75,7 +76,7 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
   });
 
   useEffect(() => {
-    dispatch(fetchSubset(+props.match.params.subsetId));
+    dispatch(fetchSubset(+subsetId));
   }, []);
 
   // hide either modal once a card or series has been created
@@ -114,14 +115,14 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
     dispatch(deleteCard(deleteCardId));
   }
   function deleteAllCardData() {
-    dispatch(deleteAllCards(+props.match.params.subsetId));
+    dispatch(deleteAllCards(+subsetId));
   }
 
   const baseSeries = subset.series.find((series) => {
     return subset.baseSeriesId === series.id;
   });
 
-  if (loadingPage || subset.id !== +props.match.params.subsetId) {
+  if (loadingPage || subset.id !== +subsetId) {
     return (
       <AdminPageContainer>
         <LoadingDots />
@@ -133,27 +134,27 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
     <AdminPageContainer>
       {showCreateSeriesModal && (
         <CreateSeriesModal
-          subsetId={+props.match.params.subsetId}
+          subsetId={+subsetId}
           handleCancel={toggleCreateSeriesModal}
         />
       )}
       {showCreateCardModal && (
         <CreateCardModal
           handleCancel={toggleCreateCardModal}
-          subsetId={+props.match.params.subsetId}
+          subsetId={+subsetId}
         />
       )}
       {showScrapeCardModal && (
         <CardScrapeModal
           handleCancel={toggleScrapeCardModal}
-          subsetId={+props.match.params.subsetId}
+          subsetId={+subsetId}
         />
       )}
       {editCardData && (
         <EditCardModal
           cardData={editCardData}
           handleCancel={hideEditCardModal}
-          subsetId={+props.match.params.subsetId}
+          subsetId={+subsetId}
         />
       )}
       {deleteCardId !== 0 && (
@@ -174,7 +175,7 @@ export default function AdminSubset(props: RouteComponentProps<Params>) {
       )}
       <Styled.Header> {`${subset.name}`} </Styled.Header>
       <Styled.SubHeader>{`${subset.set.name}`}</Styled.SubHeader>
-      <EditSubset subsetId={+props.match.params.subsetId} />
+      <EditSubset subsetId={+subsetId} />
       <WrappedDataTable
         title={`Base Set`}
         columns={seriesDataTableColumns}

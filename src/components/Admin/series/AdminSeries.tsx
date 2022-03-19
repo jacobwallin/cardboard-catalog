@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { RootState } from "../../../store";
 import { fetchSeriesById } from "../../../store/library/series/thunks";
 import {
@@ -22,12 +22,13 @@ import EditCardModal from "./edit_card_modal/EditCardModal";
 const isLoadingSelector = createLoadingSelector(["GET_SERIES"]);
 const updateCardStatusSelector = createStatusSelector("UPDATE_CARD");
 
-interface Params {
+interface RouteParams {
   seriesId: string;
 }
 
-export default function AdminSeries(props: RouteComponentProps<Params>) {
+export default function AdminSeries() {
   const dispatch = useDispatch();
+  let { seriesId } = useParams<RouteParams>();
 
   const [editCard, setEditCard] = useState<Card | undefined>(undefined);
 
@@ -38,7 +39,7 @@ export default function AdminSeries(props: RouteComponentProps<Params>) {
   const series = useSelector((state: RootState) => state.library.series.series);
 
   useEffect(() => {
-    dispatch(fetchSeriesById(+props.match.params.seriesId));
+    dispatch(fetchSeriesById(+seriesId));
   }, []);
 
   useEffect(() => {
@@ -54,7 +55,7 @@ export default function AdminSeries(props: RouteComponentProps<Params>) {
     setEditCard(undefined);
   }
 
-  if (isLoading || series.id !== +props.match.params.seriesId) {
+  if (isLoading || series.id !== +seriesId) {
     return (
       <AdminPageContainer>
         <LoadingDots />
@@ -76,7 +77,7 @@ export default function AdminSeries(props: RouteComponentProps<Params>) {
         {series.subset.baseSeriesId === series.id || " Parallel"}
       </Header>
       <SubHeader>{`${series.subset.set.name} - ${series.subset.name}`}</SubHeader>
-      <EditSeries seriesId={+props.match.params.seriesId} />
+      <EditSeries seriesId={+seriesId} />
       <DataTableWrapper>
         <DataTable
           title="Cards"
