@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
 import GlobalStyles from "./globalStyles";
 import Navbar from "./components/navbar/Navbar";
-import AdminRoute from "./components/Protected_Routes/AdminRoute";
 import { Collection, PageNotFound, Admin } from "./components/Views";
 import Transactions from "./components/transactions/Transactions";
 import Browse from "./components/browse/Browse";
@@ -33,24 +32,29 @@ function App() {
             <Login />
           ) : (
             <Switch>
+              {user.isAdmin && (
+                <Route path="/admin">
+                  <Admin />
+                </Route>
+              )}
               <Route exact path="/">
                 <Collection />
               </Route>
               <Route path="/collection">
                 <Collection />
               </Route>
-              {/* TODO: change to render components as child components and use hooks */}
-              <Route exact path={`/set/:setId`} component={SetPage} />
-              <Route exact path={`/subset/:subsetId`} component={SubsetPage} />
+              <Route exact path={`/set/:setId`}>
+                <SetPage />
+              </Route>
+              <Route exact path={`/subset/:subsetId`}>
+                <SubsetPage />
+              </Route>
               <Route path="/browse">
                 <Browse />
               </Route>
               <Route path="/transactions">
                 <Transactions />
               </Route>
-              <AdminRoute path="/admin">
-                <Admin />
-              </AdminRoute>
               <Route path="/404">
                 <PageNotFound />
               </Route>

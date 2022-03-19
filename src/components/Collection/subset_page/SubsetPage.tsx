@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { RootState } from "../../../store";
 import { fetchSubset } from "../../../store/library/subsets/thunks";
 import { fetchCardsInSingleSubset } from "../../../store/collection/browse/thunks";
@@ -22,12 +22,14 @@ const loadingSelector = createLoadingSelector([
   "GET_SUBSET",
 ]);
 
-type Params = {
+interface RouteParams {
   subsetId: string;
-};
+}
 
-const SubsetPage = (props: RouteComponentProps<Params>) => {
+const SubsetPage = () => {
   const dispatch = useDispatch();
+  let { subsetId } = useParams<RouteParams>();
+  const { search } = useLocation();
 
   // subset and user's cards in subset data
   const isLoading = useSelector((state: RootState) => loadingSelector(state));
@@ -38,7 +40,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
 
   // ui state, toggles between collection and checklist view
   const [showCollection, setShowCollection] = useState(
-    props.location.search.slice(props.location.search.length - 4) === "coll"
+    search.slice(search.length - 4) === "coll"
   );
 
   // disables series select when adding cards to collection
@@ -52,13 +54,13 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
 
   // initial data fetch
   useEffect(() => {
-    dispatch(fetchSubset(+props.match.params.subsetId));
-    dispatch(fetchCardsInSingleSubset(+props.match.params.subsetId));
+    dispatch(fetchSubset(+subsetId));
+    dispatch(fetchCardsInSingleSubset(+subsetId));
   }, []);
 
   // create table data once fetched
   useEffect(() => {
-    if (!isLoading && subset.id === +props.match.params.subsetId) {
+    if (!isLoading && subset.id === +subsetId) {
       // create table data
       const data = createTableData(subset, userCardsInSubset);
       setTableData(data);
@@ -67,7 +69,7 @@ const SubsetPage = (props: RouteComponentProps<Params>) => {
       const selectedSeries = data[subset.baseSeriesId || subset.series[0].id];
       setSelectedSeriesId(selectedSeries.seriesId);
     }
-  }, [isLoading, subset, userCardsInSubset, props]);
+  }, [isLoading, subset, userCardsInSubset, subsetId]);
 
   function showChecklistClicked() {
     setShowCollection(false);

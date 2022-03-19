@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { RootState } from "../../../store";
 import { fetchCardsBySubset } from "../../../store/collection/browse/thunks";
 import { fetchSet } from "../../../store/library/sets/thunks";
@@ -20,25 +20,26 @@ const loadingSelector = createLoadingSelector([
   "GET_CARDS_BY_SUBSET",
 ]);
 
-type TParams = {
+type RouteParams = {
   setId: string;
 };
 
-const SetPage = (props: RouteComponentProps<TParams>) => {
+const SetPage = () => {
   const dispatch = useDispatch();
+  let { setId } = useParams<RouteParams>();
+  let { search } = useLocation();
   const isLoading = useSelector((state: RootState) => loadingSelector(state));
   const cardsBySubset = useSelector(
     (state: RootState) => state.collection.browse.cardsBySubset
   );
   const set = useSelector((state: RootState) => state.library.sets.set);
-  const setId = +props.match.params.setId;
 
   useEffect(() => {
-    dispatch(fetchCardsBySubset(setId));
-    dispatch(fetchSet(setId));
+    dispatch(fetchCardsBySubset(+setId));
+    dispatch(fetchSet(+setId));
   }, []);
 
-  if (isLoading || +props.match.params.setId !== set.id)
+  if (isLoading || +setId !== set.id)
     return (
       <CollectionWrapper>
         <CollectionContainer>
@@ -80,9 +81,7 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
               progressPending={isLoading}
               columns={columns(
                 cardsBySubset.subsets.length === 0,
-                props.location.search.slice(
-                  props.location.search.length - 4
-                ) === "coll"
+                search.slice(search.length - 4) === "coll"
               )}
               data={set.subsets
                 .filter((subset) => {
@@ -115,9 +114,7 @@ const SetPage = (props: RouteComponentProps<TParams>) => {
               progressPending={isLoading}
               columns={columns(
                 cardsBySubset.subsets.length === 0,
-                props.location.search.slice(
-                  props.location.search.length - 4
-                ) === "coll"
+                search.slice(search.length - 4) === "coll"
               )}
               data={set.subsets
                 .filter((subset) => {
