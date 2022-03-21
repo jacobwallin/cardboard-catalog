@@ -43,13 +43,9 @@ const modalLoadingSelector = createLoadingSelector([
 const deletingCardSelector = createStatusSelector("DELETE_CARD");
 const deletingAllCardsSelector = createStatusSelector("DELETE_ALL_CARDS");
 
-interface RouteParams {
-  subsetId: string;
-}
-
 export default function AdminSubset() {
   const dispatch = useDispatch();
-  let { subsetId } = useParams<RouteParams>();
+  let { subsetId } = useParams<"subsetId">();
   const [showCreateSeriesModal, setShowCreateSeriesModal] = useState(false);
   const [showCreateCardModal, setShowCreateCardModal] = useState(false);
   const [showScrapeCardModal, setShowScrapeCardModal] = useState(false);
@@ -76,7 +72,7 @@ export default function AdminSubset() {
   });
 
   useEffect(() => {
-    dispatch(fetchSubset(+subsetId));
+    if (subsetId) dispatch(fetchSubset(+subsetId));
   }, []);
 
   // hide either modal once a card or series has been created
@@ -115,14 +111,14 @@ export default function AdminSubset() {
     dispatch(deleteCard(deleteCardId));
   }
   function deleteAllCardData() {
-    dispatch(deleteAllCards(+subsetId));
+    if (subsetId) dispatch(deleteAllCards(+subsetId));
   }
 
   const baseSeries = subset.series.find((series) => {
     return subset.baseSeriesId === series.id;
   });
 
-  if (loadingPage || subset.id !== +subsetId) {
+  if (loadingPage || !subsetId || subset.id !== +subsetId) {
     return (
       <AdminPageContainer>
         <LoadingDots />

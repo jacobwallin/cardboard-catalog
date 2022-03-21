@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import SubsetForm from "./SubsetForm";
 import { RootState } from "../../../../store";
 import {
@@ -68,7 +68,7 @@ export default function EditSubset(props: Props) {
 
   // re-direct to set that the subset belonged to after deletion
   if (subsetDeleted && deletingSubsetStatus === "SUCCESS") {
-    return <Redirect to={`/admin/edit/set/${subset.setId}`} />;
+    return <Navigate to={`/admin/edit/set/${subset.setId}`} />;
   }
   return (
     <>

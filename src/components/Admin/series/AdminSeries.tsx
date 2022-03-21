@@ -22,13 +22,9 @@ import EditCardModal from "./edit_card_modal/EditCardModal";
 const isLoadingSelector = createLoadingSelector(["GET_SERIES"]);
 const updateCardStatusSelector = createStatusSelector("UPDATE_CARD");
 
-interface RouteParams {
-  seriesId: string;
-}
-
 export default function AdminSeries() {
   const dispatch = useDispatch();
-  let { seriesId } = useParams<RouteParams>();
+  let { seriesId } = useParams<"seriesId">();
 
   const [editCard, setEditCard] = useState<Card | undefined>(undefined);
 
@@ -39,7 +35,7 @@ export default function AdminSeries() {
   const series = useSelector((state: RootState) => state.library.series.series);
 
   useEffect(() => {
-    dispatch(fetchSeriesById(+seriesId));
+    if (seriesId) dispatch(fetchSeriesById(+seriesId));
   }, []);
 
   useEffect(() => {
@@ -55,7 +51,7 @@ export default function AdminSeries() {
     setEditCard(undefined);
   }
 
-  if (isLoading || series.id !== +seriesId) {
+  if (isLoading || String(series.id) !== seriesId) {
     return (
       <AdminPageContainer>
         <LoadingDots />

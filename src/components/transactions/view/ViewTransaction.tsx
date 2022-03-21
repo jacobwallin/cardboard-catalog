@@ -16,7 +16,7 @@ import { SelectedCardsTitle } from "../shared/SelectedCardsTitle";
 
 export default function ViewTransaction() {
   const dispatch = useDispatch();
-  const { transactionId } = useParams<{ transactionId: string }>();
+  const { transactionId } = useParams<"transactionId">();
 
   const [cardsAdded, setCardsAdded] = useState<UserCardWithTransaction[]>([]);
   const [cardsRemoved, setCardsRemoved] = useState<UserCardWithTransaction[]>(
@@ -28,7 +28,7 @@ export default function ViewTransaction() {
   );
 
   useEffect(() => {
-    dispatch(fetchTransaction(+transactionId));
+    if (transactionId) dispatch(fetchTransaction(+transactionId));
   }, []);
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function ViewTransaction() {
     }
   }, [transaction]);
 
-  if (+transactionId !== transaction.id) {
+  if (!transactionId || +transactionId !== transaction.id) {
     return <h2>LOADING...</h2>;
   }
   return (

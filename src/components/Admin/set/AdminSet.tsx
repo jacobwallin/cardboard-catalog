@@ -33,13 +33,10 @@ const columns = [
 
 const isLoadingSelector = createLoadingSelector(["GET_SINGLE_SET"]);
 const creatingSubsetSelector = createLoadingSelector(["CREATE_SUBSET"]);
-interface RouteParams {
-  setId: string;
-}
 
 export default function SetAdminPage() {
   const dispatch = useDispatch();
-  let { setId } = useParams<RouteParams>();
+  let { setId } = useParams<"setId">();
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
   const creatingSubset = useSelector((state: RootState) =>
     creatingSubsetSelector(state)
@@ -47,7 +44,7 @@ export default function SetAdminPage() {
   const set = useSelector((state: RootState) => state.library.sets.set);
 
   useEffect(() => {
-    dispatch(fetchSet(+setId));
+    if (setId) dispatch(fetchSet(+setId));
   }, []);
 
   // hide create subset modal once the server has completed the post request
@@ -67,7 +64,7 @@ export default function SetAdminPage() {
     return subset.id === set.baseSubsetId;
   });
 
-  if (isLoading || set.id !== +setId) {
+  if (isLoading || !setId || set.id !== +setId) {
     return (
       <AdminPageContainer>
         <LoadingDots />

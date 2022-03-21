@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const SidebarContainer = styled.div`
@@ -81,7 +81,6 @@ const AdminPanelHeader = styled.div<Mobile>`
 `;
 
 export default function Sidebar() {
-  const { path } = useRouteMatch();
   const [showAdminMenuOnMobile, setShowAdminMenuOnMobile] = useState(false);
 
   function toggleAdminMenuOnMobile() {
@@ -99,10 +98,10 @@ export default function Sidebar() {
         visible={showAdminMenuOnMobile}
         onClick={toggleAdminMenuOnMobile}
       >
-        <StyledAdminLink to={`${path}/`}>Sets</StyledAdminLink>
-        <StyledAdminLink to={`${path}/players`}>Players</StyledAdminLink>
-        <StyledAdminLink to={`${path}/teams`}>Teams</StyledAdminLink>
-        <StyledAdminLink to={`${path}/other`}>Other</StyledAdminLink>
+        <StyledAdminLink to="/">Sets</StyledAdminLink>
+        <StyledAdminLink to="/players">Players</StyledAdminLink>
+        <StyledAdminLink to="/teams">Teams</StyledAdminLink>
+        <StyledAdminLink to="/other">Other</StyledAdminLink>
       </LinkContainer>
     </SidebarContainer>
   );

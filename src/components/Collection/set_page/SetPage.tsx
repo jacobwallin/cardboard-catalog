@@ -20,13 +20,9 @@ const loadingSelector = createLoadingSelector([
   "GET_CARDS_BY_SUBSET",
 ]);
 
-type RouteParams = {
-  setId: string;
-};
-
 const SetPage = () => {
   const dispatch = useDispatch();
-  let { setId } = useParams<RouteParams>();
+  let { setId } = useParams<"setId">();
   let { search } = useLocation();
   const isLoading = useSelector((state: RootState) => loadingSelector(state));
   const cardsBySubset = useSelector(
@@ -35,11 +31,13 @@ const SetPage = () => {
   const set = useSelector((state: RootState) => state.library.sets.set);
 
   useEffect(() => {
-    dispatch(fetchCardsBySubset(+setId));
-    dispatch(fetchSet(+setId));
+    if (setId) {
+      dispatch(fetchCardsBySubset(+setId));
+      dispatch(fetchSet(+setId));
+    }
   }, []);
 
-  if (isLoading || +setId !== set.id)
+  if (isLoading || !setId || +setId !== set.id)
     return (
       <CollectionWrapper>
         <CollectionContainer>

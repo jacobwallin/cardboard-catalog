@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import TransactionsHeader from "../../Collection/header/TransactionsHeader";
 import SelectTraded from "./select-traded/SelectTraded";
 import SelectReceived from "./select-received/SelectReceived";
@@ -74,7 +74,7 @@ export default function Trade() {
 
   // redirect to transaction page once trade is successfully created
   if (addTransactionStatus === "SUCCESS" && tradeSubmitted) {
-    return <Redirect to="/transactions" />;
+    return <Navigate to="/transactions" />;
   }
 
   return (

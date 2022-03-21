@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import CollectionWrapper from "../shared/CollectionWrapper";
 import CollectionContainer from "../shared/CollectionContainer";
 import Main from "./main/Main";
@@ -15,29 +15,21 @@ export default function Transactions() {
     <CollectionWrapper>
       <CollectionContainer>
         <Breadcrumbs />
-        <Switch>
-          <Route exact path={`/transactions`}>
-            <Main />
-          </Route>
-          <Route path={`/transactions/add`}>
-            <AddCards />
-          </Route>
-          <Route path={`/transactions/remove`}>
-            <RemoveCards />
-          </Route>
-          <Route path={`/transactions/trade`}>
-            <Trade />
-          </Route>
-          <Route path={`/transactions/sale`}>
-            <SalePurchase transactionType="SALE" />
-          </Route>
-          <Route path={`/transactions/purchase`}>
-            <SalePurchase transactionType="PURCHASE" />
-          </Route>
-          <Route path={`/transactions/:transactionId`}>
-            <ViewTransaction />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="add" element={<AddCards />} />
+          <Route path="remove" element={<RemoveCards />} />
+          <Route path="trade" element={<Trade />} />
+          <Route
+            path="sale"
+            element={<SalePurchase transactionType="SALE" />}
+          />
+          <Route
+            path="purchase"
+            element={<SalePurchase transactionType="PURCHASE" />}
+          />
+          <Route path=":transactionId" element={<ViewTransaction />} />
+        </Routes>
       </CollectionContainer>
     </CollectionWrapper>
   );

@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 import GlobalStyles from "./globalStyles";
 import Navbar from "./components/navbar/Navbar";
@@ -25,45 +25,25 @@ function App() {
   return (
     <AppContainer>
       <GlobalStyles />
-      <Router>
+      <BrowserRouter>
         <Navbar />
         {userFetched &&
           (user.id === 0 ? (
             <Login />
           ) : (
-            <Switch>
-              {user.isAdmin && (
-                <Route path="/admin">
-                  <Admin />
-                </Route>
-              )}
-              <Route exact path="/">
-                <Collection />
-              </Route>
-              <Route path="/collection">
-                <Collection />
-              </Route>
-              <Route exact path={`/set/:setId`}>
-                <SetPage />
-              </Route>
-              <Route exact path={`/subset/:subsetId`}>
-                <SubsetPage />
-              </Route>
-              <Route path="/browse">
-                <Browse />
-              </Route>
-              <Route path="/transactions">
-                <Transactions />
-              </Route>
-              <Route path="/404">
-                <PageNotFound />
-              </Route>
-              <Route>
-                <PageNotFound />
-              </Route>
-            </Switch>
+            <Routes>
+              {user.isAdmin && <Route path="/admin/*" element={<Admin />} />}
+              <Route path="/" element={<Collection />} />
+              <Route path="collection/*" element={<Collection />} />
+              <Route path="set/:setId" element={<SetPage />} />
+              <Route path="subset/:subsetId" element={<SubsetPage />} />
+              <Route path="browse/*" element={<Browse />} />
+              <Route path="transactions/*" element={<Transactions />} />
+              <Route path="404" element={<PageNotFound />} />
+              <Route element={<PageNotFound />} />
+            </Routes>
           ))}
-      </Router>
+      </BrowserRouter>
     </AppContainer>
   );
 }

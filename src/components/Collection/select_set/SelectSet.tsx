@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCardsBySet } from "../../../store/collection/browse/thunks";
 import { RootState } from "../../../store";
@@ -9,21 +9,22 @@ import * as Shared from "../shared";
 import PageContainer from "../../shared/PageContainer";
 import columns from "./dataTableColumns";
 import { LoadingDots } from "../../shared/Loading";
-import { Redirect } from "react-router";
 
 const isLoadingSelector = createLoadingSelector(["GET_CARDS_BY_SET"]);
 
-interface RouteParams {
-  year: string;
-}
-
 const SelectSet = () => {
   const dispatch = useDispatch();
-  let { year } = useParams<RouteParams>();
+  let { year } = useParams<"year">();
 
+  // TODO: memoize?
   const cardsBySetForYear = useSelector(
     (state: RootState) => state.collection.browse.cardsBySet
-  ).filter((set) => set.year === +year);
+  ).filter((set) => {
+    if (year) {
+      return set.year === +year;
+    }
+    return false;
+  });
 
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
   const initialDataLoadComplete = useSelector(
@@ -37,8 +38,8 @@ const SelectSet = () => {
   }, []);
 
   // render 404 if year param is not a year
-  if (!/^\d{4}$/.test(year)) {
-    return <Redirect to="/404" />;
+  if (!year || !/^\d{4}$/.test(year)) {
+    return <Navigate to="/404" />;
   }
 
   if (isLoading) return <LoadingDots />;

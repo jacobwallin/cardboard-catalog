@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Step from "../shared/transaction-step/Step";
 import { StepContainer } from "../shared/transaction-step/styled";
 import TransactionsHeader from "../../Collection/header/TransactionsHeader";
@@ -80,7 +80,7 @@ export default function SalePurchase(props: Props) {
 
   // redirect to transaction page once sale or purchase is successfully created
   if (addTransactionStatus === "SUCCESS" && transactionSubmitted) {
-    return <Redirect to="/transactions" />;
+    return <Navigate to="/transactions" />;
   }
 
   return (

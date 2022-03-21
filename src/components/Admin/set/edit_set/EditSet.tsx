@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { RootState } from "../../../../store";
 import { updateSet, deleteSet } from "../../../../store/library/sets/thunks";
 import { fetchAllBrands } from "../../../../store/library/brands/thunks";
@@ -90,7 +90,7 @@ export default function EditSet(props: Props) {
 
   // re-direct to main admin page if the set is successfully deleted
   if (setDeleted && deletingSetStatus === "SUCCESS") {
-    return <Redirect to="/admin" />;
+    return <Navigate to="/admin" />;
   }
 
   return (

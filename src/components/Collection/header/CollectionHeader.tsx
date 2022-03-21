@@ -1,5 +1,5 @@
 import React from "react";
-import { useRouteMatch } from "react-router";
+import { useMatch } from "react-router-dom";
 import { Link } from "react-router-dom";
 import * as Styled from "./styled";
 
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function CollectionHeader(props: Props) {
-  const match = useRouteMatch("/collection/filter");
+  const match = useMatch("/collection/filter");
   return (
     <Styled.Container>
       <Styled.StyledHeader>{props.title}</Styled.StyledHeader>

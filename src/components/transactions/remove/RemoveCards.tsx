@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { RootState } from "../../../store";
 import TransactionsHeader from "../../Collection/header/TransactionsHeader";
 import AddCardsForm, { CardFormData } from "../select-cards-form/AddCardsForm";
@@ -40,7 +40,7 @@ export default function RemoveCards() {
 
   // redirect to transaction page once transaction is successfully created
   if (addTransactionStatus === "SUCCESS" && transactionSubmitted) {
-    return <Redirect to="/transactions" />;
+    return <Navigate to="/transactions" />;
   }
 
   return (

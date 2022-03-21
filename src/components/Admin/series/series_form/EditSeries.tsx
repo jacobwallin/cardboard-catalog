@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { RootState } from "../../../../store/index";
 import {
   updateSeries,
@@ -79,7 +79,7 @@ export default function EditCard(props: Props) {
 
   // re-direct if the card is succesfully deleted
   if (seriesDeleted && deleteSeriesStatus === "SUCCESS") {
-    return <Redirect to={`/admin/edit/subset/${subsetId}`} />;
+    return <Navigate to={`/admin/edit/subset/${subsetId}`} />;
   }
 
   return (

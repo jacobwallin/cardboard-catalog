@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import AdminSets from "./all-sets/AdminSets";
 import AdminSet from "./set/AdminSet";
@@ -12,8 +12,6 @@ import * as Styled from "./styled";
 import Breadcrumbs from "../breadcrumbs/Breadcrumbs";
 
 export default function Admin() {
-  const { path } = useRouteMatch();
-
   const [yearFilter, setYearFilter] = useState(0);
   const [brandFilter, setBrandFilter] = useState(0);
 
@@ -32,33 +30,24 @@ export default function Admin() {
       <Styled.AdminInnerWrapper>
         <Styled.AdminContainer>
           <Breadcrumbs />
-          <Switch>
-            <Route exact path={path}>
-              <AdminSets
-                yearFilter={yearFilter}
-                brandFilter={brandFilter}
-                handleSelectChange={handleSelectChange}
-              />
-            </Route>
-            <Route exact path={`${path}/set/:setId`}>
-              <AdminSet />
-            </Route>
-            <Route exact path={`${path}/subset/:subsetId`}>
-              <AdminSubset />
-            </Route>
-            <Route exact path={`${path}/series/:seriesId`}>
-              <AdminSeries />
-            </Route>
-            <Route exact path={`${path}/players`}>
-              <AdminPlayers />
-            </Route>
-            <Route exact path={`${path}/teams`}>
-              <AdminTeams />
-            </Route>
-            <Route exact path={`${path}/other`}>
-              <AdminOther />
-            </Route>
-          </Switch>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <AdminSets
+                  yearFilter={yearFilter}
+                  brandFilter={brandFilter}
+                  handleSelectChange={handleSelectChange}
+                />
+              }
+            />
+            <Route path="set/:setId" element={<AdminSet />} />
+            <Route path="subset/:subsetId" element={<AdminSubset />} />
+            <Route path="series/:seriesId" element={<AdminSeries />} />
+            <Route path="players" element={<AdminPlayers />} />
+            <Route path="teams" element={<AdminTeams />} />
+            <Route path="other" element={<AdminOther />} />
+          </Routes>
         </Styled.AdminContainer>
       </Styled.AdminInnerWrapper>
     </Styled.AdminWrapper>

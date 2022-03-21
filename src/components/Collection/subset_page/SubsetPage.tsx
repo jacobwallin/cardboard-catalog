@@ -22,13 +22,9 @@ const loadingSelector = createLoadingSelector([
   "GET_SUBSET",
 ]);
 
-interface RouteParams {
-  subsetId: string;
-}
-
 const SubsetPage = () => {
   const dispatch = useDispatch();
-  let { subsetId } = useParams<RouteParams>();
+  let { subsetId } = useParams<"subsetId">();
   const { search } = useLocation();
 
   // subset and user's cards in subset data
@@ -54,13 +50,15 @@ const SubsetPage = () => {
 
   // initial data fetch
   useEffect(() => {
-    dispatch(fetchSubset(+subsetId));
-    dispatch(fetchCardsInSingleSubset(+subsetId));
+    if (subsetId) {
+      dispatch(fetchSubset(+subsetId));
+      dispatch(fetchCardsInSingleSubset(+subsetId));
+    }
   }, []);
 
   // create table data once fetched
   useEffect(() => {
-    if (!isLoading && subset.id === +subsetId) {
+    if (!isLoading && subsetId && subset.id === +subsetId) {
       // create table data
       const data = createTableData(subset, userCardsInSubset);
       setTableData(data);
