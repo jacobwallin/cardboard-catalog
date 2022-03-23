@@ -103,7 +103,11 @@ const SubsetPage = () => {
         <Breadcrumbs />
         <SubsetHeader
           title={subset.set.name}
-          subTitle={subset.name}
+          subTitle={`${subset.name} ${
+            subset.baseSeriesId !== selectedSeriesId
+              ? tableData[selectedSeriesId].series.name
+              : ""
+          }`}
           handleBrowseClick={showChecklistClicked}
           handleCollectionClick={showCollectionClicked}
           collectionSelected={showCollection}
