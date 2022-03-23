@@ -104,6 +104,7 @@ export default function CollectionSubset(props: Props) {
 
   function hideForm() {
     setShowAddCardForm(!showAddCardForm);
+    setSelectedCards([]);
     props.toggleDisableSeriesSelect();
   }
 

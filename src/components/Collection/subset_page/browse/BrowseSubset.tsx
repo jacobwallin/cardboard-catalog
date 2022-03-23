@@ -66,6 +66,9 @@ export default function BrowseSubset(props: Props) {
   function toggleCheckboxes() {
     setChecklistToggleSelect(!checklistToggleSelect);
     setClearSelected(!clearSelected);
+    if (clearSelected) {
+      setSelectedCards([]);
+    }
   }
 
   interface Stuff {
@@ -113,10 +116,6 @@ export default function BrowseSubset(props: Props) {
 
     // set total qty of selected cards
     setSelectedCardsQty(totalCards);
-  }
-
-  function rowSelectCritera(row: TableDataPoint) {
-    return selectedCards.findIndex((card) => card.card.id === row.id) !== -1;
   }
 
   function showForm() {
@@ -174,6 +173,7 @@ export default function BrowseSubset(props: Props) {
 
   function hideForm() {
     setShowAddCardForm(!showAddCardForm);
+    setSelectedCards([]);
     props.toggleDisableSeriesSelect();
   }
 
@@ -247,10 +247,8 @@ export default function BrowseSubset(props: Props) {
             paginationPerPage={20}
             selectableRows={checklistToggleSelect}
             onSelectedRowsChange={addSelectedCardsChange}
-            selectableRowSelected={rowSelectCritera}
             clearSelectedRows={clearSelected}
             selectableRowsHighlight
-            customStyles={customStyles}
             noDataComponent={
               <NoDataMessage>No cards belong to this set.</NoDataMessage>
             }
@@ -260,44 +258,3 @@ export default function BrowseSubset(props: Props) {
     </PageContainer>
   );
 }
-
-var customStyles = {
-  // rows: {
-  //     style: {
-  //         minHeight: '72px', // override the row height
-  //     },
-  // },
-  rows: {
-    style: {
-      fontSize: "12px",
-      // color: "red",
-    },
-    // denseStyle: {
-    //   minHeight: "25px",
-    // },
-  },
-  subHeader: {
-    style: {
-      minHeight: "40px",
-    },
-  },
-  headCells: {
-    style: {
-      paddingLeft: "5px", // override the cell padding for head cells
-      paddingRight: "5px",
-    },
-  },
-  cells: {
-    style: {
-      paddingLeft: "5px", // override the cell padding for data cells
-      paddingRight: "5px",
-      minWidth: "auto",
-    },
-  },
-  header: {
-    style: {
-      fontSize: "20px",
-      minHeight: "45px",
-    },
-  },
-};
