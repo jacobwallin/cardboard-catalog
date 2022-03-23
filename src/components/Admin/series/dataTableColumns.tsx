@@ -62,7 +62,6 @@ const columns = (editToggle: (card: Card) => void) => [
   {
     name: "Team",
     sortable: true,
-    selector: (row: Row) => row.card.card_datum.team?.name,
     sortFunction: (rowA: Row, rowB: Row) => {
       let a: string | null = rowA.card.card_datum.team
         ? rowA.card.card_datum.team.name

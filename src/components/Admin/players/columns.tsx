@@ -6,7 +6,7 @@ import { StyledLink } from "../components/EditLink";
 const columns = (editToggle: (player: Player) => void) => [
   {
     name: "Name",
-    selector: "name",
+    selector: (row: Player) => row.name,
     cell: (row: Player) => (
       <SubtleLink as="a" href={`${row.url}`} target="_blank" rel="noopener">
         {row.name}
@@ -16,7 +16,7 @@ const columns = (editToggle: (player: Player) => void) => [
   },
   {
     name: "DOB",
-    selector: "birthday",
+    selector: (row: Player) => row.birthday,
     sortable: true,
   },
   {
@@ -26,7 +26,7 @@ const columns = (editToggle: (player: Player) => void) => [
   },
   {
     name: "HOF",
-    selector: "hallOfFame",
+    selector: (row: Player) => row.hallOfFame,
     cell: (row: Player) => (row.hallOfFame ? "HOF" : ""),
     sortable: true,
   },

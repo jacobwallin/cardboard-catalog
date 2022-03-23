@@ -1,7 +1,7 @@
 import React from "react";
 import tableStyles from "../shared/dataTableStyles";
 import { UserCard } from "../../../store/collection/filter/types";
-import { IDataTableColumn } from "react-data-table-component";
+import { TableColumn } from "react-data-table-component";
 import CardNumber from "../subset_page/CardNumber";
 import * as Styled from "./styled";
 
@@ -12,8 +12,8 @@ export function columns(selectedCols: {
   dateAdded: boolean;
   team: boolean;
   players: boolean;
-}): IDataTableColumn<UserCard>[] {
-  const cols: IDataTableColumn<UserCard>[] = [];
+}): TableColumn<UserCard>[] {
+  const cols: TableColumn<UserCard>[] = [];
 
   // CARD #
   if (selectedCols.cardNumber) {

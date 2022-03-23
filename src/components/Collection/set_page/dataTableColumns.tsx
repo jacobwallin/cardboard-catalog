@@ -6,7 +6,7 @@ const columns = (haveCards: boolean, viewingCollection: boolean) => {
   return [
     {
       name: "Name",
-      selector: "name",
+      selector: (row: any) => row.totalCards > 0 && row.totalCards,
       sortable: true,
       cell: (row: any) => {
         let slug = `/subset/${row.id}`;
@@ -19,7 +19,7 @@ const columns = (haveCards: boolean, viewingCollection: boolean) => {
     },
     {
       name: "Cards",
-      selector: (row: any) => (row.totalCards > 0 ? row.totalCards : ""),
+      selector: (row: any) => row.totalCards > 0 && row.totalCards,
       sortable: true,
       minWidth: "75px",
       maxWidth: "75px",

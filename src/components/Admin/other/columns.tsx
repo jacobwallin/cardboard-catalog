@@ -8,7 +8,7 @@ export const companyColumns = (
 ) => [
   {
     name: "Name",
-    selector: "name",
+    selector: (row: GradingCompany) => row.name,
     sortable: true,
   },
   {
@@ -28,7 +28,7 @@ export const companyColumns = (
 export const brandColumns = (editToggle: (brand: Brand) => void) => [
   {
     name: "Name",
-    selector: "name",
+    selector: (row: Brand) => row.name,
     sortable: true,
   },
   {

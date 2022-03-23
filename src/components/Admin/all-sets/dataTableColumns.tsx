@@ -7,22 +7,22 @@ import * as Styled from "./styled";
 const dataTableColumns = [
   {
     name: "Name",
-    selector: "name",
+    selector: (row: SetSummary) => row.name,
     sortable: true,
   },
   {
     name: "Year",
-    selector: "year",
+    selector: (row: SetSummary) => row.year,
     sortable: true,
   },
   {
     name: "Brand",
-    selector: "brand.name",
+    selector: (row: SetSummary) => row.brand.name,
     sortable: true,
   },
   {
     name: "League",
-    selector: "league.name",
+    selector: (row: SetSummary) => row.league.name,
     sortable: true,
   },
   {

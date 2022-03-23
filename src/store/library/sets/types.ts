@@ -19,7 +19,7 @@ export interface SetSummary {
   leagueId: number;
   brandId: number;
   league: {
-    name: String;
+    name: string;
     id: number;
   };
   brand: {

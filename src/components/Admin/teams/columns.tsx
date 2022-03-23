@@ -2,11 +2,10 @@ import React from "react";
 import { Team } from "../../../store/library/teams/types";
 import { StyledLink } from "../components/EditLink";
 
-const columns = (editToggle: (player: Team) => void) => [
+const columns = (editToggle: (team: Team) => void) => [
   {
     name: "Name",
-    selector: "name",
-
+    selector: (row: Team) => row.name,
     sortable: true,
   },
   {

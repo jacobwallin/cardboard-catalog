@@ -1,11 +1,13 @@
 import { SetCards } from "../../../store/collection/browse/types";
 
-// transform api data to show total cards in collection aggregated by year
-export function aggregateCardsByYear(cardsBySet: SetCards[]): Array<{
+export interface TableData {
   year: number;
   distinctCards: number;
   totalCards: number;
-}> {
+}
+
+// transform api data to show total cards in collection aggregated by year
+export function aggregateCardsByYear(cardsBySet: SetCards[]): TableData[] {
   const yearHash = cardsBySet.reduce((totals: any, set) => {
     const setYear = set.year;
     if (totals[setYear]) {

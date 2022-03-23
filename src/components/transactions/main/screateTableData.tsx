@@ -62,14 +62,14 @@ export default function createTableData(
 export const columns = [
   {
     name: "Date",
-    selector: "date",
+    selector: (row: TransactionTableData) => row.date,
     sortable: true,
     // minWidth: "50px",
     // grow: 2,
   },
   {
     name: "Type",
-    selector: "type",
+    selector: (row: TransactionTableData) => row.type,
     sortable: true,
     // minWidth: "75px",
     // maxWidth: "75px",
@@ -78,7 +78,7 @@ export const columns = [
   },
   {
     name: "Cards Added",
-    selector: "cardsAdded",
+    selector: (row: TransactionTableData) => row.cardsAdded,
     sortable: true,
     // minWidth: "75px",
     // maxWidth: "75px",
@@ -87,7 +87,7 @@ export const columns = [
   },
   {
     name: "Cards Removed",
-    selector: "cardsRemoved",
+    selector: (row: TransactionTableData) => row.cardsRemoved,
     sortable: true,
     // minWidth: "75px",
     // maxWidth: "75px",
@@ -96,7 +96,7 @@ export const columns = [
   },
   {
     name: "Created On",
-    selector: "createdAt",
+    selector: (row: TransactionTableData) => row.createdAt,
     sortable: true,
     // minWidth: "50px",
     // grow: 2,
