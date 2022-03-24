@@ -16,6 +16,7 @@ import { DataTableWrapper } from "../components/WrappedDataTable";
 import DataTable from "react-data-table-component";
 import dataTableColumns from "./dataTableColumns";
 import aggregateSubsets, { AggregatedSubsets } from "./aggregateSubsets";
+import { NoDataMessage } from "../../shared/NoDataMessage";
 
 const isLoadingSelector = createLoadingSelector(["GET_SINGLE_SET"]);
 const creatingSubsetSelector = createLoadingSelector(["CREATE_SUBSET"]);
@@ -94,6 +95,11 @@ export default function SetAdminPage() {
             paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30]}
             paginationPerPage={5}
             highlightOnHover
+            noDataComponent={
+              <NoDataMessage>
+                No short print sets have been created.
+              </NoDataMessage>
+            }
           />
           <WrappedDataTable
             dense
@@ -104,6 +110,9 @@ export default function SetAdminPage() {
             paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30]}
             paginationPerPage={10}
             highlightOnHover
+            noDataComponent={
+              <NoDataMessage>No insert sets have been created.</NoDataMessage>
+            }
           />
           <WrappedDataTable
             dense
@@ -114,6 +123,11 @@ export default function SetAdminPage() {
             paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30]}
             paginationPerPage={10}
             highlightOnHover
+            noDataComponent={
+              <NoDataMessage>
+                No auto / relic sets have been created.
+              </NoDataMessage>
+            }
           />
         </>
       )}
