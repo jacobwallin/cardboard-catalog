@@ -57,80 +57,76 @@ export default function EditCardModal(props: Props) {
   return (
     <ModalBackground>
       <ModalWindow>
-        <FormContainer>
-          <h3
-            style={{ textAlign: "center" }}
-          >{`Edit Card ${props.card.card_datum.number}`}</h3>
-          <styled.CannotEdit>
-            <FieldContainer>
-              <FieldTitle>Number</FieldTitle>
-              <FieldData>{props.card.card_datum.number}</FieldData>
-            </FieldContainer>
-            <FieldContainer>
-              <FieldTitle>Card Name</FieldTitle>
-              <FieldData>{props.card.card_datum.name}</FieldData>
-            </FieldContainer>
-            <FieldContainer>
-              <FieldTitle>Players</FieldTitle>
-              <FieldData>
-                {props.card.card_datum.players.length > 0
-                  ? props.card.card_datum.players.map((player) => {
-                      return <div key={player.id}>{player.name}</div>;
-                    })
-                  : "No players belong to this card."}
-              </FieldData>
-            </FieldContainer>
-            <FieldContainer>
-              <FieldTitle>Team</FieldTitle>
-              <FieldData>
-                {props.card.card_datum.team
-                  ? props.card.card_datum.team.name
-                  : "No Team Assigned"}
-              </FieldData>
-            </FieldContainer>
-            <FieldContainer>
-              <FieldTitle>Rookie</FieldTitle>
-              <FieldData>
-                {props.card.card_datum.rookie ? "YES" : "NO"}
-              </FieldData>
-            </FieldContainer>
-            <FieldContainer>
-              <FieldTitle>Note:</FieldTitle>
-              <FieldData>{props.card.card_datum.note || "-"}</FieldData>
-            </FieldContainer>
-          </styled.CannotEdit>
+        <h3
+          style={{ textAlign: "center" }}
+        >{`Edit Card ${props.card.card_datum.number}`}</h3>
+        <styled.CannotEdit>
           <FieldContainer>
-            <FieldTitle>Serialized to</FieldTitle>
+            <FieldTitle>Number</FieldTitle>
+            <FieldData>{props.card.card_datum.number}</FieldData>
+          </FieldContainer>
+          <FieldContainer>
+            <FieldTitle>Card Name</FieldTitle>
+            <FieldData>{props.card.card_datum.name}</FieldData>
+          </FieldContainer>
+          <FieldContainer>
+            <FieldTitle>Players</FieldTitle>
             <FieldData>
-              <input
-                name="serialized"
-                type="number"
-                value={serializedTo}
-                placeholder="Enter #"
-                onChange={handleSerializedChange}
-              />
+              {props.card.card_datum.players.length > 0
+                ? props.card.card_datum.players.map((player) => {
+                    return <div key={player.id}>{player.name}</div>;
+                  })
+                : "No players belong to this card."}
             </FieldData>
           </FieldContainer>
-          <ButtonContainer>
-            <StyledButton
-              onClick={props.dismiss}
-              color="YELLOW"
-              width="100px"
-              height="27px"
-            >
-              Cancel
-            </StyledButton>
-            <StyledButton
-              onClick={handleUpdateCard}
-              color="GREEN"
-              width="100px"
-              height="27px"
-              disabled={isLoading || serializedTo === currentSerializedTo}
-            >
-              Save
-            </StyledButton>
-          </ButtonContainer>
-        </FormContainer>
+          <FieldContainer>
+            <FieldTitle>Team</FieldTitle>
+            <FieldData>
+              {props.card.card_datum.team
+                ? props.card.card_datum.team.name
+                : "No Team Assigned"}
+            </FieldData>
+          </FieldContainer>
+          <FieldContainer>
+            <FieldTitle>Rookie</FieldTitle>
+            <FieldData>{props.card.card_datum.rookie ? "YES" : "NO"}</FieldData>
+          </FieldContainer>
+          <FieldContainer>
+            <FieldTitle>Note:</FieldTitle>
+            <FieldData>{props.card.card_datum.note || "-"}</FieldData>
+          </FieldContainer>
+        </styled.CannotEdit>
+        <FieldContainer>
+          <FieldTitle>Serialized to</FieldTitle>
+          <FieldData>
+            <input
+              name="serialized"
+              type="number"
+              value={serializedTo}
+              placeholder="Enter #"
+              onChange={handleSerializedChange}
+            />
+          </FieldData>
+        </FieldContainer>
+        <ButtonContainer>
+          <StyledButton
+            onClick={props.dismiss}
+            color="YELLOW"
+            width="100px"
+            height="27px"
+          >
+            Cancel
+          </StyledButton>
+          <StyledButton
+            onClick={handleUpdateCard}
+            color="GREEN"
+            width="100px"
+            height="27px"
+            disabled={isLoading || serializedTo === currentSerializedTo}
+          >
+            Save
+          </StyledButton>
+        </ButtonContainer>
       </ModalWindow>
     </ModalBackground>
   );
