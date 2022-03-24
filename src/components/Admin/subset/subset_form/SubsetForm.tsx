@@ -204,6 +204,7 @@ export default function SubsetForm(props: Props) {
                   subset.relic,
                   subset.manufacturedRelic,
                   subset.shortPrint,
+                  subset.code,
                 ],
                 [
                   name,
@@ -213,6 +214,7 @@ export default function SubsetForm(props: Props) {
                   relic,
                   manufacturedRelic,
                   shortPrint,
+                  code,
                 ]
               ))
         }
