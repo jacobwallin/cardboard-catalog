@@ -192,11 +192,11 @@ router.get("/filter", async (req, res, next) => {
         break;
       case "auto":
         let auto = queryParams[filterNames[i]] === "true" ? true : false;
-        filters["$card.series.auto$"] = { [Op.eq]: auto };
+        filters["$card.series.subset.auto$"] = { [Op.eq]: auto };
         break;
       case "relic":
         let relic = queryParams[filterNames[i]] === "true" ? true : false;
-        filters["$card.series.relic$"] = { [Op.eq]: relic };
+        filters["$card.series.subset.relic$"] = { [Op.eq]: relic };
         break;
       case "refractor":
         let refractor = queryParams[filterNames[i]] === "true" ? true : false;
@@ -204,12 +204,12 @@ router.get("/filter", async (req, res, next) => {
         break;
       case "short-print":
         let shortPrint = queryParams[filterNames[i]] === "true" ? true : false;
-        filters["$card.series.shortPrint$"] = { [Op.eq]: shortPrint };
+        filters["$card.series.subset.shortPrint$"] = { [Op.eq]: shortPrint };
         break;
       case "man-relic":
         let manufacturedRelic =
           queryParams[filterNames[i]] === "true" ? true : false;
-        filters["$card.series.manufacturedRelic$"] = {
+        filters["$card.series.subset.manufacturedRelic$"] = {
           [Op.eq]: manufacturedRelic,
         };
         break;
