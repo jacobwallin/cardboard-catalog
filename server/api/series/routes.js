@@ -74,17 +74,7 @@ router.get("/:seriesId", async (req, res, next) => {
 });
 
 router.post("/", isAdmin, async (req, res, next) => {
-  const {
-    name,
-    color,
-    serialized,
-    auto,
-    relic,
-    manufacturedRelic,
-    refractor,
-    shortPrint,
-    subsetId,
-  } = req.body;
+  const { name, color, serialized, refractor, subsetId } = req.body;
 
   try {
     // create new series
@@ -93,11 +83,7 @@ router.post("/", isAdmin, async (req, res, next) => {
       name,
       color,
       serialized,
-      auto,
-      relic,
-      manufacturedRelic,
       refractor,
-      shortPrint,
       subsetId,
       parallel: true,
       createdBy: req.user.id,
@@ -132,27 +118,14 @@ router.post("/", isAdmin, async (req, res, next) => {
 });
 
 router.put("/:seriesId", isAdmin, async (req, res, next) => {
-  const {
-    name,
-    color,
-    serialized,
-    auto,
-    relic,
-    manufacturedRelic,
-    refractor,
-    shortPrint,
-  } = req.body;
+  const { name, color, serialized, refractor } = req.body;
   try {
     await Series.update(
       {
         name,
         color,
         serialized,
-        auto,
-        relic,
-        manufacturedRelic,
         refractor,
-        shortPrint,
         updatedAt: req.user.id,
       },
       { where: { id: req.params.seriesId } }
