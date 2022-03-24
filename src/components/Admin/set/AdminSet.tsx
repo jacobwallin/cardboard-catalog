@@ -107,7 +107,7 @@ export default function SetAdminPage() {
           />
           <WrappedDataTable
             dense
-            title={`Auto & Relic Sets`}
+            title={`Auto / Relic Sets`}
             columns={dataTableColumns}
             data={aggregatedSubsets.autoRelic}
             pagination

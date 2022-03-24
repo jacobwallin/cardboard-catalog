@@ -97,6 +97,7 @@ export interface PostSubsetData {
   relic: boolean;
   manufacturedRelic: boolean;
   shortPrint: boolean;
+  setId: number;
 }
 
 // ACTION TYPES

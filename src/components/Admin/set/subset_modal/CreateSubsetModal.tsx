@@ -15,8 +15,17 @@ interface Props {
 export default function CreateSubsetModal(props: Props) {
   const dispatch = useDispatch();
 
-  function handleFormSubmit(subsetData: PostSubsetData) {
-    dispatch(createSubset(subsetData));
+  function handleFormSubmit(subsetData: {
+    name: string;
+    description: string;
+    prefix: string;
+    code: string | null;
+    auto: boolean;
+    relic: boolean;
+    manufacturedRelic: boolean;
+    shortPrint: boolean;
+  }) {
+    dispatch(createSubset({ ...subsetData, setId: props.setId }));
   }
   return (
     <ModalBackground>

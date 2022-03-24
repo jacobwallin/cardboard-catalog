@@ -20,7 +20,6 @@ interface Props {
   handleSubmit(seriesData: {
     name: string;
     serialized: number | null;
-
     refractor: boolean;
   }): void;
 }
