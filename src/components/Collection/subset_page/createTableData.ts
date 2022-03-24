@@ -11,6 +11,10 @@ export interface TableDataPoint {
   cardDataId: number;
   value: number | null;
   serializedTo: number | null;
+  auto: boolean;
+  relic: boolean;
+  manufacturedRelic: boolean;
+  shortPrint: boolean;
   seriesId: number;
   quantity: number;
   cardData: CardData;
@@ -25,6 +29,10 @@ export interface DeleteTableDataPoint {
   cardId: number;
   gradingCompanyId: number | null;
   grade: number | null;
+  auto: boolean;
+  relic: boolean;
+  manufacturedRelic: boolean;
+  shortPrint: boolean;
   card: {
     id: number;
     value: number | null;
@@ -92,6 +100,10 @@ export function createTableData(
         .map((userCard) => {
           return {
             ...userCard,
+            auto: librarySubsetData.auto,
+            relic: librarySubsetData.relic,
+            manufacturedRelic: librarySubsetData.manufacturedRelic,
+            shortPrint: librarySubsetData.shortPrint,
             card: {
               ...userCard.card,
               series: series,
@@ -115,6 +127,10 @@ export function createTableData(
           ser.distinctCards += cardTotal > 0 ? 1 : 0;
           return {
             ...card,
+            auto: librarySubsetData.auto,
+            relic: librarySubsetData.relic,
+            manufacturedRelic: librarySubsetData.manufacturedRelic,
+            shortPrint: librarySubsetData.shortPrint,
             quantity: cardTotal,
             cardData: cardDataHashTable[card.cardDataId],
             series: series,

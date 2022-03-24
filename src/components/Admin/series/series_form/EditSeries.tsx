@@ -112,24 +112,8 @@ export default function EditCard(props: Props) {
               </FieldData>
             </FieldContainer>
             <FieldContainer>
-              <FieldTitle>Auto</FieldTitle>
-              <FieldData>{series.auto ? "Yes" : "No"}</FieldData>
-            </FieldContainer>
-            <FieldContainer>
-              <FieldTitle>Relic</FieldTitle>
-              <FieldData>{series.relic ? "Yes" : "No"}</FieldData>
-            </FieldContainer>
-            <FieldContainer>
               <FieldTitle>Refractor</FieldTitle>
               <FieldData>{series.refractor ? "Yes" : "No"}</FieldData>
-            </FieldContainer>
-            <FieldContainer>
-              <FieldTitle>Short Print</FieldTitle>
-              <FieldData>{series.shortPrint ? "Yes" : "No"}</FieldData>
-            </FieldContainer>
-            <FieldContainer>
-              <FieldTitle>Manufactured Relic</FieldTitle>
-              <FieldData>{series.manufacturedRelic ? "Yes" : "No"}</FieldData>
             </FieldContainer>
             <EditDeleteButtons
               handleEdit={handleEditStateChange}

@@ -2,6 +2,7 @@ import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../index";
 import * as actions from "./actions";
 import * as types from "./types";
+import { PostSubsetData } from "../subsets/types";
 import { SetsActionTypes } from "./types";
 import { get, post, put, del } from "../../../utils/fetch";
 import { SubsetInstance } from "../subsets/types";
@@ -83,12 +84,9 @@ export const deleteSet =
   };
 
 export const createSubset =
-  (subsetData: {
-    name: string;
-    description: string;
-    prefix: string;
-    setId: number;
-  }): ThunkAction<void, RootState, unknown, SetsActionTypes> =>
+  (
+    subsetData: PostSubsetData
+  ): ThunkAction<void, RootState, unknown, SetsActionTypes> =>
   (dispatch) => {
     dispatch(actions.createSubsetRequest());
     post(`/api/subsets`, subsetData, dispatch)

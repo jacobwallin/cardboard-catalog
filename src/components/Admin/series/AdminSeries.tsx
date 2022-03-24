@@ -96,12 +96,12 @@ export default function AdminSeries() {
               return {
                 card,
                 serialized: series.serialized,
-                auto: series.auto,
-                relic: series.relic,
-                manufacturedRelic: series.manufacturedRelic,
+                auto: series.subset.auto,
+                relic: series.subset.relic,
+                manufacturedRelic: series.subset.manufacturedRelic,
                 refractor: series.refractor,
                 parallel: series.parallel,
-                shortPrint: series.shortPrint,
+                shortPrint: series.subset.shortPrint,
               };
             })}
         />

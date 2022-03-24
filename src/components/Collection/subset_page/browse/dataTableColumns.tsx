@@ -56,10 +56,10 @@ const columns = (
         <CardNumber
           number={row.cardData.number}
           serialized={row.series.serialized}
-          shortPrint={row.series.shortPrint}
-          auto={row.series.auto}
-          relic={row.series.relic}
-          manufacturedRelic={row.series.manufacturedRelic}
+          shortPrint={row.shortPrint}
+          auto={row.auto}
+          relic={row.relic}
+          manufacturedRelic={row.manufacturedRelic}
           refractor={row.series.refractor}
           rookie={row.cardData.rookie}
         />

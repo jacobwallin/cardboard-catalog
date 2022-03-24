@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { createSubset } from "../../../../store/library/sets/thunks";
-
+import { PostSubsetData } from "../../../../store/library/subsets/types";
 import ModalBackground from "../../../shared/Background";
 import ModalWindow from "../../components/modal/ModalWindow";
 import ModalHeader from "../../components/modal/ModalHeader";
@@ -15,8 +15,8 @@ interface Props {
 export default function CreateSubsetModal(props: Props) {
   const dispatch = useDispatch();
 
-  function handleFormSubmit(name: string, description: string, prefix: string) {
-    dispatch(createSubset({ name, description, prefix, setId: props.setId }));
+  function handleFormSubmit(subsetData: PostSubsetData) {
+    dispatch(createSubset(subsetData));
   }
   return (
     <ModalBackground>

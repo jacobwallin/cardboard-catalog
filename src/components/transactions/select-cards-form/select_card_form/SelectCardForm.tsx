@@ -304,10 +304,10 @@ export default function SelectCardForm(props: Props) {
             (userCardy) => userCardy.cardId === userCard.card.id
           ).length,
           serialized: userCard.card.series.serialized,
-          shortPrint: userCard.card.series.shortPrint,
-          auto: userCard.card.series.auto,
-          relic: userCard.card.series.relic,
-          manufacturedRelic: userCard.card.series.manufacturedRelic,
+          shortPrint: userCard.shortPrint,
+          auto: userCard.auto,
+          relic: userCard.relic,
+          manufacturedRelic: userCard.manufacturedRelic,
           refractor: userCard.card.series.refractor,
         };
         addCard(newCardData);
@@ -344,10 +344,10 @@ export default function SelectCardForm(props: Props) {
             (userCard) => userCard.cardId === card.id
           ).length,
           serialized: card.series.serialized,
-          shortPrint: card.series.shortPrint,
-          auto: card.series.auto,
-          relic: card.series.relic,
-          manufacturedRelic: card.series.manufacturedRelic,
+          shortPrint: card.shortPrint,
+          auto: card.auto,
+          relic: card.relic,
+          manufacturedRelic: card.manufacturedRelic,
           refractor: card.series.refractor,
         };
         addCard(newCardData);

@@ -14,6 +14,7 @@ import CreateButton from "../components/CreateButton";
 import { LoadingDots } from "../../shared/Loading";
 import { DataTableWrapper } from "../components/WrappedDataTable";
 import DataTable from "react-data-table-component";
+import dataTableColumns from "../all-sets/dataTableColumns";
 
 const columns = [
   {
@@ -88,7 +89,7 @@ export default function SetAdminPage() {
       <WrappedDataTable
         dense
         title={`Inserts and Other Sets`}
-        columns={columns}
+        columns={dataTableColumns}
         data={set.subsets
           .filter((subset) => {
             return subset.id !== set.baseSubsetId;

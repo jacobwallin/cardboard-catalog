@@ -11,13 +11,13 @@ export interface CondensedSeriesInstance {
   name: string;
   color: string;
   serialized: number | null;
-  auto: boolean;
-  relic: boolean;
-  manufacturedRelic: boolean;
   refractor: boolean;
   parallel: boolean;
-  shortPrint: boolean;
   subsetId: number;
+  // auto: boolean;
+  // relic: boolean;
+  // manufacturedRelic: boolean;
+  // shortPrint: boolean;
 }
 
 export interface SeriesInstance extends CondensedSeriesInstance {
@@ -86,6 +86,14 @@ interface Player {
     createdAt: string;
     updatedAt: string;
   };
+}
+
+// data needed to post or put series
+export interface PostSeriesData {
+  subsetId: number;
+  name: string;
+  serialized: number | null;
+  refractor: boolean;
 }
 
 // ACTION TYPES

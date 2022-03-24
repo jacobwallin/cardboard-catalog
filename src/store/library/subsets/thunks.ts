@@ -2,6 +2,7 @@ import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../index";
 import * as actions from "./actions";
 import { SubsetActionTypes } from "./types";
+import { PostSeriesData } from "../series/types";
 import { get, post, put, del } from "../../../utils/fetch";
 
 export const fetchSubset =
@@ -24,6 +25,11 @@ export const updateSubset =
       name: string;
       description: string;
       prefix: string;
+      code: string | null;
+      auto: boolean;
+      relic: boolean;
+      manufacturedRelic: boolean;
+      shortPrint: boolean;
     }
   ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {
@@ -52,16 +58,9 @@ export const deleteSubset =
   };
 
 export const createSeries =
-  (seriesData: {
-    subsetId: number;
-    name: string;
-    serialized: number | null;
-    refractor: boolean;
-    shortPrint: boolean;
-    auto: boolean;
-    relic: boolean;
-    manufacturedRelic: boolean;
-  }): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
+  (
+    seriesData: PostSeriesData
+  ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {
     dispatch(actions.createSeriesRequest());
     post(`/api/series`, seriesData, dispatch)

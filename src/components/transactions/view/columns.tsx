@@ -12,10 +12,10 @@ const columns = [
       <CardNumber
         number={row.card.card_datum.number}
         serialized={row.card.series.serialized}
-        shortPrint={row.card.series.shortPrint}
-        auto={row.card.series.auto}
-        relic={row.card.series.relic}
-        manufacturedRelic={row.card.series.manufacturedRelic}
+        shortPrint={row.card.series.subset.shortPrint}
+        auto={row.card.series.subset.auto}
+        relic={row.card.series.subset.relic}
+        manufacturedRelic={row.card.series.subset.manufacturedRelic}
         refractor={row.card.series.refractor}
         rookie={row.card.card_datum.rookie}
       />

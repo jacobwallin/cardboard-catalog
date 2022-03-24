@@ -13,7 +13,16 @@ const isUpdatingSelector = createLoadingSelector(["UPDATE_SUBSET"]);
 
 interface Props {
   createNew: boolean;
-  handleSubmit(name: string, description: string, prefix: string): void;
+  handleSubmit(subsetData: {
+    name: string;
+    description: string;
+    prefix: string;
+    code: string | null;
+    auto: boolean;
+    relic: boolean;
+    manufacturedRelic: boolean;
+    shortPrint: boolean;
+  }): void;
   handleCancel(): void;
 }
 
@@ -25,13 +34,31 @@ export default function SubsetForm(props: Props) {
 
   const [name, setName] = useState(props.createNew ? "" : subset.name);
   const [prefix, setPrefix] = useState(props.createNew ? "" : subset.prefix);
+  const [code, setCode] = useState(props.createNew ? "" : subset.code);
+  const [auto, setAuto] = useState(props.createNew ? false : subset.auto);
+  const [relic, setRelic] = useState(props.createNew ? false : subset.relic);
+  const [manufacturedRelic, setManufacturedRelic] = useState(
+    props.createNew ? false : subset.manufacturedRelic
+  );
+  const [shortPrint, setShortPrint] = useState(
+    props.createNew ? false : subset.shortPrint
+  );
 
   const [description, setDescription] = useState(
     props.createNew ? "" : subset.description
   );
 
   function handleFormSubmit() {
-    props.handleSubmit(name, description, prefix);
+    props.handleSubmit({
+      name,
+      description,
+      prefix,
+      auto,
+      relic,
+      manufacturedRelic,
+      shortPrint,
+      code: code === "" ? null : code,
+    });
   }
 
   function handleInputChange(
@@ -47,6 +74,21 @@ export default function SubsetForm(props: Props) {
         break;
       case "prefix":
         setPrefix(value);
+        break;
+      case "code":
+        setCode(value);
+        break;
+      case "shortPrint":
+        setShortPrint(!shortPrint);
+        break;
+      case "auto":
+        setAuto(!auto);
+        break;
+      case "relic":
+        setRelic(!relic);
+        break;
+      case "manufacturedRelic":
+        setManufacturedRelic(!manufacturedRelic);
         break;
     }
   }
@@ -92,14 +134,86 @@ export default function SubsetForm(props: Props) {
           />
         </FieldData>
       </FieldContainer>
+      <FieldContainer>
+        <FieldTitle>Card Code</FieldTitle>
+        <FieldData>
+          <StyledInputs.Input
+            name="code"
+            type="text"
+            value={code || ""}
+            placeholder="Enter Code"
+            onChange={handleInputChange}
+          />
+        </FieldData>
+      </FieldContainer>
+      <FieldContainer>
+        <FieldTitle>Auto</FieldTitle>
+        <FieldData>
+          <input
+            name="auto"
+            type="checkbox"
+            checked={auto}
+            onChange={handleInputChange}
+          />
+        </FieldData>
+      </FieldContainer>
+      <FieldContainer>
+        <FieldTitle>Relic</FieldTitle>
+        <FieldData>
+          <input
+            name="relic"
+            type="checkbox"
+            checked={relic}
+            onChange={handleInputChange}
+          />
+        </FieldData>
+      </FieldContainer>
+      <FieldContainer>
+        <FieldTitle>Short Print</FieldTitle>
+        <FieldData>
+          <input
+            name="shortPrint"
+            type="checkbox"
+            checked={shortPrint}
+            onChange={handleInputChange}
+          />
+        </FieldData>
+      </FieldContainer>
+      <FieldContainer>
+        <FieldTitle>Manufactured Relic</FieldTitle>
+        <FieldData>
+          <input
+            name="manufacturedRelic"
+            type="checkbox"
+            checked={manufacturedRelic}
+            onChange={handleInputChange}
+          />
+        </FieldData>
+      </FieldContainer>
       <FormButtons
         disabled={
           isUpdating ||
           (props.createNew
             ? name === ""
             : !detectFormChanges(
-                [subset.name, subset.description, subset.prefix],
-                [name, description, prefix]
+                [
+                  subset.name,
+                  subset.description,
+                  subset.prefix,
+                  subset.auto,
+                  subset.relic,
+                  subset.manufacturedRelic,
+                  subset.shortPrint,
+                ],
+                [
+                  name,
+                  description,
+                  prefix,
+                  auto,
+                  relic,
+                  manufacturedRelic,
+                  shortPrint,
+                ]
               ))
         }
         handleCancel={props.handleCancel}

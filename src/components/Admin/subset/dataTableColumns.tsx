@@ -19,62 +19,10 @@ export const seriesDataTableColumns = [
     sortable: true,
   },
   {
-    name: "Auto",
-    selector: (row: SubsetSeries) => row.auto,
-    cell: (row: SubsetSeries) =>
-      row.auto ? (
-        <Styled.SvgWrapper>
-          <Checkmark />
-        </Styled.SvgWrapper>
-      ) : (
-        "-"
-      ),
-    sortable: true,
-  },
-  {
-    name: "Relic",
-    selector: (row: SubsetSeries) => row.relic,
-    cell: (row: SubsetSeries) =>
-      row.relic ? (
-        <Styled.SvgWrapper>
-          <Checkmark />
-        </Styled.SvgWrapper>
-      ) : (
-        "-"
-      ),
-    sortable: true,
-  },
-  {
-    name: "Short Print",
-    selector: (row: SubsetSeries) => row.shortPrint,
-    cell: (row: SubsetSeries) =>
-      row.shortPrint ? (
-        <Styled.SvgWrapper>
-          <Checkmark />
-        </Styled.SvgWrapper>
-      ) : (
-        "-"
-      ),
-    sortable: true,
-  },
-  {
     name: "Refractor",
     selector: (row: SubsetSeries) => row.refractor,
     cell: (row: SubsetSeries) =>
       row.refractor ? (
-        <Styled.SvgWrapper>
-          <Checkmark />
-        </Styled.SvgWrapper>
-      ) : (
-        "-"
-      ),
-    sortable: true,
-  },
-  {
-    name: "Man. Relic",
-    selector: (row: SubsetSeries) => row.manufacturedRelic,
-    cell: (row: SubsetSeries) =>
-      row.manufacturedRelic ? (
         <Styled.SvgWrapper>
           <Checkmark />
         </Styled.SvgWrapper>

@@ -120,10 +120,10 @@ export default function CollectionSubset(props: Props) {
           gradeError: false,
           gradingCompanyError: false,
           serialized: card.card.series.serialized,
-          shortPrint: card.card.series.shortPrint,
-          auto: card.card.series.auto,
-          relic: card.card.series.relic,
-          manufacturedRelic: card.card.series.manufacturedRelic,
+          shortPrint: card.shortPrint,
+          auto: card.auto,
+          relic: card.relic,
+          manufacturedRelic: card.manufacturedRelic,
           refractor: card.card.series.refractor,
           qtyInCollection: props.tableData.userCards.filter(
             (userCard) => userCard.cardId === card.cardId

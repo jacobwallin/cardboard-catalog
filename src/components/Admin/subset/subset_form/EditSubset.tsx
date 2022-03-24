@@ -62,8 +62,17 @@ export default function EditSubset(props: Props) {
     dispatch(deleteSubset(props.subsetId));
   }
 
-  function handleSubmit(name: string, description: string, prefix: string) {
-    dispatch(updateSubset(props.subsetId, { name, description, prefix }));
+  function handleSubmit(subsetData: {
+    name: string;
+    description: string;
+    prefix: string;
+    code: string | null;
+    auto: boolean;
+    relic: boolean;
+    manufacturedRelic: boolean;
+    shortPrint: boolean;
+  }) {
+    dispatch(updateSubset(props.subsetId, subsetData));
   }
 
   // re-direct to set that the subset belonged to after deletion
@@ -102,6 +111,22 @@ export default function EditSubset(props: Props) {
             <FieldContainer>
               <FieldTitle>Card # prefix</FieldTitle>
               <FieldData>{subset.prefix}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Short Print</FieldTitle>
+              <FieldData>{subset.shortPrint ? "Yes" : "No"}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Manufactured Relic</FieldTitle>
+              <FieldData>{subset.manufacturedRelic ? "Yes" : "No"}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Auto</FieldTitle>
+              <FieldData>{subset.auto ? "Yes" : "No"}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Relic</FieldTitle>
+              <FieldData>{subset.relic ? "Yes" : "No"}</FieldData>
             </FieldContainer>
             <EditDeleteButtons
               handleEdit={toggleForm}

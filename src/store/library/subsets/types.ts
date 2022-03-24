@@ -87,6 +87,18 @@ interface Player {
   };
 }
 
+// data needed to post or put subset
+export interface PostSubsetData {
+  name: string;
+  description: string;
+  prefix: string;
+  code: string | null;
+  auto: boolean;
+  relic: boolean;
+  manufacturedRelic: boolean;
+  shortPrint: boolean;
+}
+
 // ACTION TYPES
 export const GET_SUBSET_REQUEST = "GET_SUBSET_REQUEST";
 export const GET_SUBSET_SUCCESS = "GET_SUBSET_SUCCESS";

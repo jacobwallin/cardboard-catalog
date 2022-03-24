@@ -20,11 +20,8 @@ interface Props {
   handleSubmit(seriesData: {
     name: string;
     serialized: number | null;
-    auto: boolean;
-    relic: boolean;
-    manufacturedRelic: boolean;
+
     refractor: boolean;
-    shortPrint: boolean;
   }): void;
 }
 export default function SeriesForm(props: Props) {
@@ -42,27 +39,16 @@ export default function SeriesForm(props: Props) {
       ? ""
       : series.serialized.toString()
   );
-  const [auto, setAuto] = useState(props.createNew ? false : series.auto);
-  const [relic, setRelic] = useState(props.createNew ? false : series.relic);
-  const [manufacturedRelic, setManufacturedRelic] = useState(
-    props.createNew ? false : series.manufacturedRelic
-  );
+
   const [refractor, setRefractor] = useState(
     props.createNew ? false : series.refractor
-  );
-  const [shortPrint, setShortPrint] = useState(
-    props.createNew ? false : series.shortPrint
   );
 
   function handleFormSubmit() {
     props.handleSubmit({
       name,
       serialized: serialized === "" ? null : +serialized,
-      auto,
-      relic,
-      manufacturedRelic,
       refractor,
-      shortPrint,
     });
   }
 
@@ -79,18 +65,6 @@ export default function SeriesForm(props: Props) {
         break;
       case "refractor":
         setRefractor(!refractor);
-        break;
-      case "shortPrint":
-        setShortPrint(!shortPrint);
-        break;
-      case "auto":
-        setAuto(!auto);
-        break;
-      case "relic":
-        setRelic(!relic);
-        break;
-      case "manufacturedRelic":
-        setManufacturedRelic(!manufacturedRelic);
         break;
     }
   }
@@ -122,56 +96,12 @@ export default function SeriesForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Auto</FieldTitle>
-        <FieldData>
-          <input
-            name="auto"
-            type="checkbox"
-            checked={auto}
-            onChange={handleInputChange}
-          />
-        </FieldData>
-      </FieldContainer>
-      <FieldContainer>
-        <FieldTitle>Relic</FieldTitle>
-        <FieldData>
-          <input
-            name="relic"
-            type="checkbox"
-            checked={relic}
-            onChange={handleInputChange}
-          />
-        </FieldData>
-      </FieldContainer>
-      <FieldContainer>
         <FieldTitle>Refractor</FieldTitle>
         <FieldData>
           <input
             name="refractor"
             type="checkbox"
             checked={refractor}
-            onChange={handleInputChange}
-          />
-        </FieldData>
-      </FieldContainer>
-      <FieldContainer>
-        <FieldTitle>Short Print</FieldTitle>
-        <FieldData>
-          <input
-            name="shortPrint"
-            type="checkbox"
-            checked={shortPrint}
-            onChange={handleInputChange}
-          />
-        </FieldData>
-      </FieldContainer>
-      <FieldContainer>
-        <FieldTitle>Manufactured Relic</FieldTitle>
-        <FieldData>
-          <input
-            name="manufacturedRelic"
-            type="checkbox"
-            checked={manufacturedRelic}
             onChange={handleInputChange}
           />
         </FieldData>
@@ -187,21 +117,9 @@ export default function SeriesForm(props: Props) {
                 [
                   series.name,
                   series.serialized ? series.serialized.toString() : "",
-                  series.auto,
-                  series.relic,
-                  series.manufacturedRelic,
                   series.refractor,
-                  series.shortPrint,
                 ],
-                [
-                  name,
-                  serialized,
-                  auto,
-                  relic,
-                  manufacturedRelic,
-                  refractor,
-                  shortPrint,
-                ]
+                [name, serialized, refractor]
               ))
         }
       />

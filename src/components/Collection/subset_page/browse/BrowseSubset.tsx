@@ -132,10 +132,10 @@ export default function BrowseSubset(props: Props) {
             gradeError: false,
             gradingCompanyError: false,
             serialized: row.series.serialized,
-            shortPrint: row.series.shortPrint,
-            auto: row.series.auto,
-            relic: row.series.relic,
-            manufacturedRelic: row.series.manufacturedRelic,
+            shortPrint: row.shortPrint,
+            auto: row.auto,
+            relic: row.relic,
+            manufacturedRelic: row.manufacturedRelic,
             refractor: row.series.refractor,
             qtyInCollection: userCardsInSubset.filter(
               (userCard) => userCard.cardId === row.id
