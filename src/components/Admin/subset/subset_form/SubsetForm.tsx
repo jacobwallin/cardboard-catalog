@@ -135,7 +135,7 @@ export default function SubsetForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Card Code</FieldTitle>
+        <FieldTitle>Code</FieldTitle>
         <FieldData>
           <StyledInputs.Input
             name="code"
