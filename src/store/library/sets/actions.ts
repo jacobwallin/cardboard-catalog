@@ -1,4 +1,5 @@
 import * as types from "./types";
+import { SubsetInstance } from "../subsets/types";
 
 export const getAllSetsRequest = (): types.SetsActionTypes => ({
   type: types.GET_ALL_SETS_REQUEST,
@@ -54,7 +55,7 @@ export const createSubsetRequest = (): types.SetsActionTypes => ({
   type: types.CREATE_SUBSET_REQUEST,
 });
 export const createSubsetSuccess = (
-  subset: types.SubsetSummary
+  subset: SubsetInstance
 ): types.SetsActionTypes => ({
   type: types.CREATE_SUBSET_SUCCESS,
   subset,

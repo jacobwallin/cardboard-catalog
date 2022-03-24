@@ -1,9 +1,12 @@
+import { SubsetInstance } from "../subsets/types";
+import { SetInstance } from "../sets/types";
+
 // STATE
 export interface SeriesState {
   series: Series;
 }
 
-export interface Series {
+export interface SeriesInstance {
   id: number;
   name: string;
   color: string;
@@ -19,7 +22,10 @@ export interface Series {
   createdBy: number;
   updatedBy: number;
   subsetId: number;
-  subset: Subset;
+}
+
+export interface Series extends SeriesInstance {
+  subset: SubsetWthJoin;
   cards: Array<Card>;
   createdByUser: {
     username: string;
@@ -29,33 +35,8 @@ export interface Series {
   };
 }
 
-export interface Subset {
-  id: number;
-  name: string;
-  description: string;
-  baseSeriesId: number;
-  createdAt: string;
-  updatedAt: string;
-  createdBy: number;
-  updatedBy: number;
-  setId: number;
-  set: Set;
-}
-
-interface Set {
-  id: number;
-  name: string;
-  release_date: string | null;
-  year: number;
-  complete: boolean;
-  description: string;
-  baseSubsetId: number;
-  createdAt: string;
-  updatedAt: string;
-  createdBy: number;
-  updatedBy: number;
-  leagueId: number;
-  brandId: number;
+export interface SubsetWthJoin extends SubsetInstance {
+  set: SetInstance;
 }
 
 export interface Card {
@@ -134,33 +115,8 @@ interface UpdateSeriesRequest {
   type: typeof UPDATE_SERIES_REQUEST;
 }
 
-interface UpdateSeriesResponse {
-  id: number;
-  name: string;
-  color: string;
-  serialized: number | null;
-  auto: boolean;
-  relic: boolean;
-  manufacturedRelic: boolean;
-  refractor: boolean;
-  parallel: boolean;
-  shortPrint: boolean;
-  createdAt: string;
-  updatedAt: string;
-  createdBy: number;
-  updatedBy: number;
-  subsetId: number;
-  subset: {
-    id: number;
-    name: string;
-    description: string;
-    baseSeriesId: number;
-    createdAt: string;
-    updatedAt: string;
-    createdBy: number;
-    updatedBy: number;
-    setId: number;
-  };
+interface UpdateSeriesResponse extends SeriesInstance {
+  subset: SubsetInstance;
   createdByUser: {
     username: string;
   };

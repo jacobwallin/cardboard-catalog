@@ -1,7 +1,7 @@
 import {
-  SubsetState,
+  Subset,
   CardData,
-  Series,
+  SubsetSeries,
 } from "../../../store/library/subsets/types";
 import { UserCard } from "../../../store/collection/browse/types";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
@@ -14,7 +14,7 @@ export interface TableDataPoint {
   seriesId: number;
   quantity: number;
   cardData: CardData;
-  series: Series;
+  series: SubsetSeries;
 }
 export interface DeleteTableDataPoint {
   id: number;
@@ -32,12 +32,12 @@ export interface DeleteTableDataPoint {
     serializedTo: number | null;
     seriesId: number;
     cardData: CardData;
-    series: Series;
+    series: SubsetSeries;
   };
 }
 export interface SeriesTableData {
   seriesId: number;
-  series: Series;
+  series: SubsetSeries;
   totalCards: number;
   distinctCards: number;
   cards: TableDataPoint[];
@@ -49,7 +49,7 @@ export interface TableData {
 }
 
 export function createTableData(
-  librarySubsetData: SubsetState,
+  librarySubsetData: Subset,
   userCardData: { cards: UserCard[]; subsetId: number }
 ): TableData {
   // create hash table with the id and quantity of each card user has in collection

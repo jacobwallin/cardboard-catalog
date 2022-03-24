@@ -1,17 +1,28 @@
+import { SetInstance } from "../sets/types";
+import { SeriesInstance } from "../series/types";
+
 // STATE
-export interface SubsetState {
+export interface SubsetInstance {
   id: number;
   name: string;
   description: string;
+  baseSeriesId: number | null;
   prefix: string;
+  code: string | null;
+  auto: boolean;
+  relic: boolean;
+  manufacturedRelic: boolean;
+  shortPrint: boolean;
+  setId: number;
   createdAt: string;
   updatedAt: string;
   createdBy: number;
   updatedBy: number;
-  setId: number;
-  baseSeriesId: number | null;
-  set: Set;
-  series: Series[];
+}
+
+export interface Subset extends SubsetInstance {
+  set: SetInstance;
+  series: SubsetSeries[];
   card_data: CardData[];
   createdByUser: {
     username: string;
@@ -21,38 +32,7 @@ export interface SubsetState {
   };
 }
 
-export interface Set {
-  id: number;
-  name: string;
-  release_date: string | null;
-  year: number;
-  complete: boolean;
-  description: string;
-  baseSubsetId: number | null;
-  createdAt: string;
-  updatedAt: string;
-  createdBy: number;
-  updatedBy: number;
-  leagueId: number;
-  brandId: number;
-}
-
-export interface Series {
-  id: number;
-  name: string;
-  color: string;
-  serialized: number | null;
-  auto: boolean;
-  relic: boolean;
-  manufacturedRelic: boolean;
-  parallel: boolean;
-  refractor: boolean;
-  shortPrint: boolean;
-  createdAt: string;
-  updatedAt: string;
-  subsetId: number;
-  createdBy: number;
-  updatedBy: number;
+export interface SubsetSeries extends SeriesInstance {
   cards: Card[];
 }
 
@@ -140,7 +120,7 @@ interface GetSubsetRequest {
 }
 interface GetSubsetSuccess {
   type: typeof GET_SUBSET_SUCCESS;
-  subset: SubsetState;
+  subset: Subset;
 }
 interface GetSubsetFailure {
   type: typeof GET_SUBSET_FAILURE;
@@ -187,7 +167,7 @@ interface CreateSeriesRequest {
 }
 interface CreateSeriesSuccess {
   type: typeof CREATE_SERIES_SUCCESS;
-  series: Series;
+  series: SubsetSeries;
 }
 interface CreateSeriesFailure {
   type: typeof CREATE_SERIES_FAILURE;

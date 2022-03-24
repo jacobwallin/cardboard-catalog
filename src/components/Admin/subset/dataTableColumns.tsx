@@ -1,7 +1,7 @@
 import React from "react";
 import EditLink, { StyledLink } from "../components/EditLink";
 import StyledButton from "../components/StyledButton";
-import { CardData, Series } from "../../../store/library/subsets/types";
+import { CardData, SubsetSeries } from "../../../store/library/subsets/types";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
 import { ReactComponent as Checkmark } from "./checkmark.svg";
 import * as Styled from "./styled";
@@ -9,19 +9,19 @@ import * as Styled from "./styled";
 export const seriesDataTableColumns = [
   {
     name: "Name",
-    selector: (row: Series) => row.name,
+    selector: (row: SubsetSeries) => row.name,
     sortable: true,
   },
   {
     name: "Serialized To",
-    selector: (row: Series) => row.serialized,
-    cell: (row: Series) => (row.serialized ? row.serialized : "-"),
+    selector: (row: SubsetSeries) => row.serialized,
+    cell: (row: SubsetSeries) => (row.serialized ? row.serialized : "-"),
     sortable: true,
   },
   {
     name: "Auto",
-    selector: (row: Series) => row.auto,
-    cell: (row: Series) =>
+    selector: (row: SubsetSeries) => row.auto,
+    cell: (row: SubsetSeries) =>
       row.auto ? (
         <Styled.SvgWrapper>
           <Checkmark />
@@ -33,8 +33,8 @@ export const seriesDataTableColumns = [
   },
   {
     name: "Relic",
-    selector: (row: Series) => row.relic,
-    cell: (row: Series) =>
+    selector: (row: SubsetSeries) => row.relic,
+    cell: (row: SubsetSeries) =>
       row.relic ? (
         <Styled.SvgWrapper>
           <Checkmark />
@@ -46,8 +46,8 @@ export const seriesDataTableColumns = [
   },
   {
     name: "Short Print",
-    selector: (row: Series) => row.shortPrint,
-    cell: (row: Series) =>
+    selector: (row: SubsetSeries) => row.shortPrint,
+    cell: (row: SubsetSeries) =>
       row.shortPrint ? (
         <Styled.SvgWrapper>
           <Checkmark />
@@ -59,8 +59,8 @@ export const seriesDataTableColumns = [
   },
   {
     name: "Refractor",
-    selector: (row: Series) => row.refractor,
-    cell: (row: Series) =>
+    selector: (row: SubsetSeries) => row.refractor,
+    cell: (row: SubsetSeries) =>
       row.refractor ? (
         <Styled.SvgWrapper>
           <Checkmark />
@@ -72,8 +72,8 @@ export const seriesDataTableColumns = [
   },
   {
     name: "Man. Relic",
-    selector: (row: Series) => row.manufacturedRelic,
-    cell: (row: Series) =>
+    selector: (row: SubsetSeries) => row.manufacturedRelic,
+    cell: (row: SubsetSeries) =>
       row.manufacturedRelic ? (
         <Styled.SvgWrapper>
           <Checkmark />
@@ -86,7 +86,7 @@ export const seriesDataTableColumns = [
   {
     name: "",
     sortable: false,
-    cell: (row: Series) => <EditLink to={`/admin/series/${row.id}`} />,
+    cell: (row: SubsetSeries) => <EditLink to={`/admin/series/${row.id}`} />,
     grow: 0,
   },
 ];

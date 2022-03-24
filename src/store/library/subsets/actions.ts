@@ -1,7 +1,7 @@
 import * as types from "./types";
 
 export const getSubsetSuccess = (
-  subset: types.SubsetState
+  subset: types.Subset
 ): types.SubsetActionTypes => ({
   type: types.GET_SUBSET_SUCCESS,
   subset,
@@ -45,7 +45,7 @@ export const createSeriesRequest = (): types.SubsetActionTypes => ({
   type: types.CREATE_SERIES_REQUEST,
 });
 export const createSeriesSuccess = (
-  series: types.Series
+  series: types.SubsetSeries
 ): types.SubsetActionTypes => ({
   type: types.CREATE_SERIES_SUCCESS,
   series,

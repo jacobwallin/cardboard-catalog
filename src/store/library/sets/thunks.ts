@@ -4,6 +4,7 @@ import * as actions from "./actions";
 import * as types from "./types";
 import { SetsActionTypes } from "./types";
 import { get, post, put, del } from "../../../utils/fetch";
+import { SubsetInstance } from "../subsets/types";
 
 export const fetchAllSetData =
   (): ThunkAction<void, RootState, unknown, SetsActionTypes> => (dispatch) => {
@@ -91,7 +92,7 @@ export const createSubset =
   (dispatch) => {
     dispatch(actions.createSubsetRequest());
     post(`/api/subsets`, subsetData, dispatch)
-      .then((createdSubset: types.SubsetSummary) => {
+      .then((createdSubset: SubsetInstance) => {
         dispatch(actions.createSubsetSuccess(createdSubset));
       })
       .catch((error) => {

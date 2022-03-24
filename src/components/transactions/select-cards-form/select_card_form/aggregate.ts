@@ -2,7 +2,7 @@ import createTableData, {
   SeriesTableData,
 } from "../../../Collection/subset_page/createTableData";
 import { SetSummary, Set } from "../../../../store/library/sets/types";
-import { SubsetState } from "../../../../store/library/subsets/types";
+import { Subset } from "../../../../store/library/subsets/types";
 import { UserCard } from "../../../../store/collection/browse/types";
 import {
   SetCards,
@@ -64,7 +64,7 @@ export function aggregateSubsets(set: Set): SubsetData[] {
 }
 
 export function aggregateSubset(
-  librarySubsetData: SubsetState,
+  librarySubsetData: Subset,
   userCardData: { cards: UserCard[]; subsetId: number },
   subsetsWithUserCardsOnly: boolean
 ): SeriesTableData[] {

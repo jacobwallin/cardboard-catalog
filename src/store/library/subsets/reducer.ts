@@ -1,10 +1,15 @@
 import * as types from "./types";
 
-const initialState: types.SubsetState = {
+const initialState: types.Subset = {
   id: 0,
   name: "",
   description: "",
   prefix: "",
+  code: "",
+  auto: false,
+  relic: false,
+  manufacturedRelic: false,
+  shortPrint: false,
   createdAt: "",
   updatedAt: "",
   createdBy: 0,
@@ -39,7 +44,7 @@ const initialState: types.SubsetState = {
 const subsetsReducer = (
   state = initialState,
   action: types.SubsetActionTypes
-): types.SubsetState => {
+): types.Subset => {
   switch (action.type) {
     case types.GET_SUBSET_SUCCESS:
       return { ...action.subset };

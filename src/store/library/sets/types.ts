@@ -1,3 +1,5 @@
+import { SubsetInstance } from "../subsets/types";
+
 // STATE
 export interface SetsState {
   set: Set;
@@ -46,25 +48,7 @@ export interface Set extends SetInstance {
     id: number;
     name: string;
   };
-  subsets: SubsetSummary[];
-}
-
-export interface SubsetSummary {
-  id: number;
-  name: string;
-  description: string;
-  baseSeriesId: number | null;
-  prefix: string;
-  code: string | null;
-  auto: boolean;
-  relic: boolean;
-  manufacturedRelic: boolean;
-  shortPrint: boolean;
-  setId: number;
-  createdAt: string;
-  updatedAt: string;
-  createdBy: number;
-  updatedBy: number;
+  subsets: SubsetInstance[];
 }
 
 // ACTION TYPES
@@ -156,7 +140,7 @@ export interface CreateSubsetRequest {
 
 export interface CreateSubsetSuccess {
   type: typeof CREATE_SUBSET_SUCCESS;
-  subset: SubsetSummary;
+  subset: SubsetInstance;
 }
 export interface CreateSubsetFailure {
   type: typeof CREATE_SUBSET_FAILURE;

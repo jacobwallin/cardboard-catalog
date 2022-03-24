@@ -1,6 +1,6 @@
 import { Filters } from "./types";
 import { Set } from "../../../store/library/sets/types";
-import { SubsetState } from "../../../store/library/subsets/types";
+import { Subset } from "../../../store/library/subsets/types";
 
 interface ReturnValue {
   query: string;
@@ -13,7 +13,7 @@ interface ReturnValue {
 export default function generateQuery(
   filters: Filters,
   set: Set,
-  subset: SubsetState
+  subset: Subset
 ): ReturnValue {
   let query = "";
   let bubbles: Array<{

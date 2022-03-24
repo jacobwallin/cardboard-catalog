@@ -1,5 +1,5 @@
 import { Set } from "../../store/library/sets/types";
-import { SubsetState } from "../../store/library/subsets/types";
+import { Subset } from "../../store/library/subsets/types";
 import { Series } from "../../store/library/series/types";
 
 export interface Crumb {
@@ -60,10 +60,7 @@ export function createSetCrumbs(set: Set, search: string): Crumb[] {
   return crumbs;
 }
 
-export function createSubsetCrumbs(
-  subset: SubsetState,
-  search: string
-): Crumb[] {
+export function createSubsetCrumbs(subset: Subset, search: string): Crumb[] {
   let crumbs: Crumb[] = [];
   let link = "";
 
@@ -124,7 +121,7 @@ export function createAdminSetCrumbs(set: Set) {
   return crumbs;
 }
 
-export function createAdminSubsetCrumbs(subset: SubsetState): Crumb[] {
+export function createAdminSubsetCrumbs(subset: Subset): Crumb[] {
   let crumbs: Crumb[] = [];
 
   crumbs.push({

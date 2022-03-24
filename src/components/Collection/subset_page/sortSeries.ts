@@ -1,6 +1,10 @@
-import { Series } from "../../../store/library/subsets/types";
+import { SubsetSeries } from "../../../store/library/subsets/types";
 
-export default function sortSeries(seriesA: Series, seriesB: Series, baseSeriesId: number) {
+export default function sortSeries(
+  seriesA: SubsetSeries,
+  seriesB: SubsetSeries,
+  baseSeriesId: number
+) {
   if (seriesA.id === baseSeriesId) return -1;
   if (seriesB.id === baseSeriesId) return 1;
 
