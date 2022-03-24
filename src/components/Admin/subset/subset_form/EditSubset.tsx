@@ -109,8 +109,14 @@ export default function EditSubset(props: Props) {
               </FieldData>
             </FieldContainer>
             <FieldContainer>
-              <FieldTitle>Card # prefix</FieldTitle>
-              <FieldData>{subset.prefix}</FieldData>
+              <FieldTitle>Code</FieldTitle>
+              <FieldData>{subset.code ? subset.code : "-"}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
+              <FieldTitle>Card # Prefix</FieldTitle>
+              <FieldData>
+                {subset.prefix === "" ? "-" : subset.prefix}
+              </FieldData>
             </FieldContainer>
             <FieldContainer>
               <FieldTitle>Short Print</FieldTitle>
