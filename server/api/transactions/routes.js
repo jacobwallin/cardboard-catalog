@@ -67,6 +67,7 @@ router.get("/:transactionId", async (req, res, next) => {
                       "updatedAt",
                       "updatedBy",
                       "createdBy",
+                      "description",
                     ],
                   },
                   include: {
@@ -77,6 +78,9 @@ router.get("/:transactionId", async (req, res, next) => {
                         "updatedAt",
                         "updatedBy",
                         "createdBy",
+                        "release_date",
+                        "description",
+                        "complete",
                       ],
                     },
                   },

@@ -2,10 +2,10 @@ import { SetInstance } from "../sets/types";
 import { SeriesInstance } from "../series/types";
 
 // STATE
-export interface SubsetInstance {
+
+export interface CondensedSubsetInstance {
   id: number;
   name: string;
-  description: string;
   baseSeriesId: number | null;
   prefix: string;
   code: string | null;
@@ -14,6 +14,9 @@ export interface SubsetInstance {
   manufacturedRelic: boolean;
   shortPrint: boolean;
   setId: number;
+}
+export interface SubsetInstance extends CondensedSubsetInstance {
+  description: string;
   createdAt: string;
   updatedAt: string;
   createdBy: number;

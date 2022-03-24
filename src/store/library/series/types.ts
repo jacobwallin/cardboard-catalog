@@ -6,7 +6,7 @@ export interface SeriesState {
   series: Series;
 }
 
-export interface SeriesInstance {
+export interface CondensedSeriesInstance {
   id: number;
   name: string;
   color: string;
@@ -17,11 +17,14 @@ export interface SeriesInstance {
   refractor: boolean;
   parallel: boolean;
   shortPrint: boolean;
+  subsetId: number;
+}
+
+export interface SeriesInstance extends CondensedSeriesInstance {
   createdAt: string;
   updatedAt: string;
   createdBy: number;
   updatedBy: number;
-  subsetId: number;
 }
 
 export interface Series extends SeriesInstance {

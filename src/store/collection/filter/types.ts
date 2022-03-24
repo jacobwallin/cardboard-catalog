@@ -1,6 +1,6 @@
-import { SetInstance } from "../../library/sets/types";
-import { SubsetInstance } from "../../library/subsets/types";
-import { SeriesInstance } from "../../library/series/types";
+import { CondensedSetInstance } from "../../library/sets/types";
+import { CondensedSubsetInstance } from "../../library/subsets/types";
+import { CondensedSeriesInstance } from "../../library/series/types";
 
 // STATE
 export interface FilterCollectionState {
@@ -49,12 +49,12 @@ export interface UserCard {
   };
 }
 
-interface FilterSeries extends SeriesInstance {
+interface FilterSeries extends CondensedSeriesInstance {
   subset: FilterSubset;
 }
 
-interface FilterSubset extends SubsetInstance {
-  set: SetInstance;
+interface FilterSubset extends CondensedSubsetInstance {
+  set: CondensedSetInstance;
 }
 
 interface Player {

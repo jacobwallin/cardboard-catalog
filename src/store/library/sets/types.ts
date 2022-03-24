@@ -6,20 +6,23 @@ export interface SetsState {
   allSets: SetSummary[];
 }
 
-export interface SetInstance {
+export interface CondensedSetInstance {
   id: number;
   name: string;
-  release_date: string | null;
+  baseSubsetId: number | null;
   year: number;
+  leagueId: number;
+  brandId: number;
+}
+
+export interface SetInstance extends CondensedSetInstance {
   complete: boolean;
   description: string;
+  release_date: string | null;
   createdAt: string;
   updatedAt: string;
   createdBy: number;
   updatedBy: number;
-  baseSubsetId: number | null;
-  leagueId: number;
-  brandId: number;
 }
 
 export interface SetSummary extends SetInstance {
