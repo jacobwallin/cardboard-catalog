@@ -98,10 +98,10 @@ export default function Sidebar() {
         visible={showAdminMenuOnMobile}
         onClick={toggleAdminMenuOnMobile}
       >
-        <StyledAdminLink to="/">Sets</StyledAdminLink>
-        <StyledAdminLink to="/players">Players</StyledAdminLink>
-        <StyledAdminLink to="/teams">Teams</StyledAdminLink>
-        <StyledAdminLink to="/other">Other</StyledAdminLink>
+        <StyledAdminLink to="/admin">Sets</StyledAdminLink>
+        <StyledAdminLink to="/admin/players">Players</StyledAdminLink>
+        <StyledAdminLink to="/admin/teams">Teams</StyledAdminLink>
+        <StyledAdminLink to="/admin/other">Other</StyledAdminLink>
       </LinkContainer>
     </SidebarContainer>
   );
