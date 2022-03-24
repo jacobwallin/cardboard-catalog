@@ -39,4 +39,6 @@ router.put("/:cardId", async (req, res, next) => {
   }
 });
 
+//TODO: add post and delete routes to modify card sets withing a series
+
 module.exports = router;

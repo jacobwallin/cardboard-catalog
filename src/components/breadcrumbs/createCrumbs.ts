@@ -157,7 +157,7 @@ export function createAdminSeriesCrumbs(series: Series): Crumb[] {
   });
   crumbs.push({
     link: `/admin/series/${series.id}`,
-    title: `${series.name} Parallel`,
+    title: `${series.name}`,
   });
 
   return crumbs;
