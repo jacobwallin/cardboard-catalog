@@ -1,3 +1,7 @@
+import { SetInstance } from "../../library/sets/types";
+import { SubsetInstance } from "../../library/subsets/types";
+import { SeriesInstance } from "../../library/series/types";
+
 // STATE
 export interface FilterCollectionState {
   count: number;
@@ -28,7 +32,7 @@ export interface UserCard {
     serializedTo: number | null;
     cardDataId: number;
     seriesId: number;
-    series: Series;
+    series: FilterSeries;
     card_datum: {
       id: number;
       name: string;
@@ -45,39 +49,12 @@ export interface UserCard {
   };
 }
 
-interface Series {
-  id: number;
-  name: string;
-  color: string;
-  serialized: number | null;
-  auto: boolean;
-  relic: boolean;
-  manufacturedRelic: boolean;
-  parallel: boolean;
-  refractor: boolean;
-  shortPrint: boolean;
-  createdAt: string;
-  updatedAt: string;
-  subsetId: number;
-  subset: Subset;
+interface FilterSeries extends SeriesInstance {
+  subset: FilterSubset;
 }
 
-interface Subset {
-  id: number;
-  name: string;
-  baseSeriesId: number;
-  setId: number;
-  set: Set;
-}
-
-interface Set {
-  id: number;
-  name: string;
-  baseSubsetId: number;
-  release_date: string;
-  year: number;
-  leagueId: number;
-  brandId: number;
+interface FilterSubset extends SubsetInstance {
+  set: SetInstance;
 }
 
 interface Player {

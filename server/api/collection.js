@@ -322,24 +322,10 @@ router.get("/filter", async (req, res, next) => {
             },
             {
               model: Series,
-              attributes: {
-                exclude: ["createdAt", "updatedAt", "updatedBy", "createdBy"],
-              },
               include: {
                 model: Subset,
-                attributes: {
-                  exclude: ["createdAt", "updatedAt", "updatedBy", "createdBy"],
-                },
                 include: {
                   model: Set,
-                  attributes: {
-                    exclude: [
-                      "createdAt",
-                      "updatedAt",
-                      "updatedBy",
-                      "createdBy",
-                    ],
-                  },
                 },
               },
             },
