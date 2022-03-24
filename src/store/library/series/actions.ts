@@ -48,3 +48,29 @@ export const updateCardSuccess = (
 export const updateCardFailure = (): types.SeriesActionTypes => ({
   type: types.UPDATE_CARD_FAILURE,
 });
+
+export const deleteCardsRequest = (): types.SeriesActionTypes => ({
+  type: types.DELETE_CARDS_REQUEST,
+});
+export const deleteCardsSuccess = (
+  cardsDeleted: number[]
+): types.SeriesActionTypes => ({
+  type: types.DELETE_CARDS_SUCCESS,
+  cardsDeleted,
+});
+export const deleteCardsFailure = (): types.SeriesActionTypes => ({
+  type: types.DELETE_CARDS_FAILURE,
+});
+
+export const addCardsRequest = (): types.SeriesActionTypes => ({
+  type: types.ADD_CARDS_REQUEST,
+});
+export const addCardsSuccess = (
+  cardsAdded: types.Card[]
+): types.SeriesActionTypes => ({
+  type: types.ADD_CARDS_SUCCESS,
+  cardsAdded,
+});
+export const addCardsFailure = (): types.SeriesActionTypes => ({
+  type: types.ADD_CARDS_FAILURE,
+});

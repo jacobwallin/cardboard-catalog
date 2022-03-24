@@ -94,6 +94,26 @@ export default function seriesReducer(
           }),
         },
       };
+    case types.ADD_CARDS_SUCCESS:
+      return {
+        ...state,
+        series: {
+          ...state.series,
+          cards: [...state.series.cards, ...action.cardsAdded],
+        },
+      };
+    case types.DELETE_CARDS_SUCCESS:
+      return {
+        ...state,
+        series: {
+          ...state.series,
+          cards: state.series.cards.filter(
+            (card) =>
+              action.cardsDeleted.findIndex((cardId) => cardId === card.id) ===
+              -1
+          ),
+        },
+      };
     default:
       return state;
   }

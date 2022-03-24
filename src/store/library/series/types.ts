@@ -14,10 +14,6 @@ export interface CondensedSeriesInstance {
   refractor: boolean;
   parallel: boolean;
   subsetId: number;
-  // auto: boolean;
-  // relic: boolean;
-  // manufacturedRelic: boolean;
-  // shortPrint: boolean;
 }
 
 export interface SeriesInstance extends CondensedSeriesInstance {
@@ -109,6 +105,12 @@ export const DELETE_SERIES_FAILURE = "DELETE_SERIES_FAILURE";
 export const UPDATE_CARD_REQUEST = "UPDATE_CARD_REQUEST";
 export const UPDATE_CARD_SUCCESS = "UPDATE_CARD_SUCCESS";
 export const UPDATE_CARD_FAILURE = "UPDATE_CARD_FAILURE";
+export const DELETE_CARDS_REQUEST = "DELETE_CARDS_REQUEST";
+export const DELETE_CARDS_SUCCESS = "DELETE_CARDS_SUCCESS";
+export const DELETE_CARDS_FAILURE = "DELETE_CARDS_FAILURE";
+export const ADD_CARDS_REQUEST = "ADD_CARDS_REQUEST";
+export const ADD_CARDS_SUCCESS = "ADD_CARDS_SUCCESS";
+export const ADD_CARDS_FAILURE = "ADD_CARDS_FAILURE";
 
 // ACTION CREATORS
 interface GetSeriesRequest {
@@ -175,6 +177,27 @@ interface UpdateCardFailure {
   type: typeof UPDATE_CARD_FAILURE;
 }
 
+interface DeleteCardsRequest {
+  type: typeof DELETE_CARDS_REQUEST;
+}
+interface DeleteCardsSuccess {
+  type: typeof DELETE_CARDS_SUCCESS;
+  cardsDeleted: number[];
+}
+interface DeleteCardsFailure {
+  type: typeof DELETE_CARDS_FAILURE;
+}
+interface AddCardsRequest {
+  type: typeof ADD_CARDS_REQUEST;
+}
+interface AddCardsSuccess {
+  type: typeof ADD_CARDS_SUCCESS;
+  cardsAdded: Card[];
+}
+interface AddCardsFailure {
+  type: typeof ADD_CARDS_FAILURE;
+}
+
 export type SeriesActionTypes =
   | GetSeriesRequest
   | GetSeriesSuccess
@@ -187,4 +210,10 @@ export type SeriesActionTypes =
   | DeleteSeriesFailure
   | UpdateCardRequest
   | UpdateCardSuccess
-  | UpdateCardFailure;
+  | UpdateCardFailure
+  | DeleteCardsRequest
+  | DeleteCardsSuccess
+  | DeleteCardsFailure
+  | AddCardsRequest
+  | AddCardsSuccess
+  | AddCardsFailure;

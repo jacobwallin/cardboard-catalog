@@ -1,8 +1,8 @@
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../index";
 import * as actions from "./actions";
-import { SeriesActionTypes, UpdateCardResponse } from "./types";
-import { get, put, del } from "../../../utils/fetch";
+import { SeriesActionTypes, UpdateCardResponse, Card } from "./types";
+import { get, put, del, post } from "../../../utils/fetch";
 
 export const fetchSeriesById =
   (
@@ -69,4 +69,32 @@ export const updateCard =
         dispatch(actions.updateCardSuccess(updatedCard));
       })
       .catch((error) => dispatch(actions.updateCardFailure()));
+  };
+
+export const deleteCards =
+  (
+    cardIdsDeleted: number[]
+  ): ThunkAction<void, RootState, unknown, SeriesActionTypes> =>
+  (dispatch) => {
+    dispatch(actions.deleteCardsRequest());
+
+    post(`/api/cards/`, cardIdsDeleted, dispatch)
+      .then((deleteResponse) => {
+        dispatch(actions.deleteCardsSuccess(cardIdsDeleted));
+      })
+      .catch((error) => dispatch(actions.deleteCardsFailure()));
+  };
+
+export const addCards =
+  (
+    cardDataIds: number[]
+  ): ThunkAction<void, RootState, unknown, SeriesActionTypes> =>
+  (dispatch) => {
+    dispatch(actions.addCardsRequest());
+
+    post(`/api/cards/`, cardDataIds, dispatch)
+      .then((newCards: Card[]) => {
+        dispatch(actions.addCardsSuccess(newCards));
+      })
+      .catch((error) => dispatch(actions.addCardsFailure()));
   };

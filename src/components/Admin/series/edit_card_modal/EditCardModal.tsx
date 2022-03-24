@@ -13,6 +13,7 @@ import StyledButton from "../../components/StyledButton";
 import ButtonContainer from "../../components/form/ButtonContainer";
 import { createLoadingSelector } from "../../../../store/loading/reducer";
 import * as styled from "./styled";
+import ModalHeader from "../../components/modal/ModalHeader";
 
 const isLoadingSelector = createLoadingSelector(["UPDATE_CARD"]);
 
@@ -57,9 +58,10 @@ export default function EditCardModal(props: Props) {
   return (
     <ModalBackground>
       <ModalWindow>
-        <h3
-          style={{ textAlign: "center" }}
-        >{`Edit Card ${props.card.card_datum.number}`}</h3>
+        <ModalHeader
+          title={`Edit Card ${props.card.card_datum.number}`}
+          handleClose={props.dismiss}
+        />
         <styled.CannotEdit>
           <FieldContainer>
             <FieldTitle>Number</FieldTitle>
@@ -109,14 +111,6 @@ export default function EditCardModal(props: Props) {
           </FieldData>
         </FieldContainer>
         <ButtonContainer>
-          <StyledButton
-            onClick={props.dismiss}
-            color="YELLOW"
-            width="100px"
-            height="27px"
-          >
-            Cancel
-          </StyledButton>
           <StyledButton
             onClick={handleUpdateCard}
             color="GREEN"
