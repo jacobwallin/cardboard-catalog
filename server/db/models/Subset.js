@@ -17,6 +17,9 @@ const Subset = db.define("subset", {
     type: DataTypes.STRING,
     defaultValue: "",
   },
+  code: {
+    type: DataTypes.STRING,
+  },
   auto: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
