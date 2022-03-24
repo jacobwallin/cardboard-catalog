@@ -4,7 +4,7 @@ export interface SetsState {
   allSets: SetSummary[];
 }
 
-export interface SetSummary {
+export interface SetInstance {
   id: number;
   name: string;
   release_date: string | null;
@@ -18,6 +18,9 @@ export interface SetSummary {
   baseSubsetId: number | null;
   leagueId: number;
   brandId: number;
+}
+
+export interface SetSummary extends SetInstance {
   league: {
     name: string;
     id: number;
@@ -28,18 +31,7 @@ export interface SetSummary {
   };
 }
 
-export interface Set {
-  id: number;
-  name: string;
-  release_date: string | null;
-  year: number;
-  complete: boolean;
-  description: string;
-  baseSubsetId: number | null;
-  createdAt: string;
-  updatedAt: string;
-  createdBy: number;
-  updatedBy: number;
+export interface Set extends SetInstance {
   createdByUser: {
     username: string;
   };
@@ -61,8 +53,13 @@ export interface SubsetSummary {
   id: number;
   name: string;
   description: string;
-  prefix: string;
   baseSeriesId: number | null;
+  prefix: string;
+  code: string | null;
+  auto: boolean;
+  relic: boolean;
+  manufacturedRelic: boolean;
+  shortPrint: boolean;
   setId: number;
   createdAt: string;
   updatedAt: string;

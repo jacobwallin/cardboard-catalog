@@ -9,6 +9,8 @@ const initialState: types.SetsState = {
     year: 0,
     complete: false,
     baseSubsetId: 0,
+    leagueId: 0,
+    brandId: 0,
     description: "",
     createdAt: "",
     updatedAt: "",
