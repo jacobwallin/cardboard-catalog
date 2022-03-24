@@ -1,14 +1,16 @@
 import React from "react";
 import StyledLink from "../shared/StyledLink";
 import SubtleLink from "../../shared/SubtleLink";
+import { SubsetInstanceUserCard } from "./aggregateSubsetData";
 
 const columns = (haveCards: boolean, viewingCollection: boolean) => {
   return [
     {
       name: "Name",
-      selector: (row: any) => row.totalCards > 0 && row.totalCards,
+      selector: (row: SubsetInstanceUserCard) =>
+        row.totalCards > 0 && row.totalCards,
       sortable: true,
-      cell: (row: any) => {
+      cell: (row: SubsetInstanceUserCard) => {
         let slug = `/subset/${row.id}`;
         if (viewingCollection) slug += "?view=coll";
         return <SubtleLink to={slug}>{row.name}</SubtleLink>;
@@ -19,7 +21,8 @@ const columns = (haveCards: boolean, viewingCollection: boolean) => {
     },
     {
       name: "Cards",
-      selector: (row: any) => row.totalCards > 0 && row.totalCards,
+      selector: (row: SubsetInstanceUserCard) =>
+        row.totalCards > 0 && row.totalCards,
       sortable: true,
       minWidth: "75px",
       maxWidth: "75px",
@@ -30,7 +33,7 @@ const columns = (haveCards: boolean, viewingCollection: boolean) => {
     {
       name: "",
       sortable: false,
-      cell: (row: any) => {
+      cell: (row: SubsetInstanceUserCard) => {
         let slug = `/subset/${row.id}`;
         if (viewingCollection) slug += "?view=coll";
         return <StyledLink to={slug}>View</StyledLink>;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useLocation } from "react-router-dom";
 import { RootState } from "../../../store";
@@ -14,6 +14,9 @@ import CollectionContainer from "../../shared/CollectionContainer";
 import SetHeader from "../header/SetHeader";
 import { LoadingDots } from "../../shared/Loading";
 import Breadcrumbs from "../../breadcrumbs/Breadcrumbs";
+import aggregateSubsetData, {
+  AggregatedSubsetData,
+} from "./aggregateSubsetData";
 
 const loadingSelector = createLoadingSelector([
   "GET_SINGLE_SET",
@@ -30,12 +33,28 @@ const SetPage = () => {
   );
   const set = useSelector((state: RootState) => state.library.sets.set);
 
+  const [aggregatedSubsetData, setAggregatedSubsetData] = useState<
+    AggregatedSubsetData | undefined
+  >(undefined);
+
   useEffect(() => {
     if (setId) {
       dispatch(fetchCardsBySubset(+setId));
       dispatch(fetchSet(+setId));
     }
   }, []);
+
+  useEffect(() => {
+    if (!isLoading && set.id !== 0 && cardsBySubset.setId !== 0) {
+      setAggregatedSubsetData(
+        aggregateSubsetData(
+          set.subsets,
+          cardsBySubset.subsets,
+          set.baseSubsetId ? set.baseSubsetId : 0
+        )
+      );
+    }
+  }, [cardsBySubset, set, isLoading]);
 
   if (isLoading || !setId || +setId !== set.id)
     return (
@@ -71,80 +90,86 @@ const SetPage = () => {
             }, 0)}
           />
 
-          <Shared.DataTableHeader>{`Base Set`}</Shared.DataTableHeader>
-          <Shared.DataTableContainer>
-            <DataTable
-              noHeader
-              dense
-              progressPending={isLoading}
-              columns={columns(
-                cardsBySubset.subsets.length === 0,
-                search.slice(search.length - 4) === "coll"
+          {aggregatedSubsetData && (
+            <>
+              <Shared.DataTableHeader>{`Base Set`}</Shared.DataTableHeader>
+              <Shared.DataTableContainer>
+                <DataTable
+                  noHeader
+                  dense
+                  progressPending={isLoading}
+                  columns={columns(
+                    cardsBySubset.subsets.length === 0,
+                    search.slice(search.length - 4) === "coll"
+                  )}
+                  data={
+                    aggregatedSubsetData.base ? [aggregatedSubsetData.base] : []
+                  }
+                  highlightOnHover
+                />
+              </Shared.DataTableContainer>
+              {aggregatedSubsetData.shortPrints.length > 0 && (
+                <>
+                  <Shared.DataTableHeader>{`Short Prints`}</Shared.DataTableHeader>
+                  <Shared.DataTableContainer>
+                    <DataTable
+                      noHeader
+                      dense
+                      progressPending={isLoading}
+                      columns={columns(
+                        cardsBySubset.subsets.length === 0,
+                        search.slice(search.length - 4) === "coll"
+                      )}
+                      data={aggregatedSubsetData.shortPrints}
+                      highlightOnHover
+                    />
+                  </Shared.DataTableContainer>
+                </>
               )}
-              data={set.subsets
-                .filter((subset) => {
-                  return subset.id === set.baseSubsetId;
-                })
-                .map((subset) => {
-                  const collectionSubsetData = cardsBySubset.subsets.find(
-                    (collectionSubset) =>
-                      subset.id === collectionSubset.subsetId
-                  );
-                  return {
-                    name: subset.name,
-                    id: subset.id,
-                    totalCards: collectionSubsetData
-                      ? collectionSubsetData.totalCards
-                      : 0,
-                    distinctCards: collectionSubsetData
-                      ? collectionSubsetData.distinctCards
-                      : 0,
-                  };
-                })}
-              highlightOnHover
-            />
-          </Shared.DataTableContainer>
-          <Shared.DataTableHeader>{`Inserts and Other Sets`}</Shared.DataTableHeader>
-          <Shared.DataTableContainer>
-            <DataTable
-              noHeader
-              dense
-              progressPending={isLoading}
-              columns={columns(
-                cardsBySubset.subsets.length === 0,
-                search.slice(search.length - 4) === "coll"
+              {aggregatedSubsetData.inserts.length > 0 && (
+                <>
+                  <Shared.DataTableHeader>{`Inserts`}</Shared.DataTableHeader>
+                  <Shared.DataTableContainer>
+                    <DataTable
+                      noHeader
+                      dense
+                      progressPending={isLoading}
+                      columns={columns(
+                        cardsBySubset.subsets.length === 0,
+                        search.slice(search.length - 4) === "coll"
+                      )}
+                      data={aggregatedSubsetData.inserts}
+                      highlightOnHover
+                      pagination
+                      paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
+                      paginationPerPage={10}
+                    />
+                  </Shared.DataTableContainer>
+                </>
               )}
-              data={set.subsets
-                .filter((subset) => {
-                  return subset.id !== set.baseSubsetId;
-                })
-                .sort((a, b) => {
-                  if (a.name < b.name) return -1;
-                  if (a.name > b.name) return 1;
-                  return 0;
-                })
-                .map((subset) => {
-                  const collectionSubsetData = cardsBySubset.subsets.find(
-                    (collectionSubset) =>
-                      subset.id === collectionSubset.subsetId
-                  );
-                  return {
-                    name: subset.name,
-                    id: subset.id,
-                    totalCards: collectionSubsetData
-                      ? collectionSubsetData.totalCards
-                      : 0,
-                    distinctCards: collectionSubsetData
-                      ? collectionSubsetData.distinctCards
-                      : 0,
-                  };
-                })}
-              highlightOnHover
-              pagination
-              paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
-              paginationPerPage={20}
-            />
-          </Shared.DataTableContainer>
+              {aggregatedSubsetData.autoRelic.length > 0 && (
+                <>
+                  <Shared.DataTableHeader>{`Autographs & Relics`}</Shared.DataTableHeader>
+                  <Shared.DataTableContainer>
+                    <DataTable
+                      noHeader
+                      dense
+                      progressPending={isLoading}
+                      columns={columns(
+                        cardsBySubset.subsets.length === 0,
+                        search.slice(search.length - 4) === "coll"
+                      )}
+                      data={aggregatedSubsetData.autoRelic}
+                      highlightOnHover
+                      pagination
+                      paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
+                      paginationPerPage={10}
+                    />
+                  </Shared.DataTableContainer>
+                </>
+              )}
+            </>
+          )}
         </PageContainer>
       </CollectionContainer>
     </CollectionWrapper>
