@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { ReactComponent as Checkmark } from "./checkmark.svg";
+import { ReactComponent as Checkmark } from "../subset/checkmark.svg";
 import { SubsetInstance } from "../../../store/library/subsets/types";
 import EditLink from "../components/EditLink";
 
@@ -9,13 +9,12 @@ export const SvgWrapper = styled.div`
   height: 20px;
 `;
 
-export const dataTableColumns = [
+const dataTableColumns = [
   {
     name: "Name",
-    selector: (row: any) =>
+    selector: (row: SubsetInstance) =>
       row.prefix !== "" ? `${row.name} (${row.prefix})` : `${row.name}`,
     sortable: true,
-    grow: 1,
   },
 
   {
@@ -30,6 +29,8 @@ export const dataTableColumns = [
         "-"
       ),
     sortable: true,
+    maxWidth: "110px",
+    minWidth: "110px",
   },
   {
     name: "Relic",
@@ -43,6 +44,8 @@ export const dataTableColumns = [
         "-"
       ),
     sortable: true,
+    maxWidth: "110px",
+    minWidth: "110px",
   },
   {
     name: "Short Print",
@@ -56,6 +59,8 @@ export const dataTableColumns = [
         "-"
       ),
     sortable: true,
+    maxWidth: "110px",
+    minWidth: "110px",
   },
   {
     name: "Man. Relic",
@@ -69,11 +74,15 @@ export const dataTableColumns = [
         "-"
       ),
     sortable: true,
+    maxWidth: "110px",
+    minWidth: "110px",
   },
   {
     name: "",
     sortable: false,
-    cell: (row: any) => <EditLink to={`/admin/subset/${row.id}`} />,
+    cell: (row: SubsetInstance) => <EditLink to={`/admin/subset/${row.id}`} />,
     grow: 0,
   },
 ];
+
+export default dataTableColumns;

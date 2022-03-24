@@ -14,7 +14,7 @@ import CreateButton from "../components/CreateButton";
 import { LoadingDots } from "../../shared/Loading";
 import { DataTableWrapper } from "../components/WrappedDataTable";
 import DataTable from "react-data-table-component";
-import dataTableColumns from "../all-sets/dataTableColumns";
+import dataTableColumns from "./dataTableColumns";
 
 const columns = [
   {
@@ -82,7 +82,7 @@ export default function SetAdminPage() {
           dense
           highlightOnHover
           title={`Base Set`}
-          columns={columns}
+          columns={dataTableColumns}
           data={baseSubset ? [baseSubset] : []}
         />
       </DataTableWrapper>
