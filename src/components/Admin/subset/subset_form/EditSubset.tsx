@@ -77,7 +77,7 @@ export default function EditSubset(props: Props) {
 
   // re-direct to set that the subset belonged to after deletion
   if (subsetDeleted && deletingSubsetStatus === "SUCCESS") {
-    return <Navigate to={`/admin/edit/set/${subset.setId}`} />;
+    return <Navigate to={`/admin/set/${subset.setId}`} />;
   }
   return (
     <>

@@ -79,7 +79,7 @@ export default function EditCard(props: Props) {
 
   // re-direct if the card is succesfully deleted
   if (seriesDeleted && deleteSeriesStatus === "SUCCESS") {
-    return <Navigate to={`/admin/edit/subset/${subsetId}`} />;
+    return <Navigate to={`/admin/subset/${subsetId}`} />;
   }
 
   return (
