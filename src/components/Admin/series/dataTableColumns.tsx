@@ -45,7 +45,7 @@ export const cardColumns = (
   disabledEdit: boolean
 ) => [
   {
-    name: "Card Number",
+    name: "#",
     selector: (row: Row) => row.card.card_datum.number,
     cell: (row: Row) => {
       return (
@@ -151,7 +151,7 @@ export function createCardDataTableData(
 
 export const cardDataColumns = [
   {
-    name: "Card Number",
+    name: "#",
     selector: (row: SeriesCardData) => row.number,
     sortFunction: (rowA: SeriesCardData, rowB: SeriesCardData) => {
       return sortCardNumbers(rowA.number, rowB.number);

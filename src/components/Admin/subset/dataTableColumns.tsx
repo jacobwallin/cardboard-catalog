@@ -46,7 +46,7 @@ export function cardsDataTableColumns(
 ) {
   return [
     {
-      name: "Card Number",
+      name: "#",
       selector: (row: CardData) => row.number,
       sortFunction: (rowA: CardData, rowB: CardData) => {
         return sortCardNumbers(rowA.number, rowB.number);
