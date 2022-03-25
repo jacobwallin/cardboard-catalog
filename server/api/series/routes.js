@@ -54,7 +54,10 @@ router.get("/:seriesId", async (req, res, next) => {
             },
           ],
         },
-        { model: Subset, include: Set },
+        {
+          model: Subset,
+          include: Set,
+        },
         {
           model: User,
           as: "createdByUser",
@@ -67,7 +70,23 @@ router.get("/:seriesId", async (req, res, next) => {
         },
       ],
     });
-    res.json(series);
+
+    const subsetCardData = await CardData.findAll({
+      where: {
+        subsetId: series.subsetId,
+      },
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "createdBy", "updatedBy"],
+      },
+      include: [
+        {
+          model: Player,
+          attributes: { exclude: ["createdAt", "updatedAt"] },
+        },
+        { model: Team },
+      ],
+    });
+    res.json({ series, subsetCardData });
   } catch (error) {
     next(error);
   }

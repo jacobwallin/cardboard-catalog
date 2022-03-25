@@ -4,10 +4,10 @@ export const getSeriesRequest = (): types.SeriesActionTypes => ({
   type: types.GET_SERIES_REQUEST,
 });
 export const getSeriesSuccess = (
-  series: types.Series
+  seriesData: types.SeriesState
 ): types.SeriesActionTypes => ({
   type: types.GET_SERIES_SUCCESS,
-  series,
+  seriesData,
 });
 export const getSeriesFailure = (): types.SeriesActionTypes => ({
   type: types.GET_SERIES_FAILURE,

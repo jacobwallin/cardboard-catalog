@@ -4,8 +4,10 @@ import { SetInstance } from "../sets/types";
 // STATE
 export interface SeriesState {
   series: Series;
+  subsetCardData: SeriesCardData[];
 }
 
+// this is used on the filter page to reduce json size returned from server
 export interface CondensedSeriesInstance {
   id: number;
   name: string;
@@ -46,27 +48,29 @@ export interface Card {
   createdBy: number;
   updatedBy: number;
   cardDataId: number;
-  card_datum: {
-    id: number;
-    name: string;
-    number: string;
-    note: string;
-    rookie: boolean;
-    subsetId: number;
-    teamId: number | null;
-    players: Player[];
-    team: {
-      id: number;
-      name: string;
-      leagueId: number;
-    } | null;
-  };
+  card_datum: SeriesCardData;
   createdByUser: {
     username: string;
   };
   updatedByUser: {
     username: string;
   };
+}
+
+export interface SeriesCardData {
+  id: number;
+  name: string;
+  number: string;
+  note: string;
+  rookie: boolean;
+  subsetId: number;
+  teamId: number | null;
+  players: Player[];
+  team: {
+    id: number;
+    name: string;
+    leagueId: number;
+  } | null;
 }
 
 interface Player {
@@ -118,7 +122,7 @@ interface GetSeriesRequest {
 }
 interface GetSeriesSuccess {
   type: typeof GET_SERIES_SUCCESS;
-  series: Series;
+  seriesData: SeriesState;
 }
 interface GetSeriesFailure {
   type: typeof GET_SERIES_FAILURE;

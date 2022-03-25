@@ -287,6 +287,7 @@ export default function SelectCardForm(props: Props) {
           gradingCompanyId: userCard.gradingCompanyId || -1,
           card: {
             ...userCard.card,
+            value: 0,
             card_datum: userCard.card.cardData,
             createdBy: 0,
             updatedBy: 0,
@@ -327,6 +328,7 @@ export default function SelectCardForm(props: Props) {
           gradingCompanyId: -1,
           card: {
             ...card,
+            value: 0,
             card_datum: card.cardData,
             createdBy: 0,
             updatedBy: 0,

@@ -66,7 +66,7 @@ export default function BrowseSubset(props: Props) {
   function toggleCheckboxes() {
     setChecklistToggleSelect(!checklistToggleSelect);
     setClearSelected(!clearSelected);
-    if (clearSelected) {
+    if (!clearSelected) {
       setSelectedCards([]);
     }
   }

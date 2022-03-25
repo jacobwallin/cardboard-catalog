@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const { Card, CardData, Player, Team } = require("../../db/models");
+const { Card, CardData, Player, Team, User } = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -47,7 +47,7 @@ router.post("/", async (req, res, next) => {
       cardDataIds.map((cardDataId) => {
         return Card.create({
           seriesId,
-          cardDataId: newCardData.id,
+          cardDataId: cardDataId,
           createdBy: req.user.id,
           updatedBy: req.user.id,
         });

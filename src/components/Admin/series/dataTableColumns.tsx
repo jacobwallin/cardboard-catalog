@@ -1,7 +1,11 @@
 import React from "react";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
 import CardNumber from "../../Collection/subset_page/CardNumber";
-import { Card, Series } from "../../../store/library/series/types";
+import {
+  Card,
+  Series,
+  SeriesCardData,
+} from "../../../store/library/series/types";
 import { StyledLink } from "../components/EditLink";
 import StyledButton from "../components/StyledButton";
 import EditDeleteContainer from "../components/EditDeleteContainer";
@@ -36,7 +40,10 @@ export function createTableData(series: Series): Row[] {
     });
 }
 
-const columns = (editToggle: (card: Card) => void, disabledEdit: boolean) => [
+export const cardColumns = (
+  editToggle: (card: Card) => void,
+  disabledEdit: boolean
+) => [
   {
     name: "Card Number",
     selector: (row: Row) => row.card.card_datum.number,
@@ -128,4 +135,67 @@ const columns = (editToggle: (card: Card) => void, disabledEdit: boolean) => [
   },
 ];
 
-export default columns;
+export function createCardDataTableData(
+  series: Series,
+  cardData: SeriesCardData[]
+): SeriesCardData[] {
+  // only show the card data instances that are not part of the series' set of cards
+  return cardData.filter((c) => {
+    return series.cards.findIndex((card) => card.cardDataId === c.id) === -1;
+  });
+}
+
+export const cardDataColumns = [
+  {
+    name: "Card Number",
+    selector: (row: SeriesCardData) => row.number,
+    sortFunction: (rowA: SeriesCardData, rowB: SeriesCardData) => {
+      return sortCardNumbers(rowA.number, rowB.number);
+    },
+    sortable: true,
+  },
+  {
+    name: "Name",
+    selector: (row: SeriesCardData) => row.name,
+    sortable: true,
+  },
+  {
+    name: "Note",
+    selector: (row: SeriesCardData) => row.note,
+    sortable: true,
+  },
+  {
+    name: "Player(s)",
+    sortable: false,
+    cell: (row: SeriesCardData) =>
+      row.players.length > 0
+        ? row.players.map((player) => player.name + " ")
+        : "",
+  },
+  // {
+  //   name: "Team",
+  //   sortable: true,
+  //   selector: (row: SeriesCardData) => row.team,
+  //   sortFunction: (rowA: SeriesCardData, rowB: SeriesCardData) => {
+  //     let a: string | null = rowA.team ? rowA.team.name : null;
+  //     let b: string | null = rowB.team ? rowB.team.name : null;
+
+  //     if (a === null) return -1;
+  //     if (b === null) return 1;
+
+  //     if (a < b) {
+  //       return 1;
+  //     } else if (a > b) {
+  //       return -1;
+  //     }
+  //     return 0;
+  //   },
+  //   cell: (row: SeriesCardData) => (row.team ? row.team.name : "-"),
+  // },
+  {
+    name: "Rookie",
+    selector: (row: SeriesCardData) => row.rookie,
+    sortable: true,
+    cell: (row: SeriesCardData) => (row.rookie ? "RC" : ""),
+  },
+];

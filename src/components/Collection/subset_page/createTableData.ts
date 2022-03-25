@@ -9,7 +9,6 @@ import sortCardNumbers from "../../../utils/sortCardNumbers";
 export interface TableDataPoint {
   id: number;
   cardDataId: number;
-  value: number | null;
   serializedTo: number | null;
   auto: boolean;
   relic: boolean;
@@ -35,7 +34,6 @@ export interface DeleteTableDataPoint {
   shortPrint: boolean;
   card: {
     id: number;
-    value: number | null;
     cardDataId: number;
     serializedTo: number | null;
     seriesId: number;
@@ -127,6 +125,7 @@ export function createTableData(
           ser.distinctCards += cardTotal > 0 ? 1 : 0;
           return {
             ...card,
+            seriesId: series.id,
             auto: librarySubsetData.auto,
             relic: librarySubsetData.relic,
             manufacturedRelic: librarySubsetData.manufacturedRelic,

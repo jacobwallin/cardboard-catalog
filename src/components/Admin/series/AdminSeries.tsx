@@ -15,11 +15,16 @@ import EditSeries from "./series_form/EditSeries";
 import AdminPageContainer from "../components/AdminPageContainer";
 import DataTable from "react-data-table-component";
 import { LoadingDots } from "../../shared/Loading";
-import columns, { Row, createTableData } from "./dataTableColumns";
-import { Card } from "../../../store/library/series/types";
+import {
+  Row,
+  cardColumns,
+  createTableData,
+  cardDataColumns,
+  createCardDataTableData,
+} from "./dataTableColumns";
+import { Card, SeriesCardData } from "../../../store/library/series/types";
 import { DataTableWrapper } from "../components/WrappedDataTable";
 import { NoDataMessage } from "../../shared/NoDataMessage";
-import sortCardNumbers from "../../../utils/sortCardNumbers";
 import { Header, SubHeader } from "../components/PageHeader";
 import EditCardModal from "./edit_card_modal/EditCardModal";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
@@ -31,6 +36,7 @@ const updateCardStatusSelector = createStatusSelector("UPDATE_CARD");
 const deleteCardsStatusSelector = createStatusSelector("DELETE_CARDS");
 const modalLoadingSelector = createLoadingSelector([
   "DELETE_CARDS",
+  "ADD_CARDS",
   "UPDATE_CARD",
 ]);
 
@@ -39,11 +45,16 @@ export default function AdminSeries() {
   let { seriesId } = useParams<"seriesId">();
 
   const [tableData, setTableData] = useState<Row[]>([]);
+  const [cardDataTableData, setCardDataTableData] = useState<SeriesCardData[]>(
+    []
+  );
   const [editCard, setEditCard] = useState<Card | undefined>(undefined);
   const [selectedCardIds, setSelectedCardIds] = useState<number[]>([]);
+  const [selectedCardDataIds, setSelectedCardDataIds] = useState<number[]>([]);
   const [selectableRows, setSelectableRows] = useState(false);
   const [clearSelectedRows, setClearSelectedRows] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [addCardData, setAddCardData] = useState(false);
 
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
   const deleteCardsStatus = useSelector((state: RootState) =>
@@ -54,6 +65,9 @@ export default function AdminSeries() {
   );
 
   const series = useSelector((state: RootState) => state.library.series.series);
+  const subsetCardData = useSelector(
+    (state: RootState) => state.library.series.subsetCardData
+  );
 
   useEffect(() => {
     if (seriesId) dispatch(fetchSeriesById(+seriesId));
@@ -62,6 +76,7 @@ export default function AdminSeries() {
   useEffect(() => {
     if (series.cards.length > 0) {
       setTableData(createTableData(series));
+      setCardDataTableData(createCardDataTableData(series, subsetCardData));
     }
   }, [series]);
 
@@ -73,6 +88,9 @@ export default function AdminSeries() {
       if (selectableRows) {
         toggleSelectableRows();
       }
+      if (addCardData) {
+        toggleShowChecklist();
+      }
     }
   }, [loadingChanges]);
 
@@ -83,22 +101,28 @@ export default function AdminSeries() {
     setEditCard(undefined);
   }
 
-  interface Stuff {
+  interface Stuff<Row> {
     allSelected: boolean;
     selectedCount: number;
     selectedRows: Array<Row>;
   }
 
-  function selectedRowsChange(stuff: Stuff) {
+  function selectedCardRowsChange(stuff: Stuff<Row>) {
     setSelectedCardIds(stuff.selectedRows.map((row) => row.card.id));
   }
-
-  function submitDeleteCards() {
-    dispatch(deleteCards(selectedCardIds));
+  function selectedCardDataRowsChange(stuff: Stuff<SeriesCardData>) {
+    setSelectedCardDataIds(stuff.selectedRows.map((row) => row.id));
   }
 
   function toggleDeleteModal() {
     setShowDeleteModal(!showDeleteModal);
+  }
+
+  function toggleShowChecklist() {
+    setAddCardData(!addCardData);
+    if (addCardData) {
+      setSelectedCardDataIds([]);
+    }
   }
 
   function toggleSelectableRows() {
@@ -107,6 +131,14 @@ export default function AdminSeries() {
     if (clearSelectedRows) {
       setSelectedCardIds([]);
     }
+  }
+
+  // dispatch thunks to delete or add cards to the series
+  function submitDeleteCards() {
+    dispatch(deleteCards(selectedCardIds));
+  }
+  function submitAddCards() {
+    dispatch(addCards(selectedCardDataIds, series.id));
   }
 
   if (isLoading || String(series.id) !== seriesId) {
@@ -142,7 +174,9 @@ export default function AdminSeries() {
       <EditSeries seriesId={+seriesId} />
       <DataTableWrapper>
         <TableHeader.DataTableHeader>
-          <TableHeader.DataTableTitle>Cards</TableHeader.DataTableTitle>
+          <TableHeader.DataTableTitle>
+            {addCardData ? "Add Cards From Checklist" : "Cards"}
+          </TableHeader.DataTableTitle>
           <TableHeader.DataTableButtonsContainer>
             {selectedCardIds.length > 0 && (
               <StyledButton
@@ -157,6 +191,19 @@ export default function AdminSeries() {
                   : `Delete ${selectedCardIds.length} Card`}
               </StyledButton>
             )}
+            {selectedCardDataIds.length > 0 && (
+              <StyledButton
+                color="GREEN"
+                height="27px"
+                width="125px"
+                fontSize=".9rem"
+                onClick={submitAddCards}
+              >
+                {selectedCardDataIds.length > 1
+                  ? `Add ${selectedCardDataIds.length} Cards`
+                  : `Add ${selectedCardDataIds.length} Card`}
+              </StyledButton>
+            )}
             {selectableRows ? (
               <StyledButton
                 color="GRAY"
@@ -167,34 +214,78 @@ export default function AdminSeries() {
               >
                 Cancel
               </StyledButton>
-            ) : (
+            ) : addCardData ? (
               <StyledButton
-                color="RED"
+                color="GRAY"
                 height="27px"
                 width="125px"
                 fontSize=".9rem"
-                onClick={toggleSelectableRows}
+                onClick={toggleShowChecklist}
               >
-                Delete Cards
+                Cancel
               </StyledButton>
+            ) : (
+              <>
+                <StyledButton
+                  color="RED"
+                  height="27px"
+                  width="125px"
+                  fontSize=".9rem"
+                  onClick={toggleSelectableRows}
+                >
+                  Delete Cards
+                </StyledButton>
+                <StyledButton
+                  color="GREEN"
+                  height="27px"
+                  width="125px"
+                  fontSize=".9rem"
+                  onClick={toggleShowChecklist}
+                >
+                  Add Cards
+                </StyledButton>
+              </>
             )}
           </TableHeader.DataTableButtonsContainer>
         </TableHeader.DataTableHeader>
-        <DataTable
-          noHeader
-          dense
-          highlightOnHover
-          pagination
-          paginationPerPage={20}
-          selectableRows={selectableRows}
-          onSelectedRowsChange={selectedRowsChange}
-          clearSelectedRows={clearSelectedRows}
-          noDataComponent={
-            <NoDataMessage>No cards have been added to this set.</NoDataMessage>
-          }
-          columns={columns(showEditCardModal, selectableRows)}
-          data={tableData}
-        />
+        {!addCardData && (
+          <DataTable
+            noHeader
+            dense
+            highlightOnHover
+            pagination
+            paginationPerPage={20}
+            selectableRows={selectableRows}
+            onSelectedRowsChange={selectedCardRowsChange}
+            clearSelectedRows={clearSelectedRows}
+            noDataComponent={
+              <NoDataMessage>
+                No cards have been added to this set.
+              </NoDataMessage>
+            }
+            columns={cardColumns(showEditCardModal, selectableRows)}
+            data={tableData}
+          />
+        )}
+        {addCardData && (
+          <DataTable
+            noHeader
+            dense
+            highlightOnHover
+            pagination
+            paginationPerPage={20}
+            selectableRows
+            onSelectedRowsChange={selectedCardDataRowsChange}
+            // clearSelectedRows={clearSelectedRows}
+            noDataComponent={
+              <NoDataMessage>
+                This set already contains the full card checklist.
+              </NoDataMessage>
+            }
+            columns={cardDataColumns}
+            data={cardDataTableData}
+          />
+        )}
       </DataTableWrapper>
     </AdminPageContainer>
   );

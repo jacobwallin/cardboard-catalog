@@ -39,10 +39,8 @@ export interface SubsetSeries extends SeriesInstance {
   cards: Card[];
 }
 
-interface Card {
+export interface Card {
   id: number;
-  value: number;
-  seriesId: number;
   cardDataId: number;
   serializedTo: number | null;
 }

@@ -53,6 +53,7 @@ const initialState: types.SeriesState = {
       username: "",
     },
   },
+  subsetCardData: [],
 };
 
 export default function seriesReducer(
@@ -61,7 +62,7 @@ export default function seriesReducer(
 ): types.SeriesState {
   switch (action.type) {
     case types.GET_SERIES_SUCCESS:
-      return { ...state, series: action.series };
+      return { ...action.seriesData };
     case types.UPDATE_SERIES_SUCCESS:
       return {
         ...state,
@@ -103,7 +104,6 @@ export default function seriesReducer(
         },
       };
     case types.DELETE_CARDS_SUCCESS:
-      console.log("DELETING CARDS: ", action);
       return {
         ...state,
         series: {
