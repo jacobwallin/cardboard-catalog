@@ -69,10 +69,12 @@ export default function AdminSeries() {
     (state: RootState) => state.library.series.subsetCardData
   );
 
+  // initial data fetch
   useEffect(() => {
     if (seriesId) dispatch(fetchSeriesById(+seriesId));
   }, []);
 
+  // create table data
   useEffect(() => {
     if (series.cards.length > 0) {
       setTableData(createTableData(series));
@@ -80,7 +82,7 @@ export default function AdminSeries() {
     }
   }, [series]);
 
-  // hide either modal once a card or series has been created
+  // reset UI state when a request is completed
   useEffect(() => {
     if (!loadingChanges) {
       setEditCard(undefined);
@@ -101,16 +103,17 @@ export default function AdminSeries() {
     setEditCard(undefined);
   }
 
-  interface Stuff<Row> {
+  interface Selected<Row> {
     allSelected: boolean;
     selectedCount: number;
     selectedRows: Array<Row>;
   }
 
-  function selectedCardRowsChange(stuff: Stuff<Row>) {
+  // keep track of selected cards and card data
+  function selectedCardRowsChange(stuff: Selected<Row>) {
     setSelectedCardIds(stuff.selectedRows.map((row) => row.card.id));
   }
-  function selectedCardDataRowsChange(stuff: Stuff<SeriesCardData>) {
+  function selectedCardDataRowsChange(stuff: Selected<SeriesCardData>) {
     setSelectedCardDataIds(stuff.selectedRows.map((row) => row.id));
   }
 
@@ -118,6 +121,7 @@ export default function AdminSeries() {
     setShowDeleteModal(!showDeleteModal);
   }
 
+  // toggle showing card data checklist to add cards to series
   function toggleShowChecklist() {
     setAddCardData(!addCardData);
     if (addCardData) {
@@ -125,6 +129,7 @@ export default function AdminSeries() {
     }
   }
 
+  // toggle making cards selectable to delete from series
   function toggleSelectableRows() {
     setSelectableRows(!selectableRows);
     setClearSelectedRows(!clearSelectedRows);
