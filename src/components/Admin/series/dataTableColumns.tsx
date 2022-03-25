@@ -140,9 +140,13 @@ export function createCardDataTableData(
   cardData: SeriesCardData[]
 ): SeriesCardData[] {
   // only show the card data instances that are not part of the series' set of cards
-  return cardData.filter((c) => {
-    return series.cards.findIndex((card) => card.cardDataId === c.id) === -1;
-  });
+  return cardData
+    .filter((c) => {
+      return series.cards.findIndex((card) => card.cardDataId === c.id) === -1;
+    })
+    .sort((cardA, cardB) => {
+      return sortCardNumbers(cardA.number, cardB.number);
+    });
 }
 
 export const cardDataColumns = [
