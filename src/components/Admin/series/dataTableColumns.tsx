@@ -172,26 +172,25 @@ export const cardDataColumns = [
         ? row.players.map((player) => player.name + " ")
         : "",
   },
-  // {
-  //   name: "Team",
-  //   sortable: true,
-  //   selector: (row: SeriesCardData) => row.team,
-  //   sortFunction: (rowA: SeriesCardData, rowB: SeriesCardData) => {
-  //     let a: string | null = rowA.team ? rowA.team.name : null;
-  //     let b: string | null = rowB.team ? rowB.team.name : null;
+  {
+    name: "Team",
+    sortable: true,
+    sortFunction: (rowA: SeriesCardData, rowB: SeriesCardData) => {
+      let a: string | null = rowA.team ? rowA.team.name : null;
+      let b: string | null = rowB.team ? rowB.team.name : null;
 
-  //     if (a === null) return -1;
-  //     if (b === null) return 1;
+      if (a === null) return -1;
+      if (b === null) return 1;
 
-  //     if (a < b) {
-  //       return 1;
-  //     } else if (a > b) {
-  //       return -1;
-  //     }
-  //     return 0;
-  //   },
-  //   cell: (row: SeriesCardData) => (row.team ? row.team.name : "-"),
-  // },
+      if (a < b) {
+        return 1;
+      } else if (a > b) {
+        return -1;
+      }
+      return 0;
+    },
+    cell: (row: SeriesCardData) => (row.team ? row.team.name : "-"),
+  },
   {
     name: "Rookie",
     selector: (row: SeriesCardData) => row.rookie,

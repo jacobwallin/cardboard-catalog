@@ -76,10 +76,8 @@ export default function AdminSeries() {
 
   // create table data
   useEffect(() => {
-    if (series.cards.length > 0) {
-      setTableData(createTableData(series));
-      setCardDataTableData(createCardDataTableData(series, subsetCardData));
-    }
+    setTableData(createTableData(series));
+    setCardDataTableData(createCardDataTableData(series, subsetCardData));
   }, [series]);
 
   // reset UI state when a request is completed
@@ -203,6 +201,7 @@ export default function AdminSeries() {
                 width="125px"
                 fontSize=".9rem"
                 onClick={submitAddCards}
+                disabled={loadingChanges}
               >
                 {selectedCardDataIds.length > 1
                   ? `Add ${selectedCardDataIds.length} Cards`
@@ -226,6 +225,7 @@ export default function AdminSeries() {
                 width="125px"
                 fontSize=".9rem"
                 onClick={toggleShowChecklist}
+                disabled={loadingChanges}
               >
                 Cancel
               </StyledButton>
