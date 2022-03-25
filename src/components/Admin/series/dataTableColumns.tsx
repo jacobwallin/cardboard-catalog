@@ -3,6 +3,8 @@ import sortCardNumbers from "../../../utils/sortCardNumbers";
 import CardNumber from "../../Collection/subset_page/CardNumber";
 import { Card } from "../../../store/library/series/types";
 import { StyledLink } from "../components/EditLink";
+import StyledButton from "../components/StyledButton";
+import EditDeleteContainer from "../components/EditDeleteContainer";
 
 interface Row {
   card: Card;
@@ -15,7 +17,10 @@ interface Row {
   shortPrint: boolean;
 }
 
-const columns = (editToggle: (card: Card) => void) => [
+const columns = (
+  editToggle: (card: Card) => void,
+  deleteCard: (cardId: number) => void
+) => [
   {
     name: "Card Number",
     selector: (row: Row) => row.card.card_datum.number,
@@ -93,11 +98,19 @@ const columns = (editToggle: (card: Card) => void) => [
     name: "",
     sortable: false,
     cell: (row: Row) => (
-      <>
+      <EditDeleteContainer>
         <StyledLink as="div" onClick={() => editToggle(row.card)}>
           Edit
         </StyledLink>
-      </>
+        <StyledButton
+          color="RED"
+          width="25px"
+          height="25px"
+          onClick={() => deleteCard(row.card.id)}
+        >
+          X
+        </StyledButton>
+      </EditDeleteContainer>
     ),
     grow: 0,
   },

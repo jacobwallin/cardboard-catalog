@@ -103,6 +103,7 @@ export default function seriesReducer(
         },
       };
     case types.DELETE_CARDS_SUCCESS:
+      console.log("DELETING CARDS: ", action);
       return {
         ...state,
         series: {

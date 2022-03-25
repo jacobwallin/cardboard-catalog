@@ -22,9 +22,3 @@ export const ModalTitle = styled.div`
   font-weight: 400;
   margin-top: 20px;
 `;
-
-export const EditDeleteWrapper = styled.div`
-  white-space: nowrap;
-  display: flex;
-  gap: 5px;
-`;

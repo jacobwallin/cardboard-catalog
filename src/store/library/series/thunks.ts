@@ -73,26 +73,29 @@ export const updateCard =
 
 export const deleteCards =
   (
-    cardIdsDeleted: number[]
+    cardIds: number[]
   ): ThunkAction<void, RootState, unknown, SeriesActionTypes> =>
   (dispatch) => {
     dispatch(actions.deleteCardsRequest());
 
-    post(`/api/cards/`, cardIdsDeleted, dispatch)
+    post(`/api/cards/delete`, { cardIds }, dispatch)
       .then((deleteResponse) => {
-        dispatch(actions.deleteCardsSuccess(cardIdsDeleted));
+        dispatch(actions.deleteCardsSuccess(cardIds));
       })
-      .catch((error) => dispatch(actions.deleteCardsFailure()));
+      .catch((error) => {
+        dispatch(actions.deleteCardsFailure());
+      });
   };
 
 export const addCards =
   (
-    cardDataIds: number[]
+    cardDataIds: number[],
+    seriesId: number
   ): ThunkAction<void, RootState, unknown, SeriesActionTypes> =>
   (dispatch) => {
     dispatch(actions.addCardsRequest());
 
-    post(`/api/cards/`, cardDataIds, dispatch)
+    post(`/api/cards/`, { cardDataIds, seriesId }, dispatch)
       .then((newCards: Card[]) => {
         dispatch(actions.addCardsSuccess(newCards));
       })

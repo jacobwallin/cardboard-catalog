@@ -5,6 +5,7 @@ import { CardData, SubsetSeries } from "../../../store/library/subsets/types";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
 import { ReactComponent as Checkmark } from "./checkmark.svg";
 import * as Styled from "./styled";
+import EditDeleteContainer from "../components/EditDeleteContainer";
 
 export const seriesDataTableColumns = [
   {
@@ -100,7 +101,7 @@ export function cardsDataTableColumns(
       name: "",
       sortable: false,
       cell: (row: CardData) => (
-        <Styled.EditDeleteWrapper>
+        <EditDeleteContainer>
           <StyledLink as="div" onClick={() => editToggle(row)}>
             Edit
           </StyledLink>
@@ -112,7 +113,7 @@ export function cardsDataTableColumns(
           >
             X
           </StyledButton>
-        </Styled.EditDeleteWrapper>
+        </EditDeleteContainer>
       ),
       grow: 0,
     },

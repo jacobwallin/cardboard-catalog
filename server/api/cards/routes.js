@@ -39,8 +39,77 @@ router.put("/:cardId", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {});
+router.post("/", async (req, res, next) => {
+  const { cardDataIds, seriesId } = req.body;
 
-router.post("/delete", async (req, res, next) => {});
+  try {
+    const newCards = await Promise.all(
+      cardDataIds.map((cardDataId) => {
+        return Card.create({
+          seriesId,
+          cardDataId: newCardData.id,
+          createdBy: req.user.id,
+          updatedBy: req.user.id,
+        });
+      })
+    );
+
+    // re-query for each new card created to add joins
+    const newCardsWithJoins = await Promise.all(
+      newCards.map((card) => {
+        return Card.findByPk(card.id, {
+          include: [
+            {
+              model: CardData,
+              attributes: {
+                exclude: ["createdAt", "updatedAt", "createdBy", "updatedBy"],
+              },
+              include: [
+                {
+                  model: Player,
+                  attributes: { exclude: ["createdAt", "updatedAt"] },
+                },
+                { model: Team },
+              ],
+            },
+            {
+              model: User,
+              as: "createdByUser",
+              attributes: ["username"],
+            },
+            {
+              model: User,
+              as: "updatedByUser",
+              attributes: ["username"],
+            },
+          ],
+        });
+      })
+    );
+
+    res.json(newCardsWithJoins);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/delete", async (req, res, next) => {
+  const { cardIds } = req.body;
+  try {
+    const deleteStatus = await Promise.all(
+      cardIds.map((cardId) => {
+        return Card.destroy({
+          where: {
+            id: cardId,
+          },
+        });
+      })
+    );
+
+    res.json({ cardsDeleted: deleteStatus.filter((s) => s === 1).length });
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;

@@ -36,7 +36,11 @@ export function post(url: string, payload: any, dispatch: any): Promise<any> {
     return response.json();
   });
 }
-export function postString(url: string, payload: string, dispatch: any): Promise<any> {
+export function postString(
+  url: string,
+  payload: string,
+  dispatch: any
+): Promise<any> {
   return fetch(url, {
     method: "POST",
     mode: "cors",
