@@ -1,7 +1,7 @@
 import React from "react";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
 import CardNumber from "../../Collection/subset_page/CardNumber";
-import { Card } from "../../../store/library/series/types";
+import { Card, Series } from "../../../store/library/series/types";
 import { StyledLink } from "../components/EditLink";
 import StyledButton from "../components/StyledButton";
 import EditDeleteContainer from "../components/EditDeleteContainer";
@@ -17,7 +17,26 @@ export interface Row {
   shortPrint: boolean;
 }
 
-const columns = (editToggle: (card: Card) => void) => [
+export function createTableData(series: Series): Row[] {
+  return series.cards
+    .sort((cardA, cardB) => {
+      return sortCardNumbers(cardA.card_datum.number, cardB.card_datum.number);
+    })
+    .map((card) => {
+      return {
+        card,
+        serialized: series.serialized,
+        auto: series.subset.auto,
+        relic: series.subset.relic,
+        manufacturedRelic: series.subset.manufacturedRelic,
+        refractor: series.refractor,
+        parallel: series.parallel,
+        shortPrint: series.subset.shortPrint,
+      };
+    });
+}
+
+const columns = (editToggle: (card: Card) => void, disabledEdit: boolean) => [
   {
     name: "Card Number",
     selector: (row: Row) => row.card.card_datum.number,
@@ -94,13 +113,17 @@ const columns = (editToggle: (card: Card) => void) => [
   {
     name: "",
     sortable: false,
-    cell: (row: Row) => (
-      <EditDeleteContainer>
-        <StyledLink as="div" onClick={() => editToggle(row.card)}>
-          Edit
-        </StyledLink>
-      </EditDeleteContainer>
-    ),
+    cell: (row: Row) => {
+      if (!disabledEdit) {
+        return (
+          <EditDeleteContainer>
+            <StyledLink as="div" onClick={() => editToggle(row.card)}>
+              Edit
+            </StyledLink>
+          </EditDeleteContainer>
+        );
+      }
+    },
     grow: 0,
   },
 ];

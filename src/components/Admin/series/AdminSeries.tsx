@@ -15,7 +15,7 @@ import EditSeries from "./series_form/EditSeries";
 import AdminPageContainer from "../components/AdminPageContainer";
 import DataTable from "react-data-table-component";
 import { LoadingDots } from "../../shared/Loading";
-import columns, { Row } from "./dataTableColumns";
+import columns, { Row, createTableData } from "./dataTableColumns";
 import { Card } from "../../../store/library/series/types";
 import { DataTableWrapper } from "../components/WrappedDataTable";
 import { NoDataMessage } from "../../shared/NoDataMessage";
@@ -37,6 +37,7 @@ export default function AdminSeries() {
   const dispatch = useDispatch();
   let { seriesId } = useParams<"seriesId">();
 
+  const [tableData, setTableData] = useState<Row[]>([]);
   const [editCard, setEditCard] = useState<Card | undefined>(undefined);
   const [selectedCardIds, setSelectedCardIds] = useState<number[]>([]);
   const [selectableRows, setSelectableRows] = useState(false);
@@ -54,6 +55,12 @@ export default function AdminSeries() {
   useEffect(() => {
     if (seriesId) dispatch(fetchSeriesById(+seriesId));
   }, []);
+
+  useEffect(() => {
+    if (series.cards.length > 0) {
+      setTableData(createTableData(series));
+    }
+  }, [series]);
 
   // hide either modal once a card or series has been created
   useEffect(() => {
@@ -107,61 +114,41 @@ export default function AdminSeries() {
       <SubHeader>{`${series.subset.set.name} - ${series.subset.name}`}</SubHeader>
       <EditSeries seriesId={+seriesId} />
       <DataTableWrapper>
+        {selectableRows ? (
+          <StyledButton
+            color="GRAY"
+            height="27px"
+            width="125px"
+            fontSize=".9rem"
+            onClick={() => setSelectableRows(false)}
+          >
+            Cancel
+          </StyledButton>
+        ) : (
+          <StyledButton
+            color="RED"
+            height="27px"
+            width="125px"
+            fontSize=".9rem"
+            onClick={() => setSelectableRows(true)}
+          >
+            Delete Cards
+          </StyledButton>
+        )}
         <DataTable
-          title="Cards"
+          noHeader
           dense
           highlightOnHover
           pagination
           paginationPerPage={20}
           selectableRows={selectableRows}
           onSelectedRowsChange={selectedRowsChange}
-          // clearSelectedRows={clearSelected}
-          actions={
-            selectableRows ? (
-              <StyledButton
-                color="GRAY"
-                height="27px"
-                width="125px"
-                fontSize=".9rem"
-                onClick={() => setSelectableRows(false)}
-              >
-                Cancel
-              </StyledButton>
-            ) : (
-              <StyledButton
-                color="RED"
-                height="27px"
-                width="125px"
-                fontSize=".9rem"
-                onClick={() => setSelectableRows(true)}
-              >
-                Delete Cards
-              </StyledButton>
-            )
-          }
+          clearSelectedRows={false}
           noDataComponent={
             <NoDataMessage>No cards have been added to this set.</NoDataMessage>
           }
-          columns={columns(showEditCardModal)}
-          data={series.cards
-            .sort((cardA, cardB) => {
-              return sortCardNumbers(
-                cardA.card_datum.number,
-                cardB.card_datum.number
-              );
-            })
-            .map((card) => {
-              return {
-                card,
-                serialized: series.serialized,
-                auto: series.subset.auto,
-                relic: series.subset.relic,
-                manufacturedRelic: series.subset.manufacturedRelic,
-                refractor: series.refractor,
-                parallel: series.parallel,
-                shortPrint: series.subset.shortPrint,
-              };
-            })}
+          columns={columns(showEditCardModal, selectableRows)}
+          data={tableData}
         />
       </DataTableWrapper>
     </AdminPageContainer>
