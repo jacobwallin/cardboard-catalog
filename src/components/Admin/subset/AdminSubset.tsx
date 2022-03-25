@@ -171,7 +171,7 @@ export default function AdminSubset() {
           handleDelete={handleDeleteCards}
           handleDismiss={toggleDeleteCardsModal}
           deleteStatus={deletingCardsStatus}
-          message={`If any of the cards are in user's collections they will be deleted as well.`}
+          message={`Deleting a card from the checklist will remove it from the base set, and all parallel sets as well. \n\n This will also remove these cards from any user collections they are a part of.`}
         />
       )}
       <Styled.Header> {`${subset.name}`} </Styled.Header>

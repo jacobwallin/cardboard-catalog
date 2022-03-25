@@ -13,7 +13,7 @@ export default function EditFormButtons(props: FormButtonProps) {
     <ButtonContainer>
       <StyledButton
         onClick={props.handleCancel}
-        color="YELLOW"
+        color="GRAY"
         width="110px"
         height="27px"
       >

@@ -20,14 +20,15 @@ const ModalWindow = styled.div`
 `;
 
 const ModalPrimaryMessage = styled.div`
-  padding: 10px;
+  padding: 10px 10px 0px 10px;
   font-size: 1.5em;
   font-weight: 700;
 `;
 
 const ModalSecondaryMessage = styled.div`
-  padding: 20px;
-  font-size: 1.1em;
+  padding: 0 20px 20px 20px;
+  font-size: 1.05em;
+  whites-space: pre-wrap;
 `;
 
 const ButtonContainer = styled.div`
@@ -63,7 +64,7 @@ export default function ConfirmDeleteModal(props: Props) {
                 Delete
               </StyledButton>
               <StyledButton
-                color="YELLOW"
+                color="GRAY"
                 width="100px"
                 height="27px"
                 onClick={props.handleDismiss}
