@@ -8,7 +8,7 @@ export const scrapeCardData =
   (url: string): ThunkAction<void, RootState, unknown, ScrapeActionTypes> =>
   (dispatch) => {
     dispatch(actions.scrapeCardDataRequest());
-    get(`/api/carddata/scrape/?url=${url}`, dispatch)
+    get(`/api/carddata/scrape/?url=${encodeURIComponent(url)}`, dispatch)
       .then((cardData: { cardData: ScrapeState }) => {
         dispatch(actions.scrapeCardDataSuccess(cardData.cardData));
       })

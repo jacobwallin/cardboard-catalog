@@ -6,7 +6,7 @@ import { StyledLink } from "../components/EditLink";
 import StyledButton from "../components/StyledButton";
 import EditDeleteContainer from "../components/EditDeleteContainer";
 
-interface Row {
+export interface Row {
   card: Card;
   serialized: number | null;
   auto: boolean;
@@ -17,10 +17,7 @@ interface Row {
   shortPrint: boolean;
 }
 
-const columns = (
-  editToggle: (card: Card) => void,
-  deleteCard: (cardId: number) => void
-) => [
+const columns = (editToggle: (card: Card) => void) => [
   {
     name: "Card Number",
     selector: (row: Row) => row.card.card_datum.number,
@@ -102,14 +99,6 @@ const columns = (
         <StyledLink as="div" onClick={() => editToggle(row.card)}>
           Edit
         </StyledLink>
-        <StyledButton
-          color="RED"
-          width="25px"
-          height="25px"
-          onClick={() => deleteCard(row.card.id)}
-        >
-          X
-        </StyledButton>
       </EditDeleteContainer>
     ),
     grow: 0,

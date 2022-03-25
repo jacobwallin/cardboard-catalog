@@ -15,7 +15,7 @@ import EditSeries from "./series_form/EditSeries";
 import AdminPageContainer from "../components/AdminPageContainer";
 import DataTable from "react-data-table-component";
 import { LoadingDots } from "../../shared/Loading";
-import columns from "./dataTableColumns";
+import columns, { Row } from "./dataTableColumns";
 import { Card } from "../../../store/library/series/types";
 import { DataTableWrapper } from "../components/WrappedDataTable";
 import { NoDataMessage } from "../../shared/NoDataMessage";
@@ -23,6 +23,7 @@ import sortCardNumbers from "../../../utils/sortCardNumbers";
 import { Header, SubHeader } from "../components/PageHeader";
 import EditCardModal from "./edit_card_modal/EditCardModal";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
+import StyledButton from "../components/StyledButton";
 
 const isLoadingSelector = createLoadingSelector(["GET_SERIES"]);
 const updateCardStatusSelector = createStatusSelector("UPDATE_CARD");
@@ -37,13 +38,10 @@ export default function AdminSeries() {
   let { seriesId } = useParams<"seriesId">();
 
   const [editCard, setEditCard] = useState<Card | undefined>(undefined);
-  const [showDeleteCardModal, setShowDeleteCardModal] = useState(false);
-  const [deletedCardId, setDeletedCardId] = useState(0);
+  const [selectedCardIds, setSelectedCardIds] = useState<number[]>([]);
+  const [selectableRows, setSelectableRows] = useState(false);
 
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
-  const updateCardStatus = useSelector((state: RootState) =>
-    updateCardStatusSelector(state)
-  );
   const deleteCardsStatus = useSelector((state: RootState) =>
     deleteCardsStatusSelector(state)
   );
@@ -60,7 +58,6 @@ export default function AdminSeries() {
   // hide either modal once a card or series has been created
   useEffect(() => {
     if (!loadingChanges) {
-      setShowDeleteCardModal(false);
       setEditCard(undefined);
     }
   }, [loadingChanges]);
@@ -72,17 +69,18 @@ export default function AdminSeries() {
     setEditCard(undefined);
   }
 
-  function toggleDeleteCardModal() {
-    setShowDeleteCardModal(!showDeleteCardModal);
+  interface Stuff {
+    allSelected: boolean;
+    selectedCount: number;
+    selectedRows: Array<Row>;
   }
 
-  function deleteSelected(cardId: number) {
-    setDeletedCardId(cardId);
-    toggleDeleteCardModal();
+  function selectedRowsChange(stuff: Stuff) {
+    setSelectedCardIds(stuff.selectedRows.map((row) => row.card.id));
   }
 
   function deleteCard() {
-    dispatch(deleteCards([deletedCardId]));
+    dispatch(deleteCards(selectedCardIds));
   }
 
   if (isLoading || String(series.id) !== seriesId) {
@@ -95,14 +93,6 @@ export default function AdminSeries() {
 
   return (
     <AdminPageContainer>
-      {showDeleteCardModal && (
-        <ConfirmDeleteModal
-          handleDismiss={toggleDeleteCardModal}
-          handleDelete={deleteCard}
-          deleteStatus={deleteCardsStatus}
-          message="This will delete the card from any user collections it is part of."
-        />
-      )}
       {editCard && (
         <EditCardModal
           card={editCard}
@@ -123,10 +113,36 @@ export default function AdminSeries() {
           highlightOnHover
           pagination
           paginationPerPage={20}
+          selectableRows={selectableRows}
+          onSelectedRowsChange={selectedRowsChange}
+          // clearSelectedRows={clearSelected}
+          actions={
+            selectableRows ? (
+              <StyledButton
+                color="GRAY"
+                height="27px"
+                width="125px"
+                fontSize=".9rem"
+                onClick={() => setSelectableRows(false)}
+              >
+                Cancel
+              </StyledButton>
+            ) : (
+              <StyledButton
+                color="RED"
+                height="27px"
+                width="125px"
+                fontSize=".9rem"
+                onClick={() => setSelectableRows(true)}
+              >
+                Delete Cards
+              </StyledButton>
+            )
+          }
           noDataComponent={
             <NoDataMessage>No cards have been added to this set.</NoDataMessage>
           }
-          columns={columns(showEditCardModal, deleteSelected)}
+          columns={columns(showEditCardModal)}
           data={series.cards
             .sort((cardA, cardB) => {
               return sortCardNumbers(

@@ -22,6 +22,7 @@ router.get("/", async (req, res, next) => {
 
 router.get("/scrape", async (req, res, next) => {
   const { url } = req.query;
+  console.log("SCRAPE: ", req.query);
 
   // validate url
   const valid = /^https?:\/\/www.tcdb.com\/Checklist.cfm\/sid/.test(url);
@@ -30,7 +31,9 @@ router.get("/scrape", async (req, res, next) => {
     try {
       const cardData = await require("./scrape")(url);
       res.json(cardData);
-    } catch (error) {}
+    } catch (error) {
+      next(error);
+    }
   } else {
     next(new Error("Invalid URL"));
   }
