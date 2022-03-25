@@ -141,28 +141,15 @@ export const updateCard =
       });
   };
 
-export const deleteCard =
+export const deleteCards =
   (
-    cardDataId: number
+    cardDataIds: number[]
   ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {
-    dispatch(actions.deleteCardRequest());
-    del(`/api/carddata/${cardDataId}`, dispatch)
+    dispatch(actions.deleteCardsRequest());
+    post(`/api/carddata/delete`, cardDataIds, dispatch)
       .then((deleteStatus) => {
-        dispatch(actions.deleteCardSuccess(cardDataId));
+        dispatch(actions.deleteCardsSuccess(cardDataIds));
       })
-      .catch((error) => dispatch(actions.deleteCardFailure()));
-  };
-
-export const deleteAllCards =
-  (
-    subsetId: number
-  ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
-  (dispatch) => {
-    dispatch(actions.deleteAllCardsRequest());
-    del(`/api/carddata/subset/${subsetId}`, dispatch)
-      .then((deleteStatus) => {
-        dispatch(actions.deleteAllCardsSuccess());
-      })
-      .catch((error) => dispatch(actions.deleteAllCardsFailure()));
+      .catch((error) => dispatch(actions.deleteCardsFailure()));
   };

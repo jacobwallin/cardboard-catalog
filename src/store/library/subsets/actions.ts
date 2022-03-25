@@ -94,25 +94,15 @@ export const updateCardFailure = (): types.SubsetActionTypes => ({
   type: types.UPDATE_CARD_FAILURE,
 });
 
-export const deleteCardRequest = (): types.SubsetActionTypes => ({
-  type: types.DELETE_CARD_REQUEST,
+export const deleteCardsRequest = (): types.SubsetActionTypes => ({
+  type: types.DELETE_CARDS_REQUEST,
 });
-export const deleteCardSuccess = (
-  cardDataId: number
+export const deleteCardsSuccess = (
+  cardDataIds: number[]
 ): types.SubsetActionTypes => ({
-  type: types.DELETE_CARD_SUCCESS,
-  cardDataId,
+  type: types.DELETE_CARDS_SUCCESS,
+  cardDataIds,
 });
-export const deleteCardFailure = (): types.SubsetActionTypes => ({
-  type: types.DELETE_CARD_FAILURE,
-});
-
-export const deleteAllCardsRequest = (): types.SubsetActionTypes => ({
-  type: types.DELETE_ALL_CARDS_REQUEST,
-});
-export const deleteAllCardsSuccess = (): types.SubsetActionTypes => ({
-  type: types.DELETE_ALL_CARDS_SUCCESS,
-});
-export const deleteAllCardsFailure = (): types.SubsetActionTypes => ({
-  type: types.DELETE_ALL_CARDS_FAILURE,
+export const deleteCardsFailure = (): types.SubsetActionTypes => ({
+  type: types.DELETE_CARDS_FAILURE,
 });

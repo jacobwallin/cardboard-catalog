@@ -120,12 +120,9 @@ export const BULK_CREATE_CARD_FAILURE = "BULK_CREATE_CARD_FAILURE";
 export const UPDATE_CARD_REQUEST = "UPDATE_CARD_REQUEST";
 export const UPDATE_CARD_SUCCESS = "UPDATE_CARD_SUCCESS";
 export const UPDATE_CARD_FAILURE = "UPDATE_CARD_FAILURE";
-export const DELETE_CARD_REQUEST = "DELETE_CARD_REQUEST";
-export const DELETE_CARD_SUCCESS = "DELETE_CARD_SUCCESS";
-export const DELETE_CARD_FAILURE = "DELETE_CARD_FAILURE";
-export const DELETE_ALL_CARDS_REQUEST = "DELETE_ALL_CARDS_REQUEST";
-export const DELETE_ALL_CARDS_SUCCESS = "DELETE_ALL_CARDS_SUCCESS";
-export const DELETE_ALL_CARDS_FAILURE = "DELETE_ALL_CARDS_FAILURE";
+export const DELETE_CARDS_REQUEST = "DELETE_CARDS_REQUEST";
+export const DELETE_CARDS_SUCCESS = "DELETE_CARDS_SUCCESS";
+export const DELETE_CARDS_FAILURE = "DELETE_CARDS_FAILURE";
 export const CLEAR_LIBRARY = "CLEAR_LIBRARY";
 
 // ACTION CREATORS
@@ -217,25 +214,15 @@ interface UpdateCardFailure {
   type: typeof UPDATE_CARD_FAILURE;
 }
 
-interface DeleteCardRequest {
-  type: typeof DELETE_CARD_REQUEST;
+interface DeleteCardsRequest {
+  type: typeof DELETE_CARDS_REQUEST;
 }
-interface DeleteCardSuccess {
-  type: typeof DELETE_CARD_SUCCESS;
-  cardDataId: number;
+interface DeleteCardsSuccess {
+  type: typeof DELETE_CARDS_SUCCESS;
+  cardDataIds: number[];
 }
-interface DeleteCardFailure {
-  type: typeof DELETE_CARD_FAILURE;
-}
-
-interface DeleteAllCardsRequest {
-  type: typeof DELETE_ALL_CARDS_REQUEST;
-}
-interface DeleteAllCardsSuccess {
-  type: typeof DELETE_ALL_CARDS_SUCCESS;
-}
-interface DeleteAllCardsFailure {
-  type: typeof DELETE_ALL_CARDS_FAILURE;
+interface DeleteCardsFailure {
+  type: typeof DELETE_CARDS_FAILURE;
 }
 interface ClearLibraryAction {
   type: typeof CLEAR_LIBRARY;
@@ -263,10 +250,7 @@ export type SubsetActionTypes =
   | UpdateCardRequest
   | UpdateCardSuccess
   | UpdateCardFailure
-  | DeleteCardRequest
-  | DeleteCardSuccess
-  | DeleteCardFailure
-  | DeleteAllCardsRequest
-  | DeleteAllCardsSuccess
-  | DeleteAllCardsFailure
+  | DeleteCardsRequest
+  | DeleteCardsSuccess
+  | DeleteCardsFailure
   | ClearLibraryAction;

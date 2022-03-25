@@ -78,17 +78,13 @@ const subsetsReducer = (
           return cardData;
         }),
       };
-    case types.DELETE_CARD_SUCCESS:
+    case types.DELETE_CARDS_SUCCESS:
       return {
         ...state,
         card_data: state.card_data.filter(
-          (cardData) => cardData.id !== action.cardDataId
+          (cardData) =>
+            action.cardDataIds.findIndex((c) => c === cardData.id) === -1
         ),
-      };
-    case types.DELETE_ALL_CARDS_SUCCESS:
-      return {
-        ...state,
-        card_data: [],
       };
     case types.CLEAR_LIBRARY:
       return initialState;
