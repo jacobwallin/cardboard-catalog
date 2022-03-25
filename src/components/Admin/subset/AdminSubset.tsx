@@ -8,7 +8,8 @@ import {
   deleteCard,
   deleteAllCards,
 } from "../../../store/library/subsets/thunks";
-import WrappedDataTable from "../components/WrappedDataTable";
+import DataTable from "react-data-table-component";
+import { DataTableWrapper } from "../components/WrappedDataTable";
 import {
   createLoadingSelector,
   createStatusSelector,
@@ -172,74 +173,80 @@ export default function AdminSubset() {
       <Styled.Header> {`${subset.name}`} </Styled.Header>
       <Styled.SubHeader>{`${subset.set.name}`}</Styled.SubHeader>
       <EditSubset subsetId={+subsetId} />
-      <WrappedDataTable
-        title={`Base Set`}
-        columns={seriesDataTableColumns}
-        data={baseSeries ? [baseSeries] : []}
-        dense
-        highlightOnHover
-      />
-      <WrappedDataTable
-        title={`Parallels`}
-        columns={seriesDataTableColumns}
-        data={subset.series
-          .filter((series) => {
-            return series.id !== subset.baseSeriesId;
-          })
-          .sort((a, b) => {
-            if (a.name < b.name) return -1;
-            if (a.name > b.name) return 1;
-            return 0;
+      <DataTableWrapper>
+        <DataTable
+          title={`Base Set`}
+          columns={seriesDataTableColumns}
+          data={baseSeries ? [baseSeries] : []}
+          dense
+          highlightOnHover
+        />
+      </DataTableWrapper>
+      <DataTableWrapper>
+        <DataTable
+          title={`Parallels`}
+          columns={seriesDataTableColumns}
+          data={subset.series
+            .filter((series) => {
+              return series.id !== subset.baseSeriesId;
+            })
+            .sort((a, b) => {
+              if (a.name < b.name) return -1;
+              if (a.name > b.name) return 1;
+              return 0;
+            })}
+          dense
+          pagination
+          paginationPerPage={10}
+          paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30]}
+          highlightOnHover
+          noDataComponent={
+            <NoDataMessage>There are no parallels in this set.</NoDataMessage>
+          }
+          actions={
+            <CreateButton onClick={toggleCreateSeriesModal}>
+              Create Parallel
+            </CreateButton>
+          }
+        />
+      </DataTableWrapper>
+      <DataTableWrapper>
+        <DataTable
+          title={`Checklist`}
+          columns={cardsDataTableColumns(showEditCardModal, handleDeleteClick)}
+          data={subset.card_data.sort((a, b) => {
+            return sortCardNumbers(a.number, b.number);
           })}
-        dense
-        pagination
-        paginationPerPage={10}
-        paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30]}
-        highlightOnHover
-        noDataComponent={
-          <NoDataMessage>There are no parallels in this set.</NoDataMessage>
-        }
-        actions={
-          <CreateButton onClick={toggleCreateSeriesModal}>
-            Create Parallel
-          </CreateButton>
-        }
-      />
-      <WrappedDataTable
-        title={`Checklist`}
-        columns={cardsDataTableColumns(showEditCardModal, handleDeleteClick)}
-        data={subset.card_data.sort((a, b) => {
-          return sortCardNumbers(a.number, b.number);
-        })}
-        defaultSortFieldId={1}
-        highlightOnHover
-        pagination
-        paginationPerPage={20}
-        dense
-        noDataComponent={
-          <NoDataMessage>No cards have been added to this set.</NoDataMessage>
-        }
-        actions={
-          <>
-            <StyledButton
-              color="RED"
-              height="27px"
-              width="125px"
-              fontSize=".9rem"
-              onClick={toggleDeleteAllModal}
-              disabled={subset.card_data.length === 0}
-            >
-              Delete All Cards
-            </StyledButton>
-            <CreateButton onClick={toggleScrapeCardModal}>
-              Scrape Cards
-            </CreateButton>
-            <CreateButton onClick={toggleCreateCardModal}>
-              Create Card
-            </CreateButton>
-          </>
-        }
-      />
+          defaultSortFieldId={1}
+          highlightOnHover
+          pagination
+          paginationPerPage={20}
+          dense
+          noDataComponent={
+            <NoDataMessage>No cards have been added to this set.</NoDataMessage>
+          }
+          actions={
+            <>
+              <StyledButton
+                color="RED"
+                height="27px"
+                width="125px"
+                fontSize=".9rem"
+                onClick={toggleDeleteAllModal}
+                disabled={subset.card_data.length === 0}
+              >
+                Delete All Cards
+              </StyledButton>
+              <CreateButton onClick={toggleScrapeCardModal}>
+                Scrape Cards
+              </CreateButton>
+              <CreateButton onClick={toggleCreateCardModal}>
+                Create Card
+              </CreateButton>
+            </>
+          }
+        />
+      </DataTableWrapper>
     </AdminPageContainer>
   );
 }

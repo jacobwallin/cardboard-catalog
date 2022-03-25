@@ -15,7 +15,6 @@ export const seriesDataTableColumns = [
   },
   {
     name: "Serialized To",
-    selector: (row: SubsetSeries) => row.serialized,
     cell: (row: SubsetSeries) => (row.serialized ? row.serialized : "-"),
     sortable: true,
   },
@@ -74,7 +73,6 @@ export function cardsDataTableColumns(
     {
       name: "Team",
       sortable: true,
-      selector: (row: CardData) => row.team,
       sortFunction: (rowA: CardData, rowB: CardData) => {
         let a: string | null = rowA.team ? rowA.team.name : null;
         let b: string | null = rowB.team ? rowB.team.name : null;
