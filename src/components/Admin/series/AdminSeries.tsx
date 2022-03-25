@@ -24,6 +24,7 @@ import { Header, SubHeader } from "../components/PageHeader";
 import EditCardModal from "./edit_card_modal/EditCardModal";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
 import StyledButton from "../components/StyledButton";
+import * as TableHeader from "../components/DataTableHeader";
 
 const isLoadingSelector = createLoadingSelector(["GET_SERIES"]);
 const updateCardStatusSelector = createStatusSelector("UPDATE_CARD");
@@ -41,6 +42,8 @@ export default function AdminSeries() {
   const [editCard, setEditCard] = useState<Card | undefined>(undefined);
   const [selectedCardIds, setSelectedCardIds] = useState<number[]>([]);
   const [selectableRows, setSelectableRows] = useState(false);
+  const [clearSelectedRows, setClearSelectedRows] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const isLoading = useSelector((state: RootState) => isLoadingSelector(state));
   const deleteCardsStatus = useSelector((state: RootState) =>
@@ -66,6 +69,10 @@ export default function AdminSeries() {
   useEffect(() => {
     if (!loadingChanges) {
       setEditCard(undefined);
+      setShowDeleteModal(false);
+      if (selectableRows) {
+        toggleSelectableRows();
+      }
     }
   }, [loadingChanges]);
 
@@ -86,8 +93,20 @@ export default function AdminSeries() {
     setSelectedCardIds(stuff.selectedRows.map((row) => row.card.id));
   }
 
-  function deleteCard() {
+  function submitDeleteCards() {
     dispatch(deleteCards(selectedCardIds));
+  }
+
+  function toggleDeleteModal() {
+    setShowDeleteModal(!showDeleteModal);
+  }
+
+  function toggleSelectableRows() {
+    setSelectableRows(!selectableRows);
+    setClearSelectedRows(!clearSelectedRows);
+    if (clearSelectedRows) {
+      setSelectedCardIds([]);
+    }
   }
 
   if (isLoading || String(series.id) !== seriesId) {
@@ -107,6 +126,14 @@ export default function AdminSeries() {
           seriesSerialized={series.serialized}
         />
       )}
+      {showDeleteModal && (
+        <ConfirmDeleteModal
+          handleDismiss={toggleDeleteModal}
+          handleDelete={submitDeleteCards}
+          deleteStatus={deleteCardsStatus}
+          message="This will delete the card from any user collections it is part of."
+        />
+      )}
       <Header>
         {series.name}
         {series.subset.baseSeriesId === series.id || " Parallel"}
@@ -114,27 +141,45 @@ export default function AdminSeries() {
       <SubHeader>{`${series.subset.set.name} - ${series.subset.name}`}</SubHeader>
       <EditSeries seriesId={+seriesId} />
       <DataTableWrapper>
-        {selectableRows ? (
-          <StyledButton
-            color="GRAY"
-            height="27px"
-            width="125px"
-            fontSize=".9rem"
-            onClick={() => setSelectableRows(false)}
-          >
-            Cancel
-          </StyledButton>
-        ) : (
-          <StyledButton
-            color="RED"
-            height="27px"
-            width="125px"
-            fontSize=".9rem"
-            onClick={() => setSelectableRows(true)}
-          >
-            Delete Cards
-          </StyledButton>
-        )}
+        <TableHeader.DataTableHeader>
+          <TableHeader.DataTableTitle>Cards</TableHeader.DataTableTitle>
+          <TableHeader.DataTableButtonsContainer>
+            {selectedCardIds.length > 0 && (
+              <StyledButton
+                color="RED"
+                height="27px"
+                width="125px"
+                fontSize=".9rem"
+                onClick={toggleDeleteModal}
+              >
+                {selectedCardIds.length > 1
+                  ? `Delete ${selectedCardIds.length} Cards`
+                  : `Delete ${selectedCardIds.length} Card`}
+              </StyledButton>
+            )}
+            {selectableRows ? (
+              <StyledButton
+                color="GRAY"
+                height="27px"
+                width="125px"
+                fontSize=".9rem"
+                onClick={toggleSelectableRows}
+              >
+                Cancel
+              </StyledButton>
+            ) : (
+              <StyledButton
+                color="RED"
+                height="27px"
+                width="125px"
+                fontSize=".9rem"
+                onClick={toggleSelectableRows}
+              >
+                Delete Cards
+              </StyledButton>
+            )}
+          </TableHeader.DataTableButtonsContainer>
+        </TableHeader.DataTableHeader>
         <DataTable
           noHeader
           dense
@@ -143,7 +188,7 @@ export default function AdminSeries() {
           paginationPerPage={20}
           selectableRows={selectableRows}
           onSelectedRowsChange={selectedRowsChange}
-          clearSelectedRows={false}
+          clearSelectedRows={clearSelectedRows}
           noDataComponent={
             <NoDataMessage>No cards have been added to this set.</NoDataMessage>
           }
