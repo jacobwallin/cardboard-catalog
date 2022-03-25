@@ -255,22 +255,41 @@ router.put("/:cardId", isAdmin, async (req, res, next) => {
   }
 });
 
-router.delete("/:cardId", isAdmin, async (req, res, next) => {
-  // delete card data entry (delete will cascade and delete cards that belong the the card data)
-  const deleteStatus = await CardData.destroy({
-    where: { id: req.params.cardId },
-  });
+// router.delete("/:cardId", isAdmin, async (req, res, next) => {
+//   // delete card data entry (delete will cascade and delete cards that belong the the card data)
+//   const deleteStatus = await CardData.destroy({
+//     where: { id: req.params.cardId },
+//   });
 
-  res.json(deleteStatus);
-});
+//   res.json(deleteStatus);
+// });
 
-router.delete("/subset/:subsetId", isAdmin, async (req, res, next) => {
-  // delete all cards that belong to the subset
+// router.delete("/subset/:subsetId", isAdmin, async (req, res, next) => {
+//   // delete all cards that belong to the subset
+//   try {
+//     const deleteStatus = await CardData.destroy({
+//       where: { subsetId: req.params.subsetId },
+//     });
+//     res.json(deleteStatus);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+router.post("/delete", async (req, res, next) => {
+  const { cardDataIds } = req.body;
   try {
-    const deleteStatus = await CardData.destroy({
-      where: { subsetId: req.params.subsetId },
-    });
-    res.json(deleteStatus);
+    const deleteStatus = await Promise.all(
+      cardDataIds.map((cardDataId) => {
+        return CardData.destroy({
+          where: {
+            id: cardDataId,
+          },
+        });
+      })
+    );
+
+    res.json({ cardDatasDeleted: deleteStatus.filter((s) => s === 1).length });
   } catch (error) {
     next(error);
   }
