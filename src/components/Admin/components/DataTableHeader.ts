@@ -17,3 +17,13 @@ export const DataTableButtonsContainer = styled.div`
   display: flex;
   gap: 5px;
 `;
+
+export const TitleSubText = styled.div`
+  color: gray;
+  font-size: 0.75rem;
+`;
+
+export const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;

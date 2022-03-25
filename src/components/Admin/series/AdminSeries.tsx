@@ -177,9 +177,16 @@ export default function AdminSeries() {
       <EditSeries seriesId={+seriesId} />
       <DataTableWrapper>
         <TableHeader.DataTableHeader>
-          <TableHeader.DataTableTitle>
-            {addCardData ? "Add Cards From Checklist" : "Cards"}
-          </TableHeader.DataTableTitle>
+          <TableHeader.TitleContainer>
+            <TableHeader.DataTableTitle>
+              {addCardData ? "Add Cards From Checklist" : "Cards"}
+            </TableHeader.DataTableTitle>
+            <TableHeader.TitleSubText>
+              {subsetCardData.length === series.cards.length
+                ? `Complete - All ${subsetCardData.length} cards added from checklist`
+                : `Partial - ${series.cards.length} of ${subsetCardData.length} cards added from checklist`}
+            </TableHeader.TitleSubText>
+          </TableHeader.TitleContainer>
           <TableHeader.DataTableButtonsContainer>
             {selectedCardIds.length > 0 && (
               <StyledButton
