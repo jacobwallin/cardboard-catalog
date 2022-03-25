@@ -21,6 +21,7 @@ export const DataTableButtonsContainer = styled.div`
 export const TitleSubText = styled.div`
   color: gray;
   font-size: 0.75rem;
+  margin-left: 2px;
 `;
 
 export const TitleContainer = styled.div`
