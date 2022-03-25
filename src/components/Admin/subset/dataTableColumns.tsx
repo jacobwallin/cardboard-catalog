@@ -41,7 +41,7 @@ export const seriesDataTableColumns = [
 
 export function cardsDataTableColumns(
   editToggle: (cardData: CardData) => void,
-  deleteCard: (cardData: CardData) => void
+  disableEdit: boolean
 ) {
   return [
     {
@@ -98,21 +98,17 @@ export function cardsDataTableColumns(
     {
       name: "",
       sortable: false,
-      cell: (row: CardData) => (
-        <EditDeleteContainer>
-          <StyledLink as="div" onClick={() => editToggle(row)}>
-            Edit
-          </StyledLink>
-          <StyledButton
-            color="RED"
-            width="25px"
-            height="25px"
-            onClick={() => deleteCard(row)}
-          >
-            X
-          </StyledButton>
-        </EditDeleteContainer>
-      ),
+      cell: (row: CardData) => {
+        if (!disableEdit) {
+          return (
+            <EditDeleteContainer>
+              <StyledLink as="div" onClick={() => editToggle(row)}>
+                Edit
+              </StyledLink>
+            </EditDeleteContainer>
+          );
+        }
+      },
       grow: 0,
     },
   ];

@@ -147,7 +147,7 @@ export const deleteCards =
   ): ThunkAction<void, RootState, unknown, SubsetActionTypes> =>
   (dispatch) => {
     dispatch(actions.deleteCardsRequest());
-    post(`/api/carddata/delete`, cardDataIds, dispatch)
+    post(`/api/carddata/delete`, { cardDataIds }, dispatch)
       .then((deleteStatus) => {
         dispatch(actions.deleteCardsSuccess(cardDataIds));
       })

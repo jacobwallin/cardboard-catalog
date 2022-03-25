@@ -4,10 +4,7 @@ import { useParams } from "react-router-dom";
 import { RootState } from "../../../store";
 import { CardData } from "../../../store/library/subsets/types";
 import { fetchSubset } from "../../../store/library/subsets/thunks";
-import {
-  deleteCard,
-  deleteAllCards,
-} from "../../../store/library/subsets/thunks";
+import { deleteCards } from "../../../store/library/subsets/thunks";
 import DataTable from "react-data-table-component";
 import { DataTableWrapper } from "../components/WrappedDataTable";
 import {
@@ -27,6 +24,7 @@ import sortCardNumbers from "../../../utils/sortCardNumbers";
 import { LoadingDots } from "../../shared/Loading";
 import StyledButton from "../components/StyledButton";
 import * as Styled from "./styled";
+import * as TableHeader from "../components/DataTableHeader";
 
 import {
   cardsDataTableColumns,
@@ -38,11 +36,9 @@ const modalLoadingSelector = createLoadingSelector([
   "CREATE_CARD",
   "CREATE_SERIES",
   "UPDATE_CARD",
-  "DELETE_CARD",
-  "DELETE_ALL_CARDS",
+  "DELETE_CARDS",
 ]);
-const deletingCardSelector = createStatusSelector("DELETE_CARD");
-const deletingAllCardsSelector = createStatusSelector("DELETE_ALL_CARDS");
+const deletingCardsSelector = createStatusSelector("DELETE_CARDS");
 
 export default function AdminSubset() {
   const dispatch = useDispatch();
@@ -50,12 +46,14 @@ export default function AdminSubset() {
   const [showCreateSeriesModal, setShowCreateSeriesModal] = useState(false);
   const [showCreateCardModal, setShowCreateCardModal] = useState(false);
   const [showScrapeCardModal, setShowScrapeCardModal] = useState(false);
-  const [showDeleteAllCardsModeal, setShowDeleteAllCardsModeal] =
-    useState(false);
+  const [showDeleteCardsModal, setShowDeleteCardsModal] = useState(false);
   const [editCardData, setEditCardData] = useState<CardData | undefined>(
     undefined
   );
   const [deleteCardId, setDeleteCardId] = useState(0);
+  const [selectableRows, setSelectableRows] = useState(false);
+  const [clearSelectedRows, setClearSelectedRows] = useState(false);
+  const [selectedCardDataIds, setSelectedCardDataIds] = useState<number[]>([]);
 
   const subset = useSelector((state: RootState) => state.library.subsets);
   const loadingPage = useSelector((state: RootState) =>
@@ -65,11 +63,8 @@ export default function AdminSubset() {
     modalLoadingSelector(state)
   );
 
-  const deletingCardStatus = useSelector((state: RootState) => {
-    return deletingCardSelector(state);
-  });
-  const deletingAllCardsStatus = useSelector((state: RootState) => {
-    return deletingAllCardsSelector(state);
+  const deletingCardsStatus = useSelector((state: RootState) => {
+    return deletingCardsSelector(state);
   });
 
   useEffect(() => {
@@ -81,11 +76,24 @@ export default function AdminSubset() {
     if (!loadingChanges) {
       setShowCreateCardModal(false);
       setShowCreateSeriesModal(false);
-      setShowDeleteAllCardsModeal(false);
+      setShowDeleteCardsModal(false);
       setEditCardData(undefined);
       setDeleteCardId(0);
+      if (selectableRows) {
+        toggleSelectableRows();
+      }
     }
   }, [loadingChanges]);
+
+  interface Selected<Row> {
+    allSelected: boolean;
+    selectedCount: number;
+    selectedRows: Array<Row>;
+  }
+
+  function selectedCardDataRowsChange(stuff: Selected<CardData>) {
+    setSelectedCardDataIds(stuff.selectedRows.map((row) => row.id));
+  }
 
   function toggleCreateSeriesModal() {
     setShowCreateSeriesModal(!showCreateSeriesModal);
@@ -96,8 +104,8 @@ export default function AdminSubset() {
   function toggleScrapeCardModal() {
     setShowScrapeCardModal(!showScrapeCardModal);
   }
-  function toggleDeleteAllModal() {
-    setShowDeleteAllCardsModeal(!showDeleteAllCardsModeal);
+  function toggleDeleteCardsModal() {
+    setShowDeleteCardsModal(!showDeleteCardsModal);
   }
   function showEditCardModal(cardData: CardData) {
     setEditCardData(cardData);
@@ -105,14 +113,18 @@ export default function AdminSubset() {
   function hideEditCardModal() {
     setEditCardData(undefined);
   }
-  function handleDeleteClick(cardData: CardData) {
-    setDeleteCardId(cardData.id);
+
+  // toggle showing card data checklist to add card data to subset
+  function toggleSelectableRows() {
+    setSelectableRows(!selectableRows);
+    setClearSelectedRows(!clearSelectedRows);
+    if (selectableRows) {
+      setSelectedCardDataIds([]);
+    }
   }
-  function deleteCardData() {
-    dispatch(deleteCard(deleteCardId));
-  }
-  function deleteAllCardData() {
-    if (subsetId) dispatch(deleteAllCards(+subsetId));
+
+  function handleDeleteCards() {
+    dispatch(deleteCards(selectedCardDataIds));
   }
 
   const baseSeries = subset.series.find((series) => {
@@ -154,20 +166,12 @@ export default function AdminSubset() {
           subsetId={+subsetId}
         />
       )}
-      {deleteCardId !== 0 && (
+      {showDeleteCardsModal && (
         <ConfirmDeleteModal
-          handleDelete={deleteCardData}
-          handleDismiss={() => setDeleteCardId(0)}
-          message="This will delete the card from any user's collections that have it."
-          deleteStatus={deletingCardStatus}
-        />
-      )}
-      {showDeleteAllCardsModeal && (
-        <ConfirmDeleteModal
-          handleDelete={deleteAllCardData}
-          handleDismiss={toggleDeleteAllModal}
-          deleteStatus={deletingAllCardsStatus}
-          message={`All cards will be deleted from ${subset.set.name} ${subset.name}. If any of the cards are in user's collections they will be deleted as well.`}
+          handleDelete={handleDeleteCards}
+          handleDismiss={toggleDeleteCardsModal}
+          deleteStatus={deletingCardsStatus}
+          message={`If any of the cards are in user's collections they will be deleted as well.`}
         />
       )}
       <Styled.Header> {`${subset.name}`} </Styled.Header>
@@ -211,9 +215,60 @@ export default function AdminSubset() {
         />
       </DataTableWrapper>
       <DataTableWrapper>
+        <TableHeader.DataTableHeader>
+          <TableHeader.DataTableHeader>Checklist</TableHeader.DataTableHeader>
+          <TableHeader.DataTableButtonsContainer>
+            {!selectableRows ? (
+              <>
+                <CreateButton onClick={toggleScrapeCardModal}>
+                  Scrape Cards
+                </CreateButton>
+                <CreateButton onClick={toggleCreateCardModal}>
+                  Create Card
+                </CreateButton>
+                <StyledButton
+                  color="RED"
+                  height="27px"
+                  width="125px"
+                  fontSize=".9rem"
+                  onClick={toggleSelectableRows}
+                  disabled={subset.card_data.length === 0}
+                >
+                  Delete Cards
+                </StyledButton>
+              </>
+            ) : (
+              <>
+                {selectedCardDataIds.length > 0 && (
+                  <StyledButton
+                    color="RED"
+                    height="27px"
+                    width="125px"
+                    fontSize=".9rem"
+                    onClick={toggleDeleteCardsModal}
+                    disabled={loadingChanges}
+                  >
+                    {selectedCardDataIds.length > 1
+                      ? `Delete ${selectedCardDataIds.length} Cards`
+                      : `Delete ${selectedCardDataIds.length} Card`}
+                  </StyledButton>
+                )}
+                <StyledButton
+                  color="GRAY"
+                  height="27px"
+                  width="125px"
+                  fontSize=".9rem"
+                  onClick={toggleSelectableRows}
+                >
+                  Cancel
+                </StyledButton>
+              </>
+            )}
+          </TableHeader.DataTableButtonsContainer>
+        </TableHeader.DataTableHeader>
         <DataTable
-          title={`Checklist`}
-          columns={cardsDataTableColumns(showEditCardModal, handleDeleteClick)}
+          noHeader
+          columns={cardsDataTableColumns(showEditCardModal, selectableRows)}
           data={subset.card_data.sort((a, b) => {
             return sortCardNumbers(a.number, b.number);
           })}
@@ -222,28 +277,11 @@ export default function AdminSubset() {
           pagination
           paginationPerPage={20}
           dense
+          selectableRows={selectableRows}
+          onSelectedRowsChange={selectedCardDataRowsChange}
+          clearSelectedRows={clearSelectedRows}
           noDataComponent={
             <NoDataMessage>No cards have been added to this set.</NoDataMessage>
-          }
-          actions={
-            <>
-              <StyledButton
-                color="RED"
-                height="27px"
-                width="125px"
-                fontSize=".9rem"
-                onClick={toggleDeleteAllModal}
-                disabled={subset.card_data.length === 0}
-              >
-                Delete All Cards
-              </StyledButton>
-              <CreateButton onClick={toggleScrapeCardModal}>
-                Scrape Cards
-              </CreateButton>
-              <CreateButton onClick={toggleCreateCardModal}>
-                Create Card
-              </CreateButton>
-            </>
           }
         />
       </DataTableWrapper>
