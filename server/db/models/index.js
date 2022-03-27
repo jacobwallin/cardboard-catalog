@@ -13,6 +13,7 @@ const GradingCompany = require("./GradingCompany");
 const CardDataPlayer = require("./CardDataPlayer");
 const Transaction = require("./Transaction");
 const TransactionUserCard = require("./TransactionUserCard");
+const Friend = require("./Friend");
 
 const db = require("../db");
 
@@ -284,4 +285,5 @@ module.exports = {
   CardDataPlayer,
   Transaction,
   TransactionUserCard,
+  Friend,
 };
