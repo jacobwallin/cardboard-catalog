@@ -54,6 +54,8 @@ router.get("/:setId", async (req, res, next) => {
   }
 });
 
+// *** ADMIN ROUTES ***
+
 router.post("/", isAdmin, async (req, res, next) => {
   const { name, release_date, description, leagueId, brandId, year, complete } =
     req.body;

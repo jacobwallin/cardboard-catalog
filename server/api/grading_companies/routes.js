@@ -22,6 +22,8 @@ router.get("/:companyId", async (req, res, next) => {
   }
 });
 
+// *** ADMIN ROUTES ***
+
 router.post("/", isAdmin, async (req, res, next) => {
   const { name } = req.body;
   try {

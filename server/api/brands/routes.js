@@ -12,6 +12,8 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+// *** ADMIN ROUTES ***
+
 router.post("/", isAdmin, async (req, res, next) => {
   try {
     const { name } = req.body;

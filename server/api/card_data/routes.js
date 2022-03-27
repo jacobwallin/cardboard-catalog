@@ -20,25 +20,6 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/scrape", async (req, res, next) => {
-  const { url } = req.query;
-  console.log("SCRAPE: ", req.query);
-
-  // validate url
-  const valid = /^https?:\/\/www.tcdb.com\/Checklist.cfm\/sid/.test(url);
-
-  if (valid) {
-    try {
-      const cardData = await require("./scrape")(url);
-      res.json(cardData);
-    } catch (error) {
-      next(error);
-    }
-  } else {
-    next(new Error("Invalid URL"));
-  }
-});
-
 router.get("/:cardDataId", async (req, res, next) => {
   try {
     const cardData = await CardData.findByPk(req.params.cardDataId, {
@@ -60,6 +41,27 @@ router.get("/:cardDataId", async (req, res, next) => {
     res.json(cardData);
   } catch (error) {
     next(error);
+  }
+});
+
+// *** ADMIN ROUTES ***
+
+router.get("/scrape", isAdmin, async (req, res, next) => {
+  const { url } = req.query;
+  console.log("SCRAPE: ", req.query);
+
+  // validate url
+  const valid = /^https?:\/\/www.tcdb.com\/Checklist.cfm\/sid/.test(url);
+
+  if (valid) {
+    try {
+      const cardData = await require("./scrape")(url);
+      res.json(cardData);
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    next(new Error("Invalid URL"));
   }
 });
 
@@ -134,7 +136,7 @@ router.post("/", isAdmin, async (req, res, next) => {
 });
 
 // bulk add cards to a subset
-router.post("/bulk", async (req, res, next) => {
+router.post("/bulk", isAdmin, async (req, res, next) => {
   const { cards, subsetId } = req.body;
   try {
     const createdCards = await Promise.all(
@@ -255,28 +257,7 @@ router.put("/:cardId", isAdmin, async (req, res, next) => {
   }
 });
 
-// router.delete("/:cardId", isAdmin, async (req, res, next) => {
-//   // delete card data entry (delete will cascade and delete cards that belong the the card data)
-//   const deleteStatus = await CardData.destroy({
-//     where: { id: req.params.cardId },
-//   });
-
-//   res.json(deleteStatus);
-// });
-
-// router.delete("/subset/:subsetId", isAdmin, async (req, res, next) => {
-//   // delete all cards that belong to the subset
-//   try {
-//     const deleteStatus = await CardData.destroy({
-//       where: { subsetId: req.params.subsetId },
-//     });
-//     res.json(deleteStatus);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
-
-router.post("/delete", async (req, res, next) => {
+router.post("/delete", isAdmin, async (req, res, next) => {
   const { cardDataIds } = req.body;
   try {
     const deleteStatus = await Promise.all(

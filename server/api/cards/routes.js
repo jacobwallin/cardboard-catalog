@@ -1,5 +1,7 @@
 const router = require("express").Router();
 
+const { isAdmin } = require("../../middleware");
+
 const { Card, CardData, Player, Team, User } = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
@@ -25,7 +27,9 @@ router.get("/:cardId", async (req, res, next) => {
   }
 });
 
-router.put("/:cardId", async (req, res, next) => {
+// *** ADMIN ROUTES ***
+
+router.put("/:cardId", isAdmin, async (req, res, next) => {
   const { serializedTo } = req.body;
   try {
     let card = await Card.findByPk(req.params.cardId);
@@ -39,7 +43,7 @@ router.put("/:cardId", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", isAdmin, async (req, res, next) => {
   const { cardDataIds, seriesId } = req.body;
 
   try {
@@ -93,7 +97,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.post("/delete", async (req, res, next) => {
+router.post("/delete", isAdmin, async (req, res, next) => {
   const { cardIds } = req.body;
   try {
     const deleteStatus = await Promise.all(
