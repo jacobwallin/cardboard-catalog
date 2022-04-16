@@ -4,21 +4,32 @@ const { DataTypes } = require("sequelize");
 const Friend = db.define(
   "friend",
   {
-    user_id: {
+    user_one_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
     },
-    friend_id: {
+    user_two_id: {
       type: DataTypes.DECIMAL,
       primaryKey: true,
     },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        customValidator: (value) => {
+          const enums = ["PENDING", "ACCEPTED"];
+          if (!enums.includes(value)) {
+            throw new Error("not a valid option");
+          }
+        },
+      },
+    },
   },
   {
-    // index by friend then user to allow joins on friend_id to use index
     indexes: [
       {
         unique: true,
-        fields: ["friend_id", "user_id"],
+        fields: ["user_one_id", "user_two_id"],
       },
     ],
   }
