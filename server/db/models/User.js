@@ -16,11 +16,17 @@ const User = db.define("user", {
     type: DataTypes.STRING,
     allowNull: true,
     unique: true,
+    set(value) {
+      this.setDataValue("username_lowercase", value.toLowerCase());
+    },
   },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
+    set(value) {
+      this.setDataValue("email", value.toLowerCase());
+    },
     validate: {
       isEmail: true,
     },

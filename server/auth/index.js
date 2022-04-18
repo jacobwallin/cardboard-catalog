@@ -28,7 +28,7 @@ router.post(
     User.create({
       name,
       username,
-      username_lowercase: username.toLowerCase(),
+      username_lowercase: username,
       email,
       password,
     })
