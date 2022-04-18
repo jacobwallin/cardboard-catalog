@@ -1,5 +1,10 @@
 import React from "react";
+import LogoutButton from "../navbar/logout/LogoutButton";
 
 export default function Profile() {
-  return <div>this is the profile page</div>;
+  return (
+    <div>
+      <LogoutButton />
+    </div>
+  );
 }

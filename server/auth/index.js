@@ -19,7 +19,12 @@ router.post(
   "/register",
   (req, res, next) => {
     // explicitly destructure each field to prevent isAdmin or any other data from being sent to db
-    const { name, username, email, password } = req.body;
+    let { name, username, email, password } = req.body;
+
+    // convert email to lower case to make sure it is unique
+    email = email.toLowerCase();
+
+    // create user
     User.create({
       name,
       username,
@@ -32,6 +37,7 @@ router.post(
       .catch((err) => {
         // set message to error from database
         err.message = err.errors[0].message;
+        console.log(err.message);
         next(err);
       });
   },
