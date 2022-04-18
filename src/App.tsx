@@ -42,7 +42,7 @@ function App() {
               <Route path="transactions/*" element={<Transactions />} />
               <Route path="profile/*" element={<Profile />} />
               <Route path="404" element={<PageNotFound />} />
-              <Route element={<PageNotFound />} />
+              <Route path="*" element={<PageNotFound />} />
             </Routes>
           ))}
       </BrowserRouter>
