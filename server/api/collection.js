@@ -102,9 +102,6 @@ router.post("/delete/bulk", async (req, res, next) => {
 });
 
 router.get("/filter", async (req, res, next) => {
-  // sort by card name
-  // let playerSort = [Card, CardData, "number", "ASC"];
-
   const cardDataInclude = [
     {
       model: Team,

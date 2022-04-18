@@ -15,4 +15,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+// add friend
+router.post("/", async (req, res, next) => {});
+
 module.exports = router;
