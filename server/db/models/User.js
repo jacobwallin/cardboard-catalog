@@ -12,12 +12,10 @@ const User = db.define(
     username: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
     username_lowercase: {
       type: DataTypes.STRING,
       allowNull: true,
-      unique: true,
       set(value) {
         this.setDataValue("username_lowercase", value.toLowerCase());
       },
@@ -25,7 +23,6 @@ const User = db.define(
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
       set(value) {
         this.setDataValue("email", value.toLowerCase());
       },
@@ -35,6 +32,7 @@ const User = db.define(
     },
     isAdmin: {
       type: DataTypes.BOOLEAN,
+      allowNull: false,
       defaultValue: false,
     },
     password: {
@@ -52,6 +50,9 @@ const User = db.define(
   },
   {
     indexes: [
+      { unique: true, fields: ["username"] },
+      { unique: true, fields: ["username_lowercase"] },
+      { unique: true, fields: ["email"] },
       {
         unique: true,
         name: "unique_email",
