@@ -3,51 +3,63 @@ const crypto = require("crypto");
 
 const { DataTypes, Sequelize } = require("sequelize");
 
-const User = db.define("user", {
-  name: {
-    type: DataTypes.STRING,
-  },
-  username: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  username_lowercase: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    unique: true,
-    set(value) {
-      this.setDataValue("username_lowercase", value.toLowerCase());
+const User = db.define(
+  "user",
+  {
+    name: {
+      type: DataTypes.STRING,
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    username_lowercase: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: true,
+      set(value) {
+        this.setDataValue("username_lowercase", value.toLowerCase());
+      },
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      set(value) {
+        this.setDataValue("email", value.toLowerCase());
+      },
+      validate: {
+        isEmail: true,
+      },
+    },
+    isAdmin: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    password: {
+      type: DataTypes.STRING,
+      get() {
+        return () => this.getDataValue("password");
+      },
+    },
+    salt: {
+      type: DataTypes.STRING,
+      get() {
+        return () => this.getDataValue("salt");
+      },
     },
   },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-    set(value) {
-      this.setDataValue("email", value.toLowerCase());
-    },
-    validate: {
-      isEmail: true,
-    },
-  },
-  isAdmin: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
-  },
-  password: {
-    type: DataTypes.STRING,
-    get() {
-      return () => this.getDataValue("password");
-    },
-  },
-  salt: {
-    type: DataTypes.STRING,
-    get() {
-      return () => this.getDataValue("salt");
-    },
-  },
-});
+  {
+    indexes: [
+      {
+        unique: true,
+        name: "unique_email",
+        fields: [Sequelize.fn("lower", Sequelize.col("email"))],
+      },
+    ],
+  }
+);
 
 User.prototype.verifyPassword = function (candidatePwd) {
   return User.encryptPassword(candidatePwd, this.salt()) === this.password();
