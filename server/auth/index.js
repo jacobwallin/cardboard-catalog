@@ -70,8 +70,9 @@ router.post("/logout", (req, res, next) => {
 
 // checks if username is available
 router.post("/username", (req, res, next) => {
-  const { username } = req.body;
-  User.findOne({ where: { username: username } })
+  let { username } = req.body;
+  username = username.toLowerCase();
+  User.findOne({ where: { username_lowercase: username } })
     .then((user) => {
       if (user) {
         res.json(false);
@@ -84,7 +85,8 @@ router.post("/username", (req, res, next) => {
 
 // checks if email is available
 router.post("/email", (req, res, next) => {
-  const { email } = req.body;
+  let { email } = req.body;
+  email = email.toLowerCase();
   User.findOne({ where: { email: email } })
     .then((user) => {
       if (user) {
