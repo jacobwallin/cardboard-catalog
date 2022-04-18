@@ -11,6 +11,7 @@ import Browse from "./components/browse/Browse";
 import Login from "./components/login/Login";
 import SetPage from "./components/Collection/set_page/SetPage";
 import SubsetPage from "./components/Collection/subset_page/SubsetPage";
+import Profile from "./components/profile/Profile";
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -39,6 +40,7 @@ function App() {
               <Route path="subset/:subsetId" element={<SubsetPage />} />
               <Route path="browse/*" element={<Browse />} />
               <Route path="transactions/*" element={<Transactions />} />
+              <Route path="profile/*" element={<Profile />} />
               <Route path="404" element={<PageNotFound />} />
               <Route element={<PageNotFound />} />
             </Routes>
