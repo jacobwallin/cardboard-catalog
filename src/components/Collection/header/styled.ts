@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  padding-left: 10px;
+  padding-right: 10px;
   width: 100%;
   display: flex;
   flex-direction: row;
