@@ -17,6 +17,29 @@ const Friend = require("./Friend");
 
 const db = require("../db");
 
+Friend.belongsTo(User, {
+  as: "user_one",
+  foreignKey: {
+    name: "user_one_id",
+  },
+});
+User.hasMany(Friend, {
+  foreignKey: {
+    name: "user_one_id",
+  },
+});
+Friend.belongsTo(User, {
+  as: "user_two",
+  foreignKey: {
+    name: "user_two_id",
+  },
+});
+User.hasMany(Friend, {
+  foreignKey: {
+    name: "user_two_id",
+  },
+});
+
 // many to many association between cards and usercards using custom through table (super many-to-many)
 UserCard.belongsTo(User);
 User.hasMany(UserCard);

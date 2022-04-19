@@ -6,9 +6,11 @@ const Friend = db.define(
   {
     user_one_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
     },
     user_two_id: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     status: {
       type: DataTypes.STRING,

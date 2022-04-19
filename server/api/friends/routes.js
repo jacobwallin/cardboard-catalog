@@ -10,6 +10,18 @@ router.get("/", async (req, res, next) => {
       where: {
         [Op.or]: [{ user_one_id: req.user.id }, { user_two_id: req.user.id }],
       },
+      include: [
+        {
+          model: User,
+          as: "user_one",
+          attributes: ["id", "username"],
+        },
+        {
+          model: User,
+          as: "user_two",
+          attributes: ["id", "username"],
+        },
+      ],
     });
     res.json(friendships);
   } catch (error) {
