@@ -14,13 +14,16 @@ export default function friendReducer(
 ) {
   switch (action.type) {
     case "GET_ALL_FRIENDS_SUCCESS":
-      return { ...state, friends: action.friends };
+      return { ...state, friendships: action.friends };
     case "SEND_FRIEND_REQUEST_SUCCESS":
-      return { ...state, friends: [...state.friendships, action.friendship] };
+      return {
+        ...state,
+        friendships: [...state.friendships, action.friendship],
+      };
     case "ACCEPT_FRIEND_REQUEST_SUCCESS":
       return {
         ...state,
-        friends: state.friendships.map((f) => {
+        friendships: state.friendships.map((f) => {
           if (f.id === action.friendship.id) return action.friendship;
           return f;
         }),
