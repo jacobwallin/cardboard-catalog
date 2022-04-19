@@ -10,19 +10,10 @@ import PageHeader from "../shared/PageHeader";
 import * as Styled from "./styled";
 import AddFriend from "./add-friend/AddFriend";
 import StyledButton from "../Admin/components/StyledButton";
-
 import DataTable from "react-data-table-component";
-import { Divider } from "@material-ui/core";
+import { friendColumns, requestColumns, pendingColumns } from "./columns";
 
 type FriendViews = "FRIENDS" | "PENDING" | "REQUESTS";
-
-const columns = [
-  {
-    name: "Username",
-    selector: (row: Friendship) => row.user_one.username,
-    sortable: true,
-  },
-];
 
 export default function Profile() {
   const dispatch = useDispatch();
@@ -72,6 +63,11 @@ export default function Profile() {
   function toggleAddFriend() {
     setAddFriend(!addFriend);
   }
+
+  function acceptRequest(friendshipId: number) {}
+  function rejectRequest(friendshipId: number) {}
+  function withdrawRequest(friendshipId: number) {}
+  function removeFriend(friendshipId: number) {}
 
   return (
     <CollectionWrapper>
@@ -142,7 +138,7 @@ export default function Profile() {
                     <Styled.TableTitle>Your Friends</Styled.TableTitle>
                     <DataTable
                       noHeader
-                      columns={columns}
+                      columns={friendColumns(removeFriend)}
                       data={acceptedFriends}
                       dense
                       pagination
@@ -159,7 +155,7 @@ export default function Profile() {
                     <Styled.TableTitle>Friend Requests</Styled.TableTitle>
                     <DataTable
                       noHeader
-                      columns={columns}
+                      columns={requestColumns(acceptRequest, rejectRequest)}
                       data={friendRequests}
                       dense
                     />
@@ -175,7 +171,7 @@ export default function Profile() {
                     <Styled.TableTitle>Friend Requests Sent</Styled.TableTitle>
                     <DataTable
                       noHeader
-                      columns={columns}
+                      columns={pendingColumns(withdrawRequest)}
                       data={pendingFriendRequests}
                       dense
                     />
