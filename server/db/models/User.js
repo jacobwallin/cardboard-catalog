@@ -12,6 +12,12 @@ const User = db.define(
     username: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        min: {
+          args: 5,
+          msg: "username must be at least 5 characters",
+        },
+      },
     },
     username_lowercase: {
       type: DataTypes.STRING,
