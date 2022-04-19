@@ -8,7 +8,7 @@ import DataTable from "react-data-table-component";
 import dataFieldsByTransactionType from "./dataFieldsByType";
 import * as Styled from "./styled";
 import { transactionTypeMap } from "../main/screateTableData";
-import TransactionsHeader from "../../Collection/header/TransactionsHeader";
+import PageHeader from "../../shared/PageHeader";
 import { convertDateString } from "../../../utils/formatTimestamp";
 import { UserCardWithTransaction } from "../../../store/collection/transactions/types";
 import columns from "./columns";
@@ -51,7 +51,7 @@ export default function ViewTransaction() {
   }
   return (
     <>
-      <TransactionsHeader title="View Transaction" />
+      <PageHeader title="View Transaction" />
       <PageContainer>
         <Styled.DataContainer>
           <Styled.DataFieldContainer>

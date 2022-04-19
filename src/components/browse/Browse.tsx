@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import { fetchAllSetData } from "../../store/library/sets/thunks";
-import BrowseHeader from "../Collection/header/BrowseHeader";
+import PageHeader from "../shared/PageHeader";
 import CollectionWrapper from "../shared/CollectionWrapper";
 import CollectionContainer from "../shared/CollectionContainer";
 import SelectYear from "./select_year/SelectYear";
@@ -20,7 +20,7 @@ export default function Browse() {
     <CollectionWrapper>
       <CollectionContainer>
         <Breadcrumbs />
-        <BrowseHeader title="Browse Database" />
+        <PageHeader title="Browse Database" />
         <Routes>
           <Route path="/" element={<SelectYear />} />
           <Route path=":year" element={<SelectSet />} />

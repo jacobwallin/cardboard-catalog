@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import Step from "../shared/transaction-step/Step";
 import { StepContainer } from "../shared/transaction-step/styled";
-import TransactionsHeader from "../../Collection/header/TransactionsHeader";
+import PageHeader from "../../shared/PageHeader";
 import AddCardsForm, { CardFormData } from "../select-cards-form/AddCardsForm";
 import { CardData } from "../../../store/collection/browse/types";
 import SalePurchaseForm from "./sale-purchase-form/SalePurchaseForm";
@@ -85,7 +85,7 @@ export default function SalePurchase(props: Props) {
 
   return (
     <>
-      <TransactionsHeader
+      <PageHeader
         title={transactionType === "SALE" ? "Enter Sale" : "Enter Purchase"}
       />
       <StepContainer>

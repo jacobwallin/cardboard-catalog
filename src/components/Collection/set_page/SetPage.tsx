@@ -11,7 +11,7 @@ import * as Shared from "../shared";
 import PageContainer from "../../shared/PageContainer";
 import CollectionWrapper from "../../shared/CollectionWrapper";
 import CollectionContainer from "../../shared/CollectionContainer";
-import SetHeader from "../header/SetHeader";
+import PageHeader from "../../shared/PageHeader";
 import { LoadingDots } from "../../shared/Loading";
 import Breadcrumbs from "../../breadcrumbs/Breadcrumbs";
 import aggregateSubsetData, {
@@ -69,7 +69,7 @@ const SetPage = () => {
     <CollectionWrapper>
       <CollectionContainer>
         <Breadcrumbs />
-        <SetHeader title={set.name} />
+        <PageHeader title={set.name} />
         <PageContainer>
           {set.description !== "" && (
             <Shared.ContentContainer>

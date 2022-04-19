@@ -7,7 +7,8 @@ import { fetchCardsInSingleSubset } from "../../../store/collection/browse/thunk
 import CollectionWrapper from "../../shared/CollectionWrapper";
 import CollectionContainer from "../../shared/CollectionContainer";
 import { createTableData } from "./createTableData";
-import SubsetHeader from "../header/SubsetHeader";
+import SubsetViewToggle from "../header/SubsetViewToggle";
+import PageHeader from "../../shared/PageHeader";
 import BrowseSubset from "./browse/BrowseSubset";
 import CollectionSubset from "./collection/CollectionSubset";
 import { LoadingDots } from "../../shared/Loading";
@@ -101,17 +102,18 @@ const SubsetPage = () => {
     <CollectionWrapper>
       <CollectionContainer>
         <Breadcrumbs />
-        <SubsetHeader
+        <PageHeader
           title={subset.set.name}
-          subTitle={`${subset.name} ${
-            subset.baseSeriesId !== selectedSeriesId
-              ? tableData[selectedSeriesId].series.name
-              : ""
-          }`}
-          handleBrowseClick={showChecklistClicked}
-          handleCollectionClick={showCollectionClicked}
-          collectionSelected={showCollection}
-        />
+          subTitle={`${subset.name}`}
+          flexColumn
+        >
+          <SubsetViewToggle
+            handleBrowseClick={showChecklistClicked}
+            handleCollectionClick={showCollectionClicked}
+            collectionSelected={showCollection}
+          />
+        </PageHeader>
+
         {subset.series.length > 1 && (
           <Styled.SelectParallel>
             <Styled.SelectLabel>Select Parallel Set</Styled.SelectLabel>

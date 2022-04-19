@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import TransactionsHeader from "../../Collection/header/TransactionsHeader";
+import PageHeader from "../../shared/PageHeader";
 import SelectTraded from "./select-traded/SelectTraded";
 import SelectReceived from "./select-received/SelectReceived";
 import ConfirmTrade from "./confirm/ConfirmTrade";
@@ -79,7 +79,7 @@ export default function Trade() {
 
   return (
     <>
-      <TransactionsHeader title="Enter Trade" />
+      <PageHeader title="Enter Trade" />
       <StepContainer>
         <Step
           currentStepNumber={currentStep}
