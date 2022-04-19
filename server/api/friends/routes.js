@@ -103,6 +103,7 @@ router.get("/search", async (req, res, next) => {
     const user = await User.findOne({
       where: {
         username_lowercase: username,
+        id: { [Op.ne]: req.user.id },
       },
       attributes: ["id", "username"],
     });
