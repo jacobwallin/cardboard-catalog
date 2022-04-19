@@ -102,17 +102,22 @@ export default function Profile() {
               </Styled.QtyBubble>
             </Styled.View>
           </Styled.FriendViews>
-          {friendsView === "FRIENDS" && (
-            <Styled.FriendTableContainer>
-              <Styled.TableTitle>Your Friends</Styled.TableTitle>
-              <DataTable
-                noHeader
-                columns={columns}
-                data={acceptedFriends}
-                dense
-              />
-            </Styled.FriendTableContainer>
-          )}
+          {friendsView === "FRIENDS" &&
+            (acceptedFriends.length > 0 ? (
+              <Styled.FriendTableContainer>
+                <Styled.TableTitle>Your Friends</Styled.TableTitle>
+                <DataTable
+                  noHeader
+                  columns={columns}
+                  data={acceptedFriends}
+                  dense
+                />
+              </Styled.FriendTableContainer>
+            ) : (
+              <Styled.NoFriends>
+                You have not added any friends yet.
+              </Styled.NoFriends>
+            ))}
           {friendsView === "REQUESTS" &&
             (friendRequests.length > 0 ? (
               <Styled.FriendTableContainer>
