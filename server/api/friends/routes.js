@@ -1,15 +1,17 @@
 const router = require("express").Router();
 
 const { Friend, User } = require("../../db/models");
+const { Op } = require("sequelize");
 
 router.get("/", async (req, res, next) => {
   try {
-    const userFriends = await Friend.findAll({
+    // TODO: make this a union query to use index on both user ids
+    const friendships = await Friend.findAll({
       where: {
-        user_id: req.user.id,
+        [Op.or]: [{ user_one_id: req.user.id }, { user_two_id: req.user.id }],
       },
     });
-    res.json(userFriends);
+    res.json(friendships);
   } catch (error) {
     next(error);
   }
