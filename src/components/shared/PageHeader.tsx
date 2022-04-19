@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   padding-left: 10px;
+  padding-right: 10px;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -28,12 +29,14 @@ export const StyledHeader = styled.div`
 interface Props {
   title: string;
   subTitle?: string;
+  children?: React.ReactNode;
 }
 
 export default function PageHeader(props: Props) {
   return (
     <Container>
       <StyledHeader>{props.title}</StyledHeader>
+      {props.children}
     </Container>
   );
 }

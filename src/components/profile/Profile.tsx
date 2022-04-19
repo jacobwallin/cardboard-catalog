@@ -5,11 +5,14 @@ import { fetchAllFriends } from "../../store/friends/thunks";
 import { Friendship } from "../../store/friends/types";
 import CollectionWrapper from "../shared/CollectionWrapper";
 import CollectionContainer from "../shared/CollectionContainer";
-import LogoutButton from "../navbar/logout/LogoutButton";
+import LogoutButton from "./LogoutButton";
 import PageHeader from "../shared/PageHeader";
 import * as Styled from "./styled";
+import AddFriend from "./AddFriend";
+import StyledButton from "../Admin/components/StyledButton";
 
 import DataTable from "react-data-table-component";
+import { Divider } from "@material-ui/core";
 
 type FriendViews = "FRIENDS" | "PENDING" | "REQUESTS";
 
@@ -37,8 +40,9 @@ export default function Profile() {
     Friendship[]
   >([]);
   const [friendRequests, setFriendRequests] = useState<Friendship[]>([]);
-
   const [friendsView, setFriendsView] = useState<FriendViews>("FRIENDS");
+
+  const [addFriend, setAddFriend] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAllFriends());
@@ -65,10 +69,16 @@ export default function Profile() {
     setFriendsView(view);
   }
 
+  function toggleAddFriend() {
+    setAddFriend(!addFriend);
+  }
+
   return (
     <CollectionWrapper>
       <CollectionContainer>
-        <PageHeader title="Your Profile" />
+        <PageHeader title="Your Profile">
+          <LogoutButton />
+        </PageHeader>
         <Styled.ProfileData>
           <Styled.Data>
             <Styled.DataTitle>Username</Styled.DataTitle>
@@ -84,72 +94,102 @@ export default function Profile() {
           </Styled.Data>
         </Styled.ProfileData>
         <Styled.Friends>
-          <PageHeader title="Friends" />
-          <Styled.FriendViews>
-            <Styled.View onClick={() => changeFriendView("FRIENDS")}>
-              Friends
-            </Styled.View>
-            <Styled.View onClick={() => changeFriendView("REQUESTS")}>
-              Requests
-              <Styled.QtyBubble quantity={friendRequests.length}>
-                {friendRequests.length}
-              </Styled.QtyBubble>
-            </Styled.View>
-            <Styled.View onClick={() => changeFriendView("PENDING")}>
-              Pending
-              <Styled.QtyBubble quantity={pendingFriendRequests.length}>
-                {pendingFriendRequests.length}
-              </Styled.QtyBubble>
-            </Styled.View>
-          </Styled.FriendViews>
-          {friendsView === "FRIENDS" &&
-            (acceptedFriends.length > 0 ? (
-              <Styled.FriendTableContainer>
-                <Styled.TableTitle>Your Friends</Styled.TableTitle>
-                <DataTable
-                  noHeader
-                  columns={columns}
-                  data={acceptedFriends}
-                  dense
-                />
-              </Styled.FriendTableContainer>
+          <PageHeader title="Friends">
+            {addFriend ? (
+              <StyledButton
+                height="30px"
+                width="100px"
+                color="GRAY"
+                onClick={toggleAddFriend}
+              >
+                Cancel
+              </StyledButton>
             ) : (
-              <Styled.NoFriends>
-                You have not added any friends yet.
-              </Styled.NoFriends>
-            ))}
-          {friendsView === "REQUESTS" &&
-            (friendRequests.length > 0 ? (
-              <Styled.FriendTableContainer>
-                <Styled.TableTitle>Pending Requests Received</Styled.TableTitle>
-                <DataTable
-                  noHeader
-                  columns={columns}
-                  data={friendRequests}
-                  dense
-                />
-              </Styled.FriendTableContainer>
-            ) : (
-              <Styled.NoFriends>
-                You have no friend requests to respond to
-              </Styled.NoFriends>
-            ))}
-          {friendsView === "PENDING" &&
-            (pendingFriendRequests.length > 0 ? (
-              <Styled.FriendTableContainer>
-                <Styled.TableTitle>Pending Requests Received</Styled.TableTitle>
-                <DataTable
-                  noHeader
-                  columns={columns}
-                  data={pendingFriendRequests}
-                  dense
-                />
-              </Styled.FriendTableContainer>
-            ) : (
-              <Styled.NoFriends>
-                You have no pending friend requests
-              </Styled.NoFriends>
-            ))}
+              <StyledButton
+                height="30px"
+                width="100px"
+                color="BLUE"
+                onClick={toggleAddFriend}
+              >
+                Add Friend
+              </StyledButton>
+            )}
+          </PageHeader>
+          {addFriend ? (
+            <AddFriend />
+          ) : (
+            <>
+              <Styled.FriendViews>
+                <Styled.View onClick={() => changeFriendView("FRIENDS")}>
+                  Friends
+                </Styled.View>
+                <Styled.View onClick={() => changeFriendView("REQUESTS")}>
+                  Requests
+                  <Styled.QtyBubble quantity={friendRequests.length}>
+                    {friendRequests.length}
+                  </Styled.QtyBubble>
+                </Styled.View>
+                <Styled.View onClick={() => changeFriendView("PENDING")}>
+                  Pending
+                  <Styled.QtyBubble quantity={pendingFriendRequests.length}>
+                    {pendingFriendRequests.length}
+                  </Styled.QtyBubble>
+                </Styled.View>
+              </Styled.FriendViews>
+              {friendsView === "FRIENDS" &&
+                (acceptedFriends.length > 0 ? (
+                  <Styled.FriendTableContainer>
+                    <Styled.TableTitle>Your Friends</Styled.TableTitle>
+                    <DataTable
+                      noHeader
+                      columns={columns}
+                      data={acceptedFriends}
+                      dense
+                    />
+                  </Styled.FriendTableContainer>
+                ) : (
+                  <Styled.NoFriends>
+                    You have not added any friends yet.
+                  </Styled.NoFriends>
+                ))}
+              {friendsView === "REQUESTS" &&
+                (friendRequests.length > 0 ? (
+                  <Styled.FriendTableContainer>
+                    <Styled.TableTitle>
+                      Pending Requests Received
+                    </Styled.TableTitle>
+                    <DataTable
+                      noHeader
+                      columns={columns}
+                      data={friendRequests}
+                      dense
+                    />
+                  </Styled.FriendTableContainer>
+                ) : (
+                  <Styled.NoFriends>
+                    You have no friend requests to respond to
+                  </Styled.NoFriends>
+                ))}
+              {friendsView === "PENDING" &&
+                (pendingFriendRequests.length > 0 ? (
+                  <Styled.FriendTableContainer>
+                    <Styled.TableTitle>
+                      Pending Requests Received
+                    </Styled.TableTitle>
+                    <DataTable
+                      noHeader
+                      columns={columns}
+                      data={pendingFriendRequests}
+                      dense
+                    />
+                  </Styled.FriendTableContainer>
+                ) : (
+                  <Styled.NoFriends>
+                    You have no pending friend requests
+                  </Styled.NoFriends>
+                ))}
+            </>
+          )}
         </Styled.Friends>
       </CollectionContainer>
     </CollectionWrapper>
