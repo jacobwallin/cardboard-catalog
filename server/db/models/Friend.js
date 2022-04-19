@@ -6,11 +6,9 @@ const Friend = db.define(
   {
     user_one_id: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
     },
     user_two_id: {
       type: DataTypes.DECIMAL,
-      primaryKey: true,
     },
     status: {
       type: DataTypes.STRING,
@@ -30,6 +28,10 @@ const Friend = db.define(
       {
         unique: true,
         fields: ["user_one_id", "user_two_id"],
+      },
+      {
+        unique: true,
+        fields: ["user_two_id", "user_one_id"],
       },
     ],
   }
