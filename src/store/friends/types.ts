@@ -93,6 +93,13 @@ export interface Friendship {
   user_one_id: number;
   user_two_id: number;
   status: "PENDING" | "ACCEPTED";
+  user_one: UserDetails;
+  user_two: UserDetails;
+}
+
+interface UserDetails {
+  id: number;
+  username: string;
 }
 
 export interface UserSearch {
