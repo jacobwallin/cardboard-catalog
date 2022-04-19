@@ -103,7 +103,7 @@ export const QtyBubble = styled.span<{ quantity: number }>`
   align-items: center;
   height: 20px;
   width: 20px;
-  background: ${(props) => (props.quantity > 0 ? "blue" : "#aaa")};
+  background: ${(props) => (props.quantity > 0 ? "blue" : "#777")};
   color: white;
   border-radius: 3px;
 `;
