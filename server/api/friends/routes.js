@@ -111,7 +111,7 @@ router.delete("/:friendshipId", async (req, res, next) => {
     });
     if (friendship) {
       await friendship.destroy();
-      res.sendStatus(200);
+      res.json("OK");
     } else {
       const error = new Error("friendship not found");
       error.status = 404;
@@ -124,7 +124,6 @@ router.delete("/:friendshipId", async (req, res, next) => {
 
 // username search
 router.get("/search", async (req, res, next) => {
-  console.log("DID WE GET HERE");
   let { username } = req.query;
   username = username.toLowerCase();
   try {

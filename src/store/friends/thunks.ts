@@ -58,7 +58,6 @@ export const deleteFriendship =
         dispatch(actions.rejectFriendSuccess(friendshipId));
       })
       .catch((err) => {
-        console.log("ERROR??????");
         dispatch(actions.rejectFriendFailure());
       });
   };
