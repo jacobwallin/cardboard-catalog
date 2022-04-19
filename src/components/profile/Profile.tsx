@@ -7,6 +7,7 @@ import {
   deleteFriendship,
   sendFriendRequest,
 } from "../../store/friends/thunks";
+import { clearSearchUser } from "../../store/friends/actions";
 import { Friendship } from "../../store/friends/types";
 import CollectionWrapper from "../shared/CollectionWrapper";
 import CollectionContainer from "../shared/CollectionContainer";
@@ -17,6 +18,10 @@ import AddFriend from "./add-friend/AddFriend";
 import StyledButton from "../Admin/components/StyledButton";
 import DataTable from "react-data-table-component";
 import { friendColumns, requestColumns, pendingColumns } from "./columns";
+import { createStatusSelector } from "../../store/loading/reducer";
+const sendFriendRequestStatusSelector = createStatusSelector(
+  "SEND_FRIEND_REQUEST"
+);
 
 type FriendViews = "FRIENDS" | "PENDING" | "REQUESTS";
 
@@ -30,6 +35,9 @@ export default function Profile() {
   const userSearch = useSelector(
     (state: RootState) => state.friends.userSearch
   );
+  const sendRequestStatus = useSelector((state: RootState) =>
+    sendFriendRequestStatusSelector(state)
+  );
 
   const [acceptedFriends, setAcceptedFriends] = useState<Friendship[]>([]);
   const [pendingFriendRequests, setPendingFriendRequests] = useState<
@@ -39,10 +47,19 @@ export default function Profile() {
   const [friendsView, setFriendsView] = useState<FriendViews>("FRIENDS");
 
   const [addFriend, setAddFriend] = useState(false);
+  const [friendRequestSent, setFriendRequestSent] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAllFriends());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (friendRequestSent && sendRequestStatus === "SUCCESS") {
+      setFriendsView("PENDING");
+      setAddFriend(false);
+      dispatch(clearSearchUser());
+    }
+  }, [friendRequestSent, sendRequestStatus]);
 
   useEffect(() => {
     let friends: Friendship[] = [];
@@ -71,6 +88,7 @@ export default function Profile() {
 
   function sendRequest(friendId: number) {
     dispatch(sendFriendRequest(friendId));
+    setFriendRequestSent(true);
   }
   function acceptRequest(friendshipId: number) {
     dispatch(acceptFriendRequest(friendshipId));
