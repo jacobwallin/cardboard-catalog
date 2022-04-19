@@ -38,13 +38,13 @@ export const FriendViews = styled.div`
   display: flex;
   justify-content: center;
 `;
-export const View = styled.div`
+export const View = styled.div<{ selected: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 140px;
   height: 40px;
-  background: #ddd;
+  background: ${(props) => (props.selected ? "#bbb" : "#ddd")};
 
   &:hover {
     background: #999;

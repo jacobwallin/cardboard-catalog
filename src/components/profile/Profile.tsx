@@ -59,7 +59,7 @@ export default function Profile() {
       setAddFriend(false);
       dispatch(clearSearchUser());
     }
-  }, [friendRequestSent, sendRequestStatus]);
+  }, [friendRequestSent, sendRequestStatus, dispatch]);
 
   useEffect(() => {
     let friends: Friendship[] = [];
@@ -150,16 +150,25 @@ export default function Profile() {
           ) : (
             <>
               <Styled.FriendViews>
-                <Styled.View onClick={() => changeFriendView("FRIENDS")}>
+                <Styled.View
+                  onClick={() => changeFriendView("FRIENDS")}
+                  selected={friendsView === "FRIENDS"}
+                >
                   Friends
                 </Styled.View>
-                <Styled.View onClick={() => changeFriendView("REQUESTS")}>
+                <Styled.View
+                  onClick={() => changeFriendView("REQUESTS")}
+                  selected={friendsView === "REQUESTS"}
+                >
                   Requests
                   <Styled.QtyBubble quantity={friendRequests.length}>
                     {friendRequests.length}
                   </Styled.QtyBubble>
                 </Styled.View>
-                <Styled.View onClick={() => changeFriendView("PENDING")}>
+                <Styled.View
+                  onClick={() => changeFriendView("PENDING")}
+                  selected={friendsView === "PENDING"}
+                >
                   Pending
                   <Styled.QtyBubble quantity={pendingFriendRequests.length}>
                     {pendingFriendRequests.length}
