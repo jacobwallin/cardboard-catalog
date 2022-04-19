@@ -67,12 +67,12 @@ export const searchUsername =
     username: string
   ): ThunkAction<void, RootState, unknown, types.FriendActions> =>
   (dispatch) => {
-    dispatch(actions.getAllFriendsRequest());
-    get(`/api/friends?username=${username}`, dispatch)
+    dispatch(actions.searchUsernameRequest());
+    get(`/api/friends/search/?username=${username}`, dispatch)
       .then((payload) => {
-        dispatch(actions.getAllFriendsSuccess(payload));
+        dispatch(actions.searchUsernameSuccess(payload));
       })
       .catch((err) => {
-        dispatch(actions.getAllFriendsFailure());
+        dispatch(actions.searchUsernameFailure());
       });
   };

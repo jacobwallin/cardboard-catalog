@@ -1,8 +1,19 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/user/thunks";
+import styled from "styled-components";
 
-import StyledButton from "../Admin/components/StyledButton";
+const Logout = styled.div`
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #555;
+  margin-right: 15px;
+
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+`;
 
 export default function LogoutButton() {
   const dispatch = useDispatch();
@@ -10,14 +21,5 @@ export default function LogoutButton() {
   function handleLogout() {
     dispatch(logout());
   }
-  return (
-    <StyledButton
-      width="100px"
-      height="30px"
-      color="GRAY"
-      onClick={handleLogout}
-    >
-      Logout
-    </StyledButton>
-  );
+  return <Logout onClick={handleLogout}>Logout</Logout>;
 }

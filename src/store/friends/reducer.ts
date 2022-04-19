@@ -33,6 +33,10 @@ export default function friendReducer(
       return state;
     case "SEARCH_USERNAME_SUCCESS":
       return { ...state, userSearch: action.user };
+    case "SEARCH_USERNAME_FAILURE":
+      return { ...state, userSearch: initialState.userSearch };
+    case "CLEAR_SEARCH_USER":
+      return { ...state, userSearch: initialState.userSearch };
     default:
       return state;
   }

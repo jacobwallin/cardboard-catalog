@@ -13,6 +13,7 @@ export const REJECT_FRIEND_REQUEST_FAILURE = "REJECT_FRIEND_REQUEST_FAILURE";
 export const SEARCH_USERNAME_REQUEST = "SEARCH_USERNAME_REQUEST";
 export const SEARCH_USERNAME_SUCCESS = "SEARCH_USERNAME_SUCCESS";
 export const SEARCH_USERNAME_FAILURE = "SEARCH_USERNAME_FAILURE";
+export const CLEAR_SEARCH_USER = "CLEAR_SEARCH_USER";
 
 interface GetAllFriendsRequest {
   type: typeof GET_ALL_FRIENDS_REQUEST;
@@ -65,6 +66,9 @@ interface SearchUsernameSuccess {
 interface SearchUsernameFailure {
   type: typeof SEARCH_USERNAME_FAILURE;
 }
+interface ClearSearchUser {
+  type: typeof CLEAR_SEARCH_USER;
+}
 
 export type FriendActions =
   | GetAllFriendsRequest
@@ -81,7 +85,8 @@ export type FriendActions =
   | AcceptFriendRequestFailure
   | RejectFriendRequestRequest
   | RejectFriendRequestSuccess
-  | RejectFriendRequestFailure;
+  | RejectFriendRequestFailure
+  | ClearSearchUser;
 
 export type FriendState = {
   friendships: Friendship[];

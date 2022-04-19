@@ -61,3 +61,7 @@ export const rejectFriendSuccess = (): types.FriendActions => ({
 export const rejectFriendFailure = (): types.FriendActions => ({
   type: types.REJECT_FRIEND_REQUEST_SUCCESS,
 });
+
+export const clearSearchUser = (): types.FriendActions => ({
+  type: types.CLEAR_SEARCH_USER,
+});

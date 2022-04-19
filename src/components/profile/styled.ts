@@ -52,8 +52,9 @@ export const View = styled.div`
   }
 
   @media only screen and (max-width: 500px) {
-    width: 80px;
+    width: 100px;
     height: 35px;
+    font-size: 0.9rem;
   }
 
   &:nth-child(1) {

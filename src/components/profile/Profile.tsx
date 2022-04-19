@@ -8,7 +8,7 @@ import CollectionContainer from "../shared/CollectionContainer";
 import LogoutButton from "./LogoutButton";
 import PageHeader from "../shared/PageHeader";
 import * as Styled from "./styled";
-import AddFriend from "./AddFriend";
+import AddFriend from "./add-friend/AddFriend";
 import StyledButton from "../Admin/components/StyledButton";
 
 import DataTable from "react-data-table-component";
@@ -145,6 +145,7 @@ export default function Profile() {
                       columns={columns}
                       data={acceptedFriends}
                       dense
+                      pagination
                     />
                   </Styled.FriendTableContainer>
                 ) : (
