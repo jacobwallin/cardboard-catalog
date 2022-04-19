@@ -20,8 +20,8 @@ const columns = [
     name: "Cards",
     selector: (row: SetCards) => row.totalCards,
     sortable: true,
-    minWidth: "75px",
-    maxWidth: "75px",
+    minWidth: "80px",
+    maxWidth: "80px",
     style: tableStyles,
   },
 
