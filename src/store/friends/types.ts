@@ -84,7 +84,7 @@ export type FriendActions =
   | RejectFriendRequestFailure;
 
 export type FriendState = {
-  friends: Friendship[];
+  friendships: Friendship[];
   userSearch: UserSearch;
 };
 

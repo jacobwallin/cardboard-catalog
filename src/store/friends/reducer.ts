@@ -1,7 +1,7 @@
 import * as types from "./types";
 
 const initialState: types.FriendState = {
-  friends: [],
+  friendships: [],
   userSearch: {
     id: 0,
     username: "",
@@ -16,11 +16,11 @@ export default function friendReducer(
     case "GET_ALL_FRIENDS_SUCCESS":
       return { ...state, friends: action.friends };
     case "SEND_FRIEND_REQUEST_SUCCESS":
-      return { ...state, friends: [...state.friends, action.friendship] };
+      return { ...state, friends: [...state.friendships, action.friendship] };
     case "ACCEPT_FRIEND_REQUEST_SUCCESS":
       return {
         ...state,
-        friends: state.friends.map((f) => {
+        friends: state.friendships.map((f) => {
           if (f.id === action.friendship.id) return action.friendship;
           return f;
         }),
