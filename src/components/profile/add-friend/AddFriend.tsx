@@ -32,14 +32,15 @@ export default function AddFriend() {
       <form>
         <Styled.SearchContainer>
           <Styled.InputContainer>
-            <Styled.UsernameLabel htmlFor="friend-username">
-              Search username
+            <Styled.UsernameLabel htmlFor="friend-search">
+              Search user-name
             </Styled.UsernameLabel>
             <Styled.UsernameInput
-              id="friend-username"
+              id="friend-search"
               value={username}
               onChange={searchChange}
               disabled={user.id !== 0}
+              autoComplete="off"
             />
           </Styled.InputContainer>
           <StyledButton
