@@ -5,14 +5,7 @@ const initialState: types.FriendState = {
   userSearch: {
     id: 0,
     username: "",
-    existingFriendship: {
-      id: 0,
-      user_one_id: 0,
-      user_two_id: 0,
-      status: "PENDING",
-      createdAt: "",
-      updatedAt: "",
-    },
+    existingFriendship: null,
   },
 };
 

@@ -117,7 +117,7 @@ export interface UserSearch {
     status: FriendshipStatus;
     createdAt: string;
     updatedAt: string;
-  };
+  } | null;
 }
 
 type FriendshipStatus = "PENDING" | "ACCEPTED";
