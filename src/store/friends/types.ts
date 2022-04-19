@@ -97,7 +97,7 @@ export interface Friendship {
   id: number;
   user_one_id: number;
   user_two_id: number;
-  status: "PENDING" | "ACCEPTED";
+  status: FriendshipStatus;
   user_one: UserDetails;
   user_two: UserDetails;
 }
@@ -110,4 +110,14 @@ interface UserDetails {
 export interface UserSearch {
   id: number;
   username: string;
+  existingFriendship: {
+    id: number;
+    user_one_id: number;
+    user_two_id: number;
+    status: FriendshipStatus;
+    createdAt: string;
+    updatedAt: string;
+  };
 }
+
+type FriendshipStatus = "PENDING" | "ACCEPTED";

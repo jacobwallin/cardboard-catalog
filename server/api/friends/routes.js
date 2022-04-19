@@ -114,7 +114,21 @@ router.get("/search", async (req, res, next) => {
       throw error;
     }
 
-    res.json(user);
+    // check if there is already a friendship
+    const existingFriendship = await Friend.findOne({
+      where: {
+        [Op.or]: [
+          {
+            [Op.and]: [{ user_one_id: req.user.id }, { user_two_id: user.id }],
+          },
+          {
+            [Op.and]: [{ user_one_id: user.id }, { user_two_id: req.user.id }],
+          },
+        ],
+      },
+    });
+
+    res.json({ user, existingFriendship });
   } catch (error) {
     next(error);
   }

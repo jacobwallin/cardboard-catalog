@@ -12,11 +12,6 @@ export const Container = styled.div`
   margin-bottom: 10px;
   padding-bottom: 10px;
   margin-top: 10px;
-  @media only screen and (max-width: 450px) {
-    flex-direction: column;
-    gap: 8px;
-    align-items: flex-start;
-  }
 `;
 
 export const StyledHeader = styled.div`
@@ -24,6 +19,9 @@ export const StyledHeader = styled.div`
   font-weight: 600;
   margin-left: 10px;
   color: #5a9bfd;
+  @media only screen and (max-width: 450px) {
+    font-size: 1.5rem;
+  }
 `;
 
 interface Props {
