@@ -70,6 +70,7 @@ export const Username = styled.div`
 export const UsernameButtonsContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 export const Close = styled.div`
@@ -88,4 +89,9 @@ export const Close = styled.div`
       fill: darkgray;
     }
   }
+`;
+
+export const AlreadyFriends = styled.div`
+  font-size: 0.9rem;
+  color: gray;
 `;

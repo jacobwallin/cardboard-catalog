@@ -102,7 +102,7 @@ export default function Profile() {
                 color="GRAY"
                 onClick={toggleAddFriend}
               >
-                Cancel
+                Close
               </StyledButton>
             ) : (
               <StyledButton
@@ -156,9 +156,7 @@ export default function Profile() {
               {friendsView === "REQUESTS" &&
                 (friendRequests.length > 0 ? (
                   <Styled.FriendTableContainer>
-                    <Styled.TableTitle>
-                      Pending Requests Received
-                    </Styled.TableTitle>
+                    <Styled.TableTitle>Friend Requests</Styled.TableTitle>
                     <DataTable
                       noHeader
                       columns={columns}
@@ -174,9 +172,7 @@ export default function Profile() {
               {friendsView === "PENDING" &&
                 (pendingFriendRequests.length > 0 ? (
                   <Styled.FriendTableContainer>
-                    <Styled.TableTitle>
-                      Pending Requests Received
-                    </Styled.TableTitle>
+                    <Styled.TableTitle>Friend Requests Sent</Styled.TableTitle>
                     <DataTable
                       noHeader
                       columns={columns}

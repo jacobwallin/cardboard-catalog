@@ -3,8 +3,10 @@ import * as types from "./types";
 const initialState: types.FriendState = {
   friendships: [],
   userSearch: {
-    id: 0,
-    username: "",
+    user: {
+      id: 0,
+      username: "",
+    },
     existingFriendship: null,
   },
 };

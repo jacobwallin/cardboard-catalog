@@ -39,7 +39,7 @@ export default function AddFriend() {
               id="friend-search"
               value={username}
               onChange={searchChange}
-              disabled={user.id !== 0}
+              disabled={user.user.id !== 0}
               autoComplete="off"
             />
           </Styled.InputContainer>
@@ -48,13 +48,13 @@ export default function AddFriend() {
             height="45px"
             color="BLUE"
             onClick={search}
-            disabled={username.length === 0 || user.id !== 0}
+            disabled={username.length === 0 || user.user.id !== 0}
           >
             Search
           </StyledButton>
         </Styled.SearchContainer>
       </form>
-      {user.id !== 0 && (
+      {user.user.id !== 0 && (
         <Styled.UserFoundContainer>
           <Styled.UserFound>User Found</Styled.UserFound>
           <Styled.Close onClick={clearFoundUser}>
@@ -62,10 +62,24 @@ export default function AddFriend() {
           </Styled.Close>
 
           <Styled.UsernameButtonsContainer>
-            <Styled.Username>{user.username}</Styled.Username>
-            <StyledButton width="115px" height="30px" color="BLUE">
-              Send Request
-            </StyledButton>
+            <Styled.Username>{user.user.username}</Styled.Username>
+            {!user.existingFriendship && (
+              <StyledButton width="115px" height="30px" color="BLUE">
+                Send Request
+              </StyledButton>
+            )}
+            {user.existingFriendship &&
+              user.existingFriendship.status === "ACCEPTED" && (
+                <Styled.AlreadyFriends>
+                  You are already friends
+                </Styled.AlreadyFriends>
+              )}
+            {user.existingFriendship &&
+              user.existingFriendship.status === "PENDING" && (
+                <Styled.AlreadyFriends>
+                  Friend request already exists
+                </Styled.AlreadyFriends>
+              )}
           </Styled.UsernameButtonsContainer>
         </Styled.UserFoundContainer>
       )}

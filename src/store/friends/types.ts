@@ -108,8 +108,7 @@ interface UserDetails {
 }
 
 export interface UserSearch {
-  id: number;
-  username: string;
+  user: UserDetails;
   existingFriendship: {
     id: number;
     user_one_id: number;
