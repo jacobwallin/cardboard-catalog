@@ -89,6 +89,7 @@ export type FriendState = {
 };
 
 export interface Friendship {
+  id: number;
   user_one_id: number;
   user_two_id: number;
   status: "PENDING" | "ACCEPTED";
