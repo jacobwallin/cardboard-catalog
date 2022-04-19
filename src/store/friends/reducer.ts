@@ -32,8 +32,12 @@ export default function friendReducer(
         }),
       };
     case "REJECT_FRIEND_REQUEST_SUCCESS":
-      // TODO: make this work
-      return state;
+      return {
+        ...state,
+        friendships: state.friendships.filter(
+          (f) => f.id !== action.friendshipId
+        ),
+      };
     case "SEARCH_USERNAME_SUCCESS":
       return { ...state, userSearch: action.user };
     case "SEARCH_USERNAME_FAILURE":

@@ -39,7 +39,22 @@ router.post("/", async (req, res, next) => {
       status: "PENDING",
     });
 
-    res.json(friendship);
+    let friendshipWithJoins = await Friend.findByPk(friendship.id, {
+      include: [
+        {
+          model: User,
+          as: "user_one",
+          attributes: ["id", "username"],
+        },
+        {
+          model: User,
+          as: "user_two",
+          attributes: ["id", "username"],
+        },
+      ],
+    });
+
+    res.json(friendshipWithJoins);
   } catch (error) {
     next(error);
   }
@@ -85,10 +100,10 @@ router.put("/:friendshipId", async (req, res, next) => {
 
 // deny received friend request, withdraw friend request, or remove a friend
 router.delete("/:friendshipId", async (req, res, next) => {
-  const { friendshipId } = req.body;
+  const { friendshipId } = req.params;
 
   try {
-    let friendship = await Friend.findByPk(friendshipId, {
+    let friendship = await Friend.findByPk(+friendshipId, {
       // user responding to friend request will always be user id 2
       where: {
         user_two_id: req.user.id,

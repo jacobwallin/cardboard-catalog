@@ -5,6 +5,7 @@ import {
   fetchAllFriends,
   acceptFriendRequest,
   deleteFriendship,
+  sendFriendRequest,
 } from "../../store/friends/thunks";
 import { Friendship } from "../../store/friends/types";
 import CollectionWrapper from "../shared/CollectionWrapper";
@@ -68,6 +69,9 @@ export default function Profile() {
     setAddFriend(!addFriend);
   }
 
+  function sendRequest(friendId: number) {
+    dispatch(sendFriendRequest(friendId));
+  }
   function acceptRequest(friendshipId: number) {
     dispatch(acceptFriendRequest(friendshipId));
   }
@@ -124,7 +128,7 @@ export default function Profile() {
             )}
           </PageHeader>
           {addFriend ? (
-            <AddFriend />
+            <AddFriend sendRequest={sendRequest} />
           ) : (
             <>
               <Styled.FriendViews>

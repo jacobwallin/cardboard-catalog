@@ -55,11 +55,14 @@ export const acceptFriendFailure = (): types.FriendActions => ({
 export const rejectFriendRequest = (): types.FriendActions => ({
   type: types.REJECT_FRIEND_REQUEST_REQUEST,
 });
-export const rejectFriendSuccess = (): types.FriendActions => ({
+export const rejectFriendSuccess = (
+  friendshipId: number
+): types.FriendActions => ({
   type: types.REJECT_FRIEND_REQUEST_SUCCESS,
+  friendshipId,
 });
 export const rejectFriendFailure = (): types.FriendActions => ({
-  type: types.REJECT_FRIEND_REQUEST_SUCCESS,
+  type: types.REJECT_FRIEND_REQUEST_FAILURE,
 });
 
 export const clearSearchUser = (): types.FriendActions => ({

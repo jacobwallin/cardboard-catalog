@@ -55,9 +55,10 @@ export const deleteFriendship =
     dispatch(actions.rejectFriendRequest());
     del(`/api/friends/${friendshipId}`, dispatch)
       .then((payload) => {
-        dispatch(actions.rejectFriendSuccess());
+        dispatch(actions.rejectFriendSuccess(friendshipId));
       })
       .catch((err) => {
+        console.log("ERROR??????");
         dispatch(actions.rejectFriendFailure());
       });
   };

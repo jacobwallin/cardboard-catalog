@@ -51,6 +51,7 @@ interface RejectFriendRequestRequest {
 }
 interface RejectFriendRequestSuccess {
   type: typeof REJECT_FRIEND_REQUEST_SUCCESS;
+  friendshipId: number;
 }
 interface RejectFriendRequestFailure {
   type: typeof REJECT_FRIEND_REQUEST_FAILURE;

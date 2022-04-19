@@ -5,6 +5,12 @@ export const AddFriendContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 40px;
+
+  form {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export const SearchContainer = styled.div`
@@ -94,4 +100,11 @@ export const Close = styled.div`
 export const AlreadyFriends = styled.div`
   font-size: 0.9rem;
   color: gray;
+`;
+
+export const NotFound = styled.div`
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 20px;
+  font-weight: 500;
 `;

@@ -7,12 +7,22 @@ import * as Styled from "./styled";
 import StyledButton from "../../Admin/components/StyledButton";
 import { ReactComponent as XIcon } from "../../Admin/components/modal/close.svg";
 
-export default function AddFriend() {
+import { createStatusSelector } from "../../../store/loading/reducer";
+const searchUsernameStatusSelector = createStatusSelector("SEARCH_USERNAME");
+
+interface Props {
+  sendRequest: (friendId: number) => void;
+}
+
+export default function AddFriend(props: Props) {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.friends.userSearch);
+  const searchUsernameStatus = useSelector((state: RootState) =>
+    searchUsernameStatusSelector(state)
+  );
 
   const [username, setUsername] = useState("");
-  const [requestSent, setRequestSent] = useState(false);
+  const [searchedUsername, setSearchedUsername] = useState("");
 
   function searchChange(e: React.ChangeEvent<HTMLInputElement>) {
     setUsername(e.target.value);
@@ -21,6 +31,7 @@ export default function AddFriend() {
   function search(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
     dispatch(searchUsername(username));
+    setSearchedUsername(username);
   }
 
   function clearFoundUser() {
@@ -53,6 +64,11 @@ export default function AddFriend() {
             Search
           </StyledButton>
         </Styled.SearchContainer>
+        {searchUsernameStatus === "FAILURE" && searchedUsername !== "" && (
+          <Styled.NotFound>
+            {`could not find user "${searchedUsername}"`}
+          </Styled.NotFound>
+        )}
       </form>
       {user.user.id !== 0 && (
         <Styled.UserFoundContainer>
@@ -64,7 +80,12 @@ export default function AddFriend() {
           <Styled.UsernameButtonsContainer>
             <Styled.Username>{user.user.username}</Styled.Username>
             {!user.existingFriendship && (
-              <StyledButton width="115px" height="30px" color="BLUE">
+              <StyledButton
+                width="115px"
+                height="30px"
+                color="BLUE"
+                onClick={() => props.sendRequest(user.user.id)}
+              >
                 Send Request
               </StyledButton>
             )}

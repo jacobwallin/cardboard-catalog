@@ -64,10 +64,10 @@ export const pendingColumns = (withdraw: (friendshipId: number) => void) => [
       <StyledButton
         width="75px"
         height="25px"
-        color="GREEN"
+        color="RED"
         onClick={() => withdraw(row.id)}
       >
-        Accept
+        Retract
       </StyledButton>
     ),
     grow: 0,
