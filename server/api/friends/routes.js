@@ -47,18 +47,31 @@ router.post("/", async (req, res, next) => {
 
 // confirm friend request
 router.put("/:friendshipId", async (req, res, next) => {
-  const { friendshipId } = req.body;
+  const { friendshipId } = req.params;
 
   try {
-    let friendship = await Friend.findByPk(friendshipId, {
+    let friendship = await Friend.findByPk(+friendshipId, {
       // user responding to friend request will always be user id 2
       where: {
         user_two_id: req.user.id,
       },
+      include: [
+        {
+          model: User,
+          as: "user_one",
+          attributes: ["id", "username"],
+        },
+        {
+          model: User,
+          as: "user_two",
+          attributes: ["id", "username"],
+        },
+      ],
     });
     if (friendship) {
       friendship.status = "ACCEPTED";
       await friendship.save();
+
       res.json(friendship);
     } else {
       const error = new Error("friendship not found");
@@ -70,7 +83,7 @@ router.put("/:friendshipId", async (req, res, next) => {
   }
 });
 
-// deny friend request
+// deny received friend request, withdraw friend request, or remove a friend
 router.delete("/:friendshipId", async (req, res, next) => {
   const { friendshipId } = req.body;
 

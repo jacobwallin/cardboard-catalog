@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
-import { fetchAllFriends } from "../../store/friends/thunks";
+import {
+  fetchAllFriends,
+  acceptFriendRequest,
+  deleteFriendship,
+} from "../../store/friends/thunks";
 import { Friendship } from "../../store/friends/types";
 import CollectionWrapper from "../shared/CollectionWrapper";
 import CollectionContainer from "../shared/CollectionContainer";
@@ -64,10 +68,18 @@ export default function Profile() {
     setAddFriend(!addFriend);
   }
 
-  function acceptRequest(friendshipId: number) {}
-  function rejectRequest(friendshipId: number) {}
-  function withdrawRequest(friendshipId: number) {}
-  function removeFriend(friendshipId: number) {}
+  function acceptRequest(friendshipId: number) {
+    dispatch(acceptFriendRequest(friendshipId));
+  }
+  function rejectRequest(friendshipId: number) {
+    dispatch(deleteFriendship(friendshipId));
+  }
+  function withdrawRequest(friendshipId: number) {
+    dispatch(deleteFriendship(friendshipId));
+  }
+  function removeFriend(friendshipId: number) {
+    dispatch(deleteFriendship(friendshipId));
+  }
 
   return (
     <CollectionWrapper>

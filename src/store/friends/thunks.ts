@@ -38,7 +38,7 @@ export const acceptFriendRequest =
   ): ThunkAction<void, RootState, unknown, types.FriendActions> =>
   (dispatch) => {
     dispatch(actions.acceptFriendRequest());
-    put(`/api/friends`, { friendshipId }, dispatch)
+    put(`/api/friends/${friendshipId}`, {}, dispatch)
       .then((payload) => {
         dispatch(actions.acceptFriendSuccess(payload));
       })
@@ -47,7 +47,7 @@ export const acceptFriendRequest =
       });
   };
 
-export const rejectFriendRequest =
+export const deleteFriendship =
   (
     friendshipId: number
   ): ThunkAction<void, RootState, unknown, types.FriendActions> =>
