@@ -42,7 +42,11 @@ router.get("/", async (req, res, next) => {
       });
 
       if (!existingFriendship) {
-        throw new Error("you do not have permission to view this collection");
+        let err = new Error(
+          "you do not have permission to view this collection"
+        );
+        err.status = 401;
+        throw err;
       } else {
         userId = +uid;
       }
