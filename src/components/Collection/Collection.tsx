@@ -14,7 +14,7 @@ export default function Collection() {
     <CollectionWrapper>
       <CollectionContainer>
         <Breadcrumbs />
-        <PageHeader title="Your Collection">
+        <PageHeader title="My Collection">
           <CollectionToggle />
         </PageHeader>
         <Routes>

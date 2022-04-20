@@ -26,7 +26,7 @@ interface Props {
 function CollectionData(props: Props) {
   return (
     <DataContainer>
-      <Title>Your Collection</Title>
+      <Title>My Collection</Title>
       <DataLine>{`Total Cards: ${props.totalCards}`}</DataLine>
     </DataContainer>
   );

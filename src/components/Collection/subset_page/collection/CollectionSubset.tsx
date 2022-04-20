@@ -179,7 +179,7 @@ export default function CollectionSubset(props: Props) {
       )}
       {!showAddCardForm && (
         <>
-          <SharedStyled.PageTitle>Your Collection</SharedStyled.PageTitle>
+          <SharedStyled.PageTitle>My Collection</SharedStyled.PageTitle>
           <Styled.Collection>
             <Styled.CardsInCollection>
               {props.tableData.distinctCards > 0 &&
