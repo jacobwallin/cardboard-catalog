@@ -50,7 +50,7 @@ const dataTableColumns = [
   {
     name: "",
     sortable: false,
-    cell: (row: SetSummary) => <EditLink to={`/admin/set/${row.id}`} />,
+    cell: (row: SetSummary) => <EditLink to={`/admin/set/${row.id}`} view />,
     grow: 0,
   },
 ];

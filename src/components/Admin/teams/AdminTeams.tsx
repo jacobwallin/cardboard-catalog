@@ -5,13 +5,13 @@ import { fetchTeamsByLeague } from "../../../store/library/teams/thunks";
 import { fetchLeagues } from "../../../store/library/leagues/thunks";
 import { Team } from "../../../store/library/teams/types";
 import AdminPageContainer from "../components/AdminPageContainer";
-import EditFormHeader from "../components/EditFormHeader";
 import { DataTableWrapper } from "../components/DataTableComponents";
 import DataTable from "react-data-table-component";
 import columns from "./columns";
 import StyledButton from "../components/StyledButton";
 import * as Styled from "./styled";
 import TeamModal from "./TeamModal";
+import { Header } from "../components/PageHeader";
 
 export default function AdminTeams() {
   const dispatch = useDispatch();
@@ -64,7 +64,7 @@ export default function AdminTeams() {
           leagueId={leagueId}
         />
       )}
-      <EditFormHeader text="Manage Teams" />
+      <Header>MANAGE TEAMS</Header>
       <DataTableWrapper>
         <Styled.AddButtonWrapper>
           <StyledButton

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { fetchAllPlayers } from "../../../store/library/players/thunks";
 import AdminPageContainer from "../components/AdminPageContainer";
-import EditFormHeader from "../components/EditFormHeader";
 import { DataTableWrapper } from "../components/DataTableComponents";
 import DataTable from "react-data-table-component";
 import columns from "./columns";
@@ -12,6 +11,7 @@ import { Player } from "../../../store/library/players/types";
 import { ReactComponent as XIcon } from "../components/modal/close.svg";
 import PlayerModal from "./PlayerModal";
 import * as Styled from "./styled";
+import { Header } from "../components/PageHeader";
 
 export default function AdminPlayer() {
   const dispatch = useDispatch();
@@ -73,7 +73,7 @@ export default function AdminPlayer() {
       {playerToEdit && (
         <PlayerModal dismiss={closePlayerModal} editPlayer={playerToEdit} />
       )}
-      <EditFormHeader text="Manage Players" />
+      <Header>MANAGE PLAYERS</Header>
       <DataTableWrapper>
         <Styled.AddButtonWrapper>
           <StyledButton

@@ -7,8 +7,8 @@ import DataTable from "react-data-table-component";
 import dataTableColumns from "./dataTableColumns";
 import AdminPageContainer from "../components/AdminPageContainer";
 import CreateButton from "../components/CreateButton";
-import EditFormHeader from "../components/EditFormHeader";
-import { DataTableWrapper } from "../components/DataTableComponents";
+import { Header } from "../components/PageHeader";
+import * as DataTableComponents from "../components/DataTableComponents";
 import SelectFilter from "../components/SelectFilter";
 import aggregate, { Return } from "./aggregate";
 import * as Styled from "./styled";
@@ -61,8 +61,8 @@ export default function AdminSets(props: Props) {
   return (
     <AdminPageContainer>
       {createSet && <CreateSetModal handleCancel={toggleModal} />}
-
-      <DataTableWrapper>
+      <Header>MANAGE SETS</Header>
+      <DataTableComponents.DataTableWrapper>
         <Styled.FilterContainer>
           <SelectFilter
             id="year"
@@ -93,8 +93,19 @@ export default function AdminSets(props: Props) {
             })}
           </SelectFilter>
         </Styled.FilterContainer>
+        <DataTableComponents.DataTableHeader>
+          <DataTableComponents.DataTableTitle>
+            Sets
+          </DataTableComponents.DataTableTitle>
+          <DataTableComponents.DataTableButtonsContainer>
+            <CreateButton onClick={() => setCreateSet(true)}>
+              Create Set
+            </CreateButton>
+          </DataTableComponents.DataTableButtonsContainer>
+        </DataTableComponents.DataTableHeader>
+
         <DataTable
-          title={`Card Sets`}
+          noHeader
           columns={dataTableColumns}
           data={allSets.filter((set) => {
             if (props.yearFilter !== 0 && set.year !== props.yearFilter)
@@ -107,13 +118,8 @@ export default function AdminSets(props: Props) {
           pagination
           paginationPerPage={20}
           dense
-          actions={
-            <CreateButton onClick={() => setCreateSet(true)}>
-              Create Set
-            </CreateButton>
-          }
         />
-      </DataTableWrapper>
+      </DataTableComponents.DataTableWrapper>
     </AdminPageContainer>
   );
 }
