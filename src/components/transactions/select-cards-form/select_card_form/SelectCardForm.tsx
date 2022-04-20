@@ -476,6 +476,7 @@ export default function SelectCardForm(props: Props) {
           placeholder="Card #"
           onChange={handleInputChange}
           disabled={selectedSeriesId === -1}
+          autoComplete="off"
         />
         <StyledButton
           type="submit"
