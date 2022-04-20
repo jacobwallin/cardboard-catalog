@@ -78,6 +78,7 @@ export default function SeriesForm(props: Props) {
             type="text"
             value={name}
             placeholder="Enter Parallel Name"
+            autoComplete="off"
             onChange={handleInputChange}
           />
         </FieldData>
@@ -90,6 +91,7 @@ export default function SeriesForm(props: Props) {
             type="number"
             value={serialized}
             placeholder="Enter #"
+            autoComplete="off"
             onChange={handleInputChange}
           />
         </FieldData>

@@ -125,6 +125,7 @@ export default function SetForm(props: Props) {
             type="text"
             value={name}
             placeholder="Enter Set Name"
+            autoComplete="off"
             onChange={handleInputChange}
           />
         </FieldData>
@@ -212,6 +213,7 @@ export default function SetForm(props: Props) {
             name="description"
             value={description}
             placeholder="Enter Set Description"
+            autoComplete="off"
             onChange={handleInputChange}
             rows={2}
             cols={5}

@@ -103,6 +103,7 @@ export default function SubsetForm(props: Props) {
             type="text"
             value={name}
             placeholder="Enter Subset Name"
+            autoComplete="off"
             onChange={handleInputChange}
           />
         </FieldData>
@@ -115,6 +116,7 @@ export default function SubsetForm(props: Props) {
             value={description}
             disabled={isUpdating}
             placeholder="Enter Description"
+            autoComplete="off"
             onChange={handleInputChange}
             style={{ height: "200px", width: "100%" }}
             rows={2}
@@ -130,6 +132,7 @@ export default function SubsetForm(props: Props) {
             type="text"
             value={prefix}
             placeholder="Enter Prefix"
+            autoComplete="off"
             onChange={handleInputChange}
           />
         </FieldData>
@@ -142,6 +145,7 @@ export default function SubsetForm(props: Props) {
             type="text"
             value={code || ""}
             placeholder="Enter Code"
+            autoComplete="off"
             onChange={handleInputChange}
           />
         </FieldData>
