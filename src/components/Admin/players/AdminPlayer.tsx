@@ -115,7 +115,6 @@ export default function AdminPlayer() {
             </Styled.AddButtonWrapper>
           </DataTableComponents.DataTableButtonsContainer>
         </DataTableComponents.DataTableHeader>
-
         <DataTable
           noHeader
           data={filteredPlayers}

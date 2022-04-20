@@ -10,8 +10,9 @@ import CreateButton from "../components/CreateButton";
 import { Header } from "../components/PageHeader";
 import * as DataTableComponents from "../components/DataTableComponents";
 import SelectFilter from "../components/SelectFilter";
-import aggregate, { Return } from "./aggregate";
+import { aggregateFilterValues, filterSets, FilterValues } from "./aggregate";
 import * as Styled from "./styled";
+import { SetSummary } from "../../../store/library/sets/types";
 
 import { createStatusSelector } from "../../../store/loading/reducer";
 
@@ -28,10 +29,11 @@ export default function AdminSets(props: Props) {
 
   // toggle to show form for creating a new set
   const [createSet, setCreateSet] = useState(false);
-  const [filterData, setFilterData] = useState<Return>({
+  const [filterData, setFilterData] = useState<FilterValues>({
     years: [],
     brands: [],
   });
+  const [filteredSets, setFilteredSets] = useState<SetSummary[]>([]);
 
   const allSets = useSelector((state: RootState) => state.library.sets.allSets);
   const createSetStatus = useSelector((state: RootState) =>
@@ -51,9 +53,10 @@ export default function AdminSets(props: Props) {
 
   useEffect(() => {
     if (allSets.length > 0) {
-      setFilterData(aggregate(allSets));
+      setFilterData(aggregateFilterValues(allSets, props.yearFilter));
+      setFilteredSets(filterSets(allSets, props.yearFilter, props.brandFilter));
     }
-  }, [allSets]);
+  }, [allSets, props]);
 
   function toggleModal() {
     setCreateSet(!createSet);
@@ -107,13 +110,7 @@ export default function AdminSets(props: Props) {
         <DataTable
           noHeader
           columns={dataTableColumns}
-          data={allSets.filter((set) => {
-            if (props.yearFilter !== 0 && set.year !== props.yearFilter)
-              return false;
-            if (props.brandFilter !== 0 && set.brandId !== props.brandFilter)
-              return false;
-            return true;
-          })}
+          data={filteredSets}
           highlightOnHover
           pagination
           paginationPerPage={20}
