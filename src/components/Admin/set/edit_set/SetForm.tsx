@@ -130,7 +130,7 @@ export default function SetForm(props: Props) {
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Year:</FieldTitle>
+        <FieldTitle>Year</FieldTitle>
         <FieldData>
           <StyledInputs.NumberInput
             name="year"
@@ -232,7 +232,6 @@ export default function SetForm(props: Props) {
         </FieldContainer>
       )}
       <FormButtons
-        handleCancel={props.handleCancel}
         handleSubmit={handleSubmit}
         disabled={
           updatingSet ||

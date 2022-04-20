@@ -14,8 +14,9 @@ const Container = styled.div`
 
 const Title = styled.div`
   font-weight: 400;
-  font-size: 1.3em;
+  font-size: 1.5em;
   text-align: center;
+  margin-bottom: 20px;
 `;
 
 const Close = styled.div`

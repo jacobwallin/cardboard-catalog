@@ -2,8 +2,7 @@ import styled from "styled-components";
 
 const ButtonContainer = styled.div`
   display: flex;
-  column-gap: 1em;
-  margin-top: 20px;
+  margin: 10px 10px 0 10px;
   width: 100%;
   justify-content: space-between;
 `;

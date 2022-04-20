@@ -218,7 +218,6 @@ export default function SubsetForm(props: Props) {
                 ]
               ))
         }
-        handleCancel={props.handleCancel}
         handleSubmit={handleFormSubmit}
       />
     </>

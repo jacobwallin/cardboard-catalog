@@ -55,6 +55,8 @@ export default function AdminSets(props: Props) {
   useEffect(() => {
     if (allSets.length > 0) {
       let filters = aggregateFilterValues(allSets, props.yearFilter);
+
+      // when switching year filter, reset brand filter if the brand does not exist in the selected year
       if (!filters.brands.some((b) => b.id === props.brandFilter)) {
         props.setBrandFilter(0);
       }

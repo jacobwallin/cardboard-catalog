@@ -107,7 +107,6 @@ export default function SeriesForm(props: Props) {
       </FieldContainer>
       <FormButtons
         handleSubmit={handleFormSubmit}
-        handleCancel={props.handleCancel}
         disabled={
           isLoading ||
           (props.createNew
