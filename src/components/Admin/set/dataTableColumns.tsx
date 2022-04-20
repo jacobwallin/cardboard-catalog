@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { ReactComponent as Checkmark } from "../subset/checkmark.svg";
 import { SubsetInstance } from "../../../store/library/subsets/types";
 import EditLink from "../components/EditLink";
+import SubtleLink from "../../shared/SubtleLink";
 
 export const SvgWrapper = styled.div`
   width: 20px;
@@ -12,8 +13,12 @@ export const SvgWrapper = styled.div`
 const dataTableColumns = [
   {
     name: "Name",
-    selector: (row: SubsetInstance) =>
-      row.prefix !== "" ? `${row.name} (${row.prefix})` : `${row.name}`,
+    selector: (row: SubsetInstance) => row.name,
+    cell: (row: SubsetInstance) => (
+      <SubtleLink to={`/admin/subset/${row.id}`}>
+        {row.prefix !== "" ? `${row.name} (${row.prefix})` : `${row.name}`}
+      </SubtleLink>
+    ),
     sortable: true,
   },
 
@@ -80,7 +85,9 @@ const dataTableColumns = [
   {
     name: "",
     sortable: false,
-    cell: (row: SubsetInstance) => <EditLink to={`/admin/subset/${row.id}`} />,
+    cell: (row: SubsetInstance) => (
+      <EditLink to={`/admin/subset/${row.id}`} view />
+    ),
     grow: 0,
   },
 ];
