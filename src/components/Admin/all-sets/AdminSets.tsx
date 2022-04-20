@@ -61,7 +61,7 @@ export default function AdminSets(props: Props) {
   return (
     <AdminPageContainer>
       {createSet && <CreateSetModal handleCancel={toggleModal} />}
-      <EditFormHeader text="Manage Sets" />
+
       <DataTableWrapper>
         <Styled.FilterContainer>
           <SelectFilter

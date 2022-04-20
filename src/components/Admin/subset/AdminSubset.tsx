@@ -171,8 +171,6 @@ export default function AdminSubset() {
           message={`Deleting a card from the checklist will remove it from the base set, and all parallel sets as well. \n\n This will also remove these cards from any user collections they are a part of.`}
         />
       )}
-      <Styled.Header> {`${subset.name}`} </Styled.Header>
-      <Styled.SubHeader>{`${subset.set.name}`}</Styled.SubHeader>
       <EditSubset subsetId={+subsetId} />
       <DataTableComponents.DataTableWrapper>
         <DataTableComponents.DataTableHeader>

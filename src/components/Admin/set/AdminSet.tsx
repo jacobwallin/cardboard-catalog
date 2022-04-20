@@ -66,7 +66,6 @@ export default function SetAdminPage() {
 
   return (
     <AdminPageContainer>
-      {/* <EditFormHeader text={`${set.name}`} /> */}
       <EditSet setId={+setId} />
       {aggregatedSubsets && (
         <>

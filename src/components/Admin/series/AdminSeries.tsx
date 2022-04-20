@@ -168,11 +168,6 @@ export default function AdminSeries() {
           message="This will delete the card from any user collections it is part of."
         />
       )}
-      <Header>
-        {series.name}
-        {series.subset.baseSeriesId === series.id || " Parallel"}
-      </Header>
-      <SubHeader>{`${series.subset.set.name} - ${series.subset.name}`}</SubHeader>
       <EditSeries seriesId={+seriesId} />
       <DataTableWrapper>
         <TableHeader.DataTableHeader>
