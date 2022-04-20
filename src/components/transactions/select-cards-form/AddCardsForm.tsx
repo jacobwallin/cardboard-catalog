@@ -79,7 +79,7 @@ export default function AddCardsForm(props: Props) {
   }, [postingCardsStatus]);
 
   function addCard(card: CardFormData) {
-    setCardData([...cardData, card]);
+    setCardData([card, ...cardData]);
   }
 
   function handleSerializedChange(cardIndex: number, serialNumber: string) {
