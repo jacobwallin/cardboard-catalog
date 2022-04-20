@@ -244,9 +244,11 @@ export default function SelectCardForm(props: Props) {
   function handleInputChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
+    const inputValue = event.target.value.toUpperCase();
+
     // set input value, subset prefix cannot be deleted
     if (event.target.value.indexOf(prefix) !== -1) {
-      setCardIdField(event.target.value.toUpperCase());
+      setCardIdField(inputValue);
     } else {
       setCardIdField(prefix);
     }
@@ -255,13 +257,13 @@ export default function SelectCardForm(props: Props) {
     if (selectFrom === "COLLECTION") {
       card = collectionCardOptions.find((userCard) => {
         return (
-          userCard.card.cardData.number === event.target.value &&
+          userCard.card.cardData.number === inputValue &&
           cardData.findIndex((card) => card.cardId === userCard.id) === -1
         );
       });
     } else {
       card = databaseCardOptions.find(
-        (card) => card.cardData.number === event.target.value
+        (card) => card.cardData.number === inputValue
       );
     }
     if (card) {
