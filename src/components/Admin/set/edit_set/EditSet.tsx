@@ -15,6 +15,7 @@ import ConfirmDeleteModal from "../../components/ConfirmDeleteModal";
 import ErrorMessage from "../../components/form/ErrorMessage";
 import CreatedUpdatedBy from "../../components/CreatedUpdatedBy";
 import { createStatusSelector } from "../../../../store/loading/reducer";
+import EditFormHeader from "../../components/EditFormHeader";
 
 const updatingSetSelector = createStatusSelector("UPDATE_SET");
 const deletingSetSelector = createStatusSelector("DELETE_SET");
@@ -104,6 +105,7 @@ export default function EditSet(props: Props) {
         />
       )}
       <FormContainer>
+        <EditFormHeader text={set.name} />
         {showForm ? (
           <SetForm
             createNew={false}
@@ -141,9 +143,9 @@ export default function EditSet(props: Props) {
               </FieldData>
             </FieldContainer>
             <FieldContainer>
-              <FieldTitle>Complete</FieldTitle>
+              <FieldTitle>Status</FieldTitle>
               <FieldData>
-                {set.complete === true ? "Set Completed" : "Not Completed"}
+                {set.complete === true ? "Completed" : "Incomplete"}
               </FieldData>
             </FieldContainer>
             <EditDeleteButtons

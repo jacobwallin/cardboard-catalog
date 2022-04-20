@@ -6,7 +6,7 @@ import { fetchLeagues } from "../../../store/library/leagues/thunks";
 import { Team } from "../../../store/library/teams/types";
 import AdminPageContainer from "../components/AdminPageContainer";
 import EditFormHeader from "../components/EditFormHeader";
-import { DataTableWrapper } from "../components/WrappedDataTable";
+import { DataTableWrapper } from "../components/DataTableComponents";
 import DataTable from "react-data-table-component";
 import columns from "./columns";
 import StyledButton from "../components/StyledButton";

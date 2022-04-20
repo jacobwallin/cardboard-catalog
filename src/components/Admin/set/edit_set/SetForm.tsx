@@ -220,7 +220,7 @@ export default function SetForm(props: Props) {
       </FieldContainer>
       {!props.createNew && (
         <FieldContainer>
-          <FieldTitle>Completed</FieldTitle>
+          <FieldTitle>Set Completed</FieldTitle>
           <FieldData>
             <input
               type="checkbox"

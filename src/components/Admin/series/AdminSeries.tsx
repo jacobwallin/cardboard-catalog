@@ -23,16 +23,15 @@ import {
   createCardDataTableData,
 } from "./dataTableColumns";
 import { Card, SeriesCardData } from "../../../store/library/series/types";
-import { DataTableWrapper } from "../components/WrappedDataTable";
+import { DataTableWrapper } from "../components/DataTableComponents";
 import { NoDataMessage } from "../../shared/NoDataMessage";
 import { Header, SubHeader } from "../components/PageHeader";
 import EditCardModal from "./edit_card_modal/EditCardModal";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
 import StyledButton from "../components/StyledButton";
-import * as TableHeader from "../components/DataTableHeader";
+import * as TableHeader from "../components/DataTableComponents";
 
 const isLoadingSelector = createLoadingSelector(["GET_SERIES"]);
-const updateCardStatusSelector = createStatusSelector("UPDATE_CARD");
 const deleteCardsStatusSelector = createStatusSelector("DELETE_CARDS");
 const modalLoadingSelector = createLoadingSelector([
   "DELETE_CARDS",

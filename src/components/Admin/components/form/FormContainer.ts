@@ -2,8 +2,9 @@ import styled from "styled-components";
 
 const EditFormContainer = styled.div`
   display: flex;
+  margin-top: 15px;
   flex-direction: column;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   align-items: center;
   background-color: #fff;
   /* border-radius: 7px; */

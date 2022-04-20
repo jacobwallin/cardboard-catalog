@@ -5,7 +5,7 @@ import { fetchAllBrands } from "../../../store/library/brands/thunks";
 import { fetchAllGradingCompanies } from "../../../store/library/grading_companies/thunks";
 import AdminPageContainer from "../components/AdminPageContainer";
 import EditFormHeader from "../components/EditFormHeader";
-import { DataTableWrapper } from "../components/WrappedDataTable";
+import { DataTableWrapper } from "../components/DataTableComponents";
 import DataTable from "react-data-table-component";
 import { brandColumns, companyColumns } from "./columns";
 import StyledButton from "../components/StyledButton";

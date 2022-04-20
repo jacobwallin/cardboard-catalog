@@ -8,7 +8,7 @@ import dataTableColumns from "./dataTableColumns";
 import AdminPageContainer from "../components/AdminPageContainer";
 import CreateButton from "../components/CreateButton";
 import EditFormHeader from "../components/EditFormHeader";
-import { DataTableWrapper } from "../components/WrappedDataTable";
+import { DataTableWrapper } from "../components/DataTableComponents";
 import SelectFilter from "../components/SelectFilter";
 import aggregate, { Return } from "./aggregate";
 import * as Styled from "./styled";

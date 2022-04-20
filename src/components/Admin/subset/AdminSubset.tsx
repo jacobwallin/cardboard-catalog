@@ -6,7 +6,6 @@ import { CardData } from "../../../store/library/subsets/types";
 import { fetchSubset } from "../../../store/library/subsets/thunks";
 import { deleteCards } from "../../../store/library/subsets/thunks";
 import DataTable from "react-data-table-component";
-import { DataTableWrapper } from "../components/WrappedDataTable";
 import {
   createLoadingSelector,
   createStatusSelector,
@@ -24,7 +23,7 @@ import sortCardNumbers from "../../../utils/sortCardNumbers";
 import { LoadingDots } from "../../shared/Loading";
 import StyledButton from "../components/StyledButton";
 import * as Styled from "./styled";
-import * as TableHeader from "../components/DataTableHeader";
+import * as DataTableComponents from "../components/DataTableComponents";
 
 import {
   cardsDataTableColumns,
@@ -50,7 +49,6 @@ export default function AdminSubset() {
   const [editCardData, setEditCardData] = useState<CardData | undefined>(
     undefined
   );
-  const [deleteCardId, setDeleteCardId] = useState(0);
   const [selectableRows, setSelectableRows] = useState(false);
   const [clearSelectedRows, setClearSelectedRows] = useState(false);
   const [selectedCardDataIds, setSelectedCardDataIds] = useState<number[]>([]);
@@ -78,7 +76,6 @@ export default function AdminSubset() {
       setShowCreateSeriesModal(false);
       setShowDeleteCardsModal(false);
       setEditCardData(undefined);
-      setDeleteCardId(0);
       if (selectableRows) {
         toggleSelectableRows();
       }
@@ -177,18 +174,33 @@ export default function AdminSubset() {
       <Styled.Header> {`${subset.name}`} </Styled.Header>
       <Styled.SubHeader>{`${subset.set.name}`}</Styled.SubHeader>
       <EditSubset subsetId={+subsetId} />
-      <DataTableWrapper>
+      <DataTableComponents.DataTableWrapper>
+        <DataTableComponents.DataTableHeader>
+          <DataTableComponents.DataTableTitle>
+            Base Cards
+          </DataTableComponents.DataTableTitle>
+        </DataTableComponents.DataTableHeader>
         <DataTable
-          title={`Base Set`}
+          noHeader
           columns={seriesDataTableColumns}
           data={baseSeries ? [baseSeries] : []}
           dense
           highlightOnHover
         />
-      </DataTableWrapper>
-      <DataTableWrapper>
+      </DataTableComponents.DataTableWrapper>
+      <DataTableComponents.DataTableWrapper>
+        <DataTableComponents.DataTableHeader>
+          <DataTableComponents.DataTableTitle>
+            Parallels
+          </DataTableComponents.DataTableTitle>
+          <DataTableComponents.DataTableButtonsContainer>
+            <CreateButton onClick={toggleCreateSeriesModal}>
+              Create Parallel
+            </CreateButton>
+          </DataTableComponents.DataTableButtonsContainer>
+        </DataTableComponents.DataTableHeader>
         <DataTable
-          title={`Parallels`}
+          noHeader
           columns={seriesDataTableColumns}
           data={subset.series
             .filter((series) => {
@@ -207,17 +219,14 @@ export default function AdminSubset() {
           noDataComponent={
             <NoDataMessage>There are no parallels in this set.</NoDataMessage>
           }
-          actions={
-            <CreateButton onClick={toggleCreateSeriesModal}>
-              Create Parallel
-            </CreateButton>
-          }
         />
-      </DataTableWrapper>
-      <DataTableWrapper>
-        <TableHeader.DataTableHeader>
-          <TableHeader.DataTableHeader>Checklist</TableHeader.DataTableHeader>
-          <TableHeader.DataTableButtonsContainer>
+      </DataTableComponents.DataTableWrapper>
+      <DataTableComponents.DataTableWrapper>
+        <DataTableComponents.DataTableHeader>
+          <DataTableComponents.DataTableTitle>
+            Checklist
+          </DataTableComponents.DataTableTitle>
+          <DataTableComponents.DataTableButtonsContainer>
             {!selectableRows ? (
               <>
                 <CreateButton onClick={toggleScrapeCardModal}>
@@ -264,8 +273,8 @@ export default function AdminSubset() {
                 </StyledButton>
               </>
             )}
-          </TableHeader.DataTableButtonsContainer>
-        </TableHeader.DataTableHeader>
+          </DataTableComponents.DataTableButtonsContainer>
+        </DataTableComponents.DataTableHeader>
         <DataTable
           noHeader
           columns={cardsDataTableColumns(showEditCardModal, selectableRows)}
@@ -284,7 +293,7 @@ export default function AdminSubset() {
             <NoDataMessage>No cards have been added to this set.</NoDataMessage>
           }
         />
-      </DataTableWrapper>
+      </DataTableComponents.DataTableWrapper>
     </AdminPageContainer>
   );
 }
