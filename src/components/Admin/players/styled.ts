@@ -4,6 +4,7 @@ export const SearchContainer = styled.div`
   position: relative;
   display: flex;
   gap: 5px;
+  margin: 10px 0 0 10px;
 `;
 
 export const Search = styled.input`
@@ -15,7 +16,7 @@ export const ClearSearch = styled.div`
   position: absolute;
   width: 20px;
   height: 20px;
-  right: 57px;
+  left: 177px;
   top: 5px;
   cursor: pointer;
   &:hover {

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { fetchAllPlayers } from "../../../store/library/players/thunks";
 import AdminPageContainer from "../components/AdminPageContainer";
-import { DataTableWrapper } from "../components/DataTableComponents";
+import * as DataTableComponents from "../components/DataTableComponents";
 import DataTable from "react-data-table-component";
 import columns from "./columns";
 import StyledButton from "../components/StyledButton";
@@ -74,44 +74,50 @@ export default function AdminPlayer() {
         <PlayerModal dismiss={closePlayerModal} editPlayer={playerToEdit} />
       )}
       <Header>MANAGE PLAYERS</Header>
-      <DataTableWrapper>
-        <Styled.AddButtonWrapper>
-          <StyledButton
-            color="GREEN"
-            width="125px"
-            height="27px"
-            onClick={openPlayerModal}
-          >
-            Add Player
-          </StyledButton>
-        </Styled.AddButtonWrapper>
+      <DataTableComponents.DataTableWrapper>
+        <form>
+          <Styled.SearchContainer>
+            <Styled.Search
+              type="text"
+              placeholder="search for player"
+              value={search}
+              onChange={handleSearchChange}
+            />
+            <StyledButton
+              color="BLUE"
+              width="50px"
+              height="30px"
+              fontSize=".85rem"
+              type="submit"
+              onClick={handleFilterChange}
+            >
+              Search
+            </StyledButton>
+            <Styled.ClearSearch onClick={clearSearch}>
+              <XIcon />
+            </Styled.ClearSearch>
+          </Styled.SearchContainer>
+        </form>
+        <DataTableComponents.DataTableHeader>
+          <DataTableComponents.DataTableTitle>
+            Players
+          </DataTableComponents.DataTableTitle>
+          <DataTableComponents.DataTableButtonsContainer>
+            <Styled.AddButtonWrapper>
+              <StyledButton
+                color="GREEN"
+                width="125px"
+                height="27px"
+                onClick={openPlayerModal}
+              >
+                Add Player
+              </StyledButton>
+            </Styled.AddButtonWrapper>
+          </DataTableComponents.DataTableButtonsContainer>
+        </DataTableComponents.DataTableHeader>
+
         <DataTable
-          title={`Players`}
-          actions={
-            <form>
-              <Styled.SearchContainer>
-                <Styled.Search
-                  type="text"
-                  placeholder="search for player"
-                  value={search}
-                  onChange={handleSearchChange}
-                />
-                <StyledButton
-                  color="BLUE"
-                  width="50px"
-                  height="30px"
-                  fontSize=".85rem"
-                  type="submit"
-                  onClick={handleFilterChange}
-                >
-                  Search
-                </StyledButton>
-                <Styled.ClearSearch onClick={clearSearch}>
-                  <XIcon />
-                </Styled.ClearSearch>
-              </Styled.SearchContainer>
-            </form>
-          }
+          noHeader
           data={filteredPlayers}
           columns={columns(editPlayer)}
           dense
@@ -119,7 +125,7 @@ export default function AdminPlayer() {
           paginationPerPage={20}
           highlightOnHover
         />
-      </DataTableWrapper>
+      </DataTableComponents.DataTableWrapper>
     </AdminPageContainer>
   );
 }
