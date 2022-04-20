@@ -15,6 +15,7 @@ export const seriesDataTableColumns = [
   },
   {
     name: "Serialized To",
+    selector: (row: SubsetSeries) => row.serialized || Infinity,
     cell: (row: SubsetSeries) => (row.serialized ? row.serialized : "-"),
     sortable: true,
   },
