@@ -6,12 +6,23 @@ export const PlayersContainer = styled.div`
   justify-content: center;
   align-items: flex-start;
 `;
-export const CurrentPlayersContainer = styled.div`
+
+export const AddedPlayersContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-width: 250px;
+`;
+export const PlayerAdded = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   margin-top: 5px;
+  border: 1px solid lightgray;
+  border-radius: 3px;
+  background-color: #eee;
+  padding: 6px;
+  width: 100%;
 `;
 export const AddPlayerContainer = styled.div`
   display: flex;

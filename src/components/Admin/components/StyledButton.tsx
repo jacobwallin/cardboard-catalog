@@ -17,7 +17,7 @@ const StyledButton = styled.button<ButtonProps>`
   border: none;
   border-radius: 3px;
   cursor: pointer;
-  font-size: ${(props) => props.fontSize || "0.9em"};
+  font-size: ${(props) => props.fontSize || "0.9rem"};
   &:disabled {
     opacity: 50%;
   }

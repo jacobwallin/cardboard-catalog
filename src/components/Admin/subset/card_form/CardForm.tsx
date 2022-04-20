@@ -4,13 +4,14 @@ import { RootState } from "../../../../store";
 import FieldContainer from "../../components/form/FieldContainer";
 import FieldTitle from "../../components/form/FieldTitle";
 import FieldData from "../../components/form/FieldData";
-import FormContainer from "../../components/form/FormContainer";
 import { PlayersState, Player } from "../../../../store/library/players/types";
 import NoteHelp from "./NoteHelp";
 import PlayerHelp from "./PlayerHelp";
 import StyledButton from "../../components/StyledButton";
-import * as Styled from "./styled";
 import { scrapeNewPlayer } from "../../../../store/library/players/thunks";
+import PlayerCard from "./player-card/PlayerCard";
+import * as Styled from "./styled";
+import * as StyledInputs from "../../components/form/Inputs";
 
 import { createStatusSelector } from "../../../../store/loading/reducer";
 const scrapePlayerStatusSelector = createStatusSelector("CREATE_PLAYER");
@@ -125,7 +126,7 @@ export default function CardForm(props: Props) {
       <FieldContainer>
         <FieldTitle>Number</FieldTitle>
         <FieldData>
-          <Styled.Input
+          <StyledInputs.NumberInput
             name="numberField"
             autoComplete="off"
             type="text"
@@ -138,7 +139,7 @@ export default function CardForm(props: Props) {
       <FieldContainer>
         <FieldTitle>Card Name</FieldTitle>
         <FieldData>
-          <Styled.Input
+          <StyledInputs.Input
             name="nameField"
             autoComplete="off"
             type="text"
@@ -156,7 +157,7 @@ export default function CardForm(props: Props) {
         <FieldData>
           <Styled.PlayersContainer>
             <Styled.AddPlayerContainer>
-              <Styled.Input
+              <StyledInputs.Input
                 type="text"
                 name="scrapeUrl"
                 placeholder="Baseball Reference URL"
@@ -166,8 +167,8 @@ export default function CardForm(props: Props) {
               />
               <StyledButton
                 color="GRAY"
-                height="25px"
-                width="100px"
+                height="33px"
+                width="125px"
                 onClick={scrapePlayer}
               >
                 Add Player
@@ -185,7 +186,7 @@ export default function CardForm(props: Props) {
               )}
 
             <Styled.AddPlayerContainer>
-              <Styled.Input
+              <StyledInputs.Input
                 type="text"
                 name="playerFilter"
                 placeholder="Filter Players"
@@ -195,15 +196,15 @@ export default function CardForm(props: Props) {
               />
               <StyledButton
                 color="GRAY"
-                height="25px"
-                width="50px"
+                height="33px"
+                width="75px"
                 onClick={clearPlayerFilter}
               >
                 Clear
               </StyledButton>
             </Styled.AddPlayerContainer>
             <Styled.AddPlayerContainer>
-              <Styled.Select
+              <StyledInputs.Select
                 name="selectedPlayerId"
                 value={selectedPlayerId}
                 onChange={handleSelectChange}
@@ -231,48 +232,39 @@ export default function CardForm(props: Props) {
                       </option>
                     );
                   })}
-              </Styled.Select>
+              </StyledInputs.Select>
               <StyledButton
                 color="BLUE"
-                height="25px"
-                width="50px"
+                height="33px"
+                width="75px"
                 onClick={addPlayer}
               >
                 Add
               </StyledButton>
             </Styled.AddPlayerContainer>
-            {props.formData.players.length > 0 ? (
-              props.formData.players.map((player) => {
-                return (
-                  <Styled.CurrentPlayersContainer key={player.id}>
-                    <StyledButton
-                      color="RED"
-                      height="25px"
-                      width="25px"
-                      onClick={() => props.deletePlayer(player.id)}
-                    >
-                      X
-                    </StyledButton>
-                    <Styled.PlayerName>
-                      <a href={player.url} target="_blank" rel="noopener">
-                        {player.name}
-                      </a>
-                    </Styled.PlayerName>
-                  </Styled.CurrentPlayersContainer>
-                );
-              })
-            ) : (
-              <Styled.NoPlayers>
-                No players have been added to this card.
-              </Styled.NoPlayers>
-            )}
+            <Styled.AddedPlayersContainer>
+              {props.formData.players.length > 0 ? (
+                props.formData.players.map((player) => {
+                  return (
+                    <PlayerCard
+                      player={player}
+                      deletePlayer={props.deletePlayer}
+                    />
+                  );
+                })
+              ) : (
+                <Styled.NoPlayers>
+                  No players have been added to this card.
+                </Styled.NoPlayers>
+              )}
+            </Styled.AddedPlayersContainer>
           </Styled.PlayersContainer>
         </FieldData>
       </FieldContainer>
       <FieldContainer>
         <FieldTitle>Team</FieldTitle>
         <FieldData>
-          <Styled.Select
+          <StyledInputs.Select
             name="team"
             value={props.formData.teamId}
             onChange={props.handleSelectChange}
@@ -295,7 +287,7 @@ export default function CardForm(props: Props) {
                   </option>
                 );
               })}
-          </Styled.Select>
+          </StyledInputs.Select>
         </FieldData>
       </FieldContainer>
       <FieldContainer>
@@ -315,7 +307,7 @@ export default function CardForm(props: Props) {
           <NoteHelp />
         </FieldTitle>
         <FieldData>
-          <Styled.LargeInput
+          <StyledInputs.LargeInput
             name="note"
             type="text"
             autoComplete="off"
