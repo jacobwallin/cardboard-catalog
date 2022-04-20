@@ -21,7 +21,8 @@ const createSetSelector = createStatusSelector("CREATE_SET");
 interface Props {
   yearFilter: number;
   brandFilter: number;
-  handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>): void;
+  setYearFilter(filter: number): void;
+  setBrandFilter(filter: number): void;
 }
 
 export default function AdminSets(props: Props) {
@@ -53,7 +54,11 @@ export default function AdminSets(props: Props) {
 
   useEffect(() => {
     if (allSets.length > 0) {
-      setFilterData(aggregateFilterValues(allSets, props.yearFilter));
+      let filters = aggregateFilterValues(allSets, props.yearFilter);
+      if (!filters.brands.some((b) => b.id === props.brandFilter)) {
+        props.setBrandFilter(0);
+      }
+      setFilterData(filters);
       setFilteredSets(filterSets(allSets, props.yearFilter, props.brandFilter));
     }
   }, [allSets, props]);
@@ -61,6 +66,16 @@ export default function AdminSets(props: Props) {
   function toggleModal() {
     setCreateSet(!createSet);
   }
+
+  function handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    if (e.target.id === "year") {
+      props.setYearFilter(+e.target.value);
+    }
+    if (e.target.id === "brand") {
+      props.setBrandFilter(+e.target.value);
+    }
+  }
+
   return (
     <AdminPageContainer>
       {createSet && <CreateSetModal handleCancel={toggleModal} />}
@@ -70,7 +85,7 @@ export default function AdminSets(props: Props) {
           <SelectFilter
             id="year"
             value={props.yearFilter}
-            onChange={props.handleSelectChange}
+            onChange={handleSelectChange}
           >
             <option value={0}>Select Year</option>
             {filterData.years.map((year) => {
@@ -84,7 +99,7 @@ export default function AdminSets(props: Props) {
           <SelectFilter
             id="brand"
             value={props.brandFilter}
-            onChange={props.handleSelectChange}
+            onChange={handleSelectChange}
           >
             <option value={0}>Select Brand</option>
             {filterData.brands.map((brand) => {
