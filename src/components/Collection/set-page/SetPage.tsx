@@ -19,8 +19,6 @@ import aggregateSubsetData, {
 } from "./aggregateSubsetData";
 import ReturnToMyCollection from "../shared/ReturnToMyCollection";
 import * as Styled from "./styled";
-import { viewMyCollection } from "../../../store/collection/browse/actions";
-import e from "express";
 
 const loadingSelector = createLoadingSelector([
   "GET_SINGLE_SET",
@@ -77,10 +75,6 @@ const SetPage = () => {
     }
   }, [cardsBySubset, set, isLoading]);
 
-  function returnToMyCollection() {
-    dispatch(viewMyCollection());
-  }
-
   function toggleCollectionQtys() {
     setShowCollectionQtys(!showCollectionQtys);
   }
@@ -98,11 +92,7 @@ const SetPage = () => {
     <CollectionWrapper>
       <CollectionContainer>
         <Breadcrumbs />
-        {collectionFriend.id !== 0 && (
-          <ReturnToMyCollection onClick={returnToMyCollection}>
-            Return to My Collection
-          </ReturnToMyCollection>
-        )}
+        <ReturnToMyCollection />
         <PageHeader title={set.name} />
         <PageContainer>
           <Styled.FlexContainer>

@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const PageTitle = styled.div`
   font-size: 1.7rem;
-  margin: 40px 0 40px 0;
-  align-self: center;
+  margin: 50px 0 20px 0;
+  align-self: flex-start;
 `;
 
 export const ShowAllCards = styled.div`

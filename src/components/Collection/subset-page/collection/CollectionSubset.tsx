@@ -35,6 +35,9 @@ export default function CollectionSubset(props: Props) {
   const deleteRequestStatus = useSelector((state: RootState) =>
     deleteStatusSelector(state)
   );
+  const collectionFriend = useSelector(
+    (state: RootState) => state.collection.browse.friend
+  );
 
   const [selectedSeriesId, setSelectedSeriesId] = useState(
     subset.baseSeriesId || 1
@@ -179,7 +182,11 @@ export default function CollectionSubset(props: Props) {
       )}
       {!showAddCardForm && (
         <>
-          <SharedStyled.PageTitle>My Collection</SharedStyled.PageTitle>
+          <SharedStyled.PageTitle>
+            {collectionFriend.id !== 0
+              ? `${collectionFriend.username}'s Collection`
+              : "My Collection"}
+          </SharedStyled.PageTitle>
           <Styled.Collection>
             <Styled.CardsInCollection>
               {props.tableData.distinctCards > 0 &&

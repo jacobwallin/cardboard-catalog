@@ -1,7 +1,7 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
 import { Route, Routes } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 import SelectSet from "./select-set/SelectSet";
 import PageHeader from "../shared/PageHeader";
 import CollectionToggle from "./header/CollectionToggle";
@@ -10,27 +10,16 @@ import CollectionWrapper from "../shared/CollectionWrapper";
 import CollectionContainer from "../shared/CollectionContainer";
 import Breadcrumbs from "../breadcrumbs/Breadcrumbs";
 import ReturnToMyCollection from "./shared/ReturnToMyCollection";
-import { viewMyCollection } from "../../store/collection/browse/actions";
 
 export default function Collection() {
-  const dispatch = useDispatch();
   const collectionFriend = useSelector(
     (state: RootState) => state.collection.browse.friend
   );
-
-  function returnToMyCollection() {
-    dispatch(viewMyCollection());
-  }
-
   return (
     <CollectionWrapper>
       <CollectionContainer>
         <Breadcrumbs />
-        {collectionFriend.id !== 0 && (
-          <ReturnToMyCollection onClick={returnToMyCollection}>
-            Return to My Collection
-          </ReturnToMyCollection>
-        )}
+        <ReturnToMyCollection />
         <PageHeader
           title={
             collectionFriend.id !== 0

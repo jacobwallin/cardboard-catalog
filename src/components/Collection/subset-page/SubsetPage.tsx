@@ -16,6 +16,7 @@ import * as Styled from "./styled";
 import sortSeries from "./sortSeries";
 import { TableData } from "./createTableData";
 import Breadcrumbs from "../../breadcrumbs/Breadcrumbs";
+import ReturnToMyCollection from "../shared/ReturnToMyCollection";
 
 import { createLoadingSelector } from "../../../store/loading/reducer";
 const loadingSelector = createLoadingSelector([
@@ -33,6 +34,9 @@ const SubsetPage = () => {
   const subset = useSelector((state: RootState) => state.library.subsets);
   const userCardsInSubset = useSelector(
     (state: RootState) => state.collection.browse.cardsInSingleSubset
+  );
+  const collectionFriend = useSelector(
+    (state: RootState) => state.collection.browse.friend
   );
 
   // ui state, toggles between collection and checklist view
@@ -54,8 +58,13 @@ const SubsetPage = () => {
     if (subsetId) {
       dispatch(fetchSubset(+subsetId));
       dispatch(fetchCardsInSingleSubset(+subsetId));
+      if (collectionFriend.id !== 0) {
+        dispatch(fetchCardsInSingleSubset(+subsetId, collectionFriend.id));
+      } else {
+        dispatch(fetchCardsInSingleSubset(+subsetId));
+      }
     }
-  }, []);
+  }, [dispatch, subsetId, collectionFriend]);
 
   // create table data once fetched
   useEffect(() => {
@@ -102,6 +111,7 @@ const SubsetPage = () => {
     <CollectionWrapper>
       <CollectionContainer>
         <Breadcrumbs />
+        <ReturnToMyCollection />
         <PageHeader
           title={subset.set.name}
           subTitle={`${subset.name}`}
