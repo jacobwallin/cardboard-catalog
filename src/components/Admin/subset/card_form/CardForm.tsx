@@ -13,6 +13,7 @@ import PlayerCard from "./player-card/PlayerCard";
 import * as Styled from "./styled";
 import * as StyledInputs from "../../components/form/Inputs";
 import SelectPlayer from "./select-player/SelectPlayer";
+import validatePlayerUrl from "../../../../utils/validatePlayerUrl";
 
 import { createStatusSelector } from "../../../../store/loading/reducer";
 const scrapePlayerStatusSelector = createStatusSelector("CREATE_PLAYER");
@@ -64,8 +65,10 @@ export default function CardForm(props: Props) {
   }
 
   function scrapePlayer() {
-    setShowPlayerAddedMessage(true);
-    dispatch(scrapeNewPlayer(playerScrapeUrl));
+    if (validatePlayerUrl(playerScrapeUrl)) {
+      setShowPlayerAddedMessage(true);
+      dispatch(scrapeNewPlayer(playerScrapeUrl));
+    }
   }
 
   function toggleAddPlayers() {
@@ -138,24 +141,30 @@ export default function CardForm(props: Props) {
                 <Styled.AddPlayerContainer>
                   <SelectPlayer addPlayer={addPlayer} />
                 </Styled.AddPlayerContainer>
-                <Styled.AddPlayerContainer>
-                  <StyledInputs.Input
-                    type="text"
-                    name="scrapeUrl"
-                    placeholder="Baseball Reference URL"
-                    autoComplete="off"
-                    value={playerScrapeUrl}
-                    onChange={handleInputChange}
-                  />
-                  <StyledButton
-                    color="GRAY"
-                    height="33px"
-                    width="125px"
-                    onClick={scrapePlayer}
-                  >
-                    Add Player
-                  </StyledButton>
-                </Styled.AddPlayerContainer>
+                <Styled.CreatePlayerContainer>
+                  <Styled.CreatePlayerNote>
+                    Add a player to the database
+                  </Styled.CreatePlayerNote>
+                  <Styled.UrlInputContainer>
+                    <Styled.UrlInput
+                      type="text"
+                      name="scrapeUrl"
+                      placeholder="Baseball Reference URL"
+                      autoComplete="off"
+                      value={playerScrapeUrl}
+                      onChange={handleInputChange}
+                    />
+                    <StyledButton
+                      color="GRAY"
+                      height="30px"
+                      width="110px"
+                      onClick={scrapePlayer}
+                      disabled={!validatePlayerUrl(playerScrapeUrl)}
+                    >
+                      Add Player
+                    </StyledButton>
+                  </Styled.UrlInputContainer>
+                </Styled.CreatePlayerContainer>
                 {scrapePlayerStatus === "SUCCESS" &&
                   showPlayerAddedMessage === true && (
                     <Styled.PlayerAddSuccess>

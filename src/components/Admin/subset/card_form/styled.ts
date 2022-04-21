@@ -23,6 +23,36 @@ export const AddPlayerContainer = styled.div`
   gap: 10px;
   width: 100%;
 `;
+
+export const CreatePlayerContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  margin: 0px 10px 10px 10px;
+  gap: 10px;
+`;
+
+export const UrlInput = styled.input`
+  width: 200px;
+  height: 30px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  font-size: 0.85rem;
+  font-weight: 300;
+`;
+
+export const UrlInputContainer = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+export const CreatePlayerNote = styled.div`
+  font-size: 0.8rem;
+  color: gray;
+`;
+
 export const AddPlayer = styled.div``;
 
 export const Input = styled.input`
