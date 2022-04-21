@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../store";
+import { fetchAllGradingCompanies } from "../../../store/library/grading_companies/thunks";
 import { Card } from "../../../store/library/series/types";
 import { CardData } from "../../../store/collection/browse/types";
 import StyledButton from "../../Admin/components/StyledButton";
 import SelectCardForm from "./select_card_form/SelectCardForm";
 import SelectedCards from "./selected-cards/SelectedCards";
-
 import {
   createLoadingSelector,
   createStatusSelector,
@@ -53,6 +53,7 @@ export default function AddCardsForm(props: Props) {
     canEditSelectedCards,
     title,
   } = props;
+  const dispatch = useDispatch();
 
   // error message will be displayed to user if form is not filled out correctly
   const [validationError, setValidationError] = useState(false);
@@ -69,6 +70,10 @@ export default function AddCardsForm(props: Props) {
   const postingCardsStatus = useSelector((state: RootState) =>
     postingCardsStatusSelector(state)
   );
+
+  useEffect(() => {
+    dispatch(fetchAllGradingCompanies());
+  }, [dispatch]);
 
   // reset card data only if post to server is successfull
   // data will remain if there is a server error so user can re-submit

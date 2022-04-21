@@ -31,7 +31,6 @@ interface Props {
 }
 export default function CollectionSubset(props: Props) {
   const dispatch = useDispatch();
-  const subset = useSelector((state: RootState) => state.library.subsets);
   const deleteRequestStatus = useSelector((state: RootState) =>
     deleteStatusSelector(state)
   );
@@ -39,13 +38,9 @@ export default function CollectionSubset(props: Props) {
     (state: RootState) => state.collection.browse.friend
   );
 
-  const [selectedSeriesId, setSelectedSeriesId] = useState(
-    subset.baseSeriesId || 1
-  );
   const [showAllCards, setShowAllCards] = useState(false);
   // toggles showing checkboxes to select cards to add to collection
   const [deleteCardsToggle, setDeleteCardsToggle] = useState(false);
-  const [clearSelected, setClearSelected] = useState(true);
   // toggles add card form modal when user wants to add cards to collection
   const [showAddCardForm, setShowAddCardForm] = useState(false);
   const [selectedCards, setSelectedCards] = useState<DeleteTableDataPoint[]>(
@@ -54,16 +49,11 @@ export default function CollectionSubset(props: Props) {
   const [cardFormData, setCardFormData] = useState<CardFormData[]>([]);
   const [numCardsDeleted, setNumCardsDeleted] = useState(0);
 
-  function handleSeriesChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    setSelectedSeriesId(+event.target.value);
-  }
-
   useEffect(() => {
     if (deleteRequestStatus === "SUCCESS") {
       setNumCardsDeleted(selectedCards.length);
-      setClearSelected(true);
     }
-  }, [deleteRequestStatus]);
+  }, [deleteRequestStatus, selectedCards]);
 
   interface Stuff {
     allSelected: boolean;
@@ -71,9 +61,6 @@ export default function CollectionSubset(props: Props) {
     selectedRows: Array<DeleteTableDataPoint>;
   }
   function addSelectedCardsChange(stuff: Stuff) {
-    if (clearSelected) {
-      setClearSelected(false);
-    }
     setSelectedCards(stuff.selectedRows);
   }
 
@@ -116,9 +103,9 @@ export default function CollectionSubset(props: Props) {
       (data: CardFormData[], card) => {
         data.push({
           cardId: card.id,
-          serialNumber: "",
-          grade: "",
-          gradingCompanyId: -1,
+          serialNumber: card.serialNumber ? String(card.serialNumber) : "",
+          grade: card.grade ? String(card.grade) : "",
+          gradingCompanyId: card.gradingCompanyId || -1,
           serialNumberError: false,
           gradeError: false,
           gradingCompanyError: false,
@@ -176,7 +163,7 @@ export default function CollectionSubset(props: Props) {
             submit={handleDelete}
             setCardData={setAddCardFormData}
             canEditSelectedCards={false}
-            title="Delete Cards from Your Collection"
+            title="Delete Cards from My Collection"
           />
         </>
       )}
@@ -255,7 +242,7 @@ export default function CollectionSubset(props: Props) {
               <TotalCards totalCards={props.tableData.totalCards} />
               {props.tableData.totalCards > 0 && collectionFriend.id === 0 && (
                 <StyledButton
-                  color={deleteCardsToggle ? "YELLOW" : "GRAY"}
+                  color="GRAY"
                   height="25px"
                   width="100px"
                   fontSize="13px"
@@ -272,9 +259,7 @@ export default function CollectionSubset(props: Props) {
               <DataTable
                 noHeader
                 dense
-                columns={deleteColumns(
-                  selectedSeriesId === subset.baseSeriesId
-                )}
+                columns={deleteColumns()}
                 data={props.tableData.userCards}
                 highlightOnHover
                 pagination
@@ -282,7 +267,6 @@ export default function CollectionSubset(props: Props) {
                 paginationPerPage={20}
                 selectableRows
                 onSelectedRowsChange={addSelectedCardsChange}
-                clearSelectedRows={clearSelected}
                 selectableRowsHighlight
                 noDataComponent={
                   <NoDataMessage>

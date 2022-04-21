@@ -63,7 +63,7 @@ export const columns = () => {
   ];
 };
 
-export const deleteColumns = (hideParallel: boolean) => {
+export const deleteColumns = () => {
   return [
     {
       name: "#",
@@ -115,14 +115,6 @@ export const deleteColumns = (hideParallel: boolean) => {
       sortable: false,
       style: modifiedStyles,
       grow: 4,
-    },
-    {
-      name: "Parallel Set",
-      selector: (row: DeleteTableDataPoint) => row.card.series.name,
-      sortable: true,
-      style: modifiedStyles,
-      grow: 4,
-      omit: hideParallel,
     },
   ];
 };

@@ -5,7 +5,6 @@ import { CardFormData } from "../AddCardsForm";
 
 import StyledButton from "../../../Admin/components/StyledButton";
 import { fetchAllSetData } from "../../../../store/library/sets/thunks";
-import { fetchAllGradingCompanies } from "../../../../store/library/grading_companies/thunks";
 import { fetchSet } from "../../../../store/library/sets/thunks";
 import { fetchCardsBySet } from "../../../../store/collection/browse/thunks";
 import { fetchSubset } from "../../../../store/library/subsets/thunks";
@@ -89,7 +88,6 @@ export default function SelectCardForm(props: Props) {
   // FETCH DATA
   useEffect(() => {
     // initial data load, either get all sets or only sets in user's collection
-    dispatch(fetchAllGradingCompanies());
     if (selectFrom === "COLLECTION") {
       dispatch(fetchCardsBySet());
     } else {
