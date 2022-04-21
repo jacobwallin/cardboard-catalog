@@ -16,8 +16,10 @@ const StyledButton = styled.button<ButtonProps>`
   height: ${(props) => props.height || "100%"};
   border: none;
   border-radius: 3px;
-  cursor: pointer;
   font-size: ${(props) => props.fontSize || "0.9rem"};
+  &:enabled {
+    cursor: pointer;
+  }
   &:disabled {
     opacity: 50%;
   }
@@ -46,7 +48,7 @@ const StyledButton = styled.button<ButtonProps>`
         return "#999999";
     }
   }};
-  &:hover {
+  &:hover:enabled {
     background: ${(props) => {
       switch (props.color) {
         case "BLUE":
@@ -62,7 +64,7 @@ const StyledButton = styled.button<ButtonProps>`
       }
     }};
   }
-  &:active {
+  &:active:enabled {
     background: ${(props) => {
       switch (props.color) {
         case "BLUE":
