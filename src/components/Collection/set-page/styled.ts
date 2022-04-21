@@ -17,8 +17,8 @@ export const FlexContainer = styled.div`
 export const Collection = styled.div`
   background: #eee;
   border: 1px solid #ccc;
-  padding: 0 15px 10px 15px;
-  width: 220px;
+  padding: 15px 15px 15px 15px;
+  width: 250px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -38,7 +38,6 @@ export const Title = styled.div`
   font-size: 1.1rem;
   color: #5a9bfd;
   text-align: center;
-  margin-top: 10px;
 `;
 
 export const ShowQtyContainer = styled.div`
