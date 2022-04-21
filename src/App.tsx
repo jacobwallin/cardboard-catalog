@@ -9,8 +9,8 @@ import { Collection, PageNotFound, Admin } from "./components/Views";
 import Transactions from "./components/transactions/Transactions";
 import Browse from "./components/browse/Browse";
 import Login from "./components/login/Login";
-import SetPage from "./components/Collection/set_page/SetPage";
-import SubsetPage from "./components/Collection/subset_page/SubsetPage";
+import SetPage from "./components/Collection/set-page/SetPage";
+import SubsetPage from "./components/Collection/subset-page/SubsetPage";
 import Profile from "./components/profile/Profile";
 
 const AppContainer = styled.div`

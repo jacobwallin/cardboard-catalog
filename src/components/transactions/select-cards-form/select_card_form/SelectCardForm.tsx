@@ -15,7 +15,7 @@ import {
   SeriesTableData,
   DeleteTableDataPoint,
   TableDataPoint,
-} from "../../../Collection/subset_page/createTableData";
+} from "../../../Collection/subset-page/createTableData";
 import * as aggregate from "./aggregate";
 import { SetSummary } from "../../../../store/library/sets/types";
 import * as Styled from "./styled";

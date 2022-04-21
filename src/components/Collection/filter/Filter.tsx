@@ -6,7 +6,7 @@ import { Filters } from "./types";
 import { fetchSet } from "../../../store/library/sets/thunks";
 import { fetchSubset } from "../../../store/library/subsets/thunks";
 import { createLoadingSelector } from "../../../store/loading/reducer";
-import sortSeries from "../../Collection/subset_page/sortSeries";
+import sortSeries from "../subset-page/sortSeries";
 
 const setLoadingSelector = createLoadingSelector(["GET_SINGLE_SET"]);
 const subsetLoadingSelector = createLoadingSelector(["GET_SUBSET"]);
