@@ -16,6 +16,7 @@ import EditDeleteButtons from "../../components/form/EditDeleteButtons";
 import ErrorMessage from "../../components/form/ErrorMessage";
 import CreatedUpdatedBy from "../../components/CreatedUpdatedBy";
 import { createStatusSelector } from "../../../../store/loading/reducer";
+import EditFormHeader from "../../components/EditFormHeader";
 
 const updatingSetSelector = createStatusSelector("UPDATE_SUBSET");
 const deletingSetSelector = createStatusSelector("DELETE_SUBSET");
@@ -90,6 +91,7 @@ export default function EditSubset(props: Props) {
         />
       )}
       <FormContainer>
+        <EditFormHeader text={subset.name} subText={subset.set.name} />
         {showForm ? (
           <SubsetForm
             createNew={false}

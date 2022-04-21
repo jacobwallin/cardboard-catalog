@@ -5,9 +5,13 @@ import { CollectionActionTypes } from "./types";
 import { get } from "../../../utils/fetch";
 
 export const fetchCardsBySet =
-  (): ThunkAction<any, RootState, any, CollectionActionTypes> => (dispatch) => {
+  (
+    friendId?: number
+  ): ThunkAction<any, RootState, any, CollectionActionTypes> =>
+  (dispatch) => {
     dispatch(actions.getCardsBySetRequest());
-    get("/api/collection/", dispatch)
+    const query = friendId ? `?friendId=${friendId}` : "";
+    get(`/api/collection/${query}`, dispatch)
       .then((data) => {
         dispatch(actions.setInitialDataLoad(true));
         dispatch(actions.getCardsBySetSuccess(data));
@@ -19,11 +23,13 @@ export const fetchCardsBySet =
 
 export const fetchCardsBySubset =
   (
-    setId: number
+    setId: number,
+    friendId?: number
   ): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
   (dispatch) => {
     dispatch(actions.getCardsBySubsetRequest());
-    get(`/api/collection/set/${setId}`, dispatch)
+    const query = friendId ? `?friendId=${friendId}` : "";
+    get(`/api/collection/set/${setId}${query}`, dispatch)
       .then((data) => {
         dispatch(
           actions.getCardsBySubsetSuccess({ cardsBySubset: data, setId })
@@ -36,10 +42,13 @@ export const fetchCardsBySubset =
 
 export const fetchCardsInSingleSubset =
   (
-    subsetId: number
+    subsetId: number,
+    friendId?: number
   ): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
   (dispatch) => {
-    get(`/api/collection/subset/${subsetId}`, dispatch)
+    dispatch(actions.getSingleSubsetCardsRequest());
+    const query = friendId ? `?friendId=${friendId}` : "";
+    get(`/api/collection/subset/${subsetId}${query}`, dispatch)
       .then((data) => {
         dispatch(
           actions.getSingleSubsetCardsSuccess({ cards: data, subsetId })

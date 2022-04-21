@@ -25,6 +25,8 @@ router.get("/:playerId", async (req, res, next) => {
   }
 });
 
+// *** ADMIN ROUTES ***
+
 router.post("/", isAdmin, async (req, res, next) => {
   const { name, fullName, birthday, hallOfFame, url } = req.body;
 

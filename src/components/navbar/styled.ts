@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export const Nav = styled.div`
-  background-color: rgb(0, 74, 206);
+  background-color: #004cce;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
@@ -24,11 +24,8 @@ export const SiteName = styled.div`
 
 export const StyledLink = styled(Link)`
   flex-grow: 0;
-  /* height: 40px; */
   color: white;
   border-radius: 10px;
-  padding: 5px;
-  margin: 10px;
   text-decoration: none;
   font-weight: bold;
   font-size: 0.9rem;
@@ -98,10 +95,17 @@ interface NavMenuProps {
 export const NavMenu = styled.div<NavMenuProps>`
   display: flex;
   flex-direction: row;
+  align-items: center;
   z-index: 3;
+  gap: 25px;
+  height: 100%;
+  margin-right: 15px;
 
   @media only screen and (max-width: 800px) {
+    margin-right: 0;
+    padding-left: 15px;
     flex-direction: column;
+    align-items: flex-start;
     background-color: rgb(0, 74, 206);
     position: fixed;
     transform: ${({ active }) =>
@@ -134,4 +138,11 @@ export const DemoHeader = styled.div`
 
 export const DemoInfo = styled.div`
   font-size: 0.7rem;
+`;
+
+export const ProfileIcon = styled.div`
+  width: 30px;
+  path {
+    fill: white;
+  }
 `;

@@ -5,13 +5,13 @@ import { fetchTeamsByLeague } from "../../../store/library/teams/thunks";
 import { fetchLeagues } from "../../../store/library/leagues/thunks";
 import { Team } from "../../../store/library/teams/types";
 import AdminPageContainer from "../components/AdminPageContainer";
-import EditFormHeader from "../components/EditFormHeader";
-import { DataTableWrapper } from "../components/WrappedDataTable";
+import * as DataTableComponents from "../components/DataTableComponents";
 import DataTable from "react-data-table-component";
 import columns from "./columns";
 import StyledButton from "../components/StyledButton";
 import * as Styled from "./styled";
 import TeamModal from "./TeamModal";
+import { Header } from "../components/PageHeader";
 
 export default function AdminTeams() {
   const dispatch = useDispatch();
@@ -64,34 +64,39 @@ export default function AdminTeams() {
           leagueId={leagueId}
         />
       )}
-      <EditFormHeader text="Manage Teams" />
-      <DataTableWrapper>
-        <Styled.AddButtonWrapper>
-          <StyledButton
-            color="GREEN"
-            width="125px"
-            height="27px"
-            fontSize=".9rem"
-            disabled={leagueId === 0}
-            onClick={openCreateModal}
-          >
-            Add Team
-          </StyledButton>
-        </Styled.AddButtonWrapper>
+      <Header>MANAGE TEAMS</Header>
+      <DataTableComponents.DataTableWrapper>
+        <Styled.SelectLeague value={leagueId} onChange={leagueIdChange}>
+          <option value={0}>Select League</option>
+          {leagues.map((l) => {
+            return (
+              <option key={l.id} value={l.id}>
+                {l.name}
+              </option>
+            );
+          })}
+        </Styled.SelectLeague>
+        <DataTableComponents.DataTableHeader>
+          <DataTableComponents.DataTableTitle>
+            Teams
+          </DataTableComponents.DataTableTitle>
+          <DataTableComponents.DataTableButtonsContainer>
+            <Styled.AddButtonWrapper>
+              <StyledButton
+                color="GREEN"
+                width="125px"
+                height="27px"
+                fontSize=".9rem"
+                disabled={leagueId === 0}
+                onClick={openCreateModal}
+              >
+                Add Team
+              </StyledButton>
+            </Styled.AddButtonWrapper>
+          </DataTableComponents.DataTableButtonsContainer>
+        </DataTableComponents.DataTableHeader>
         <DataTable
-          title="Teams"
-          actions={
-            <Styled.SelectLeague value={leagueId} onChange={leagueIdChange}>
-              <option value={0}>Select League</option>
-              {leagues.map((l) => {
-                return (
-                  <option key={l.id} value={l.id}>
-                    {l.name}
-                  </option>
-                );
-              })}
-            </Styled.SelectLeague>
-          }
+          noHeader
           data={teams}
           columns={columns(editTeam)}
           dense
@@ -99,7 +104,7 @@ export default function AdminTeams() {
           paginationPerPage={20}
           highlightOnHover
         />
-      </DataTableWrapper>
+      </DataTableComponents.DataTableWrapper>
     </AdminPageContainer>
   );
 }

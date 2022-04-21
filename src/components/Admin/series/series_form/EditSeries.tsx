@@ -18,6 +18,7 @@ import FormContainer from "../../components/form/FormContainer";
 import EditDeleteButtons from "../../components/form/EditDeleteButtons";
 import ConfirmDeleteModal from "../../components/ConfirmDeleteModal";
 import CreatedUpdatedBy from "../../components/CreatedUpdatedBy";
+import EditFormHeader from "../../components/EditFormHeader";
 
 const isUpdatingSelector = createLoadingSelector(["UPDATE_SERIES"]);
 const deletingSeriesSelector = createStatusSelector("DELETE_SERIES");
@@ -93,6 +94,14 @@ export default function EditCard(props: Props) {
         />
       )}
       <FormContainer>
+        <EditFormHeader
+          text={
+            series.subset.baseSeriesId !== series.id
+              ? `${series.name} Parallel`
+              : series.name
+          }
+          subText={`${series.subset.set.name} - ${series.subset.name}`}
+        />
         {isEditing ? (
           <SeriesForm
             createNew={false}

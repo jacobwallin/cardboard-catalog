@@ -1,6 +1,6 @@
 import createTableData, {
   SeriesTableData,
-} from "../../../Collection/subset_page/createTableData";
+} from "../../../Collection/subset-page/createTableData";
 import { SetSummary, Set } from "../../../../store/library/sets/types";
 import { Subset } from "../../../../store/library/subsets/types";
 import { UserCard } from "../../../../store/collection/browse/types";
@@ -8,7 +8,7 @@ import {
   SetCards,
   SubsetCards,
 } from "../../../../store/collection/browse/types";
-import sortSeries from "../../../Collection/subset_page/sortSeries";
+import sortSeries from "../../../Collection/subset-page/sortSeries";
 
 // these functions aggregate the API data for each of the select drop down menus
 export function aggregateYears(allSets: SetSummary[]): number[] {

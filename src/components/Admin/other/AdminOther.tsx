@@ -5,7 +5,7 @@ import { fetchAllBrands } from "../../../store/library/brands/thunks";
 import { fetchAllGradingCompanies } from "../../../store/library/grading_companies/thunks";
 import AdminPageContainer from "../components/AdminPageContainer";
 import EditFormHeader from "../components/EditFormHeader";
-import { DataTableWrapper } from "../components/WrappedDataTable";
+import { DataTableWrapper } from "../components/DataTableComponents";
 import DataTable from "react-data-table-component";
 import { brandColumns, companyColumns } from "./columns";
 import StyledButton from "../components/StyledButton";
@@ -13,6 +13,7 @@ import { Brand } from "../../../store/library/brands/types";
 import { GradingCompany } from "../../../store/library/grading_companies/types";
 import BrandModal from "./BrandModal";
 import CompanyModal from "./CompanyModal";
+import { Header } from "../components/PageHeader";
 
 export default function AdminOther() {
   const dispatch = useDispatch();
@@ -67,7 +68,7 @@ export default function AdminOther() {
       {brandToEdit && (
         <BrandModal dismiss={closeBrandModal} editBrand={brandToEdit} />
       )}
-      <EditFormHeader text="Manage Brands" />
+      <Header>MANAGE BRANDS</Header>
       <DataTableWrapper>
         <DataTable
           title="Brands"
@@ -92,7 +93,7 @@ export default function AdminOther() {
       {companyToEdit && (
         <CompanyModal dismiss={closeCompanyModal} editCompany={companyToEdit} />
       )}
-      <EditFormHeader text="Manage Grading Companies" />
+      <Header>MANAGE GRADING COMPANIES</Header>
       <DataTableWrapper>
         <DataTable
           title="Grading Companies"

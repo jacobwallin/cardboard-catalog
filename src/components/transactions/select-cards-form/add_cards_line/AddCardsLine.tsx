@@ -4,7 +4,7 @@ import { RootState } from "../../../../store";
 import StyledButton from "../../../Admin/components/StyledButton";
 import { CardFormData } from "../AddCardsForm";
 import { ReactComponent as XIcon } from "./close.svg";
-import CardNumber from "../../../Collection/subset_page/CardNumber";
+import CardNumber from "../../../Collection/subset-page/CardNumber";
 import * as Styled from "./styled";
 
 interface Props {

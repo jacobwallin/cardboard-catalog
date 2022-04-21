@@ -1,6 +1,6 @@
 import React from "react";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
-import CardNumber from "../../Collection/subset_page/CardNumber";
+import CardNumber from "../../Collection/subset-page/CardNumber";
 import {
   Card,
   Series,

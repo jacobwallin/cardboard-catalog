@@ -21,8 +21,9 @@ export const StyledLink = styled(Link)`
 
 interface Props {
   to: string;
+  view?: boolean;
 }
 
 export default function EditLink(props: Props) {
-  return <StyledLink to={props.to}>Edit</StyledLink>;
+  return <StyledLink to={props.to}>{props.view ? "View" : "Edit"}</StyledLink>;
 }

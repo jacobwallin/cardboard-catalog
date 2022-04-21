@@ -92,6 +92,8 @@ router.get("/:seriesId", async (req, res, next) => {
   }
 });
 
+// *** ADMIN ROUTES ***
+
 router.post("/", isAdmin, async (req, res, next) => {
   const { name, color, serialized, refractor, subsetId } = req.body;
 

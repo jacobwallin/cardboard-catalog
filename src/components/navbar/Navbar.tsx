@@ -5,8 +5,7 @@ import { RootState } from "../../store";
 import { fetchMe } from "../../store/user/thunks";
 
 import * as Styled from "./styled";
-import LogoutButton from "./logout/LogoutButton";
-import * as styled from "./styled";
+import { ReactComponent as UserIcon } from "./user.svg";
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -64,19 +63,27 @@ export default function Navbar() {
                   Admin
                 </Styled.StyledLink>
               )}
-              <LogoutButton />
+              <Styled.StyledLink
+                to="/profile"
+                className="navbar-link"
+                onClick={toggleHamburgerActive}
+              >
+                <Styled.ProfileIcon>
+                  <UserIcon />
+                </Styled.ProfileIcon>
+              </Styled.StyledLink>
             </Styled.NavMenu>
           </>
         )}
       </Styled.Nav>
       {user.id === 7 && (
-        <styled.Demo>
-          <styled.DemoHeader>Demo Mode - Admin User</styled.DemoHeader>
-          <styled.DemoInfo>
+        <Styled.Demo>
+          <Styled.DemoHeader>Demo Mode - Admin User</Styled.DemoHeader>
+          <Styled.DemoInfo>
             Admin pages are available but requests to create or edit will be
             rejected.
-          </styled.DemoInfo>
-        </styled.Demo>
+          </Styled.DemoInfo>
+        </Styled.Demo>
       )}
     </>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 import EditLink, { StyledLink } from "../components/EditLink";
-import StyledButton from "../components/StyledButton";
+import SubtleLink from "../../shared/SubtleLink";
 import { CardData, SubsetSeries } from "../../../store/library/subsets/types";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
 import { ReactComponent as Checkmark } from "./checkmark.svg";
@@ -11,10 +11,14 @@ export const seriesDataTableColumns = [
   {
     name: "Name",
     selector: (row: SubsetSeries) => row.name,
+    cell: (row: SubsetSeries) => (
+      <SubtleLink to={`/admin/series/${row.id}`}>{row.name}</SubtleLink>
+    ),
     sortable: true,
   },
   {
     name: "Serialized To",
+    selector: (row: SubsetSeries) => row.serialized || Infinity,
     cell: (row: SubsetSeries) => (row.serialized ? row.serialized : "-"),
     sortable: true,
   },
@@ -34,7 +38,9 @@ export const seriesDataTableColumns = [
   {
     name: "",
     sortable: false,
-    cell: (row: SubsetSeries) => <EditLink to={`/admin/series/${row.id}`} />,
+    cell: (row: SubsetSeries) => (
+      <EditLink to={`/admin/series/${row.id}`} view />
+    ),
     grow: 0,
   },
 ];

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Op, literal } = require("sequelize");
+const { Op } = require("sequelize");
 
 const { isUser } = require("../middleware");
 
@@ -13,17 +13,50 @@ const {
   Subset,
   Set,
   Team,
-  CardDataPlayer,
+  Friend,
 } = require("../db/models");
 
 const db = require("../db/db");
+const e = require("express");
 
 // collection api routes only available to logged in users
 router.use(isUser);
 
-router.get("/", async (req, res, next) => {
+// middleware to verify friendship exists when user is viewing a friend's collection
+const verifyFriendship = async (req, res, next) => {
+  const { uid } = req.query;
+  if (uid) {
+    try {
+      const existingFriendship = await Friend.findOne({
+        where: {
+          [Op.or]: [
+            {
+              [Op.and]: [{ user_one_id: req.user.id }, { user_two_id: uid }],
+            },
+            {
+              [Op.and]: [{ user_one_id: uid }, { user_two_id: req.user.id }],
+            },
+          ],
+        },
+      });
+
+      if (!existingFriendship) {
+        let err = new Error(
+          "you do not have permission to view this collection"
+        );
+        err.status = 401;
+        throw err;
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+  next();
+};
+
+router.get("/", verifyFriendship, async (req, res, next) => {
   try {
-    const userId = req.user.id;
+    const userId = req.query.friendId || req.user.id;
 
     // this query aggregates all cards in the user's collection by set, counting the amount of distinct cards and total cards per set
     const [results] = await db.query(
@@ -32,14 +65,14 @@ router.get("/", async (req, res, next) => {
 
     res.json(results);
   } catch (error) {
-    res.sendStatus(500);
+    next(error);
   }
 });
 
 // get any cards the user has for a specific set, aggregated by subset
-router.get("/set/:setId", async (req, res, next) => {
+router.get("/set/:setId", verifyFriendship, async (req, res, next) => {
   try {
-    const userId = req.user.id;
+    const userId = req.query.friendId || req.user.id;
 
     // this query aggregates all cards by subset, filtering by the setId and counting the amount of distinct cards and total cards per subset
     const [results] = await db.query(
@@ -48,12 +81,12 @@ router.get("/set/:setId", async (req, res, next) => {
 
     res.json(results);
   } catch (error) {
-    res.sendStatus(500);
+    next(error);
   }
 });
 
-router.get("/subset/:subsetId", async (req, res, next) => {
-  const userId = req.user.id;
+router.get("/subset/:subsetId", verifyFriendship, async (req, res, next) => {
+  const userId = req.query.friendId || req.user.id;
   // get all cards the user has for a specific subset
   try {
     const cards = await UserCard.findAll({
@@ -77,7 +110,7 @@ router.get("/subset/:subsetId", async (req, res, next) => {
 
     res.json(cards);
   } catch (error) {
-    res.sendStatus(500);
+    next(error);
   }
 });
 
@@ -101,9 +134,8 @@ router.post("/delete/bulk", async (req, res, next) => {
   }
 });
 
-router.get("/filter", async (req, res, next) => {
-  // sort by card name
-  // let playerSort = [Card, CardData, "number", "ASC"];
+router.get("/filter", verifyFriendship, async (req, res, next) => {
+  const userId = req.query.friendId || req.user.id;
 
   const cardDataInclude = [
     {
@@ -295,7 +327,7 @@ router.get("/filter", async (req, res, next) => {
     const userCards = await UserCard.findAndCountAll({
       // filters
       where: {
-        userId: req.user.id,
+        userId: userId,
         ...filters,
       },
       // pagination

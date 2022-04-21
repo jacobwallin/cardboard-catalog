@@ -1,6 +1,6 @@
 import React from "react";
 import { UserCardWithTransaction } from "../../../store/collection/transactions/types";
-import CardNumber from "../../Collection/subset_page/CardNumber";
+import CardNumber from "../../Collection/subset-page/CardNumber";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
 import { getFullSetName } from "../../Collection/filter/columns";
 

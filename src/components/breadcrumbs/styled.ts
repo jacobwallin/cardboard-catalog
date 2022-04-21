@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 export const BreadcrumbsContainer = styled.div`
   width: 100%;
+  margin: 3px 0 0 15px;
 `;
 
 export const BreadcrumbLink = styled(Link)<{ color: string }>`

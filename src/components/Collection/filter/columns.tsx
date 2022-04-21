@@ -2,7 +2,7 @@ import React from "react";
 import tableStyles from "../shared/dataTableStyles";
 import { UserCard } from "../../../store/collection/filter/types";
 import { TableColumn } from "react-data-table-component";
-import CardNumber from "../subset_page/CardNumber";
+import CardNumber from "../subset-page/CardNumber";
 import * as Styled from "./styled";
 
 export function columns(selectedCols: {

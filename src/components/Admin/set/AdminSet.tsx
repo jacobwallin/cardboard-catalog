@@ -3,17 +3,15 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSet } from "../../../store/library/sets/thunks";
 import { RootState } from "../../../store";
-import EditLink from "../components/EditLink";
 import EditSet from "./edit_set/EditSet";
-import WrappedDataTable from "../components/WrappedDataTable";
 import { createLoadingSelector } from "../../../store/loading/reducer";
 import CreateSubsetModal from "./subset_modal/CreateSubsetModal";
 import EditFormHeader from "../components/EditFormHeader";
 import AdminPageContainer from "../components/AdminPageContainer";
 import CreateButton from "../components/CreateButton";
 import { LoadingDots } from "../../shared/Loading";
-import { DataTableWrapper } from "../components/WrappedDataTable";
 import DataTable from "react-data-table-component";
+import * as DataTableComponents from "../components/DataTableComponents";
 import dataTableColumns from "./dataTableColumns";
 import aggregateSubsets, { AggregatedSubsets } from "./aggregateSubsets";
 import { NoDataMessage } from "../../shared/NoDataMessage";
@@ -68,67 +66,92 @@ export default function SetAdminPage() {
 
   return (
     <AdminPageContainer>
-      <EditFormHeader text={`${set.name}`} />
       <EditSet setId={+setId} />
       {aggregatedSubsets && (
         <>
-          <DataTableWrapper>
-            <DataTable
-              dense
-              highlightOnHover
-              title={`Base Set`}
-              columns={dataTableColumns}
-              data={aggregatedSubsets.base ? [aggregatedSubsets?.base] : []}
-              actions={
+          <DataTableComponents.DataTableWrapper>
+            <DataTableComponents.DataTableHeader>
+              <DataTableComponents.DataTableTitle>
+                Base Set
+              </DataTableComponents.DataTableTitle>
+              <DataTableComponents.DataTableButtonsContainer>
                 <CreateButton onClick={toggleCreateSubsetModal}>
                   Create Subset
                 </CreateButton>
+              </DataTableComponents.DataTableButtonsContainer>
+            </DataTableComponents.DataTableHeader>
+            <DataTable
+              noHeader
+              dense
+              highlightOnHover
+              columns={dataTableColumns}
+              data={aggregatedSubsets.base ? [aggregatedSubsets?.base] : []}
+            />
+          </DataTableComponents.DataTableWrapper>
+          <DataTableComponents.DataTableWrapper>
+            <DataTableComponents.DataTableHeader>
+              <DataTableComponents.DataTableTitle>
+                Short Prints
+              </DataTableComponents.DataTableTitle>
+            </DataTableComponents.DataTableHeader>
+            <DataTable
+              noHeader
+              dense
+              columns={dataTableColumns}
+              data={aggregatedSubsets.shortPrints}
+              pagination
+              paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30]}
+              paginationPerPage={5}
+              highlightOnHover
+              noDataComponent={
+                <NoDataMessage>
+                  No short print sets have been created.
+                </NoDataMessage>
               }
             />
-          </DataTableWrapper>
-          <WrappedDataTable
-            dense
-            title={`Short Print Sets`}
-            columns={dataTableColumns}
-            data={aggregatedSubsets.shortPrints}
-            pagination
-            paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30]}
-            paginationPerPage={5}
-            highlightOnHover
-            noDataComponent={
-              <NoDataMessage>
-                No short print sets have been created.
-              </NoDataMessage>
-            }
-          />
-          <WrappedDataTable
-            dense
-            title={`Insert Sets`}
-            columns={dataTableColumns}
-            data={aggregatedSubsets.inserts}
-            pagination
-            paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30]}
-            paginationPerPage={10}
-            highlightOnHover
-            noDataComponent={
-              <NoDataMessage>No insert sets have been created.</NoDataMessage>
-            }
-          />
-          <WrappedDataTable
-            dense
-            title={`Auto / Relic Sets`}
-            columns={dataTableColumns}
-            data={aggregatedSubsets.autoRelic}
-            pagination
-            paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30]}
-            paginationPerPage={10}
-            highlightOnHover
-            noDataComponent={
-              <NoDataMessage>
-                No auto / relic sets have been created.
-              </NoDataMessage>
-            }
-          />
+          </DataTableComponents.DataTableWrapper>
+          <DataTableComponents.DataTableWrapper>
+            <DataTableComponents.DataTableHeader>
+              <DataTableComponents.DataTableTitle>
+                Inserts
+              </DataTableComponents.DataTableTitle>
+            </DataTableComponents.DataTableHeader>
+            <DataTable
+              noHeader
+              dense
+              columns={dataTableColumns}
+              data={aggregatedSubsets.inserts}
+              pagination
+              paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30]}
+              paginationPerPage={10}
+              highlightOnHover
+              noDataComponent={
+                <NoDataMessage>No insert sets have been created.</NoDataMessage>
+              }
+            />
+          </DataTableComponents.DataTableWrapper>
+          <DataTableComponents.DataTableWrapper>
+            <DataTableComponents.DataTableHeader>
+              <DataTableComponents.DataTableTitle>
+                Autos & Relics
+              </DataTableComponents.DataTableTitle>
+            </DataTableComponents.DataTableHeader>
+            <DataTable
+              noHeader
+              dense
+              columns={dataTableColumns}
+              data={aggregatedSubsets.autoRelic}
+              pagination
+              paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30]}
+              paginationPerPage={10}
+              highlightOnHover
+              noDataComponent={
+                <NoDataMessage>
+                  No auto / relic sets have been created.
+                </NoDataMessage>
+              }
+            />
+          </DataTableComponents.DataTableWrapper>
         </>
       )}
       {showCreateSubsetModal && (

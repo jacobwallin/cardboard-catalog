@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const Header = styled.div`
-  margin-top: 25px;
-  margin-bottom: 5px;
-  font-size: 1.5rem;
-  max-width: 1200px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  font-weight: 500;
   text-align: center;
 `;
 export const SubHeader = styled.div`

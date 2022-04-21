@@ -7,11 +7,12 @@ import DataTable from "react-data-table-component";
 import dataTableColumns from "./dataTableColumns";
 import AdminPageContainer from "../components/AdminPageContainer";
 import CreateButton from "../components/CreateButton";
-import EditFormHeader from "../components/EditFormHeader";
-import { DataTableWrapper } from "../components/WrappedDataTable";
+import { Header } from "../components/PageHeader";
+import * as DataTableComponents from "../components/DataTableComponents";
 import SelectFilter from "../components/SelectFilter";
-import aggregate, { Return } from "./aggregate";
+import { aggregateFilterValues, filterSets, FilterValues } from "./aggregate";
 import * as Styled from "./styled";
+import { SetSummary } from "../../../store/library/sets/types";
 
 import { createStatusSelector } from "../../../store/loading/reducer";
 
@@ -20,7 +21,8 @@ const createSetSelector = createStatusSelector("CREATE_SET");
 interface Props {
   yearFilter: number;
   brandFilter: number;
-  handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>): void;
+  setYearFilter(filter: number): void;
+  setBrandFilter(filter: number): void;
 }
 
 export default function AdminSets(props: Props) {
@@ -28,10 +30,11 @@ export default function AdminSets(props: Props) {
 
   // toggle to show form for creating a new set
   const [createSet, setCreateSet] = useState(false);
-  const [filterData, setFilterData] = useState<Return>({
+  const [filterData, setFilterData] = useState<FilterValues>({
     years: [],
     brands: [],
   });
+  const [filteredSets, setFilteredSets] = useState<SetSummary[]>([]);
 
   const allSets = useSelector((state: RootState) => state.library.sets.allSets);
   const createSetStatus = useSelector((state: RootState) =>
@@ -51,23 +54,40 @@ export default function AdminSets(props: Props) {
 
   useEffect(() => {
     if (allSets.length > 0) {
-      setFilterData(aggregate(allSets));
+      let filters = aggregateFilterValues(allSets, props.yearFilter);
+
+      // when switching year filter, reset brand filter if the brand does not exist in the selected year
+      if (!filters.brands.some((b) => b.id === props.brandFilter)) {
+        props.setBrandFilter(0);
+      }
+      setFilterData(filters);
+      setFilteredSets(filterSets(allSets, props.yearFilter, props.brandFilter));
     }
-  }, [allSets]);
+  }, [allSets, props]);
 
   function toggleModal() {
     setCreateSet(!createSet);
   }
+
+  function handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    if (e.target.id === "year") {
+      props.setYearFilter(+e.target.value);
+    }
+    if (e.target.id === "brand") {
+      props.setBrandFilter(+e.target.value);
+    }
+  }
+
   return (
     <AdminPageContainer>
       {createSet && <CreateSetModal handleCancel={toggleModal} />}
-      <EditFormHeader text="Manage Sets" />
-      <DataTableWrapper>
+      <Header>MANAGE SETS</Header>
+      <DataTableComponents.DataTableWrapper>
         <Styled.FilterContainer>
           <SelectFilter
             id="year"
             value={props.yearFilter}
-            onChange={props.handleSelectChange}
+            onChange={handleSelectChange}
           >
             <option value={0}>Select Year</option>
             {filterData.years.map((year) => {
@@ -81,7 +101,7 @@ export default function AdminSets(props: Props) {
           <SelectFilter
             id="brand"
             value={props.brandFilter}
-            onChange={props.handleSelectChange}
+            onChange={handleSelectChange}
           >
             <option value={0}>Select Brand</option>
             {filterData.brands.map((brand) => {
@@ -93,27 +113,27 @@ export default function AdminSets(props: Props) {
             })}
           </SelectFilter>
         </Styled.FilterContainer>
+        <DataTableComponents.DataTableHeader>
+          <DataTableComponents.DataTableTitle>
+            Sets
+          </DataTableComponents.DataTableTitle>
+          <DataTableComponents.DataTableButtonsContainer>
+            <CreateButton onClick={() => setCreateSet(true)}>
+              Create Set
+            </CreateButton>
+          </DataTableComponents.DataTableButtonsContainer>
+        </DataTableComponents.DataTableHeader>
+
         <DataTable
-          title={`Card Sets`}
+          noHeader
           columns={dataTableColumns}
-          data={allSets.filter((set) => {
-            if (props.yearFilter !== 0 && set.year !== props.yearFilter)
-              return false;
-            if (props.brandFilter !== 0 && set.brandId !== props.brandFilter)
-              return false;
-            return true;
-          })}
+          data={filteredSets}
           highlightOnHover
           pagination
           paginationPerPage={20}
           dense
-          actions={
-            <CreateButton onClick={() => setCreateSet(true)}>
-              Create Set
-            </CreateButton>
-          }
         />
-      </DataTableWrapper>
+      </DataTableComponents.DataTableWrapper>
     </AdminPageContainer>
   );
 }

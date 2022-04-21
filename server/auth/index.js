@@ -19,10 +19,16 @@ router.post(
   "/register",
   (req, res, next) => {
     // explicitly destructure each field to prevent isAdmin or any other data from being sent to db
-    const { name, username, email, password } = req.body;
+    let { name, username, email, password } = req.body;
+
+    // convert email to lower case to make sure it is unique
+    email = email.toLowerCase();
+
+    // create user
     User.create({
       name,
       username,
+      username_lowercase: username,
       email,
       password,
     })
@@ -32,6 +38,7 @@ router.post(
       .catch((err) => {
         // set message to error from database
         err.message = err.errors[0].message;
+        console.log(err.message);
         next(err);
       });
   },
@@ -64,8 +71,9 @@ router.post("/logout", (req, res, next) => {
 
 // checks if username is available
 router.post("/username", (req, res, next) => {
-  const { username } = req.body;
-  User.findOne({ where: { username: username } })
+  let { username } = req.body;
+  username = username.toLowerCase();
+  User.findOne({ where: { username_lowercase: username } })
     .then((user) => {
       if (user) {
         res.json(false);
@@ -78,7 +86,8 @@ router.post("/username", (req, res, next) => {
 
 // checks if email is available
 router.post("/email", (req, res, next) => {
-  const { email } = req.body;
+  let { email } = req.body;
+  email = email.toLowerCase();
   User.findOne({ where: { email: email } })
     .then((user) => {
       if (user) {

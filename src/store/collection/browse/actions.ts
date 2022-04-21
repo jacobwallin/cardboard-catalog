@@ -1,68 +1,76 @@
-import {
-  SetCards,
-  SubsetCards,
-  UserCard,
-  CollectionActionTypes,
-} from "./types";
-
 import * as types from "./types";
 
-export const getCardsBySetRequest = (): CollectionActionTypes => ({
+export const getCardsBySetRequest = (): types.CollectionActionTypes => ({
   type: types.GET_CARDS_BY_SET_REQUEST,
 });
 export const getCardsBySetSuccess = (
-  cardsBySet: SetCards[]
-): CollectionActionTypes => ({
+  cardsBySet: types.SetCards[]
+): types.CollectionActionTypes => ({
   type: types.GET_CARDS_BY_SET_SUCCESS,
   cardsBySet,
 });
-export const getCardsBySetFailure = (): CollectionActionTypes => ({
+export const getCardsBySetFailure = (): types.CollectionActionTypes => ({
   type: types.GET_CARDS_BY_SET_FAILURE,
 });
 
-export const getCardsBySubsetRequest = (): CollectionActionTypes => ({
+export const getCardsBySubsetRequest = (): types.CollectionActionTypes => ({
   type: types.GET_CARDS_BY_SUBSET_REQUEST,
 });
 export const getCardsBySubsetSuccess = (payload: {
-  cardsBySubset: SubsetCards[];
+  cardsBySubset: types.SubsetCards[];
   setId: number;
-}): CollectionActionTypes => ({
+}): types.CollectionActionTypes => ({
   type: types.GET_CARDS_BY_SUBSET_SUCCESS,
   cardsBySubset: payload.cardsBySubset,
   setId: payload.setId,
 });
-export const getCardsBySubsetFailure = (): CollectionActionTypes => ({
+export const getCardsBySubsetFailure = (): types.CollectionActionTypes => ({
   type: types.GET_CARDS_BY_SUBSET_FAILURE,
 });
 
-export const getSingleSubsetCardsRequest = (): CollectionActionTypes => ({
+export const getSingleSubsetCardsRequest = (): types.CollectionActionTypes => ({
   type: types.GET_CARDS_IN_SINGLE_SUBSET_REQUEST,
 });
 export const getSingleSubsetCardsSuccess = (payload: {
-  cards: UserCard[];
+  cards: types.UserCard[];
   subsetId: number;
-}): CollectionActionTypes => ({
+}): types.CollectionActionTypes => ({
   type: types.GET_CARDS_IN_SINGLE_SUBSET_SUCCESS,
   cards: payload.cards,
   subsetId: payload.subsetId,
 });
-export const getSingleSubsetCardsFailure = (): CollectionActionTypes => ({
+export const getSingleSubsetCardsFailure = (): types.CollectionActionTypes => ({
   type: types.GET_CARDS_IN_SINGLE_SUBSET_FAILURE,
 });
 
 export const addCards = (
   newCards: types.UserCard[]
-): CollectionActionTypes => ({
+): types.CollectionActionTypes => ({
   type: types.ADD_CARDS,
   newCards,
 });
 
-export const deleteCards = (userCardIds: number[]): CollectionActionTypes => ({
+export const deleteCards = (
+  userCardIds: number[]
+): types.CollectionActionTypes => ({
   type: types.DELETE_CARDS,
   userCardIds,
 });
 
-export const setInitialDataLoad = (status: boolean): CollectionActionTypes => ({
+export const setInitialDataLoad = (
+  status: boolean
+): types.CollectionActionTypes => ({
   type: types.SET_INITIAL_DATA_LOAD,
   status,
+});
+
+export const viewFriendCollection = (
+  friend: types.Friend
+): types.CollectionActionTypes => ({
+  type: types.SET_FRIEND,
+  friend,
+});
+
+export const viewMyCollection = (): types.CollectionActionTypes => ({
+  type: types.REMOVE_FRIEND,
 });

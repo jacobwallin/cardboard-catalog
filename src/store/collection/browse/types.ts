@@ -14,6 +14,8 @@ export const GET_CARDS_IN_SINGLE_SUBSET_FAILURE =
 export const ADD_CARDS = "ADD_CARDS";
 export const DELETE_CARDS = "DELETE_CARDS";
 export const SET_INITIAL_DATA_LOAD = "SET_INITIAL_DATA_LOAD";
+export const SET_FRIEND = "SET_FRIEND";
+export const REMOVE_FRIEND = "REMOVE_FRIEND";
 
 // --- ACTIONS ---
 
@@ -69,6 +71,14 @@ export interface DeleteCards {
   userCardIds: number[];
 }
 
+export interface SetFriend {
+  type: typeof SET_FRIEND;
+  friend: Friend;
+}
+export interface RemoveFriend {
+  type: typeof REMOVE_FRIEND;
+}
+
 export type CollectionActionTypes =
   | GetCardsBySetSuccess
   | GetCardsBySetRequest
@@ -81,7 +91,9 @@ export type CollectionActionTypes =
   | GetCardsInSingleSubsetFailure
   | AddCards
   | DeleteCards
-  | SetInitialDataLoad;
+  | SetInitialDataLoad
+  | SetFriend
+  | RemoveFriend;
 
 // ---- *** COLLECTION REDUCER STATE TYPE *** ----
 export interface CollectionState {
@@ -95,7 +107,14 @@ export interface CollectionState {
     subsetId: number;
   };
   initialDataLoadComplete: boolean;
+  friend: Friend;
 }
+
+export interface Friend {
+  id: number;
+  username: string;
+}
+
 export interface SetCards {
   setId: number;
   setName: string;

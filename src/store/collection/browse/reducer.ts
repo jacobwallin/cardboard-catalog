@@ -11,6 +11,10 @@ const initialState: types.CollectionState = {
     subsetId: 0,
   },
   initialDataLoadComplete: false,
+  friend: {
+    id: 0,
+    username: "",
+  },
 };
 
 export default function collectionReducer(
@@ -62,6 +66,17 @@ export default function collectionReducer(
           ),
           subsetId: state.cardsInSingleSubset.subsetId,
         },
+      };
+    case types.SET_FRIEND:
+      return {
+        ...state,
+        friend: action.friend,
+      };
+    case types.REMOVE_FRIEND:
+      return {
+        ...state,
+        friend: initialState.friend,
+        initialDataLoadComplete: false,
       };
     default:
       return state;

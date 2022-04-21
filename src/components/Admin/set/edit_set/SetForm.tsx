@@ -125,12 +125,13 @@ export default function SetForm(props: Props) {
             type="text"
             value={name}
             placeholder="Enter Set Name"
+            autoComplete="off"
             onChange={handleInputChange}
           />
         </FieldData>
       </FieldContainer>
       <FieldContainer>
-        <FieldTitle>Year:</FieldTitle>
+        <FieldTitle>Year</FieldTitle>
         <FieldData>
           <StyledInputs.NumberInput
             name="year"
@@ -212,6 +213,7 @@ export default function SetForm(props: Props) {
             name="description"
             value={description}
             placeholder="Enter Set Description"
+            autoComplete="off"
             onChange={handleInputChange}
             rows={2}
             cols={5}
@@ -220,7 +222,7 @@ export default function SetForm(props: Props) {
       </FieldContainer>
       {!props.createNew && (
         <FieldContainer>
-          <FieldTitle>Completed</FieldTitle>
+          <FieldTitle>Set Completed</FieldTitle>
           <FieldData>
             <input
               type="checkbox"
@@ -232,7 +234,6 @@ export default function SetForm(props: Props) {
         </FieldContainer>
       )}
       <FormButtons
-        handleCancel={props.handleCancel}
         handleSubmit={handleSubmit}
         disabled={
           updatingSet ||

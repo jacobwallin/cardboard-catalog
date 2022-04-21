@@ -100,6 +100,8 @@ router.get("/:subsetId", async (req, res, next) => {
   }
 });
 
+// *** ADMIN ROUTES ***
+
 router.post("/", isAdmin, async (req, res, next) => {
   const {
     name,

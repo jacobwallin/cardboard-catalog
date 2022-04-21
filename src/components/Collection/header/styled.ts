@@ -1,40 +1,5 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-  padding-bottom: 10px;
-  margin-top: 10px;
-  @media only screen and (max-width: 450px) {
-    flex-direction: column;
-    gap: 8px;
-    align-items: flex-start;
-  }
-`;
-
-export const StyledHeader = styled.div`
-  font-size: 1.7em;
-  font-weight: 600;
-  margin-left: 10px;
-  color: #5a9bfd;
-`;
-
-export const StyledSubHeader = styled.div`
-  font-size: 1.1em;
-  font-weight: 600;
-  margin-left: 15px;
-  color: #5a9bfd;
-`;
-
-export const TitlesContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 export const FilterBrowse = styled.div`
   display: flex;
   flex-direction: row;

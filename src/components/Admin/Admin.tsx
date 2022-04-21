@@ -15,13 +15,12 @@ export default function Admin() {
   const [yearFilter, setYearFilter] = useState(0);
   const [brandFilter, setBrandFilter] = useState(0);
 
-  function handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    if (e.target.id === "year") {
-      setYearFilter(+e.target.value);
-    }
-    if (e.target.id === "brand") {
-      setBrandFilter(+e.target.value);
-    }
+  function changeYearFilter(filter: number) {
+    setYearFilter(filter);
+  }
+
+  function changeBrandFilter(filter: number) {
+    setBrandFilter(filter);
   }
 
   return (
@@ -37,7 +36,8 @@ export default function Admin() {
                 <AdminSets
                   yearFilter={yearFilter}
                   brandFilter={brandFilter}
-                  handleSelectChange={handleSelectChange}
+                  setYearFilter={changeYearFilter}
+                  setBrandFilter={changeBrandFilter}
                 />
               }
             />

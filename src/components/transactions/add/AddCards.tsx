@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { RootState } from "../../../store";
-import TransactionsHeader from "../../Collection/header/TransactionsHeader";
+import PageHeader from "../../shared/PageHeader";
 import AddCardsForm, { CardFormData } from "../select-cards-form/AddCardsForm";
 import { CardData } from "../../../store/collection/browse/types";
 import { addTransaction } from "../../../store/collection/transactions/thunks";
@@ -45,7 +45,7 @@ export default function AddCards() {
 
   return (
     <>
-      <TransactionsHeader title="Add To Your Collection" />
+      <PageHeader title="Add To Your Collection" />
       <AddCardsForm
         selectFrom="DATABASE"
         cardData={cardsAdded}

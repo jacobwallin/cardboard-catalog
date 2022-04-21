@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { fetchAllTransactions } from "../../../store/collection/transactions/thunks";
 import PageContainer from "../../shared/PageContainer";
-import TransactionsHeader from "../../Collection/header/TransactionsHeader";
+import PageHeader from "../../shared/PageHeader";
 import * as Styled from "../styled";
 import createTableData, {
   TransactionTableData,
@@ -31,7 +31,7 @@ export default function Main() {
 
   return (
     <>
-      <TransactionsHeader title="Transactions" />
+      <PageHeader title="Transactions" />
       <PageContainer>
         <Styled.Header>Create New Transaction</Styled.Header>
         <Styled.TransactionsContainer>

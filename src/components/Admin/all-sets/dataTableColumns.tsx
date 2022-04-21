@@ -3,11 +3,15 @@ import EditLink from "../components/EditLink";
 import { ReactComponent as Checkmark } from "../subset/checkmark.svg";
 import { SetSummary } from "../../../store/library/sets/types";
 import * as Styled from "./styled";
+import SubtleLink from "../../shared/SubtleLink";
 
 const dataTableColumns = [
   {
     name: "Name",
     selector: (row: SetSummary) => row.name,
+    cell: (row: SetSummary) => (
+      <SubtleLink to={`/admin/set/${row.id}`}>{row.name}</SubtleLink>
+    ),
     sortable: true,
   },
   {
@@ -46,7 +50,7 @@ const dataTableColumns = [
   {
     name: "",
     sortable: false,
-    cell: (row: SetSummary) => <EditLink to={`/admin/set/${row.id}`} />,
+    cell: (row: SetSummary) => <EditLink to={`/admin/set/${row.id}`} view />,
     grow: 0,
   },
 ];
