@@ -11,6 +11,10 @@ const initialState: types.CollectionState = {
     subsetId: 0,
   },
   initialDataLoadComplete: false,
+  friend: {
+    id: 0,
+    username: "",
+  },
 };
 
 export default function collectionReducer(

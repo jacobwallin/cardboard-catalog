@@ -95,6 +95,10 @@ export interface CollectionState {
     subsetId: number;
   };
   initialDataLoadComplete: boolean;
+  friend: {
+    id: number;
+    username: string;
+  };
 }
 export interface SetCards {
   setId: number;
