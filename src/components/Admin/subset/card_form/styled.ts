@@ -19,7 +19,7 @@ export const AddPlayerContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0px 10px 10px 0;
+  margin: 0px 10px 5px 0;
   gap: 10px;
   width: 100%;
 `;
@@ -29,12 +29,12 @@ export const CreatePlayerContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: left;
-  margin: 0px 10px 10px 10px;
-  gap: 10px;
+  margin: 0px 0px 20px 0px;
+  gap: 5px;
 `;
 
 export const UrlInput = styled.input`
-  width: 200px;
+  width: 225px;
   height: 30px;
   padding: 5px;
   border-radius: 5px;
