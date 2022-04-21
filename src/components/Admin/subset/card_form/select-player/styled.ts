@@ -12,5 +12,11 @@ export const SearchInput = styled.input`
   height: 27px;
   width: 175px;
   font-size: 0.8rem;
+`;
+
+export const SearchContainer = styled.form`
+  display: flex;
+  gap: 5px;
   align-self: flex-start;
+  align-items: center;
 `;
