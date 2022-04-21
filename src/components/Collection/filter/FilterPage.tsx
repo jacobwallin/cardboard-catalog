@@ -296,7 +296,6 @@ export default function FilterPage() {
           sortDirection={pdfSortDirection}
         />
       )}
-      <Styled.PageHeader>{"Filter & Search All Cards"}</Styled.PageHeader>
       <Styled.ShowFiltersToggle onClick={toggleShowFilters}>
         {showFilters ? "Hide Filters" : "Show Filters"}
       </Styled.ShowFiltersToggle>
