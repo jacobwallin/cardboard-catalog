@@ -9,7 +9,7 @@ const ReturnToMyCollection = styled.div`
   height: 22px;
   width: 150px;
   font-size: 0.8rem;
-  color: gray;
+  color: #555;
   cursor: pointer;
   background-color: #ddd;
   border-radius: 3px;

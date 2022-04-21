@@ -2,8 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { Route, Routes } from "react-router-dom";
-import SelectYear from "./select_year/SelectYear";
-import SelectSet from "./select_set/SelectSet";
+import SelectSet from "./select-set/SelectSet";
 import PageHeader from "../shared/PageHeader";
 import CollectionToggle from "./header/CollectionToggle";
 import FilterPage from "./filter/FilterPage";
@@ -42,7 +41,7 @@ export default function Collection() {
           <CollectionToggle />
         </PageHeader>
         <Routes>
-          <Route path="/" element={<SelectYear />} />
+          <Route path="/" element={<SelectSet />} />
           <Route path="filter" element={<FilterPage />} />
           <Route path=":year" element={<SelectSet />} />
         </Routes>
