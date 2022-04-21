@@ -19,4 +19,26 @@ export const SearchContainer = styled.form`
   gap: 5px;
   align-self: flex-start;
   align-items: center;
+  position: relative;
+`;
+
+export const Close = styled.div`
+  position: absolute;
+  left: 152px;
+  top: 3px;
+  width: 20px;
+  .ex {
+    fill: black;
+  }
+  &:hover {
+    cursor: pointer;
+    .ex {
+      fill: gray;
+    }
+  }
+  &:active {
+    .ex {
+      fill: darkgray;
+    }
+  }
 `;

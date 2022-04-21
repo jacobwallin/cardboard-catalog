@@ -6,6 +6,7 @@ import DataTable from "react-data-table-component";
 import * as Styled from "./styled";
 import { columns, customStyles } from "./dataTable";
 import StyledButton from "../../../components/StyledButton";
+import { ReactComponent as CloseIcon } from "../../../components/modal/close.svg";
 
 interface Props {
   addPlayer(player: Player): void;
@@ -37,9 +38,17 @@ export default function SelectPlayer(props: Props) {
     }
   }
 
+  function clearSearch() {
+    setPlayerSearch("");
+    setSearchField("");
+  }
+
   return (
     <Styled.Container>
       <Styled.SearchContainer>
+        <Styled.Close onClick={clearSearch}>
+          <CloseIcon />
+        </Styled.Close>
         <Styled.SearchInput
           type="text"
           placeholder="search players"
