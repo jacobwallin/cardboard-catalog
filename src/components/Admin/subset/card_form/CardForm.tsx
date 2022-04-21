@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store";
 import FieldContainer from "../../components/form/FieldContainer";
@@ -37,13 +37,11 @@ interface Props {
 export default function CardForm(props: Props) {
   const dispatch = useDispatch();
 
-  const [selectedPlayerId, setSelectedPlayerId] = useState(0);
   const [playerScrapeUrl, setPlayerScrapeUrl] = useState("");
   const [showPlayerAddedMessage, setShowPlayerAddedMessage] = useState(false);
   const [addPlayers, setAddPlayers] = useState(false);
 
   const teams = useSelector((state: RootState) => state.library.teams);
-  const players = useSelector((state: RootState) => state.library.players);
   const scrapePlayerStatus = useSelector((state: RootState) =>
     scrapePlayerStatusSelector(state)
   );
@@ -58,29 +56,10 @@ export default function CardForm(props: Props) {
     }
   }
 
-  function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    const { value } = event.target;
-
-    switch (event.target.name) {
-      case "selectedPlayerId":
-        setSelectedPlayerId(+value);
-        break;
-    }
-  }
-
-  function addPlayer() {
-    if (selectedPlayerId !== 0) {
-      if (
-        // prevent adding same player multiple times
-        props.formData.players.findIndex(
-          (player) => player.id === selectedPlayerId
-        ) === -1
-      ) {
-        const playerToAdd = players.find(
-          (player) => player.id === selectedPlayerId
-        )!;
-        props.addPlayer(playerToAdd);
-      }
+  function addPlayer(player: Player) {
+    // prevent adding same player multiple times
+    if (props.formData.players.findIndex((p) => p.id === player.id) === -1) {
+      props.addPlayer(player);
     }
   }
 
@@ -140,7 +119,7 @@ export default function CardForm(props: Props) {
                 })
               ) : (
                 <Styled.NoPlayers>
-                  No players have been added to this card.
+                  No players have been added to this card
                 </Styled.NoPlayers>
               )}
             </Styled.AddedPlayersContainer>
@@ -156,7 +135,10 @@ export default function CardForm(props: Props) {
             </Styled.AddPlayerButton>
             {addPlayers && (
               <>
-                {/* <Styled.AddPlayerContainer>
+                <Styled.AddPlayerContainer>
+                  <SelectPlayer addPlayer={addPlayer} />
+                </Styled.AddPlayerContainer>
+                <Styled.AddPlayerContainer>
                   <StyledInputs.Input
                     type="text"
                     name="scrapeUrl"
@@ -185,10 +167,7 @@ export default function CardForm(props: Props) {
                     <Styled.PlayerAddFail>
                       Error Adding Player
                     </Styled.PlayerAddFail>
-                  )} */}
-                <Styled.AddPlayerContainer>
-                  <SelectPlayer addPlayer={props.addPlayer} />
-                </Styled.AddPlayerContainer>
+                  )}
               </>
             )}
           </Styled.PlayersContainer>

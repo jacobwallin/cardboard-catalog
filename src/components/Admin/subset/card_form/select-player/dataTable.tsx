@@ -14,7 +14,7 @@ export const columns = (addPlayer: (player: Player) => void) => [
         <LinkIcon />
       </LinkIconWrapper>
     ),
-    sortable: true,
+    sortable: false,
     grow: 0,
   },
   {

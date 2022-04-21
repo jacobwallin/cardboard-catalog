@@ -32,6 +32,7 @@ export const RemoveIconWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 20px;
+  height: 20px;
   .ex {
     fill: black;
   }
