@@ -99,7 +99,6 @@ export default function Profile() {
       } else if (f.user_one_id === user.id) pending.push(f);
       else requests.push(f);
     });
-    console.log(friends, pending, requests, friendships);
     setAcceptedFriends(friends);
     setPendingFriendRequests(pending);
     setFriendRequests(requests);
