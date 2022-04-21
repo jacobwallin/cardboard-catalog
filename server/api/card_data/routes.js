@@ -47,6 +47,7 @@ router.get("/:cardDataId", async (req, res, next) => {
 // *** ADMIN ROUTES ***
 
 router.get("/scrape", isAdmin, async (req, res, next) => {
+  console.log("ARE WE HERE???");
   const { url } = req.query;
   console.log("SCRAPE: ", req.query);
 
@@ -58,6 +59,7 @@ router.get("/scrape", isAdmin, async (req, res, next) => {
       const cardData = await require("./scrape")(url);
       res.json(cardData);
     } catch (error) {
+      console.log("ERROR: ", error.message);
       next(error);
     }
   } else {

@@ -8,7 +8,7 @@ const SidebarContainer = styled.div`
   width: 200px;
   background: #292929;
   /* border-right: 2px solid white; */
-  @media only screen and (max-width: 800px) {
+  @media only screen and (max-width: 1100px) {
     flex-direction: row;
     width: 100%;
     height: 40px;
@@ -25,7 +25,7 @@ const LinkContainer = styled.div<Mobile>`
   flex-direction: column;
   width: 200px;
 
-  @media only screen and (max-width: 800px) {
+  @media only screen and (max-width: 1100px) {
     display: ${({ visible }) => !visible && "none"};
     position: absolute;
     background: #222;
@@ -68,7 +68,7 @@ const AdminPanelHeader = styled.div<Mobile>`
   font-weight: 600;
   margin-top: 20px;
   margin-bottom: 10px;
-  @media only screen and (max-width: 800px) {
+  @media only screen and (max-width: 1100px) {
     margin: 0px;
     margin-left: 20px;
     padding: 5px;
