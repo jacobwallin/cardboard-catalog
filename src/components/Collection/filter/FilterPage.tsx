@@ -70,6 +70,9 @@ export default function FilterPage() {
   const initialDataLoadComplete = useSelector(
     (state: RootState) => state.collection.browse.initialDataLoadComplete
   );
+  const collectionFriend = useSelector(
+    (state: RootState) => state.collection.browse.friend
+  );
 
   function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
     setFilters({ ...filters, playerSearch: event.target.value });
@@ -158,14 +161,34 @@ export default function FilterPage() {
   }, []);
 
   useEffect(() => {
-    dispatch(
-      fetchCards(
-        `?offset=${
-          (page - 1) * rowsPerPage
-        }&limit=${rowsPerPage}${query}&sort=${sortBy}&sort_direction=${sortDirection}`
-      )
-    );
-  }, [page, rowsPerPage, sortBy, sortDirection, query, dispatch]);
+    if (collectionFriend.id !== 0) {
+      dispatch(
+        fetchCards(
+          `?offset=${
+            (page - 1) * rowsPerPage
+          }&limit=${rowsPerPage}${query}&sort=${sortBy}&sort_direction=${sortDirection}&friendId=${
+            collectionFriend.id
+          }`
+        )
+      );
+    } else {
+      dispatch(
+        fetchCards(
+          `?offset=${
+            (page - 1) * rowsPerPage
+          }&limit=${rowsPerPage}${query}&sort=${sortBy}&sort_direction=${sortDirection}`
+        )
+      );
+    }
+  }, [
+    page,
+    rowsPerPage,
+    sortBy,
+    sortDirection,
+    query,
+    dispatch,
+    collectionFriend,
+  ]);
 
   useEffect(() => {
     if (pdfCreated && !loadingPdfData) {
