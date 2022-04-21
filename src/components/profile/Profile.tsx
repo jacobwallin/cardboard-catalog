@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { RootState } from "../../store";
 import {
   fetchAllFriends,
@@ -32,6 +33,7 @@ type FriendViews = "FRIENDS" | "PENDING" | "REQUESTS";
 
 export default function Profile() {
   const dispatch = useDispatch();
+  let navigate = useNavigate();
 
   const user = useSelector((state: RootState) => state.user.userData);
   const friendships = useSelector(
@@ -115,7 +117,9 @@ export default function Profile() {
     dispatch(deleteFriendship(friendshipId));
   }
 
-  function goToFriendCollection(friend: Friend) {}
+  function goToFriendCollection(friend: Friend) {
+    navigate("/collection");
+  }
 
   return (
     <CollectionWrapper>
