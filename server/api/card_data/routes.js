@@ -20,6 +20,27 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.get("/scrape", isAdmin, async (req, res, next) => {
+  console.log("ARE WE HERE???");
+  const { url } = req.query;
+  console.log("SCRAPE: ", req.query);
+
+  // validate url
+  const valid = /^https?:\/\/www.tcdb.com\/Checklist.cfm\/sid/.test(url);
+
+  if (valid) {
+    try {
+      const cardData = await require("./scrape")(url);
+      res.json(cardData);
+    } catch (error) {
+      console.log("ERROR: ", error.message);
+      next(error);
+    }
+  } else {
+    next(new Error("Invalid URL"));
+  }
+});
+
 router.get("/:cardDataId", async (req, res, next) => {
   try {
     const cardData = await CardData.findByPk(req.params.cardDataId, {
@@ -45,27 +66,6 @@ router.get("/:cardDataId", async (req, res, next) => {
 });
 
 // *** ADMIN ROUTES ***
-
-router.get("/scrape", isAdmin, async (req, res, next) => {
-  console.log("ARE WE HERE???");
-  const { url } = req.query;
-  console.log("SCRAPE: ", req.query);
-
-  // validate url
-  const valid = /^https?:\/\/www.tcdb.com\/Checklist.cfm\/sid/.test(url);
-
-  if (valid) {
-    try {
-      const cardData = await require("./scrape")(url);
-      res.json(cardData);
-    } catch (error) {
-      console.log("ERROR: ", error.message);
-      next(error);
-    }
-  } else {
-    next(new Error("Invalid URL"));
-  }
-});
 
 router.post("/", isAdmin, async (req, res, next) => {
   // create card data and then create a card for every series in set
