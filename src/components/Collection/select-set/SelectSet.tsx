@@ -66,7 +66,7 @@ const SelectSet = () => {
         }, 0)
       );
     }
-  }, [year, collectionSets, setsInYear]);
+  }, [year, collectionSets]);
 
   if (isLoading) return <LoadingDots />;
 
