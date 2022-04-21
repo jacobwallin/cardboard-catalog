@@ -8,7 +8,10 @@ export interface Friend {
   username: string;
 }
 
-export const friendColumns = (removeFriend: (friendshipId: number) => void) => [
+export const friendColumns = (
+  removeFriend: (friendshipId: number) => void,
+  goToCollection: (friend: Friend) => void
+) => [
   {
     name: "Username",
     selector: (row: Friend) => row.username,
@@ -18,9 +21,16 @@ export const friendColumns = (removeFriend: (friendshipId: number) => void) => [
     name: "",
     sortable: false,
     cell: (row: Friend) => (
-      <StyledLink to={`/collection`}>View Collection</StyledLink>
+      <StyledButton
+        width="130px"
+        height="25px"
+        color="BLUE"
+        onClick={() => goToCollection(row)}
+      >
+        View Collection
+      </StyledButton>
     ),
-    minWidth: "125px",
+    minWidth: "160px",
     grow: 0,
   },
 ];

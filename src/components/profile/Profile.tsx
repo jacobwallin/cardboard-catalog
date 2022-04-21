@@ -115,6 +115,8 @@ export default function Profile() {
     dispatch(deleteFriendship(friendshipId));
   }
 
+  function goToFriendCollection(friend: Friend) {}
+
   return (
     <CollectionWrapper>
       <CollectionContainer>
@@ -193,7 +195,10 @@ export default function Profile() {
                     <Styled.TableTitle>Your Friends</Styled.TableTitle>
                     <DataTable
                       noHeader
-                      columns={friendColumns(removeFriend)}
+                      columns={friendColumns(
+                        removeFriend,
+                        goToFriendCollection
+                      )}
                       data={acceptedFriends}
                       dense
                       pagination
