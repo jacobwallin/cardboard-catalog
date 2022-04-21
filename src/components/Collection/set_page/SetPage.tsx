@@ -20,6 +20,7 @@ import aggregateSubsetData, {
 import ReturnToMyCollection from "../shared/ReturnToMyCollection";
 import * as Styled from "./styled";
 import { viewMyCollection } from "../../../store/collection/browse/actions";
+import e from "express";
 
 const loadingSelector = createLoadingSelector([
   "GET_SINGLE_SET",
@@ -46,10 +47,14 @@ const SetPage = () => {
 
   useEffect(() => {
     if (setId) {
-      dispatch(fetchCardsBySubset(+setId));
       dispatch(fetchSet(+setId));
+      if (collectionFriend.id !== 0) {
+        dispatch(fetchCardsBySubset(+setId, collectionFriend.id));
+      } else {
+        dispatch(fetchCardsBySubset(+setId));
+      }
     }
-  }, []);
+  }, [setId, dispatch, collectionFriend]);
 
   useEffect(() => {
     if (!isLoading && set.id !== 0 && cardsBySubset.setId !== 0) {
