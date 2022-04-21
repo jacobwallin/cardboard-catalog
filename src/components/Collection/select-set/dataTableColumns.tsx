@@ -36,6 +36,7 @@ export const allSetsColumns = [
     maxWidth: "80px",
     minWidth: "80px",
     grow: 0,
+    hide: 600,
   },
 ];
 
@@ -68,5 +69,6 @@ export const yearColumns = [
     ),
     maxWidth: "80px",
     minWidth: "80px",
+    hide: 600,
   },
 ];

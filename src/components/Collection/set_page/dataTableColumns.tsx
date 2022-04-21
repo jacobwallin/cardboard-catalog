@@ -3,7 +3,7 @@ import StyledLink from "../shared/StyledLink";
 import SubtleLink from "../../shared/SubtleLink";
 import { SubsetInstanceUserCard } from "./aggregateSubsetData";
 
-const columns = (haveCards: boolean, viewingCollection: boolean) => {
+const columns = (showQty: boolean, viewingCollection: boolean) => {
   return [
     {
       name: "Name",
@@ -21,13 +21,12 @@ const columns = (haveCards: boolean, viewingCollection: boolean) => {
     },
     {
       name: "Cards",
-      selector: (row: SubsetInstanceUserCard) =>
-        row.totalCards > 0 && row.totalCards,
+      selector: (row: SubsetInstanceUserCard) => row.totalCards,
       sortable: true,
       minWidth: "75px",
       maxWidth: "75px",
       compact: true,
-      omit: haveCards,
+      omit: !showQty,
     },
 
     {

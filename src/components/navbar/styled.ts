@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export const Nav = styled.div`
-  background-color: rgb(0, 74, 206);
+  background-color: #004cce;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;

@@ -44,6 +44,10 @@ const SetPage = () => {
   const [aggregatedSubsetData, setAggregatedSubsetData] = useState<
     AggregatedSubsetData | undefined
   >(undefined);
+  const [showCollectionQtys, setShowCollectionQtys] = useState(
+    search.slice(search.length - 4) === "coll"
+  );
+  const [totalCollectionCards, setTotalCollectionCards] = useState(0);
 
   useEffect(() => {
     if (setId) {
@@ -65,11 +69,20 @@ const SetPage = () => {
           set.baseSubsetId ? set.baseSubsetId : 0
         )
       );
+      const cardCount = cardsBySubset.subsets.reduce((totalCards, subset) => {
+        return (totalCards += +subset.totalCards);
+      }, 0);
+      if (cardCount === 0) setShowCollectionQtys(false);
+      setTotalCollectionCards(cardCount);
     }
   }, [cardsBySubset, set, isLoading]);
 
   function returnToMyCollection() {
     dispatch(viewMyCollection());
+  }
+
+  function toggleCollectionQtys() {
+    setShowCollectionQtys(!showCollectionQtys);
   }
 
   if (isLoading || !setId || +setId !== set.id)
@@ -85,6 +98,11 @@ const SetPage = () => {
     <CollectionWrapper>
       <CollectionContainer>
         <Breadcrumbs />
+        {collectionFriend.id !== 0 && (
+          <ReturnToMyCollection onClick={returnToMyCollection}>
+            Return to My Collection
+          </ReturnToMyCollection>
+        )}
         <PageHeader title={set.name} />
         <PageContainer>
           <Styled.FlexContainer>
@@ -104,11 +122,6 @@ const SetPage = () => {
             </Styled.SetInfoContainer>
 
             <Styled.Collection>
-              {collectionFriend.id !== 0 && (
-                <ReturnToMyCollection onClick={returnToMyCollection}>
-                  Return to My Collection
-                </ReturnToMyCollection>
-              )}
               <Styled.Title>
                 {collectionFriend.id !== 0
                   ? `${collectionFriend.username}'s Collection`
@@ -116,12 +129,20 @@ const SetPage = () => {
               </Styled.Title>
               <Styled.DataLine>
                 {`Total Cards: `}
-                <span>
-                  {cardsBySubset.subsets.reduce((totalCards, subset) => {
-                    return (totalCards += +subset.totalCards);
-                  }, 0)}
-                </span>
+                <span>{totalCollectionCards}</span>
               </Styled.DataLine>
+              <Styled.ShowQtyContainer>
+                <Styled.ShowQtyLabel htmlFor="show-qty">
+                  Show Qtys
+                </Styled.ShowQtyLabel>
+                <input
+                  type="checkbox"
+                  id="show-qty"
+                  checked={showCollectionQtys}
+                  onChange={toggleCollectionQtys}
+                  disabled={totalCollectionCards === 0}
+                />
+              </Styled.ShowQtyContainer>
             </Styled.Collection>
           </Styled.FlexContainer>
 
@@ -134,7 +155,7 @@ const SetPage = () => {
                   dense
                   progressPending={isLoading}
                   columns={columns(
-                    cardsBySubset.subsets.length === 0,
+                    showCollectionQtys,
                     search.slice(search.length - 4) === "coll"
                   )}
                   data={
@@ -152,7 +173,7 @@ const SetPage = () => {
                       dense
                       progressPending={isLoading}
                       columns={columns(
-                        cardsBySubset.subsets.length === 0,
+                        showCollectionQtys,
                         search.slice(search.length - 4) === "coll"
                       )}
                       data={aggregatedSubsetData.shortPrints}
@@ -170,7 +191,7 @@ const SetPage = () => {
                       dense
                       progressPending={isLoading}
                       columns={columns(
-                        cardsBySubset.subsets.length === 0,
+                        showCollectionQtys,
                         search.slice(search.length - 4) === "coll"
                       )}
                       data={aggregatedSubsetData.inserts}
@@ -191,7 +212,7 @@ const SetPage = () => {
                       dense
                       progressPending={isLoading}
                       columns={columns(
-                        cardsBySubset.subsets.length === 0,
+                        showCollectionQtys,
                         search.slice(search.length - 4) === "coll"
                       )}
                       data={aggregatedSubsetData.autoRelic}

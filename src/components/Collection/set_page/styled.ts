@@ -9,6 +9,9 @@ export const FlexContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 
 export const Collection = styled.div`
@@ -20,11 +23,11 @@ export const Collection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 10px;
 `;
 
 export const DataLine = styled.div`
   font-size: 0.9em;
-  margin-top: 10px;
   span {
     font-weight: 500;
   }
@@ -36,4 +39,14 @@ export const Title = styled.div`
   color: #5a9bfd;
   text-align: center;
   margin-top: 10px;
+`;
+
+export const ShowQtyContainer = styled.div`
+  display: flex;
+  justif-content: center;
+  align-items: center;
+`;
+export const ShowQtyLabel = styled.label`
+  font-size: 0.8rem;
+  font-weight: 300;
 `;
