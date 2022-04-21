@@ -8,6 +8,7 @@ import {
   deleteFriendship,
   sendFriendRequest,
 } from "../../store/friends/thunks";
+import { viewFriendCollection } from "../../store/collection/browse/actions";
 import { clearSearchUser } from "../../store/friends/actions";
 import { Friendship } from "../../store/friends/types";
 import CollectionWrapper from "../shared/CollectionWrapper";
@@ -118,8 +119,8 @@ export default function Profile() {
   }
 
   function goToFriendCollection(friend: Friend) {
-    // set friend id in collection
-
+    // set friend id in collection store to view friend's collection
+    dispatch(viewFriendCollection(friend));
     navigate("/collection");
   }
 
