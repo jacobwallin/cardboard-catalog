@@ -17,6 +17,9 @@ import Breadcrumbs from "../../breadcrumbs/Breadcrumbs";
 import aggregateSubsetData, {
   AggregatedSubsetData,
 } from "./aggregateSubsetData";
+import ReturnToMyCollection from "../shared/ReturnToMyCollection";
+import * as Styled from "./styled";
+import { viewMyCollection } from "../../../store/collection/browse/actions";
 
 const loadingSelector = createLoadingSelector([
   "GET_SINGLE_SET",
@@ -27,6 +30,10 @@ const SetPage = () => {
   const dispatch = useDispatch();
   let { setId } = useParams<"setId">();
   let { search } = useLocation();
+
+  const collectionFriend = useSelector(
+    (state: RootState) => state.collection.browse.friend
+  );
   const isLoading = useSelector((state: RootState) => loadingSelector(state));
   const cardsBySubset = useSelector(
     (state: RootState) => state.collection.browse.cardsBySubset
@@ -56,6 +63,10 @@ const SetPage = () => {
     }
   }, [cardsBySubset, set, isLoading]);
 
+  function returnToMyCollection() {
+    dispatch(viewMyCollection());
+  }
+
   if (isLoading || !setId || +setId !== set.id)
     return (
       <CollectionWrapper>
@@ -71,24 +82,43 @@ const SetPage = () => {
         <Breadcrumbs />
         <PageHeader title={set.name} />
         <PageContainer>
-          {set.description !== "" && (
-            <Shared.ContentContainer>
-              <Shared.ContentTitle>About:</Shared.ContentTitle>
-              <Shared.ContentData>{set.description}</Shared.ContentData>
-            </Shared.ContentContainer>
-          )}
-          {set.release_date && (
-            <Shared.ContentContainer>
-              <Shared.ContentTitle>Release Date:</Shared.ContentTitle>
-              <Shared.ContentData>{set.release_date}</Shared.ContentData>
-            </Shared.ContentContainer>
-          )}
+          <Styled.FlexContainer>
+            <Styled.SetInfoContainer>
+              {set.description !== "" && (
+                <Shared.ContentContainer>
+                  <Shared.ContentTitle>About:</Shared.ContentTitle>
+                  <Shared.ContentData>{set.description}</Shared.ContentData>
+                </Shared.ContentContainer>
+              )}
+              {set.release_date && (
+                <Shared.ContentContainer>
+                  <Shared.ContentTitle>Release Date:</Shared.ContentTitle>
+                  <Shared.ContentData>{set.release_date}</Shared.ContentData>
+                </Shared.ContentContainer>
+              )}
+            </Styled.SetInfoContainer>
 
-          <Shared.CollectionData
-            totalCards={cardsBySubset.subsets.reduce((totalCards, subset) => {
-              return (totalCards += +subset.totalCards);
-            }, 0)}
-          />
+            <Styled.Collection>
+              {collectionFriend.id !== 0 && (
+                <ReturnToMyCollection onClick={returnToMyCollection}>
+                  Return to My Collection
+                </ReturnToMyCollection>
+              )}
+              <Styled.Title>
+                {collectionFriend.id !== 0
+                  ? `${collectionFriend.username}'s Collection`
+                  : "My Collection"}
+              </Styled.Title>
+              <Styled.DataLine>
+                {`Total Cards: `}
+                <span>
+                  {cardsBySubset.subsets.reduce((totalCards, subset) => {
+                    return (totalCards += +subset.totalCards);
+                  }, 0)}
+                </span>
+              </Styled.DataLine>
+            </Styled.Collection>
+          </Styled.FlexContainer>
 
           {aggregatedSubsetData && (
             <>

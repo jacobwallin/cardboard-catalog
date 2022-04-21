@@ -4,8 +4,6 @@ const ReturnToMyCollection = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  top: 10px;
   height: 22px;
   width: 150px;
   font-size: 0.8rem;
@@ -14,7 +12,7 @@ const ReturnToMyCollection = styled.div`
   background-color: #ddd;
   border-radius: 3px;
   align-self: flex-start;
-  margin: 0 0 0 20px;
+  margin: 10px 0 0 20px;
   &:hover {
     background-color: #bbb;
   }
