@@ -5,32 +5,23 @@ export const PlayersContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  width: 100%;
 `;
 
 export const AddedPlayersContainer = styled.div`
   display: flex;
   flex-direction: column;
-  min-width: 250px;
+  min-width: 200px;
 `;
-export const PlayerAdded = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  margin-top: 5px;
-  border: 1px solid lightgray;
-  border-radius: 3px;
-  background-color: #eee;
-  padding: 6px;
-  width: 100%;
-`;
+
 export const AddPlayerContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   margin: 0px 10px 10px 0;
   gap: 10px;
+  width: 100%;
 `;
 export const AddPlayer = styled.div``;
 
@@ -49,18 +40,10 @@ export const Select = styled.select`
   height: 27px;
 `;
 
-export const PlayerName = styled.div`
-  margin-left: 10px;
-  a {
-    color: blue;
-    text-decoration: underline;
-  }
-`;
-
 export const NoPlayers = styled.div`
-  color: gray;
-  font-size: 0.9rem;
-  margin: 10px;
+  color: black;
+  font-size: 0.95rem;
+  margin: 15px 0 10px 0;
 `;
 
 export const PlayerAddFail = styled.div`
@@ -156,4 +139,8 @@ export const CheckboxLabel = styled.label`
 export const SpMessage = styled.div`
   color: red;
   font-size: 0.8rem;
+`;
+
+export const AddPlayerButton = styled.div`
+  margin: 10px 0 0 0;
 `;

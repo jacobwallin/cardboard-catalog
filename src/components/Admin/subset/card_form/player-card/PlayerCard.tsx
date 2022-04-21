@@ -1,7 +1,8 @@
 import React from "react";
 import { Player } from "../../../../../store/library/players/types";
 import * as Styled from "./styled";
-import { ReactComponent as LinkIcon } from "./link.svg";
+import { ReactComponent as LinkIcon } from "../shared/link.svg";
+import LinkIconWrapper from "../shared/Link";
 import { ReactComponent as CloseIcon } from "../../../components/modal/close.svg";
 
 interface Props {
@@ -19,13 +20,13 @@ export default function PlayerCard(props: Props) {
         </Styled.RemoveIconWrapper>
         <Styled.PlayerName>{player.name}</Styled.PlayerName>
       </Styled.Container>
-      <Styled.LinkIconWrapper
+      <LinkIconWrapper
         href={player.url}
         target="_blank"
         rel="noopener noreferrer"
       >
         <LinkIcon />
-      </Styled.LinkIconWrapper>
+      </LinkIconWrapper>
     </Styled.PlayerAdded>
   );
 }

@@ -12,6 +12,7 @@ import { scrapeNewPlayer } from "../../../../store/library/players/thunks";
 import PlayerCard from "./player-card/PlayerCard";
 import * as Styled from "./styled";
 import * as StyledInputs from "../../components/form/Inputs";
+import SelectPlayer from "./select-player/SelectPlayer";
 
 import { createStatusSelector } from "../../../../store/loading/reducer";
 const scrapePlayerStatusSelector = createStatusSelector("CREATE_PLAYER");
@@ -36,10 +37,10 @@ interface Props {
 export default function CardForm(props: Props) {
   const dispatch = useDispatch();
 
-  const [playerFilter, setPlayerFilter] = useState("");
   const [selectedPlayerId, setSelectedPlayerId] = useState(0);
   const [playerScrapeUrl, setPlayerScrapeUrl] = useState("");
   const [showPlayerAddedMessage, setShowPlayerAddedMessage] = useState(false);
+  const [addPlayers, setAddPlayers] = useState(false);
 
   const teams = useSelector((state: RootState) => state.library.teams);
   const players = useSelector((state: RootState) => state.library.players);
@@ -47,38 +48,10 @@ export default function CardForm(props: Props) {
     scrapePlayerStatusSelector(state)
   );
 
-  // automatically set selected player when searching
-  useEffect(() => {
-    if (playerFilter === "") {
-      setSelectedPlayerId(0);
-    } else {
-      const playersFound = players
-        .filter((player) => {
-          return player.name.toLowerCase().includes(playerFilter.toLowerCase());
-        })
-        .sort((playerA, playerB) => {
-          if (playerA.name < playerB.name) {
-            return -1;
-          }
-          if (playerA.name > playerB.name) {
-            return 1;
-          }
-          return 0;
-        });
-
-      if (playersFound.length > 0) {
-        setSelectedPlayerId(playersFound[0].id);
-      }
-    }
-  }, [playerFilter, players]);
-
   function handleInputChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
     switch (event.target.name) {
-      case "playerFilter":
-        setPlayerFilter(event.target.value);
-        break;
       case "scrapeUrl":
         setPlayerScrapeUrl(event.target.value);
         break;
@@ -116,9 +89,8 @@ export default function CardForm(props: Props) {
     dispatch(scrapeNewPlayer(playerScrapeUrl));
   }
 
-  function clearPlayerFilter() {
-    setPlayerFilter("");
-    setSelectedPlayerId(0);
+  function toggleAddPlayers() {
+    setAddPlayers(!addPlayers);
   }
 
   return (
@@ -156,92 +128,6 @@ export default function CardForm(props: Props) {
         </FieldTitle>
         <FieldData>
           <Styled.PlayersContainer>
-            <Styled.AddPlayerContainer>
-              <StyledInputs.Input
-                type="text"
-                name="scrapeUrl"
-                placeholder="Baseball Reference URL"
-                autoComplete="off"
-                value={playerScrapeUrl}
-                onChange={handleInputChange}
-              />
-              <StyledButton
-                color="GRAY"
-                height="33px"
-                width="125px"
-                onClick={scrapePlayer}
-              >
-                Add Player
-              </StyledButton>
-            </Styled.AddPlayerContainer>
-            {scrapePlayerStatus === "SUCCESS" &&
-              showPlayerAddedMessage === true && (
-                <Styled.PlayerAddSuccess>
-                  Player Added Successfully
-                </Styled.PlayerAddSuccess>
-              )}
-            {scrapePlayerStatus === "FAILURE" &&
-              showPlayerAddedMessage === true && (
-                <Styled.PlayerAddFail>Error Adding Player</Styled.PlayerAddFail>
-              )}
-
-            <Styled.AddPlayerContainer>
-              <StyledInputs.Input
-                type="text"
-                name="playerFilter"
-                placeholder="Filter Players"
-                autoComplete="off"
-                value={playerFilter}
-                onChange={handleInputChange}
-              />
-              <StyledButton
-                color="GRAY"
-                height="33px"
-                width="75px"
-                onClick={clearPlayerFilter}
-              >
-                Clear
-              </StyledButton>
-            </Styled.AddPlayerContainer>
-            <Styled.AddPlayerContainer>
-              <StyledInputs.Select
-                name="selectedPlayerId"
-                value={selectedPlayerId}
-                onChange={handleSelectChange}
-              >
-                <option value={0}>Select Player</option>
-                {players
-                  .filter((player) => {
-                    return player.name
-                      .toLowerCase()
-                      .includes(playerFilter.toLowerCase());
-                  })
-                  .sort((playerA, playerB) => {
-                    if (playerA.name < playerB.name) {
-                      return -1;
-                    }
-                    if (playerA.name > playerB.name) {
-                      return 1;
-                    }
-                    return 0;
-                  })
-                  .map((player) => {
-                    return (
-                      <option key={player.id} value={player.id}>
-                        {player.name}
-                      </option>
-                    );
-                  })}
-              </StyledInputs.Select>
-              <StyledButton
-                color="BLUE"
-                height="33px"
-                width="75px"
-                onClick={addPlayer}
-              >
-                Add
-              </StyledButton>
-            </Styled.AddPlayerContainer>
             <Styled.AddedPlayersContainer>
               {props.formData.players.length > 0 ? (
                 props.formData.players.map((player) => {
@@ -258,6 +144,53 @@ export default function CardForm(props: Props) {
                 </Styled.NoPlayers>
               )}
             </Styled.AddedPlayersContainer>
+            <Styled.AddPlayerButton>
+              <StyledButton
+                width="100px"
+                height="23px"
+                color={addPlayers ? "GRAY" : "BLUE"}
+                onClick={toggleAddPlayers}
+              >
+                {addPlayers ? "Close" : "Add Players"}
+              </StyledButton>
+            </Styled.AddPlayerButton>
+            {addPlayers && (
+              <>
+                {/* <Styled.AddPlayerContainer>
+                  <StyledInputs.Input
+                    type="text"
+                    name="scrapeUrl"
+                    placeholder="Baseball Reference URL"
+                    autoComplete="off"
+                    value={playerScrapeUrl}
+                    onChange={handleInputChange}
+                  />
+                  <StyledButton
+                    color="GRAY"
+                    height="33px"
+                    width="125px"
+                    onClick={scrapePlayer}
+                  >
+                    Add Player
+                  </StyledButton>
+                </Styled.AddPlayerContainer>
+                {scrapePlayerStatus === "SUCCESS" &&
+                  showPlayerAddedMessage === true && (
+                    <Styled.PlayerAddSuccess>
+                      Player Added Successfully
+                    </Styled.PlayerAddSuccess>
+                  )}
+                {scrapePlayerStatus === "FAILURE" &&
+                  showPlayerAddedMessage === true && (
+                    <Styled.PlayerAddFail>
+                      Error Adding Player
+                    </Styled.PlayerAddFail>
+                  )} */}
+                <Styled.AddPlayerContainer>
+                  <SelectPlayer addPlayer={props.addPlayer} />
+                </Styled.AddPlayerContainer>
+              </>
+            )}
           </Styled.PlayersContainer>
         </FieldData>
       </FieldContainer>
