@@ -49,8 +49,7 @@ router.get("/:setId", async (req, res, next) => {
 
     res.json(setData);
   } catch (error) {
-    console.log(error);
-    res.sendStatus(500);
+    next(error);
   }
 });
 

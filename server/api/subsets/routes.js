@@ -95,8 +95,7 @@ router.get("/:subsetId", async (req, res, next) => {
 
     res.json(subsetObj);
   } catch (error) {
-    console.log(error);
-    res.sendStatus(500);
+    next(error);
   }
 });
 
