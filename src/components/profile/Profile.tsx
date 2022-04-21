@@ -25,10 +25,16 @@ import {
   pendingColumns,
   Friend,
 } from "./columns";
-import { createStatusSelector } from "../../store/loading/reducer";
+import {
+  createLoadingSelector,
+  createStatusSelector,
+} from "../../store/loading/reducer";
+import { LoadingDots } from "../shared/Loading";
+
 const sendFriendRequestStatusSelector = createStatusSelector(
   "SEND_FRIEND_REQUEST"
 );
+const loadingFriendsSelector = createLoadingSelector(["GET_ALL_FRIENDS"]);
 
 type FriendViews = "FRIENDS" | "PENDING" | "REQUESTS";
 
@@ -43,8 +49,14 @@ export default function Profile() {
   const userSearch = useSelector(
     (state: RootState) => state.friends.userSearch
   );
+  const initialLoad = useSelector(
+    (state: RootState) => state.friends.initialLoad
+  );
   const sendRequestStatus = useSelector((state: RootState) =>
     sendFriendRequestStatusSelector(state)
+  );
+  const loadingFriends = useSelector((state: RootState) =>
+    loadingFriendsSelector(state)
   );
 
   const [acceptedFriends, setAcceptedFriends] = useState<Friend[]>([]);
@@ -209,6 +221,7 @@ export default function Profile() {
                       data={acceptedFriends}
                       dense
                       pagination
+                      progressPending={loadingFriends}
                     />
                   </Styled.FriendTableContainer>
                 ) : (
@@ -225,6 +238,7 @@ export default function Profile() {
                       columns={requestColumns(acceptRequest, rejectRequest)}
                       data={friendRequests}
                       dense
+                      progressPending={loadingFriends}
                     />
                   </Styled.FriendTableContainer>
                 ) : (
@@ -241,6 +255,7 @@ export default function Profile() {
                       columns={pendingColumns(withdrawRequest)}
                       data={pendingFriendRequests}
                       dense
+                      progressPending={loadingFriends}
                     />
                   </Styled.FriendTableContainer>
                 ) : (

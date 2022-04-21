@@ -92,6 +92,7 @@ export type FriendActions =
 export type FriendState = {
   friendships: Friendship[];
   userSearch: UserSearch;
+  initialLoad: boolean;
 };
 
 export interface Friendship {

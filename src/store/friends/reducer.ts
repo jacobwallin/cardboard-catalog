@@ -9,6 +9,7 @@ const initialState: types.FriendState = {
     },
     existingFriendship: null,
   },
+  initialLoad: false,
 };
 
 export default function friendReducer(
@@ -16,6 +17,8 @@ export default function friendReducer(
   action: types.FriendActions
 ) {
   switch (action.type) {
+    case "GET_ALL_FRIENDS_REQUEST":
+      return { ...state, initialLoad: true };
     case "GET_ALL_FRIENDS_SUCCESS":
       return { ...state, friendships: action.friends };
     case "SEND_FRIEND_REQUEST_SUCCESS":
