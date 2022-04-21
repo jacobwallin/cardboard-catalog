@@ -253,7 +253,7 @@ export default function CollectionSubset(props: Props) {
             )}
             <SharedStyled.TableHeaderRow>
               <TotalCards totalCards={props.tableData.totalCards} />
-              {props.tableData.totalCards > 0 && (
+              {props.tableData.totalCards > 0 && collectionFriend.id === 0 && (
                 <StyledButton
                   color={deleteCardsToggle ? "YELLOW" : "GRAY"}
                   height="25px"
