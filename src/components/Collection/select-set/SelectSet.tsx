@@ -114,6 +114,9 @@ const SelectSet = () => {
             pagination={setsInYear.length > 10}
             paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
             paginationPerPage={20}
+            noDataComponent={
+              <NoDataMessage>{`You have no cards from ${year}`}</NoDataMessage>
+            }
           />
         </Shared.DataTableContainer>
       )}

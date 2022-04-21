@@ -76,6 +76,7 @@ export default function collectionReducer(
       return {
         ...state,
         friend: initialState.friend,
+        initialDataLoadComplete: false,
       };
     default:
       return state;
