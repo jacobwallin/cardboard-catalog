@@ -56,7 +56,7 @@ const verifyFriendship = async (req, res, next) => {
 
 router.get("/", verifyFriendship, async (req, res, next) => {
   try {
-    const userId = req.query.uid || req.user.id;
+    const userId = req.query.friendId || req.user.id;
 
     // this query aggregates all cards in the user's collection by set, counting the amount of distinct cards and total cards per set
     const [results] = await db.query(
@@ -72,7 +72,7 @@ router.get("/", verifyFriendship, async (req, res, next) => {
 // get any cards the user has for a specific set, aggregated by subset
 router.get("/set/:setId", verifyFriendship, async (req, res, next) => {
   try {
-    const userId = req.query.uid || req.user.id;
+    const userId = req.query.friendId || req.user.id;
 
     // this query aggregates all cards by subset, filtering by the setId and counting the amount of distinct cards and total cards per subset
     const [results] = await db.query(
@@ -86,7 +86,7 @@ router.get("/set/:setId", verifyFriendship, async (req, res, next) => {
 });
 
 router.get("/subset/:subsetId", verifyFriendship, async (req, res, next) => {
-  const userId = req.query.uid || req.user.id;
+  const userId = req.query.friendId || req.user.id;
   // get all cards the user has for a specific subset
   try {
     const cards = await UserCard.findAll({
@@ -135,7 +135,7 @@ router.post("/delete/bulk", async (req, res, next) => {
 });
 
 router.get("/filter", verifyFriendship, async (req, res, next) => {
-  const userId = req.query.uid || req.user.id;
+  const userId = req.query.friendId || req.user.id;
 
   const cardDataInclude = [
     {

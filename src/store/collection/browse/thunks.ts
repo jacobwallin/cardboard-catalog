@@ -10,7 +10,7 @@ export const fetchCardsBySet =
   ): ThunkAction<any, RootState, any, CollectionActionTypes> =>
   (dispatch) => {
     dispatch(actions.getCardsBySetRequest());
-    const query = friendId ? `?friend-id=${friendId}` : "";
+    const query = friendId ? `?friendId=${friendId}` : "";
     get(`/api/collection/${query}`, dispatch)
       .then((data) => {
         dispatch(actions.setInitialDataLoad(true));
@@ -28,7 +28,7 @@ export const fetchCardsBySubset =
   ): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
   (dispatch) => {
     dispatch(actions.getCardsBySubsetRequest());
-    const query = friendId ? `?friend-id=${friendId}` : "";
+    const query = friendId ? `?friendId=${friendId}` : "";
     get(`/api/collection/set/${setId}${query}`, dispatch)
       .then((data) => {
         dispatch(
@@ -47,7 +47,7 @@ export const fetchCardsInSingleSubset =
   ): ThunkAction<void, RootState, unknown, CollectionActionTypes> =>
   (dispatch) => {
     dispatch(actions.getSingleSubsetCardsRequest());
-    const query = friendId ? `?friend-id=${friendId}` : "";
+    const query = friendId ? `?friendId=${friendId}` : "";
     get(`/api/collection/subset/${subsetId}${query}`, dispatch)
       .then((data) => {
         dispatch(
