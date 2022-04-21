@@ -26,6 +26,7 @@ const Close = styled.div`
   position: absolute;
   right: -10px;
   top: -15px;
+  cursor: pointer;
   &:hover {
     .ex {
       fill: gray;

@@ -198,7 +198,7 @@ export default function CardScrapeModal(props: Props) {
                   <a
                     href="https://www.tcdb.com/Checklist.cfm/sid/241380/2021-Topps"
                     target="_blank"
-                    rel="noopener"
+                    rel="noopener noreferrer"
                   >
                     Example
                   </a>

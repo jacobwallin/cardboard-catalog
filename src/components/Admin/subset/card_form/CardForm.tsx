@@ -115,6 +115,7 @@ export default function CardForm(props: Props) {
                 props.formData.players.map((player) => {
                   return (
                     <PlayerCard
+                      key={player.id}
                       player={player}
                       deletePlayer={props.deletePlayer}
                     />

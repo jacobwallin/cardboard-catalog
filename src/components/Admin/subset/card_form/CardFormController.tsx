@@ -466,7 +466,6 @@ export default function CardFormController(props: Props) {
           />
         )}
         <Styled.ScrapeOptions>
-          <Styled.ScrapeOptionsTitle>Options</Styled.ScrapeOptionsTitle>
           {props.scrapeCardsData &&
             props.scrapeCardsData.some((c) => c.note !== "") && (
               <Styled.CheckboxContainer>
