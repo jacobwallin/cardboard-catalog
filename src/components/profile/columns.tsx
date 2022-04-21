@@ -3,19 +3,22 @@ import { Friendship } from "../../store/friends/types";
 import StyledButton from "../Admin/components/StyledButton";
 import StyledLink from "../Collection/shared/StyledLink";
 
+export interface Friend {
+  id: number;
+  username: string;
+}
+
 export const friendColumns = (removeFriend: (friendshipId: number) => void) => [
   {
     name: "Username",
-    selector: (row: Friendship) => row.user_one.username,
+    selector: (row: Friend) => row.username,
     sortable: true,
   },
   {
     name: "",
     sortable: false,
-    cell: (row: Friendship) => (
-      <StyledLink to={`/collection/?uid=${row.user_two_id}`}>
-        View Collection
-      </StyledLink>
+    cell: (row: Friend) => (
+      <StyledLink to={`/collection`}>View Collection</StyledLink>
     ),
     minWidth: "125px",
     grow: 0,

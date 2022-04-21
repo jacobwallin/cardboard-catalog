@@ -17,7 +17,12 @@ import * as Styled from "./styled";
 import AddFriend from "./add-friend/AddFriend";
 import StyledButton from "../Admin/components/StyledButton";
 import DataTable from "react-data-table-component";
-import { friendColumns, requestColumns, pendingColumns } from "./columns";
+import {
+  friendColumns,
+  requestColumns,
+  pendingColumns,
+  Friend,
+} from "./columns";
 import { createStatusSelector } from "../../store/loading/reducer";
 const sendFriendRequestStatusSelector = createStatusSelector(
   "SEND_FRIEND_REQUEST"
@@ -39,7 +44,7 @@ export default function Profile() {
     sendFriendRequestStatusSelector(state)
   );
 
-  const [acceptedFriends, setAcceptedFriends] = useState<Friendship[]>([]);
+  const [acceptedFriends, setAcceptedFriends] = useState<Friend[]>([]);
   const [pendingFriendRequests, setPendingFriendRequests] = useState<
     Friendship[]
   >([]);
@@ -62,14 +67,21 @@ export default function Profile() {
   }, [friendRequestSent, sendRequestStatus, dispatch]);
 
   useEffect(() => {
-    let friends: Friendship[] = [];
+    let friends: Friend[] = [];
     let pending: Friendship[] = [];
     let requests: Friendship[] = [];
 
     // iterate through all relationships and filter by type
     friendships.forEach((f) => {
-      if (f.status === "ACCEPTED") friends.push(f);
-      else if (f.user_one_id === user.id) pending.push(f);
+      if (f.status === "ACCEPTED") {
+        friends.push({
+          id: f.user_one_id === user.id ? f.user_two_id : f.user_one_id,
+          username:
+            f.user_one_id === user.id
+              ? f.user_two.username
+              : f.user_one.username,
+        });
+      } else if (f.user_one_id === user.id) pending.push(f);
       else requests.push(f);
     });
     console.log(friends, pending, requests, friendships);
