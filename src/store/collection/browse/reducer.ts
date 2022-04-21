@@ -67,6 +67,16 @@ export default function collectionReducer(
           subsetId: state.cardsInSingleSubset.subsetId,
         },
       };
+    case types.SET_FRIEND:
+      return {
+        ...state,
+        friend: action.friend,
+      };
+    case types.REMOVE_FRIEND:
+      return {
+        ...state,
+        friend: initialState.friend,
+      };
     default:
       return state;
   }

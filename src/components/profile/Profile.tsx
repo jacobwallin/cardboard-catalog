@@ -118,6 +118,8 @@ export default function Profile() {
   }
 
   function goToFriendCollection(friend: Friend) {
+    // set friend id in collection
+
     navigate("/collection");
   }
 
