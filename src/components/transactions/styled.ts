@@ -2,9 +2,9 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export const TransactionLink = styled(Link)`
-  width: 110px;
-  height: 40px;
-  border: 1px solid gray;
+  width: 125px;
+  height: 45px;
+  border: 1px solid #bbb;
   border-radius: 5px;
   text-decoration: none;
   display: flex;
@@ -12,9 +12,9 @@ export const TransactionLink = styled(Link)`
   align-items: center;
   color: black;
   font-size: 0.9rem;
+  background-color: #eee;
   &:hover {
-    font-weight: 500;
-    border: 1px solid black;
+    background-color: #bbb;
   }
 `;
 
@@ -30,8 +30,8 @@ export const TransactionsContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 20px;
-  margin: 0 0 50px 25px;
-  align-self: flex-start;
+  margin: 20px 0 60px 25px;
+  align-self: center;
 
   @media only screen and (max-width: 700px) {
     flex-direction: column;
