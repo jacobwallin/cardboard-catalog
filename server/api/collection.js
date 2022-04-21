@@ -123,6 +123,7 @@ router.post("/delete/bulk", async (req, res, next) => {
         return UserCard.destroy({
           where: {
             id: id,
+            userId: req.user.id,
           },
         });
       })
