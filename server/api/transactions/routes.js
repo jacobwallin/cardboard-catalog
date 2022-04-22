@@ -165,7 +165,12 @@ router.post("/", async (req, res, next) => {
       // get user card instances for each id given
       const userCards = await Promise.all(
         userCardsRemoved.map((userCardId) => {
-          return UserCard.findByPk(userCardId);
+          return UserCard.findByPk(userCardId, {
+            // prevent other user's cards from being deleted in transaction
+            where: {
+              userId: req.user.id,
+            },
+          });
         })
       );
 
