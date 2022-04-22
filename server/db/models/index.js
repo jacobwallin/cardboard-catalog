@@ -356,4 +356,6 @@ module.exports = {
   Transaction,
   TransactionUserCard,
   Friend,
+  Trade,
+  TradeUserCard,
 };
