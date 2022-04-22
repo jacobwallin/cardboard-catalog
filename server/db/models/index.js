@@ -14,6 +14,8 @@ const CardDataPlayer = require("./CardDataPlayer");
 const Transaction = require("./Transaction");
 const TransactionUserCard = require("./TransactionUserCard");
 const Friend = require("./Friend");
+const Trade = require("./Trade");
+const TradeUserCard = require("./TradeUserCard");
 
 const db = require("../db");
 
@@ -40,6 +42,29 @@ User.hasMany(Friend, {
   },
 });
 
+Trade.belongsTo(User, {
+  as: "request_user",
+  foreignKey: {
+    name: "request_user_id",
+  },
+});
+User.hasMany(Trade, {
+  foreignKey: {
+    name: "request_user_id",
+  },
+});
+Trade.belongsTo(User, {
+  as: "respond_user",
+  foreignKey: {
+    name: "respond_user_id",
+  },
+});
+User.hasMany(Trade, {
+  foreignKey: {
+    name: "respond_user_id",
+  },
+});
+
 // many to many association between cards and usercards using custom through table (super many-to-many)
 UserCard.belongsTo(User);
 User.hasMany(UserCard);
@@ -62,6 +87,18 @@ Transaction.hasMany(TransactionUserCard);
 TransactionUserCard.belongsTo(UserCard);
 UserCard.hasMany(TransactionUserCard);
 
+// many many between trades and user_cards
+Trade.belongsToMany(UserCard, {
+  through: { model: TradeUserCard },
+});
+UserCard.belongsToMany(Trade, {
+  through: { model: TradeUserCard },
+});
+TradeUserCard.belongsTo(Trade);
+Trade.hasMany(TradeUserCard);
+TradeUserCard.belongsTo(UserCard);
+UserCard.hasMany(TradeUserCard);
+
 // One to many user and transactions
 Transaction.belongsTo(User, {
   foreignKey: {
@@ -69,6 +106,16 @@ Transaction.belongsTo(User, {
   },
 });
 User.hasMany(Transaction);
+Transaction.belongsTo(User, {
+  foreignKey: {
+    name: "individual_id",
+  },
+});
+User.hasMany(Transaction, {
+  foreignKey: {
+    name: "individual_id",
+  },
+});
 
 // One to many transaction and sets
 Transaction.belongsTo(Set);

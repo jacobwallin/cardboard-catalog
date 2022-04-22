@@ -33,6 +33,14 @@ const Team = db.define("transaction", {
   money: {
     type: DataTypes.FLOAT,
   },
+  pending: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
+  individual_id: {
+    type: DataTypes.INTEGER,
+  },
 });
 
 module.exports = Team;
