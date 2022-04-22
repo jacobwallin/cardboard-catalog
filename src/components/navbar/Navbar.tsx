@@ -26,7 +26,10 @@ export default function Navbar() {
   return (
     <>
       <Styled.Nav>
-        <Styled.SiteName>Cardboard Catalog</Styled.SiteName>
+        <Styled.NameContainer>
+          <Styled.SiteName>Cardboard Catalog</Styled.SiteName>
+          <Styled.Beta>beta</Styled.Beta>
+        </Styled.NameContainer>
 
         {user.id !== 0 && (
           <>

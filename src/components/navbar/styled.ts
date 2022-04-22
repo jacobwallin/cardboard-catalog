@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-export const Nav = styled.div`
+export const Nav = styled.nav`
   background-color: #004cce;
   display: flex;
   flex-wrap: wrap;
@@ -14,12 +14,27 @@ export const Nav = styled.div`
 export const SiteName = styled.div`
   margin: 0 0 0 10px;
   color: white;
-  flex-grow: 1;
   font-weight: 600;
   font-size: 1.4em;
   @media only screen and (max-width: 800px) {
     font-size: 1.5em;
   }
+`;
+
+export const Beta = styled.div`
+  font-size: 0.85rem;
+  color: white;
+  /* color: #87b9ff; */
+  font-weight: 300;
+  align-self: flex-end;
+  margin-bottom: 2px;
+`;
+
+export const NameContainer = styled.div`
+  display: flex;
+  flex-grow: 1;
+  gap: 8px;
+  position: relative;
 `;
 
 export const StyledLink = styled(Link)`
