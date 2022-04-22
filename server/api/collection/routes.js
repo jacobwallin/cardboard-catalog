@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { Op } = require("sequelize");
 
-const { isUser } = require("../middleware");
+const { isUser } = require("../../middleware");
 
 const {
   Card,
@@ -14,9 +14,9 @@ const {
   Set,
   Team,
   Friend,
-} = require("../db/models");
+} = require("../../db/models");
 
-const db = require("../db/db");
+const db = require("../../db/db");
 const e = require("express");
 
 // collection api routes only available to logged in users

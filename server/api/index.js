@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const collection = require("./collection");
+const collection = require("./collection/routes");
 const sets = require("./sets/routes");
 const subsets = require("./subsets/routes");
 const series = require("./series/routes");
