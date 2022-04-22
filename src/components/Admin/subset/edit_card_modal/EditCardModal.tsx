@@ -29,7 +29,7 @@ export default function EditCardModal(props: Props) {
             note: props.cardData.note,
             teamId: props.cardData.teamId ? props.cardData.teamId : undefined,
             players: props.cardData.players.map((player) => {
-              return { ...player, createdAt: "", updatedAt: "", url: "" };
+              return { ...player, createdAt: "", updatedAt: "" };
             }),
           }}
           handleClose={props.handleCancel}

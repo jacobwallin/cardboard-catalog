@@ -18,7 +18,6 @@ import detectFormChanges from "../../detectFormChanges";
 import { checkIfAdded, checkIfShortPrint } from "./utils";
 import { CardFormData } from "../../subset/scrape_cards/parseCards";
 import CardForm from "./CardForm";
-import { LoadingDots } from "../../../shared/Loading";
 import IncludeNoteHelp from "./IncludeNoteHelp";
 import * as Styled from "./styled";
 
@@ -93,7 +92,7 @@ export default function CardFormController(props: Props) {
             fullName: player.fullName,
             birthday: player.birthday,
             hallOfFame: player.hallOfFame,
-            url: "",
+            url: player.url,
             createdAt: "",
             updatedAt: "",
           };
