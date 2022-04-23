@@ -110,7 +110,7 @@ router.get("/:transactionId", async (req, res, next) => {
 
     if (transaction === null) {
       const error = new Error("Not Found");
-      error.status = 403;
+      error.status = 404;
       throw error;
     }
 
