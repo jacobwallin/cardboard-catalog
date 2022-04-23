@@ -230,12 +230,25 @@ router.post("/", async (req, res, next) => {
 });
 
 router.put("/:transactionId", async (req, res, next) => {
+  // additional cards that were added in transaction; these will be cardIds
+  // * check if transaction is pending *
+  const { cardsAdded } = req.body;
+  // cards that are currently added in transaction that need to be un-added; these will be transactionUserIds
+  // * must first verify the cards are not deleted in another transaction
+  const { addedCardsRemoved } = req.body;
+  // additional cards that were removed in transaction; these will be userCardIds
+  const { cardRemoved } = req.body;
+  // cards that are currently deleted in transaction that need to un-deleted; these will be transactionUserIds
+  const { removedCardsAdded } = req.body;
+
   // update transaction data
   // resolve cards added / removed
 });
 
 router.delete("/:transactionId", async (req, res, next) => {
   // deleting transaction should also undo all effects on collection (adding / deleting cards)
+  // if the transaction contains cards that were added into the users collection,
+  // prevent deletion of any of those cards were then deleted in another transaction
 });
 
 module.exports = router;
