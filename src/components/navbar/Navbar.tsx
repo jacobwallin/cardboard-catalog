@@ -27,7 +27,7 @@ export default function Navbar() {
     <>
       <Styled.Nav>
         <Styled.NameContainer>
-          <Styled.SiteName>Cardboard Catalog</Styled.SiteName>
+          <Styled.SiteName>Cardboard Catalogue</Styled.SiteName>
           <Styled.Beta>beta</Styled.Beta>
         </Styled.NameContainer>
 
