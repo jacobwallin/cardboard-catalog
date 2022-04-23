@@ -14,10 +14,25 @@ const {
   TransactionUserCard,
 } = require("../../db/models");
 
+// get all transactions
 router.get("/", async (req, res, next) => {
   try {
     const allTransactions = await Transaction.findAll({
       where: { userId: req.user.id },
+      include: TransactionUserCard,
+    });
+
+    res.json(allTransactions);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// get all pending transactions
+router.get("/pending", async (req, res, next) => {
+  try {
+    const allTransactions = await Transaction.findAll({
+      where: { userId: req.user.id, pending: true },
       include: TransactionUserCard,
     });
 
