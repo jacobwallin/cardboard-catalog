@@ -44,8 +44,8 @@ router.get("/pending", async (req, res, next) => {
 
 router.get("/:transactionId", async (req, res, next) => {
   try {
-    const transaction = await Transaction.findOne({
-      where: { userId: req.user.id, id: req.params.transactionId },
+    const transaction = await Transaction.findByPk(req.params.transactionId, {
+      where: { userId: req.user.id },
       include: {
         model: UserCard,
         paranoid: false,
@@ -107,6 +107,12 @@ router.get("/:transactionId", async (req, res, next) => {
         ],
       },
     });
+
+    if (transaction === null) {
+      const error = new Error("Not Found");
+      error.status = 403;
+      throw error;
+    }
 
     res.json(transaction);
   } catch (error) {
