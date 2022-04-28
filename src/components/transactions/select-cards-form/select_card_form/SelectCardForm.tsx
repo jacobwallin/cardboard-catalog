@@ -161,6 +161,8 @@ export default function SelectCardForm(props: Props) {
           selectFrom === "COLLECTION"
         )
       );
+      // automatically select the base series when the subset changes
+      setSelectedSeriesId(subset.baseSeriesId || -1);
     }
   }, [subset, userSubset, selectedSubsetId, selectFrom]);
 
@@ -196,9 +198,6 @@ export default function SelectCardForm(props: Props) {
       setPrefix("");
       setCardIdField("");
     }
-
-    // automatically select the base series when the subset changes
-    setSelectedSeriesId(subset.id === 0 ? -1 : subset.baseSeriesId || -1);
   }, [subset]);
 
   function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {

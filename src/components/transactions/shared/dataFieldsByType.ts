@@ -5,11 +5,13 @@ type TransactionDataFields =
   | "NOTE"
   | "PLATFORM"
   | "INDIVIDUAL"
-  | "MONEY";
+  | "MONEY"
+  | "DATE";
 
 export const dataFields: {
   [type: string]: TransactionDataFields;
 } = {
+  DATE: "DATE",
   TITLE: "TITLE",
   NOTE: "NOTE",
   PLATFORM: "PLATFORM",
@@ -26,6 +28,10 @@ const dataFieldsByTransactionType: {
   };
 } = {
   ADD: {
+    DATE: {
+      shown: false,
+      title: "",
+    },
     TITLE: {
       shown: false,
       title: "",
@@ -48,6 +54,10 @@ const dataFieldsByTransactionType: {
     },
   },
   DELETE: {
+    DATE: {
+      shown: false,
+      title: "",
+    },
     TITLE: {
       shown: false,
       title: "",
@@ -70,6 +80,10 @@ const dataFieldsByTransactionType: {
     },
   },
   RIP: {
+    DATE: {
+      shown: true,
+      title: "Date",
+    },
     TITLE: {
       shown: false,
       title: "",
@@ -92,6 +106,10 @@ const dataFieldsByTransactionType: {
     },
   },
   TRADE: {
+    DATE: {
+      shown: true,
+      title: "Date",
+    },
     TITLE: {
       shown: false,
       title: "",
@@ -114,6 +132,10 @@ const dataFieldsByTransactionType: {
     },
   },
   SALE: {
+    DATE: {
+      shown: true,
+      title: "Date",
+    },
     TITLE: {
       shown: false,
       title: "",
@@ -136,6 +158,10 @@ const dataFieldsByTransactionType: {
     },
   },
   PURCHASE: {
+    DATE: {
+      shown: true,
+      title: "Date",
+    },
     TITLE: {
       shown: false,
       title: "",

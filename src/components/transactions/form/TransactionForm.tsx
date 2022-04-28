@@ -15,14 +15,24 @@ export interface FormData {
 interface Props {
   handleSubmit(data: FormData): void;
   type: TransactionTypes;
+  initialValues?: FormData;
 }
 
 export default function TransactionForm(props: Props) {
-  const [date, setDate] = useState("");
-  const [note, setNote] = useState("");
-  const [platform, setPlatform] = useState("");
-  const [individual, setIndividual] = useState("");
-  const [money, setMoney] = useState("");
+  const { initialValues } = props;
+  const [date, setDate] = useState(initialValues ? initialValues.date : "");
+  const [note, setNote] = useState(
+    initialValues ? initialValues.note || "" : ""
+  );
+  const [platform, setPlatform] = useState(
+    initialValues ? initialValues.platform || "" : ""
+  );
+  const [individual, setIndividual] = useState(
+    initialValues ? initialValues.individual || "" : ""
+  );
+  const [money, setMoney] = useState(
+    initialValues ? initialValues.money || "" : ""
+  );
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     switch (e.target.id) {
@@ -59,10 +69,16 @@ export default function TransactionForm(props: Props) {
 
   return (
     <Styled.Container>
-      <Styled.InputContainer>
-        <Styled.Label htmlFor="date">Date*</Styled.Label>
-        <Styled.DateInput id="date" value={date} onChange={handleInputChange} />
-      </Styled.InputContainer>
+      {dataFieldsByTransactionType[props.type].DATE.shown && (
+        <Styled.InputContainer>
+          <Styled.Label htmlFor="date">Date*</Styled.Label>
+          <Styled.DateInput
+            id="date"
+            value={date}
+            onChange={handleInputChange}
+          />
+        </Styled.InputContainer>
+      )}
       <Styled.Flex>
         {dataFieldsByTransactionType[props.type].PLATFORM.shown && (
           <Styled.InputContainer>
@@ -114,8 +130,8 @@ export default function TransactionForm(props: Props) {
         onClick={submit}
         disabled={date === ""}
         color="GREEN"
-        height="35px"
-        width="130px"
+        height="30px"
+        width="120px"
       >
         Submit
       </StyledButton>

@@ -5,6 +5,7 @@ export const DataContainer = styled.div`
   flex-direction: column;
   gap: 15px;
   width: 100%;
+  position: relative;
 `;
 
 export const DataTitle = styled.div`
@@ -30,4 +31,10 @@ export const Flex = styled.div`
   @media (max-width: 800px) {
     flex-direction: column;
   }
+`;
+
+export const EditButton = styled.div`
+  position: absolute;
+  right: 0;
+  top: 0;
 `;
