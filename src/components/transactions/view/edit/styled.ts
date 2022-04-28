@@ -12,3 +12,10 @@ export const DeleteIcon = styled.div`
     width: 17px;
   }
 `;
+
+export const CardTableHeader = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+`;
