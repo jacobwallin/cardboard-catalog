@@ -17,7 +17,7 @@ interface Props {
   type: TransactionTypes;
 }
 
-export default function TradeForm(props: Props) {
+export default function TransactionForm(props: Props) {
   const [date, setDate] = useState("");
   const [note, setNote] = useState("");
   const [platform, setPlatform] = useState("");
@@ -60,39 +60,55 @@ export default function TradeForm(props: Props) {
   return (
     <Styled.Container>
       <Styled.InputContainer>
-        <Styled.Label htmlFor="date">Date of Trade*</Styled.Label>
+        <Styled.Label htmlFor="date">Date*</Styled.Label>
         <Styled.DateInput id="date" value={date} onChange={handleInputChange} />
       </Styled.InputContainer>
-      <Styled.InputContainer>
-        <Styled.Label htmlFor="platform">Traded through</Styled.Label>
-        <Styled.TextInput
-          id="platform"
-          value={platform}
-          onChange={handleInputChange}
-        />
-      </Styled.InputContainer>
       <Styled.Flex>
+        {dataFieldsByTransactionType[props.type].PLATFORM.shown && (
+          <Styled.InputContainer>
+            <Styled.Label htmlFor="platform">
+              {dataFieldsByTransactionType[props.type].PLATFORM.title}
+            </Styled.Label>
+            <Styled.TextInput
+              id="platform"
+              value={platform}
+              onChange={handleInputChange}
+            />
+          </Styled.InputContainer>
+        )}
+        {dataFieldsByTransactionType[props.type].INDIVIDUAL.shown && (
+          <Styled.InputContainer>
+            <Styled.Label htmlFor="ind">
+              {dataFieldsByTransactionType[props.type].INDIVIDUAL.title}
+            </Styled.Label>
+            <Styled.TextInput
+              id="ind"
+              value={individual}
+              onChange={handleInputChange}
+            />
+          </Styled.InputContainer>
+        )}
+      </Styled.Flex>
+      {dataFieldsByTransactionType[props.type].MONEY.shown && (
         <Styled.InputContainer>
-          <Styled.Label htmlFor="ind">Traded To</Styled.Label>
-          <Styled.TextInput
-            id="ind"
-            value={individual}
-            onChange={handleInputChange}
-          />
-        </Styled.InputContainer>
-        <Styled.InputContainer>
-          <Styled.Label htmlFor="money">$</Styled.Label>
+          <Styled.Label htmlFor="money">
+            {dataFieldsByTransactionType[props.type].MONEY.title}
+          </Styled.Label>
           <Styled.NumberInput
             id="money"
             value={money}
             onChange={handleInputChange}
           />
         </Styled.InputContainer>
-      </Styled.Flex>
-      <Styled.InputContainer>
-        <Styled.Label htmlFor="note">Note</Styled.Label>
-        <Styled.Textarea id="note" value={note} onChange={handleNoteChange} />
-      </Styled.InputContainer>
+      )}
+      {dataFieldsByTransactionType[props.type].NOTE.shown && (
+        <Styled.InputContainer>
+          <Styled.Label htmlFor="note">
+            {dataFieldsByTransactionType[props.type].NOTE.title}
+          </Styled.Label>
+          <Styled.Textarea id="note" value={note} onChange={handleNoteChange} />
+        </Styled.InputContainer>
+      )}
       <StyledButton
         id="submit-cards-button"
         onClick={submit}
@@ -101,7 +117,7 @@ export default function TradeForm(props: Props) {
         height="35px"
         width="130px"
       >
-        Submit Trade
+        Submit
       </StyledButton>
     </Styled.Container>
   );
