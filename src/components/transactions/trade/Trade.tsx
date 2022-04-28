@@ -8,7 +8,7 @@ import ConfirmTrade from "./confirm/ConfirmTrade";
 import { CardFormData } from "../select-cards-form/AddCardsForm";
 import { CardData } from "../../../store/collection/browse/types";
 import { addTransaction } from "../../../store/collection/transactions/thunks";
-import { FormData } from "./confirm/trade-form/TradeForm";
+import { FormData } from "../form/TransactionForm";
 import { StepContainer } from "../shared/StepContainer";
 import Step from "../shared/transaction-step/Step";
 import { RootState } from "../../../store";

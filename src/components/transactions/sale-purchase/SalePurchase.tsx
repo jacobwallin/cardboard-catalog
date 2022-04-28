@@ -8,12 +8,11 @@ import PageHeader from "../../shared/PageHeader";
 import AddCardsForm, { CardFormData } from "../select-cards-form/AddCardsForm";
 import { CardData } from "../../../store/collection/browse/types";
 import { addTransaction } from "../../../store/collection/transactions/thunks";
-import { FormData } from "./sale-purchase-form/SalePurchaseForm";
 import { createStatusSelector } from "../../../store/loading/reducer";
 import { PageContainer } from "./styled";
 import SelectedCards from "../select-cards-form/selected-cards/SelectedCards";
 import { SelectedCardsTitle } from "../shared/SelectedCardsTitle";
-import TransactionForm from "../form/TransactionForm";
+import TransactionForm, { FormData } from "../form/TransactionForm";
 
 const addTradeStatusSelector = createStatusSelector("ADD_TRANSACTION");
 

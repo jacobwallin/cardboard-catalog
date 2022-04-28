@@ -2,8 +2,7 @@ import React from "react";
 import { CardFormData } from "../../select-cards-form/AddCardsForm";
 import * as Styled from "./styled";
 import SelectedCards from "../../select-cards-form/selected-cards/SelectedCards";
-import TradeForm from "./trade-form/TradeForm";
-import { FormData } from "./trade-form/TradeForm";
+import TransactionForm, { FormData } from "../../form/TransactionForm";
 
 interface Props {
   tradedCards: CardFormData[];
@@ -16,7 +15,7 @@ export default function ConfirmTrade(props: Props) {
   return (
     <Styled.ConfirmContainer>
       <Styled.PageTitle>Enter Trade Details</Styled.PageTitle>
-      <TradeForm handleSubmit={handleSubmit} />
+      <TransactionForm handleSubmit={handleSubmit} type="TRADE" />
       <Styled.SelectedCardsHeader>Cards Traded</Styled.SelectedCardsHeader>
       <SelectedCards cardData={tradedCards} preventGradeChanges={true} />
       <Styled.SelectedCardsHeader>Cards Received</Styled.SelectedCardsHeader>
