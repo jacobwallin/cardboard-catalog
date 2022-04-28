@@ -196,6 +196,9 @@ export default function SelectCardForm(props: Props) {
       setPrefix("");
       setCardIdField("");
     }
+
+    // automatically select the base series when the subset changes
+    setSelectedSeriesId(subset.id === 0 ? -1 : subset.baseSeriesId || -1);
   }, [subset]);
 
   function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -390,48 +393,51 @@ export default function SelectCardForm(props: Props) {
           );
         })}
       </Styled.Select>
-      <Styled.Select
-        value={selectedSubsetId}
-        name="select-subset"
-        id="select-subset"
-        disabled={selectedSetId === -1 || loadingSet}
-        onChange={handleSelectChange}
-      >
-        <option value={-1}>Select Subset</option>
-        {
-          // only render drop down options once the correct subset has been fetched from API
-          (set.id === selectedSetId || userSet.setId === selectedSetId) &&
-            subsetOptions.map((subset) => {
-              return (
-                <option key={subset.id} value={subset.id}>
-                  {`${subset.name}`}
-                  {subset.prefix !== "" && ` (${subset.prefix})`}
-                </option>
-              );
-            })
-        }
-      </Styled.Select>
-      <Styled.Select
-        value={selectedSeriesId}
-        name="select-series"
-        id="select-series"
-        disabled={selectedSubsetId === -1 || loadingSubset}
-        onChange={handleSelectChange}
-      >
-        <option value={-1}>Select Parallel</option>
-        {
-          // only render drop down options once the correct subset has been fetched from API
-          subset.id === selectedSubsetId &&
-            seriesOptions.map((series) => {
-              return (
-                <option key={series.series.id} value={series.series.id}>
-                  {series.series.name}
-                  {series.series.serialized && ` /${series.series.serialized}`}
-                </option>
-              );
-            })
-        }
-      </Styled.Select>
+      <Styled.Flex>
+        <Styled.Select
+          value={selectedSubsetId}
+          name="select-subset"
+          id="select-subset"
+          disabled={selectedSetId === -1 || loadingSet}
+          onChange={handleSelectChange}
+        >
+          <option value={-1}>Select Subset</option>
+          {
+            // only render drop down options once the correct subset has been fetched from API
+            (set.id === selectedSetId || userSet.setId === selectedSetId) &&
+              subsetOptions.map((subset) => {
+                return (
+                  <option key={subset.id} value={subset.id}>
+                    {`${subset.name}`}
+                    {subset.prefix !== "" && ` (${subset.prefix})`}
+                  </option>
+                );
+              })
+          }
+        </Styled.Select>
+        <Styled.Select
+          value={selectedSeriesId}
+          name="select-series"
+          id="select-series"
+          disabled={selectedSubsetId === -1 || loadingSubset}
+          onChange={handleSelectChange}
+        >
+          <option value={-1}>Select Parallel</option>
+          {
+            // only render drop down options once the correct subset has been fetched from API
+            subset.id === selectedSubsetId &&
+              seriesOptions.map((series) => {
+                return (
+                  <option key={series.series.id} value={series.series.id}>
+                    {series.series.name}
+                    {series.series.serialized &&
+                      ` /${series.series.serialized}`}
+                  </option>
+                );
+              })
+          }
+        </Styled.Select>
+      </Styled.Flex>
       <Styled.SelectCardContainer onSubmit={handleAddCard}>
         <Styled.Select
           value={selectedCardId}
