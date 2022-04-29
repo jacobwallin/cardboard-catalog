@@ -11,9 +11,11 @@ import * as Styled from "./styled";
 import AddCardsForm, {
   CardFormData,
 } from "../../select-cards-form/AddCardsForm";
+import SubtleButton from "../../../shared/SubtleButton";
 
 interface Props {
   transaction: SingleTransaction;
+  cancel: () => void;
 }
 
 export default function EditTransaction(props: Props) {
@@ -134,27 +136,51 @@ export default function EditTransaction(props: Props) {
   return (
     <>
       {addAdditionalCards && (
-        <AddCardsForm
-          selectFrom="DATABASE"
-          cardData={newCardsAddedFormData}
-          setCardData={addAdditional}
-          canEditSelectedCards
-          submit={submitAddAdditional}
-          title="Add Additional Cards"
-        />
+        <>
+          <Styled.ReturnWrapper>
+            <SubtleButton onClick={toggleAddAdditional}>
+              {"Cancel"}
+            </SubtleButton>
+          </Styled.ReturnWrapper>
+          <AddCardsForm
+            selectFrom="DATABASE"
+            cardData={newCardsAddedFormData}
+            setCardData={addAdditional}
+            canEditSelectedCards
+            submit={submitAddAdditional}
+            title="Add Additional Cards"
+          />
+        </>
       )}
       {removeAdditionalCards && (
-        <AddCardsForm
-          selectFrom="COLLECTION"
-          cardData={newCardsRemovedFormData}
-          setCardData={removeAdditional}
-          canEditSelectedCards
-          submit={submitRemoveAdditional}
-          title="Remove Additional Cards"
-        />
+        <>
+          <Styled.ReturnWrapper>
+            <SubtleButton onClick={toggleRemoveAdditional}>
+              {"Cancel"}
+            </SubtleButton>
+          </Styled.ReturnWrapper>
+          <AddCardsForm
+            selectFrom="COLLECTION"
+            cardData={newCardsRemovedFormData}
+            setCardData={removeAdditional}
+            canEditSelectedCards
+            submit={submitRemoveAdditional}
+            title="Remove Additional Cards"
+          />
+        </>
       )}
       {!addAdditionalCards && !removeAdditionalCards && (
         <>
+          <Styled.CancelWrapper>
+            <StyledButton
+              color="GRAY"
+              width="60px"
+              height="23px"
+              onClick={props.cancel}
+            >
+              Cancel
+            </StyledButton>
+          </Styled.CancelWrapper>
           <TransactionForm
             type={transaction.type}
             handleSubmit={handleSubmit}
@@ -168,25 +194,25 @@ export default function EditTransaction(props: Props) {
           />
           {showAddedCards && (
             <Styled.TableWrapper>
-              {!addedCardsSelectable && (
-                <StyledButton
-                  color="BLUE"
-                  width="160px"
-                  height="21px"
-                  onClick={toggleAddAdditional}
-                  fontSize=".8rem"
-                >
-                  Add Additional Cards
-                </StyledButton>
-              )}
               <Styled.CardTableHeader>
                 <SelectedCardsTitle>Cards Added</SelectedCardsTitle>
                 <Styled.ButtonContainer>
+                  {!addedCardsSelectable && (
+                    <StyledButton
+                      color="BLUE"
+                      width="160px"
+                      height="22px"
+                      onClick={toggleAddAdditional}
+                      fontSize=".8rem"
+                    >
+                      Add Additional Cards
+                    </StyledButton>
+                  )}
                   {addedCardsSelectable && selectedAddedCards.length > 0 && (
                     <StyledButton
                       color="RED"
                       width="160px"
-                      height="21px"
+                      height="22px"
                       onClick={removeAddedCards}
                       fontSize=".8rem"
                     >
@@ -196,7 +222,7 @@ export default function EditTransaction(props: Props) {
                   <StyledButton
                     color="GRAY"
                     width="160px"
-                    height="21px"
+                    height="22px"
                     onClick={toggleAddedSelectable}
                     fontSize=".8rem"
                     disabled={cardsAdded.length === 0}
@@ -219,25 +245,25 @@ export default function EditTransaction(props: Props) {
           )}
           {showRemovedCards && (
             <Styled.TableWrapper>
-              {!removedCardsSelectable && (
-                <StyledButton
-                  color="BLUE"
-                  width="160px"
-                  height="21px"
-                  onClick={toggleRemoveAdditional}
-                  fontSize=".8rem"
-                >
-                  Remove Additional Cards
-                </StyledButton>
-              )}
               <Styled.CardTableHeader>
                 <SelectedCardsTitle>Cards Removed</SelectedCardsTitle>
                 <Styled.ButtonContainer>
+                  {!removedCardsSelectable && (
+                    <StyledButton
+                      color="BLUE"
+                      width="160px"
+                      height="22px"
+                      onClick={toggleRemoveAdditional}
+                      fontSize=".8rem"
+                    >
+                      Remove Additional Cards
+                    </StyledButton>
+                  )}
                   {removedCardsSelectable && selectedRemovedCards.length > 0 && (
                     <StyledButton
                       color="RED"
                       width="160px"
-                      height="21px"
+                      height="22px"
                       onClick={removeDeletedCards}
                       fontSize=".8rem"
                     >
@@ -247,7 +273,7 @@ export default function EditTransaction(props: Props) {
                   <StyledButton
                     color="GRAY"
                     width="160px"
-                    height="21px"
+                    height="22px"
                     onClick={toggleRemovedSelectable}
                     fontSize=".8rem"
                     disabled={cardsRemoved.length === 0}

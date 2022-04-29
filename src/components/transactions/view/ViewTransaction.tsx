@@ -14,6 +14,7 @@ import { UserCardWithTransaction } from "../../../store/collection/transactions/
 import columns from "./columns";
 import { SelectedCardsTitle } from "../shared/SelectedCardsTitle";
 import EditTransaction from "./edit/EditTransaction";
+import StyledButton from "../../Admin/components/StyledButton";
 
 export default function ViewTransaction() {
   const dispatch = useDispatch();
@@ -57,14 +58,25 @@ export default function ViewTransaction() {
   }
   return (
     <>
-      <PageHeader title="View Transaction" />
+      <PageHeader
+        title={editTransaction ? "Edit Transaction" : "View Transaction"}
+      />
       <PageContainer>
-        {editTransaction && <EditTransaction transaction={transaction} />}
+        {editTransaction && (
+          <EditTransaction transaction={transaction} cancel={toggleEdit} />
+        )}
         {!editTransaction && (
           <>
             <Styled.DataContainer>
               <Styled.EditButton>
-                <div onClick={toggleEdit}>EDIT</div>
+                <StyledButton
+                  color="BLUE"
+                  width="60px"
+                  height="23px"
+                  onClick={toggleEdit}
+                >
+                  Edit
+                </StyledButton>
               </Styled.EditButton>
               <Styled.DataFieldContainer>
                 <Styled.DataTitle>Date</Styled.DataTitle>

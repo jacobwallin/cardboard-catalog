@@ -31,3 +31,15 @@ export const TableWrapper = styled.div`
   width: 100%;
   margin-top: 50px;
 `;
+
+export const ReturnWrapper = styled.div`
+  display: flex;
+  width: 650px;
+  @media (max-width: 800px) {
+    width: 95%;
+  }
+`;
+
+export const CancelWrapper = styled.div`
+  align-self: flex-end;
+`;

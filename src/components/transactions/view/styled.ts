@@ -6,6 +6,7 @@ export const DataContainer = styled.div`
   gap: 15px;
   width: 100%;
   position: relative;
+  margin-bottom: 50px;
 `;
 
 export const DataTitle = styled.div`
