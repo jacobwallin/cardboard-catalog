@@ -168,24 +168,24 @@ export default function EditTransaction(props: Props) {
           />
           {showAddedCards && (
             <Styled.TableWrapper>
+              {!addedCardsSelectable && (
+                <StyledButton
+                  color="BLUE"
+                  width="160px"
+                  height="21px"
+                  onClick={toggleAddAdditional}
+                  fontSize=".8rem"
+                >
+                  Add Additional Cards
+                </StyledButton>
+              )}
               <Styled.CardTableHeader>
                 <SelectedCardsTitle>Cards Added</SelectedCardsTitle>
                 <Styled.ButtonContainer>
-                  {!addedCardsSelectable && (
-                    <StyledButton
-                      color="BLUE"
-                      width="150px"
-                      height="21px"
-                      onClick={toggleAddAdditional}
-                      fontSize=".8rem"
-                    >
-                      Add Additional Cards
-                    </StyledButton>
-                  )}
                   {addedCardsSelectable && selectedAddedCards.length > 0 && (
                     <StyledButton
                       color="RED"
-                      width="150px"
+                      width="160px"
                       height="21px"
                       onClick={removeAddedCards}
                       fontSize=".8rem"
@@ -195,7 +195,7 @@ export default function EditTransaction(props: Props) {
                   )}
                   <StyledButton
                     color="GRAY"
-                    width="150px"
+                    width="160px"
                     height="21px"
                     onClick={toggleAddedSelectable}
                     fontSize=".8rem"
@@ -218,24 +218,24 @@ export default function EditTransaction(props: Props) {
           )}
           {showRemovedCards && (
             <Styled.TableWrapper>
+              {!removedCardsSelectable && (
+                <StyledButton
+                  color="BLUE"
+                  width="160px"
+                  height="21px"
+                  onClick={toggleRemoveAdditional}
+                  fontSize=".8rem"
+                >
+                  Remove Additional Cards
+                </StyledButton>
+              )}
               <Styled.CardTableHeader>
                 <SelectedCardsTitle>Cards Removed</SelectedCardsTitle>
                 <Styled.ButtonContainer>
-                  {!removedCardsSelectable && (
-                    <StyledButton
-                      color="RED"
-                      width="175px"
-                      height="21px"
-                      onClick={toggleRemoveAdditional}
-                      fontSize=".8rem"
-                    >
-                      Remove Additional Cards
-                    </StyledButton>
-                  )}
                   {removedCardsSelectable && selectedRemovedCards.length > 0 && (
                     <StyledButton
                       color="RED"
-                      width="175px"
+                      width="160px"
                       height="21px"
                       onClick={removeDeletedCards}
                       fontSize=".8rem"
@@ -245,12 +245,12 @@ export default function EditTransaction(props: Props) {
                   )}
                   <StyledButton
                     color="GRAY"
-                    width="175px"
+                    width="160px"
                     height="21px"
                     onClick={toggleRemovedSelectable}
                     fontSize=".8rem"
                   >
-                    {addedCardsSelectable ? "Cancel" : "Manage Removed Cards"}
+                    {removedCardsSelectable ? "Cancel" : "Manage Removed Cards"}
                   </StyledButton>
                 </Styled.ButtonContainer>
               </Styled.CardTableHeader>

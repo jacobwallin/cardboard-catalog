@@ -18,6 +18,7 @@ export const CardTableHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  margin-top: 10px;
 `;
 
 export const ButtonContainer = styled.div`

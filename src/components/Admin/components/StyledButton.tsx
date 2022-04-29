@@ -45,7 +45,7 @@ const StyledButton = styled.button<ButtonProps>`
       case "RED":
         return "#CE2200";
       case "GRAY":
-        return "#999999";
+        return "#aaa";
     }
   }};
   &:hover:enabled {
