@@ -3,13 +3,8 @@ import { UserCardWithTransaction } from "../../../../store/collection/transactio
 import CardNumber from "../../../Collection/subset-page/CardNumber";
 import sortCardNumbers from "../../../../utils/sortCardNumbers";
 import { getFullSetName } from "../../../Collection/filter/columns";
-import { ReactComponent as XIcon } from "../../select-cards-form/add_cards_line/close.svg";
-import * as Styled from "./styled";
-import StyledButton from "../../../Admin/components/StyledButton";
 
-export const columns = (
-  removeCard: (userCard: UserCardWithTransaction) => void
-) => [
+export const columns = () => [
   {
     name: "#",
     selector: (row: UserCardWithTransaction) => row.card.card_datum.number,
@@ -58,22 +53,5 @@ export const columns = (
       row.card.card_datum.team ? row.card.card_datum.team.name : "-",
     sortable: false,
     grow: 4,
-  },
-  {
-    name: "",
-    cell: (row: UserCardWithTransaction) => (
-      <StyledButton
-        color="RED"
-        width="25px"
-        height="25px"
-        onClick={() => removeCard(row)}
-      >
-        <Styled.DeleteIcon>
-          <XIcon />
-        </Styled.DeleteIcon>
-      </StyledButton>
-    ),
-    sortable: false,
-    grow: 0,
   },
 ];

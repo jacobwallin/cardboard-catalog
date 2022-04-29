@@ -19,6 +19,7 @@ interface Props {
 export default function EditTransaction(props: Props) {
   const { transaction } = props;
 
+  // master table data
   const [cardsAdded, setCardsAdded] = useState<UserCardWithTransaction[]>(
     transaction.user_cards.filter((t) => !t.transaction_user_card.deleted)
   );
@@ -26,34 +27,90 @@ export default function EditTransaction(props: Props) {
     transaction.user_cards.filter((t) => t.transaction_user_card.deleted)
   );
 
+  // toggle selectable rows and add card forms
   const [removeAdditionalCards, setRemoveAdditionalCards] = useState(false);
   const [addAdditionalCards, setAddAdditionalCards] = useState(false);
-
-  const [addedCardsRemoved, setAddedCardsRemoved] = useState<number[]>([]);
-  const [deletedCardsRemoved, setDeletedCardsRemoved] = useState<number[]>([]);
-
-  const [newCardsAddedFormData, setNewCardsAddedFormData] = useState<
-    CardFormData[]
-  >([]);
-  const [newCardsRemovedFormData, setNewCardsRemovedFormData] = useState<
-    CardFormData[]
-  >([]);
-
+  const [addedCardsSelectable, setAddedCardsSelectable] = useState(false);
+  const [removedCardsSelectable, setRemovedCardsSelectable] = useState(false);
   function toggleRemoveAdditional() {
     setRemoveAdditionalCards(!removeAdditionalCards);
   }
   function toggleAddAdditional() {
     setAddAdditionalCards(!addAdditionalCards);
   }
-
-  function removeAdded(userCard: UserCardWithTransaction) {
-    console.log("REMOVE ADDED CARD");
+  function toggleAddedSelectable() {
+    setClearAddedSelected(!clearAddedSelected);
+    setAddedCardsSelectable(!addedCardsSelectable);
+  }
+  function toggleRemovedSelectable() {
+    setClearRemovedSelected(!clearRemovedSelected);
+    setRemovedCardsSelectable(!removedCardsSelectable);
   }
 
-  function removeDeleted(userCard: UserCardWithTransaction) {
-    console.log("REMOVE DELETED CARD");
+  // disabled checkbox on cards that were deleted in another transaction
+  function disabledSelectable(row: UserCardWithTransaction) {
+    return row.deletedAt !== null;
   }
 
+  // manage selected cards
+  const [selectedAddedCards, setSelectedAddedCards] = useState<
+    UserCardWithTransaction[]
+  >([]);
+  const [selectedRemovedCards, setSelectedRemovedCards] = useState<
+    UserCardWithTransaction[]
+  >([]);
+  const [clearAddedSelected, setClearAddedSelected] = useState(false);
+  const [clearRemovedSelected, setClearRemovedSelected] = useState(false);
+  interface SelectableRows {
+    allSelected: boolean;
+    selectedCount: number;
+    selectedRows: Array<UserCardWithTransaction>;
+  }
+  function addSelectedCardsChange(selectableRows: SelectableRows) {
+    setSelectedAddedCards(selectableRows.selectedRows);
+  }
+  function removeSelectedCardsChange(selectableRows: SelectableRows) {
+    setSelectedRemovedCards(selectableRows.selectedRows);
+  }
+  const [addedCardsRemoved, setAddedCardsRemoved] = useState<number[]>([]);
+  const [deletedCardsRemoved, setDeletedCardsRemoved] = useState<number[]>([]);
+  function removeAddedCards() {
+    // filter out selected cards from table data
+    setCardsAdded(
+      cardsAdded.filter(
+        (c) =>
+          !selectedAddedCards.some((selectedCard) => selectedCard.id === c.id)
+      )
+    );
+    // append selected cards to addedCardsRemoved
+    setAddedCardsRemoved([
+      ...addedCardsRemoved,
+      ...selectedAddedCards.map((c) => c.id),
+    ]);
+
+    toggleAddedSelectable();
+  }
+  function removeDeletedCards() {
+    setCardsRemoved(
+      cardsRemoved.filter(
+        (c) =>
+          !selectedRemovedCards.some((selectedCard) => selectedCard.id === c.id)
+      )
+    );
+    setDeletedCardsRemoved([
+      ...deletedCardsRemoved,
+      ...selectedRemovedCards.map((c) => c.id),
+    ]);
+    toggleRemovedSelectable();
+  }
+
+  // additional cards that are added or removed in transaction
+  const [newCardsAddedFormData, setNewCardsAddedFormData] = useState<
+    CardFormData[]
+  >([]);
+  const [newCardsRemovedFormData, setNewCardsRemovedFormData] = useState<
+    CardFormData[]
+  >([]);
   function addAdditional(cardData: CardFormData[]) {
     setNewCardsAddedFormData(cardData);
   }
@@ -64,6 +121,7 @@ export default function EditTransaction(props: Props) {
   }
   function submitRemoveAdditional(cardData: CardData[]) {}
 
+  // SUBMIT TRANSACTION PUT
   function handleSubmit(formData: FormData) {}
 
   const showAddedCards =
@@ -109,46 +167,103 @@ export default function EditTransaction(props: Props) {
             }}
           />
           {showAddedCards && (
-            <>
+            <Styled.TableWrapper>
               <Styled.CardTableHeader>
                 <SelectedCardsTitle>Cards Added</SelectedCardsTitle>
-                <StyledButton
-                  color="GRAY"
-                  width="250px"
-                  height="25px"
-                  onClick={toggleAddAdditional}
-                >
-                  Add Additional Cards
-                </StyledButton>
+                <Styled.ButtonContainer>
+                  {!addedCardsSelectable && (
+                    <StyledButton
+                      color="BLUE"
+                      width="150px"
+                      height="21px"
+                      onClick={toggleAddAdditional}
+                      fontSize=".8rem"
+                    >
+                      Add Additional Cards
+                    </StyledButton>
+                  )}
+                  {addedCardsSelectable && selectedAddedCards.length > 0 && (
+                    <StyledButton
+                      color="RED"
+                      width="150px"
+                      height="21px"
+                      onClick={removeAddedCards}
+                      fontSize=".8rem"
+                    >
+                      Remove Cards
+                    </StyledButton>
+                  )}
+                  <StyledButton
+                    color="GRAY"
+                    width="150px"
+                    height="21px"
+                    onClick={toggleAddedSelectable}
+                    fontSize=".8rem"
+                  >
+                    {addedCardsSelectable ? "Cancel" : "Manage Added Cards"}
+                  </StyledButton>
+                </Styled.ButtonContainer>
               </Styled.CardTableHeader>
               <DataTable
                 data={cardsAdded}
-                columns={columns(removeAdded)}
+                columns={columns()}
                 dense
                 noHeader
+                selectableRows={addedCardsSelectable}
+                selectableRowDisabled={disabledSelectable}
+                onSelectedRowsChange={addSelectedCardsChange}
+                clearSelectedRows={clearAddedSelected}
               />
-            </>
+            </Styled.TableWrapper>
           )}
           {showRemovedCards && (
-            <>
+            <Styled.TableWrapper>
               <Styled.CardTableHeader>
                 <SelectedCardsTitle>Cards Removed</SelectedCardsTitle>
-                <StyledButton
-                  color="GRAY"
-                  width="250px"
-                  height="25px"
-                  onClick={toggleRemoveAdditional}
-                >
-                  Remove Additional Cards
-                </StyledButton>
+                <Styled.ButtonContainer>
+                  {!removedCardsSelectable && (
+                    <StyledButton
+                      color="RED"
+                      width="175px"
+                      height="21px"
+                      onClick={toggleRemoveAdditional}
+                      fontSize=".8rem"
+                    >
+                      Remove Additional Cards
+                    </StyledButton>
+                  )}
+                  {removedCardsSelectable && selectedRemovedCards.length > 0 && (
+                    <StyledButton
+                      color="RED"
+                      width="175px"
+                      height="21px"
+                      onClick={removeDeletedCards}
+                      fontSize=".8rem"
+                    >
+                      Remove Cards
+                    </StyledButton>
+                  )}
+                  <StyledButton
+                    color="GRAY"
+                    width="175px"
+                    height="21px"
+                    onClick={toggleRemovedSelectable}
+                    fontSize=".8rem"
+                  >
+                    {addedCardsSelectable ? "Cancel" : "Manage Removed Cards"}
+                  </StyledButton>
+                </Styled.ButtonContainer>
               </Styled.CardTableHeader>
               <DataTable
                 data={cardsRemoved}
-                columns={columns(removeDeleted)}
+                columns={columns()}
                 dense
                 noHeader
+                selectableRows={removedCardsSelectable}
+                onSelectedRowsChange={removeSelectedCardsChange}
+                clearSelectedRows={clearRemovedSelected}
               />
-            </>
+            </Styled.TableWrapper>
           )}
         </>
       )}

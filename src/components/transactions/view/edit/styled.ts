@@ -19,3 +19,14 @@ export const CardTableHeader = styled.div`
   justify-content: space-between;
   align-items: flex-end;
 `;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+
+export const TableWrapper = styled.div`
+  width: 100%;
+  margin-top: 50px;
+`;
