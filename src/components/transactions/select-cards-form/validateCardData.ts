@@ -34,7 +34,7 @@ export function allCardData(cardData: CardFormData[]): {
   validatedCardData: CardFormData[];
 } {
   let errorsFound = false;
-  const validatedCardData = cardData.map((data) => {
+  const validatedCardData = cardData.map((data): CardFormData => {
     // if a validatino error already exists, value will not change
     let serialNumberError = data.validation.serialNumberError;
     let gradeError = data.validation.gradeError;
@@ -45,8 +45,15 @@ export function allCardData(cardData: CardFormData[]): {
     }
 
     // make sure a serial number is entered by the user if the series is serialized
-    if (data.card.serializedTo || data.card.series.serialized) {
+    const serializedTo = data.card.serializedTo || data.card.series.serialized;
+    if (serializedTo) {
       if (data.formData.serialNumber === "") {
+        errorsFound = true;
+        serialNumberError = true;
+      } else if (
+        +data.formData.serialNumber < 1 ||
+        +data.formData.serialNumber > serializedTo
+      ) {
         errorsFound = true;
         serialNumberError = true;
       }
@@ -63,7 +70,10 @@ export function allCardData(cardData: CardFormData[]): {
         errorsFound = true;
       }
     }
-    return { ...data, serialNumberError, gradeError, gradingCompanyError };
+    return {
+      ...data,
+      validation: { serialNumberError, gradeError, gradingCompanyError },
+    };
   });
 
   return { errorsFound, validatedCardData };

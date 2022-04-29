@@ -86,15 +86,18 @@ export default function AddCardsForm(props: Props) {
 
   function handleSerializedChange(cardIndex: number, serialNumber: string) {
     setCardData(
-      cardData.map((data, index) => {
+      cardData.map((data, index): CardFormData => {
         if (index === cardIndex) {
           return {
             ...data,
-            serialNumber,
-            serialNumberError: validate.serialNumber(
-              serialNumber,
-              series.serialized
-            ),
+            formData: { ...data.formData, serialNumber },
+            validation: {
+              ...data.validation,
+              serialNumberError: validate.serialNumber(
+                serialNumber,
+                series.serialized
+              ),
+            },
           };
         }
         return data;
@@ -104,9 +107,16 @@ export default function AddCardsForm(props: Props) {
 
   function handleGradeChange(cardIndex: number, grade: string) {
     setCardData(
-      cardData.map((data, index) => {
+      cardData.map((data, index): CardFormData => {
         if (index === cardIndex) {
-          return { ...data, grade: grade, gradeError: validate.grade(grade) };
+          return {
+            ...data,
+            formData: { ...data.formData, grade: grade },
+            validation: {
+              ...data.validation,
+              gradeError: validate.grade(grade),
+            },
+          };
         }
         return data;
       })
@@ -118,15 +128,21 @@ export default function AddCardsForm(props: Props) {
     gradingCompanyId: number
   ) {
     setCardData(
-      cardData.map((data, index) => {
+      cardData.map((data, index): CardFormData => {
         if (index === cardIndex) {
           return {
             ...data,
-            gradingCompanyId,
-            gradingCompanyError: validate.gradingCompany(
+            formData: {
+              ...data.formData,
               gradingCompanyId,
-              gradingCompanies
-            ),
+            },
+            validation: {
+              ...data.validation,
+              gradingCompanyError: validate.gradingCompany(
+                gradingCompanyId,
+                gradingCompanies
+              ),
+            },
           };
         }
         return data;
@@ -136,14 +152,20 @@ export default function AddCardsForm(props: Props) {
 
   function clearGradeData(cardIndex: number) {
     setCardData(
-      cardData.map((data, index) => {
+      cardData.map((data, index): CardFormData => {
         if (index === cardIndex) {
           return {
             ...data,
-            gradingCompanyId: -1,
-            gradingCompanyError: false,
-            grade: "",
-            gradeError: false,
+            formData: {
+              ...data.formData,
+              gradingCompanyId: -1,
+              grade: "",
+            },
+            validation: {
+              ...data.validation,
+              gradingCompanyError: false,
+              gradeError: false,
+            },
           };
         }
         return data;

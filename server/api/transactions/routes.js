@@ -237,7 +237,7 @@ router.put("/:transactionId", async (req, res, next) => {
   // * must first verify the cards are not deleted in another transaction
   const { addedCardsRemoved } = req.body;
   // additional cards that were removed in transaction; these will be userCardIds
-  const { cardRemoved } = req.body;
+  const { cardsRemoved } = req.body;
   // cards that are currently deleted in transaction that need to un-deleted; these will be transactionUserIds
   const { removedCardsAdded } = req.body;
 

@@ -160,7 +160,6 @@ export function createTableData(
     },
     {}
   );
-  console.log("TABLE DATA:", newTableData);
   return newTableData;
 }
 
