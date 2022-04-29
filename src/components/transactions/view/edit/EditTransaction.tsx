@@ -199,6 +199,7 @@ export default function EditTransaction(props: Props) {
                     height="21px"
                     onClick={toggleAddedSelectable}
                     fontSize=".8rem"
+                    disabled={cardsAdded.length === 0}
                   >
                     {addedCardsSelectable ? "Cancel" : "Manage Added Cards"}
                   </StyledButton>
@@ -249,6 +250,7 @@ export default function EditTransaction(props: Props) {
                     height="21px"
                     onClick={toggleRemovedSelectable}
                     fontSize=".8rem"
+                    disabled={cardsRemoved.length === 0}
                   >
                     {removedCardsSelectable ? "Cancel" : "Manage Removed Cards"}
                   </StyledButton>
