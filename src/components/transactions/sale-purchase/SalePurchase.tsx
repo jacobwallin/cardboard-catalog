@@ -57,7 +57,7 @@ export default function SalePurchase(props: Props) {
           {
             type: "SALE",
             ...transactionDetails,
-            userCardsRemoved: selectedCards.map((userCard) => userCard.cardId),
+            userCardsRemoved: selectedCards.map((userCard) => userCard.id),
           },
           false
         )

@@ -61,7 +61,8 @@ export function columns(selectedCols: {
   if (selectedCols.team) {
     cols.push({
       name: "Team",
-      selector: (row: UserCard) => row.card.card_datum.team.name,
+      cell: (row: UserCard) =>
+        row.card.card_datum.team ? row.card.card_datum.team.name : "-",
       sortable: false,
       style: tableStyles,
       compact: true,

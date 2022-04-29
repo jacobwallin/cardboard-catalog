@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../store";
 import { fetchAllGradingCompanies } from "../../../store/library/grading_companies/thunks";
-import { Card } from "../../../store/library/series/types";
 import { CardData } from "../../../store/collection/browse/types";
+import { FilterCard } from "../../../store/collection/filter/types";
 import StyledButton from "../../Admin/components/StyledButton";
 import SelectCardForm from "./select_card_form/SelectCardForm";
 import SelectedCards from "./selected-cards/SelectedCards";
@@ -12,25 +12,22 @@ import {
   createStatusSelector,
 } from "../../../store/loading/reducer";
 import * as validate from "./validateCardData";
-
 import * as Styled from "./styled";
 
 export interface CardFormData {
-  cardId: number;
-  serialNumber: string;
-  grade: string;
-  gradingCompanyId: number;
-  card: Card;
-  serialNumberError: boolean;
-  gradeError: boolean;
-  gradingCompanyError: boolean;
+  id: number;
+  formData: {
+    serialNumber: string;
+    grade: string;
+    gradingCompanyId: number;
+  };
+  validation: {
+    serialNumberError: boolean;
+    gradeError: boolean;
+    gradingCompanyError: boolean;
+  };
   qtyInCollection: number;
-  serialized: number | null;
-  shortPrint: boolean;
-  auto: boolean;
-  relic: boolean;
-  manufacturedRelic: boolean;
-  refractor: boolean;
+  card: FilterCard;
 }
 
 const postingCards = createLoadingSelector(["ADD_TRANSACTION"]);
@@ -176,16 +173,16 @@ export default function AddCardsForm(props: Props) {
     if (!errorsFound) {
       const postData: CardData[] = cardData.map((card) => {
         let newData: CardData = {
-          cardId: card.cardId,
+          cardId: card.id,
         };
-        if (card.serialNumber !== "") {
-          newData.serialNumber = +card.serialNumber;
+        if (card.formData.serialNumber !== "") {
+          newData.serialNumber = +card.formData.serialNumber;
         }
-        if (card.grade !== "") {
-          newData.grade = +card.grade;
+        if (card.formData.grade !== "") {
+          newData.grade = +card.formData.grade;
         }
-        if (card.gradingCompanyId !== -1) {
-          newData.gradingCompanyId = card.gradingCompanyId;
+        if (card.formData.gradingCompanyId !== -1) {
+          newData.gradingCompanyId = card.formData.gradingCompanyId;
         }
         return newData;
       });

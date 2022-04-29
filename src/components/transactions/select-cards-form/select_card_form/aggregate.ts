@@ -69,6 +69,7 @@ export function aggregateSubset(
   subsetsWithUserCardsOnly: boolean
 ): SeriesTableData[] {
   const tableData = createTableData(librarySubsetData, userCardData);
+  // convert table data to an array and filter and sort out series
   return Object.keys(tableData)
     .map((seriesId) => tableData[+seriesId])
     .filter((series) => {
@@ -155,3 +156,5 @@ export function collectionSubsets(userSubsets: SubsetCards[]): SubsetData[] {
       return 0;
     });
 }
+
+export function createFormData() {}

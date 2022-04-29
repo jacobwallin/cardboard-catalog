@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../../store";
 import { CardFormData } from "../AddCardsForm";
-
 import StyledButton from "../../../Admin/components/StyledButton";
 import { fetchAllSetData } from "../../../../store/library/sets/thunks";
 import { fetchSet } from "../../../../store/library/sets/thunks";
@@ -258,7 +257,7 @@ export default function SelectCardForm(props: Props) {
       card = collectionCardOptions.find((userCard) => {
         return (
           userCard.card.cardData.number === inputValue &&
-          cardData.findIndex((card) => card.cardId === userCard.id) === -1
+          cardData.findIndex((card) => card.id === userCard.id) === -1
         );
       });
     } else {
@@ -278,40 +277,55 @@ export default function SelectCardForm(props: Props) {
     if (selectFrom === "COLLECTION") {
       const userCard = collectionCardOptions.find(
         (userCard) => userCard.id === selectedCardId
-      )!;
+      );
       if (userCard) {
         const newCardData: CardFormData = {
-          // this id will actually be the UserCard id, not the actual card id since it is being selected from the user's collection
-          cardId: selectedCardId,
-          serialNumber:
-            userCard.serialNumber === null ? "" : String(userCard.serialNumber),
-          grade: userCard.grade === null ? "" : String(userCard.grade),
-          gradingCompanyId: userCard.gradingCompanyId || -1,
+          // this id will be the UserCard id and not the actual card id since it is being selected from the user's collection
+          id: selectedCardId,
+          formData: {
+            serialNumber:
+              userCard.serialNumber === null
+                ? ""
+                : String(userCard.serialNumber),
+            grade: userCard.grade === null ? "" : String(userCard.grade),
+            gradingCompanyId: userCard.gradingCompanyId || -1,
+          },
+          validation: {
+            serialNumberError: false,
+            gradeError: false,
+            gradingCompanyError: false,
+          },
+          qtyInCollection: userSubset.cards.filter(
+            (userCardy) => userCardy.cardId === userCard.card.id
+          ).length,
           card: {
             ...userCard.card,
             value: 0,
             card_datum: userCard.card.cardData,
-            createdBy: 0,
-            updatedBy: 0,
-            createdByUser: {
-              username: "",
-            },
-            updatedByUser: {
-              username: "",
+            series: {
+              ...userCard.card.series,
+              subset: {
+                id: subset.id,
+                name: subset.name,
+                baseSeriesId: subset.baseSeriesId,
+                prefix: subset.prefix,
+                code: subset.code,
+                auto: subset.auto,
+                relic: subset.relic,
+                manufacturedRelic: subset.manufacturedRelic,
+                shortPrint: subset.shortPrint,
+                setId: subset.setId,
+                set: {
+                  id: set.id,
+                  name: set.name,
+                  baseSubsetId: set.baseSubsetId,
+                  year: set.year,
+                  leagueId: set.leagueId,
+                  brandId: set.brandId,
+                },
+              },
             },
           },
-          serialNumberError: false,
-          gradeError: false,
-          gradingCompanyError: false,
-          qtyInCollection: userSubset.cards.filter(
-            (userCardy) => userCardy.cardId === userCard.card.id
-          ).length,
-          serialized: userCard.card.series.serialized,
-          shortPrint: userCard.shortPrint,
-          auto: userCard.auto,
-          relic: userCard.relic,
-          manufacturedRelic: userCard.manufacturedRelic,
-          refractor: userCard.card.series.refractor,
         };
         addCard(newCardData);
         // reset selected card, same card cannot be added twice from collection
@@ -321,38 +335,51 @@ export default function SelectCardForm(props: Props) {
     } else {
       const card = databaseCardOptions.find(
         (card) => card.id === selectedCardId
-      )!;
+      );
       if (card) {
         const newCardData: CardFormData = {
-          cardId: selectedCardId,
-          serialNumber: "",
-          grade: "",
-          gradingCompanyId: -1,
+          id: selectedCardId,
+          formData: {
+            serialNumber: "",
+            grade: "",
+            gradingCompanyId: -1,
+          },
+          validation: {
+            serialNumberError: false,
+            gradeError: false,
+            gradingCompanyError: false,
+          },
+          qtyInCollection: userSubset.cards.filter(
+            (userCard) => userCard.cardId === card.id
+          ).length,
           card: {
             ...card,
             value: 0,
             card_datum: card.cardData,
-            createdBy: 0,
-            updatedBy: 0,
-            createdByUser: {
-              username: "",
-            },
-            updatedByUser: {
-              username: "",
+            series: {
+              ...card.series,
+              subset: {
+                id: subset.id,
+                name: subset.name,
+                baseSeriesId: subset.baseSeriesId,
+                prefix: subset.prefix,
+                code: subset.code,
+                auto: subset.auto,
+                relic: subset.relic,
+                manufacturedRelic: subset.manufacturedRelic,
+                shortPrint: subset.shortPrint,
+                setId: subset.setId,
+                set: {
+                  id: set.id,
+                  name: set.name,
+                  baseSubsetId: set.baseSubsetId,
+                  year: set.year,
+                  leagueId: set.leagueId,
+                  brandId: set.brandId,
+                },
+              },
             },
           },
-          serialNumberError: false,
-          gradeError: false,
-          gradingCompanyError: false,
-          qtyInCollection: userSubset.cards.filter(
-            (userCard) => userCard.cardId === card.id
-          ).length,
-          serialized: card.series.serialized,
-          shortPrint: card.shortPrint,
-          auto: card.auto,
-          relic: card.relic,
-          manufacturedRelic: card.manufacturedRelic,
-          refractor: card.series.refractor,
         };
         addCard(newCardData);
       }
@@ -453,9 +480,8 @@ export default function SelectCardForm(props: Props) {
                     key={userCard.id}
                     value={userCard.id}
                     disabled={
-                      cardData.findIndex(
-                        (card) => card.cardId === userCard.id
-                      ) !== -1
+                      cardData.findIndex((card) => card.id === userCard.id) !==
+                      -1
                     }
                   >
                     {`${userCard.card.cardData.number} - ${userCard.card.cardData.name}`}

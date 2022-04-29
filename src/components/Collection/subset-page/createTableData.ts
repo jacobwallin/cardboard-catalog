@@ -1,8 +1,5 @@
-import {
-  Subset,
-  CardData,
-  SubsetSeries,
-} from "../../../store/library/subsets/types";
+import { Subset, CardData } from "../../../store/library/subsets/types";
+import { CondensedSeriesInstance } from "../../../store/library/series/types";
 import { UserCard } from "../../../store/collection/browse/types";
 import sortCardNumbers from "../../../utils/sortCardNumbers";
 
@@ -17,7 +14,7 @@ export interface TableDataPoint {
   seriesId: number;
   quantity: number;
   cardData: CardData;
-  series: SubsetSeries;
+  series: CondensedSeriesInstance;
 }
 export interface DeleteTableDataPoint {
   id: number;
@@ -38,12 +35,12 @@ export interface DeleteTableDataPoint {
     serializedTo: number | null;
     seriesId: number;
     cardData: CardData;
-    series: SubsetSeries;
+    series: CondensedSeriesInstance;
   };
 }
 export interface SeriesTableData {
   seriesId: number;
-  series: SubsetSeries;
+  series: CondensedSeriesInstance;
   totalCards: number;
   distinctCards: number;
   cards: TableDataPoint[];
@@ -75,7 +72,7 @@ export function createTableData(
 
   // create hash table of card data for quick access
   interface CardDataHashTable {
-    [details: string]: CardData;
+    [cardDataId: string]: CardData;
   }
   const cardDataHashTable: CardDataHashTable =
     librarySubsetData.card_data.reduce((hashTable, cardData) => {
@@ -86,11 +83,30 @@ export function createTableData(
     (tableData: TableData, series) => {
       const ser: SeriesTableData = {
         seriesId: series.id,
-        series: series,
+        series: {
+          id: series.id,
+          name: series.name,
+          color: series.color,
+          serialized: series.serialized,
+          refractor: series.refractor,
+          parallel: series.parallel,
+          subsetId: series.subsetId,
+        },
         totalCards: 0,
         distinctCards: 0,
         cards: [],
         userCards: [],
+      };
+
+      // remove card array from the series
+      const condensedSeries = {
+        id: series.id,
+        name: series.name,
+        color: series.color,
+        serialized: series.serialized,
+        refractor: series.refractor,
+        parallel: series.parallel,
+        subsetId: series.subsetId,
       };
 
       ser.userCards = userCardData.cards
@@ -104,7 +120,7 @@ export function createTableData(
             shortPrint: librarySubsetData.shortPrint,
             card: {
               ...userCard.card,
-              series: series,
+              series: condensedSeries,
               cardData: cardDataHashTable[userCard.card.cardDataId],
             },
           };
@@ -132,7 +148,7 @@ export function createTableData(
             shortPrint: librarySubsetData.shortPrint,
             quantity: cardTotal,
             cardData: cardDataHashTable[card.cardDataId],
-            series: series,
+            series: condensedSeries,
           };
         })
         .sort((cardA, cardB) => {
@@ -144,7 +160,7 @@ export function createTableData(
     },
     {}
   );
-
+  console.log("TABLE DATA:", newTableData);
   return newTableData;
 }
 

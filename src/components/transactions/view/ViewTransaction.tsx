@@ -72,7 +72,7 @@ export default function ViewTransaction() {
                 <StyledButton
                   color="BLUE"
                   width="60px"
-                  height="23px"
+                  height="25px"
                   onClick={toggleEdit}
                 >
                   Edit

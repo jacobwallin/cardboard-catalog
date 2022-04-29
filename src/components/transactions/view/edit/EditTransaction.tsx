@@ -84,11 +84,17 @@ export default function EditTransaction(props: Props) {
           !selectedAddedCards.some((selectedCard) => selectedCard.id === c.id)
       )
     );
-    // append selected cards to addedCardsRemoved
+
+    // append selected cards to addedCardsRemoved if they were originally part of the transaction (transaction_user_id will be 0)
     setAddedCardsRemoved([
       ...addedCardsRemoved,
-      ...selectedAddedCards.map((c) => c.id),
+      ...selectedAddedCards
+        .filter((c) => c.transaction_user_card.id !== 0)
+        .map((c) => c.id),
     ]);
+
+    // remove any newly added cards
+    // setNewCardsAdded(newCardsAdded.filter(c => c.cardId ))
 
     toggleAddedSelectable();
   }
@@ -101,8 +107,13 @@ export default function EditTransaction(props: Props) {
     );
     setDeletedCardsRemoved([
       ...deletedCardsRemoved,
-      ...selectedRemovedCards.map((c) => c.id),
+      ...selectedRemovedCards
+        .filter((c) => c.transaction_user_card.id !== 0)
+        .map((c) => c.id),
     ]);
+
+    // remove any newly removed cards
+    // setNewCardsRemoved(newCardsRemoved.filter(c => c.cardId ))
     toggleRemovedSelectable();
   }
 
@@ -113,15 +124,67 @@ export default function EditTransaction(props: Props) {
   const [newCardsRemovedFormData, setNewCardsRemovedFormData] = useState<
     CardFormData[]
   >([]);
+  const [newCardsAdded, setNewCardsAdded] = useState<CardData[]>([]);
+  const [newCardsRemoved, setNewCardsRemoved] = useState<CardData[]>([]);
   function addAdditional(cardData: CardFormData[]) {
     setNewCardsAddedFormData(cardData);
   }
-  function submitAddAdditional(cardData: CardData[]) {}
 
   function removeAdditional(cardData: CardFormData[]) {
     setNewCardsRemovedFormData(cardData);
   }
-  function submitRemoveAdditional(cardData: CardData[]) {}
+  function submitAddAdditional(cardData: CardData[]) {
+    setNewCardsAdded([...cardData, ...newCardsAdded]);
+    // add cards to table
+    // setCardsAdded([...cardsAdded, ...newCardsAddedFormData.map((card, index) => {
+    //   return {
+    //     id: parseInt(String(cardsAdded.length + index) + String(card.cardId)),
+    //     serialNumber: card.serialNumber ? +card.serialNumber : null,
+    //     grade: card.grade ? +card.grade : null,
+    //     gradingCompanyId: card.gradingCompanyId,
+    //     createdAt: "",
+    //     updatedAt: "string",
+    //     deletedAt:  null,
+    //     userId: 0,
+    //     cardId: card.cardId,
+    //     grading_company: null,
+    //       id: card.cardId,
+    //       value: null,
+    //       serializedTo: card.card.serializedTo,
+    //       cardDataId: card.card.cardDataId,
+    //       seriesId: card.card.seriesId,
+    //       series: {
+    //         id: card.card.seriesId,
+    //         subset: card.card.s
+
+    //       },
+    //       card_datum: {
+    //         id: card.card.cardDataId
+    //         name: card.card.card_datum.name,
+    //         number: card.card.card_datum.number,
+    //         note: card.card.card_datum.note,
+    //         rookie: card.card.card_datum.rookie,
+    //         subsetId: card.card.card_datum.subsetId,
+    //         teamId: card.card.card_datum.teamId,
+    //         team: undefined,
+    //         players: [],
+    //       }
+    //     },
+    //     transaction_user_card: {
+    //       id: 0,
+    // deleted: false,
+    // createdAt: "",
+    // updatedAt: "",
+    // transactionId: 0,
+    // userCardId: 0,
+    //     }
+    //   }
+    // })])
+  }
+  function submitRemoveAdditional(cardData: CardData[]) {
+    setNewCardsRemoved(cardData);
+    // setCardsRemoved([...cardsRemoved, ...newCardsRemovedFormData.map(userCard => )])
+  }
 
   // SUBMIT TRANSACTION PUT
   function handleSubmit(formData: FormData) {}
@@ -175,7 +238,7 @@ export default function EditTransaction(props: Props) {
             <StyledButton
               color="GRAY"
               width="60px"
-              height="23px"
+              height="25px"
               onClick={props.cancel}
             >
               Cancel
@@ -201,7 +264,7 @@ export default function EditTransaction(props: Props) {
                     <StyledButton
                       color="BLUE"
                       width="160px"
-                      height="22px"
+                      height="23px"
                       onClick={toggleAddAdditional}
                       fontSize=".8rem"
                     >
@@ -212,7 +275,7 @@ export default function EditTransaction(props: Props) {
                     <StyledButton
                       color="RED"
                       width="160px"
-                      height="22px"
+                      height="23px"
                       onClick={removeAddedCards}
                       fontSize=".8rem"
                     >
@@ -222,7 +285,7 @@ export default function EditTransaction(props: Props) {
                   <StyledButton
                     color="GRAY"
                     width="160px"
-                    height="22px"
+                    height="23px"
                     onClick={toggleAddedSelectable}
                     fontSize=".8rem"
                     disabled={cardsAdded.length === 0}
@@ -240,6 +303,7 @@ export default function EditTransaction(props: Props) {
                 selectableRowDisabled={disabledSelectable}
                 onSelectedRowsChange={addSelectedCardsChange}
                 clearSelectedRows={clearAddedSelected}
+                pagination
               />
             </Styled.TableWrapper>
           )}
@@ -252,7 +316,7 @@ export default function EditTransaction(props: Props) {
                     <StyledButton
                       color="BLUE"
                       width="160px"
-                      height="22px"
+                      height="23px"
                       onClick={toggleRemoveAdditional}
                       fontSize=".8rem"
                     >
@@ -263,7 +327,7 @@ export default function EditTransaction(props: Props) {
                     <StyledButton
                       color="RED"
                       width="160px"
-                      height="22px"
+                      height="23px"
                       onClick={removeDeletedCards}
                       fontSize=".8rem"
                     >
@@ -273,7 +337,7 @@ export default function EditTransaction(props: Props) {
                   <StyledButton
                     color="GRAY"
                     width="160px"
-                    height="22px"
+                    height="23px"
                     onClick={toggleRemovedSelectable}
                     fontSize=".8rem"
                     disabled={cardsRemoved.length === 0}
@@ -290,6 +354,7 @@ export default function EditTransaction(props: Props) {
                 selectableRows={removedCardsSelectable}
                 onSelectedRowsChange={removeSelectedCardsChange}
                 clearSelectedRows={clearRemovedSelected}
+                pagination
               />
             </Styled.TableWrapper>
           )}

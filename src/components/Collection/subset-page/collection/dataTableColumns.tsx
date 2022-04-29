@@ -15,7 +15,7 @@ export const columns = () => {
       cell: (row: TableDataPoint) => (
         <CardNumber
           number={row.cardData.number}
-          serialized={row.series.serialized}
+          serialized={row.serializedTo || row.series.serialized}
           shortPrint={row.shortPrint}
           auto={row.auto}
           relic={row.relic}

@@ -36,25 +36,25 @@ export function allCardData(cardData: CardFormData[]): {
   let errorsFound = false;
   const validatedCardData = cardData.map((data) => {
     // if a validatino error already exists, value will not change
-    let serialNumberError = data.serialNumberError;
-    let gradeError = data.gradeError;
-    let gradingCompanyError = data.gradingCompanyError;
+    let serialNumberError = data.validation.serialNumberError;
+    let gradeError = data.validation.gradeError;
+    let gradingCompanyError = data.validation.gradingCompanyError;
 
     if (serialNumberError || gradeError || gradingCompanyError) {
       errorsFound = true;
     }
 
     // make sure a serial number is entered by the user if the series is serialized
-    if (data.serialized) {
-      if (data.serialNumber === "") {
+    if (data.card.serializedTo || data.card.series.serialized) {
+      if (data.formData.serialNumber === "") {
         errorsFound = true;
         serialNumberError = true;
       }
     }
     // either both or neither the grade and grading company must be entered
-    if (data.grade !== "" || data.gradingCompanyId !== -1) {
-      if (data.grade !== "") {
-        if (data.gradingCompanyId === -1) {
+    if (data.formData.grade !== "" || data.formData.gradingCompanyId !== -1) {
+      if (data.formData.grade !== "") {
+        if (data.formData.gradingCompanyId === -1) {
           gradingCompanyError = true;
           errorsFound = true;
         }

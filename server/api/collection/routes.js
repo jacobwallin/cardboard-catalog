@@ -141,7 +141,7 @@ router.get("/filter", verifyFriendship, async (req, res, next) => {
   const cardDataInclude = [
     {
       model: Team,
-      attributes: ["name"],
+      attributes: ["id", "name", "leagueId"],
     },
   ];
 

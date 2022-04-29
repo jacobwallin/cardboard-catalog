@@ -26,26 +26,30 @@ export interface UserCard {
     createdAt: string;
     updatedAt: string;
   } | null;
-  card: {
+  card: FilterCard;
+}
+
+export interface FilterCard {
+  id: number;
+  value: number | null;
+  serializedTo: number | null;
+  cardDataId: number;
+  seriesId: number;
+  series: FilterSeries;
+  card_datum: {
     id: number;
-    value: number | null;
-    serializedTo: number | null;
-    cardDataId: number;
-    seriesId: number;
-    series: FilterSeries;
-    card_datum: {
+    name: string;
+    number: string;
+    note: string;
+    rookie: boolean;
+    subsetId: number;
+    teamId: number | null;
+    team: {
       id: number;
       name: string;
-      number: string;
-      note: string;
-      rookie: boolean;
-      subsetId: number;
-      teamId: number;
-      team: {
-        name: string;
-      };
-      players: Player[];
-    };
+      leagueId: number;
+    } | null;
+    players: Player[];
   };
 }
 

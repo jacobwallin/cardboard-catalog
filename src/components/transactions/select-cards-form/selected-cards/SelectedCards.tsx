@@ -55,8 +55,7 @@ export default function SelectedCards(props: Props) {
           if (props.preventGradeChanges) {
             return (
               <AddCardsLine
-                key={String(card.cardId) + String(index)}
-                serialized={card.serialized}
+                key={String(card.id) + String(index)}
                 index={index}
                 card={card}
                 preventGradeChanges={true}
@@ -66,8 +65,7 @@ export default function SelectedCards(props: Props) {
           } else {
             return (
               <AddCardsLine
-                key={String(card.cardId) + String(index)}
-                serialized={card.serialized}
+                key={String(card.id) + String(index)}
                 index={index}
                 card={card}
                 clearGradeData={props.clearGradeData}

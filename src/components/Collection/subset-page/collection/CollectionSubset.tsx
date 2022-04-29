@@ -37,6 +37,7 @@ export default function CollectionSubset(props: Props) {
   const collectionFriend = useSelector(
     (state: RootState) => state.collection.browse.friend
   );
+  const subset = useSelector((state: RootState) => state.library.subsets);
 
   const [showAllCards, setShowAllCards] = useState(false);
   // toggles showing checkboxes to select cards to add to collection
@@ -102,19 +103,17 @@ export default function CollectionSubset(props: Props) {
     const formData: CardFormData[] = selectedCards.reduce(
       (data: CardFormData[], card) => {
         data.push({
-          cardId: card.id,
-          serialNumber: card.serialNumber ? String(card.serialNumber) : "",
-          grade: card.grade ? String(card.grade) : "",
-          gradingCompanyId: card.gradingCompanyId || -1,
-          serialNumberError: false,
-          gradeError: false,
-          gradingCompanyError: false,
-          serialized: card.card.series.serialized,
-          shortPrint: card.shortPrint,
-          auto: card.auto,
-          relic: card.relic,
-          manufacturedRelic: card.manufacturedRelic,
-          refractor: card.card.series.refractor,
+          id: card.id,
+          formData: {
+            serialNumber: "",
+            grade: "",
+            gradingCompanyId: -1,
+          },
+          validation: {
+            serialNumberError: false,
+            gradeError: false,
+            gradingCompanyError: false,
+          },
           qtyInCollection: props.tableData.userCards.filter(
             (userCard) => userCard.cardId === card.cardId
           ).length,
@@ -123,15 +122,25 @@ export default function CollectionSubset(props: Props) {
             seriesId: card.card.seriesId,
             cardDataId: card.card.cardDataId,
             card_datum: card.card.cardData,
-            serializedTo: null,
+            serializedTo: card.card.serializedTo,
             value: null,
-            createdBy: 0,
-            updatedBy: 0,
-            createdByUser: {
-              username: "",
-            },
-            updatedByUser: {
-              username: "",
+            series: {
+              ...card.card.series,
+              subset: {
+                id: subset.id,
+                name: subset.name,
+                baseSeriesId: subset.baseSeriesId,
+                prefix: subset.prefix,
+                code: subset.code,
+                auto: subset.auto,
+                relic: subset.relic,
+                manufacturedRelic: subset.manufacturedRelic,
+                shortPrint: subset.shortPrint,
+                setId: subset.setId,
+                set: {
+                  ...subset.set,
+                },
+              },
             },
           },
         });

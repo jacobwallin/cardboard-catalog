@@ -26,6 +26,7 @@ export default function BrowseSubset(props: Props) {
   const userCardsInSubset = useSelector(
     (state: RootState) => state.collection.browse.cardsInSingleSubset.cards
   );
+  const subset = useSelector((state: RootState) => state.library.subsets);
 
   // toggles showing checkboxes to select cards to add to collection
   const [checklistToggleSelect, setChecklistToggleSelect] = useState(false);
@@ -124,19 +125,17 @@ export default function BrowseSubset(props: Props) {
         const row = card.card;
         for (let i = 0; i < card.qty; i++) {
           data.push({
-            cardId: row.id,
-            serialNumber: "",
-            grade: "",
-            gradingCompanyId: -1,
-            serialNumberError: false,
-            gradeError: false,
-            gradingCompanyError: false,
-            serialized: row.series.serialized,
-            shortPrint: row.shortPrint,
-            auto: row.auto,
-            relic: row.relic,
-            manufacturedRelic: row.manufacturedRelic,
-            refractor: row.series.refractor,
+            id: row.id,
+            formData: {
+              serialNumber: "",
+              grade: "",
+              gradingCompanyId: -1,
+            },
+            validation: {
+              serialNumberError: false,
+              gradeError: false,
+              gradingCompanyError: false,
+            },
             qtyInCollection: userCardsInSubset.filter(
               (userCard) => userCard.cardId === row.id
             ).length,
@@ -145,15 +144,25 @@ export default function BrowseSubset(props: Props) {
               seriesId: row.seriesId,
               cardDataId: row.cardDataId,
               card_datum: row.cardData,
-              serializedTo: null,
+              serializedTo: row.serializedTo,
               value: null,
-              createdBy: 0,
-              updatedBy: 0,
-              createdByUser: {
-                username: "",
-              },
-              updatedByUser: {
-                username: "",
+              series: {
+                ...row.series,
+                subset: {
+                  id: subset.id,
+                  name: subset.name,
+                  baseSeriesId: subset.baseSeriesId,
+                  prefix: subset.prefix,
+                  code: subset.code,
+                  auto: subset.auto,
+                  relic: subset.relic,
+                  manufacturedRelic: subset.manufacturedRelic,
+                  shortPrint: subset.shortPrint,
+                  setId: subset.setId,
+                  set: {
+                    ...subset.set,
+                  },
+                },
               },
             },
           });

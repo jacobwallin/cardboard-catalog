@@ -1,8 +1,8 @@
-import { SubsetSeries } from "../../../store/library/subsets/types";
+import { CondensedSeriesInstance } from "../../../store/library/series/types";
 
 export default function sortSeries(
-  seriesA: SubsetSeries,
-  seriesB: SubsetSeries,
+  seriesA: CondensedSeriesInstance,
+  seriesB: CondensedSeriesInstance,
   baseSeriesId: number
 ) {
   if (seriesA.id === baseSeriesId) return -1;
