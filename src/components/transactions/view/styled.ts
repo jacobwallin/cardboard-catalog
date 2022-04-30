@@ -10,15 +10,18 @@ export const DataContainer = styled.div`
 `;
 
 export const DataTitle = styled.div`
-  font-size: 1rem;
-  font-weight: 500;
+  font-weight: 300;
+  font-size: 0.95rem;
+  color: #555;
   margin-bottom: 5px;
 `;
 
 export const DataValue = styled.div`
-  font-size: 1rem;
-  padding-left: 10px;
+  font-weight: normal;
+  font-size: 1.1rem;
+  margin-top: 3px;
   white-space: pre-wrap;
+  font-weight: 400;
 `;
 
 export const DataFieldContainer = styled.div`

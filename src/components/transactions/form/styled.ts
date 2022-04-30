@@ -45,8 +45,9 @@ export const Textarea = styled.textarea`
 `;
 
 export const Label = styled.label`
-  font-size: 0.8em;
-  font-weight: 500;
+  font-weight: 300;
+  font-size: 0.95rem;
+  color: #555;
   margin: 0 0 2px 2px;
 `;
 
