@@ -154,7 +154,15 @@ export interface TransactionPostData {
   notes?: string | null;
 }
 
-export interface TransactionPutData extends TransactionPostData {
+export interface TransactionPutData {
+  date: string;
+  cardsAdded?: CardData[];
+  userCardsRemoved?: number[];
+  money?: number | null;
+  platform?: string | null;
+  individual?: string | null;
+  title?: string | null;
+  notes?: string | null;
   addedCardsRemoved?: number[];
   removedCardsAdded?: number[];
 }

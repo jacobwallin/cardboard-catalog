@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { SingleTransaction } from "../../../../store/collection/transactions/types";
 import { UserCardWithTransaction } from "../../../../store/collection/transactions/types";
 import { CardData } from "../../../../store/collection/browse/types";
+import { updateTransaction } from "../../../../store/collection/transactions/thunks";
 import TransactionForm, { FormData } from "../../form/TransactionForm";
 import DataTable from "react-data-table-component";
 import { SelectedCardsTitle } from "../../shared/SelectedCardsTitle";
@@ -19,6 +21,7 @@ interface Props {
 }
 
 export default function EditTransaction(props: Props) {
+  const dispatch = useDispatch();
   const { transaction } = props;
 
   // master table data
@@ -217,18 +220,20 @@ export default function EditTransaction(props: Props) {
   }
 
   // SUBMIT TRANSACTION PUT
-  function handleSubmit(formData: FormData) {}
-
-  console.log(
-    "new cards added: ",
-    newCardsAdded,
-    "addedCardsRemoved: ",
-    addedCardsRemoved,
-    "new cards removed: ",
-    newCardsRemoved,
-    "removedCardsRemoved: ",
-    deletedCardsRemoved
-  );
+  function handleSubmit(formData: FormData) {
+    dispatch(
+      updateTransaction(
+        {
+          ...formData,
+          cardsAdded: newCardsAdded,
+          userCardsRemoved: newCardsRemoved.map((c) => c.cardId),
+          addedCardsRemoved,
+          removedCardsAdded: deletedCardsRemoved,
+        },
+        transaction.id
+      )
+    );
+  }
 
   const showAddedCards =
     transaction.type !== "DELETE" && transaction.type !== "SALE";
