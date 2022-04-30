@@ -16,7 +16,7 @@ router.get("/", async (req, res, next) => {
     let allTransactions = [];
     if (status === "pending") {
       allTransactions = await Transaction.findAll({
-        where: { userId: req.user.id },
+        where: { userId: req.user.id, pending: true },
         include: TransactionUserCard,
       });
     } else {
