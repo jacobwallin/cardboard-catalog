@@ -94,8 +94,13 @@ export default function EditTransaction(props: Props) {
     ]);
 
     // remove any newly added cards
-    // setNewCardsAdded(newCardsAdded.filter(c => c.cardId ))
+    setNewCardsAdded(
+      newCardsAdded.filter((c) =>
+        selectedAddedCards.some((selectedCard) => selectedCard.id === c.cardId)
+      )
+    );
 
+    // turn off row selection
     toggleAddedSelectable();
   }
   function removeDeletedCards() {
@@ -113,7 +118,13 @@ export default function EditTransaction(props: Props) {
     ]);
 
     // remove any newly removed cards
-    // setNewCardsRemoved(newCardsRemoved.filter(c => c.cardId ))
+    setNewCardsRemoved(
+      newCardsRemoved.filter((c) =>
+        selectedRemovedCards.some(
+          (selectedCard) => selectedCard.id === c.cardId
+        )
+      )
+    );
     toggleRemovedSelectable();
   }
 
@@ -135,59 +146,89 @@ export default function EditTransaction(props: Props) {
   }
   function submitAddAdditional(cardData: CardData[]) {
     setNewCardsAdded([...cardData, ...newCardsAdded]);
+    setNewCardsAddedFormData([]);
+    toggleAddAdditional();
     // add cards to table
-    // setCardsAdded([...cardsAdded, ...newCardsAddedFormData.map((card, index) => {
-    //   return {
-    //     id: parseInt(String(cardsAdded.length + index) + String(card.cardId)),
-    //     serialNumber: card.serialNumber ? +card.serialNumber : null,
-    //     grade: card.grade ? +card.grade : null,
-    //     gradingCompanyId: card.gradingCompanyId,
-    //     createdAt: "",
-    //     updatedAt: "string",
-    //     deletedAt:  null,
-    //     userId: 0,
-    //     cardId: card.cardId,
-    //     grading_company: null,
-    //       id: card.cardId,
-    //       value: null,
-    //       serializedTo: card.card.serializedTo,
-    //       cardDataId: card.card.cardDataId,
-    //       seriesId: card.card.seriesId,
-    //       series: {
-    //         id: card.card.seriesId,
-    //         subset: card.card.s
-
-    //       },
-    //       card_datum: {
-    //         id: card.card.cardDataId
-    //         name: card.card.card_datum.name,
-    //         number: card.card.card_datum.number,
-    //         note: card.card.card_datum.note,
-    //         rookie: card.card.card_datum.rookie,
-    //         subsetId: card.card.card_datum.subsetId,
-    //         teamId: card.card.card_datum.teamId,
-    //         team: undefined,
-    //         players: [],
-    //       }
-    //     },
-    //     transaction_user_card: {
-    //       id: 0,
-    // deleted: false,
-    // createdAt: "",
-    // updatedAt: "",
-    // transactionId: 0,
-    // userCardId: 0,
-    //     }
-    //   }
-    // })])
+    setCardsAdded([
+      ...cardsAdded,
+      ...newCardsAddedFormData.map((card, index) => {
+        return {
+          id: parseInt(String(cardsAdded.length + index) + String(card.id)),
+          serialNumber: card.formData.serialNumber
+            ? +card.formData.serialNumber
+            : null,
+          grade: card.formData.grade ? +card.formData.grade : null,
+          gradingCompanyId: card.formData.gradingCompanyId,
+          createdAt: "",
+          updatedAt: "string",
+          deletedAt: null,
+          userId: 0,
+          cardId: card.id,
+          grading_company: null,
+          card: {
+            ...card.card,
+          },
+          transaction_user_card: {
+            id: 0,
+            deleted: false,
+            createdAt: "",
+            updatedAt: "",
+            transactionId: 0,
+            userCardId: 0,
+          },
+        };
+      }),
+    ]);
   }
   function submitRemoveAdditional(cardData: CardData[]) {
-    setNewCardsRemoved(cardData);
-    // setCardsRemoved([...cardsRemoved, ...newCardsRemovedFormData.map(userCard => )])
+    setNewCardsRemoved([...cardData, ...newCardsRemoved]);
+    setNewCardsRemovedFormData([]);
+    toggleRemoveAdditional();
+    setCardsRemoved([
+      ...cardsAdded,
+      ...newCardsRemovedFormData.map((card, index) => {
+        return {
+          id: parseInt(String(cardsAdded.length + index) + String(card.id)),
+          serialNumber: card.formData.serialNumber
+            ? +card.formData.serialNumber
+            : null,
+          grade: card.formData.grade ? +card.formData.grade : null,
+          gradingCompanyId: card.formData.gradingCompanyId,
+          createdAt: "",
+          updatedAt: "string",
+          deletedAt: null,
+          userId: 0,
+          cardId: card.id,
+          grading_company: null,
+          card: {
+            ...card.card,
+          },
+          transaction_user_card: {
+            id: 0,
+            deleted: false,
+            createdAt: "",
+            updatedAt: "",
+            transactionId: 0,
+            userCardId: 0,
+          },
+        };
+      }),
+    ]);
   }
 
   // SUBMIT TRANSACTION PUT
   function handleSubmit(formData: FormData) {}
+
+  console.log(
+    "new cards added: ",
+    newCardsAdded,
+    "addedCardsRemoved: ",
+    addedCardsRemoved,
+    "new cards removed: ",
+    newCardsRemoved,
+    "removedCardsRemoved: ",
+    deletedCardsRemoved
+  );
 
   const showAddedCards =
     transaction.type !== "DELETE" && transaction.type !== "SALE";
@@ -201,9 +242,7 @@ export default function EditTransaction(props: Props) {
       {addAdditionalCards && (
         <>
           <Styled.ReturnWrapper>
-            <SubtleButton onClick={toggleAddAdditional}>
-              {"Cancel"}
-            </SubtleButton>
+            <SubtleButton onClick={toggleAddAdditional}>{"Close"}</SubtleButton>
           </Styled.ReturnWrapper>
           <AddCardsForm
             selectFrom="DATABASE"
@@ -219,7 +258,7 @@ export default function EditTransaction(props: Props) {
         <>
           <Styled.ReturnWrapper>
             <SubtleButton onClick={toggleRemoveAdditional}>
-              {"Cancel"}
+              {"Close"}
             </SubtleButton>
           </Styled.ReturnWrapper>
           <AddCardsForm
@@ -279,7 +318,7 @@ export default function EditTransaction(props: Props) {
                       onClick={removeAddedCards}
                       fontSize=".8rem"
                     >
-                      Remove Cards
+                      Delete Cards
                     </StyledButton>
                   )}
                   <StyledButton
@@ -331,7 +370,7 @@ export default function EditTransaction(props: Props) {
                       onClick={removeDeletedCards}
                       fontSize=".8rem"
                     >
-                      Remove Cards
+                      Delete Cards
                     </StyledButton>
                   )}
                   <StyledButton

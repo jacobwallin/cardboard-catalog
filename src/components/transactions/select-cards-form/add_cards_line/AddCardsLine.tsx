@@ -41,8 +41,6 @@ export default function AddCardsLine(props: Props) {
     setAddCardGrade(!addCardGrade);
   }
 
-  console.log("CARD LINE: ", props.card);
-
   return (
     <Styled.Container>
       <Styled.CardInfoContainer>
