@@ -4,13 +4,6 @@ const {
   Transaction,
   UserCard,
   Card,
-  CardData,
-  Series,
-  Subset,
-  Team,
-  GradingCompany,
-  Set,
-  Player,
   TransactionUserCard,
 } = require("../../db/models");
 
@@ -18,25 +11,20 @@ const { getTransactionById } = require("./common");
 
 // get all transactions
 router.get("/", async (req, res, next) => {
+  const { status } = req.query;
   try {
-    const allTransactions = await Transaction.findAll({
-      where: { userId: req.user.id },
-      include: TransactionUserCard,
-    });
-
-    res.json(allTransactions);
-  } catch (error) {
-    next(error);
-  }
-});
-
-// get all pending transactions
-router.get("/pending", async (req, res, next) => {
-  try {
-    const allTransactions = await Transaction.findAll({
-      where: { userId: req.user.id, pending: true },
-      include: TransactionUserCard,
-    });
+    let allTransactions = [];
+    if (status === "pending") {
+      allTransactions = await Transaction.findAll({
+        where: { userId: req.user.id },
+        include: TransactionUserCard,
+      });
+    } else {
+      allTransactions = await Transaction.findAll({
+        where: { userId: req.user.id },
+        include: TransactionUserCard,
+      });
+    }
 
     res.json(allTransactions);
   } catch (error) {
