@@ -11,6 +11,9 @@ export const GET_ALL_TRANSACTIONS_FAILURE = "GET_ALL_TRANSACTIONS_FAILURE";
 export const ADD_TRANSACTION_REQUEST = "ADD_TRANSACTION_REQUEST";
 export const ADD_TRANSACTION_SUCCESS = "ADD_TRANSACTION_SUCCESS";
 export const ADD_TRANSACTION_FAILURE = "ADD_TRANSACTION_FAILURE";
+export const UPDATE_TRANSACTION_REQUEST = "UPDATE_TRANSACTION_REQUEST";
+export const UPDATE_TRANSACTION_SUCCESS = "UPDATE_TRANSACTION_SUCCESS";
+export const UPDATE_TRANSACTION_FAILURE = "UPDATE_TRANSACTION_FAILURE";
 
 // ACTIONS
 interface GetTransactionRequest {
@@ -46,6 +49,17 @@ interface AddTransactionFailure {
   type: typeof ADD_TRANSACTION_FAILURE;
 }
 
+interface UpdateTransactionRequest {
+  type: typeof UPDATE_TRANSACTION_REQUEST;
+}
+interface UpdateTransactionSuccess {
+  type: typeof UPDATE_TRANSACTION_SUCCESS;
+  transaction: SingleTransaction;
+}
+interface UpdateTransactionFailure {
+  type: typeof UPDATE_TRANSACTION_FAILURE;
+}
+
 export type TransactionActions =
   | GetTransactionRequest
   | GetTransactionSuccess
@@ -55,7 +69,10 @@ export type TransactionActions =
   | GetAllTransactionsFailure
   | AddTransactionRequest
   | AddTransactionSuccess
-  | AddTransactionFailure;
+  | AddTransactionFailure
+  | UpdateTransactionRequest
+  | UpdateTransactionSuccess
+  | UpdateTransactionFailure;
 
 // STATE
 export interface TransactionsState {
@@ -135,6 +152,11 @@ export interface TransactionPostData {
   setId?: number;
   title?: string | null;
   notes?: string | null;
+}
+
+export interface TransactionPutData extends TransactionPostData {
+  addedCardsRemoved?: number[];
+  removedCardsAdded?: number[];
 }
 
 export interface AddTransactionResponse {

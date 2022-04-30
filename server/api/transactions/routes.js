@@ -274,10 +274,6 @@ router.put("/:transactionId", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-
-  // update transaction data
-
-  // resolve cards added / removed
 });
 
 router.delete("/:transactionId", async (req, res, next) => {

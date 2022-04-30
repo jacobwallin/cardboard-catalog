@@ -6,10 +6,11 @@ import { CollectionActionTypes } from "../browse/types";
 import {
   TransactionActions,
   TransactionPostData,
+  TransactionPutData,
   TransactionSummary,
   AddTransactionResponse,
 } from "./types";
-import { get, post } from "../../../utils/fetch";
+import { get, post, put } from "../../../utils/fetch";
 
 export const fetchTransaction =
   (
@@ -77,5 +78,21 @@ export const addTransaction =
       })
       .catch((err) => {
         dispatch(actions.addTransactionFailure());
+      });
+  };
+
+export const updateTransaction =
+  (
+    data: TransactionPutData,
+    transactionId: number
+  ): ThunkAction<void, RootState, unknown, TransactionActions> =>
+  (dispatch) => {
+    dispatch(actions.updateTransactionRequest());
+    put(`/api/transactions/${transactionId}`, { ...data }, dispatch)
+      .then((payload) => {
+        dispatch(actions.updateTransactionSuccess(payload));
+      })
+      .catch((err) => {
+        dispatch(actions.updateTransactionFailure());
       });
   };

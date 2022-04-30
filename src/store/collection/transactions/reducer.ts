@@ -53,6 +53,11 @@ export default function cardReducer(
           newTransaction,
         ],
       };
+    case types.UPDATE_TRANSACTION_SUCCESS:
+      return {
+        ...state,
+        transaction: action.transaction,
+      };
     default:
       return state;
   }

@@ -38,3 +38,16 @@ export const addTransactionSuccess = (
 export const addTransactionFailure = (): types.TransactionActions => ({
   type: types.ADD_TRANSACTION_FAILURE,
 });
+
+export const updateTransactionRequest = (): types.TransactionActions => ({
+  type: types.UPDATE_TRANSACTION_REQUEST,
+});
+export const updateTransactionSuccess = (
+  transaction: types.SingleTransaction
+): types.TransactionActions => ({
+  type: types.UPDATE_TRANSACTION_SUCCESS,
+  transaction,
+});
+export const updateTransactionFailure = (): types.TransactionActions => ({
+  type: types.UPDATE_TRANSACTION_FAILURE,
+});
