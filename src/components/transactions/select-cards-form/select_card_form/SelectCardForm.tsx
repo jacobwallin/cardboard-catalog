@@ -153,15 +153,22 @@ export default function SelectCardForm(props: Props) {
       subset.id === selectedSubsetId &&
       userSubset.subsetId === selectedSubsetId
     ) {
-      setSeriesOptions(
-        aggregate.aggregateSubset(
-          subset,
-          userSubset,
-          selectFrom === "COLLECTION"
-        )
+      const newSeriesOptions = aggregate.aggregateSubset(
+        subset,
+        userSubset,
+        selectFrom === "COLLECTION"
       );
+      setSeriesOptions(newSeriesOptions);
+
       // automatically select the base series when the subset changes
-      setSelectedSeriesId(subset.baseSeriesId || -1);
+      // first check if the base series exists within the series options
+      setSelectedSeriesId(
+        subset.baseSeriesId
+          ? newSeriesOptions.some((s) => s.seriesId === subset.baseSeriesId)
+            ? subset.baseSeriesId
+            : -1
+          : -1
+      );
     }
   }, [subset, userSubset, selectedSubsetId, selectFrom]);
 
