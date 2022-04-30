@@ -245,6 +245,7 @@ export default function EditTransaction(props: Props) {
     setTransactionUpdated(true);
   }
 
+  // show added and removed card tables based on transaction type
   const showAddedCards =
     transaction.type !== "DELETE" && transaction.type !== "SALE";
   const showRemovedCards =
@@ -252,6 +253,7 @@ export default function EditTransaction(props: Props) {
     transaction.type !== "PURCHASE" &&
     transaction.type !== "RIP";
 
+  // handle loading
   if (transactionUpdated) {
     if (updateTransactionStatus === "REQUEST") {
       return <LoadingDots />;
@@ -297,19 +299,10 @@ export default function EditTransaction(props: Props) {
       )}
       {!addAdditionalCards && !removeAdditionalCards && (
         <>
-          <Styled.CancelWrapper>
-            <StyledButton
-              color="GRAY"
-              width="60px"
-              height="25px"
-              onClick={props.cancel}
-            >
-              Cancel
-            </StyledButton>
-          </Styled.CancelWrapper>
           <TransactionForm
             type={transaction.type}
             handleSubmit={handleSubmit}
+            cancel={props.cancel}
             initialValues={{
               date: transaction.date,
               note: transaction.note,
@@ -323,7 +316,7 @@ export default function EditTransaction(props: Props) {
               <Styled.CardTableHeader>
                 <SelectedCardsTitle>Cards Added</SelectedCardsTitle>
                 <Styled.ButtonContainer>
-                  {!addedCardsSelectable && (
+                  {!addedCardsSelectable && transaction.type !== "ADD" && (
                     <StyledButton
                       color="BLUE"
                       width="160px"
@@ -375,7 +368,7 @@ export default function EditTransaction(props: Props) {
               <Styled.CardTableHeader>
                 <SelectedCardsTitle>Cards Removed</SelectedCardsTitle>
                 <Styled.ButtonContainer>
-                  {!removedCardsSelectable && (
+                  {!removedCardsSelectable && transaction.type !== "DELETE" && (
                     <StyledButton
                       color="BLUE"
                       width="160px"

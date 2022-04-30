@@ -3,6 +3,8 @@ import * as Styled from "./styled";
 import StyledButton from "../../Admin/components/StyledButton";
 import dataFieldsByTransactionType from "../shared/dataFieldsByType";
 import { TransactionTypes } from "../../../store/collection/transactions/types";
+import { transactionTypeMap } from "../main/screateTableData";
+import { convertDateString } from "../../../utils/formatTimestamp";
 
 export interface FormData {
   date: string;
@@ -15,6 +17,7 @@ export interface FormData {
 interface Props {
   handleSubmit(data: FormData): void;
   type: TransactionTypes;
+  cancel?(): void;
   initialValues?: FormData;
 }
 
@@ -69,7 +72,21 @@ export default function TransactionForm(props: Props) {
 
   return (
     <Styled.Container>
-      {dataFieldsByTransactionType[props.type].DATE.shown && (
+      <Styled.CancelWrapper>
+        <StyledButton
+          color="GRAY"
+          width="60px"
+          height="25px"
+          onClick={props.cancel}
+        >
+          Cancel
+        </StyledButton>
+      </Styled.CancelWrapper>
+      <Styled.DataFieldContainer>
+        <Styled.DataTitle>Type</Styled.DataTitle>
+        <Styled.DataValue>{transactionTypeMap[props.type]}</Styled.DataValue>
+      </Styled.DataFieldContainer>
+      {dataFieldsByTransactionType[props.type].DATE.shown ? (
         <Styled.InputContainer>
           <Styled.Label htmlFor="date">Date*</Styled.Label>
           <Styled.DateInput
@@ -78,6 +95,11 @@ export default function TransactionForm(props: Props) {
             onChange={handleInputChange}
           />
         </Styled.InputContainer>
+      ) : (
+        <Styled.DataFieldContainer>
+          <Styled.DataTitle>Date</Styled.DataTitle>
+          <Styled.DataValue>{convertDateString(date)}</Styled.DataValue>
+        </Styled.DataFieldContainer>
       )}
       <Styled.Flex>
         {dataFieldsByTransactionType[props.type].PLATFORM.shown && (

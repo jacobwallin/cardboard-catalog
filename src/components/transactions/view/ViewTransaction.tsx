@@ -79,15 +79,15 @@ export default function ViewTransaction() {
                 </StyledButton>
               </Styled.EditButton>
               <Styled.DataFieldContainer>
-                <Styled.DataTitle>Date</Styled.DataTitle>
-                <Styled.DataValue>
-                  {convertDateString(transaction.date)}
-                </Styled.DataValue>
-              </Styled.DataFieldContainer>
-              <Styled.DataFieldContainer>
                 <Styled.DataTitle>Type</Styled.DataTitle>
                 <Styled.DataValue>
                   {transactionTypeMap[transaction.type]}
+                </Styled.DataValue>
+              </Styled.DataFieldContainer>
+              <Styled.DataFieldContainer>
+                <Styled.DataTitle>Date</Styled.DataTitle>
+                <Styled.DataValue>
+                  {convertDateString(transaction.date)}
                 </Styled.DataValue>
               </Styled.DataFieldContainer>
               {dataFieldsByTransactionType[transaction.type].PLATFORM.shown && (

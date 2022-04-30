@@ -5,10 +5,6 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
 `;
 
 export const DateInput = styled.input.attrs(() => ({
@@ -63,4 +59,28 @@ export const Flex = styled.div`
     flex-direction: column;
     gap: 15px;
   }
+`;
+export const CancelWrapper = styled.div`
+  position: absolute;
+  right: 0;
+  top: 0;
+`;
+
+export const DataTitle = styled.div`
+  font-weight: 300;
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 5px;
+`;
+
+export const DataValue = styled.div`
+  font-weight: normal;
+  font-size: 1.1rem;
+  margin-top: 3px;
+  white-space: pre-wrap;
+  font-weight: 400;
+`;
+
+export const DataFieldContainer = styled.div`
+  align-self: flex-start;
 `;
