@@ -64,6 +64,7 @@ router.post("/", async (req, res, next) => {
     title,
     note,
     date,
+    pending,
   } = req.body;
 
   const userId = req.user.id;
@@ -92,6 +93,7 @@ router.post("/", async (req, res, next) => {
         individual,
         money,
         setId,
+        pending: type === "ADD" || type === "DELETE" ? false : pending,
       });
     }
 
@@ -104,7 +106,8 @@ router.post("/", async (req, res, next) => {
             grade: cardInfo.grade,
             cardId: cardInfo.cardId,
             gradingCompanyId: cardInfo.gradingCompanyId,
-            userId: userId,
+            // set userId to null if pending so cards do not show in user's collection
+            userId: transaction.pending ? null : userId,
           };
         })
       );
@@ -171,7 +174,7 @@ router.put("/:transactionId", async (req, res, next) => {
   // cards that are currently deleted in transaction that need to un-deleted; these will be transactionUserCardIds
   const { removedCardsAdded } = req.body;
   // transaction data
-  const { money, platform, individual, title, note, date } = req.body;
+  const { money, platform, individual, title, note, date, pending } = req.body;
 
   try {
     const transaction = await Transaction.findByPk(transactionId);
@@ -183,6 +186,21 @@ router.put("/:transactionId", async (req, res, next) => {
     if (title) transaction.title = title;
     if (note) transaction.note = note;
     if (date) transaction.date = date;
+
+    // transaction can only go from pending to not pending, not vice versa
+    if (pending === false && transaction.pending === true) {
+      // if making transaction final, set pending to false and attach all added cards to the user
+      transaction.pending = false;
+      const userCards = await transaction.getUser_cards();
+      await Promise.all(
+        userCards
+          .filter((uc) => uc.userId === null)
+          .map((uc) => {
+            uc.userId = req.userId;
+            return uc.save();
+          })
+      );
+    }
     await transaction.save();
 
     // REMOVE ADDED CARDS
