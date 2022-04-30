@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../../store";
 import { SingleTransaction } from "../../../../store/collection/transactions/types";
 import { UserCardWithTransaction } from "../../../../store/collection/transactions/types";
 import { CardData } from "../../../../store/collection/browse/types";
@@ -14,6 +15,9 @@ import AddCardsForm, {
   CardFormData,
 } from "../../select-cards-form/AddCardsForm";
 import SubtleButton from "../../../shared/SubtleButton";
+import { LoadingDots } from "../../../shared/Loading";
+import { createStatusSelector } from "../../../../store/loading/reducer";
+const updateTradeStatusSelector = createStatusSelector("UPDATE_TRANSACTION");
 
 interface Props {
   transaction: SingleTransaction;
@@ -23,6 +27,11 @@ interface Props {
 export default function EditTransaction(props: Props) {
   const dispatch = useDispatch();
   const { transaction } = props;
+
+  const updateTransactionStatus = useSelector((state: RootState) =>
+    updateTradeStatusSelector(state)
+  );
+  const [transactionUpdated, setTransactionUpdated] = useState(false);
 
   // master table data
   const [cardsAdded, setCardsAdded] = useState<UserCardWithTransaction[]>(
@@ -233,6 +242,7 @@ export default function EditTransaction(props: Props) {
         transaction.id
       )
     );
+    setTransactionUpdated(true);
   }
 
   const showAddedCards =
@@ -241,6 +251,15 @@ export default function EditTransaction(props: Props) {
     transaction.type !== "ADD" &&
     transaction.type !== "PURCHASE" &&
     transaction.type !== "RIP";
+
+  if (transactionUpdated) {
+    if (updateTransactionStatus === "REQUEST") {
+      return <LoadingDots />;
+    }
+    if (updateTransactionStatus === "SUCCESS") {
+      props.cancel();
+    }
+  }
 
   return (
     <>
