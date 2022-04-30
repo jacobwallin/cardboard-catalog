@@ -309,6 +309,7 @@ export default function EditTransaction(props: Props) {
               platform: transaction.platform,
               individual: transaction.individual,
               money: transaction.money,
+              pending: transaction.pending,
             }}
           />
           {showAddedCards && (

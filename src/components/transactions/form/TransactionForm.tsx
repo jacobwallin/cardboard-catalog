@@ -12,6 +12,7 @@ export interface FormData {
   platform: string | null;
   individual: string | null;
   money: number | null;
+  pending: boolean;
 }
 
 interface Props {
@@ -36,6 +37,9 @@ export default function TransactionForm(props: Props) {
   const [money, setMoney] = useState(
     initialValues ? initialValues.money || "" : ""
   );
+  const [pending, setPending] = useState(
+    initialValues ? initialValues.pending : false
+  );
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     switch (e.target.id) {
@@ -53,6 +57,9 @@ export default function TransactionForm(props: Props) {
           setMoney(e.target.value);
         }
         break;
+      case "pending":
+        setPending(e.target.checked);
+        break;
     }
   }
 
@@ -67,6 +74,7 @@ export default function TransactionForm(props: Props) {
       platform: platform === "" ? null : platform,
       individual: individual === "" ? null : individual,
       money: money === "" ? null : +money,
+      pending,
     });
   }
 
@@ -145,6 +153,19 @@ export default function TransactionForm(props: Props) {
             {dataFieldsByTransactionType[props.type].NOTE.title}
           </Styled.Label>
           <Styled.Textarea id="note" value={note} onChange={handleNoteChange} />
+        </Styled.InputContainer>
+      )}
+      {dataFieldsByTransactionType[props.type].PENDING.shown && (
+        <Styled.InputContainer>
+          <Styled.Label htmlFor="pending">
+            {dataFieldsByTransactionType[props.type].PENDING.title}
+          </Styled.Label>
+          <input
+            type="checkbox"
+            id="pending"
+            checked={pending}
+            onChange={handleInputChange}
+          />
         </Styled.InputContainer>
       )}
       <StyledButton

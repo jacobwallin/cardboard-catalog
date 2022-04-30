@@ -1,12 +1,13 @@
 import { TransactionTypes } from "../../../store/collection/transactions/types";
 
 type TransactionDataFields =
+  | "DATE"
   | "TITLE"
   | "NOTE"
   | "PLATFORM"
   | "INDIVIDUAL"
   | "MONEY"
-  | "DATE";
+  | "PENDING";
 
 export const dataFields: {
   [type: string]: TransactionDataFields;
@@ -52,6 +53,10 @@ const dataFieldsByTransactionType: {
       shown: false,
       title: "",
     },
+    PENDING: {
+      shown: false,
+      title: "",
+    },
   },
   DELETE: {
     DATE: {
@@ -75,6 +80,10 @@ const dataFieldsByTransactionType: {
       title: "",
     },
     MONEY: {
+      shown: false,
+      title: "",
+    },
+    PENDING: {
       shown: false,
       title: "",
     },
@@ -104,6 +113,10 @@ const dataFieldsByTransactionType: {
       shown: false,
       title: "",
     },
+    PENDING: {
+      shown: true,
+      title: "Pending",
+    },
   },
   TRADE: {
     DATE: {
@@ -129,6 +142,10 @@ const dataFieldsByTransactionType: {
     MONEY: {
       shown: true,
       title: "$",
+    },
+    PENDING: {
+      shown: true,
+      title: "Pending",
     },
   },
   SALE: {
@@ -156,6 +173,10 @@ const dataFieldsByTransactionType: {
       shown: true,
       title: "$ Received",
     },
+    PENDING: {
+      shown: false,
+      title: "",
+    },
   },
   PURCHASE: {
     DATE: {
@@ -181,6 +202,10 @@ const dataFieldsByTransactionType: {
     MONEY: {
       shown: true,
       title: "$ Spent",
+    },
+    PENDING: {
+      shown: true,
+      title: "Pending",
     },
   },
 };

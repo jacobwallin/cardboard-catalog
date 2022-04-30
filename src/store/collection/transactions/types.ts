@@ -101,6 +101,7 @@ export interface SingleTransaction {
   updatedAt: string;
   userId: number;
   setId: number | null;
+  pending: boolean;
   user_cards: UserCardWithTransaction[];
 }
 
@@ -128,6 +129,7 @@ export interface TransactionSummary {
   updatedAt: string;
   userId: number;
   setId: number | null;
+  pending: boolean;
   transaction_user_cards: TransactionUserCard[];
 }
 
@@ -180,6 +182,7 @@ export interface AddTransactionResponse {
   updatedAt: string;
   userId: number;
   setId: number | null;
+  pending: boolean;
   user_cards: NewTransactionUserCard[];
 }
 

@@ -196,7 +196,8 @@ router.put("/:transactionId", async (req, res, next) => {
         userCards
           .filter((uc) => uc.userId === null)
           .map((uc) => {
-            uc.userId = req.userId;
+            console.log("***USER CARD", uc);
+            uc.userId = req.user.id;
             return uc.save();
           })
       );
