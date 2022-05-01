@@ -279,6 +279,7 @@ router.put("/:transactionId", async (req, res, next) => {
 
     res.json(await getTransactionById(req.params.transactionId, req.user.id));
   } catch (error) {
+    console.log("ERROR: ", error.message);
     next(error);
   }
 });

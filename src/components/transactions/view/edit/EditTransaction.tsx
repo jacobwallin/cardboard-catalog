@@ -102,7 +102,7 @@ export default function EditTransaction(props: Props) {
       ...addedCardsRemoved,
       ...selectedAddedCards
         .filter((c) => c.transaction_user_card.id !== 0)
-        .map((c) => c.id),
+        .map((c) => c.transaction_user_card.id),
     ]);
 
     // remove any newly added cards
@@ -126,7 +126,7 @@ export default function EditTransaction(props: Props) {
       ...deletedCardsRemoved,
       ...selectedRemovedCards
         .filter((c) => c.transaction_user_card.id !== 0)
-        .map((c) => c.id),
+        .map((c) => c.transaction_user_card.id),
     ]);
 
     // remove any newly removed cards
