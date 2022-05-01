@@ -55,10 +55,16 @@ export default function EditTransaction(props: Props) {
   function toggleAddedSelectable() {
     setClearAddedSelected(!clearAddedSelected);
     setAddedCardsSelectable(!addedCardsSelectable);
+    if (addedCardsSelectable) {
+      setSelectedAddedCards([]);
+    }
   }
   function toggleRemovedSelectable() {
     setClearRemovedSelected(!clearRemovedSelected);
     setRemovedCardsSelectable(!removedCardsSelectable);
+    if (removedCardsSelectable) {
+      setSelectedRemovedCards([]);
+    }
   }
 
   // disabled checkbox on cards that were deleted in another transaction
