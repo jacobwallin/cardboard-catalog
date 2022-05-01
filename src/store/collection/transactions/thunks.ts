@@ -40,6 +40,19 @@ export const fetchAllTransactions =
       });
   };
 
+export const fetchPendingTransactions =
+  (): ThunkAction<void, RootState, unknown, TransactionActions> =>
+  (dispatch) => {
+    dispatch(actions.getPendingTransactionsRequest());
+    get(`/api/transactions?status=pending`, dispatch)
+      .then((payload: TransactionSummary[]) => {
+        dispatch(actions.getPendingTransactionsSuccess(payload));
+      })
+      .catch((err) => {
+        dispatch(actions.getPendingTransactionsFailure());
+      });
+  };
+
 export const addTransaction =
   (
     data: TransactionPostData,

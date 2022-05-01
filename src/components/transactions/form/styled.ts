@@ -5,6 +5,8 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
+  margin-top: 25px;
+  position: relative;
 `;
 
 export const DateInput = styled.input.attrs(() => ({

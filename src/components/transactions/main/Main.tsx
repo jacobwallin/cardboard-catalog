@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { fetchAllTransactions } from "../../../store/collection/transactions/thunks";
+import {
+  fetchAllTransactions,
+  fetchPendingTransactions,
+} from "../../../store/collection/transactions/thunks";
 import PageContainer from "../../shared/PageContainer";
 import PageHeader from "../../shared/PageHeader";
 import * as Styled from "../styled";
@@ -17,17 +20,28 @@ export default function Main() {
   const allTransactions = useSelector(
     (state: RootState) => state.collection.transactions.allTransactions
   );
-  const [tableData, setTableData] = useState<TransactionTableData[]>([]);
+  const pendingTransactions = useSelector(
+    (state: RootState) => state.collection.transactions.pendingTransactions
+  );
+  const [allTransactionsTableData, setAllTransactionsTableData] = useState<
+    TransactionTableData[]
+  >([]);
+  const [pendingTransactionsTableData, setPendingTransactionsTableData] =
+    useState<TransactionTableData[]>([]);
 
   useEffect(() => {
     dispatch(fetchAllTransactions());
-  }, []);
+    dispatch(fetchPendingTransactions());
+  }, [dispatch]);
 
   useEffect(() => {
     if (allTransactions.length > 0) {
-      setTableData(createTableData(allTransactions));
+      setAllTransactionsTableData(createTableData(allTransactions));
     }
-  }, [allTransactions]);
+    if (pendingTransactions.length > 0) {
+      setPendingTransactionsTableData(createTableData(pendingTransactions));
+    }
+  }, [allTransactions, pendingTransactions]);
 
   return (
     <>
@@ -51,17 +65,34 @@ export default function Main() {
             Purchase
           </Styled.TransactionLink>
         </Styled.TransactionsContainer>
-        <Styled.Header>Transaction Log</Styled.Header>
-        <DataTable
-          noHeader
-          dense
-          columns={columns}
-          data={tableData}
-          highlightOnHover
-          pagination
-          paginationRowsPerPageOptions={[10, 20]}
-          paginationPerPage={20}
-        />
+        {pendingTransactions.length > 0 && (
+          <Styled.TableWrapper>
+            <Styled.Header>Pending Transactions</Styled.Header>
+            <DataTable
+              noHeader
+              dense
+              columns={columns}
+              data={pendingTransactionsTableData}
+              highlightOnHover
+              pagination={pendingTransactions.length > 5}
+              paginationRowsPerPageOptions={[5, 10, 20]}
+              paginationPerPage={5}
+            />
+          </Styled.TableWrapper>
+        )}
+        <Styled.TableWrapper>
+          <Styled.Header>Transaction Log</Styled.Header>
+          <DataTable
+            noHeader
+            dense
+            columns={columns}
+            data={allTransactionsTableData}
+            highlightOnHover
+            pagination
+            paginationRowsPerPageOptions={[10, 20]}
+            paginationPerPage={20}
+          />
+        </Styled.TableWrapper>
       </PageContainer>
     </>
   );

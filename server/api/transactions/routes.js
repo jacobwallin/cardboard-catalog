@@ -21,7 +21,7 @@ router.get("/", async (req, res, next) => {
       });
     } else {
       allTransactions = await Transaction.findAll({
-        where: { userId: req.user.id },
+        where: { userId: req.user.id, pending: false },
         include: TransactionUserCard,
       });
     }

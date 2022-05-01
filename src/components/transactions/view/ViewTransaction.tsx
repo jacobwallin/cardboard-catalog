@@ -14,7 +14,7 @@ import { UserCardWithTransaction } from "../../../store/collection/transactions/
 import columns from "./columns";
 import { SelectedCardsTitle } from "../shared/SelectedCardsTitle";
 import EditTransaction from "./edit/EditTransaction";
-import StyledButton from "../../Admin/components/StyledButton";
+import SubtleButton from "../../shared/SubtleButton";
 
 export default function ViewTransaction() {
   const dispatch = useDispatch();
@@ -69,14 +69,7 @@ export default function ViewTransaction() {
           <>
             <Styled.DataContainer>
               <Styled.EditButton>
-                <StyledButton
-                  color="BLUE"
-                  width="60px"
-                  height="25px"
-                  onClick={toggleEdit}
-                >
-                  Edit
-                </StyledButton>
+                <SubtleButton onClick={toggleEdit}>Edit</SubtleButton>
               </Styled.EditButton>
               <Styled.DataFieldContainer>
                 <Styled.DataTitle>Type</Styled.DataTitle>
@@ -143,7 +136,14 @@ export default function ViewTransaction() {
             </Styled.DataContainer>
             {cardsAdded.length > 0 && (
               <>
-                <SelectedCardsTitle>Cards Added</SelectedCardsTitle>
+                <Styled.CardTableHeader>
+                  <Styled.PendingContainer>
+                    <SelectedCardsTitle>Cards Added</SelectedCardsTitle>
+                    {transaction.pending && (
+                      <Styled.Pending>Pending</Styled.Pending>
+                    )}
+                  </Styled.PendingContainer>
+                </Styled.CardTableHeader>
                 <DataTable
                   dense
                   noHeader

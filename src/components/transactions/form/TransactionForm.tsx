@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import * as Styled from "./styled";
 import StyledButton from "../../Admin/components/StyledButton";
+import SubtleButton from "../../shared/SubtleButton";
 import dataFieldsByTransactionType from "../shared/dataFieldsByType";
 import { TransactionTypes } from "../../../store/collection/transactions/types";
 import { transactionTypeMap } from "../main/screateTableData";
@@ -81,14 +82,7 @@ export default function TransactionForm(props: Props) {
   return (
     <Styled.Container>
       <Styled.CancelWrapper>
-        <StyledButton
-          color="GRAY"
-          width="60px"
-          height="25px"
-          onClick={props.cancel}
-        >
-          Cancel
-        </StyledButton>
+        <SubtleButton onClick={props.cancel}>Cancel</SubtleButton>
       </Styled.CancelWrapper>
       <Styled.DataFieldContainer>
         <Styled.DataTitle>Type</Styled.DataTitle>

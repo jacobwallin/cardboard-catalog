@@ -6,7 +6,8 @@ export const DataContainer = styled.div`
   gap: 15px;
   width: 100%;
   position: relative;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
+  margin-top: 25px;
 `;
 
 export const DataTitle = styled.div`
@@ -41,4 +42,25 @@ export const EditButton = styled.div`
   position: absolute;
   right: 0;
   top: 0;
+`;
+
+export const Pending = styled.div`
+  color: white;
+  background-color: #ffe561;
+  padding: 3px 7px 3px 7px;
+  border-radius: 5px;
+`;
+
+export const CardTableHeader = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 10px;
+`;
+
+export const PendingContainer = styled.div`
+  display: flex;
+  gap: 5px;
+  align-items: center;
 `;

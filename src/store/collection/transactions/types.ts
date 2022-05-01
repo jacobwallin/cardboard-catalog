@@ -8,6 +8,12 @@ export const GET_TRANSACTION_FAILURE = "GET_TRANSACTION_FAILURE";
 export const GET_ALL_TRANSACTIONS_REQUEST = "GET_ALL_TRANSACTIONS_REQUEST";
 export const GET_ALL_TRANSACTIONS_SUCCESS = "GET_ALL_TRANSACTIONS_SUCCESS";
 export const GET_ALL_TRANSACTIONS_FAILURE = "GET_ALL_TRANSACTIONS_FAILURE";
+export const GET_PENDING_TRANSACTIONS_REQUEST =
+  "GET_PENDING_TRANSACTIONS_REQUEST";
+export const GET_PENDING_TRANSACTIONS_SUCCESS =
+  "GET_PENDING_TRANSACTIONS_SUCCESS";
+export const GET_PENDING_TRANSACTIONS_FAILURE =
+  "GET_PENDING_TRANSACTIONS_FAILURE";
 export const ADD_TRANSACTION_REQUEST = "ADD_TRANSACTION_REQUEST";
 export const ADD_TRANSACTION_SUCCESS = "ADD_TRANSACTION_SUCCESS";
 export const ADD_TRANSACTION_FAILURE = "ADD_TRANSACTION_FAILURE";
@@ -36,6 +42,16 @@ interface GetAllTransactionsSuccess {
 }
 interface GetAllTransactionsFailure {
   type: typeof GET_ALL_TRANSACTIONS_FAILURE;
+}
+interface GetPendingTransactionsRequest {
+  type: typeof GET_PENDING_TRANSACTIONS_REQUEST;
+}
+interface GetPendingTransactionsSuccess {
+  type: typeof GET_PENDING_TRANSACTIONS_SUCCESS;
+  pendingTransactions: TransactionSummary[];
+}
+interface GetPendingTransactionsFailure {
+  type: typeof GET_PENDING_TRANSACTIONS_FAILURE;
 }
 
 interface AddTransactionRequest {
@@ -72,12 +88,16 @@ export type TransactionActions =
   | AddTransactionFailure
   | UpdateTransactionRequest
   | UpdateTransactionSuccess
-  | UpdateTransactionFailure;
+  | UpdateTransactionFailure
+  | GetPendingTransactionsRequest
+  | GetPendingTransactionsSuccess
+  | GetPendingTransactionsFailure;
 
 // STATE
 export interface TransactionsState {
   transaction: SingleTransaction;
   allTransactions: TransactionSummary[];
+  pendingTransactions: TransactionSummary[];
 }
 
 export type TransactionTypes =

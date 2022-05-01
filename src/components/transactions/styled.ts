@@ -20,9 +20,9 @@ export const TransactionLink = styled(Link)`
 
 export const Header = styled.div`
   font-size: 1.2rem;
-  font-weight: 400;
+  font-weight: 500;
   margin-left: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   align-self: flex-start;
 `;
 
@@ -30,10 +30,15 @@ export const TransactionsContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 20px;
-  margin: 20px 0 60px 25px;
+  margin: 30px 0 30px 25px;
   align-self: center;
 
   @media only screen and (max-width: 700px) {
     flex-direction: column;
   }
+`;
+
+export const TableWrapper = styled.div`
+  width: 100%;
+  margin-top: 40px;
 `;

@@ -26,6 +26,19 @@ export const getAllTransactionsFailure = (): types.TransactionActions => ({
   type: types.GET_ALL_TRANSACTIONS_FAILURE,
 });
 
+export const getPendingTransactionsRequest = (): types.TransactionActions => ({
+  type: types.GET_PENDING_TRANSACTIONS_REQUEST,
+});
+export const getPendingTransactionsSuccess = (
+  pendingTransactions: types.TransactionSummary[]
+): types.TransactionActions => ({
+  type: types.GET_PENDING_TRANSACTIONS_SUCCESS,
+  pendingTransactions,
+});
+export const getPendingTransactionsFailure = (): types.TransactionActions => ({
+  type: types.GET_PENDING_TRANSACTIONS_FAILURE,
+});
+
 export const addTransactionRequest = (): types.TransactionActions => ({
   type: types.ADD_TRANSACTION_REQUEST,
 });
