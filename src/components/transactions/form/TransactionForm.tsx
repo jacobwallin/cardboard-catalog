@@ -149,19 +149,36 @@ export default function TransactionForm(props: Props) {
           <Styled.Textarea id="note" value={note} onChange={handleNoteChange} />
         </Styled.InputContainer>
       )}
-      {dataFieldsByTransactionType[props.type].PENDING.shown && (
-        <Styled.InputContainer>
-          <Styled.Label htmlFor="pending">
-            {dataFieldsByTransactionType[props.type].PENDING.title}
-          </Styled.Label>
-          <input
-            type="checkbox"
-            id="pending"
-            checked={pending}
-            onChange={handleInputChange}
-          />
-        </Styled.InputContainer>
-      )}
+      {dataFieldsByTransactionType[props.type].PENDING.shown &&
+        !props.initialValues && (
+          <Styled.InputContainer>
+            <Styled.Label htmlFor="pending">
+              {dataFieldsByTransactionType[props.type].PENDING.title}
+            </Styled.Label>
+            <input
+              type="checkbox"
+              id="pending"
+              checked={pending}
+              onChange={handleInputChange}
+            />
+          </Styled.InputContainer>
+        )}
+      {dataFieldsByTransactionType[props.type].PENDING.shown &&
+        props.initialValues &&
+        props.initialValues.pending && (
+          <Styled.InputContainer>
+            <Styled.Label htmlFor="pending">
+              {dataFieldsByTransactionType[props.type].PENDING.title}
+            </Styled.Label>
+            <input
+              type="checkbox"
+              id="pending"
+              checked={pending}
+              onChange={handleInputChange}
+            />
+          </Styled.InputContainer>
+        )}
+
       <StyledButton
         id="submit-cards-button"
         onClick={submit}
