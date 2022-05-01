@@ -81,9 +81,11 @@ export default function TransactionForm(props: Props) {
 
   return (
     <Styled.Container>
-      <Styled.CancelWrapper>
-        <SubtleButton onClick={props.cancel}>Cancel</SubtleButton>
-      </Styled.CancelWrapper>
+      {props.cancel && (
+        <Styled.CancelWrapper>
+          <SubtleButton onClick={props.cancel}>Cancel</SubtleButton>
+        </Styled.CancelWrapper>
+      )}
       <Styled.DataFieldContainer>
         <Styled.DataTitle>Type</Styled.DataTitle>
         <Styled.DataValue>{transactionTypeMap[props.type]}</Styled.DataValue>
