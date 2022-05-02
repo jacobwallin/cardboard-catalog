@@ -15,6 +15,7 @@ const ModalWindow = styled.div`
   align-items: center;
   overflow: scroll;
   overflow-y: scroll;
+  border: 1px solid gray;
   @media only screen and (max-width: 600px) {
     width: 95%;
   }

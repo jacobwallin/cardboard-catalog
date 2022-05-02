@@ -6,8 +6,7 @@ import dataFieldsByTransactionType from "../shared/dataFieldsByType";
 import { TransactionTypes } from "../../../store/collection/transactions/types";
 import { transactionTypeMap } from "../main/screateTableData";
 import { convertDateString } from "../../../utils/formatTimestamp";
-import ModalBackground from "../../shared/Background";
-import ModalWindow from "../../Admin/components/modal/ModalWindow";
+import ConfirmDeleteModal from "../../Admin/components/ConfirmDeleteModal";
 
 export interface FormData {
   date: string;
@@ -94,10 +93,13 @@ export default function TransactionForm(props: Props) {
           <SubtleButton onClick={props.cancel}>Cancel</SubtleButton>
         </Styled.CancelWrapper>
       )}
-      {confirmDelete && (
-        <ModalBackground>
-          <ModalWindow></ModalWindow>
-        </ModalBackground>
+      {confirmDelete && props.delete && (
+        <ConfirmDeleteModal
+          handleDismiss={toggleDeleteModal}
+          handleDelete={props.delete}
+          deleteStatus="PENDING"
+          message="This will delete any cards that were added in the transaction from your collection, and restore any cards that were removed in this transaction."
+        />
       )}
       <Styled.DataFieldContainer>
         <Styled.DataTitle>Type</Styled.DataTitle>

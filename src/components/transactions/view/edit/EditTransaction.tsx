@@ -4,7 +4,10 @@ import { RootState } from "../../../../store";
 import { SingleTransaction } from "../../../../store/collection/transactions/types";
 import { UserCardWithTransaction } from "../../../../store/collection/transactions/types";
 import { CardData } from "../../../../store/collection/browse/types";
-import { updateTransaction } from "../../../../store/collection/transactions/thunks";
+import {
+  updateTransaction,
+  deleteTransaction,
+} from "../../../../store/collection/transactions/thunks";
 import TransactionForm, { FormData } from "../../form/TransactionForm";
 import DataTable from "react-data-table-component";
 import { SelectedCardsTitle } from "../../shared/SelectedCardsTitle";
@@ -251,7 +254,9 @@ export default function EditTransaction(props: Props) {
     setTransactionUpdated(true);
   }
 
-  function deleteTransaction() {}
+  function handleDelete() {
+    dispatch(deleteTransaction(transaction.id));
+  }
 
   // show added and removed card tables based on transaction type
   const showAddedCards =
@@ -311,7 +316,7 @@ export default function EditTransaction(props: Props) {
             type={transaction.type}
             handleSubmit={handleSubmit}
             cancel={props.cancel}
-            delete={deleteTransaction}
+            delete={handleDelete}
             initialValues={{
               date: transaction.date,
               note: transaction.note,
