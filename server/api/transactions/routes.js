@@ -325,7 +325,7 @@ router.delete("/:transactionId", async (req, res, next) => {
     // delete transaction
     await transaction.destroy();
 
-    res.sendStatus(200);
+    res.status(200).json("success");
   } catch (error) {
     next(error);
   }
