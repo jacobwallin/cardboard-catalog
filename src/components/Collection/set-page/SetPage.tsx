@@ -195,7 +195,7 @@ const SetPage = () => {
               )}
               {aggregatedSubsetData.autoRelic.length > 0 && (
                 <>
-                  <Shared.DataTableHeader>{`Autograph & Relic Sets`}</Shared.DataTableHeader>
+                  <Shared.DataTableHeader>{`Autographs & Relics`}</Shared.DataTableHeader>
                   <Shared.DataTableContainer>
                     <DataTable
                       noHeader
