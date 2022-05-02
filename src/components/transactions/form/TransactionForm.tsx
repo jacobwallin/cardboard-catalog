@@ -6,6 +6,8 @@ import dataFieldsByTransactionType from "../shared/dataFieldsByType";
 import { TransactionTypes } from "../../../store/collection/transactions/types";
 import { transactionTypeMap } from "../main/screateTableData";
 import { convertDateString } from "../../../utils/formatTimestamp";
+import ModalBackground from "../../shared/Background";
+import ModalWindow from "../../Admin/components/modal/ModalWindow";
 
 export interface FormData {
   date: string;
@@ -20,6 +22,7 @@ interface Props {
   handleSubmit(data: FormData): void;
   type: TransactionTypes;
   cancel?(): void;
+  delete?(): void;
   initialValues?: FormData;
 }
 
@@ -41,6 +44,11 @@ export default function TransactionForm(props: Props) {
   const [pending, setPending] = useState(
     initialValues ? initialValues.pending : false
   );
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
+  function toggleDeleteModal() {
+    setConfirmDelete(!confirmDelete);
+  }
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     switch (e.target.id) {
@@ -85,6 +93,11 @@ export default function TransactionForm(props: Props) {
         <Styled.CancelWrapper>
           <SubtleButton onClick={props.cancel}>Cancel</SubtleButton>
         </Styled.CancelWrapper>
+      )}
+      {confirmDelete && (
+        <ModalBackground>
+          <ModalWindow></ModalWindow>
+        </ModalBackground>
       )}
       <Styled.DataFieldContainer>
         <Styled.DataTitle>Type</Styled.DataTitle>
@@ -180,17 +193,28 @@ export default function TransactionForm(props: Props) {
             />
           </Styled.InputContainer>
         )}
-
-      <StyledButton
-        id="submit-cards-button"
-        onClick={submit}
-        disabled={date === ""}
-        color="GREEN"
-        height="30px"
-        width="120px"
-      >
-        Submit
-      </StyledButton>
+      <Styled.ButtonContainer>
+        <StyledButton
+          id="submit-cards-button"
+          onClick={submit}
+          disabled={date === ""}
+          color="GREEN"
+          height="27px"
+          width="110px"
+        >
+          Submit
+        </StyledButton>
+        {props.delete && (
+          <StyledButton
+            onClick={toggleDeleteModal}
+            color="RED"
+            height="27px"
+            width="110px"
+          >
+            Delete
+          </StyledButton>
+        )}
+      </Styled.ButtonContainer>
     </Styled.Container>
   );
 }

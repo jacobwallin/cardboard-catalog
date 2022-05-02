@@ -251,6 +251,8 @@ export default function EditTransaction(props: Props) {
     setTransactionUpdated(true);
   }
 
+  function deleteTransaction() {}
+
   // show added and removed card tables based on transaction type
   const showAddedCards =
     transaction.type !== "DELETE" && transaction.type !== "SALE";
@@ -309,6 +311,7 @@ export default function EditTransaction(props: Props) {
             type={transaction.type}
             handleSubmit={handleSubmit}
             cancel={props.cancel}
+            delete={deleteTransaction}
             initialValues={{
               date: transaction.date,
               note: transaction.note,
@@ -342,7 +345,7 @@ export default function EditTransaction(props: Props) {
                       onClick={removeAddedCards}
                       fontSize=".8rem"
                     >
-                      Delete Cards
+                      Remove Cards
                     </StyledButton>
                   )}
                   <StyledButton
@@ -394,7 +397,7 @@ export default function EditTransaction(props: Props) {
                       onClick={removeDeletedCards}
                       fontSize=".8rem"
                     >
-                      Delete Cards
+                      Restore Cards
                     </StyledButton>
                   )}
                   <StyledButton

@@ -86,3 +86,9 @@ export const DataValue = styled.div`
 export const DataFieldContainer = styled.div`
   align-self: flex-start;
 `;
+
+export const ButtonContainer = styled.div`
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+`;

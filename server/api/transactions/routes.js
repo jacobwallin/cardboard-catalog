@@ -279,7 +279,6 @@ router.put("/:transactionId", async (req, res, next) => {
 
     res.json(await getTransactionById(req.params.transactionId, req.user.id));
   } catch (error) {
-    console.log("ERROR: ", error.message);
     next(error);
   }
 });
@@ -288,6 +287,47 @@ router.delete("/:transactionId", async (req, res, next) => {
   // deleting transaction should also undo all effects on collection (adding / deleting cards)
   // if the transaction contains cards that were added into the users collection,
   // prevent deletion of any of those cards were then deleted in another transaction
+
+  try {
+    const transaction = await Transaction.findByPk(req.params.transactionId, {
+      include: {
+        model: UserCard,
+        paranoid: false,
+      },
+    });
+
+    // verify no cards that were added in this transaction have been deleted in subsequent transactions
+    if (
+      transaction.user_cards.some(
+        (userCard) =>
+          !userCard.transaction_user_card.deleted && userCard.deletedAt !== null
+      )
+    ) {
+      res
+        .status(400)
+        .json(
+          "Cannot delete transaction, it contains cards that were deleted in a subsequent transaction."
+        );
+    }
+
+    // reverse collection effects
+    await Promise.all(
+      transaction.user_cards.map((userCard) => {
+        if (userCard.deletedAt === null) {
+          // if card was added in transaction, delete it
+          return userCard.destroy({ force: true });
+        }
+        // if card was deleted in transaction, restore it
+        return userCard.restore();
+      })
+    );
+
+    await transaction.destroy();
+
+    res.sendStatus(200);
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;

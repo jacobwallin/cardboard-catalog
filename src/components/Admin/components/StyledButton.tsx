@@ -43,7 +43,7 @@ const StyledButton = styled.button<ButtonProps>`
       case "YELLOW":
         return "#E6E600";
       case "RED":
-        return "#CE2200";
+        return "#dc3545";
       case "GRAY":
         return "#aaa";
     }

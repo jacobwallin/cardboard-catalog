@@ -157,7 +157,9 @@ export default function ViewTransaction() {
             )}
             {cardsRemoved.length > 0 && (
               <>
-                <SelectedCardsTitle>Cards Removed</SelectedCardsTitle>
+                <Styled.CardTableHeader>
+                  <SelectedCardsTitle>Cards Removed</SelectedCardsTitle>
+                </Styled.CardTableHeader>
                 <DataTable
                   dense
                   noHeader
