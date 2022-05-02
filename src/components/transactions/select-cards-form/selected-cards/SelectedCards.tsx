@@ -53,7 +53,6 @@ export default function SelectedCards(props: Props) {
       {cardData
         .slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
         .map((card, index) => {
-          console.log(index);
           let setName = undefined;
           if (
             index === 0 ||
