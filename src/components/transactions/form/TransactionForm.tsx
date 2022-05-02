@@ -61,6 +61,7 @@ export default function TransactionForm(props: Props) {
     deleteTradeStatusSelector(state)
   );
 
+  // detect changes in form, only enable submit button if there are any
   useEffect(() => {
     if (initialValues) {
       const changes = detectFormChanges(

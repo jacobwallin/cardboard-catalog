@@ -341,6 +341,12 @@ export default function EditTransaction(props: Props) {
             cancel={props.cancel}
             delete={handleDelete}
             canDelete={canDelete}
+            changesMade={
+              newCardsAdded.length > 0 ||
+              newCardsRemoved.length > 0 ||
+              deletedCardsRemoved.length > 0 ||
+              addedCardsRemoved.length > 0
+            }
             initialValues={{
               date: transaction.date,
               note: transaction.note,
