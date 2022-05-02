@@ -74,3 +74,6 @@ export const viewFriendCollection = (
 export const viewMyCollection = (): types.CollectionActionTypes => ({
   type: types.REMOVE_FRIEND,
 });
+export const clearCollectionData = (): types.CollectionActionTypes => ({
+  type: types.CLEAR_COLLECTION_DATA,
+});

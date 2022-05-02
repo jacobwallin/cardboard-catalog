@@ -16,6 +16,7 @@ export const DELETE_CARDS = "DELETE_CARDS";
 export const SET_INITIAL_DATA_LOAD = "SET_INITIAL_DATA_LOAD";
 export const SET_FRIEND = "SET_FRIEND";
 export const REMOVE_FRIEND = "REMOVE_FRIEND";
+export const CLEAR_COLLECTION_DATA = "CLEAR_COLLECTION_DATA";
 
 // --- ACTIONS ---
 
@@ -78,6 +79,9 @@ export interface SetFriend {
 export interface RemoveFriend {
   type: typeof REMOVE_FRIEND;
 }
+export interface ClearCollectionData {
+  type: typeof CLEAR_COLLECTION_DATA;
+}
 
 export type CollectionActionTypes =
   | GetCardsBySetSuccess
@@ -93,7 +97,8 @@ export type CollectionActionTypes =
   | DeleteCards
   | SetInitialDataLoad
   | SetFriend
-  | RemoveFriend;
+  | RemoveFriend
+  | ClearCollectionData;
 
 // ---- *** COLLECTION REDUCER STATE TYPE *** ----
 export interface CollectionState {

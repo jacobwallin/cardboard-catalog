@@ -78,6 +78,8 @@ export default function collectionReducer(
         friend: initialState.friend,
         initialDataLoadComplete: false,
       };
+    case types.CLEAR_COLLECTION_DATA:
+      return { ...initialState, friend: state.friend };
     default:
       return state;
   }

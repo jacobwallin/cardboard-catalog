@@ -1,7 +1,7 @@
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../index";
 import * as actions from "./actions";
-import { addCards, deleteCards } from "../browse/actions";
+import { addCards, deleteCards, clearCollectionData } from "../browse/actions";
 import { CollectionActionTypes } from "../browse/types";
 import {
   TransactionActions,
@@ -68,6 +68,7 @@ export const addTransaction =
     post(`/api/transactions`, { ...data }, dispatch)
       .then((payload: AddTransactionResponse) => {
         dispatch(actions.addTransactionSuccess(payload));
+        // if adding or removing from subset page, subset card data must be reconciled with transaction changes
         if (data.type === "ADD" && createdFromSubsetPage) {
           dispatch(
             addCards(
@@ -87,6 +88,9 @@ export const addTransaction =
                 .map((userCard) => userCard.id)
             )
           );
+        } else {
+          // if transaction was not created from subset page, clear collection data to re-fetch when next viewing collection
+          dispatch(clearCollectionData());
         }
       })
       .catch((err) => {
