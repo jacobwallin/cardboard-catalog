@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const helmet = require("helmet");
 const morgan = require("morgan");
@@ -9,7 +10,6 @@ const { isUser } = require("./middleware");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const db = require("./db/db");
 require("./config/passport");
-require("dotenv").config();
 
 // app.use(helmet());
 app.use(morgan("dev"));
