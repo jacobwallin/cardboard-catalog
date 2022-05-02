@@ -92,8 +92,8 @@ const StyledButton = styled.button<ButtonProps>`
         return `0 0.125rem 0.625rem rgb(230 230 0 / 40%),
     0 0.0625rem 0.125rem rgb(230 230 0 / 50%);`;
       case "RED":
-        return `0 0.125rem 0.625rem rgb(206 34 0 / 40%),
-    0 0.0625rem 0.125rem rgb(206 34 0 / 50%);`;
+        return `0 0.125rem 0.625rem rgb(220 53 69 / 40%),
+    0 0.0625rem 0.125rem rgb(220 53 69 / 50%);`;
       case "GRAY":
         return `0 0.125rem 0.625rem rgb(204 204 204 / 40%),
     0 0.0625rem 0.125rem rgb(204 204 204 / 50%);`;
