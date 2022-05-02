@@ -70,6 +70,14 @@ export default function Breadcrumbs() {
               if (+pageNames[2] === series.id)
                 setBreadcrumbs(createAdminSeriesCrumbs(series));
               break;
+            default:
+              setBreadcrumbs([
+                {
+                  link: "/admin",
+                  title: "Admin",
+                },
+              ]);
+              break;
           }
         } else {
           setBreadcrumbs([
