@@ -3,6 +3,7 @@ import AddCardsLine from "../add_cards_line/AddCardsLine";
 import { CardFormData } from "../AddCardsForm";
 import * as Styled from "./styled";
 import PaginationController from "./pagination/PaginationController";
+import { getSetName } from "../../../Collection/filter/columns";
 
 interface AcceptChanges {
   cardData: CardFormData[];
@@ -52,6 +53,23 @@ export default function SelectedCards(props: Props) {
       {cardData
         .slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
         .map((card, index) => {
+          console.log(index);
+          let setName = undefined;
+          if (
+            index === 0 ||
+            cardData[(currentPage - 1) * rowsPerPage + (index - 1)].card.series
+              .id !== card.card.series.id
+          ) {
+            setName = getSetName(
+              card.card.series.subset.set.name,
+              card.card.series.subset.name,
+              card.card.series.name,
+              card.card.series.subset.id,
+              card.card.series.id,
+              card.card.series.subset.set.baseSubsetId || 0,
+              card.card.series.subset.baseSeriesId || 0
+            );
+          }
           if (props.preventGradeChanges) {
             return (
               <AddCardsLine
@@ -60,6 +78,7 @@ export default function SelectedCards(props: Props) {
                 card={card}
                 preventGradeChanges={true}
                 handleDelete={props.handleDelete}
+                setName={setName}
               />
             );
           } else {
@@ -76,6 +95,7 @@ export default function SelectedCards(props: Props) {
                   props.handleGradingCompanyIdChange
                 }
                 preventGradeChanges={false}
+                setName={setName}
               />
             );
           }

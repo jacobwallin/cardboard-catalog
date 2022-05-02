@@ -110,5 +110,25 @@ export function getFullSetName(row: UserCard): string {
   }
   return fullName;
 }
+export function getSetName(
+  setName: string,
+  subsetName: string,
+  seriesName: string,
+  subsetId: number,
+  seriesId: number,
+  baseSubsetId: number,
+  baseSeriesId: number
+): string {
+  let fullName = setName;
+  if (subsetId !== baseSubsetId) {
+    fullName = fullName.concat(" ", subsetName);
+  } else if (subsetName !== "Base Set") {
+    fullName = fullName.concat(" ", subsetName);
+  }
+  if (seriesId !== baseSeriesId) {
+    fullName = fullName.concat(" ", seriesName);
+  }
+  return fullName;
+}
 
 export default columns;

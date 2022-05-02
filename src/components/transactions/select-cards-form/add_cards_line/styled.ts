@@ -3,6 +3,12 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  width: 100%;
+`;
+export const LineContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   align-items: flex-end;
   width: 100%;
   min-height: 35px;
@@ -120,4 +126,11 @@ export const NameContainer = styled.div`
 export const DeleteButtonContainer = styled.div`
   width: 30px;
   height: 30px;
+`;
+
+export const SetName = styled.div`
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: gray;
+  font-weight: 500;
 `;
