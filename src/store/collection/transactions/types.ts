@@ -20,6 +20,9 @@ export const ADD_TRANSACTION_FAILURE = "ADD_TRANSACTION_FAILURE";
 export const UPDATE_TRANSACTION_REQUEST = "UPDATE_TRANSACTION_REQUEST";
 export const UPDATE_TRANSACTION_SUCCESS = "UPDATE_TRANSACTION_SUCCESS";
 export const UPDATE_TRANSACTION_FAILURE = "UPDATE_TRANSACTION_FAILURE";
+export const DELETE_TRANSACTION_REQUEST = "DELETE_TRANSACTION_REQUEST";
+export const DELETE_TRANSACTION_SUCCESS = "DELETE_TRANSACTION_SUCCESS";
+export const DELETE_TRANSACTION_FAILURE = "DELETE_TRANSACTION_FAILURE";
 
 // ACTIONS
 interface GetTransactionRequest {
@@ -75,6 +78,16 @@ interface UpdateTransactionSuccess {
 interface UpdateTransactionFailure {
   type: typeof UPDATE_TRANSACTION_FAILURE;
 }
+interface DeleteTransactionRequest {
+  type: typeof DELETE_TRANSACTION_REQUEST;
+}
+interface DeleteTransactionSuccess {
+  type: typeof DELETE_TRANSACTION_SUCCESS;
+  transactionId: number;
+}
+interface DeleteTransactionFailure {
+  type: typeof DELETE_TRANSACTION_FAILURE;
+}
 
 export type TransactionActions =
   | GetTransactionRequest
@@ -91,7 +104,10 @@ export type TransactionActions =
   | UpdateTransactionFailure
   | GetPendingTransactionsRequest
   | GetPendingTransactionsSuccess
-  | GetPendingTransactionsFailure;
+  | GetPendingTransactionsFailure
+  | DeleteTransactionRequest
+  | DeleteTransactionSuccess
+  | DeleteTransactionFailure;
 
 // STATE
 export interface TransactionsState {

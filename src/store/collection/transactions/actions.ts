@@ -64,3 +64,16 @@ export const updateTransactionSuccess = (
 export const updateTransactionFailure = (): types.TransactionActions => ({
   type: types.UPDATE_TRANSACTION_FAILURE,
 });
+
+export const deleteTransactionRequest = (): types.TransactionActions => ({
+  type: types.DELETE_TRANSACTION_REQUEST,
+});
+export const deleteTransactionSuccess = (
+  transactionId: number
+): types.TransactionActions => ({
+  type: types.DELETE_TRANSACTION_SUCCESS,
+  transactionId,
+});
+export const deleteTransactionFailure = (): types.TransactionActions => ({
+  type: types.DELETE_TRANSACTION_FAILURE,
+});

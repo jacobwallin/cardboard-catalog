@@ -10,7 +10,7 @@ import {
   TransactionSummary,
   AddTransactionResponse,
 } from "./types";
-import { get, post, put } from "../../../utils/fetch";
+import { get, post, put, del } from "../../../utils/fetch";
 
 export const fetchTransaction =
   (
@@ -107,5 +107,20 @@ export const updateTransaction =
       })
       .catch((err) => {
         dispatch(actions.updateTransactionFailure());
+      });
+  };
+
+export const deleteTransaction =
+  (
+    transactionId: number
+  ): ThunkAction<void, RootState, unknown, TransactionActions> =>
+  (dispatch) => {
+    dispatch(actions.deleteTransactionRequest());
+    del(`/api/transactions/${transactionId}`, dispatch)
+      .then((payload) => {
+        dispatch(actions.deleteTransactionSuccess(transactionId));
+      })
+      .catch((err) => {
+        dispatch(actions.deleteTransactionFailure());
       });
   };

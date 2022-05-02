@@ -73,6 +73,13 @@ export default function cardReducer(
         ...state,
         transaction: action.transaction,
       };
+    case types.DELETE_TRANSACTION_SUCCESS:
+      return {
+        ...state,
+        allTransactions: state.allTransactions.filter(
+          (t) => t.id !== action.transactionId
+        ),
+      };
     default:
       return state;
   }
