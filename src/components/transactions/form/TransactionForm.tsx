@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import * as Styled from "./styled";
@@ -9,6 +9,7 @@ import { TransactionTypes } from "../../../store/collection/transactions/types";
 import { transactionTypeMap } from "../main/screateTableData";
 import { convertDateString } from "../../../utils/formatTimestamp";
 import ConfirmDeleteModal from "../../Admin/components/ConfirmDeleteModal";
+import detectFormChanges from "../../Admin/detectFormChanges";
 import { createStatusSelector } from "../../../store/loading/reducer";
 const deleteTradeStatusSelector = createStatusSelector("DELETE_TRANSACTION");
 
@@ -28,6 +29,7 @@ interface Props {
   delete?(): void;
   canDelete?: boolean;
   initialValues?: FormData;
+  changesMade?: boolean;
 }
 
 export default function TransactionForm(props: Props) {
@@ -43,16 +45,38 @@ export default function TransactionForm(props: Props) {
     initialValues ? initialValues.individual || "" : ""
   );
   const [money, setMoney] = useState(
-    initialValues ? initialValues.money || "" : ""
+    initialValues
+      ? initialValues.money
+        ? String(initialValues.money)
+        : ""
+      : ""
   );
   const [pending, setPending] = useState(
     initialValues ? initialValues.pending : false
   );
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [formChanges, setFormChanges] = useState(false);
 
   const deleteTransactionStatus = useSelector((state: RootState) =>
     deleteTradeStatusSelector(state)
   );
+
+  useEffect(() => {
+    if (initialValues) {
+      const changes = detectFormChanges(
+        [date, note, platform, individual, money, pending],
+        [
+          initialValues.date,
+          initialValues.note || "",
+          initialValues.platform || "",
+          initialValues.individual || "",
+          initialValues.money ? String(initialValues.money) : "",
+          initialValues.pending,
+        ]
+      );
+      setFormChanges(changes);
+    }
+  }, [date, note, individual, platform, pending, money, initialValues]);
 
   function toggleDeleteModal() {
     setConfirmDelete(!confirmDelete);
@@ -208,7 +232,7 @@ export default function TransactionForm(props: Props) {
         <StyledButton
           id="submit-cards-button"
           onClick={submit}
-          disabled={date === ""}
+          disabled={date === "" || (!formChanges && !props.changesMade)}
           color="GREEN"
           height="27px"
           width="110px"
