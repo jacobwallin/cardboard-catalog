@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 import * as Styled from "./styled";
 import StyledButton from "../../Admin/components/StyledButton";
 import SubtleButton from "../../shared/SubtleButton";
@@ -7,6 +9,8 @@ import { TransactionTypes } from "../../../store/collection/transactions/types";
 import { transactionTypeMap } from "../main/screateTableData";
 import { convertDateString } from "../../../utils/formatTimestamp";
 import ConfirmDeleteModal from "../../Admin/components/ConfirmDeleteModal";
+import { createStatusSelector } from "../../../store/loading/reducer";
+const deleteTradeStatusSelector = createStatusSelector("DELETE_TRANSACTION");
 
 export interface FormData {
   date: string;
@@ -45,6 +49,10 @@ export default function TransactionForm(props: Props) {
     initialValues ? initialValues.pending : false
   );
   const [confirmDelete, setConfirmDelete] = useState(false);
+
+  const deleteTransactionStatus = useSelector((state: RootState) =>
+    deleteTradeStatusSelector(state)
+  );
 
   function toggleDeleteModal() {
     setConfirmDelete(!confirmDelete);
@@ -98,8 +106,8 @@ export default function TransactionForm(props: Props) {
         <ConfirmDeleteModal
           handleDismiss={toggleDeleteModal}
           handleDelete={props.delete}
-          deleteStatus="PENDING"
-          message="This will delete any cards that were added in the transaction from your collection, and restore any cards that were removed in this transaction."
+          deleteStatus={deleteTransactionStatus}
+          message="This will remove any cards that were added in the transaction from your collection, and restore any cards that were removed in this transaction."
         />
       )}
       <Styled.DataFieldContainer>

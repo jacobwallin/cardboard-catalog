@@ -21,6 +21,7 @@ import SubtleButton from "../../../shared/SubtleButton";
 import { LoadingDots } from "../../../shared/Loading";
 import { createStatusSelector } from "../../../../store/loading/reducer";
 const updateTradeStatusSelector = createStatusSelector("UPDATE_TRANSACTION");
+const deleteTradeStatusSelector = createStatusSelector("DELETE_TRANSACTION");
 
 interface Props {
   transaction: SingleTransaction;
@@ -44,7 +45,11 @@ export default function EditTransaction(props: Props) {
   const updateTransactionStatus = useSelector((state: RootState) =>
     updateTradeStatusSelector(state)
   );
+  const deleteTransactionStatus = useSelector((state: RootState) =>
+    deleteTradeStatusSelector(state)
+  );
   const [transactionUpdated, setTransactionUpdated] = useState(false);
+  const [transactionDeleted, setTransactionDeleted] = useState(false);
 
   // master table data
   const [cardsAdded, setCardsAdded] = useState<UserCardWithTransaction[]>(
@@ -266,6 +271,7 @@ export default function EditTransaction(props: Props) {
 
   function handleDelete() {
     dispatch(deleteTransaction(transaction.id));
+    setTransactionDeleted(true);
   }
 
   // show added and removed card tables based on transaction type
@@ -282,6 +288,12 @@ export default function EditTransaction(props: Props) {
       return <LoadingDots />;
     }
     if (updateTransactionStatus === "SUCCESS") {
+      props.cancel();
+    }
+  }
+  if (transactionDeleted) {
+    if (deleteTransactionStatus === "SUCCESS") {
+      console.log("&&&&&&&&&&&&");
       props.cancel();
     }
   }
