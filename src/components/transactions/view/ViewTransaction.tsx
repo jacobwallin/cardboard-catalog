@@ -83,56 +83,64 @@ export default function ViewTransaction() {
                   {convertDateString(transaction.date)}
                 </Styled.DataValue>
               </Styled.DataFieldContainer>
-              {dataFieldsByTransactionType[transaction.type].PLATFORM.shown && (
-                <Styled.DataFieldContainer>
-                  <Styled.DataTitle>
-                    {
-                      dataFieldsByTransactionType[transaction.type].PLATFORM
-                        .title
-                    }
-                  </Styled.DataTitle>
-                  <Styled.DataValue>
-                    {transaction.platform === null ? "-" : transaction.platform}
-                  </Styled.DataValue>
-                </Styled.DataFieldContainer>
-              )}
-              {dataFieldsByTransactionType[transaction.type].INDIVIDUAL
-                .shown && (
-                <Styled.DataFieldContainer>
-                  <Styled.DataTitle>
-                    {
-                      dataFieldsByTransactionType[transaction.type].INDIVIDUAL
-                        .title
-                    }
-                  </Styled.DataTitle>
-                  <Styled.DataValue>
-                    {transaction.individual === null
-                      ? "-"
-                      : transaction.individual}
-                  </Styled.DataValue>
-                </Styled.DataFieldContainer>
-              )}
-              {dataFieldsByTransactionType[transaction.type].MONEY.shown && (
-                <Styled.DataFieldContainer>
-                  <Styled.DataTitle>
-                    {dataFieldsByTransactionType[transaction.type].MONEY.title}
-                  </Styled.DataTitle>
-                  <Styled.DataValue>
-                    {transaction.money === null ? "-" : transaction.money}
-                  </Styled.DataValue>
-                </Styled.DataFieldContainer>
-              )}
+              {dataFieldsByTransactionType[transaction.type].PLATFORM.shown &&
+                transaction.platform && (
+                  <Styled.DataFieldContainer>
+                    <Styled.DataTitle>
+                      {
+                        dataFieldsByTransactionType[transaction.type].PLATFORM
+                          .title
+                      }
+                    </Styled.DataTitle>
+                    <Styled.DataValue>
+                      {transaction.platform === null
+                        ? "-"
+                        : transaction.platform}
+                    </Styled.DataValue>
+                  </Styled.DataFieldContainer>
+                )}
+              {dataFieldsByTransactionType[transaction.type].INDIVIDUAL.shown &&
+                transaction.individual && (
+                  <Styled.DataFieldContainer>
+                    <Styled.DataTitle>
+                      {
+                        dataFieldsByTransactionType[transaction.type].INDIVIDUAL
+                          .title
+                      }
+                    </Styled.DataTitle>
+                    <Styled.DataValue>
+                      {transaction.individual === null
+                        ? "-"
+                        : transaction.individual}
+                    </Styled.DataValue>
+                  </Styled.DataFieldContainer>
+                )}
+              {dataFieldsByTransactionType[transaction.type].MONEY.shown &&
+                transaction.money && (
+                  <Styled.DataFieldContainer>
+                    <Styled.DataTitle>
+                      {
+                        dataFieldsByTransactionType[transaction.type].MONEY
+                          .title
+                      }
+                    </Styled.DataTitle>
+                    <Styled.DataValue>
+                      {transaction.money === null ? "-" : transaction.money}
+                    </Styled.DataValue>
+                  </Styled.DataFieldContainer>
+                )}
 
-              {dataFieldsByTransactionType[transaction.type].NOTE.shown && (
-                <Styled.DataFieldContainer>
-                  <Styled.DataTitle>
-                    {dataFieldsByTransactionType[transaction.type].NOTE.title}
-                  </Styled.DataTitle>
-                  <Styled.DataValue>
-                    {transaction.note === null ? "-" : transaction.note}
-                  </Styled.DataValue>
-                </Styled.DataFieldContainer>
-              )}
+              {dataFieldsByTransactionType[transaction.type].NOTE.shown &&
+                transaction.note && (
+                  <Styled.DataFieldContainer>
+                    <Styled.DataTitle>
+                      {dataFieldsByTransactionType[transaction.type].NOTE.title}
+                    </Styled.DataTitle>
+                    <Styled.DataValue>
+                      {transaction.note === null ? "-" : transaction.note}
+                    </Styled.DataValue>
+                  </Styled.DataFieldContainer>
+                )}
             </Styled.DataContainer>
             {cardsAdded.length > 0 && (
               <>
