@@ -107,7 +107,7 @@ export default function TransactionForm(props: Props) {
           handleDismiss={toggleDeleteModal}
           handleDelete={props.delete}
           deleteStatus={deleteTransactionStatus}
-          message="This will remove any cards that were added in the transaction from your collection, and restore any cards that were removed in this transaction."
+          message="This will remove any cards that were added in the transaction from your collection, and restore any cards that were removed in this transaction to your collection."
         />
       )}
       <Styled.DataFieldContainer>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { RootState } from "../../../../store";
 import { SingleTransaction } from "../../../../store/collection/transactions/types";
 import { UserCardWithTransaction } from "../../../../store/collection/transactions/types";
@@ -30,6 +31,7 @@ interface Props {
 
 export default function EditTransaction(props: Props) {
   const dispatch = useDispatch();
+  let navigate = useNavigate();
   const { transaction } = props;
 
   // determine if transaction can be deleted
@@ -293,8 +295,7 @@ export default function EditTransaction(props: Props) {
   }
   if (transactionDeleted) {
     if (deleteTransactionStatus === "SUCCESS") {
-      console.log("&&&&&&&&&&&&");
-      props.cancel();
+      navigate("/transactions");
     }
   }
 
