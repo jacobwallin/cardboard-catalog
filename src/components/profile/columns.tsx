@@ -79,7 +79,7 @@ export const requestColumns = (
 export const pendingColumns = (withdraw: (friendshipId: number) => void) => [
   {
     name: "Username",
-    selector: (row: Friendship) => row.user_one.username,
+    selector: (row: Friendship) => row.user_two.username,
     sortable: true,
   },
   {
