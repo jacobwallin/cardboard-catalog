@@ -4,16 +4,15 @@ import { RootState } from "../../../store";
 import { fetchAllBrands } from "../../../store/library/brands/thunks";
 import { fetchAllGradingCompanies } from "../../../store/library/grading_companies/thunks";
 import AdminPageContainer from "../components/AdminPageContainer";
-import EditFormHeader from "../components/EditFormHeader";
-import { DataTableWrapper } from "../components/DataTableComponents";
+import * as DataTableComponents from "../components/DataTableComponents";
 import DataTable from "react-data-table-component";
 import { brandColumns, companyColumns } from "./columns";
-import StyledButton from "../components/StyledButton";
 import { Brand } from "../../../store/library/brands/types";
 import { GradingCompany } from "../../../store/library/grading_companies/types";
 import BrandModal from "./BrandModal";
 import CompanyModal from "./CompanyModal";
 import { Header } from "../components/PageHeader";
+import CreateButton from "../components/CreateButton";
 
 export default function AdminOther() {
   const dispatch = useDispatch();
@@ -69,51 +68,45 @@ export default function AdminOther() {
         <BrandModal dismiss={closeBrandModal} editBrand={brandToEdit} />
       )}
       <Header>MANAGE BRANDS</Header>
-      <DataTableWrapper>
+      <DataTableComponents.DataTableWrapper>
+        <DataTableComponents.DataTableHeader>
+          <DataTableComponents.DataTableTitle>
+            Card Brands
+          </DataTableComponents.DataTableTitle>
+          <DataTableComponents.DataTableButtonsContainer>
+            <CreateButton onClick={openBrandModal}>Add Brand</CreateButton>
+          </DataTableComponents.DataTableButtonsContainer>
+        </DataTableComponents.DataTableHeader>
         <DataTable
-          title="Brands"
-          actions={
-            <StyledButton
-              color="GREEN"
-              width="125px"
-              height="27px"
-              fontSize="0.9rem"
-              onClick={openBrandModal}
-            >
-              Add Brand
-            </StyledButton>
-          }
+          noHeader
           data={brands}
           columns={brandColumns(editBrand)}
           dense
           pagination
         />
-      </DataTableWrapper>
+      </DataTableComponents.DataTableWrapper>
       {showCreateCompanyModal && <CompanyModal dismiss={closeCompanyModal} />}
       {companyToEdit && (
         <CompanyModal dismiss={closeCompanyModal} editCompany={companyToEdit} />
       )}
       <Header>MANAGE GRADING COMPANIES</Header>
-      <DataTableWrapper>
+      <DataTableComponents.DataTableWrapper>
+        <DataTableComponents.DataTableHeader>
+          <DataTableComponents.DataTableTitle>
+            Grading Companies
+          </DataTableComponents.DataTableTitle>
+          <DataTableComponents.DataTableButtonsContainer>
+            <CreateButton onClick={openCompanyModal}>Add Company</CreateButton>
+          </DataTableComponents.DataTableButtonsContainer>
+        </DataTableComponents.DataTableHeader>
         <DataTable
-          title="Grading Companies"
-          actions={
-            <StyledButton
-              color="GREEN"
-              width="125px"
-              height="27px"
-              fontSize="0.9rem"
-              onClick={openCompanyModal}
-            >
-              Add Company
-            </StyledButton>
-          }
+          noHeader
           data={companies}
           columns={companyColumns(editCompany)}
           dense
           pagination
         />
-      </DataTableWrapper>
+      </DataTableComponents.DataTableWrapper>
     </AdminPageContainer>
   );
 }
