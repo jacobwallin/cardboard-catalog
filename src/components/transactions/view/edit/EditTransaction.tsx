@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store";
 import { SingleTransaction } from "../../../../store/collection/transactions/types";
@@ -30,6 +30,16 @@ interface Props {
 export default function EditTransaction(props: Props) {
   const dispatch = useDispatch();
   const { transaction } = props;
+
+  // determine if transaction can be deleted
+  const [canDelete, setCanDelete] = useState(false);
+  useEffect(() => {
+    setCanDelete(
+      !transaction.user_cards.some(
+        (c) => c.transaction_user_card.deleted === false && c.deletedAt
+      )
+    );
+  }, [transaction]);
 
   const updateTransactionStatus = useSelector((state: RootState) =>
     updateTradeStatusSelector(state)
@@ -317,6 +327,7 @@ export default function EditTransaction(props: Props) {
             handleSubmit={handleSubmit}
             cancel={props.cancel}
             delete={handleDelete}
+            canDelete={canDelete}
             initialValues={{
               date: transaction.date,
               note: transaction.note,

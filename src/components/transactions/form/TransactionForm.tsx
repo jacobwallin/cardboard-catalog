@@ -22,6 +22,7 @@ interface Props {
   type: TransactionTypes;
   cancel?(): void;
   delete?(): void;
+  canDelete?: boolean;
   initialValues?: FormData;
 }
 
@@ -212,6 +213,7 @@ export default function TransactionForm(props: Props) {
             color="RED"
             height="27px"
             width="110px"
+            disabled={!props.canDelete}
           >
             Delete
           </StyledButton>
