@@ -314,7 +314,7 @@ router.delete("/:transactionId", async (req, res, next) => {
     await Promise.all(
       transaction.user_cards.map((userCard) => {
         if (userCard.deletedAt === null) {
-          // if card was added in transaction, delete it
+          // if card was added in transaction, permanently delete it
           return userCard.destroy({ force: true });
         }
         // if card was deleted in transaction, restore it
@@ -322,6 +322,7 @@ router.delete("/:transactionId", async (req, res, next) => {
       })
     );
 
+    // delete transaction
     await transaction.destroy();
 
     res.sendStatus(200);
