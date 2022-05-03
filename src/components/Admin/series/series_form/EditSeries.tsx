@@ -19,7 +19,6 @@ import EditDeleteButtons from "../../components/form/EditDeleteButtons";
 import ConfirmDeleteModal from "../../components/ConfirmDeleteModal";
 import CreatedUpdatedBy from "../../components/CreatedUpdatedBy";
 import EditFormHeader from "../../components/EditFormHeader";
-
 const isUpdatingSelector = createLoadingSelector(["UPDATE_SERIES"]);
 const deletingSeriesSelector = createStatusSelector("DELETE_SERIES");
 
