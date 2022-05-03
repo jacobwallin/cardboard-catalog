@@ -27,6 +27,9 @@ export default function BrowseSubset(props: Props) {
     (state: RootState) => state.collection.browse.cardsInSingleSubset.cards
   );
   const subset = useSelector((state: RootState) => state.library.subsets);
+  const collectionFriend = useSelector(
+    (state: RootState) => state.collection.browse.friend
+  );
 
   // toggles showing checkboxes to select cards to add to collection
   const [checklistToggleSelect, setChecklistToggleSelect] = useState(false);
@@ -230,15 +233,17 @@ export default function BrowseSubset(props: Props) {
           <Styled.TableHeader>
             <Styled.TableHeaderRow>
               <TotalCards totalCards={props.tableData.cards.length} />
-              <StyledButton
-                color={checklistToggleSelect ? "YELLOW" : "GRAY"}
-                height="25px"
-                width="100px"
-                fontSize="13px"
-                onClick={toggleCheckboxes}
-              >
-                {checklistToggleSelect ? "Cancel" : "Add Cards"}
-              </StyledButton>
+              {collectionFriend.id === 0 && (
+                <StyledButton
+                  color={checklistToggleSelect ? "YELLOW" : "GRAY"}
+                  height="25px"
+                  width="100px"
+                  fontSize="13px"
+                  onClick={toggleCheckboxes}
+                >
+                  {checklistToggleSelect ? "Cancel" : "Add Cards"}
+                </StyledButton>
+              )}
             </Styled.TableHeaderRow>
           </Styled.TableHeader>
           <DataTable

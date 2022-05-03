@@ -58,21 +58,20 @@ export const requestColumns = (
       </StyledButton>
     ),
     grow: 0,
+    minWidth: "110px",
+    maxWidth: "110px",
   },
   {
     name: "",
     sortable: false,
     cell: (row: Friendship) => (
-      <StyledButton
-        width="75px"
-        height="25px"
-        color="GREEN"
-        onClick={() => accept(row.id)}
-      >
+      <StyledButton height="25px" color="GREEN" onClick={() => accept(row.id)}>
         Accept
       </StyledButton>
     ),
     grow: 0,
+    minWidth: "110px",
+    maxWidth: "110px",
   },
 ];
 
