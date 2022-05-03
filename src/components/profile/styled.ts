@@ -5,7 +5,7 @@ export const ProfileData = styled.div`
   flex-direction: column;
   gap: 20px;
   width: 100%;
-  padding: 50px 0 0 10%;
+  padding: 30px 0 0 10%;
 `;
 
 export const Data = styled.div`
