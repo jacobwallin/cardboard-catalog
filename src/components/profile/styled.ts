@@ -35,6 +35,7 @@ export const Friends = styled.div`
 `;
 
 export const FriendViews = styled.div`
+  margin-top: 20px;
   display: flex;
   justify-content: center;
 `;
@@ -103,7 +104,7 @@ export const QtyBubble = styled.span<{ quantity: number }>`
   align-items: center;
   height: 20px;
   width: 20px;
-  background: ${(props) => (props.quantity > 0 ? "blue" : "#777")};
+  background: ${(props) => (props.quantity > 0 ? "blue" : "#888")};
   color: white;
   border-radius: 3px;
 `;

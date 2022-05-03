@@ -48,12 +48,7 @@ export const requestColumns = (
     name: "",
     sortable: false,
     cell: (row: Friendship) => (
-      <StyledButton
-        width="75px"
-        height="25px"
-        color="RED"
-        onClick={() => reject(row.id)}
-      >
+      <StyledButton height="25px" color="RED" onClick={() => reject(row.id)}>
         Reject
       </StyledButton>
     ),
@@ -85,15 +80,12 @@ export const pendingColumns = (withdraw: (friendshipId: number) => void) => [
     name: "",
     sortable: false,
     cell: (row: Friendship) => (
-      <StyledButton
-        width="75px"
-        height="25px"
-        color="RED"
-        onClick={() => withdraw(row.id)}
-      >
+      <StyledButton height="25px" color="RED" onClick={() => withdraw(row.id)}>
         Retract
       </StyledButton>
     ),
     grow: 0,
+    minWidth: "110px",
+    maxWidth: "110px",
   },
 ];
