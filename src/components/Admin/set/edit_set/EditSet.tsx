@@ -9,7 +9,7 @@ import SetForm from "./SetForm";
 import FieldContainer from "../../components/form/FieldContainer";
 import FieldTitle from "../../components/form/FieldTitle";
 import FieldData from "../../components/form/FieldData";
-import FormContainer from "../../components/form/FormContainer";
+import EditWrapper from "../../components/form/EditWrapper";
 import EditDeleteButtons from "../../components/form/EditDeleteButtons";
 import ConfirmDeleteModal from "../../components/ConfirmDeleteModal";
 import ErrorMessage from "../../components/form/ErrorMessage";
@@ -104,13 +104,14 @@ export default function EditSet(props: Props) {
           message="This will delete the entire set including all subsets and cards. All cards will be deleted from user's collections as well."
         />
       )}
-      <FormContainer>
+      <EditWrapper>
         <EditFormHeader text={set.name} />
         {showForm ? (
           <SetForm
             createNew={false}
             handleSubmit={handleSubmit}
             handleCancel={toggleForm}
+            handleDelete={toggleDeleteModal}
           />
         ) : (
           <>
@@ -148,10 +149,7 @@ export default function EditSet(props: Props) {
                 {set.complete === true ? "Completed" : "Incomplete"}
               </FieldData>
             </FieldContainer>
-            <EditDeleteButtons
-              handleEdit={toggleForm}
-              handleDelete={toggleDeleteModal}
-            />
+            <EditDeleteButtons handleEdit={toggleForm} />
             <CreatedUpdatedBy
               createdBy={{
                 username: set.createdByUser.username,
@@ -164,7 +162,7 @@ export default function EditSet(props: Props) {
             />
           </>
         )}
-      </FormContainer>
+      </EditWrapper>
       {updatingSet === "FAILURE" && (
         <ErrorMessage>Error Updating Set</ErrorMessage>
       )}

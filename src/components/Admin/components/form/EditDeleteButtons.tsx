@@ -4,8 +4,6 @@ import ButtonContainer from "./ButtonContainer";
 
 interface FormButtonProps {
   handleEdit(): void;
-  handleDelete(): void;
-  hideDelete?: boolean;
 }
 
 export default function EditFormButtons(props: FormButtonProps) {
@@ -14,21 +12,11 @@ export default function EditFormButtons(props: FormButtonProps) {
       <StyledButton
         onClick={props.handleEdit}
         color="BLUE"
-        width="100px"
+        width="95px"
         height="27px"
       >
         Edit
       </StyledButton>
-      {!props.hideDelete && (
-        <StyledButton
-          onClick={props.handleDelete}
-          color="RED"
-          width="100px"
-          height="27px"
-        >
-          Delete
-        </StyledButton>
-      )}
     </ButtonContainer>
   );
 }

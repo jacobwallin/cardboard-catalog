@@ -24,6 +24,7 @@ interface Props {
     shortPrint: boolean;
   }): void;
   handleCancel(): void;
+  handleDelete?(): void;
 }
 
 export default function SubsetForm(props: Props) {
@@ -223,6 +224,8 @@ export default function SubsetForm(props: Props) {
               ))
         }
         handleSubmit={handleFormSubmit}
+        handleCancel={props.handleCancel}
+        handleDelete={props.handleDelete}
       />
     </>
   );

@@ -107,6 +107,7 @@ export default function EditCard(props: Props) {
             createNew={false}
             handleCancel={handleEditStateChange}
             handleSubmit={handleFormSubmit}
+            handleDelete={toggleDeleteModal}
           />
         ) : (
           <>
@@ -124,11 +125,7 @@ export default function EditCard(props: Props) {
               <FieldTitle>Refractor</FieldTitle>
               <FieldData>{series.refractor ? "Yes" : "No"}</FieldData>
             </FieldContainer>
-            <EditDeleteButtons
-              handleEdit={handleEditStateChange}
-              handleDelete={toggleDeleteModal}
-              hideDelete={series.subset.baseSeriesId === series.id}
-            />
+            <EditDeleteButtons handleEdit={handleEditStateChange} />
             <CreatedUpdatedBy
               createdBy={{
                 username: series.createdByUser.username,

@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
 import detectFormChanges from "../../detectFormChanges";
-
 import FieldContainer from "../../components/form/FieldContainer";
 import FieldTitle from "../../components/form/FieldTitle";
 import FieldData from "../../components/form/FieldData";
 import FormButtons from "../../components/form/FormButtons";
 import * as StyledInputs from "../../components/form/Inputs";
+import FormContainer from "../../components/form/FormContainer";
 
 import { createLoadingSelector } from "../../../../store/loading/reducer";
 
@@ -21,6 +21,7 @@ const loadingSelector = createLoadingSelector([
 interface Props {
   createNew: boolean;
   handleCancel(): void;
+  handleDelete?(): void;
   handleSubmit(
     name: string,
     release_date: string | null,
@@ -235,6 +236,8 @@ export default function SetForm(props: Props) {
       )}
       <FormButtons
         handleSubmit={handleSubmit}
+        handleDelete={props.handleDelete}
+        handleCancel={props.handleCancel}
         disabled={
           updatingSet ||
           (props.createNew

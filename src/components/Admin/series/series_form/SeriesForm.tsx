@@ -17,6 +17,7 @@ const isUpdatingSelector = createLoadingSelector([
 interface Props {
   createNew: boolean;
   handleCancel(): void;
+  handleDelete?(): void;
   handleSubmit(seriesData: {
     name: string;
     serialized: number | null;
@@ -109,6 +110,8 @@ export default function SeriesForm(props: Props) {
       </FieldContainer>
       <FormButtons
         handleSubmit={handleFormSubmit}
+        handleCancel={props.handleCancel}
+        handleDelete={props.handleDelete}
         disabled={
           isLoading ||
           (props.createNew

@@ -97,6 +97,7 @@ export default function EditSubset(props: Props) {
             createNew={false}
             handleSubmit={handleSubmit}
             handleCancel={toggleForm}
+            handleDelete={toggleDeleteModal}
           />
         ) : (
           <>
@@ -136,11 +137,7 @@ export default function EditSubset(props: Props) {
               <FieldTitle>Relic</FieldTitle>
               <FieldData>{subset.relic ? "Yes" : "No"}</FieldData>
             </FieldContainer>
-            <EditDeleteButtons
-              handleEdit={toggleForm}
-              handleDelete={toggleDeleteModal}
-              hideDelete={subset.set.baseSubsetId === subset.id}
-            />
+            <EditDeleteButtons handleEdit={toggleForm} />
             <CreatedUpdatedBy
               createdBy={{
                 username: subset.createdByUser.username,
