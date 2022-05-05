@@ -5,13 +5,15 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 import GlobalStyles from "./globalStyles";
 import Navbar from "./components/navbar/Navbar";
-import { Collection, PageNotFound, Admin } from "./components/Views";
+import { PageNotFound } from "./components/Views";
+import Collection from "./components/Collection/Collection";
 import Transactions from "./components/transactions/Transactions";
 import Browse from "./components/browse/Browse";
 import Login from "./components/login/Login";
 import SetPage from "./components/Collection/set-page/SetPage";
 import SubsetPage from "./components/Collection/subset-page/SubsetPage";
 import Profile from "./components/profile/Profile";
+const Admin = React.lazy(() => import("./components/Admin/Admin"));
 
 const AppContainer = styled.div`
   min-height: 100vh;
