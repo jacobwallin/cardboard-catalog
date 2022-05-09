@@ -18,6 +18,7 @@ import * as aggregate from "./aggregate";
 import { SetSummary } from "../../../../store/library/sets/types";
 import * as Styled from "./styled";
 import { createLoadingSelector } from "../../../../store/loading/reducer";
+import ChecklistSelect from "./ChecklistSelect";
 
 const setLoadingSelector = createLoadingSelector([
   "GET_SINGLE_SET",
@@ -29,14 +30,14 @@ const subsetLoadingSelector = createLoadingSelector([
 ]);
 
 interface Props {
-  addCard(card: CardFormData): void;
+  addCards(cards: CardFormData[]): void;
   selectFrom: "COLLECTION" | "DATABASE";
   cardData: CardFormData[];
 }
 
 export default function SelectCardForm(props: Props) {
   const dispatch = useDispatch();
-  const { addCard, selectFrom, cardData } = props;
+  const { addCards, selectFrom, cardData } = props;
 
   // LIBRARY STORE DATA
   const allSets = useSelector((state: RootState) => state.library.sets.allSets);
@@ -75,6 +76,8 @@ export default function SelectCardForm(props: Props) {
   const [selectedCardId, setSelectedCardId] = useState(-1);
   const [cardIdField, setCardIdField] = useState("");
   const [prefix, setPrefix] = useState("");
+
+  const [selectFromChecklist, setSelectFromChecklist] = useState(false);
 
   // LOADING STATE
   const loadingSet = useSelector((state: RootState) =>
@@ -334,7 +337,7 @@ export default function SelectCardForm(props: Props) {
             },
           },
         };
-        addCard(newCardData);
+        addCards([newCardData]);
         // reset selected card, same card cannot be added twice from collection
         setSelectedCardId(-1);
         setCardIdField(prefix);
@@ -388,13 +391,13 @@ export default function SelectCardForm(props: Props) {
             },
           },
         };
-        addCard(newCardData);
+        addCards([newCardData]);
       }
     }
   }
 
   return (
-    <>
+    <Styled.Container>
       <Styled.Select
         value={selectedYear}
         name="select-year"
@@ -471,61 +474,104 @@ export default function SelectCardForm(props: Props) {
           }
         </Styled.Select>
       </Styled.Flex>
-      <Styled.SelectCardContainer onSubmit={handleAddCard}>
-        <Styled.Select
-          value={selectedCardId}
-          name="select-card"
-          id="select-card"
-          disabled={selectedSeriesId === -1}
-          onChange={handleSelectChange}
-        >
-          <option value={-1}>Select Card</option>
-          {selectFrom === "COLLECTION"
-            ? collectionCardOptions.map((userCard) => {
-                return (
-                  <option
-                    key={userCard.id}
-                    value={userCard.id}
-                    disabled={
-                      cardData.findIndex((card) => card.id === userCard.id) !==
-                      -1
-                    }
-                  >
-                    {`${userCard.card.cardData.number} - ${userCard.card.cardData.name}`}
-                    {userCard.card.cardData.note !== "" &&
-                      ` (${userCard.card.cardData.note})`}
-                  </option>
-                );
-              })
-            : databaseCardOptions.map((card) => {
-                return (
-                  <option key={card.id} value={card.id}>
-                    {`${card.cardData.number} - ${card.cardData.name}`}
-                    {card.cardData.note !== "" && ` (${card.cardData.note})`}
-                  </option>
-                );
-              })}
-        </Styled.Select>
-        <Styled.Input
-          type="text"
-          value={cardIdField}
-          placeholder="Card #"
-          onChange={handleInputChange}
-          disabled={selectedSeriesId === -1}
-          autoComplete="off"
-        />
-        <StyledButton
-          type="submit"
-          color="BLUE"
-          height="40px"
-          width="65px"
-          disabled={selectedCardId === -1}
-        >
-          Add
-        </StyledButton>
-      </Styled.SelectCardContainer>
-    </>
+      {!selectFromChecklist && (
+        <>
+          <Styled.SelectCardContainer onSubmit={handleAddCard}>
+            <Styled.Select
+              value={selectedCardId}
+              name="select-card"
+              id="select-card"
+              disabled={selectedSeriesId === -1}
+              onChange={handleSelectChange}
+            >
+              <option value={-1}>Select Card</option>
+              {selectFrom === "COLLECTION"
+                ? collectionCardOptions.map((userCard) => {
+                    return (
+                      <option
+                        key={userCard.id}
+                        value={userCard.id}
+                        disabled={
+                          cardData.findIndex(
+                            (card) => card.id === userCard.id
+                          ) !== -1
+                        }
+                      >
+                        {`${userCard.card.cardData.number} - ${userCard.card.cardData.name}`}
+                        {userCard.card.cardData.note !== "" &&
+                          ` (${userCard.card.cardData.note})`}
+                      </option>
+                    );
+                  })
+                : databaseCardOptions.map((card) => {
+                    return (
+                      <option key={card.id} value={card.id}>
+                        {`${card.cardData.number} - ${card.cardData.name}`}
+                        {card.cardData.note !== "" &&
+                          ` (${card.cardData.note})`}
+                      </option>
+                    );
+                  })}
+            </Styled.Select>
+            <Styled.Input
+              type="text"
+              value={cardIdField}
+              placeholder="Card #"
+              onChange={handleInputChange}
+              disabled={selectedSeriesId === -1}
+              autoComplete="off"
+            />
+            <StyledButton
+              type="submit"
+              color="BLUE"
+              height="40px"
+              width="65px"
+              disabled={selectedCardId === -1}
+            >
+              Add
+            </StyledButton>
+          </Styled.SelectCardContainer>
+          <Styled.ShowChecklist absolute>
+            <Styled.ShowChecklistLabel htmlFor="show-checklist">
+              Select from checklist
+            </Styled.ShowChecklistLabel>
+            <input
+              id="show-checklist"
+              type="checkbox"
+              checked={selectFromChecklist}
+              onChange={(e) => setSelectFromChecklist(e.target.checked)}
+              disabled={selectedSeriesId === -1}
+            />
+          </Styled.ShowChecklist>
+        </>
+      )}
+      {selectFromChecklist && (
+        <>
+          <Styled.ShowChecklist>
+            <Styled.ShowChecklistLabel htmlFor="show-checklist">
+              Select from checklist
+            </Styled.ShowChecklistLabel>
+            <input
+              id="show-checklist"
+              type="checkbox"
+              checked={selectFromChecklist}
+              onChange={(e) => setSelectFromChecklist(e.target.checked)}
+            />
+          </Styled.ShowChecklist>
+          {selectFrom === "COLLECTION" && (
+            <ChecklistSelect
+              removeCardsChecklist={collectionCardOptions}
+              addCards={addCards}
+            />
+          )}
+          {selectFrom === "DATABASE" && (
+            <ChecklistSelect
+              addCardsChecklist={databaseCardOptions}
+              addCards={addCards}
+            />
+          )}
+        </>
+      )}
+    </Styled.Container>
   );
 }
-
-// TODO: disabled select option if it has already been added (pass down cardData from AddCardsForm)

@@ -52,3 +52,26 @@ export const Flex = styled.div`
   width: 100%;
   gap: 10px;
 `;
+
+export const ShowChecklist = styled.div<{ absolute?: boolean }>`
+  display: flex;
+  align-items: center;
+  position: ${(props) => (props.absolute ? "absolute" : "static")};
+  align-self: flex-start;
+  bottom: -25px;
+  left: 0;
+`;
+
+export const ShowChecklistLabel = styled.label`
+  font-size: 0.9rem;
+  color: gray;
+`;
+
+export const Container = styled.div`
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+`;

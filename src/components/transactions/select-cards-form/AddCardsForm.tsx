@@ -80,8 +80,8 @@ export default function AddCardsForm(props: Props) {
     }
   }, [postingCardsStatus]);
 
-  function addCard(card: CardFormData) {
-    setCardData([card, ...cardData]);
+  function addCards(cards: CardFormData[]) {
+    setCardData([...cards, ...cardData]);
   }
 
   function handleSerializedChange(cardIndex: number, serialNumber: string) {
@@ -224,7 +224,7 @@ export default function AddCardsForm(props: Props) {
       {title && <Styled.SelectFormTitle>{title}</Styled.SelectFormTitle>}
       {selectFrom !== "NONE" && (
         <SelectCardForm
-          addCard={addCard}
+          addCards={addCards}
           selectFrom={selectFrom}
           cardData={cardData}
         />
