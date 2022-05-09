@@ -10,9 +10,8 @@ import { CardData } from "../../../store/collection/browse/types";
 import { addTransaction } from "../../../store/collection/transactions/thunks";
 import { createStatusSelector } from "../../../store/loading/reducer";
 import { PageContainer } from "./styled";
-import SelectedCards from "../select-cards-form/selected-cards/SelectedCards";
-import { SelectedCardsTitle } from "../shared/SelectedCardsTitle";
 import TransactionForm, { FormData } from "../form/TransactionForm";
+import ConfirmCards from "../shared/confirm-cards/ConfirmCards";
 
 const addTradeStatusSelector = createStatusSelector("ADD_TRANSACTION");
 
@@ -126,10 +125,18 @@ export default function SalePurchase(props: Props) {
       {currentStep === 2 && (
         <PageContainer>
           <TransactionForm handleSubmit={submitSale} type={transactionType} />
-          <SelectedCardsTitle>
-            {transactionType === "SALE" ? "Cards Sold" : "Cards Purchased"}
-          </SelectedCardsTitle>
-          <SelectedCards cardData={selectedCards} preventGradeChanges={true} />
+          {transactionType === "SALE" && (
+            <ConfirmCards
+              cardsRemoved={selectedCards}
+              removedTitle="Cards Sold"
+            />
+          )}
+          {transactionType === "PURCHASE" && (
+            <ConfirmCards
+              cardsAdded={selectedCards}
+              addedTitle="Cards Purchased"
+            />
+          )}
         </PageContainer>
       )}
     </>
