@@ -6,6 +6,7 @@ import styled from "styled-components";
 import GlobalStyles from "./globalStyles";
 import Navbar from "./components/navbar/Navbar";
 import { PageNotFound } from "./components/Views";
+import Admin from "./components/Admin/Admin";
 import Collection from "./components/Collection/Collection";
 import Transactions from "./components/transactions/Transactions";
 import Browse from "./components/browse/Browse";
@@ -13,7 +14,6 @@ import Login from "./components/login/Login";
 import SetPage from "./components/Collection/set-page/SetPage";
 import SubsetPage from "./components/Collection/subset-page/SubsetPage";
 import Profile from "./components/profile/Profile";
-const Admin = React.lazy(() => import("./components/Admin/Admin"));
 
 const AppContainer = styled.div`
   min-height: 100vh;
