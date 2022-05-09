@@ -233,7 +233,9 @@ export default function TransactionForm(props: Props) {
         <StyledButton
           id="submit-cards-button"
           onClick={submit}
-          disabled={date === "" || (!formChanges && !props.changesMade)}
+          disabled={
+            date === "" || (!formChanges && props.changesMade === false)
+          }
           color="GREEN"
           height="27px"
           width="110px"
