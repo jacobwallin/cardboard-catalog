@@ -18,7 +18,9 @@ import * as aggregate from "./aggregate";
 import { SetSummary } from "../../../../store/library/sets/types";
 import * as Styled from "./styled";
 import { createLoadingSelector } from "../../../../store/loading/reducer";
-import ChecklistSelect from "./ChecklistSelect";
+import ChecklistSelect from "./checklist-select/ChecklistSelect";
+import ChecklistCheckbox from "./ChecklistCheckbox";
+import StyledSelect from "./select/StyledSelect";
 
 const setLoadingSelector = createLoadingSelector([
   "GET_SINGLE_SET",
@@ -398,7 +400,7 @@ export default function SelectCardForm(props: Props) {
 
   return (
     <Styled.Container>
-      <Styled.Select
+      <StyledSelect
         value={selectedYear}
         name="select-year"
         id="select-year"
@@ -412,8 +414,9 @@ export default function SelectCardForm(props: Props) {
             </option>
           );
         })}
-      </Styled.Select>
-      <Styled.Select
+      </StyledSelect>
+
+      <StyledSelect
         value={selectedSetId}
         name="select-set"
         id="select-set"
@@ -428,9 +431,10 @@ export default function SelectCardForm(props: Props) {
             </option>
           );
         })}
-      </Styled.Select>
+      </StyledSelect>
+
       <Styled.Flex>
-        <Styled.Select
+        <StyledSelect
           value={selectedSubsetId}
           name="select-subset"
           id="select-subset"
@@ -450,8 +454,9 @@ export default function SelectCardForm(props: Props) {
                 );
               })
           }
-        </Styled.Select>
-        <Styled.Select
+        </StyledSelect>
+
+        <StyledSelect
           value={selectedSeriesId}
           name="select-series"
           id="select-series"
@@ -472,12 +477,16 @@ export default function SelectCardForm(props: Props) {
                 );
               })
           }
-        </Styled.Select>
+        </StyledSelect>
       </Styled.Flex>
+      <ChecklistCheckbox
+        checked={selectFromChecklist}
+        onChange={(e) => setSelectFromChecklist(e.target.checked)}
+      />
       {!selectFromChecklist && (
         <>
           <Styled.SelectCardContainer onSubmit={handleAddCard}>
-            <Styled.Select
+            <StyledSelect
               value={selectedCardId}
               name="select-card"
               id="select-card"
@@ -512,7 +521,7 @@ export default function SelectCardForm(props: Props) {
                       </option>
                     );
                   })}
-            </Styled.Select>
+            </StyledSelect>
             <Styled.Input
               type="text"
               value={cardIdField}
@@ -531,33 +540,10 @@ export default function SelectCardForm(props: Props) {
               Add
             </StyledButton>
           </Styled.SelectCardContainer>
-          <Styled.ShowChecklist absolute>
-            <Styled.ShowChecklistLabel htmlFor="show-checklist">
-              Select from checklist
-            </Styled.ShowChecklistLabel>
-            <input
-              id="show-checklist"
-              type="checkbox"
-              checked={selectFromChecklist}
-              onChange={(e) => setSelectFromChecklist(e.target.checked)}
-              disabled={selectedSeriesId === -1}
-            />
-          </Styled.ShowChecklist>
         </>
       )}
       {selectFromChecklist && (
         <>
-          <Styled.ShowChecklist>
-            <Styled.ShowChecklistLabel htmlFor="show-checklist">
-              Select from checklist
-            </Styled.ShowChecklistLabel>
-            <input
-              id="show-checklist"
-              type="checkbox"
-              checked={selectFromChecklist}
-              onChange={(e) => setSelectFromChecklist(e.target.checked)}
-            />
-          </Styled.ShowChecklist>
           {selectFrom === "COLLECTION" && (
             <ChecklistSelect
               removeCardsChecklist={collectionCardOptions}
