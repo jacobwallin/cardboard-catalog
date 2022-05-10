@@ -124,6 +124,7 @@ export default function ChecklistSelect(props: Props) {
     // clear DataTable selected state and selected cards
     setClearSelected(true);
     setSelectedCards([]);
+    setSelectedCardsQty(0);
   }
 
   function handleAddUserCards() {
@@ -166,6 +167,9 @@ export default function ChecklistSelect(props: Props) {
       {props.addCardsChecklist && (
         <>
           <Styled.TableHeader>
+            {selectedCardsQty > 0 && (
+              <Styled.CardTotal>{`Cards Selected: ${selectedCardsQty}`}</Styled.CardTotal>
+            )}
             <StyledButton
               type="submit"
               color="BLUE"
@@ -193,6 +197,9 @@ export default function ChecklistSelect(props: Props) {
       {props.removeCardsChecklist && (
         <>
           <Styled.TableHeader>
+            {selectedUserCards.length > 0 && (
+              <Styled.CardTotal>{`Cards Selected: ${selectedUserCards.length}`}</Styled.CardTotal>
+            )}
             <StyledButton
               type="submit"
               color="BLUE"

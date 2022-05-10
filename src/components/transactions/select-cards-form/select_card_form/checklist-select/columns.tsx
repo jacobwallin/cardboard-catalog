@@ -144,6 +144,7 @@ export const removeColumns = () => {
       name: "Date Added",
       selector: (row: DeleteTableDataPoint) => formatTimestamp(row.createdAt),
       sortable: true,
+      grow: 2,
     },
   ];
 };
