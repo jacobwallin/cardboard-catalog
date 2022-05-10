@@ -460,7 +460,7 @@ export default function SelectCardForm(props: Props) {
               type="submit"
               color="BLUE"
               height="40px"
-              width="65px"
+              width="55px"
               disabled={selectedCardId === -1}
             >
               Add

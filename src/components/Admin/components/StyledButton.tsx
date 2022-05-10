@@ -17,6 +17,7 @@ const StyledButton = styled.button<ButtonProps>`
   border: none;
   border-radius: 3px;
   font-size: ${(props) => props.fontSize || "0.9rem"};
+  flex-shrink: 0;
   &:enabled {
     cursor: pointer;
   }

@@ -125,8 +125,8 @@ export default function ChecklistSelect(props: Props) {
               type="submit"
               color="BLUE"
               height="40px"
-              width="65px"
-              disabled={false}
+              width="55px"
+              disabled={selectedCards.length === 0}
               onClick={handleAddCards}
             >
               Add
