@@ -289,7 +289,7 @@ export default function SelectCardForm(props: Props) {
   }
 
   // pass selected cards to parent component when user clicks add button
-  function handleAddCards(event: React.FormEvent<HTMLFormElement>) {
+  function handleAddCard(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (selectFrom === "COLLECTION") {
       const userCard = collectionCardOptions.find(
@@ -320,6 +320,10 @@ export default function SelectCardForm(props: Props) {
           set
         );
         addCards([newCardData]);
+
+        // reset form fields so new card can be typed in or selected
+        setCardIdField(prefix);
+        setSelectedCardId(-1);
       }
     }
   }
@@ -411,7 +415,7 @@ export default function SelectCardForm(props: Props) {
       />
       {!selectFromChecklist && (
         <>
-          <Styled.SelectCardContainer onSubmit={handleAddCards}>
+          <Styled.SelectCardContainer onSubmit={handleAddCard}>
             <StyledSelect
               value={selectedCardId}
               name="select-card"
