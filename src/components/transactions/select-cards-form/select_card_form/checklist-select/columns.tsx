@@ -5,6 +5,7 @@ import {
 } from "../../../../Collection/subset-page/createTableData";
 import CardNumber from "../../../../Collection/subset-page/CardNumber";
 import sortCardNumbers from "../../../../../utils/sortCardNumbers";
+import formatTimestamp from "../../../../../utils/formatTimestamp";
 
 export const addColumns = (
   selectedCards: { card: TableDataPoint; qty: number }[],
@@ -140,12 +141,9 @@ export const removeColumns = () => {
       grow: 2,
     },
     {
-      name: "Team",
-      cell: (row: DeleteTableDataPoint) =>
-        row.card.cardData.team ? row.card.cardData.team.name : "-",
+      name: "Date Added",
+      selector: (row: DeleteTableDataPoint) => formatTimestamp(row.createdAt),
       sortable: true,
-      // style: modifiedStyles,
-      grow: 2,
     },
   ];
 };
