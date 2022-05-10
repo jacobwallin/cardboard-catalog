@@ -21,6 +21,10 @@ import { createLoadingSelector } from "../../../../store/loading/reducer";
 import ChecklistSelect from "./checklist-select/ChecklistSelect";
 import ChecklistCheckbox from "./ChecklistCheckbox";
 import StyledSelect from "./select/StyledSelect";
+import {
+  createRemovedCardFormData,
+  createAddedCardFormData,
+} from "./createFormData";
 
 const setLoadingSelector = createLoadingSelector([
   "GET_SINGLE_SET",
@@ -284,61 +288,21 @@ export default function SelectCardForm(props: Props) {
     }
   }
 
-  function handleAddCard(event: React.FormEvent<HTMLFormElement>) {
+  // pass selected cards to parent component when user clicks add button
+  function handleAddCards(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (selectFrom === "COLLECTION") {
       const userCard = collectionCardOptions.find(
         (userCard) => userCard.id === selectedCardId
       );
       if (userCard) {
-        const newCardData: CardFormData = {
-          // this id will be the UserCard id and not the actual card id since it is being selected from the user's collection
-          id: selectedCardId,
-          formData: {
-            serialNumber:
-              userCard.serialNumber === null
-                ? ""
-                : String(userCard.serialNumber),
-            grade: userCard.grade === null ? "" : String(userCard.grade),
-            gradingCompanyId: userCard.gradingCompanyId || -1,
-          },
-          validation: {
-            serialNumberError: false,
-            gradeError: false,
-            gradingCompanyError: false,
-          },
-          qtyInCollection: userSubset.cards.filter(
-            (userCardy) => userCardy.cardId === userCard.card.id
-          ).length,
-          card: {
-            ...userCard.card,
-            value: 0,
-            card_datum: userCard.card.cardData,
-            series: {
-              ...userCard.card.series,
-              subset: {
-                id: subset.id,
-                name: subset.name,
-                baseSeriesId: subset.baseSeriesId,
-                prefix: subset.prefix,
-                code: subset.code,
-                auto: subset.auto,
-                relic: subset.relic,
-                manufacturedRelic: subset.manufacturedRelic,
-                shortPrint: subset.shortPrint,
-                setId: subset.setId,
-                set: {
-                  id: set.id,
-                  name: set.name,
-                  baseSubsetId: set.baseSubsetId,
-                  year: set.year,
-                  leagueId: set.leagueId,
-                  brandId: set.brandId,
-                },
-              },
-            },
-          },
-        };
+        // convert into data needed for the AddCardsForm component
+        const newCardData: CardFormData = createRemovedCardFormData(
+          userCard,
+          userSubset.cards,
+          subset,
+          set
+        );
         addCards([newCardData]);
         // reset selected card, same card cannot be added twice from collection
         setSelectedCardId(-1);
@@ -349,50 +313,12 @@ export default function SelectCardForm(props: Props) {
         (card) => card.id === selectedCardId
       );
       if (card) {
-        const newCardData: CardFormData = {
-          id: selectedCardId,
-          formData: {
-            serialNumber: "",
-            grade: "",
-            gradingCompanyId: -1,
-          },
-          validation: {
-            serialNumberError: false,
-            gradeError: false,
-            gradingCompanyError: false,
-          },
-          qtyInCollection: userSubset.cards.filter(
-            (userCard) => userCard.cardId === card.id
-          ).length,
-          card: {
-            ...card,
-            value: 0,
-            card_datum: card.cardData,
-            series: {
-              ...card.series,
-              subset: {
-                id: subset.id,
-                name: subset.name,
-                baseSeriesId: subset.baseSeriesId,
-                prefix: subset.prefix,
-                code: subset.code,
-                auto: subset.auto,
-                relic: subset.relic,
-                manufacturedRelic: subset.manufacturedRelic,
-                shortPrint: subset.shortPrint,
-                setId: subset.setId,
-                set: {
-                  id: set.id,
-                  name: set.name,
-                  baseSubsetId: set.baseSubsetId,
-                  year: set.year,
-                  leagueId: set.leagueId,
-                  brandId: set.brandId,
-                },
-              },
-            },
-          },
-        };
+        const newCardData = createAddedCardFormData(
+          card,
+          userSubset.cards,
+          subset,
+          set
+        );
         addCards([newCardData]);
       }
     }
@@ -485,7 +411,7 @@ export default function SelectCardForm(props: Props) {
       />
       {!selectFromChecklist && (
         <>
-          <Styled.SelectCardContainer onSubmit={handleAddCard}>
+          <Styled.SelectCardContainer onSubmit={handleAddCards}>
             <StyledSelect
               value={selectedCardId}
               name="select-card"

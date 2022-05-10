@@ -69,6 +69,8 @@ export default function ChecklistSelect(props: Props) {
     setSelectedCardsQty(totalCards);
   }
 
+  function handleAddCards() {}
+
   return (
     <>
       {props.addCardsChecklist && (
