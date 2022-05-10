@@ -2,9 +2,9 @@ import React from "react";
 import {
   DeleteTableDataPoint,
   TableDataPoint,
-} from "../../../Collection/subset-page/createTableData";
-import CardNumber from "../../../Collection/subset-page/CardNumber";
-import sortCardNumbers from "../../../../utils/sortCardNumbers";
+} from "../../../../Collection/subset-page/createTableData";
+import CardNumber from "../../../../Collection/subset-page/CardNumber";
+import sortCardNumbers from "../../../../../utils/sortCardNumbers";
 
 export const addColumns = (
   selectedCards: { card: TableDataPoint; qty: number }[],

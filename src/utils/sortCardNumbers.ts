@@ -1,4 +1,7 @@
-export default function (cardNumA: string, cardNumB: string): number {
+export default function sortCardNumbers(
+  cardNumA: string,
+  cardNumB: string
+): number {
   // check if card number can convert to number
   if (!isNaN(+cardNumA) && !isNaN(+cardNumB)) {
     return +cardNumA - +cardNumB;

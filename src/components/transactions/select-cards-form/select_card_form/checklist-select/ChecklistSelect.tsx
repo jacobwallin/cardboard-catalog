@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../../store";
 import {
   DeleteTableDataPoint,
   TableDataPoint,
 } from "../../../../Collection/subset-page/createTableData";
 import { CardFormData } from "../../AddCardsForm";
 import DataTable from "react-data-table-component";
-import { addColumns, removeColumns } from "../columns";
+import { addColumns, removeColumns } from "./columns";
 import StyledButton from "../../../../Admin/components/StyledButton";
 import * as Styled from "./styled";
+import {
+  createRemovedCardFormData,
+  createAddedCardFormData,
+} from "../createFormData";
+import sortCardNumbers from "../../../../../utils/sortCardNumbers";
 
 interface Props {
   addCardsChecklist?: TableDataPoint[];
@@ -21,6 +28,13 @@ export default function ChecklistSelect(props: Props) {
   >([]);
 
   const [selectedCardsQty, setSelectedCardsQty] = useState(0);
+  const [clearSelected, setClearSelected] = useState(false);
+
+  const set = useSelector((state: RootState) => state.library.sets.set);
+  const subset = useSelector((state: RootState) => state.library.subsets);
+  const userSubsetCards = useSelector(
+    (state: RootState) => state.collection.browse.cardsInSingleSubset.cards
+  );
 
   function changeSelectedCardQty(e: React.ChangeEvent<HTMLSelectElement>) {
     setSelectedCards(
@@ -44,12 +58,12 @@ export default function ChecklistSelect(props: Props) {
     selectedRows: Array<TableDataPoint>;
   }
 
-  function addSelectedCardsChange(stuff: Selectable) {
+  function addSelectedCardsChange(selectable: Selectable) {
     let totalCards = 0;
 
-    // set currectly selected cards and qty
     setSelectedCards(
-      stuff.selectedRows.map((row) => {
+      selectable.selectedRows.map((row) => {
+        // persist qty selected and correctly calculate total cards
         const currentlySelected = selectedCards.find(
           (card) => card.card.id === row.id
         );
@@ -69,7 +83,38 @@ export default function ChecklistSelect(props: Props) {
     setSelectedCardsQty(totalCards);
   }
 
-  function handleAddCards() {}
+  function handleAddCards() {
+    let cardsToAdd: CardFormData[] = [];
+    for (let i = 0; i < selectedCards.length; i++) {
+      for (let j = 0; j < selectedCards[i].qty; j++) {
+        cardsToAdd.push(
+          createAddedCardFormData(
+            selectedCards[i].card,
+            userSubsetCards,
+            subset,
+            set
+          )
+        );
+      }
+    }
+
+    props.addCards(
+      cardsToAdd.sort((a, b) =>
+        sortCardNumbers(a.card.card_datum.number, b.card.card_datum.number)
+      )
+    );
+
+    // clear DataTable selected state and selected cards
+    setClearSelected(true);
+    setSelectedCards([]);
+  }
+
+  // immediately toggle clearSelected back to false to allow more cards to be selected after clicking add
+  useEffect(() => {
+    if (clearSelected) {
+      setClearSelected(false);
+    }
+  }, [clearSelected]);
 
   return (
     <>
@@ -82,6 +127,7 @@ export default function ChecklistSelect(props: Props) {
               height="40px"
               width="65px"
               disabled={false}
+              onClick={handleAddCards}
             >
               Add
             </StyledButton>
@@ -94,7 +140,7 @@ export default function ChecklistSelect(props: Props) {
             columns={addColumns(selectedCards, changeSelectedCardQty)}
             selectableRows
             onSelectedRowsChange={addSelectedCardsChange}
-            // clearSelectedRows={clearSelected}
+            clearSelectedRows={clearSelected}
             selectableRowsHighlight
           />
         </>
