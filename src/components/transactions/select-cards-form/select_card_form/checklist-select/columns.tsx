@@ -91,6 +91,7 @@ export const addColumns = (
       sortable: true,
       // style: modifiedStyles,
       grow: 2,
+      hide: 400,
     },
   ];
 };

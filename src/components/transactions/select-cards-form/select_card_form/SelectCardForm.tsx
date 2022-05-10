@@ -411,6 +411,7 @@ export default function SelectCardForm(props: Props) {
       </Styled.Flex>
       <ChecklistCheckbox
         checked={selectFromChecklist}
+        disabled={selectedSeriesId === -1}
         onChange={(e) => setSelectFromChecklist(e.target.checked)}
       />
       {!selectFromChecklist && (
@@ -478,6 +479,7 @@ export default function SelectCardForm(props: Props) {
             <ChecklistSelect
               removeCardsChecklist={collectionCardOptions}
               addCards={addCards}
+              cardData={cardData}
             />
           )}
           {selectFrom === "DATABASE" && (

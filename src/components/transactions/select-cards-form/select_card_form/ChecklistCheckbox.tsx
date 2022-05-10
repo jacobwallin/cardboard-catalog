@@ -17,10 +17,15 @@ const ShowChecklistLabel = styled.label`
 
 interface Props {
   checked: boolean;
+  disabled: boolean;
   onChange(e: React.ChangeEvent<HTMLInputElement>): void;
 }
 
-export default function ChecklistCheckbox({ checked, onChange }: Props) {
+export default function ChecklistCheckbox({
+  checked,
+  onChange,
+  disabled,
+}: Props) {
   return (
     <ShowChecklist>
       <ShowChecklistLabel htmlFor="show-checklist">
@@ -31,6 +36,7 @@ export default function ChecklistCheckbox({ checked, onChange }: Props) {
         type="checkbox"
         checked={checked}
         onChange={onChange}
+        disabled={disabled}
       />
     </ShowChecklist>
   );

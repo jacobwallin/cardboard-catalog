@@ -52,8 +52,8 @@ export default function AddCardsLine(props: Props) {
               <StyledButton
                 as="div"
                 color="RED"
-                width="30px"
-                height="30px"
+                width="25px"
+                height="25px"
                 onClick={() => {
                   if (props.handleDelete) props.handleDelete(props.index);
                 }}

@@ -17,8 +17,9 @@ import {
 import sortCardNumbers from "../../../../../utils/sortCardNumbers";
 
 interface Props {
-  addCardsChecklist?: TableDataPoint[];
   removeCardsChecklist?: DeleteTableDataPoint[];
+  addCardsChecklist?: TableDataPoint[];
+  cardData?: CardFormData[];
   addCards(cards: CardFormData[]): void;
 }
 
@@ -26,8 +27,13 @@ export default function ChecklistSelect(props: Props) {
   const [selectedCards, setSelectedCards] = useState<
     { card: TableDataPoint; qty: number }[]
   >([]);
-
   const [selectedCardsQty, setSelectedCardsQty] = useState(0);
+
+  const [selectedUserCards, setSelectedUserCards] = useState<
+    DeleteTableDataPoint[]
+  >([]);
+  const [selectedUserCardsQty, setSelectedUserCardsQty] = useState(0);
+
   const [clearSelected, setClearSelected] = useState(false);
 
   const set = useSelector((state: RootState) => state.library.sets.set);
@@ -52,13 +58,13 @@ export default function ChecklistSelect(props: Props) {
     );
   }
 
-  interface Selectable {
+  interface SelectableCards {
     allSelected: boolean;
     selectedCount: number;
     selectedRows: Array<TableDataPoint>;
   }
 
-  function addSelectedCardsChange(selectable: Selectable) {
+  function addSelectedCardsChange(selectable: SelectableCards) {
     let totalCards = 0;
 
     setSelectedCards(
@@ -81,6 +87,17 @@ export default function ChecklistSelect(props: Props) {
 
     // set total qty of selected cards
     setSelectedCardsQty(totalCards);
+  }
+
+  interface SelectableUserCards {
+    allSelected: boolean;
+    selectedCount: number;
+    selectedRows: Array<DeleteTableDataPoint>;
+  }
+
+  function selectedUserCardsChange(selectable: SelectableUserCards) {
+    setSelectedUserCards(selectable.selectedRows);
+    setSelectedUserCardsQty(selectable.selectedRows.length);
   }
 
   function handleAddCards() {
@@ -107,6 +124,34 @@ export default function ChecklistSelect(props: Props) {
     // clear DataTable selected state and selected cards
     setClearSelected(true);
     setSelectedCards([]);
+  }
+
+  function handleAddUserCards() {
+    props.addCards(
+      selectedUserCards
+        .map((userCard) => {
+          return createRemovedCardFormData(
+            userCard,
+            userSubsetCards,
+            subset,
+            set
+          );
+        })
+        .sort((a, b) =>
+          sortCardNumbers(a.card.card_datum.number, b.card.card_datum.number)
+        )
+    );
+
+    // clear DataTable selected state and selected cards
+    setClearSelected(true);
+    setSelectedUserCards([]);
+  }
+
+  function selectDisabled(row: DeleteTableDataPoint): boolean {
+    if (props.cardData) {
+      return props.cardData.some((cardData) => cardData.id === row.id);
+    }
+    return true;
   }
 
   // immediately toggle clearSelected back to false to allow more cards to be selected after clicking add
@@ -146,14 +191,32 @@ export default function ChecklistSelect(props: Props) {
         </>
       )}
       {props.removeCardsChecklist && (
-        <DataTable
-          noHeader
-          dense
-          pagination
-          selectableRows
-          data={props.removeCardsChecklist}
-          columns={removeColumns()}
-        />
+        <>
+          <Styled.TableHeader>
+            <StyledButton
+              type="submit"
+              color="BLUE"
+              height="40px"
+              width="55px"
+              disabled={selectedUserCards.length === 0}
+              onClick={handleAddUserCards}
+            >
+              Add
+            </StyledButton>
+          </Styled.TableHeader>
+          <DataTable
+            noHeader
+            dense
+            pagination
+            data={props.removeCardsChecklist}
+            columns={removeColumns()}
+            selectableRows
+            onSelectedRowsChange={selectedUserCardsChange}
+            clearSelectedRows={clearSelected}
+            selectableRowDisabled={selectDisabled}
+            selectableRowsHighlight
+          />
+        </>
       )}
     </>
   );

@@ -53,6 +53,7 @@ export const CardNumber = styled.div`
   flex-grow: 0;
   padding: 0 15px 0 15px;
   font-size: 0.9rem;
+  min-width: 45px;
   @media only screen and (max-width: 400px) {
     font-size: 0.8em;
   }
@@ -124,8 +125,9 @@ export const NameContainer = styled.div`
 `;
 
 export const DeleteButtonContainer = styled.div`
-  width: 30px;
-  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const SetName = styled.div`
