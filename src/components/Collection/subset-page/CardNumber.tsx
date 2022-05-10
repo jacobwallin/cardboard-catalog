@@ -11,6 +11,7 @@ const Container = styled.div`
 const Number = styled.div`
   font-size: inherit;
   font-size: 12px;
+  font-weight: 500;
 `;
 
 const Attributes = styled.div`
