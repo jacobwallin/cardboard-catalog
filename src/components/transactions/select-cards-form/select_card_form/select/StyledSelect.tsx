@@ -27,6 +27,9 @@ const Select = styled.select`
     color: gray;
   }
   white-space: pre-wrap;
+  [label] {
+    color: red;
+  }
 `;
 
 type ViewProps = React.ComponentProps<typeof Select>;

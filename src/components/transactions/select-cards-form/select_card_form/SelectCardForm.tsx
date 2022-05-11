@@ -25,6 +25,8 @@ import {
   createRemovedCardFormData,
   createAddedCardFormData,
 } from "./createFormData";
+import { aggregateSubsets } from "./aggregate";
+import { AggregatedSubsetData } from "../../../Collection/set-page/aggregateSubsetData";
 
 const setLoadingSelector = createLoadingSelector([
   "GET_SINGLE_SET",
@@ -62,9 +64,12 @@ export default function SelectCardForm(props: Props) {
   // SELECT FORM DATA
   const [yearOptions, setYearOptions] = useState<number[]>([]);
   const [setOptions, setSetOptions] = useState<SetSummary[]>([]);
-  const [subsetOptions, setSubsetOptions] = useState<aggregate.SubsetData[]>(
-    []
-  );
+  const [subsetOptions, setSubsetOptions] = useState<AggregatedSubsetData>({
+    base: undefined,
+    inserts: [],
+    shortPrints: [],
+    autoRelic: [],
+  });
   const [seriesOptions, setSeriesOptions] = useState<SeriesTableData[]>([]);
 
   const [databaseCardOptions, setDatabaseCardOptions] = useState<
@@ -149,9 +154,23 @@ export default function SelectCardForm(props: Props) {
       (set.id === selectedSetId || userSet.setId === selectedSetId)
     ) {
       if (selectFrom === "COLLECTION") {
-        setSubsetOptions(aggregate.collectionSubsets(userSet.subsets));
+        setSubsetOptions(
+          aggregateSubsets(
+            set.subsets,
+            userSet.subsets,
+            set.baseSubsetId || 0,
+            true
+          )
+        );
       } else {
-        setSubsetOptions(aggregate.aggregateSubsets(set));
+        setSubsetOptions(
+          aggregateSubsets(
+            set.subsets,
+            userSet.subsets,
+            set.baseSubsetId || 0,
+            false
+          )
+        );
       }
     }
   }, [set, userSet, selectedSetId, selectFrom]);
@@ -374,15 +393,58 @@ export default function SelectCardForm(props: Props) {
           <option value={-1}>Select Subset</option>
           {
             // only render drop down options once the correct subset has been fetched from API
-            (set.id === selectedSetId || userSet.setId === selectedSetId) &&
-              subsetOptions.map((subset) => {
-                return (
-                  <option key={subset.id} value={subset.id}>
-                    {`${subset.name}`}
-                    {subset.prefix !== "" && ` (${subset.prefix})`}
-                  </option>
-                );
-              })
+            (set.id === selectedSetId || userSet.setId === selectedSetId) && (
+              <>
+                {subsetOptions.base && (
+                  <optgroup label="Base Set">
+                    <option
+                      key={subsetOptions.base.id}
+                      value={subsetOptions.base.id}
+                    >
+                      {`${subsetOptions.base.name}`}
+                      {subsetOptions.base.prefix !== "" &&
+                        ` (${subsetOptions.base.prefix})`}
+                    </option>
+                  </optgroup>
+                )}
+                {subsetOptions.shortPrints.length > 0 && (
+                  <optgroup label="Short Prints">
+                    {subsetOptions.shortPrints.map((subset) => {
+                      return (
+                        <option key={subset.id} value={subset.id}>
+                          {`${subset.name}`}
+                          {subset.prefix !== "" && ` (${subset.prefix})`}
+                        </option>
+                      );
+                    })}
+                  </optgroup>
+                )}
+                {subsetOptions.inserts.length > 0 && (
+                  <optgroup label="Inserts">
+                    {subsetOptions.inserts.map((subset) => {
+                      return (
+                        <option key={subset.id} value={subset.id}>
+                          {`${subset.name}`}
+                          {subset.prefix !== "" && ` (${subset.prefix})`}
+                        </option>
+                      );
+                    })}
+                  </optgroup>
+                )}
+                {subsetOptions.autoRelic.length > 0 && (
+                  <optgroup label="Autos and Relics">
+                    {subsetOptions.autoRelic.map((subset) => {
+                      return (
+                        <option key={subset.id} value={subset.id}>
+                          {`${subset.name}`}
+                          {subset.prefix !== "" && ` (${subset.prefix})`}
+                        </option>
+                      );
+                    })}
+                  </optgroup>
+                )}
+              </>
+            )
           }
         </StyledSelect>
 
