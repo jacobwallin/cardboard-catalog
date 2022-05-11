@@ -139,25 +139,17 @@ const SetPage = () => {
                   {`Total Cards: `}
                   <span>{totalCollectionCards}</span>
                 </Styled.DataLine>
-                <Styled.ShowQtyContainer>
-                  <Styled.ShowQtyLabel htmlFor="show-qty">
-                    Show Qtys
-                  </Styled.ShowQtyLabel>
-                </Styled.ShowQtyContainer>
               </Styled.Collection>
             )}
           </Styled.FlexContainer>
 
           {aggregatedSubsetData && (
             <>
-              {!aggregatedSubsetData.base &&
-                aggregatedSubsetData.inserts.length === 0 &&
-                aggregatedSubsetData.shortPrints.length === 0 &&
-                aggregatedSubsetData.autoRelic.length === 0 && (
-                  <Styled.NoCardsInSet>
-                    You have no cards from this set in your collection
-                  </Styled.NoCardsInSet>
-                )}
+              {totalCollectionCards === 0 && (
+                <Styled.NoCardsInSet>
+                  You have no cards from this set in your collection
+                </Styled.NoCardsInSet>
+              )}
               <>
                 {aggregatedSubsetData.base && (
                   <>
