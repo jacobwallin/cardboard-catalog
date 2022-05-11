@@ -471,11 +471,18 @@ export default function SelectCardForm(props: Props) {
           }
         </StyledSelect>
       </Styled.Flex>
-      <ChecklistCheckbox
-        checked={selectFromChecklist}
-        disabled={selectedSeriesId === -1}
-        onChange={(e) => setSelectFromChecklist(e.target.checked)}
-      />
+      <Styled.AbsoluteContainer>
+        <ChecklistCheckbox
+          checked={selectFromChecklist}
+          disabled={selectedSeriesId === -1}
+          onChange={(e) => setSelectFromChecklist(e.target.checked)}
+        />
+        {subset.code && (
+          <Styled.CardCode>
+            Card Code: <span>{subset.code}</span>
+          </Styled.CardCode>
+        )}
+      </Styled.AbsoluteContainer>
       {!selectFromChecklist && (
         <>
           <Styled.SelectCardContainer onSubmit={handleAddCard}>

@@ -51,4 +51,27 @@ export const Container = styled.div`
   gap: 10px;
   align-items: center;
   width: 100%;
+  margin-bottom: 30px;
+`;
+
+export const CardCode = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: 400;
+  margin-left: 10px;
+  span {
+    margin-left: 5px;
+    font-weight: 500;
+  }
+`;
+
+export const AbsoluteContainer = styled.div`
+  position: absolute;
+  top: 195px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;

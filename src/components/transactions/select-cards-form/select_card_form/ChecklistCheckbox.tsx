@@ -4,10 +4,7 @@ import styled from "styled-components";
 const ShowChecklist = styled.div`
   display: flex;
   align-items: center;
-  position: absolute;
-  align-self: flex-start;
-  top: 195px;
-  left: 0;
+  justify-content: center;
 `;
 
 const ShowChecklistLabel = styled.label`
@@ -29,7 +26,7 @@ export default function ChecklistCheckbox({
   return (
     <ShowChecklist>
       <ShowChecklistLabel htmlFor="show-checklist">
-        Select from checklist
+        select from checklist
       </ShowChecklistLabel>
       <input
         id="show-checklist"
