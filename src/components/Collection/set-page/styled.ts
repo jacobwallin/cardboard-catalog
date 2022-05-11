@@ -18,12 +18,15 @@ export const Collection = styled.div`
   background: #eee;
   border: 1px solid #ccc;
   padding: 15px 15px 15px 15px;
-  width: 250px;
+  width: 175px;
+  min-width: 175px;
+  height: 115px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  float: right;
 `;
 
 export const DataLine = styled.div`
@@ -42,7 +45,7 @@ export const Title = styled.div`
 
 export const ShowQtyContainer = styled.div`
   display: flex;
-  justif-content: center;
+  justify-content: center;
   align-items: center;
 `;
 export const ShowQtyLabel = styled.label`

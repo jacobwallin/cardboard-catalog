@@ -20,7 +20,7 @@ export default function Browse() {
     <CollectionWrapper>
       <CollectionContainer>
         <Breadcrumbs />
-        <PageHeader title="Browse Catalog" />
+        <PageHeader title="Browse Catalogue" />
         <Routes>
           <Route path="/" element={<SelectYear />} />
           <Route path=":year" element={<SelectSet />} />
