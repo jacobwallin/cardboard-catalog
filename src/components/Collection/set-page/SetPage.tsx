@@ -145,7 +145,7 @@ const SetPage = () => {
 
           {aggregatedSubsetData && (
             <>
-              {totalCollectionCards === 0 && (
+              {totalCollectionCards === 0 && showCollection && (
                 <Styled.NoCardsInSet>
                   You have no cards from this set in your collection
                 </Styled.NoCardsInSet>

@@ -15,18 +15,14 @@ export const FlexContainer = styled.div`
 `;
 
 export const Collection = styled.div`
-  background: #eee;
-  border: 1px solid #ccc;
-  padding: 15px 15px 15px 15px;
-  width: 175px;
-  min-width: 175px;
-  height: 115px;
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  float: right;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  gap: 5px;
 `;
 
 export const DataLine = styled.div`
@@ -37,9 +33,9 @@ export const DataLine = styled.div`
 `;
 
 export const Title = styled.div`
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #5a9bfd;
+  font-weight: 400;
+  font-size: 1.3rem;
+  /* color: #5a9bfd; */
   text-align: center;
 `;
 
@@ -55,4 +51,5 @@ export const ShowQtyLabel = styled.label`
 
 export const NoCardsInSet = styled.div`
   font-size: 1.1rem;
+  font-weight: 300;
 `;
