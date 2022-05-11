@@ -150,82 +150,99 @@ const SetPage = () => {
 
           {aggregatedSubsetData && (
             <>
-              <Shared.DataTableHeader>{`Base Set`}</Shared.DataTableHeader>
-              <Shared.DataTableContainer>
-                <DataTable
-                  noHeader
-                  dense
-                  progressPending={isLoading}
-                  columns={columns(
-                    showCollection,
-                    search.slice(search.length - 4) === "coll"
-                  )}
-                  data={
-                    aggregatedSubsetData.base ? [aggregatedSubsetData.base] : []
-                  }
-                  highlightOnHover
-                />
-              </Shared.DataTableContainer>
-              {aggregatedSubsetData.shortPrints.length > 0 && (
-                <>
-                  <Shared.DataTableHeader>{`Short Prints`}</Shared.DataTableHeader>
-                  <Shared.DataTableContainer>
-                    <DataTable
-                      noHeader
-                      dense
-                      progressPending={isLoading}
-                      columns={columns(
-                        showCollection,
-                        search.slice(search.length - 4) === "coll"
-                      )}
-                      data={aggregatedSubsetData.shortPrints}
-                      highlightOnHover
-                    />
-                  </Shared.DataTableContainer>
-                </>
-              )}
-              {aggregatedSubsetData.inserts.length > 0 && (
-                <>
-                  <Shared.DataTableHeader>{`Inserts`}</Shared.DataTableHeader>
-                  <Shared.DataTableContainer>
-                    <DataTable
-                      noHeader
-                      dense
-                      progressPending={isLoading}
-                      columns={columns(
-                        showCollection,
-                        search.slice(search.length - 4) === "coll"
-                      )}
-                      data={aggregatedSubsetData.inserts}
-                      highlightOnHover
-                      pagination
-                      paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
-                      paginationPerPage={10}
-                    />
-                  </Shared.DataTableContainer>
-                </>
-              )}
-              {aggregatedSubsetData.autoRelic.length > 0 && (
-                <>
-                  <Shared.DataTableHeader>{`Autographs & Relics`}</Shared.DataTableHeader>
-                  <Shared.DataTableContainer>
-                    <DataTable
-                      noHeader
-                      dense
-                      progressPending={isLoading}
-                      columns={columns(
-                        showCollection,
-                        search.slice(search.length - 4) === "coll"
-                      )}
-                      data={aggregatedSubsetData.autoRelic}
-                      highlightOnHover
-                      pagination
-                      paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
-                      paginationPerPage={10}
-                    />
-                  </Shared.DataTableContainer>
-                </>
-              )}
+              {!aggregatedSubsetData.base &&
+                aggregatedSubsetData.inserts.length === 0 &&
+                aggregatedSubsetData.shortPrints.length === 0 &&
+                aggregatedSubsetData.autoRelic.length === 0 && (
+                  <Styled.NoCardsInSet>
+                    You have no cards from this set in your collection
+                  </Styled.NoCardsInSet>
+                )}
+              <>
+                {aggregatedSubsetData.base && (
+                  <>
+                    <Shared.DataTableHeader>{`Base Set`}</Shared.DataTableHeader>
+                    <Shared.DataTableContainer>
+                      <DataTable
+                        noHeader
+                        dense
+                        progressPending={isLoading}
+                        columns={columns(
+                          showCollection,
+                          search.slice(search.length - 4) === "coll"
+                        )}
+                        data={
+                          aggregatedSubsetData.base
+                            ? [aggregatedSubsetData.base]
+                            : []
+                        }
+                        highlightOnHover
+                      />
+                    </Shared.DataTableContainer>
+                  </>
+                )}
+
+                {aggregatedSubsetData.shortPrints.length > 0 && (
+                  <>
+                    <Shared.DataTableHeader>{`Short Prints`}</Shared.DataTableHeader>
+                    <Shared.DataTableContainer>
+                      <DataTable
+                        noHeader
+                        dense
+                        progressPending={isLoading}
+                        columns={columns(
+                          showCollection,
+                          search.slice(search.length - 4) === "coll"
+                        )}
+                        data={aggregatedSubsetData.shortPrints}
+                        highlightOnHover
+                      />
+                    </Shared.DataTableContainer>
+                  </>
+                )}
+                {aggregatedSubsetData.inserts.length > 0 && (
+                  <>
+                    <Shared.DataTableHeader>{`Inserts`}</Shared.DataTableHeader>
+                    <Shared.DataTableContainer>
+                      <DataTable
+                        noHeader
+                        dense
+                        progressPending={isLoading}
+                        columns={columns(
+                          showCollection,
+                          search.slice(search.length - 4) === "coll"
+                        )}
+                        data={aggregatedSubsetData.inserts}
+                        highlightOnHover
+                        pagination
+                        paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
+                        paginationPerPage={10}
+                      />
+                    </Shared.DataTableContainer>
+                  </>
+                )}
+                {aggregatedSubsetData.autoRelic.length > 0 && (
+                  <>
+                    <Shared.DataTableHeader>{`Autographs & Relics`}</Shared.DataTableHeader>
+                    <Shared.DataTableContainer>
+                      <DataTable
+                        noHeader
+                        dense
+                        progressPending={isLoading}
+                        columns={columns(
+                          showCollection,
+                          search.slice(search.length - 4) === "coll"
+                        )}
+                        data={aggregatedSubsetData.autoRelic}
+                        highlightOnHover
+                        pagination
+                        paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
+                        paginationPerPage={10}
+                      />
+                    </Shared.DataTableContainer>
+                  </>
+                )}
+              </>
             </>
           )}
         </PageContainer>

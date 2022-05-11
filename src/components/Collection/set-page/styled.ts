@@ -52,3 +52,7 @@ export const ShowQtyLabel = styled.label`
   font-size: 0.8rem;
   font-weight: 300;
 `;
+
+export const NoCardsInSet = styled.div`
+  font-size: 1.1rem;
+`;
