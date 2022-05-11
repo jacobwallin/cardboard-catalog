@@ -37,6 +37,13 @@ export default function Navbar() {
             <Styled.Hamburger active={hamburgerActive} />
             <Styled.NavMenu active={hamburgerActive}>
               <Styled.StyledLink
+                to="/browse"
+                className="navbar-link"
+                onClick={toggleHamburgerActive}
+              >
+                Browse
+              </Styled.StyledLink>
+              <Styled.StyledLink
                 to="/collection"
                 className="navbar-link"
                 onClick={toggleHamburgerActive}
@@ -51,11 +58,11 @@ export default function Navbar() {
                 Transactions
               </Styled.StyledLink>
               <Styled.StyledLink
-                to="/browse"
+                to="/transactions"
                 className="navbar-link"
                 onClick={toggleHamburgerActive}
               >
-                Browse
+                Trade
               </Styled.StyledLink>
               {user.isAdmin && (
                 <Styled.StyledLink
