@@ -19,6 +19,7 @@ import aggregateSubsetData, {
 } from "./aggregateSubsetData";
 import ReturnToMyCollection from "../shared/ReturnToMyCollection";
 import * as Styled from "./styled";
+import PageToggle from "../header/PageToggle";
 
 const loadingSelector = createLoadingSelector([
   "GET_SINGLE_SET",
@@ -42,10 +43,12 @@ const SetPage = () => {
   const [aggregatedSubsetData, setAggregatedSubsetData] = useState<
     AggregatedSubsetData | undefined
   >(undefined);
-  const [showCollectionQtys, setShowCollectionQtys] = useState(
+
+  const [totalCollectionCards, setTotalCollectionCards] = useState(0);
+  // ui state, toggles between collection and checklist view
+  const [showCollection, setShowCollection] = useState(
     search.slice(search.length - 4) === "coll"
   );
-  const [totalCollectionCards, setTotalCollectionCards] = useState(0);
 
   useEffect(() => {
     if (setId) {
@@ -70,13 +73,16 @@ const SetPage = () => {
       const cardCount = cardsBySubset.subsets.reduce((totalCards, subset) => {
         return (totalCards += +subset.totalCards);
       }, 0);
-      if (cardCount === 0) setShowCollectionQtys(false);
       setTotalCollectionCards(cardCount);
     }
   }, [cardsBySubset, set, isLoading]);
 
-  function toggleCollectionQtys() {
-    setShowCollectionQtys(!showCollectionQtys);
+  function showBrowseClicked() {
+    setShowCollection(false);
+  }
+
+  function showCollectionClicked() {
+    setShowCollection(true);
   }
 
   if (isLoading || !setId || +setId !== set.id)
@@ -93,47 +99,52 @@ const SetPage = () => {
       <CollectionContainer>
         <Breadcrumbs />
         <ReturnToMyCollection />
-        <PageHeader title={set.name} />
+        <PageHeader title={set.name}>
+          <PageToggle
+            handleLeftClick={showBrowseClicked}
+            handleRightClick={showCollectionClicked}
+            leftText="Browse"
+            rightText="Collection"
+            collectionSelected={showCollection}
+          />
+        </PageHeader>
         <PageContainer>
           <Styled.FlexContainer>
-            <Styled.SetInfoContainer>
-              {set.description !== "" && (
-                <Shared.ContentContainer>
-                  <Shared.ContentTitle>About:</Shared.ContentTitle>
-                  <Shared.ContentData>{set.description}</Shared.ContentData>
-                </Shared.ContentContainer>
-              )}
-              {set.release_date && (
-                <Shared.ContentContainer>
-                  <Shared.ContentTitle>Release Date:</Shared.ContentTitle>
-                  <Shared.ContentData>{set.release_date}</Shared.ContentData>
-                </Shared.ContentContainer>
-              )}
-            </Styled.SetInfoContainer>
+            {!showCollection && (
+              <Styled.SetInfoContainer>
+                {set.description !== "" && (
+                  <Shared.ContentContainer>
+                    <Shared.ContentTitle>About:</Shared.ContentTitle>
+                    <Shared.ContentData>{set.description}</Shared.ContentData>
+                  </Shared.ContentContainer>
+                )}
+                {set.release_date && (
+                  <Shared.ContentContainer>
+                    <Shared.ContentTitle>Release Date:</Shared.ContentTitle>
+                    <Shared.ContentData>{set.release_date}</Shared.ContentData>
+                  </Shared.ContentContainer>
+                )}
+              </Styled.SetInfoContainer>
+            )}
 
-            <Styled.Collection>
-              <Styled.Title>
-                {collectionFriend.id !== 0
-                  ? `${collectionFriend.username}'s Collection`
-                  : "My Collection"}
-              </Styled.Title>
-              <Styled.DataLine>
-                {`Total Cards: `}
-                <span>{totalCollectionCards}</span>
-              </Styled.DataLine>
-              <Styled.ShowQtyContainer>
-                <Styled.ShowQtyLabel htmlFor="show-qty">
-                  Show Qtys
-                </Styled.ShowQtyLabel>
-                <input
-                  type="checkbox"
-                  id="show-qty"
-                  checked={showCollectionQtys}
-                  onChange={toggleCollectionQtys}
-                  disabled={totalCollectionCards === 0}
-                />
-              </Styled.ShowQtyContainer>
-            </Styled.Collection>
+            {showCollection && (
+              <Styled.Collection>
+                <Styled.Title>
+                  {collectionFriend.id !== 0
+                    ? `${collectionFriend.username}'s Collection`
+                    : "My Collection"}
+                </Styled.Title>
+                <Styled.DataLine>
+                  {`Total Cards: `}
+                  <span>{totalCollectionCards}</span>
+                </Styled.DataLine>
+                <Styled.ShowQtyContainer>
+                  <Styled.ShowQtyLabel htmlFor="show-qty">
+                    Show Qtys
+                  </Styled.ShowQtyLabel>
+                </Styled.ShowQtyContainer>
+              </Styled.Collection>
+            )}
           </Styled.FlexContainer>
 
           {aggregatedSubsetData && (
@@ -145,7 +156,7 @@ const SetPage = () => {
                   dense
                   progressPending={isLoading}
                   columns={columns(
-                    showCollectionQtys,
+                    showCollection,
                     search.slice(search.length - 4) === "coll"
                   )}
                   data={
@@ -163,7 +174,7 @@ const SetPage = () => {
                       dense
                       progressPending={isLoading}
                       columns={columns(
-                        showCollectionQtys,
+                        showCollection,
                         search.slice(search.length - 4) === "coll"
                       )}
                       data={aggregatedSubsetData.shortPrints}
@@ -181,7 +192,7 @@ const SetPage = () => {
                       dense
                       progressPending={isLoading}
                       columns={columns(
-                        showCollectionQtys,
+                        showCollection,
                         search.slice(search.length - 4) === "coll"
                       )}
                       data={aggregatedSubsetData.inserts}
@@ -202,7 +213,7 @@ const SetPage = () => {
                       dense
                       progressPending={isLoading}
                       columns={columns(
-                        showCollectionQtys,
+                        showCollection,
                         search.slice(search.length - 4) === "coll"
                       )}
                       data={aggregatedSubsetData.autoRelic}
