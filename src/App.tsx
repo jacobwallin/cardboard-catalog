@@ -9,6 +9,7 @@ import { PageNotFound } from "./components/Views";
 import Admin from "./components/Admin/Admin";
 import Collection from "./components/Collection/Collection";
 import Transactions from "./components/transactions/Transactions";
+import Trade from "./components/trade/Trade";
 import Browse from "./components/browse/Browse";
 import Login from "./components/login/Login";
 import SetPage from "./components/Collection/set-page/SetPage";
@@ -42,6 +43,7 @@ function App() {
               <Route path="subset/:subsetId" element={<SubsetPage />} />
               <Route path="browse/*" element={<Browse />} />
               <Route path="transactions/*" element={<Transactions />} />
+              <Route path="trade/*" element={<Trade />} />
               <Route path="profile/*" element={<Profile />} />
               <Route path="404" element={<PageNotFound />} />
               <Route path="*" element={<PageNotFound />} />

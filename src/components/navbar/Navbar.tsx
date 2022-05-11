@@ -58,7 +58,7 @@ export default function Navbar() {
                 Transactions
               </Styled.StyledLink>
               <Styled.StyledLink
-                to="/transactions"
+                to="/trade"
                 className="navbar-link"
                 onClick={toggleHamburgerActive}
               >
