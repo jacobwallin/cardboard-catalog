@@ -17,7 +17,8 @@ export interface AggregatedSubsetData {
 export default function aggregateSubsetData(
   subsets: SubsetInstance[],
   cardsBySubset: SubsetCards[],
-  baseSubsetId: number
+  baseSubsetId: number,
+  collectionOnly: boolean
 ): AggregatedSubsetData {
   let aggregatedSubsets = aggregateSubsets(subsets, baseSubsetId);
 
@@ -26,17 +27,23 @@ export default function aggregateSubsetData(
     const baseSubsetUserCard = cardsBySubset.find(
       (subset) => subset.subsetId === baseSubsetId
     );
-    base = {
-      ...aggregatedSubsets.base,
-      totalCards: baseSubsetUserCard ? +baseSubsetUserCard?.totalCards : 0,
-      distinctCards: baseSubsetUserCard
-        ? +baseSubsetUserCard?.distinctCards
-        : 0,
-    };
+    if (baseSubsetUserCard) {
+      base = {
+        ...aggregatedSubsets.base,
+        totalCards: +baseSubsetUserCard.totalCards,
+        distinctCards: +baseSubsetUserCard.distinctCards,
+      };
+    } else if (!collectionOnly) {
+      base = {
+        ...aggregatedSubsets.base,
+        totalCards: 0,
+        distinctCards: 0,
+      };
+    }
   }
 
-  let inserts: SubsetInstanceUserCard[] = aggregatedSubsets.inserts.map(
-    (insertSubset) => {
+  let inserts: SubsetInstanceUserCard[] = aggregatedSubsets.inserts
+    .map((insertSubset) => {
       const subsetUserCard = cardsBySubset.find(
         (subset) => subset.subsetId === insertSubset.id
       );
@@ -45,10 +52,11 @@ export default function aggregateSubsetData(
         totalCards: subsetUserCard ? +subsetUserCard.totalCards : 0,
         distinctCards: subsetUserCard ? +subsetUserCard.distinctCards : 0,
       };
-    }
-  );
-  let shortPrints: SubsetInstanceUserCard[] = aggregatedSubsets.shortPrints.map(
-    (shortPrintSubset) => {
+    })
+    .filter((s) => s.totalCards > 0 || !collectionOnly);
+
+  let shortPrints: SubsetInstanceUserCard[] = aggregatedSubsets.shortPrints
+    .map((shortPrintSubset) => {
       const subsetUserCard = cardsBySubset.find(
         (subset) => subset.subsetId === shortPrintSubset.id
       );
@@ -57,10 +65,11 @@ export default function aggregateSubsetData(
         totalCards: subsetUserCard ? +subsetUserCard.totalCards : 0,
         distinctCards: subsetUserCard ? +subsetUserCard.distinctCards : 0,
       };
-    }
-  );
-  let autoRelic: SubsetInstanceUserCard[] = aggregatedSubsets.autoRelic.map(
-    (autoRelicSubset) => {
+    })
+    .filter((s) => s.totalCards > 0 || !collectionOnly);
+
+  let autoRelic: SubsetInstanceUserCard[] = aggregatedSubsets.autoRelic
+    .map((autoRelicSubset) => {
       const subsetUserCard = cardsBySubset.find(
         (subset) => subset.subsetId === autoRelicSubset.id
       );
@@ -69,8 +78,8 @@ export default function aggregateSubsetData(
         totalCards: subsetUserCard ? +subsetUserCard.totalCards : 0,
         distinctCards: subsetUserCard ? +subsetUserCard.distinctCards : 0,
       };
-    }
-  );
+    })
+    .filter((s) => s.totalCards > 0 || !collectionOnly);
 
   return {
     base,

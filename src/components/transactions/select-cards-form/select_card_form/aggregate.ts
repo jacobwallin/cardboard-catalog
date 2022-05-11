@@ -47,30 +47,7 @@ export function aggregateSubsets(
   baseSubsetId: number,
   collection: boolean
 ): AggregatedSubsetData {
-  if (collection) {
-    let aggregatedSubets = aggregateSubsetData(
-      subsets,
-      cardsBySubset,
-      baseSubsetId
-    );
-
-    // filter out subsets with no cards in collection
-    if (aggregatedSubets.base && aggregatedSubets.base.totalCards === 0) {
-      aggregatedSubets.base = undefined;
-    }
-    aggregatedSubets.shortPrints = aggregatedSubets.shortPrints.filter(
-      (s) => s.totalCards > 0
-    );
-    aggregatedSubets.inserts = aggregatedSubets.inserts.filter(
-      (s) => s.totalCards > 0
-    );
-    aggregatedSubets.autoRelic = aggregatedSubets.autoRelic.filter(
-      (s) => s.totalCards > 0
-    );
-
-    return aggregatedSubets;
-  }
-  return aggregateSubsetData(subsets, cardsBySubset, baseSubsetId);
+  return aggregateSubsetData(subsets, cardsBySubset, baseSubsetId, collection);
 }
 
 export function aggregateSubset(

@@ -67,7 +67,8 @@ const SetPage = () => {
         aggregateSubsetData(
           set.subsets,
           cardsBySubset.subsets,
-          set.baseSubsetId ? set.baseSubsetId : 0
+          set.baseSubsetId ? set.baseSubsetId : 0,
+          showCollection
         )
       );
       const cardCount = cardsBySubset.subsets.reduce((totalCards, subset) => {
@@ -75,7 +76,7 @@ const SetPage = () => {
       }, 0);
       setTotalCollectionCards(cardCount);
     }
-  }, [cardsBySubset, set, isLoading]);
+  }, [cardsBySubset, set, isLoading, showCollection]);
 
   function showBrowseClicked() {
     setShowCollection(false);
