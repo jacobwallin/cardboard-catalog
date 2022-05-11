@@ -113,9 +113,8 @@ export default function SelectCardForm(props: Props) {
     if (selectedSetId !== -1) {
       if (selectFrom === "COLLECTION") {
         dispatch(fetchCardsBySubset(selectedSetId));
-      } else {
-        dispatch(fetchSet(selectedSetId));
       }
+      dispatch(fetchSet(selectedSetId));
     }
   }, [selectedSetId]);
 

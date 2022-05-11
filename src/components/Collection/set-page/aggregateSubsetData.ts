@@ -21,7 +21,6 @@ export default function aggregateSubsetData(
   collectionOnly: boolean
 ): AggregatedSubsetData {
   let aggregatedSubsets = aggregateSubsets(subsets, baseSubsetId);
-
   let base: SubsetInstanceUserCard | undefined = undefined;
   if (aggregatedSubsets.base) {
     const baseSubsetUserCard = cardsBySubset.find(
