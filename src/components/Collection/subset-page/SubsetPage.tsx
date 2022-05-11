@@ -7,7 +7,7 @@ import { fetchCardsInSingleSubset } from "../../../store/collection/browse/thunk
 import CollectionWrapper from "../../shared/CollectionWrapper";
 import CollectionContainer from "../../shared/CollectionContainer";
 import { createTableData } from "./createTableData";
-import SubsetViewToggle from "../header/SubsetViewToggle";
+import PageToggle from "../header/PageToggle";
 import PageHeader from "../../shared/PageHeader";
 import BrowseSubset from "./browse/BrowseSubset";
 import CollectionSubset from "./collection/CollectionSubset";
@@ -117,9 +117,11 @@ const SubsetPage = () => {
           subTitle={`${subset.name}`}
           flexColumn
         >
-          <SubsetViewToggle
-            handleBrowseClick={showChecklistClicked}
-            handleCollectionClick={showCollectionClicked}
+          <PageToggle
+            handleLeftClick={showChecklistClicked}
+            handleRightClick={showCollectionClicked}
+            leftText="Browse"
+            rightText="Collection"
             collectionSelected={showCollection}
           />
         </PageHeader>
