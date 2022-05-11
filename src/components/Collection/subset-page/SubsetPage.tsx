@@ -114,7 +114,11 @@ const SubsetPage = () => {
         <ReturnToMyCollection />
         <PageHeader
           title={subset.set.name}
-          subTitle={`${subset.name}`}
+          subTitle={`${subset.name} ${
+            subset.baseSeriesId !== selectedSeriesId
+              ? tableData[selectedSeriesId].series.name
+              : ""
+          }`}
           flexColumn
         >
           <PageToggle
@@ -143,7 +147,8 @@ const SubsetPage = () => {
                     <option key={series.id} value={series.id}>
                       {series.name}
                       {series.serialized && ` /${series.serialized}`}
-                      {tableData[series.id].totalCards > 0 &&
+                      {showCollection &&
+                        tableData[series.id].totalCards > 0 &&
                         (tableData[series.id].totalCards > 1
                           ? ` (${tableData[series.id].totalCards} Cards)`
                           : ` (${tableData[series.id].totalCards} Card)`)}
