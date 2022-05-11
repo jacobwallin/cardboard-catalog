@@ -34,7 +34,7 @@ export const DataLine = styled.div`
 
 export const Title = styled.div`
   font-weight: 400;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   /* color: #5a9bfd; */
   text-align: center;
 `;
