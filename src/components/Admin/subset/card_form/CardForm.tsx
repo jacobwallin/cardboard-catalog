@@ -14,6 +14,7 @@ import * as Styled from "./styled";
 import * as StyledInputs from "../../components/form/Inputs";
 import SelectPlayer from "./select-player/SelectPlayer";
 import validatePlayerUrl from "../../../../utils/validatePlayerUrl";
+import AdminSelect from "../../components/form/AdminSelect";
 
 import { createStatusSelector } from "../../../../store/loading/reducer";
 const scrapePlayerStatusSelector = createStatusSelector("CREATE_PLAYER");
@@ -186,7 +187,7 @@ export default function CardForm(props: Props) {
       <FieldContainer>
         <FieldTitle>Team</FieldTitle>
         <FieldData>
-          <StyledInputs.Select
+          <AdminSelect
             name="team"
             value={props.formData.teamId}
             onChange={props.handleSelectChange}
@@ -209,7 +210,7 @@ export default function CardForm(props: Props) {
                   </option>
                 );
               })}
-          </StyledInputs.Select>
+          </AdminSelect>
         </FieldData>
       </FieldContainer>
       <FieldContainer>
