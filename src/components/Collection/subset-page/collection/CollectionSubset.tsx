@@ -105,7 +105,7 @@ export default function CollectionSubset(props: Props) {
         data.push({
           id: card.id,
           formData: {
-            serialNumber: "",
+            serialNumber: card.serialNumber ? String(card.serialNumber) : "",
             grade: "",
             gradingCompanyId: -1,
           },
