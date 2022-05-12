@@ -49,6 +49,7 @@ const Svg = styled.div`
 interface Props {
   number: string;
   serialized: number | null;
+  serialNumber?: number;
   shortPrint: boolean;
   auto: boolean;
   relic: boolean;
@@ -64,9 +65,10 @@ export default function CardNumber(props: Props) {
 
       <Attributes>
         {props.serialized && (
-          <Serialized
-            title={`serialized to ${props.serialized}`}
-          >{`/${props.serialized}`}</Serialized>
+          <Serialized title={`serialized to ${props.serialized}`}>
+            {props.serialNumber && props.serialNumber}
+            {`/${props.serialized}`}
+          </Serialized>
         )}
         {props.rookie && <Rookie title="rookie">{" RC"}</Rookie>}
         {props.shortPrint && <ShortPrint title="short print">SP</ShortPrint>}

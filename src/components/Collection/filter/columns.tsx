@@ -30,6 +30,7 @@ export function columns(selectedCols: {
           manufacturedRelic={row.card.series.subset.manufacturedRelic}
           refractor={row.card.series.refractor}
           rookie={row.card.card_datum.rookie}
+          serialNumber={row.serialNumber ? row.serialNumber : undefined}
         />
       ),
       sortable: true,

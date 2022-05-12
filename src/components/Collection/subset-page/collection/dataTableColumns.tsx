@@ -78,6 +78,7 @@ export const deleteColumns = () => {
           manufacturedRelic={row.manufacturedRelic}
           refractor={row.card.series.refractor}
           rookie={row.card.cardData.rookie}
+          serialNumber={row.serialNumber ? row.serialNumber : undefined}
         />
       ),
       sortable: true,
