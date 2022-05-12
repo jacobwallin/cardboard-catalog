@@ -9,6 +9,7 @@ export const InputContainer = styled.div`
 export const Input = styled.input`
   height: 40px;
   width: 100px;
+  font-size: 0.9rem;
   -webkit-appearance: none;
   margin: 0 10px 0 10px;
   padding-left: 10px;

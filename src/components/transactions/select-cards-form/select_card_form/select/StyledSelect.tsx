@@ -19,6 +19,7 @@ const Select = styled.select`
   padding-left: 10px;
   padding-right: 20px;
   border-radius: 5px;
+  font-size: 0.9rem;
   background-color: #eeeeee;
   -webkit-appearance: none;
   color: black;
