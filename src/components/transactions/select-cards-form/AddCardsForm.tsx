@@ -57,7 +57,6 @@ export default function AddCardsForm(props: Props) {
   const [cardsSuccessfullyAdded, setCardsSuccessfullyAdded] = useState(0);
 
   // LIBRARY DATA
-  const series = useSelector((state: RootState) => state.library.series.series);
   const gradingCompanies = useSelector(
     (state: RootState) => state.library.gradingCompanies
   );
@@ -95,7 +94,7 @@ export default function AddCardsForm(props: Props) {
               ...data.validation,
               serialNumberError: validate.serialNumber(
                 serialNumber,
-                series.serialized
+                data.card.serializedTo || data.card.series.serialized
               ),
             },
           };
