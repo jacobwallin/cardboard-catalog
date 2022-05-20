@@ -153,23 +153,9 @@ export default function SelectCardForm(props: Props) {
       (set.id === selectedSetId || userSet.setId === selectedSetId)
     ) {
       if (selectFrom === "COLLECTION") {
-        setSubsetOptions(
-          aggregateSubsets(
-            set.subsets,
-            userSet.subsets,
-            set.baseSubsetId || 0,
-            true
-          )
-        );
+        setSubsetOptions(aggregateSubsets(set.subsets, userSet.subsets, true));
       } else {
-        setSubsetOptions(
-          aggregateSubsets(
-            set.subsets,
-            userSet.subsets,
-            set.baseSubsetId || 0,
-            false
-          )
-        );
+        setSubsetOptions(aggregateSubsets(set.subsets, userSet.subsets, false));
       }
     }
   }, [set, userSet, selectedSetId, selectFrom]);

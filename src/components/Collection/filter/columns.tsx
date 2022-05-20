@@ -101,7 +101,7 @@ export function columns(selectedCols: {
 
 export function getFullSetName(row: UserCard): string {
   let fullName = row.card.series.subset.set.name;
-  if (row.card.series.subset.id !== row.card.series.subset.set.baseSubsetId) {
+  if (row.card.series.subset.base) {
     fullName = fullName.concat(" ", row.card.series.subset.name);
   } else if (row.card.series.subset.name !== "Base Set") {
     fullName = fullName.concat(" ", row.card.series.subset.name);
@@ -115,13 +115,12 @@ export function getSetName(
   setName: string,
   subsetName: string,
   seriesName: string,
-  subsetId: number,
   seriesId: number,
-  baseSubsetId: number,
+  subsetIsBase: boolean,
   baseSeriesId: number
 ): string {
   let fullName = setName;
-  if (subsetId !== baseSubsetId) {
+  if (subsetIsBase) {
     fullName = fullName.concat(" ", subsetName);
   } else if (subsetName !== "Base Set") {
     fullName = fullName.concat(" ", subsetName);

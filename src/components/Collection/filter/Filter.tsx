@@ -107,8 +107,8 @@ export default function Filter(props: Props) {
             <option value={0}>All</option>
             {set.subsets
               .sort((subsetA, subsetB) => {
-                if (subsetA.id === set.baseSubsetId) return -1;
-                if (subsetB.id === set.baseSubsetId) return 1;
+                if (subsetA.base) return -1;
+                if (subsetB.base) return 1;
 
                 if (subsetA.name < subsetB.name) return -1;
                 if (subsetA.name > subsetB.name) return 1;

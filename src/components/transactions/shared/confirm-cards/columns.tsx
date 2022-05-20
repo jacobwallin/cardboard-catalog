@@ -45,9 +45,8 @@ const columns = [
         row.card.series.subset.set.name,
         row.card.series.subset.name,
         row.card.series.name,
-        row.card.series.subset.id,
         row.card.series.id,
-        row.card.series.subset.set.baseSubsetId || 0,
+        row.card.series.subset.base,
         row.card.series.subset.baseSeriesId || 0
       ),
     sortable: true,

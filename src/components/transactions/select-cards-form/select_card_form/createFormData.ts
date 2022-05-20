@@ -50,7 +50,6 @@ export function createAddedCardFormData(
           set: {
             id: set.id,
             name: set.name,
-            baseSubsetId: set.baseSubsetId,
             year: set.year,
             leagueId: set.leagueId,
             brandId: set.brandId,
@@ -104,7 +103,6 @@ export function createRemovedCardFormData(
           set: {
             id: set.id,
             name: set.name,
-            baseSubsetId: set.baseSubsetId,
             year: set.year,
             leagueId: set.leagueId,
             brandId: set.brandId,

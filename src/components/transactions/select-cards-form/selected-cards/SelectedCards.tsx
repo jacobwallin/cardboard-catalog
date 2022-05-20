@@ -63,9 +63,8 @@ export default function SelectedCards(props: Props) {
               card.card.series.subset.set.name,
               card.card.series.subset.name,
               card.card.series.name,
-              card.card.series.subset.id,
               card.card.series.id,
-              card.card.series.subset.set.baseSubsetId || 0,
+              card.card.series.subset.base,
               card.card.series.subset.baseSeriesId || 0
             );
           }

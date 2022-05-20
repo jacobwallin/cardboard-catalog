@@ -44,7 +44,6 @@ export function aggregateSets(
 export function aggregateSubsets(
   subsets: SubsetInstance[],
   cardsBySubset: SubsetCards[],
-  baseSubsetId: number,
   collection: boolean
 ): AggregatedSubsetData {
   return aggregateSubsetData(subsets, cardsBySubset, collection);
@@ -113,7 +112,6 @@ export function collectionSetsInYear(
         updatedAt: "",
         createdBy: 0,
         updatedBy: 0,
-        baseSubsetId: 0,
         leagueId: 0,
         brandId: 0,
         league: {
