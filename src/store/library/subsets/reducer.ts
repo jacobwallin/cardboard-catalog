@@ -6,6 +6,7 @@ const initialState: types.Subset = {
   description: "",
   prefix: "",
   code: "",
+  base: false,
   auto: false,
   relic: false,
   manufacturedRelic: false,

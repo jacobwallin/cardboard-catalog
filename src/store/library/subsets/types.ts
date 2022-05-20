@@ -9,6 +9,7 @@ export interface CondensedSubsetInstance {
   baseSeriesId: number | null;
   prefix: string;
   code: string | null;
+  base: boolean;
   auto: boolean;
   relic: boolean;
   manufacturedRelic: boolean;

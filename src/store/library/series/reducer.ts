@@ -19,6 +19,7 @@ const initialState: types.SeriesState = {
       description: "",
       prefix: "",
       code: "",
+      base: false,
       auto: false,
       relic: false,
       manufacturedRelic: false,
