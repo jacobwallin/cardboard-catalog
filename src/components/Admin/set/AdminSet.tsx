@@ -69,7 +69,7 @@ export default function SetAdminPage() {
           <DataTableComponents.DataTableWrapper>
             <DataTableComponents.DataTableHeader>
               <DataTableComponents.DataTableTitle>
-                Base Set
+                {aggregatedSubsets.base.length > 1 ? "Base Sets" : "Base Set"}
               </DataTableComponents.DataTableTitle>
               <DataTableComponents.DataTableButtonsContainer>
                 <CreateButton onClick={toggleCreateSubsetModal}>

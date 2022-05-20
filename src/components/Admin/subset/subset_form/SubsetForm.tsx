@@ -18,6 +18,7 @@ interface Props {
     description: string;
     prefix: string;
     code: string | null;
+    base: boolean;
     auto: boolean;
     relic: boolean;
     manufacturedRelic: boolean;
@@ -36,6 +37,7 @@ export default function SubsetForm(props: Props) {
   const [name, setName] = useState(props.createNew ? "" : subset.name);
   const [prefix, setPrefix] = useState(props.createNew ? "" : subset.prefix);
   const [code, setCode] = useState(props.createNew ? "" : subset.code);
+  const [base, setBase] = useState(props.createNew ? false : subset.base);
   const [auto, setAuto] = useState(props.createNew ? false : subset.auto);
   const [relic, setRelic] = useState(props.createNew ? false : subset.relic);
   const [manufacturedRelic, setManufacturedRelic] = useState(
@@ -54,6 +56,7 @@ export default function SubsetForm(props: Props) {
       name,
       description,
       prefix,
+      base,
       auto,
       relic,
       manufacturedRelic,
@@ -78,6 +81,9 @@ export default function SubsetForm(props: Props) {
         break;
       case "code":
         setCode(value);
+        break;
+      case "base":
+        setBase(!base);
         break;
       case "shortPrint":
         setShortPrint(!shortPrint);
@@ -147,6 +153,17 @@ export default function SubsetForm(props: Props) {
             value={code || ""}
             placeholder="Enter Code"
             autoComplete="off"
+            onChange={handleInputChange}
+          />
+        </FieldData>
+      </FieldContainer>
+      <FieldContainer>
+        <FieldTitle>Base</FieldTitle>
+        <FieldData>
+          <input
+            name="base"
+            type="checkbox"
+            checked={base}
             onChange={handleInputChange}
           />
         </FieldData>
