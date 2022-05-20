@@ -123,6 +123,10 @@ export default function EditSubset(props: Props) {
               </FieldData>
             </FieldContainer>
             <FieldContainer>
+              <FieldTitle>Base Set</FieldTitle>
+              <FieldData>{subset.base ? "Yes" : "No"}</FieldData>
+            </FieldContainer>
+            <FieldContainer>
               <FieldTitle>Short Print</FieldTitle>
               <FieldData>{subset.shortPrint ? "Yes" : "No"}</FieldData>
             </FieldContainer>
