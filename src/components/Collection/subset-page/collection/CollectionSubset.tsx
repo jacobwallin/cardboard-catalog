@@ -20,6 +20,7 @@ import AddCardsForm, {
   CardFormData,
 } from "../../../transactions/select-cards-form/AddCardsForm";
 import { CardData } from "../../../../store/collection/browse/types";
+import SubtleButton from "../../../shared/SubtleButton";
 
 import { createStatusSelector } from "../../../../store/loading/reducer";
 
@@ -192,7 +193,10 @@ export default function CollectionSubset(props: Props) {
                     <img src={MedalIcon} alt="medal" />
                   </Styled.Svg>
                 )}
-              <Styled.CardCount>{`${props.tableData.distinctCards} / ${props.tableData.cards.length} cards in set`}</Styled.CardCount>
+              <Styled.CardCount>
+                <strong>{`${props.tableData.distinctCards}/${props.tableData.cards.length}`}</strong>
+                &nbsp;Cards
+              </Styled.CardCount>
             </Styled.CardsInCollection>
             <Styled.ProgressBar>
               <Styled.Progress
@@ -250,15 +254,9 @@ export default function CollectionSubset(props: Props) {
             <SharedStyled.TableHeaderRow>
               <TotalCards totalCards={props.tableData.totalCards} />
               {props.tableData.totalCards > 0 && collectionFriend.id === 0 && (
-                <StyledButton
-                  color="GRAY"
-                  height="25px"
-                  width="100px"
-                  fontSize="13px"
-                  onClick={toggleDeleteChecklist}
-                >
-                  {deleteCardsToggle ? "Cancel" : "Delete"}
-                </StyledButton>
+                <SubtleButton onClick={toggleDeleteChecklist}>
+                  {deleteCardsToggle ? "Cancel" : "Delete Cards"}
+                </SubtleButton>
               )}
             </SharedStyled.TableHeaderRow>
           </SharedStyled.TableHeader>

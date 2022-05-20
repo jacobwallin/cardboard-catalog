@@ -16,6 +16,7 @@ import { NoDataMessage } from "../../../shared/NoDataMessage";
 import { TotalCards } from "../../shared";
 import { SeriesTableData } from "../createTableData";
 import { getDateString } from "../../../../utils/formatTimestamp";
+import SubtleButton from "../../../shared/SubtleButton";
 
 interface Props {
   tableData: SeriesTableData;
@@ -234,15 +235,9 @@ export default function BrowseSubset(props: Props) {
             <Styled.TableHeaderRow>
               <TotalCards totalCards={props.tableData.cards.length} />
               {collectionFriend.id === 0 && (
-                <StyledButton
-                  color={checklistToggleSelect ? "YELLOW" : "GRAY"}
-                  height="25px"
-                  width="100px"
-                  fontSize="13px"
-                  onClick={toggleCheckboxes}
-                >
+                <SubtleButton onClick={toggleCheckboxes}>
                   {checklistToggleSelect ? "Cancel" : "Add Cards"}
-                </StyledButton>
+                </SubtleButton>
               )}
             </Styled.TableHeaderRow>
           </Styled.TableHeader>

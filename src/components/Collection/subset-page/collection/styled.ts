@@ -11,13 +11,15 @@ export const Collection = styled.div`
 
 export const CardCount = styled.div`
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 400;
 `;
 
 export const ProgressBar = styled.div`
   width: 225px;
   height: 24px;
-  background-color: lightgray;
+  background-color: #bbb;
+  border-radius: 5px;
+  overflow: hidden;
 `;
 
 export const Progress = styled.div<{ percentage: number }>`
@@ -25,7 +27,7 @@ export const Progress = styled.div<{ percentage: number }>`
   height: 100%;
   line-height: 24px;
   width: ${(props) => `${props.percentage * 2.25}px`};
-  color: black;
+  color: white;
   text-indent: 15px;
   white-space: nowrap;
   overflow: visible;
