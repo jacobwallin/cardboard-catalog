@@ -17,6 +17,7 @@ import sortSeries from "./sortSeries";
 import { TableData } from "./createTableData";
 import Breadcrumbs from "../../breadcrumbs/Breadcrumbs";
 import ReturnToMyCollection from "../shared/ReturnToMyCollection";
+import StyledSelect from "./StyledSelect";
 
 import { createLoadingSelector } from "../../../store/loading/reducer";
 const loadingSelector = createLoadingSelector([
@@ -133,7 +134,7 @@ const SubsetPage = () => {
         {subset.series.length > 1 && (
           <Styled.SelectParallel>
             <Styled.SelectLabel>Select Parallel Set</Styled.SelectLabel>
-            <Styled.SeriesSelect
+            <StyledSelect
               value={selectedSeriesId}
               onChange={handleSeriesChange}
               disabled={disableSeriesSelect}
@@ -155,7 +156,7 @@ const SubsetPage = () => {
                     </option>
                   );
                 })}
-            </Styled.SeriesSelect>
+            </StyledSelect>
           </Styled.SelectParallel>
         )}
         {!showCollection ? (
