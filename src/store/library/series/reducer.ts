@@ -41,7 +41,6 @@ const initialState: types.SeriesState = {
         updatedAt: "",
         createdBy: 0,
         updatedBy: 0,
-        baseSubsetId: 0,
         leagueId: 0,
         brandId: 0,
       },

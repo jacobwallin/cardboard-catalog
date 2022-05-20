@@ -24,7 +24,6 @@ const initialState: types.Subset = {
     release_date: "",
     year: 0,
     complete: false,
-    baseSubsetId: null,
     createdAt: "",
     updatedAt: "",
     createdBy: 0,

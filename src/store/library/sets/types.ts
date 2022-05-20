@@ -9,7 +9,6 @@ export interface SetsState {
 export interface CondensedSetInstance {
   id: number;
   name: string;
-  baseSubsetId: number | null;
   year: number;
   leagueId: number;
   brandId: number;
@@ -119,7 +118,6 @@ export interface UpdatedSet {
   description: string;
   createdAt: string;
   updatedAt: string;
-  baseSubsetId: number;
   league: {
     id: number;
     name: string;
