@@ -255,7 +255,7 @@ export default function CollectionSubset(props: Props) {
               <TotalCards totalCards={props.tableData.totalCards} />
               {props.tableData.totalCards > 0 && collectionFriend.id === 0 && (
                 <SubtleButton onClick={toggleDeleteChecklist}>
-                  {deleteCardsToggle ? "Cancel" : "Delete Cards"}
+                  {deleteCardsToggle ? "Cancel" : "Remove Cards"}
                 </SubtleButton>
               )}
             </SharedStyled.TableHeaderRow>
