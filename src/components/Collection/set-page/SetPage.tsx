@@ -148,7 +148,11 @@ const SetPage = () => {
               <>
                 {aggregatedSubsetData.base && (
                   <>
-                    <Shared.DataTableHeader>{`Base Set`}</Shared.DataTableHeader>
+                    <Shared.DataTableHeader>
+                      {aggregatedSubsetData.base.length > 1
+                        ? `Base Sets`
+                        : "Base Set"}
+                    </Shared.DataTableHeader>
                     <Shared.DataTableContainer>
                       <DataTable
                         noHeader
