@@ -8,7 +8,7 @@ export interface SubsetInstanceUserCard extends SubsetInstance {
 }
 
 export interface AggregatedSubsetData {
-  base: SubsetInstanceUserCard | undefined;
+  base: SubsetInstanceUserCard[];
   inserts: SubsetInstanceUserCard[];
   shortPrints: SubsetInstanceUserCard[];
   autoRelic: SubsetInstanceUserCard[];
@@ -17,29 +17,22 @@ export interface AggregatedSubsetData {
 export default function aggregateSubsetData(
   subsets: SubsetInstance[],
   cardsBySubset: SubsetCards[],
-  baseSubsetId: number,
   collectionOnly: boolean
 ): AggregatedSubsetData {
-  let aggregatedSubsets = aggregateSubsets(subsets, baseSubsetId);
-  let base: SubsetInstanceUserCard | undefined = undefined;
-  if (aggregatedSubsets.base) {
-    const baseSubsetUserCard = cardsBySubset.find(
-      (subset) => subset.subsetId === baseSubsetId
-    );
-    if (baseSubsetUserCard) {
-      base = {
-        ...aggregatedSubsets.base,
-        totalCards: +baseSubsetUserCard.totalCards,
-        distinctCards: +baseSubsetUserCard.distinctCards,
+  let aggregatedSubsets = aggregateSubsets(subsets);
+
+  let base: SubsetInstanceUserCard[] = aggregatedSubsets.base
+    .map((baseSubset) => {
+      const subsetUserCard = cardsBySubset.find(
+        (subset) => subset.subsetId === baseSubset.id
+      );
+      return {
+        ...baseSubset,
+        totalCards: subsetUserCard ? +subsetUserCard.totalCards : 0,
+        distinctCards: subsetUserCard ? +subsetUserCard.distinctCards : 0,
       };
-    } else if (!collectionOnly) {
-      base = {
-        ...aggregatedSubsets.base,
-        totalCards: 0,
-        distinctCards: 0,
-      };
-    }
-  }
+    })
+    .filter((s) => s.totalCards > 0 || !collectionOnly);
 
   let inserts: SubsetInstanceUserCard[] = aggregatedSubsets.inserts
     .map((insertSubset) => {

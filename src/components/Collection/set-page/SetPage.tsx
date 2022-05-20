@@ -64,12 +64,7 @@ const SetPage = () => {
   useEffect(() => {
     if (!isLoading && set.id !== 0 && cardsBySubset.setId !== 0) {
       setAggregatedSubsetData(
-        aggregateSubsetData(
-          set.subsets,
-          cardsBySubset.subsets,
-          set.baseSubsetId ? set.baseSubsetId : 0,
-          showCollection
-        )
+        aggregateSubsetData(set.subsets, cardsBySubset.subsets, showCollection)
       );
       const cardCount = cardsBySubset.subsets.reduce((totalCards, subset) => {
         return (totalCards += +subset.totalCards);
@@ -163,17 +158,12 @@ const SetPage = () => {
                           showCollection,
                           search.slice(search.length - 4) === "coll"
                         )}
-                        data={
-                          aggregatedSubsetData.base
-                            ? [aggregatedSubsetData.base]
-                            : []
-                        }
+                        data={aggregatedSubsetData.base}
                         highlightOnHover
                       />
                     </Shared.DataTableContainer>
                   </>
                 )}
-
                 {aggregatedSubsetData.shortPrints.length > 0 && (
                   <>
                     <Shared.DataTableHeader>{`Short Prints`}</Shared.DataTableHeader>
