@@ -159,7 +159,7 @@ export default function ViewTransaction() {
                   data={cardsAdded}
                   pagination
                   paginationRowsPerPageOptions={[10, 15, 20, 25, 50]}
-                  paginationPerPage={10}
+                  paginationPerPage={transaction.type === "TRADE" ? 10 : 15}
                 />
               </>
             )}
@@ -175,7 +175,7 @@ export default function ViewTransaction() {
                   data={cardsRemoved}
                   pagination
                   paginationRowsPerPageOptions={[10, 15, 20, 25, 50]}
-                  paginationPerPage={10}
+                  paginationPerPage={transaction.type === "TRADE" ? 10 : 15}
                 />
               </>
             )}
