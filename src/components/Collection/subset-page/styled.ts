@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const PageTitle = styled.div`
   font-weight: 400;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   margin: 50px 0 20px 0;
   align-self: flex-start;
 `;

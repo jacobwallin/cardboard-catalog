@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Input = styled.input`
-  width: 200px;
+  width: 250px;
   height: 35px;
   padding: 5px;
   border-radius: 5px;
@@ -15,7 +15,7 @@ export const LargeInput = styled(Input)`
 `;
 
 export const NumberInput = styled(Input)`
-  width: 150px;
+  width: 100px;
 `;
 
 export const Select = styled.select`
