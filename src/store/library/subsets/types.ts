@@ -92,6 +92,7 @@ export interface PostSubsetData {
   description: string;
   prefix: string;
   code: string | null;
+  base: boolean;
   auto: boolean;
   relic: boolean;
   manufacturedRelic: boolean;
