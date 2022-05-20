@@ -47,7 +47,7 @@ export function aggregateSubsets(
   baseSubsetId: number,
   collection: boolean
 ): AggregatedSubsetData {
-  return aggregateSubsetData(subsets, cardsBySubset, baseSubsetId, collection);
+  return aggregateSubsetData(subsets, cardsBySubset, collection);
 }
 
 export function aggregateSubset(

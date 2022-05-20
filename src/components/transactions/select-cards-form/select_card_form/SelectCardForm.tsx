@@ -65,7 +65,7 @@ export default function SelectCardForm(props: Props) {
   const [yearOptions, setYearOptions] = useState<number[]>([]);
   const [setOptions, setSetOptions] = useState<SetSummary[]>([]);
   const [subsetOptions, setSubsetOptions] = useState<AggregatedSubsetData>({
-    base: undefined,
+    base: [],
     inserts: [],
     shortPrints: [],
     autoRelic: [],
@@ -396,14 +396,14 @@ export default function SelectCardForm(props: Props) {
               <>
                 {subsetOptions.base && (
                   <optgroup label="Base Set">
-                    <option
-                      key={subsetOptions.base.id}
-                      value={subsetOptions.base.id}
-                    >
-                      {`${subsetOptions.base.name}`}
-                      {subsetOptions.base.prefix !== "" &&
-                        ` (${subsetOptions.base.prefix})`}
-                    </option>
+                    {subsetOptions.base.map((subset) => {
+                      return (
+                        <option key={subset.id} value={subset.id}>
+                          {`${subset.name}`}
+                          {subset.prefix !== "" && ` (${subset.prefix})`}
+                        </option>
+                      );
+                    })}
                   </optgroup>
                 )}
                 {subsetOptions.shortPrints.length > 0 && (
