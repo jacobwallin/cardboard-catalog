@@ -197,19 +197,6 @@ router.put("/:subsetId", isAdmin, async (req, res, next) => {
 
 router.delete("/:subsetId", isAdmin, async (req, res, next) => {
   try {
-    // find subset
-    const subset = await Subset.findByPk(req.params.subsetId);
-
-    if (subset) {
-      // get set that subset to be deleted belongs to
-      const set = await Set.findByPk(subset.setId);
-
-      // if the subset is the set's base subset, susbet cannot be deleted
-      if (set.baseSubsetId === subset.id) {
-        throw new Error("Cannot delete base subset!");
-      }
-    }
-
     const deleteSuccess = await Subset.destroy({
       where: { id: req.params.subsetId },
     });

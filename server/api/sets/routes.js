@@ -90,8 +90,6 @@ router.post("/", isAdmin, async (req, res, next) => {
     // set base series and subset ids and save
     baseSubset.baseSeriesId = baseSeries.id;
     await baseSubset.save();
-    newSet.baseSubsetId = baseSubset.id;
-    await newSet.save();
 
     // eager load created set to include league and brand
     const createdSet = await Set.findByPk(newSet.id, {
@@ -104,16 +102,8 @@ router.post("/", isAdmin, async (req, res, next) => {
 });
 
 router.put("/:setId", isAdmin, async (req, res, next) => {
-  const {
-    name,
-    release_date,
-    year,
-    description,
-    leagueId,
-    brandId,
-    baseSubsetId,
-    complete,
-  } = req.body;
+  const { name, release_date, year, description, leagueId, brandId, complete } =
+    req.body;
 
   try {
     await Set.update(
@@ -124,7 +114,6 @@ router.put("/:setId", isAdmin, async (req, res, next) => {
         description,
         leagueId,
         brandId,
-        baseSubsetId,
         complete,
         updatedBy: req.user.id,
       },
