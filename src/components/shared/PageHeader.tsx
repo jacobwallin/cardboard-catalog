@@ -20,10 +20,10 @@ export const Container = styled.div<{ flexColumn: boolean }>`
   }
 `;
 
-export const StyledHeader = styled.div`
+export const StyledHeader = styled.h1`
   font-size: 1.7em;
   font-weight: 600;
-  margin-left: 10px;
+  margin: 0 0 0 10px;
   color: #5a9bfd;
   @media only screen and (max-width: 450px) {
     font-size: 1.5rem;
@@ -35,10 +35,10 @@ export const StyledHeader = styled.div`
   }
 `;
 
-export const StyledSubHeader = styled.div`
+export const StyledSubHeader = styled.h2`
   font-size: 1.1em;
   font-weight: 600;
-  margin-left: 15px;
+  margin: 0 0 0 15px;
   color: #5a9bfd;
   @media only screen and (max-width: 450px) {
     font-size: 0.9rem;
