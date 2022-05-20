@@ -157,6 +157,7 @@ export default function BrowseSubset(props: Props) {
                   name: subset.name,
                   baseSeriesId: subset.baseSeriesId,
                   prefix: subset.prefix,
+                  base: subset.base,
                   code: subset.code,
                   auto: subset.auto,
                   relic: subset.relic,

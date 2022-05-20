@@ -6,7 +6,6 @@ import { RootState } from "../../../store";
 import EditSet from "./edit_set/EditSet";
 import { createLoadingSelector } from "../../../store/loading/reducer";
 import CreateSubsetModal from "./subset_modal/CreateSubsetModal";
-import EditFormHeader from "../components/EditFormHeader";
 import AdminPageContainer from "../components/AdminPageContainer";
 import CreateButton from "../components/CreateButton";
 import { LoadingDots } from "../../shared/Loading";
@@ -44,9 +43,7 @@ export default function SetAdminPage() {
 
   useEffect(() => {
     if (set.subsets.length > 0) {
-      setAggregatedSubsets(
-        aggregateSubsets(set.subsets, set.baseSubsetId || 0)
-      );
+      setAggregatedSubsets(aggregateSubsets(set.subsets));
     }
   }, [set]);
 
@@ -85,7 +82,7 @@ export default function SetAdminPage() {
               dense
               highlightOnHover
               columns={dataTableColumns}
-              data={aggregatedSubsets.base ? [aggregatedSubsets?.base] : []}
+              data={aggregatedSubsets.base}
             />
           </DataTableComponents.DataTableWrapper>
           <DataTableComponents.DataTableWrapper>
