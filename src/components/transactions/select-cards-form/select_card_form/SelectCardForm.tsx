@@ -381,7 +381,11 @@ export default function SelectCardForm(props: Props) {
             (set.id === selectedSetId || userSet.setId === selectedSetId) && (
               <>
                 {subsetOptions.base && (
-                  <optgroup label="Base Set">
+                  <optgroup
+                    label={
+                      subsetOptions.base.length > 1 ? "Base Sets" : "Base Set"
+                    }
+                  >
                     {subsetOptions.base.map((subset) => {
                       return (
                         <option key={subset.id} value={subset.id}>
