@@ -1,4 +1,4 @@
-import { SetSummary } from "../../../store/library/sets/types";
+import { SetSummary } from "../../store/library/sets/types";
 
 export interface TableRow {
   year: number;

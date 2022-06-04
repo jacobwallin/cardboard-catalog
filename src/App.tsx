@@ -42,6 +42,8 @@ function App() {
               <Route path="set/:setId" element={<SetPage />} />
               <Route path="subset/:subsetId" element={<SubsetPage />} />
               <Route path="browse/*" element={<Browse />} />
+              <Route path="browse/:sport" element={<Browse />} />
+              <Route path="browse/:sport/:year" element={<Browse />} />
               <Route path="transactions/*" element={<Transactions />} />
               <Route path="trade/*" element={<Trade />} />
               <Route path="profile/*" element={<Profile />} />

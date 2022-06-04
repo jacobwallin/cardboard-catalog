@@ -8,9 +8,10 @@ import { get, post, put, del } from "../../../utils/fetch";
 import { SubsetInstance } from "../subsets/types";
 
 export const fetchAllSetData =
-  (): ThunkAction<void, RootState, unknown, SetsActionTypes> => (dispatch) => {
+  (sportId: number): ThunkAction<void, RootState, unknown, SetsActionTypes> =>
+  (dispatch) => {
     dispatch(actions.getAllSetsRequest());
-    get(`/api/sets`, dispatch)
+    get(`/api/sets?sportId=${sportId}`, dispatch)
       .then((data) => {
         dispatch(actions.getAllSetsSuccess(data));
       })
