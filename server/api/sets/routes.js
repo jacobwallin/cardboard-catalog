@@ -6,7 +6,16 @@ const { Set, Brand, League, Subset, Series, User } = require("../../db/models");
 
 // get a summary of all sets in the library
 router.get("/", async (req, res, next) => {
+  const { sportId } = req.query;
+
   try {
+    // verify a sport id is specified in query param
+    if (!sportId) {
+      let err = new Error("must specify sport");
+      err.status = 400;
+      throw err;
+    }
+
     const allSets = await Set.findAll({
       order: [
         ["year", "DESC"],
@@ -16,11 +25,14 @@ router.get("/", async (req, res, next) => {
         { model: League, attributes: ["id", "name"] },
         { model: Brand, attributes: ["id", "name"] },
       ],
+      where: {
+        leagueId: sportId,
+      },
     });
 
     res.json(allSets);
   } catch (error) {
-    res.sendStatus(500);
+    next(error);
   }
 });
 
@@ -79,6 +91,7 @@ router.post("/", isAdmin, async (req, res, next) => {
       setId: newSet.id,
       createdBy: req.user.id,
       updatedBy: req.user.id,
+      base: true,
     });
     let baseSeries = await Series.create({
       name: "Base Set",
