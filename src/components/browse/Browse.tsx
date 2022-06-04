@@ -5,8 +5,8 @@ import { fetchAllSetData } from "../../store/library/sets/thunks";
 import PageHeader from "../shared/PageHeader";
 import CollectionWrapper from "../shared/CollectionWrapper";
 import CollectionContainer from "../shared/CollectionContainer";
-import SelectYear from "./select_year/SelectYear";
-import SelectSet from "./select_set/SelectSet";
+import SelectYear from "./select-year/SelectYear";
+import SelectSet from "./select-set/SelectSet";
 import Breadcrumbs from "../breadcrumbs/Breadcrumbs";
 
 export default function Browse() {
