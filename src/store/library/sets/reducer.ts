@@ -1,7 +1,10 @@
 import * as types from "./types";
 
 const initialState: types.SetsState = {
-  allSets: [],
+  allSets: {
+    count: 0,
+    rows: [],
+  },
   set: {
     id: 0,
     name: "",
@@ -43,34 +46,46 @@ const setsReducer = (
     case types.GET_ALL_SETS_SUCCESS:
       return { ...state, allSets: action.allSets };
     case types.CREATE_SET_SUCCESS:
-      return { ...state, allSets: [...state.allSets, action.set] };
+      return {
+        ...state,
+        allSets: {
+          rows: [...state.allSets.rows, action.set],
+          count: state.allSets.count + 1,
+        },
+      };
     case types.UPDATE_SET_SUCCESS:
       /// update both the single set and all sets state to reflect updates to a set
       return {
         ...state,
         set: { ...state.set, ...action.updatedSet },
-        allSets: state.allSets.map((set) => {
-          if (set.id !== action.updatedSet.id) return set;
-          return {
-            ...set,
-            id: action.updatedSet.id,
-            name: action.updatedSet.name,
-            release_date: action.updatedSet.release_date,
-            description: action.updatedSet.description,
-            leagueId: action.updatedSet.league.id,
-            brandId: action.updatedSet.brand.id,
-            league: action.updatedSet.league,
-            brand: action.updatedSet.brand,
-          };
-        }),
+        allSets: {
+          rows: state.allSets.rows.map((set) => {
+            if (set.id !== action.updatedSet.id) return set;
+            return {
+              ...set,
+              id: action.updatedSet.id,
+              name: action.updatedSet.name,
+              release_date: action.updatedSet.release_date,
+              description: action.updatedSet.description,
+              leagueId: action.updatedSet.league.id,
+              brandId: action.updatedSet.brand.id,
+              league: action.updatedSet.league,
+              brand: action.updatedSet.brand,
+            };
+          }),
+          count: state.allSets.count,
+        },
       };
     case types.DELETE_SET_SUCCESS:
       return {
         ...state,
         set: initialState.set,
-        allSets: state.allSets.filter((set) => {
-          return set.id !== action.setId;
-        }),
+        allSets: {
+          rows: state.allSets.rows.filter((set) => {
+            return set.id !== action.setId;
+          }),
+          count: state.allSets.count - 1,
+        },
       };
     case types.CREATE_SUBSET_SUCCESS:
       return {

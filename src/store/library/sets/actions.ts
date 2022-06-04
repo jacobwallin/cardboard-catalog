@@ -4,9 +4,10 @@ import { SubsetInstance } from "../subsets/types";
 export const getAllSetsRequest = (): types.SetsActionTypes => ({
   type: types.GET_ALL_SETS_REQUEST,
 });
-export const getAllSetsSuccess = (
-  allSets: types.SetSummary[]
-): types.SetsActionTypes => ({
+export const getAllSetsSuccess = (allSets: {
+  rows: types.SetSummary[];
+  count: number;
+}): types.SetsActionTypes => ({
   type: types.GET_ALL_SETS_SUCCESS,
   allSets,
 });

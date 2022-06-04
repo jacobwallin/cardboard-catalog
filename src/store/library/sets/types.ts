@@ -3,7 +3,10 @@ import { SubsetInstance } from "../subsets/types";
 // STATE
 export interface SetsState {
   set: Set;
-  allSets: SetSummary[];
+  allSets: {
+    count: number;
+    rows: SetSummary[];
+  };
 }
 
 export interface CondensedSetInstance {
@@ -24,7 +27,13 @@ export interface SetInstance extends CondensedSetInstance {
   updatedBy: number;
 }
 
-export interface SetSummary extends SetInstance {
+export interface SetSummary extends CondensedSetInstance {
+  complete: boolean;
+  release_date: string | null;
+  createdAt: string;
+  updatedAt: string;
+  createdBy: number;
+  updatedBy: number;
   league: {
     name: string;
     id: number;
@@ -80,7 +89,10 @@ export interface GetAllSetsRequest {
 }
 export interface GetAllSetsSuccess {
   type: typeof GET_ALL_SETS_SUCCESS;
-  allSets: SetSummary[];
+  allSets: {
+    rows: SetSummary[];
+    count: number;
+  };
 }
 export interface getAllSetsFailure {
   type: typeof GET_ALL_SETS_FAILURE;
