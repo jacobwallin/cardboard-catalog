@@ -14,6 +14,7 @@ import Breadcrumbs from "../breadcrumbs/Breadcrumbs";
 export default function Admin() {
   const [yearFilter, setYearFilter] = useState(0);
   const [brandFilter, setBrandFilter] = useState(0);
+  const [sportFilter, setSportFilter] = useState(0);
 
   function changeYearFilter(filter: number) {
     setYearFilter(filter);
@@ -21,6 +22,10 @@ export default function Admin() {
 
   function changeBrandFilter(filter: number) {
     setBrandFilter(filter);
+  }
+
+  function changeSportFilter(filter: number) {
+    setSportFilter(filter);
   }
 
   return (
@@ -34,10 +39,12 @@ export default function Admin() {
               path="/"
               element={
                 <AdminSets
+                  sportFilter={sportFilter}
                   yearFilter={yearFilter}
                   brandFilter={brandFilter}
                   setYearFilter={changeYearFilter}
                   setBrandFilter={changeBrandFilter}
+                  setSportFilter={changeSportFilter}
                 />
               }
             />

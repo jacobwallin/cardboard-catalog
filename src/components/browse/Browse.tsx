@@ -26,7 +26,9 @@ export default function Browse() {
   const dispatch = useDispatch();
   const { sport, year } = useParams();
 
-  const sets = useSelector((state: RootState) => state.library.sets.allSets);
+  const sets = useSelector(
+    (state: RootState) => state.library.sets.allSets.rows
+  );
   const sports = useSelector(
     (state: RootState) => state.library.leagues.allLeagues
   );
@@ -43,7 +45,7 @@ export default function Browse() {
 
       // if sport is found, fetch sets by sport id
       if (selectedSport) {
-        dispatch(fetchAllSetData(selectedSport.id));
+        dispatch(fetchAllSetData({ sportId: selectedSport.id }));
       }
     }
   }, [sport, sports, dispatch]);

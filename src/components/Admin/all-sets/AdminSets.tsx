@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllSetData } from "../../../store/library/sets/thunks";
+import { fetchAllBrands } from "../../../store/library/brands/thunks";
+import { fetchLeagues } from "../../../store/library/leagues/thunks";
 import { RootState } from "../../../store";
 import CreateSetModal from "./create-set-modal/CreateSetModal";
 import DataTable from "react-data-table-component";
@@ -19,31 +21,68 @@ import { createStatusSelector } from "../../../store/loading/reducer";
 const createSetSelector = createStatusSelector("CREATE_SET");
 
 interface Props {
+  sportFilter: number;
   yearFilter: number;
   brandFilter: number;
+  setSportFilter(filter: number): void;
   setYearFilter(filter: number): void;
   setBrandFilter(filter: number): void;
 }
 
 export default function AdminSets(props: Props) {
   const dispatch = useDispatch();
+  const {
+    yearFilter,
+    brandFilter,
+    sportFilter,
+    setSportFilter,
+    setYearFilter,
+    setBrandFilter,
+  } = props;
 
   // toggle to show form for creating a new set
   const [createSet, setCreateSet] = useState(false);
-  const [filterData, setFilterData] = useState<FilterValues>({
-    years: [],
-    brands: [],
-  });
-  const [filteredSets, setFilteredSets] = useState<SetSummary[]>([]);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const [page, setPage] = useState(1);
+  const [sortBy, setSortBy] = useState("date");
+  const [sortDirection, setSortDirection] = useState("desc");
 
   const allSets = useSelector((state: RootState) => state.library.sets.allSets);
+  const brands = useSelector(
+    (state: RootState) => state.library.brands.allBrands
+  );
+  const sports = useSelector(
+    (state: RootState) => state.library.leagues.allLeagues
+  );
   const createSetStatus = useSelector((state: RootState) =>
     createSetSelector(state)
   );
 
   useEffect(() => {
-    dispatch(fetchAllSetData());
-  }, []);
+    dispatch(fetchAllBrands());
+    dispatch(fetchLeagues());
+  }, [dispatch]);
+
+  useEffect(() => {
+    let query = `limit=${rowsPerPage}&offset=${
+      (page - 1) * rowsPerPage
+    }&sort=${sortBy}&sort_direction=${sortDirection}`;
+
+    if (sportFilter) query += `&sportId=${sportFilter}`;
+    if (yearFilter) query += `&year=${yearFilter}`;
+    if (brandFilter) query += `&brandId=${brandFilter}`;
+
+    dispatch(fetchAllSetData(query));
+  }, [
+    sportFilter,
+    yearFilter,
+    brandFilter,
+    rowsPerPage,
+    page,
+    sortBy,
+    sortDirection,
+    dispatch,
+  ]);
 
   // if loading status of updating set changes to success, hide the form
   useEffect(() => {
@@ -52,30 +91,40 @@ export default function AdminSets(props: Props) {
     }
   }, [createSetStatus]);
 
-  useEffect(() => {
-    if (allSets.length > 0) {
-      let filters = aggregateFilterValues(allSets, props.yearFilter);
-
-      // when switching year filter, reset brand filter if the brand does not exist in the selected year
-      if (!filters.brands.some((b) => b.id === props.brandFilter)) {
-        props.setBrandFilter(0);
-      }
-      setFilterData(filters);
-      setFilteredSets(filterSets(allSets, props.yearFilter, props.brandFilter));
-    }
-  }, [allSets, props]);
-
   function toggleModal() {
     setCreateSet(!createSet);
   }
 
   function handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    if (e.target.id === "sport") {
+      setSportFilter(+e.target.value);
+    }
     if (e.target.id === "year") {
-      props.setYearFilter(+e.target.value);
+      setYearFilter(+e.target.value);
     }
     if (e.target.id === "brand") {
-      props.setBrandFilter(+e.target.value);
+      setBrandFilter(+e.target.value);
     }
+  }
+
+  function handleRowsPerPageChange(rowsPerPage: number) {
+    setRowsPerPage(rowsPerPage);
+  }
+
+  function handlePageChange(page: number) {
+    setPage(page);
+  }
+
+  function handleSort(column: any, sortDirection: any) {
+    const sortBy =
+      (column.name === "#" && "number") ||
+      (column.name === "Name" && "name") ||
+      (column.name === "Set" && "set") ||
+      (column.name === "Date Added" && "date") ||
+      "";
+
+    setSortBy(sortBy);
+    setSortDirection(sortDirection);
   }
 
   return (
@@ -85,12 +134,26 @@ export default function AdminSets(props: Props) {
       <DataTableComponents.DataTableWrapper>
         <Styled.FilterContainer>
           <SelectFilter
+            id="sport"
+            value={sportFilter}
+            onChange={handleSelectChange}
+          >
+            <option value={0}>Select Sport</option>
+            {sports.map((sport) => {
+              return (
+                <option key={sport.id} value={sport.id}>
+                  {sport.name}
+                </option>
+              );
+            })}
+          </SelectFilter>
+          <SelectFilter
             id="year"
-            value={props.yearFilter}
+            value={yearFilter}
             onChange={handleSelectChange}
           >
             <option value={0}>Select Year</option>
-            {filterData.years.map((year) => {
+            {[2021, 2020, 2019].map((year) => {
               return (
                 <option key={year} value={year}>
                   {year}
@@ -100,11 +163,11 @@ export default function AdminSets(props: Props) {
           </SelectFilter>
           <SelectFilter
             id="brand"
-            value={props.brandFilter}
+            value={brandFilter}
             onChange={handleSelectChange}
           >
             <option value={0}>Select Brand</option>
-            {filterData.brands.map((brand) => {
+            {brands.map((brand) => {
               return (
                 <option key={brand.id} value={brand.id}>
                   {brand.name}
@@ -123,14 +186,18 @@ export default function AdminSets(props: Props) {
             </CreateButton>
           </DataTableComponents.DataTableButtonsContainer>
         </DataTableComponents.DataTableHeader>
-
         <DataTable
           noHeader
           columns={dataTableColumns}
-          data={filteredSets}
+          data={allSets.rows}
           highlightOnHover
           pagination
+          paginationServer
+          paginationTotalRows={allSets.count}
+          onChangeRowsPerPage={handleRowsPerPageChange}
+          onChangePage={handlePageChange}
           paginationPerPage={20}
+          onSort={handleSort}
           dense
         />
       </DataTableComponents.DataTableWrapper>
