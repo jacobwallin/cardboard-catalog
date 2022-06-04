@@ -6,28 +6,24 @@ const { Set, Brand, League, Subset, Series, User } = require("../../db/models");
 
 // get a summary of all sets in the library
 router.get("/", async (req, res, next) => {
-  const { sportId } = req.query;
+  const { sportId, year, brandId, limit, offset } = req.query;
 
   try {
-    // verify a sport id is specified in query param
-    if (!sportId) {
-      let err = new Error("must specify sport");
-      err.status = 400;
-      throw err;
-    }
+    let filters = {};
+    if (sportId) filters.leagueId = sportId;
+    if (year) filters.year = year;
+    if (brandId) filters.brandId = brandId;
 
     const allSets = await Set.findAll({
-      order: [
-        ["year", "DESC"],
-        ["name", "ASC"],
-      ],
+      order: [["createdAt", "DESC"]],
+      attributes: { exclude: ["description"] },
       include: [
         { model: League, attributes: ["id", "name"] },
         { model: Brand, attributes: ["id", "name"] },
       ],
-      where: {
-        leagueId: sportId,
-      },
+      where: filters,
+      limit,
+      offset,
     });
 
     res.json(allSets);
