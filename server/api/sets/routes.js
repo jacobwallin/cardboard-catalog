@@ -14,7 +14,7 @@ router.get("/", async (req, res, next) => {
     if (year) filters.year = year;
     if (brandId) filters.brandId = brandId;
 
-    const allSets = await Set.findAll({
+    const allSets = await Set.findAndCountAll({
       order: [["createdAt", "DESC"]],
       attributes: { exclude: ["description"] },
       include: [
