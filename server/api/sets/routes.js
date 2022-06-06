@@ -6,7 +6,8 @@ const { Set, Brand, League, Subset, Series, User } = require("../../db/models");
 
 // get a summary of all sets in the library
 router.get("/", async (req, res, next) => {
-  const { sportId, year, brandId, limit, offset } = req.query;
+  const { sportId, year, brandId, limit, offset, sort, sort_direction } =
+    req.query;
 
   try {
     let filters = {};
@@ -14,8 +15,46 @@ router.get("/", async (req, res, next) => {
     if (year) filters.year = year;
     if (brandId) filters.brandId = brandId;
 
+    let order = [];
+    if (sort) {
+      let direction = "DESC";
+      if (sort_direction === "asc") direction = "ASC";
+      switch (sort) {
+        case "name":
+          order = [
+            ["name", direction],
+            ["createdAt", "DESC"],
+          ];
+          break;
+        case "year":
+          order = [
+            ["year", direction],
+            ["createdAt", "DESC"],
+          ];
+          break;
+        case "brand":
+          order = [
+            [Brand, "name", direction],
+            ["createdAt", "DESC"],
+          ];
+          break;
+        case "league":
+          order = [
+            [League, "name", direction],
+            ["createdAt", "DESC"],
+          ];
+          break;
+        case "date":
+          order = [["createdAt", direction]];
+          break;
+
+        default:
+          break;
+      }
+    }
+
     const allSets = await Set.findAndCountAll({
-      order: [["createdAt", "DESC"]],
+      order,
       attributes: { exclude: ["description"] },
       include: [
         { model: League, attributes: ["id", "name"] },
