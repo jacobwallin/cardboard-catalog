@@ -138,7 +138,7 @@ export default function AdminSets(props: Props) {
             value={sportFilter}
             onChange={handleSelectChange}
           >
-            <option value={0}>Select Sport</option>
+            <option value={0}>All Sports</option>
             {sports.map((sport) => {
               return (
                 <option key={sport.id} value={sport.id}>
@@ -152,7 +152,7 @@ export default function AdminSets(props: Props) {
             value={yearFilter}
             onChange={handleSelectChange}
           >
-            <option value={0}>Select Year</option>
+            <option value={0}>All Years</option>
             {[2021, 2020, 2019].map((year) => {
               return (
                 <option key={year} value={year}>
@@ -166,7 +166,7 @@ export default function AdminSets(props: Props) {
             value={brandFilter}
             onChange={handleSelectChange}
           >
-            <option value={0}>Select Brand</option>
+            <option value={0}>All Brands</option>
             {brands.map((brand) => {
               return (
                 <option key={brand.id} value={brand.id}>
