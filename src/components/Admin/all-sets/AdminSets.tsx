@@ -12,9 +12,7 @@ import CreateButton from "../components/CreateButton";
 import { Header } from "../components/PageHeader";
 import * as DataTableComponents from "../components/DataTableComponents";
 import SelectFilter from "../components/SelectFilter";
-import { aggregateFilterValues, filterSets, FilterValues } from "./aggregate";
 import * as Styled from "./styled";
-import { SetSummary } from "../../../store/library/sets/types";
 
 import { createStatusSelector } from "../../../store/loading/reducer";
 
