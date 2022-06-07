@@ -38,9 +38,15 @@ router.get("/", async (req, res, next) => {
             ["createdAt", "DESC"],
           ];
           break;
-        case "league":
+        case "sport":
           order = [
             [League, "name", direction],
+            ["createdAt", "DESC"],
+          ];
+          break;
+        case "complete":
+          order = [
+            ["complete", direction],
             ["createdAt", "DESC"],
           ];
           break;
@@ -67,6 +73,7 @@ router.get("/", async (req, res, next) => {
 
     res.json(allSets);
   } catch (error) {
+    console.log("**", error.message);
     next(error);
   }
 });

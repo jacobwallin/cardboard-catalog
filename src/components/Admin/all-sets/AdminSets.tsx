@@ -116,11 +116,14 @@ export default function AdminSets(props: Props) {
   }
 
   function handleSort(column: any, sortDirection: any) {
+    console.log("SORTING: ", column, sortDirection);
     const sortBy =
-      (column.name === "#" && "number") ||
+      (column.name === "League" && "sport") ||
       (column.name === "Name" && "name") ||
-      (column.name === "Set" && "set") ||
+      (column.name === "Year" && "year") ||
+      (column.name === "Brand" && "brand") ||
       (column.name === "Date Added" && "date") ||
+      (column.name === "Completed" && "complete") ||
       "";
 
     setSortBy(sortBy);
@@ -196,7 +199,8 @@ export default function AdminSets(props: Props) {
           paginationTotalRows={allSets.count}
           onChangeRowsPerPage={handleRowsPerPageChange}
           onChangePage={handlePageChange}
-          paginationPerPage={20}
+          paginationPerPage={rowsPerPage}
+          paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
           onSort={handleSort}
           dense
         />
