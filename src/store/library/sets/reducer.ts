@@ -49,7 +49,7 @@ const setsReducer = (
       return {
         ...state,
         allSets: {
-          rows: [...state.allSets.rows, action.set],
+          rows: [action.set, ...state.allSets.rows],
           count: state.allSets.count + 1,
         },
       };
