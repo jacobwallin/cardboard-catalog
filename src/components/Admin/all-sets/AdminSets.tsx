@@ -140,13 +140,18 @@ export default function AdminSets(props: Props) {
             onChange={handleSelectChange}
           >
             <option value={0}>All Sports</option>
-            {sports.map((sport) => {
-              return (
-                <option key={sport.id} value={sport.id}>
-                  {sport.name}
-                </option>
-              );
-            })}
+            {sports
+              .sort((a, b) => {
+                if (a.name > b.name) return 1;
+                return -1;
+              })
+              .map((sport) => {
+                return (
+                  <option key={sport.id} value={sport.id}>
+                    {sport.name}
+                  </option>
+                );
+              })}
           </SelectFilter>
           <SelectFilter
             id="year"
@@ -168,13 +173,18 @@ export default function AdminSets(props: Props) {
             onChange={handleSelectChange}
           >
             <option value={0}>All Brands</option>
-            {brands.map((brand) => {
-              return (
-                <option key={brand.id} value={brand.id}>
-                  {brand.name}
-                </option>
-              );
-            })}
+            {brands
+              .sort((a, b) => {
+                if (a.name > b.name) return 1;
+                return -1;
+              })
+              .map((brand) => {
+                return (
+                  <option key={brand.id} value={brand.id}>
+                    {brand.name}
+                  </option>
+                );
+              })}
           </SelectFilter>
         </Styled.FilterContainer>
         <DataTableComponents.DataTableHeader>
