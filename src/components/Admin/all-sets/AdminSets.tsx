@@ -63,9 +63,8 @@ export default function AdminSets(props: Props) {
   );
 
   useEffect(() => {
-    dispatch(fetchAllBrands());
-    dispatch(fetchSetYears());
     dispatch(fetchLeagues());
+    dispatch(fetchAllBrands());
   }, [dispatch]);
 
   useEffect(() => {
@@ -88,6 +87,14 @@ export default function AdminSets(props: Props) {
     sortDirection,
     dispatch,
   ]);
+
+  useEffect(() => {
+    if (sportFilter !== 0) {
+      dispatch(fetchSetYears(sportFilter));
+    } else {
+      dispatch(fetchSetYears());
+    }
+  }, [sportFilter, dispatch]);
 
   // if loading status of updating set changes to success, hide the form
   useEffect(() => {
