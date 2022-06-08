@@ -22,8 +22,8 @@ export const FilterSection = styled.div`
 
 export const SectionHeader = styled.div`
   color: grey;
-  font-size: 0.8rem;
-  margin-bottom: 5px;
+  font-size: 0.9rem;
+  margin-bottom: 7px;
   margin-top: 10px;
 `;
 
@@ -46,7 +46,7 @@ export const Select = styled.select`
 `;
 
 export const AttributeSelect = styled(Select)`
-  width: 85px;
+  width: 65px;
 `;
 
 export const Label = styled.label`
@@ -190,19 +190,19 @@ export const ShowColumn = styled.div`
 `;
 
 export const FilterBubble = styled.div`
-  height: 20px;
-  font-size: 0.7rem;
+  height: 22px;
+  font-size: 0.8rem;
   background-color: lightgray;
-  border-radius: 10px;
+  border-radius: 11px;
   display: inline;
-  padding: 3px 8px 3px 8px;
+  padding: 3px 10px 3px 10px;
   margin: 0 7px 7px 0;
 `;
 
 export const ActiveFilters = styled.div`
   align-self: flex-start;
   color: #444;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   margin: 20px 0 3px 0;
 `;
 

@@ -245,7 +245,7 @@ export default function Filter(props: Props) {
         </Styled.Filter>
       </Styled.FilterSection>
       <Styled.FilterSection>
-        <Styled.SectionHeader>Attribute</Styled.SectionHeader>
+        <Styled.SectionHeader>Attributes</Styled.SectionHeader>
         <Styled.Filter>
           <Styled.Label htmlFor="rookie">Rookie: </Styled.Label>
           <Styled.AttributeSelect
@@ -253,7 +253,7 @@ export default function Filter(props: Props) {
             value={filters.rookie}
             onChange={props.handleFilterChange}
           >
-            <option value={0}>Include</option>
+            <option value={0}>-</option>
             <option value={1}>True</option>
             <option value={-1}>False</option>
           </Styled.AttributeSelect>
@@ -265,7 +265,7 @@ export default function Filter(props: Props) {
             value={filters.serialized}
             onChange={props.handleFilterChange}
           >
-            <option value={0}>Include</option>
+            <option value={0}>-</option>
             <option value={1}>True</option>
             <option value={-1}>False</option>
           </Styled.AttributeSelect>
@@ -277,7 +277,7 @@ export default function Filter(props: Props) {
             value={filters.shortPrint}
             onChange={props.handleFilterChange}
           >
-            <option value={0}>Include</option>
+            <option value={0}>-</option>
             <option value={1}>True</option>
             <option value={-1}>False</option>
           </Styled.AttributeSelect>
@@ -289,7 +289,7 @@ export default function Filter(props: Props) {
             value={filters.graded}
             onChange={props.handleFilterChange}
           >
-            <option value={0}>Include</option>
+            <option value={0}>-</option>
             <option value={1}>True</option>
             <option value={-1}>False</option>
           </Styled.AttributeSelect>
@@ -301,7 +301,7 @@ export default function Filter(props: Props) {
             value={filters.parallel}
             onChange={props.handleFilterChange}
           >
-            <option value={0}>Include</option>
+            <option value={0}>-</option>
             <option value={1}>True</option>
             <option value={-1}>False</option>
           </Styled.AttributeSelect>
@@ -313,7 +313,7 @@ export default function Filter(props: Props) {
             value={filters.refractor}
             onChange={props.handleFilterChange}
           >
-            <option value={0}>Include</option>
+            <option value={0}>-</option>
             <option value={1}>True</option>
             <option value={-1}>False</option>
           </Styled.AttributeSelect>
@@ -325,7 +325,7 @@ export default function Filter(props: Props) {
             value={filters.auto}
             onChange={props.handleFilterChange}
           >
-            <option value={0}>Include</option>
+            <option value={0}>-</option>
             <option value={1}>True</option>
             <option value={-1}>False</option>
           </Styled.AttributeSelect>
@@ -337,7 +337,7 @@ export default function Filter(props: Props) {
             value={filters.relic}
             onChange={props.handleFilterChange}
           >
-            <option value={0}>Include</option>
+            <option value={0}>-</option>
             <option value={1}>True</option>
             <option value={-1}>False</option>
           </Styled.AttributeSelect>
@@ -351,7 +351,7 @@ export default function Filter(props: Props) {
             value={filters.manufacturedRelic}
             onChange={props.handleFilterChange}
           >
-            <option value={0}>Include</option>
+            <option value={0}>-</option>
             <option value={1}>True</option>
             <option value={-1}>False</option>
           </Styled.AttributeSelect>
@@ -366,7 +366,7 @@ export default function Filter(props: Props) {
             value={filters.hallOfFame}
             onChange={props.handleFilterChange}
           >
-            <option value={0}>Include</option>
+            <option value={0}>-</option>
             <option value={1}>True</option>
             <option value={-1}>False</option>
           </Styled.AttributeSelect>
