@@ -9,6 +9,7 @@ import { createLoadingSelector } from "../../../store/loading/reducer";
 import sortSeries from "../subset-page/sortSeries";
 import { SetCards } from "../../../store/collection/browse/types";
 import { League } from "../../../store/library/leagues/types";
+import PlayerTable from "./PlayerTable";
 
 const setLoadingSelector = createLoadingSelector(["GET_SINGLE_SET"]);
 const subsetLoadingSelector = createLoadingSelector(["GET_SUBSET"]);
@@ -382,39 +383,7 @@ export default function Filter(props: Props) {
             autoComplete="off"
           />
         </Styled.Filter>
-        <Styled.Filter>
-          <Styled.Label htmlFor="player">Player: </Styled.Label>
-          <Styled.Select
-            id="player"
-            onChange={props.handleFilterChange}
-            disabled={filters.playerSearch.length < 2}
-            value={filters.player}
-          >
-            <option value={""}>All</option>
-            {filters.playerSearch.length > 1 &&
-              players
-                .filter((player) => {
-                  return player.name
-                    .toLowerCase()
-                    .includes(filters.playerSearch.toLowerCase());
-                })
-                .sort((playerA, playerB) => {
-                  if (playerA.name < playerB.name) return -1;
-                  if (playerA.name > playerB.name) return 1;
-                  return 0;
-                })
-                .map((player) => {
-                  return (
-                    <option
-                      key={player.id}
-                      value={`${player.id}-${player.name}`}
-                    >
-                      {player.name}
-                    </option>
-                  );
-                })}
-          </Styled.Select>
-        </Styled.Filter>
+        <PlayerTable players={players} />
       </Styled.FilterSection>
     </Styled.FiltersContainer>
   );

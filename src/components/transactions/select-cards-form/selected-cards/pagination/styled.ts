@@ -8,6 +8,7 @@ export const MenuContainer = styled.div`
   align-items: center;
   margin-top: 5px;
   color: #555;
+  justify-content: center;
   @media (max-width: ${breakpoint}) {
     flex-direction: column;
     align-items: flex-start;

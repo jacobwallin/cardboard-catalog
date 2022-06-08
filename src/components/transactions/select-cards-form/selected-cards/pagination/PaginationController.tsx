@@ -7,6 +7,8 @@ interface Props {
   setCurrentPage(pageNumber: number): void;
   currentPage: number;
   totalCards: number;
+  hideRowsPerPage?: boolean;
+  hideTotal?: boolean;
 }
 
 export default function PaginationController(props: Props) {
@@ -42,28 +44,30 @@ export default function PaginationController(props: Props) {
 
   return (
     <Styled.MenuContainer>
-      <Styled.RowsContainer>
-        <Styled.RowsPerPageLabel>Rows: </Styled.RowsPerPageLabel>
-        <Styled.RowsPerPage
-          id="rows"
-          value={rowsPerPage}
-          onChange={rowsPerPageChange}
-        >
-          <option value={5}>5</option>
-          <option value={10}>10</option>
-          <option value={15}>15</option>
-          <option value={25}>25</option>
-        </Styled.RowsPerPage>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-        >
-          <path d="M7 10l5 5 5-5z"></path>
-          <path d="M0 0h24v24H0z" fill="none"></path>
-        </svg>
-      </Styled.RowsContainer>
+      {!props.totalCards && (
+        <Styled.RowsContainer>
+          <Styled.RowsPerPageLabel>Rows: </Styled.RowsPerPageLabel>
+          <Styled.RowsPerPage
+            id="rows"
+            value={rowsPerPage}
+            onChange={rowsPerPageChange}
+          >
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={15}>15</option>
+            <option value={25}>25</option>
+          </Styled.RowsPerPage>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path d="M7 10l5 5 5-5z"></path>
+            <path d="M0 0h24v24H0z" fill="none"></path>
+          </svg>
+        </Styled.RowsContainer>
+      )}
       <Styled.ControlsContainer>
         <Styled.SvgWrapper>
           <svg
@@ -131,7 +135,9 @@ export default function PaginationController(props: Props) {
           </svg>
         </Styled.SvgWrapper>
       </Styled.ControlsContainer>
-      <Styled.TotalCards>Total Cards: {totalCards}</Styled.TotalCards>
+      {!props.hideTotal && (
+        <Styled.TotalCards>Total Cards: {totalCards}</Styled.TotalCards>
+      )}
     </Styled.MenuContainer>
   );
 }

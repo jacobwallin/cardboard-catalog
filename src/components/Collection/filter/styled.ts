@@ -4,7 +4,7 @@ export const FiltersContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 10px;
   @media only screen and (max-width: 600px) {
     flex-direction: column;
@@ -17,7 +17,7 @@ export const FilterSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 30px;
+  width: 100%;
 `;
 
 export const SectionHeader = styled.div`
