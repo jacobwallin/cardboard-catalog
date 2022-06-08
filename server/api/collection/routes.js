@@ -60,7 +60,7 @@ router.get("/", verifyFriendship, async (req, res, next) => {
 
     // this query aggregates all cards in the user's collection by set, counting the amount of distinct cards and total cards per set
     const [results] = await db.query(
-      `SELECT sets.id as "setId", sets.name as "setName", sets.description as "setDescription", sets.release_date as "release_date", sets.year as "year", COUNT( DISTINCT cards.id) as "distinctCards", COUNT(user_card.id) as "totalCards" FROM user_card INNER JOIN cards ON user_card."cardId" = cards.id AND user_card."userId" = ${userId} INNER JOIN series ON cards."seriesId" = series.id INNER JOIN subsets ON series."subsetId" = subsets.id INNER JOIN sets ON subsets."setId" = sets.id where user_card."deletedAt" IS NULL GROUP BY sets.id`
+      `SELECT sets.id as "setId", sets.name as "setName", sets.year as "year", sets."leagueId", COUNT( DISTINCT cards.id) as "distinctCards", COUNT(user_card.id) as "totalCards" FROM user_card INNER JOIN cards ON user_card."cardId" = cards.id AND user_card."userId" = ${userId} INNER JOIN series ON cards."seriesId" = series.id INNER JOIN subsets ON series."subsetId" = subsets.id INNER JOIN sets ON subsets."setId" = sets.id where user_card."deletedAt" IS NULL GROUP BY sets.id`
     );
 
     res.json(results);
@@ -287,6 +287,13 @@ router.get("/filter", verifyFriendship, async (req, res, next) => {
       case "teamId":
         if (!isNaN(+queryParams[filterNames[i]])) {
           filters["$card.card_datum.teamId$"] = {
+            [Op.eq]: +queryParams[filterNames[i]],
+          };
+        }
+        break;
+      case "sportId":
+        if (!isNaN(+queryParams[filterNames[i]])) {
+          filters["$card.series.subset.set.leagueId$"] = {
             [Op.eq]: +queryParams[filterNames[i]],
           };
         }
