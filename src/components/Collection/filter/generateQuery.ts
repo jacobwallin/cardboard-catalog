@@ -1,6 +1,7 @@
 import { Filters } from "./types";
 import { Set } from "../../../store/library/sets/types";
 import { Subset } from "../../../store/library/subsets/types";
+import { League } from "../../../store/library/leagues/types";
 
 interface ReturnValue {
   query: string;
@@ -13,7 +14,8 @@ interface ReturnValue {
 export default function generateQuery(
   filters: Filters,
   set: Set,
-  subset: Subset
+  subset: Subset,
+  sports: League[]
 ): ReturnValue {
   let query = "";
   let bubbles: Array<{
@@ -120,7 +122,17 @@ export default function generateQuery(
   } else if (filters.year !== 0) {
     query += `&year=${filters.year}`;
   }
+  if (filters.sportId !== 0) {
+    query += `&sportId=${filters.sportId}`;
+  }
 
+  if (filters.sportId !== 0) {
+    const sport = sports.find((s) => s.id === filters.sportId)!;
+    bubbles.push({
+      name: "Sport",
+      filter: sport.name,
+    });
+  }
   if (filters.year !== 0) {
     bubbles.push({
       name: "Year",

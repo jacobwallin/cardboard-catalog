@@ -1,4 +1,5 @@
 export interface Filters {
+  sportId: number;
   year: number;
   setId: number;
   subsetId: number;
@@ -19,6 +20,7 @@ export interface Filters {
 }
 
 export const initialFilters: Filters = {
+  sportId: 0,
   year: 0,
   setId: 0,
   subsetId: 0,

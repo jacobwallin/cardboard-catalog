@@ -123,9 +123,8 @@ export interface Friend {
 export interface SetCards {
   setId: number;
   setName: string;
-  setDescription: string;
-  release_date: string | null;
   year: number;
+  leagueId: number;
   distinctCards: string;
   totalCards: string;
 }

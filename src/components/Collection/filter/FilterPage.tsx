@@ -9,6 +9,7 @@ import {
 import { fetchCardsBySet } from "../../../store/collection/browse/thunks";
 import { fetchAllPlayers } from "../../../store/library/players/thunks";
 import { fetchAllTeams } from "../../../store/library/teams/thunks";
+import { fetchLeagues } from "../../../store/library/leagues/thunks";
 import DataTable from "react-data-table-component";
 import { columns } from "./columns";
 import { createLoadingSelector } from "../../../store/loading/reducer";
@@ -57,6 +58,9 @@ export default function FilterPage() {
 
   const set = useSelector((state: RootState) => state.library.sets.set);
   const subset = useSelector((state: RootState) => state.library.subsets);
+  const sports = useSelector(
+    (state: RootState) => state.library.leagues.allLeagues
+  );
   const paginatedCards = useSelector(
     (state: RootState) => state.collection.filter
   );
@@ -73,6 +77,15 @@ export default function FilterPage() {
   const collectionFriend = useSelector(
     (state: RootState) => state.collection.browse.friend
   );
+
+  useEffect(() => {
+    dispatch(fetchAllPlayers());
+    dispatch(fetchAllTeams());
+    dispatch(fetchLeagues());
+    if (!initialDataLoadComplete) {
+      dispatch(fetchCardsBySet());
+    }
+  }, [initialDataLoadComplete]);
 
   function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
     setFilters({ ...filters, playerSearch: event.target.value });
@@ -116,6 +129,16 @@ export default function FilterPage() {
       case "graded":
         setFilters({ ...filters, graded: +e.target.value });
         break;
+      case "sport":
+        setFilters({
+          ...filters,
+          sportId: +e.target.value,
+          year: 0,
+          setId: 0,
+          subsetId: 0,
+          seriesId: 0,
+        });
+        break;
       case "year":
         setFilters({
           ...filters,
@@ -151,14 +174,6 @@ export default function FilterPage() {
       setPdfSortDirection(e.target.id);
     }
   }
-
-  useEffect(() => {
-    dispatch(fetchAllPlayers());
-    dispatch(fetchAllTeams());
-    if (!initialDataLoadComplete) {
-      dispatch(fetchCardsBySet());
-    }
-  }, []);
 
   useEffect(() => {
     if (collectionFriend.id !== 0) {
@@ -216,7 +231,7 @@ export default function FilterPage() {
   ]);
 
   function applyFilters() {
-    const { query, bubbles } = generateQuery(filters, set, subset);
+    const { query, bubbles } = generateQuery(filters, set, subset, sports);
     setQuery(query);
     setFilterBubbles(bubbles);
   }

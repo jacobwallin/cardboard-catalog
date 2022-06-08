@@ -7,6 +7,8 @@ import { fetchSet } from "../../../store/library/sets/thunks";
 import { fetchSubset } from "../../../store/library/subsets/thunks";
 import { createLoadingSelector } from "../../../store/loading/reducer";
 import sortSeries from "../subset-page/sortSeries";
+import { SetCards } from "../../../store/collection/browse/types";
+import { League } from "../../../store/library/leagues/types";
 
 const setLoadingSelector = createLoadingSelector(["GET_SINGLE_SET"]);
 const subsetLoadingSelector = createLoadingSelector(["GET_SUBSET"]);
@@ -24,10 +26,16 @@ export default function Filter(props: Props) {
   const players = useSelector((state: RootState) => state.library.players);
   const teams = useSelector((state: RootState) => state.library.teams);
   const set = useSelector((state: RootState) => state.library.sets.set);
+  const sports = useSelector(
+    (state: RootState) => state.library.leagues.allLeagues
+  );
   const subset = useSelector((state: RootState) => state.library.subsets);
   const cardsBySet = useSelector(
     (state: RootState) => state.collection.browse.cardsBySet
   );
+  const [collectionSports, setCollectionSports] = useState<League[]>([]);
+  const [collectionYears, setCollectionYears] = useState<string[]>([]);
+  const [collectionSets, setCollectionSets] = useState<SetCards[]>([]);
 
   // LOADING STATE
   const loadingSet = useSelector((state: RootState) =>
@@ -36,6 +44,66 @@ export default function Filter(props: Props) {
   const loadingSubset = useSelector((state: RootState) =>
     subsetLoadingSelector(state)
   );
+
+  // set sports based on year selected
+  useEffect(() => {
+    // create object with all sports in collection
+    const sportsObj = cardsBySet.reduce((collSports: any, set) => {
+      if (collSports[set.leagueId]) return collSports;
+      if (filters.year === 0 || filters.year === set.year) {
+        const s = sports.find((s) => s.id === set.leagueId);
+        if (s) {
+          collSports[set.leagueId] = s;
+        }
+      }
+      return collSports;
+    }, {});
+
+    // convert object to an array
+    let sportsArr = [];
+    for (let key in sportsObj) {
+      sportsArr.push(sportsObj[key]);
+    }
+
+    // sort and set sport options
+    setCollectionSports(
+      sportsArr.sort((a, b) => {
+        if (a < b) return 1;
+        return -1;
+      })
+    );
+  }, [filters.sportId, filters.year, sports, cardsBySet]);
+
+  // set years based on sport selected
+  useEffect(() => {
+    setCollectionYears(
+      Object.keys(
+        cardsBySet.reduce((years: any, set) => {
+          if (years[set.year]) return years;
+          if (filters.sportId === 0 || filters.sportId === set.leagueId) {
+            years[set.year] = true;
+          }
+          return years;
+        }, {})
+      ).sort((a, b) => {
+        if (a < b) return 1;
+        return -1;
+      })
+    );
+  }, [filters.year, filters.sportId, cardsBySet]);
+
+  // set sets based on sport and/or year selected
+  useEffect(() => {
+    setCollectionSets(
+      cardsBySet.filter((collectionSet) => {
+        if (filters.year !== 0 && collectionSet.year !== filters.year)
+          return false;
+        if (filters.sportId !== 0 && collectionSet.leagueId !== filters.sportId)
+          return false;
+        return true;
+      })
+    );
+  }, [filters.year, filters.sportId, cardsBySet]);
 
   useEffect(() => {
     if (filters.setId !== 0 && set.id !== filters.setId) {
@@ -54,6 +122,23 @@ export default function Filter(props: Props) {
       <Styled.FilterSection>
         <Styled.SectionHeader>Set</Styled.SectionHeader>
         <Styled.Filter>
+          <Styled.Label htmlFor="sport">Sport: </Styled.Label>
+          <Styled.Select
+            id="sport"
+            value={filters.sportId}
+            onChange={props.handleFilterChange}
+          >
+            <option value={0}>All</option>
+            {collectionSports.map((sport) => {
+              return (
+                <option key={sport.id} value={+sport.id}>
+                  {sport.name}
+                </option>
+              );
+            })}
+          </Styled.Select>
+        </Styled.Filter>
+        <Styled.Filter>
           <Styled.Label htmlFor="year">Year: </Styled.Label>
           <Styled.Select
             id="year"
@@ -61,13 +146,7 @@ export default function Filter(props: Props) {
             onChange={props.handleFilterChange}
           >
             <option value={0}>All</option>
-            {Object.keys(
-              cardsBySet.reduce((years: any, set) => {
-                if (years[set.year]) return years;
-                years[set.year] = true;
-                return years;
-              }, {})
-            ).map((year) => {
+            {collectionYears.map((year) => {
               return (
                 <option key={year} value={+year}>
                   {year}
@@ -85,15 +164,13 @@ export default function Filter(props: Props) {
             disabled={filters.year === 0}
           >
             <option value={0}>All</option>]
-            {cardsBySet
-              .filter((set) => set.year === filters.year)
-              .map((set) => {
-                return (
-                  <option key={set.setId} value={set.setId}>
-                    {set.setName}
-                  </option>
-                );
-              })}
+            {collectionSets.map((set) => {
+              return (
+                <option key={set.setId} value={set.setId}>
+                  {set.setName}
+                </option>
+              );
+            })}
           </Styled.Select>
         </Styled.Filter>
         <Styled.Filter>
@@ -142,7 +219,8 @@ export default function Filter(props: Props) {
               ))}
           </Styled.Select>
         </Styled.Filter>
-
+      </Styled.FilterSection>
+      <Styled.FilterSection>
         <Styled.SectionHeader>Team/Player</Styled.SectionHeader>
         <Styled.Filter>
           <Styled.Label htmlFor="team">Team: </Styled.Label>

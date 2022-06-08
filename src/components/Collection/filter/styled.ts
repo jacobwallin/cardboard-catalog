@@ -5,7 +5,7 @@ export const FiltersContainer = styled.div`
   flex-direction: row;
   width: 100%;
   justify-content: flex-start;
-  gap: 25px;
+  gap: 10px;
   @media only screen and (max-width: 600px) {
     flex-direction: column;
     align-items: flex-start;

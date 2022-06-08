@@ -104,10 +104,10 @@ export function collectionSetsInYear(
       return {
         id: set.setId,
         name: set.setName,
-        release_date: set.release_date,
+        release_date: "",
         year: set.year,
         complete: false,
-        description: set.setDescription,
+        description: "",
         createdAt: "",
         updatedAt: "",
         createdBy: 0,
