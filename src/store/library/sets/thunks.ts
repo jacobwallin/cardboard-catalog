@@ -19,6 +19,17 @@ export const fetchAllSetData =
       .catch((err) => dispatch(actions.getAllSetsFailure()));
   };
 
+export const fetchSetYears =
+  (): ThunkAction<void, RootState, unknown, SetsActionTypes> => (dispatch) => {
+    dispatch(actions.getAllSetYearsRequest());
+
+    get(`/api/sets/years`, dispatch)
+      .then((data) => {
+        dispatch(actions.getAllSetYearsSuccess(data));
+      })
+      .catch((err) => dispatch(actions.getAllSetYearsFailure()));
+  };
+
 export const fetchSet =
   (setId: number): ThunkAction<void, RootState, unknown, SetsActionTypes> =>
   (dispatch) => {

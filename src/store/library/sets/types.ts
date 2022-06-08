@@ -7,6 +7,7 @@ export interface SetsState {
     count: number;
     rows: SetSummary[];
   };
+  setYears: Year[];
 }
 
 export interface CondensedSetInstance {
@@ -62,10 +63,17 @@ export interface Set extends SetInstance {
   subsets: SubsetInstance[];
 }
 
+export interface Year {
+  year: number;
+}
+
 // ACTION TYPES
 export const GET_ALL_SETS_REQUEST = "GET_ALL_SETS_REQUEST";
 export const GET_ALL_SETS_SUCCESS = "GET_ALL_SETS_SUCCESS";
 export const GET_ALL_SETS_FAILURE = "GET_ALL_SETS_FAILURE";
+export const GET_ALL_SET_YEARS_REQUEST = "GET_ALL_SET_YEARS_REQUEST";
+export const GET_ALL_SET_YEARS_SUCCESS = "GET_ALL_SET_YEARS_SUCCESS";
+export const GET_ALL_SET_YEARS_FAILURE = "GET_ALL_SET_YEARS_FAILURE";
 export const GET_SINGLE_SET_REQUEST = "GET_SINGLE_SET_REQUEST";
 export const GET_SINGLE_SET_SUCCESS = "GET_SINGLE_SET_SUCCESS";
 export const GET_SINGLE_SET_FAILURE = "GET_SINGLE_SET_FAILURE";
@@ -94,8 +102,19 @@ export interface GetAllSetsSuccess {
     count: number;
   };
 }
-export interface getAllSetsFailure {
+export interface GetAllSetsFailure {
   type: typeof GET_ALL_SETS_FAILURE;
+}
+
+export interface GetAllSetYearsRequest {
+  type: typeof GET_ALL_SET_YEARS_REQUEST;
+}
+export interface GetAllSetYearsSuccess {
+  type: typeof GET_ALL_SET_YEARS_SUCCESS;
+  years: Year[];
+}
+export interface GetAllSetYearsFailure {
+  type: typeof GET_ALL_SET_YEARS_FAILURE;
 }
 
 export interface GetSingleSetRequest {
@@ -177,7 +196,10 @@ export interface ClearLibraryAction {
 export type SetsActionTypes =
   | GetAllSetsRequest
   | GetAllSetsSuccess
-  | getAllSetsFailure
+  | GetAllSetsFailure
+  | GetAllSetYearsRequest
+  | GetAllSetYearsSuccess
+  | GetAllSetYearsFailure
   | GetSingleSetRequest
   | GetSingleSetSuccess
   | GetSingleSetFailure

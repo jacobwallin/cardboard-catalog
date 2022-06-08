@@ -5,6 +5,7 @@ const initialState: types.SetsState = {
     count: 0,
     rows: [],
   },
+  setYears: [],
   set: {
     id: 0,
     name: "",
@@ -45,6 +46,8 @@ const setsReducer = (
       return { ...state, set: action.singleSet };
     case types.GET_ALL_SETS_SUCCESS:
       return { ...state, allSets: action.allSets };
+    case types.GET_ALL_SET_YEARS_SUCCESS:
+      return { ...state, setYears: action.years };
     case types.CREATE_SET_SUCCESS:
       return {
         ...state,

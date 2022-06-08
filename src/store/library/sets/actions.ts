@@ -15,6 +15,19 @@ export const getAllSetsFailure = (): types.SetsActionTypes => ({
   type: types.GET_ALL_SETS_FAILURE,
 });
 
+export const getAllSetYearsRequest = (): types.SetsActionTypes => ({
+  type: types.GET_ALL_SET_YEARS_REQUEST,
+});
+export const getAllSetYearsSuccess = (
+  years: types.Year[]
+): types.SetsActionTypes => ({
+  type: types.GET_ALL_SET_YEARS_SUCCESS,
+  years,
+});
+export const getAllSetYearsFailure = (): types.SetsActionTypes => ({
+  type: types.GET_ALL_SET_YEARS_FAILURE,
+});
+
 export const getSingleSetRequest = (): types.SetsActionTypes => ({
   type: types.GET_SINGLE_SET_REQUEST,
 });
