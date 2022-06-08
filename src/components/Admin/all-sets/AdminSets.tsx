@@ -17,9 +17,17 @@ import * as DataTableComponents from "../components/DataTableComponents";
 import SelectFilter from "../components/SelectFilter";
 import * as Styled from "./styled";
 
-import { createStatusSelector } from "../../../store/loading/reducer";
+import {
+  createStatusSelector,
+  createLoadingSelector,
+} from "../../../store/loading/reducer";
 
 const createSetSelector = createStatusSelector("CREATE_SET");
+const loadingSelector = createLoadingSelector([
+  "GET_ALL_SET_YEARS",
+  "GET_BRANDS",
+  "GET_ALL_LEAGUES",
+]);
 
 interface Props {
   sportFilter: number;
@@ -61,6 +69,7 @@ export default function AdminSets(props: Props) {
   const createSetStatus = useSelector((state: RootState) =>
     createSetSelector(state)
   );
+  const loading = useSelector((state: RootState) => loadingSelector(state));
 
   useEffect(() => {
     dispatch(fetchLeagues());
@@ -152,6 +161,7 @@ export default function AdminSets(props: Props) {
             id="sport"
             value={sportFilter}
             onChange={handleSelectChange}
+            disabled={loading}
           >
             <option value={0}>All Sports</option>
             {sports
@@ -171,6 +181,7 @@ export default function AdminSets(props: Props) {
             id="year"
             value={yearFilter}
             onChange={handleSelectChange}
+            disabled={loading}
           >
             <option value={0}>All Years</option>
             {setYears
@@ -190,6 +201,7 @@ export default function AdminSets(props: Props) {
             id="brand"
             value={brandFilter}
             onChange={handleSelectChange}
+            disabled={loading}
           >
             <option value={0}>All Brands</option>
             {brands
