@@ -11,6 +11,8 @@ const {
   Card,
   Set,
   User,
+  League,
+  Brand,
 } = require("../../db/models");
 
 router.get("/", async (req, res, next) => {
@@ -54,7 +56,11 @@ router.get("/:subsetId", async (req, res, next) => {
           as: "updatedByUser",
           attributes: ["username"],
         },
-        { model: Set },
+        {
+          model: Set,
+          attributes: { exclude: ["description"] },
+          include: [League, Brand],
+        },
       ],
     });
 
