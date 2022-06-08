@@ -78,6 +78,19 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.get("/years", async (req, res, next) => {
+  try {
+    const setData = await Set.findAll({
+      attributes: ["year"],
+      group: "year",
+    });
+
+    res.json(setData);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // get data for a single set from the library
 router.get("/:setId", async (req, res, next) => {
   try {
