@@ -120,7 +120,7 @@ export default function Filter(props: Props) {
   return (
     <Styled.FiltersContainer>
       <Styled.FilterSection>
-        <Styled.SectionHeader>Set</Styled.SectionHeader>
+        <Styled.SectionHeader>Sport / Year / Set</Styled.SectionHeader>
         <Styled.Filter>
           <Styled.Label htmlFor="sport">Sport: </Styled.Label>
           <Styled.Select
@@ -219,9 +219,7 @@ export default function Filter(props: Props) {
               ))}
           </Styled.Select>
         </Styled.Filter>
-      </Styled.FilterSection>
-      <Styled.FilterSection>
-        <Styled.SectionHeader>Team/Player</Styled.SectionHeader>
+        <Styled.SectionHeader>Team</Styled.SectionHeader>
         <Styled.Filter>
           <Styled.Label htmlFor="team">Team: </Styled.Label>
           <Styled.Select
@@ -244,6 +242,134 @@ export default function Filter(props: Props) {
                 );
               })}
           </Styled.Select>
+        </Styled.Filter>
+      </Styled.FilterSection>
+      <Styled.FilterSection>
+        <Styled.SectionHeader>Attribute</Styled.SectionHeader>
+        <Styled.Filter>
+          <Styled.Label htmlFor="rookie">Rookie: </Styled.Label>
+          <Styled.AttributeSelect
+            id="rookie"
+            value={filters.rookie}
+            onChange={props.handleFilterChange}
+          >
+            <option value={0}>Include</option>
+            <option value={1}>True</option>
+            <option value={-1}>False</option>
+          </Styled.AttributeSelect>
+        </Styled.Filter>
+        <Styled.Filter>
+          <Styled.Label htmlFor="serialized">Serialized: </Styled.Label>
+          <Styled.AttributeSelect
+            id="serialized"
+            value={filters.serialized}
+            onChange={props.handleFilterChange}
+          >
+            <option value={0}>Include</option>
+            <option value={1}>True</option>
+            <option value={-1}>False</option>
+          </Styled.AttributeSelect>
+        </Styled.Filter>
+        <Styled.Filter>
+          <Styled.Label htmlFor="shortPrint">Short Print: </Styled.Label>
+          <Styled.AttributeSelect
+            id="shortPrint"
+            value={filters.shortPrint}
+            onChange={props.handleFilterChange}
+          >
+            <option value={0}>Include</option>
+            <option value={1}>True</option>
+            <option value={-1}>False</option>
+          </Styled.AttributeSelect>
+        </Styled.Filter>
+        <Styled.Filter>
+          <Styled.Label htmlFor="graded">Graded:</Styled.Label>
+          <Styled.AttributeSelect
+            id="graded"
+            value={filters.graded}
+            onChange={props.handleFilterChange}
+          >
+            <option value={0}>Include</option>
+            <option value={1}>True</option>
+            <option value={-1}>False</option>
+          </Styled.AttributeSelect>
+        </Styled.Filter>
+        <Styled.Filter>
+          <Styled.Label htmlFor="parallel">Parallel: </Styled.Label>
+          <Styled.AttributeSelect
+            id="parallel"
+            value={filters.parallel}
+            onChange={props.handleFilterChange}
+          >
+            <option value={0}>Include</option>
+            <option value={1}>True</option>
+            <option value={-1}>False</option>
+          </Styled.AttributeSelect>
+        </Styled.Filter>
+        <Styled.Filter>
+          <Styled.Label htmlFor="refractor">Refractor: </Styled.Label>
+          <Styled.AttributeSelect
+            id="refractor"
+            value={filters.refractor}
+            onChange={props.handleFilterChange}
+          >
+            <option value={0}>Include</option>
+            <option value={1}>True</option>
+            <option value={-1}>False</option>
+          </Styled.AttributeSelect>
+        </Styled.Filter>
+        <Styled.Filter>
+          <Styled.Label htmlFor="auto">Auto: </Styled.Label>
+          <Styled.AttributeSelect
+            id="auto"
+            value={filters.auto}
+            onChange={props.handleFilterChange}
+          >
+            <option value={0}>Include</option>
+            <option value={1}>True</option>
+            <option value={-1}>False</option>
+          </Styled.AttributeSelect>
+        </Styled.Filter>
+        <Styled.Filter>
+          <Styled.Label htmlFor="relic">Relic: </Styled.Label>
+          <Styled.AttributeSelect
+            id="relic"
+            value={filters.relic}
+            onChange={props.handleFilterChange}
+          >
+            <option value={0}>Include</option>
+            <option value={1}>True</option>
+            <option value={-1}>False</option>
+          </Styled.AttributeSelect>
+        </Styled.Filter>
+        <Styled.Filter>
+          <Styled.Label htmlFor="manufacturedRelic">
+            Manufactured Relic:
+          </Styled.Label>
+          <Styled.AttributeSelect
+            id="manufacturedRelic"
+            value={filters.manufacturedRelic}
+            onChange={props.handleFilterChange}
+          >
+            <option value={0}>Include</option>
+            <option value={1}>True</option>
+            <option value={-1}>False</option>
+          </Styled.AttributeSelect>
+        </Styled.Filter>
+      </Styled.FilterSection>
+      <Styled.FilterSection>
+        <Styled.SectionHeader>Player</Styled.SectionHeader>
+        <Styled.Filter>
+          <Styled.Label htmlFor="hallOfFame">Hall of Fame: </Styled.Label>
+          <Styled.AttributeSelect
+            id="hallOfFame"
+            value={filters.hallOfFame}
+            onChange={props.handleFilterChange}
+          >
+            <option value={0}>Include</option>
+            <option value={1}>True</option>
+            <option value={-1}>False</option>
+          </Styled.AttributeSelect>
         </Styled.Filter>
         <Styled.Filter>
           <Styled.Label htmlFor="playerSearch">Search: </Styled.Label>
@@ -288,131 +414,6 @@ export default function Filter(props: Props) {
                   );
                 })}
           </Styled.Select>
-        </Styled.Filter>
-        <Styled.Filter>
-          <Styled.Label htmlFor="hallOfFame">Hall of Fame: </Styled.Label>
-          <Styled.AttributeSelect
-            id="hallOfFame"
-            value={filters.hallOfFame}
-            onChange={props.handleFilterChange}
-          >
-            <option value={0}>Include</option>
-            <option value={1}>True</option>
-            <option value={-1}>False</option>
-          </Styled.AttributeSelect>
-        </Styled.Filter>
-      </Styled.FilterSection>
-      <Styled.FilterSection>
-        <Styled.SectionHeader>Attribute</Styled.SectionHeader>
-        <Styled.Filter>
-          <Styled.Label htmlFor="rookie">Rookie: </Styled.Label>
-          <Styled.AttributeSelect
-            id="rookie"
-            value={filters.rookie}
-            onChange={props.handleFilterChange}
-          >
-            <option value={0}>Include</option>
-            <option value={1}>True</option>
-            <option value={-1}>False</option>
-          </Styled.AttributeSelect>
-        </Styled.Filter>
-        <Styled.Filter>
-          <Styled.Label htmlFor="serialized">Serialized: </Styled.Label>
-          <Styled.AttributeSelect
-            id="serialized"
-            value={filters.serialized}
-            onChange={props.handleFilterChange}
-          >
-            <option value={0}>Include</option>
-            <option value={1}>True</option>
-            <option value={-1}>False</option>
-          </Styled.AttributeSelect>
-        </Styled.Filter>
-        <Styled.Filter>
-          <Styled.Label htmlFor="auto">Auto: </Styled.Label>
-          <Styled.AttributeSelect
-            id="auto"
-            value={filters.auto}
-            onChange={props.handleFilterChange}
-          >
-            <option value={0}>Include</option>
-            <option value={1}>True</option>
-            <option value={-1}>False</option>
-          </Styled.AttributeSelect>
-        </Styled.Filter>
-        <Styled.Filter>
-          <Styled.Label htmlFor="relic">Relic: </Styled.Label>
-          <Styled.AttributeSelect
-            id="relic"
-            value={filters.relic}
-            onChange={props.handleFilterChange}
-          >
-            <option value={0}>Include</option>
-            <option value={1}>True</option>
-            <option value={-1}>False</option>
-          </Styled.AttributeSelect>
-        </Styled.Filter>
-        <Styled.Filter>
-          <Styled.Label htmlFor="parallel">Parallel: </Styled.Label>
-          <Styled.AttributeSelect
-            id="parallel"
-            value={filters.parallel}
-            onChange={props.handleFilterChange}
-          >
-            <option value={0}>Include</option>
-            <option value={1}>True</option>
-            <option value={-1}>False</option>
-          </Styled.AttributeSelect>
-        </Styled.Filter>
-        <Styled.Filter>
-          <Styled.Label htmlFor="refractor">Refractor: </Styled.Label>
-          <Styled.AttributeSelect
-            id="refractor"
-            value={filters.refractor}
-            onChange={props.handleFilterChange}
-          >
-            <option value={0}>Include</option>
-            <option value={1}>True</option>
-            <option value={-1}>False</option>
-          </Styled.AttributeSelect>
-        </Styled.Filter>
-        <Styled.Filter>
-          <Styled.Label htmlFor="shortPrint">Short Print: </Styled.Label>
-          <Styled.AttributeSelect
-            id="shortPrint"
-            value={filters.shortPrint}
-            onChange={props.handleFilterChange}
-          >
-            <option value={0}>Include</option>
-            <option value={1}>True</option>
-            <option value={-1}>False</option>
-          </Styled.AttributeSelect>
-        </Styled.Filter>
-        <Styled.Filter>
-          <Styled.Label htmlFor="manufacturedRelic">
-            Manufactured Relic:
-          </Styled.Label>
-          <Styled.AttributeSelect
-            id="manufacturedRelic"
-            value={filters.manufacturedRelic}
-            onChange={props.handleFilterChange}
-          >
-            <option value={0}>Include</option>
-            <option value={1}>True</option>
-            <option value={-1}>False</option>
-          </Styled.AttributeSelect>
-        </Styled.Filter>
-        <Styled.Filter>
-          <Styled.Label htmlFor="graded">Graded:</Styled.Label>
-          <Styled.AttributeSelect
-            id="graded"
-            value={filters.graded}
-            onChange={props.handleFilterChange}
-          >
-            <option value={0}>Include</option>
-            <option value={1}>True</option>
-            <option value={-1}>False</option>
-          </Styled.AttributeSelect>
         </Styled.Filter>
       </Styled.FilterSection>
     </Styled.FiltersContainer>
