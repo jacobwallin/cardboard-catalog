@@ -73,16 +73,21 @@ router.get("/", async (req, res, next) => {
 
     res.json(allSets);
   } catch (error) {
-    console.log("**", error.message);
     next(error);
   }
 });
 
 router.get("/years", async (req, res, next) => {
+  const { sportId } = req.query;
+
+  let filter = {};
+  if (sportId) filter = { leagueId: sportId };
+
   try {
     const setData = await Set.findAll({
       attributes: ["year"],
       group: "year",
+      where: filter,
     });
 
     res.json(setData);
