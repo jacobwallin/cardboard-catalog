@@ -2,6 +2,7 @@ import { Filters } from "./types";
 import { Set } from "../../../store/library/sets/types";
 import { Subset } from "../../../store/library/subsets/types";
 import { League } from "../../../store/library/leagues/types";
+import { getSetName } from "./columns";
 
 interface ReturnValue {
   query: string;
@@ -115,12 +116,30 @@ export default function generateQuery(
   // only add one of set, subset, or series id (whichever is most specific)
   if (filters.seriesId !== 0) {
     query += `&seriesId=${filters.seriesId}`;
+    bubbles.push({
+      name: "Parallel",
+      filter: `${set.name} ${subset.name} ${
+        subset.series.find((ser) => ser.id === filters.seriesId)!.name
+      }`,
+    });
   } else if (filters.subsetId !== 0) {
     query += `&subsetId=${filters.subsetId}`;
+    bubbles.push({
+      name: "Subset",
+      filter: `${set.name} ${subset.name}`,
+    });
   } else if (filters.setId !== 0) {
     query += `&setId=${filters.setId}`;
+    bubbles.push({
+      name: "Set",
+      filter: set.name,
+    });
   } else if (filters.year !== 0) {
     query += `&year=${filters.year}`;
+    bubbles.push({
+      name: "Year",
+      filter: String(filters.year),
+    });
   }
   if (filters.sportId !== 0) {
     query += `&sportId=${filters.sportId}`;
@@ -133,29 +152,6 @@ export default function generateQuery(
       filter: sport.name,
     });
   }
-  if (filters.year !== 0) {
-    bubbles.push({
-      name: "Year",
-      filter: String(filters.year),
-    });
-  }
-  if (filters.setId !== 0) {
-    bubbles.push({
-      name: "Set",
-      filter: set.name,
-    });
-  }
-  if (filters.subsetId !== 0) {
-    bubbles.push({
-      name: "Subset",
-      filter: subset.name,
-    });
-  }
-  if (filters.seriesId !== 0) {
-    bubbles.push({
-      name: "Parallel",
-      filter: subset.series.find((ser) => ser.id === filters.seriesId)!.name,
-    });
-  }
+
   return { query, bubbles };
 }
