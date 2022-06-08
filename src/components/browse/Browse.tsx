@@ -51,13 +51,13 @@ export default function Browse() {
   }, [sport, sports, dispatch]);
 
   // render 404 if sport does not exist
-  if (
-    !isLoading &&
-    sport &&
-    sports.findIndex((s) => s.name.toLowerCase() === sport.toLowerCase()) === -1
-  ) {
-    return <Navigate to="/404" />;
-  }
+  // if (
+  //   !isLoading &&
+  //   sport &&
+  //   sports.findIndex((s) => s.name.toLowerCase() === sport.toLowerCase()) === -1
+  // ) {
+  //   return <Navigate to="/404" />;
+  // }
 
   return (
     <CollectionWrapper>

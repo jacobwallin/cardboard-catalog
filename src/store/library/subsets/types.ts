@@ -1,4 +1,4 @@
-import { SetInstance } from "../sets/types";
+import { SetSummary } from "../sets/types";
 import { SeriesInstance } from "../series/types";
 
 // STATE
@@ -25,7 +25,7 @@ export interface SubsetInstance extends CondensedSubsetInstance {
 }
 
 export interface Subset extends SubsetInstance {
-  set: SetInstance;
+  set: SetSummary;
   series: SubsetSeries[];
   card_data: CardData[];
   createdByUser: {

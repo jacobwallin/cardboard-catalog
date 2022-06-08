@@ -20,7 +20,6 @@ const initialState: types.Subset = {
   set: {
     id: 0,
     name: "",
-    description: "",
     release_date: "",
     year: 0,
     complete: false,
@@ -30,6 +29,14 @@ const initialState: types.Subset = {
     updatedBy: 0,
     leagueId: 0,
     brandId: 0,
+    league: {
+      id: 0,
+      name: "",
+    },
+    brand: {
+      id: 0,
+      name: "",
+    },
   },
   series: [],
   card_data: [],

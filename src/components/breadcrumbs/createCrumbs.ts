@@ -38,6 +38,12 @@ export function createSetCrumbs(set: Set, search: string): Crumb[] {
     });
   }
 
+  link += `/${set.league.name}`;
+  crumbs.push({
+    link: link,
+    title: String(set.league.name),
+  });
+
   link += `/${set.year}`;
   crumbs.push({
     link: link,
@@ -78,6 +84,12 @@ export function createSubsetCrumbs(subset: Subset, search: string): Crumb[] {
       title: "Browse",
     });
   }
+
+  link += `/${subset.set.league.name}`;
+  crumbs.push({
+    link: link,
+    title: String(subset.set.league.name),
+  });
 
   link += `/${subset.set.year}`;
   crumbs.push({
