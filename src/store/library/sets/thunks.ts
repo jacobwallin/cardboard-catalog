@@ -20,10 +20,14 @@ export const fetchAllSetData =
   };
 
 export const fetchSetYears =
-  (): ThunkAction<void, RootState, unknown, SetsActionTypes> => (dispatch) => {
+  (sportId?: number): ThunkAction<void, RootState, unknown, SetsActionTypes> =>
+  (dispatch) => {
     dispatch(actions.getAllSetYearsRequest());
 
-    get(`/api/sets/years`, dispatch)
+    get(
+      sportId ? `/api/sets/years?sportId=${sportId}` : `/api/sets/years`,
+      dispatch
+    )
       .then((data) => {
         dispatch(actions.getAllSetYearsSuccess(data));
       })

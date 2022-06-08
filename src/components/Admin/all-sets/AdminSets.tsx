@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllSetData } from "../../../store/library/sets/thunks";
+import {
+  fetchAllSetData,
+  fetchSetYears,
+} from "../../../store/library/sets/thunks";
 import { fetchAllBrands } from "../../../store/library/brands/thunks";
 import { fetchLeagues } from "../../../store/library/leagues/thunks";
 import { RootState } from "../../../store";
@@ -46,6 +49,9 @@ export default function AdminSets(props: Props) {
   const [sortDirection, setSortDirection] = useState("desc");
 
   const allSets = useSelector((state: RootState) => state.library.sets.allSets);
+  const setYears = useSelector(
+    (state: RootState) => state.library.sets.setYears
+  );
   const brands = useSelector(
     (state: RootState) => state.library.brands.allBrands
   );
@@ -58,6 +64,7 @@ export default function AdminSets(props: Props) {
 
   useEffect(() => {
     dispatch(fetchAllBrands());
+    dispatch(fetchSetYears());
     dispatch(fetchLeagues());
   }, [dispatch]);
 
@@ -159,13 +166,18 @@ export default function AdminSets(props: Props) {
             onChange={handleSelectChange}
           >
             <option value={0}>All Years</option>
-            {[2021, 2020, 2019].map((year) => {
-              return (
-                <option key={year} value={year}>
-                  {year}
-                </option>
-              );
-            })}
+            {setYears
+              .sort((a, b) => {
+                if (a.year > b.year) return -1;
+                return 1;
+              })
+              .map((year) => {
+                return (
+                  <option key={year.year} value={year.year}>
+                    {year.year}
+                  </option>
+                );
+              })}
           </SelectFilter>
           <SelectFilter
             id="brand"
