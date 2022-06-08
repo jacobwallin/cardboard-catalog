@@ -128,7 +128,7 @@ export default function Filter(props: Props) {
             value={filters.sportId}
             onChange={props.handleFilterChange}
           >
-            <option value={0}>All</option>
+            <option value={0}>-</option>
             {collectionSports.map((sport) => {
               return (
                 <option key={sport.id} value={+sport.id}>
@@ -145,7 +145,7 @@ export default function Filter(props: Props) {
             value={filters.year}
             onChange={props.handleFilterChange}
           >
-            <option value={0}>All</option>
+            <option value={0}>-</option>
             {collectionYears.map((year) => {
               return (
                 <option key={year} value={+year}>
@@ -163,7 +163,7 @@ export default function Filter(props: Props) {
             onChange={props.handleFilterChange}
             disabled={filters.year === 0}
           >
-            <option value={0}>All</option>]
+            <option value={0}>-</option>]
             {collectionSets.map((set) => {
               return (
                 <option key={set.setId} value={set.setId}>
@@ -181,7 +181,7 @@ export default function Filter(props: Props) {
             onChange={props.handleFilterChange}
             disabled={loadingSet || filters.setId === 0}
           >
-            <option value={0}>All</option>
+            <option value={0}>-</option>
             {set.subsets
               .sort((subsetA, subsetB) => {
                 if (subsetA.base) return -1;
@@ -206,7 +206,7 @@ export default function Filter(props: Props) {
             onChange={props.handleFilterChange}
             disabled={loadingSubset || filters.subsetId === 0}
           >
-            <option value={0}>All</option>
+            <option value={0}>-</option>
             {subset.series
               .sort((seriesA, seriesB) => {
                 return sortSeries(seriesA, seriesB, subset.baseSeriesId || 0);
@@ -227,7 +227,7 @@ export default function Filter(props: Props) {
             value={filters.teamId}
             onChange={props.handleFilterChange}
           >
-            <option value={0}>All</option>
+            <option value={0}>-</option>
             {teams
               .sort((teamA, teamB) => {
                 if (teamA.name < teamB.name) return -1;
