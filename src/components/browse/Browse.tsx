@@ -45,7 +45,7 @@ export default function Browse() {
 
       // if sport is found, fetch sets by sport id
       if (selectedSport) {
-        dispatch(fetchAllSetData({ sportId: selectedSport.id }));
+        dispatch(fetchAllSetData(`sportId=${selectedSport.id}`));
       }
     }
   }, [sport, sports, dispatch]);
@@ -102,7 +102,10 @@ export default function Browse() {
               <DateTableHeader>Select Sport</DateTableHeader>
               <DataTable
                 noHeader
-                data={sports}
+                data={sports.sort((a, b) => {
+                  if (a.name > b.name) return 1;
+                  return -1;
+                })}
                 columns={sportColumns}
                 progressPending={isLoading}
                 progressComponent={<LoadingDots />}
