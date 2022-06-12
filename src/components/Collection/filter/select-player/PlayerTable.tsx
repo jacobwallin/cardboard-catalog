@@ -2,26 +2,27 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../../store";
 import { fetchAllPlayers } from "../../../../store/library/players/thunks";
-import { Player } from "../../../../store/library/players/types";
 import PaginationController from "../../../transactions/select-cards-form/selected-cards/pagination/PaginationController";
 import * as Styled from "./styled";
 
 interface Props {
-  selectPlayer: (player: Player) => void;
+  selectPlayer: (playerIdName: string) => void;
 }
 
 export default function PlayerTable(props: Props) {
   const dispatch = useDispatch();
 
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(8);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const [searchField, setSearchField] = useState("");
+  const [selectedPlayer, setSelectedPlayer] = useState(0);
 
   const players = useSelector((state: RootState) => state.library.players);
 
   useEffect(() => {
     if (search !== "") {
+      setSelectedPlayer(0);
       dispatch(
         fetchAllPlayers(
           `?search=${search}&limit=${rowsPerPage}&offset=${
@@ -32,6 +33,11 @@ export default function PlayerTable(props: Props) {
     }
   }, [rowsPerPage, currentPage, search]);
 
+  // reset current page to 1 when new players are fetched
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [players]);
+
   function searchPlayers(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
     setSearch(searchField);
@@ -41,13 +47,22 @@ export default function PlayerTable(props: Props) {
     setRowsPerPage(+e.target.value);
   }
   function currentPageChange(newCurrentPage: number) {
-    console.log("!!!");
     setCurrentPage(newCurrentPage);
   }
   function searchChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchField(e.target.value);
   }
 
+  function handlePlayerSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const playerId = +e.target.id.split("-")[0];
+    if (playerId === selectedPlayer) {
+      setSelectedPlayer(0);
+      props.selectPlayer("");
+    } else {
+      setSelectedPlayer(playerId);
+      props.selectPlayer(e.target.id);
+    }
+  }
   return (
     <>
       <Styled.Search>
@@ -74,7 +89,12 @@ export default function PlayerTable(props: Props) {
         {players.rows.map((p) => {
           return (
             <Styled.PlayerRow key={p.id}>
-              <Styled.PlayerCheckbox type="checkbox" />
+              <Styled.PlayerCheckbox
+                id={`${p.id}-${p.name}`}
+                onChange={handlePlayerSelect}
+                type="checkbox"
+                checked={selectedPlayer === p.id}
+              />
               <div>{p.name}</div>
             </Styled.PlayerRow>
           );

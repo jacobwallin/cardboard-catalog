@@ -18,7 +18,7 @@ const subsetLoadingSelector = createLoadingSelector(["GET_SUBSET"]);
 interface Props {
   filters: Filters;
   handleFilterChange(e: React.ChangeEvent<HTMLSelectElement>): void;
-  handleSelectedPlayerChange(player: Player): void;
+  handleSelectedPlayerChange(playerIdName: string): void;
 }
 
 export default function Filter(props: Props) {

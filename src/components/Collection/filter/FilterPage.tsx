@@ -86,10 +86,10 @@ export default function FilterPage() {
     }
   }, [initialDataLoadComplete]);
 
-  function handlePlayerChange(selectedPlayer: Player) {
+  function handlePlayerChange(playerIdName: string) {
     setFilters({
       ...filters,
-      player: `${selectedPlayer.id}-${selectedPlayer.name}`,
+      player: playerIdName,
     });
   }
 
