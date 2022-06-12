@@ -1,5 +1,8 @@
 // STATE
-export type PlayersState = Player[];
+export interface PlayersState {
+  rows: Player[];
+  count: number;
+}
 
 export interface Player {
   id: number;
@@ -32,7 +35,7 @@ interface GetAllPlayersRequest {
 }
 interface GetAllPlayersSuccess {
   type: typeof GET_ALL_PLAYERS_SUCCESS;
-  players: Player[];
+  players: PlayersState;
 }
 interface GetAllPlayersFailure {
   type: typeof GET_ALL_PLAYERS_FAILURE;

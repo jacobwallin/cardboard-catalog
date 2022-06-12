@@ -1,6 +1,9 @@
 import * as types from "./types";
 
-const initialState: types.PlayersState = [];
+const initialState: types.PlayersState = {
+  rows: [],
+  count: 0,
+};
 
 export default function playersReducer(
   state: types.PlayersState = initialState,
@@ -10,16 +13,25 @@ export default function playersReducer(
     case types.GET_ALL_PLAYERS_SUCCESS:
       return action.players;
     case types.CREATE_PLAYER_SUCCESS:
-      return [...state, action.player];
+      return {
+        rows: [action.player, ...state.rows],
+        count: state.count + 1,
+      };
     case types.UPDATE_PLAYER_SUCCESS:
-      return state.map((p) => {
-        if (p.id === action.player.id) {
-          return action.player;
-        }
-        return p;
-      });
+      return {
+        rows: state.rows.map((p) => {
+          if (p.id === action.player.id) {
+            return action.player;
+          }
+          return p;
+        }),
+        count: state.count,
+      };
     case types.BULK_CREATE_PLAYER_SUCCESS:
-      return [...state, ...action.players];
+      return {
+        rows: [...state.rows, ...action.players],
+        count: state.count + action.players.length,
+      };
     default:
       return state;
   }

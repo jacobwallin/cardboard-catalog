@@ -5,10 +5,12 @@ import * as actions from "./actions";
 import { get, postString, post, put } from "../../../utils/fetch";
 
 export const fetchAllPlayers =
-  (): ThunkAction<void, RootState, unknown, PlayerActionCreators> =>
+  (
+    query?: string
+  ): ThunkAction<void, RootState, unknown, PlayerActionCreators> =>
   (dispatch) => {
     dispatch(actions.getAllPlayersRequest());
-    get(`/api/players`, dispatch)
+    get(`/api/players${query}`, dispatch)
       .then((allPlayers) => {
         dispatch(actions.getAllPlayersSuccess(allPlayers));
       })

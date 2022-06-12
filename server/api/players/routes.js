@@ -6,9 +6,23 @@ const { Player } = require("../../db/models");
 const { Op } = require("sequelize");
 
 router.get("/", async (req, res, next) => {
+  const { offset, limit, search } = req.query;
+
+  let filter = {};
+  if (search) {
+    filter = {
+      name: {
+        [Op.like]: `%${search}%`,
+      },
+    };
+  }
+
   try {
-    const allPlayers = await Player.findAll({
+    const allPlayers = await Player.findAndCountAll({
       order: [["name", "ASC"]],
+      limit,
+      offset,
+      where: filter,
     });
     res.json(allPlayers);
   } catch (error) {
@@ -26,7 +40,6 @@ router.get("/:playerId", async (req, res, next) => {
 });
 
 // *** ADMIN ROUTES ***
-
 router.post("/", isAdmin, async (req, res, next) => {
   const { name, fullName, birthday, hallOfFame, url } = req.body;
 
