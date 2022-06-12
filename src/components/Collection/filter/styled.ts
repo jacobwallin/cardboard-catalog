@@ -18,23 +18,23 @@ export const FilterSection = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  gap: 5px;
+  padding: 0 15px 0 15px;
 `;
 
 export const SectionHeader = styled.div`
   color: grey;
   font-size: 0.9rem;
-  margin-bottom: 7px;
-  margin-top: 10px;
+  margin-bottom: 2px;
+  margin-top: 5px;
 `;
 
 export const Filter = styled.div`
   width: 100%;
-  margin-bottom: 5px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 230px;
 `;
 
 export const Select = styled.select`
@@ -51,19 +51,11 @@ export const AttributeSelect = styled(Select)`
 
 export const Label = styled.label`
   font-size: 0.8rem;
-  margin-right: 10px;
 `;
 
 export const Checkbox = styled.input`
   width: 14px;
   height: 14px;
-`;
-
-export const TextInput = styled.input`
-  width: 160px;
-  height: 23px;
-  border: 1px solid lightgray;
-  border-radius: 3px;
 `;
 
 export const TableHeader = styled.div`

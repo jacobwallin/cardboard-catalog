@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
+import { Player } from "../../../store/library/players/types";
 import {
   fetchCards,
   fetchPdfData,
 } from "../../../store/collection/filter/thunks";
 import { fetchCardsBySet } from "../../../store/collection/browse/thunks";
-import { fetchAllPlayers } from "../../../store/library/players/thunks";
 import { fetchAllTeams } from "../../../store/library/teams/thunks";
 import { fetchLeagues } from "../../../store/library/leagues/thunks";
 import DataTable from "react-data-table-component";
@@ -79,7 +79,6 @@ export default function FilterPage() {
   );
 
   useEffect(() => {
-    dispatch(fetchAllPlayers());
     dispatch(fetchAllTeams());
     dispatch(fetchLeagues());
     if (!initialDataLoadComplete) {
@@ -87,8 +86,11 @@ export default function FilterPage() {
     }
   }, [initialDataLoadComplete]);
 
-  function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setFilters({ ...filters, playerSearch: event.target.value });
+  function handlePlayerChange(selectedPlayer: Player) {
+    setFilters({
+      ...filters,
+      player: `${selectedPlayer.id}-${selectedPlayer.name}`,
+    });
   }
 
   function handleFilterChange(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -116,9 +118,6 @@ export default function FilterPage() {
         break;
       case "shortPrint":
         setFilters({ ...filters, shortPrint: +e.target.value });
-        break;
-      case "player":
-        setFilters({ ...filters, player: e.target.value });
         break;
       case "team":
         setFilters({ ...filters, teamId: e.target.value });
@@ -318,7 +317,7 @@ export default function FilterPage() {
         <Filter
           filters={filters}
           handleFilterChange={handleFilterChange}
-          handlePlayerSearchChange={handleSearchChange}
+          handleSelectedPlayerChange={handlePlayerChange}
         />
       )}
       <Styled.ActiveFilters>Active Filters</Styled.ActiveFilters>

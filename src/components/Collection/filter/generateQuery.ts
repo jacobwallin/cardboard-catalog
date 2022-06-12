@@ -117,7 +117,7 @@ export default function generateQuery(
   if (filters.seriesId !== 0) {
     query += `&seriesId=${filters.seriesId}`;
     bubbles.push({
-      name: "Parallel",
+      name: "Set",
       filter: `${set.name} ${subset.name} ${
         subset.series.find((ser) => ser.id === filters.seriesId)!.name
       }`,
@@ -125,7 +125,7 @@ export default function generateQuery(
   } else if (filters.subsetId !== 0) {
     query += `&subsetId=${filters.subsetId}`;
     bubbles.push({
-      name: "Subset",
+      name: "Set",
       filter: `${set.name} ${subset.name}`,
     });
   } else if (filters.setId !== 0) {

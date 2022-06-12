@@ -44,7 +44,7 @@ export default function PaginationController(props: Props) {
 
   return (
     <Styled.MenuContainer>
-      {!props.totalCards && (
+      {!props.hideRowsPerPage && (
         <Styled.RowsContainer>
           <Styled.RowsPerPageLabel>Rows: </Styled.RowsPerPageLabel>
           <Styled.RowsPerPage
@@ -104,7 +104,7 @@ export default function PaginationController(props: Props) {
                   ? totalCards
                   : currentPage * rowsPerPage
               } of ${totalCards}`
-            : "No Cards Selected"}
+            : "0 of 0"}
         </Styled.PageStatus>
         <Styled.SvgWrapper>
           <svg

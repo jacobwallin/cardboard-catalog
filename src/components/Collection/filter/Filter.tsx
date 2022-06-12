@@ -9,7 +9,8 @@ import { createLoadingSelector } from "../../../store/loading/reducer";
 import sortSeries from "../subset-page/sortSeries";
 import { SetCards } from "../../../store/collection/browse/types";
 import { League } from "../../../store/library/leagues/types";
-import PlayerTable from "./PlayerTable";
+import PlayerTable from "./select-player/PlayerTable";
+import { Player } from "../../../store/library/players/types";
 
 const setLoadingSelector = createLoadingSelector(["GET_SINGLE_SET"]);
 const subsetLoadingSelector = createLoadingSelector(["GET_SUBSET"]);
@@ -17,14 +18,13 @@ const subsetLoadingSelector = createLoadingSelector(["GET_SUBSET"]);
 interface Props {
   filters: Filters;
   handleFilterChange(e: React.ChangeEvent<HTMLSelectElement>): void;
-  handlePlayerSearchChange(e: React.ChangeEvent<HTMLInputElement>): void;
+  handleSelectedPlayerChange(player: Player): void;
 }
 
 export default function Filter(props: Props) {
   const dispatch = useDispatch();
-  const { filters } = props;
+  const { filters, handleSelectedPlayerChange } = props;
 
-  const players = useSelector((state: RootState) => state.library.players);
   const teams = useSelector((state: RootState) => state.library.teams);
   const set = useSelector((state: RootState) => state.library.sets.set);
   const sports = useSelector(
@@ -357,9 +357,6 @@ export default function Filter(props: Props) {
             <option value={-1}>False</option>
           </Styled.AttributeSelect>
         </Styled.Filter>
-      </Styled.FilterSection>
-      <Styled.FilterSection>
-        <Styled.SectionHeader>Player</Styled.SectionHeader>
         <Styled.Filter>
           <Styled.Label htmlFor="hallOfFame">Hall of Fame: </Styled.Label>
           <Styled.AttributeSelect
@@ -372,18 +369,10 @@ export default function Filter(props: Props) {
             <option value={-1}>False</option>
           </Styled.AttributeSelect>
         </Styled.Filter>
-        <Styled.Filter>
-          <Styled.Label htmlFor="playerSearch">Search: </Styled.Label>
-          <Styled.TextInput
-            id="playerSearch"
-            type="text"
-            value={filters.playerSearch}
-            placeholder="player name"
-            onChange={props.handlePlayerSearchChange}
-            autoComplete="off"
-          />
-        </Styled.Filter>
-        <PlayerTable players={players} />
+      </Styled.FilterSection>
+      <Styled.FilterSection>
+        <Styled.SectionHeader>Player</Styled.SectionHeader>
+        <PlayerTable selectPlayer={handleSelectedPlayerChange} />
       </Styled.FilterSection>
     </Styled.FiltersContainer>
   );
