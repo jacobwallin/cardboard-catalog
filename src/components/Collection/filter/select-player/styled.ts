@@ -30,7 +30,7 @@ export const PlayerCheckbox = styled.input`
   }
 `;
 
-export const Search = styled.div`
+export const Search = styled.form`
   display: flex;
   width: 100%;
   justify-content: space-between;

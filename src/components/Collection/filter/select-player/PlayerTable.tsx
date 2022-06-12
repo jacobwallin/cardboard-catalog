@@ -16,27 +16,25 @@ export default function PlayerTable(props: Props) {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [searchField, setSearchField] = useState("");
 
   const players = useSelector((state: RootState) => state.library.players);
 
   useEffect(() => {
-    dispatch(
-      fetchAllPlayers(
-        `?search=${search}&limit=${rowsPerPage}&offset=${
-          (currentPage - 1) * rowsPerPage
-        }`
-      )
-    );
-  }, [rowsPerPage, currentPage]);
+    if (search !== "") {
+      dispatch(
+        fetchAllPlayers(
+          `?search=${search}&limit=${rowsPerPage}&offset=${
+            (currentPage - 1) * rowsPerPage
+          }`
+        )
+      );
+    }
+  }, [rowsPerPage, currentPage, search]);
 
-  function searchPlayers() {
-    dispatch(
-      fetchAllPlayers(
-        `?search=${search}&limit=${rowsPerPage}&offset=${
-          (currentPage - 1) * rowsPerPage
-        }`
-      )
-    );
+  function searchPlayers(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+    setSearch(searchField);
   }
 
   function rowsPerPageChange(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -47,7 +45,7 @@ export default function PlayerTable(props: Props) {
     setCurrentPage(newCurrentPage);
   }
   function searchChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setSearch(e.target.value);
+    setSearchField(e.target.value);
   }
 
   return (
@@ -56,7 +54,7 @@ export default function PlayerTable(props: Props) {
         <Styled.PlayerSearch
           id="playerSearch"
           type="text"
-          value={search}
+          value={searchField}
           placeholder="player name"
           onChange={searchChange}
           autoComplete="off"
@@ -75,7 +73,7 @@ export default function PlayerTable(props: Props) {
       <Styled.Players>
         {players.rows.map((p) => {
           return (
-            <Styled.PlayerRow>
+            <Styled.PlayerRow key={p.id}>
               <Styled.PlayerCheckbox type="checkbox" />
               <div>{p.name}</div>
             </Styled.PlayerRow>
