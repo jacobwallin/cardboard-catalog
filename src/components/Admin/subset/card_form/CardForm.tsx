@@ -4,7 +4,7 @@ import { RootState } from "../../../../store";
 import FieldContainer from "../../components/form/FieldContainer";
 import FieldTitle from "../../components/form/FieldTitle";
 import FieldData from "../../components/form/FieldData";
-import { PlayersState, Player } from "../../../../store/library/players/types";
+import { Player } from "../../../../store/library/players/types";
 import NoteHelp from "./NoteHelp";
 import PlayerHelp from "./PlayerHelp";
 import StyledButton from "../../components/StyledButton";
@@ -26,7 +26,7 @@ interface Props {
     rookie: boolean;
     note: string;
     teamId: number | undefined;
-    players: PlayersState;
+    players: Player[];
   };
   addPlayer(player: Player): void;
   deletePlayer(id: number): void;

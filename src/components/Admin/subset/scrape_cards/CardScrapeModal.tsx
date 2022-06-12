@@ -57,7 +57,7 @@ export default function CardScrapeModal(props: Props) {
     bulkScrapePlayerStatusSelector(state)
   );
 
-  const players = useSelector((state: RootState) => state.library.players);
+  const players = useSelector((state: RootState) => state.library.players.rows);
   const teams = useSelector((state: RootState) => state.library.teams);
   const scrapedCardData = useSelector(
     (state: RootState) => state.library.scrape

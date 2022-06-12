@@ -38,7 +38,7 @@ interface Props {
     rookie: boolean;
     note: string;
     teamId: number | undefined;
-    players: PlayersState;
+    players: Player[];
   };
   scrapeCardsData?: CardFormData[];
   subsetId: number;
@@ -83,7 +83,7 @@ export default function CardFormController(props: Props) {
     editCardData ? editCardData.teamId : undefined
   );
   const [note, setNote] = useState(editCardData ? editCardData.note : "");
-  const [players, setPlayers] = useState<PlayersState>(
+  const [players, setPlayers] = useState<Player[]>(
     editCardData
       ? editCardData.players.map((player) => {
           return {

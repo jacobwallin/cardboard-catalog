@@ -20,7 +20,7 @@ export default function SelectPlayer(props: Props) {
 
   useEffect(() => {
     setFilteredPlayers(
-      players.filter(
+      players.rows.filter(
         (p) => p.name.toLowerCase().indexOf(playerSearch.toLowerCase()) !== -1
       )
     );

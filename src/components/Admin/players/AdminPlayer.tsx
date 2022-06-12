@@ -32,7 +32,7 @@ export default function AdminPlayer() {
 
   useEffect(() => {
     setFilteredPlayers(
-      players.filter((p) => {
+      players.rows.filter((p) => {
         return p.name.toLowerCase().includes(filter);
       })
     );
