@@ -9,6 +9,7 @@ import { fetchCardsBySet } from "../../../../store/collection/browse/thunks";
 import { fetchSubset } from "../../../../store/library/subsets/thunks";
 import { fetchCardsBySubset } from "../../../../store/collection/browse/thunks";
 import { fetchCardsInSingleSubset } from "../../../../store/collection/browse/thunks";
+import { fetchLeagues } from "../../../../store/library/leagues/thunks";
 import {
   SeriesTableData,
   DeleteTableDataPoint,
@@ -60,6 +61,9 @@ export default function SelectCardForm(props: Props) {
   const userSubset = useSelector(
     (state: RootState) => state.collection.browse.cardsInSingleSubset
   );
+  const sports = useSelector(
+    (state: RootState) => state.library.leagues.allLeagues
+  );
 
   // SELECT FORM DATA
   const [yearOptions, setYearOptions] = useState<number[]>([]);
@@ -107,6 +111,7 @@ export default function SelectCardForm(props: Props) {
     } else {
       dispatch(fetchAllSetData(""));
     }
+    dispatch(fetchLeagues());
   }, []);
 
   useEffect(() => {
@@ -222,6 +227,14 @@ export default function SelectCardForm(props: Props) {
 
   function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
     switch (event.target.name) {
+      case "select-sport":
+        setSelectedCardId(-1);
+        setSelectedSeriesId(-1);
+        setSelectedSubsetId(-1);
+        setSelectedSetId(-1);
+        setSelectedYear(-1);
+        setSelectedSportId(+event.target.value);
+        break;
       case "select-year":
         setSelectedCardId(-1);
         setSelectedSeriesId(-1);
@@ -335,22 +348,39 @@ export default function SelectCardForm(props: Props) {
 
   return (
     <Styled.Container>
-      <StyledSelect
-        value={selectedYear}
-        name="select-year"
-        id="select-year"
-        onChange={handleSelectChange}
-      >
-        <option value={-1}>Select Year</option>
-        {yearOptions.map((year) => {
-          return (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          );
-        })}
-      </StyledSelect>
-
+      <Styled.Flex>
+        <StyledSelect
+          value={selectedYear}
+          name="select-sport"
+          id="select-sport"
+          onChange={handleSelectChange}
+        >
+          <option value={-1}>Select Sport</option>
+          {sports.map((sport) => {
+            return (
+              <option key={sport.id} value={sport.id}>
+                {sport.name}
+              </option>
+            );
+          })}
+        </StyledSelect>
+        <StyledSelect
+          value={selectedYear}
+          name="select-year"
+          id="select-year"
+          onChange={handleSelectChange}
+          disabled={selectedSportId === -1}
+        >
+          <option value={-1}>Select Year</option>
+          {yearOptions.map((year) => {
+            return (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            );
+          })}
+        </StyledSelect>
+      </Styled.Flex>
       <StyledSelect
         value={selectedSetId}
         name="select-set"
