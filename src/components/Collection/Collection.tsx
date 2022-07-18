@@ -31,6 +31,8 @@ export default function Collection() {
         </PageHeader>
         <Routes>
           <Route path="/" element={<SelectSet />} />
+          <Route path="/:sport" element={<SelectSet />} />
+          <Route path="/:sport/:year" element={<SelectSet />} />
           <Route path="filter" element={<FilterPage />} />
           <Route path=":year" element={<SelectSet />} />
         </Routes>

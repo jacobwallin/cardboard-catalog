@@ -104,7 +104,7 @@ export default function SelectCardForm(props: Props) {
     if (selectFrom === "COLLECTION") {
       dispatch(fetchCardsBySet());
     } else {
-      dispatch(fetchAllSetData());
+      dispatch(fetchAllSetData(""));
     }
   }, []);
 
@@ -131,7 +131,7 @@ export default function SelectCardForm(props: Props) {
     if (selectFrom === "COLLECTION") {
       setYearOptions(aggregate.collectionYears(userAllSets));
     } else {
-      setYearOptions(aggregate.aggregateYears(allSets));
+      setYearOptions(aggregate.aggregateYears(allSets.rows));
     }
   }, [allSets, userAllSets, selectFrom]);
 
@@ -142,7 +142,7 @@ export default function SelectCardForm(props: Props) {
           aggregate.collectionSetsInYear(userAllSets, selectedYear)
         );
       } else {
-        setSetOptions(aggregate.aggregateSets(allSets, selectedYear));
+        setSetOptions(aggregate.aggregateSets(allSets.rows, selectedYear));
       }
     }
   }, [allSets, userAllSets, selectedYear, selectFrom]);
