@@ -139,7 +139,7 @@ const SelectSet = () => {
       {!year && sport && (
         <Shared.DataTableContainer>
           <TableHeader>
-            <TableTitle>{`Select Set`}</TableTitle>
+            <TableTitle>{`Select Year`}</TableTitle>
             <Shared.TotalCards totalCards={totalCards} />
           </TableHeader>
           <DataTable
@@ -161,7 +161,7 @@ const SelectSet = () => {
       {!year && !sport && (
         <>
           <TableHeader>
-            <TableTitle>{`Select Set`}</TableTitle>
+            <TableTitle>{`Select Sport`}</TableTitle>
             <Shared.TotalCards totalCards={totalCards} />
           </TableHeader>
           <DataTable
