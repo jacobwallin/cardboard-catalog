@@ -132,7 +132,6 @@ export default function FilterPage() {
         setFilters({
           ...filters,
           sportId: +e.target.value,
-          year: 0,
           setId: 0,
           subsetId: 0,
           seriesId: 0,
