@@ -117,7 +117,7 @@ const SelectSet = () => {
         <Shared.DataTableContainer>
           <DataTable
             title={
-              <Shared.DataTableTitle>{`Sets from ${year}`}</Shared.DataTableTitle>
+              <Shared.DataTableTitle>{`Select Set`}</Shared.DataTableTitle>
             }
             actions={<Shared.TotalCards totalCards={totalCards} />}
             progressPending={isLoading}
@@ -139,7 +139,7 @@ const SelectSet = () => {
         <Shared.DataTableContainer>
           <DataTable
             title={
-              <Shared.DataTableTitle>{`Sets from ${year}`}</Shared.DataTableTitle>
+              <Shared.DataTableTitle>{`Select Year`}</Shared.DataTableTitle>
             }
             actions={<Shared.TotalCards totalCards={totalCards} />}
             progressPending={isLoading}
@@ -159,7 +159,6 @@ const SelectSet = () => {
       )}
       {!year && !sport && (
         <Shared.DataTableContainer>
-          <div>heheh</div>
           <DataTable
             dense
             title={<Shared.DataTableTitle>Select Sport</Shared.DataTableTitle>}

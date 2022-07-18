@@ -50,7 +50,9 @@ export const yearsColumns = (sport: string) => [
     selector: (row: CollectionYears) => row.year,
     sortable: true,
     cell: (row: any) => (
-      <SubtleLink to={`/collection/${row.year}`}>{row.year}</SubtleLink>
+      <SubtleLink to={`/collection/${sport.toLowerCase()}/${row.year}`}>
+        {row.year}
+      </SubtleLink>
     ),
     minWidth: "50px",
     style: tableStyles,
