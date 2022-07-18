@@ -17,6 +17,7 @@ import { LoadingDots } from "../../shared/Loading";
 import { NoDataMessage } from "../../shared/NoDataMessage";
 import { SetCards } from "../../../store/collection/browse/types";
 import { CollectionYears, CollectionSports } from "./aggregateSets";
+import { TableHeader, TableTitle } from "../../shared/TableHeader";
 
 const isLoadingSelector = createLoadingSelector([
   "GET_CARDS_BY_SET",
@@ -114,12 +115,12 @@ const SelectSet = () => {
   return (
     <PageContainer>
       {year && sport && (
-        <Shared.DataTableContainer>
+        <>
+          <TableHeader>
+            <TableTitle>{`Select Set`}</TableTitle>
+            <Shared.TotalCards totalCards={totalCards} />
+          </TableHeader>
           <DataTable
-            title={
-              <Shared.DataTableTitle>{`Select Set`}</Shared.DataTableTitle>
-            }
-            actions={<Shared.TotalCards totalCards={totalCards} />}
             progressPending={isLoading}
             columns={setsColumns}
             data={filteredSets}
@@ -133,15 +134,15 @@ const SelectSet = () => {
               <NoDataMessage>{`You have no cards from ${year}`}</NoDataMessage>
             }
           />
-        </Shared.DataTableContainer>
+        </>
       )}
       {!year && sport && (
         <Shared.DataTableContainer>
+          <TableHeader>
+            <TableTitle>{`Select Set`}</TableTitle>
+            <Shared.TotalCards totalCards={totalCards} />
+          </TableHeader>
           <DataTable
-            title={
-              <Shared.DataTableTitle>{`Select Year`}</Shared.DataTableTitle>
-            }
-            actions={<Shared.TotalCards totalCards={totalCards} />}
             progressPending={isLoading}
             columns={yearsColumns(sport)}
             data={yearsInCollection}
@@ -158,11 +159,13 @@ const SelectSet = () => {
         </Shared.DataTableContainer>
       )}
       {!year && !sport && (
-        <Shared.DataTableContainer>
+        <>
+          <TableHeader>
+            <TableTitle>{`Select Set`}</TableTitle>
+            <Shared.TotalCards totalCards={totalCards} />
+          </TableHeader>
           <DataTable
             dense
-            title={<Shared.DataTableTitle>Select Sport</Shared.DataTableTitle>}
-            actions={<Shared.TotalCards totalCards={totalCards} />}
             columns={sportsColumns}
             data={sportsInCollection}
             highlightOnHover
@@ -176,7 +179,7 @@ const SelectSet = () => {
             paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
             paginationPerPage={20}
           />
-        </Shared.DataTableContainer>
+        </>
       )}
     </PageContainer>
   );

@@ -20,6 +20,7 @@ import aggregateSubsetData, {
 import ReturnToMyCollection from "../shared/ReturnToMyCollection";
 import * as Styled from "./styled";
 import PageToggle from "../header/PageToggle";
+import { TableHeader, TableTitle } from "../../shared/TableHeader";
 
 const loadingSelector = createLoadingSelector([
   "GET_SINGLE_SET",
@@ -148,11 +149,13 @@ const SetPage = () => {
               <>
                 {aggregatedSubsetData.base && (
                   <>
-                    <Shared.DataTableHeader>
-                      {aggregatedSubsetData.base.length > 1
-                        ? `Base Sets`
-                        : "Base Set"}
-                    </Shared.DataTableHeader>
+                    <TableHeader>
+                      <TableTitle>
+                        {aggregatedSubsetData.base.length > 1
+                          ? `Base Sets`
+                          : "Base Set"}
+                      </TableTitle>
+                    </TableHeader>
                     <Shared.DataTableContainer>
                       <DataTable
                         noHeader
@@ -170,7 +173,9 @@ const SetPage = () => {
                 )}
                 {aggregatedSubsetData.shortPrints.length > 0 && (
                   <>
-                    <Shared.DataTableHeader>{`Short Prints`}</Shared.DataTableHeader>
+                    <TableHeader>
+                      <TableTitle>Short Prints</TableTitle>
+                    </TableHeader>
                     <Shared.DataTableContainer>
                       <DataTable
                         noHeader
@@ -188,7 +193,9 @@ const SetPage = () => {
                 )}
                 {aggregatedSubsetData.inserts.length > 0 && (
                   <>
-                    <Shared.DataTableHeader>{`Inserts`}</Shared.DataTableHeader>
+                    <TableHeader>
+                      <TableTitle>Inserts</TableTitle>
+                    </TableHeader>
                     <Shared.DataTableContainer>
                       <DataTable
                         noHeader
@@ -209,7 +216,9 @@ const SetPage = () => {
                 )}
                 {aggregatedSubsetData.autoRelic.length > 0 && (
                   <>
-                    <Shared.DataTableHeader>{`Autographs & Relics`}</Shared.DataTableHeader>
+                    <TableHeader>
+                      <TableTitle>Autographs & Relics</TableTitle>
+                    </TableHeader>
                     <Shared.DataTableContainer>
                       <DataTable
                         noHeader

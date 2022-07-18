@@ -9,6 +9,9 @@ export const sportColumns = [
   {
     name: "Sport",
     selector: (row: League) => row.name,
+    cell: (row: League) => (
+      <SubtleLink to={`${row.name.toLowerCase()}`}>{row.name}</SubtleLink>
+    ),
     sortable: true,
     grow: 1,
   },

@@ -13,7 +13,7 @@ import DataTable from "react-data-table-component";
 import { sportColumns, yearColumns, setColumns } from "./dataTableColumns";
 import aggregateByYear from "./aggregateByYear";
 import PageContainer from "../shared/PageContainer";
-import DateTableHeader from "../shared/DataTableHeader";
+import { TableHeader, TableTitle } from "../shared/TableHeader";
 import { createLoadingSelector } from "../../store/loading/reducer";
 import { LoadingDots } from "../shared/Loading";
 
@@ -67,7 +67,9 @@ export default function Browse() {
         <PageContainer>
           {year && sport && (
             <>
-              <DateTableHeader>{`Sets from ${year}`}</DateTableHeader>
+              <TableHeader>
+                <TableTitle>{`Sets from ${year}`}</TableTitle>
+              </TableHeader>
               <DataTable
                 noHeader
                 data={sets.filter((set) => set.year === +year)}
@@ -85,7 +87,9 @@ export default function Browse() {
 
           {!year && sport && (
             <>
-              <DateTableHeader>Select Year</DateTableHeader>
+              <TableHeader>
+                <TableTitle>Select Year</TableTitle>
+              </TableHeader>
               <DataTable
                 noHeader
                 data={aggregateByYear(sets)}
@@ -103,7 +107,9 @@ export default function Browse() {
 
           {!year && !sport && (
             <>
-              <DateTableHeader>Select Sport</DateTableHeader>
+              <TableHeader>
+                <TableTitle>Select Sport</TableTitle>
+              </TableHeader>
               <DataTable
                 noHeader
                 data={sports.sort((a, b) => {

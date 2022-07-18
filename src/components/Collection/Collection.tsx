@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { RootState } from "../../store";
 import SelectSet from "./select-set/SelectSet";
 import PageHeader from "../shared/PageHeader";
@@ -12,6 +13,7 @@ import Breadcrumbs from "../breadcrumbs/Breadcrumbs";
 import ReturnToMyCollection from "./shared/ReturnToMyCollection";
 
 export default function Collection() {
+  let { sport, year } = useParams();
   const collectionFriend = useSelector(
     (state: RootState) => state.collection.browse.friend
   );
