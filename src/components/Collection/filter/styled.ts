@@ -23,10 +23,14 @@ export const FilterSection = styled.div`
 `;
 
 export const SectionHeader = styled.div`
-  color: grey;
+  color: #888;
   font-size: 0.9rem;
   margin-bottom: 2px;
   margin-top: 5px;
+  @media only screen and (max-width: 600px) {
+    margin: 30px 0 5px 10px;
+    align-self: flex-start;
+  }
 `;
 
 export const Filter = styled.div`
