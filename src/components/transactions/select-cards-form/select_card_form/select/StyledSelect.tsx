@@ -23,7 +23,7 @@ const Select = styled.select`
   background-color: #eeeeee;
   -webkit-appearance: none;
   color: black;
-  border: 1px solid rgb(118, 118, 118);
+  border: 1px solid #bbb;
   &:disabled {
     color: gray;
   }

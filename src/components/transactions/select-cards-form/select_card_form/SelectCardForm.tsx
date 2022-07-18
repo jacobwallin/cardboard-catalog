@@ -80,6 +80,7 @@ export default function SelectCardForm(props: Props) {
   >([]);
 
   // CONTROLLED FORM DATA
+  const [selectedSportId, setSelectedSportId] = useState(-1);
   const [selectedYear, setSelectedYear] = useState(-1);
   const [selectedSetId, setSelectedSetId] = useState(-1);
   const [selectedSubsetId, setSelectedSubsetId] = useState(-1);

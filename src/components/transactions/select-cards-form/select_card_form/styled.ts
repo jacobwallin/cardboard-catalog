@@ -13,7 +13,7 @@ export const Input = styled.input`
   -webkit-appearance: none;
   margin: 0 10px 0 10px;
   padding-left: 10px;
-  border: 1px solid rgb(118, 118, 118);
+  border: 1px solid #bbb;
   border-radius: 5px;
   &:disabled {
     border: 1px solid lightgray;
