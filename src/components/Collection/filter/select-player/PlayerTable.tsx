@@ -4,6 +4,7 @@ import { RootState } from "../../../../store";
 import { fetchAllPlayers } from "../../../../store/library/players/thunks";
 import PaginationController from "../../../transactions/select-cards-form/selected-cards/pagination/PaginationController";
 import * as Styled from "./styled";
+import { Player } from "../../../../store/library/players/types";
 
 interface Props {
   selectPlayer: (playerIdName: string) => void;
@@ -63,6 +64,17 @@ export default function PlayerTable(props: Props) {
       props.selectPlayer(e.target.id);
     }
   }
+
+  function handlePlayerRowClick(player: Player) {
+    if (player.id === selectedPlayer) {
+      setSelectedPlayer(0);
+      props.selectPlayer("");
+    } else {
+      setSelectedPlayer(player.id);
+      props.selectPlayer(`${player.id}-${player.name}`);
+    }
+  }
+
   return (
     <>
       <Styled.Search>
@@ -88,7 +100,11 @@ export default function PlayerTable(props: Props) {
       <Styled.Players>
         {players.rows.map((p) => {
           return (
-            <Styled.PlayerRow key={p.id}>
+            <Styled.PlayerRow
+              key={p.id}
+              onClick={() => handlePlayerRowClick(p)}
+              selected={p.id === selectedPlayer}
+            >
               <Styled.PlayerCheckbox
                 id={`${p.id}-${p.name}`}
                 onChange={handlePlayerSelect}

@@ -6,17 +6,18 @@ export const Players = styled.div`
   width: 100%;
 `;
 
-export const PlayerRow = styled.div`
+export const PlayerRow = styled.div<{ selected?: boolean }>`
   width: 100%;
   display: flex;
   align-items: center;
   gap: 20px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   padding: 2px 0 2px 0;
   border-bottom: 1px solid #ddd;
+  background-color: ${(props) => props.selected && "#e3f2fd"};
 
   &:hover {
-    background-color: #ddd;
+    background-color: ${(props) => (props.selected ? "#e3f2fd" : "#ddd")};
     cursor: pointer;
   }
   &:nth-child(1) {
