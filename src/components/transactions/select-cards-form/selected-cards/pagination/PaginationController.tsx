@@ -136,7 +136,9 @@ export default function PaginationController(props: Props) {
         </Styled.SvgWrapper>
       </Styled.ControlsContainer>
       {!props.hideTotal && (
-        <Styled.TotalCards>Total Cards: {totalCards}</Styled.TotalCards>
+        <Styled.TotalCards>
+          Total Cards: <b>{totalCards}</b>
+        </Styled.TotalCards>
       )}
     </Styled.MenuContainer>
   );

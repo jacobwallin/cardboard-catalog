@@ -12,9 +12,9 @@ export const TransactionLink = styled(Link)`
   align-items: center;
   color: black;
   font-size: 0.9rem;
-  background-color: #eee;
+  background-color: #fff;
   &:hover {
-    background-color: #bbb;
+    background-color: #eee;
   }
 `;
 

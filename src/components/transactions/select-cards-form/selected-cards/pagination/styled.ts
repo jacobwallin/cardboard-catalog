@@ -12,6 +12,7 @@ export const MenuContainer = styled.div`
   @media (max-width: ${breakpoint}) {
     flex-direction: column;
     align-items: flex-start;
+    gap: 10px;
   }
 `;
 
@@ -27,7 +28,7 @@ export const TotalCards = styled.div`
   margin-left: auto;
   font-size: 0.9rem;
   color: black;
-  font-weight: 500;
+  font-weight: 400;
   @media (max-width: ${breakpoint}) {
     margin-left: 0;
   }

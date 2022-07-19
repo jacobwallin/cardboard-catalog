@@ -33,9 +33,9 @@ export const SeriesSelect = styled.select`
 `;
 
 export const SelectLabel = styled.div`
-  font-size: 12px;
-  font-weight: 600;
-  margin-right: 3px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-left: 2px;
 `;
 
 export const AddCardsContainer = styled.div`

@@ -155,7 +155,7 @@ export default function SelectCardForm(props: Props) {
   }, [selectedSportId, collectionAllSets, selectFrom, sports, dispatch]);
 
   useEffect(() => {
-    const idk = catalogueYears.map((idk) => idk.year);
+    const idk = catalogueYears.map((idk) => idk.year).sort((a, b) => b - a);
     setYearOptions(idk);
   }, [catalogueYears]);
 

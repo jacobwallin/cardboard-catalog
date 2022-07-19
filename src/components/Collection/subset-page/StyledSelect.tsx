@@ -22,7 +22,7 @@ const Select = styled.select`
   min-width: 150px;
   border-radius: 3px;
   font-size: 0.9rem;
-  background-color: #eeeeee;
+  background-color: #fff;
   -webkit-appearance: none;
   color: black;
   border: 1px solid rgb(118, 118, 118);
