@@ -154,6 +154,7 @@ export default function AdminSubset() {
         <CardScrapeModal
           handleCancel={toggleScrapeCardModal}
           subsetId={+subsetId}
+          findMissingPlayers={subset.set.league.name === "Baseball"}
         />
       )}
       {editCardData && (

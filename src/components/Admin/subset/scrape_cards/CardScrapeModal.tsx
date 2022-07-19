@@ -33,6 +33,7 @@ const bulkScrapePlayerStatusSelector =
 interface Props {
   handleCancel(): void;
   subsetId: number;
+  findMissingPlayers: boolean;
 }
 
 export default function CardScrapeModal(props: Props) {
@@ -86,19 +87,21 @@ export default function CardScrapeModal(props: Props) {
         // parse data
         const parsed = parseCards(scrapedCardData, teams, players);
 
-        // find missing players
-        const missing = parsed.filter((parsedPlayer) => {
-          return parsedPlayer.player && parsedPlayer.players.length === 0;
-        });
+        if (props.findMissingPlayers) {
+          // find missing players
+          const missing = parsed.filter((parsedPlayer) => {
+            return parsedPlayer.player && parsedPlayer.players.length === 0;
+          });
 
-        // prevents an infinite loop in this useEffect
-        setPlayersChecked(true);
+          // prevents an infinite loop in this useEffect
+          setPlayersChecked(true);
 
-        // dispatch bulk add players if missing, otherwise set form state
-        if (missing.length > 0) {
-          dispatch(bulkScrapePlayers(missing.map((m) => m.name)));
-          // other useEffect will setFormData once bulk player creation is complete
-          setPlayersMissing(true);
+          // dispatch bulk add players if missing, otherwise set form state
+          if (missing.length > 0) {
+            dispatch(bulkScrapePlayers(missing.map((m) => m.name)));
+            // other useEffect will setFormData once bulk player creation is complete
+            setPlayersMissing(true);
+          }
         } else {
           setScrapeInProgress(false);
           setFormData(parsed);
