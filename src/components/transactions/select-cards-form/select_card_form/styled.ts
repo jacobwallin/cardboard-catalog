@@ -24,17 +24,23 @@ export const Input = styled.input`
 `;
 
 export const Label = styled.label`
-  font-weight: 300;
+  font-weight: 400;
   font-size: 1rem;
-  color: #555;
-  margin-left: 5px;
+  color: #777;
+  margin-left: 7px;
   margin-bottom: 2px;
+`;
+
+export const SelectContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 `;
 
 export const SelectCardContainer = styled.form`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   width: 100%;
 `;
@@ -49,10 +55,11 @@ export const Container = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
   align-items: center;
   width: 100%;
   margin-bottom: 30px;
+  margin-top: 35px;
 `;
 
 export const CardCode = styled.div`
@@ -69,7 +76,7 @@ export const CardCode = styled.div`
 
 export const AbsoluteContainer = styled.div`
   position: absolute;
-  top: 195px;
+  top: 307px;
   left: 0;
   width: 100%;
   display: flex;

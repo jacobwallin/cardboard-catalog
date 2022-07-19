@@ -20,7 +20,7 @@ const Select = styled.select`
   padding-right: 20px;
   border-radius: 5px;
   font-size: 0.9rem;
-  background-color: #eeeeee;
+  background-color: #fff;
   -webkit-appearance: none;
   color: black;
   border: 1px solid #bbb;

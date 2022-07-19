@@ -5,7 +5,7 @@ export const TableHeader = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding-bottom: 20px;
+  padding: 21px 0 20px 0;
 `;
 
 export const CardTotal = styled.div`

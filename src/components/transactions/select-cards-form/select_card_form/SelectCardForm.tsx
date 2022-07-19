@@ -156,7 +156,6 @@ export default function SelectCardForm(props: Props) {
 
   useEffect(() => {
     const idk = catalogueYears.map((idk) => idk.year);
-    console.log("idk", idk);
     setYearOptions(idk);
   }, [catalogueYears]);
 
@@ -430,148 +429,161 @@ export default function SelectCardForm(props: Props) {
   return (
     <Styled.Container>
       <Styled.Flex>
-        <StyledSelect
-          value={selectedSportId}
-          name="select-sport"
-          id="select-sport"
-          onChange={handleSelectChange}
-        >
-          <option value={-1}>Select Sport</option>
-          {sportOptions.map((sport) => {
-            return (
-              <option key={sport.id} value={sport.id}>
-                {sport.name}
-              </option>
-            );
-          })}
-        </StyledSelect>
-        <StyledSelect
-          value={selectedYear}
-          name="select-year"
-          id="select-year"
-          onChange={handleSelectChange}
-          disabled={selectedSportId === -1}
-        >
-          <option value={-1}>Select Year</option>
-          {yearOptions.map((year) => {
-            return (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            );
-          })}
-        </StyledSelect>
+        <Styled.SelectContainer>
+          <Styled.Label htmlFor="select-sport">Sport</Styled.Label>
+          <StyledSelect
+            value={selectedSportId}
+            name="select-sport"
+            id="select-sport"
+            onChange={handleSelectChange}
+          >
+            <option value={-1}>Select Sport</option>
+            {sportOptions.map((sport) => {
+              return (
+                <option key={sport.id} value={sport.id}>
+                  {sport.name}
+                </option>
+              );
+            })}
+          </StyledSelect>
+        </Styled.SelectContainer>
+        <Styled.SelectContainer>
+          <Styled.Label htmlFor="select-year">Year</Styled.Label>
+          <StyledSelect
+            value={selectedYear}
+            name="select-year"
+            id="select-year"
+            onChange={handleSelectChange}
+            disabled={selectedSportId === -1}
+          >
+            <option value={-1}>Select Year</option>
+            {yearOptions.map((year) => {
+              return (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              );
+            })}
+          </StyledSelect>
+        </Styled.SelectContainer>
       </Styled.Flex>
-      <StyledSelect
-        value={selectedSetId}
-        name="select-set"
-        id="select-set"
-        disabled={selectedYear === -1}
-        onChange={handleSelectChange}
-      >
-        <option value={-1}>Select Set</option>
-        {setOptions.map((set) => {
-          return (
-            <option key={set.id} value={set.id}>
-              {set.name}
-            </option>
-          );
-        })}
-      </StyledSelect>
-
+      <Styled.SelectContainer>
+        <Styled.Label htmlFor="select-set">Set</Styled.Label>
+        <StyledSelect
+          value={selectedSetId}
+          name="select-set"
+          id="select-set"
+          disabled={selectedYear === -1}
+          onChange={handleSelectChange}
+        >
+          <option value={-1}>Select Set</option>
+          {setOptions.map((set) => {
+            return (
+              <option key={set.id} value={set.id}>
+                {set.name}
+              </option>
+            );
+          })}
+        </StyledSelect>
+      </Styled.SelectContainer>
       <Styled.Flex>
-        <StyledSelect
-          value={selectedSubsetId}
-          name="select-subset"
-          id="select-subset"
-          disabled={selectedSetId === -1 || loadingSet}
-          onChange={handleSelectChange}
-        >
-          <option value={-1}>Select Subset</option>
-          {
-            // only render drop down options once the correct subset has been fetched from API
-            (set.id === selectedSetId ||
-              collectionSet.setId === selectedSetId) && (
-              <>
-                {subsetOptions.base && (
-                  <optgroup
-                    label={
-                      subsetOptions.base.length > 1 ? "Base Sets" : "Base Set"
-                    }
-                  >
-                    {subsetOptions.base.map((subset) => {
-                      return (
-                        <option key={subset.id} value={subset.id}>
-                          {`${subset.name}`}
-                          {subset.prefix !== "" && ` (${subset.prefix})`}
-                        </option>
-                      );
-                    })}
-                  </optgroup>
-                )}
-                {subsetOptions.shortPrints.length > 0 && (
-                  <optgroup label="Short Prints">
-                    {subsetOptions.shortPrints.map((subset) => {
-                      return (
-                        <option key={subset.id} value={subset.id}>
-                          {`${subset.name}`}
-                          {subset.prefix !== "" && ` (${subset.prefix})`}
-                        </option>
-                      );
-                    })}
-                  </optgroup>
-                )}
-                {subsetOptions.inserts.length > 0 && (
-                  <optgroup label="Inserts">
-                    {subsetOptions.inserts.map((subset) => {
-                      return (
-                        <option key={subset.id} value={subset.id}>
-                          {`${subset.name}`}
-                          {subset.prefix !== "" && ` (${subset.prefix})`}
-                        </option>
-                      );
-                    })}
-                  </optgroup>
-                )}
-                {subsetOptions.autoRelic.length > 0 && (
-                  <optgroup label="Autos and Relics">
-                    {subsetOptions.autoRelic.map((subset) => {
-                      return (
-                        <option key={subset.id} value={subset.id}>
-                          {`${subset.name}`}
-                          {subset.prefix !== "" && ` (${subset.prefix})`}
-                        </option>
-                      );
-                    })}
-                  </optgroup>
-                )}
-              </>
-            )
-          }
-        </StyledSelect>
-
-        <StyledSelect
-          value={selectedSeriesId}
-          name="select-series"
-          id="select-series"
-          disabled={selectedSubsetId === -1 || loadingSubset}
-          onChange={handleSelectChange}
-        >
-          <option value={-1}>Select Parallel</option>
-          {
-            // only render drop down options once the correct subset has been fetched from API
-            subset.id === selectedSubsetId &&
-              seriesOptions.map((series) => {
-                return (
-                  <option key={series.series.id} value={series.series.id}>
-                    {series.series.name}
-                    {series.series.serialized &&
-                      ` /${series.series.serialized}`}
-                  </option>
-                );
-              })
-          }
-        </StyledSelect>
+        <Styled.SelectContainer>
+          <Styled.Label htmlFor="select-subset">Subset</Styled.Label>
+          <StyledSelect
+            value={selectedSubsetId}
+            name="select-subset"
+            id="select-subset"
+            disabled={selectedSetId === -1 || loadingSet}
+            onChange={handleSelectChange}
+          >
+            <option value={-1}>Select Subset</option>
+            {
+              // only render drop down options once the correct subset has been fetched from API
+              (set.id === selectedSetId ||
+                collectionSet.setId === selectedSetId) && (
+                <>
+                  {subsetOptions.base && (
+                    <optgroup
+                      label={
+                        subsetOptions.base.length > 1 ? "Base Sets" : "Base Set"
+                      }
+                    >
+                      {subsetOptions.base.map((subset) => {
+                        return (
+                          <option key={subset.id} value={subset.id}>
+                            {`${subset.name}`}
+                            {subset.prefix !== "" && ` (${subset.prefix})`}
+                          </option>
+                        );
+                      })}
+                    </optgroup>
+                  )}
+                  {subsetOptions.shortPrints.length > 0 && (
+                    <optgroup label="Short Prints">
+                      {subsetOptions.shortPrints.map((subset) => {
+                        return (
+                          <option key={subset.id} value={subset.id}>
+                            {`${subset.name}`}
+                            {subset.prefix !== "" && ` (${subset.prefix})`}
+                          </option>
+                        );
+                      })}
+                    </optgroup>
+                  )}
+                  {subsetOptions.inserts.length > 0 && (
+                    <optgroup label="Inserts">
+                      {subsetOptions.inserts.map((subset) => {
+                        return (
+                          <option key={subset.id} value={subset.id}>
+                            {`${subset.name}`}
+                            {subset.prefix !== "" && ` (${subset.prefix})`}
+                          </option>
+                        );
+                      })}
+                    </optgroup>
+                  )}
+                  {subsetOptions.autoRelic.length > 0 && (
+                    <optgroup label="Autos and Relics">
+                      {subsetOptions.autoRelic.map((subset) => {
+                        return (
+                          <option key={subset.id} value={subset.id}>
+                            {`${subset.name}`}
+                            {subset.prefix !== "" && ` (${subset.prefix})`}
+                          </option>
+                        );
+                      })}
+                    </optgroup>
+                  )}
+                </>
+              )
+            }
+          </StyledSelect>
+        </Styled.SelectContainer>
+        <Styled.SelectContainer>
+          <Styled.Label htmlFor="select-series">Parallel</Styled.Label>
+          <StyledSelect
+            value={selectedSeriesId}
+            name="select-series"
+            id="select-series"
+            disabled={selectedSubsetId === -1 || loadingSubset}
+            onChange={handleSelectChange}
+          >
+            <option value={-1}>Select Parallel</option>
+            {
+              // only render drop down options once the correct subset has been fetched from API
+              subset.id === selectedSubsetId &&
+                seriesOptions.map((series) => {
+                  return (
+                    <option key={series.series.id} value={series.series.id}>
+                      {series.series.name}
+                      {series.series.serialized &&
+                        ` /${series.series.serialized}`}
+                    </option>
+                  );
+                })
+            }
+          </StyledSelect>
+        </Styled.SelectContainer>
       </Styled.Flex>
       <Styled.AbsoluteContainer>
         <ChecklistCheckbox
@@ -588,42 +600,45 @@ export default function SelectCardForm(props: Props) {
       {!selectFromChecklist && (
         <>
           <Styled.SelectCardContainer onSubmit={handleAddCard}>
-            <StyledSelect
-              value={selectedCardId}
-              name="select-card"
-              id="select-card"
-              disabled={selectedSeriesId === -1}
-              onChange={handleSelectChange}
-            >
-              <option value={-1}>Select Card</option>
-              {selectFrom === "COLLECTION"
-                ? collectionCardOptions.map((userCard) => {
-                    return (
-                      <option
-                        key={userCard.id}
-                        value={userCard.id}
-                        disabled={
-                          cardData.findIndex(
-                            (card) => card.id === userCard.id
-                          ) !== -1
-                        }
-                      >
-                        {`${userCard.card.cardData.number} - ${userCard.card.cardData.name}`}
-                        {userCard.card.cardData.note !== "" &&
-                          ` (${userCard.card.cardData.note})`}
-                      </option>
-                    );
-                  })
-                : databaseCardOptions.map((card) => {
-                    return (
-                      <option key={card.id} value={card.id}>
-                        {`${card.cardData.number} - ${card.cardData.name}`}
-                        {card.cardData.note !== "" &&
-                          ` (${card.cardData.note})`}
-                      </option>
-                    );
-                  })}
-            </StyledSelect>
+            <Styled.SelectContainer>
+              <Styled.Label htmlFor="select-card">Card</Styled.Label>
+              <StyledSelect
+                value={selectedCardId}
+                name="select-card"
+                id="select-card"
+                disabled={selectedSeriesId === -1}
+                onChange={handleSelectChange}
+              >
+                <option value={-1}>Select Card</option>
+                {selectFrom === "COLLECTION"
+                  ? collectionCardOptions.map((userCard) => {
+                      return (
+                        <option
+                          key={userCard.id}
+                          value={userCard.id}
+                          disabled={
+                            cardData.findIndex(
+                              (card) => card.id === userCard.id
+                            ) !== -1
+                          }
+                        >
+                          {`${userCard.card.cardData.number} - ${userCard.card.cardData.name}`}
+                          {userCard.card.cardData.note !== "" &&
+                            ` (${userCard.card.cardData.note})`}
+                        </option>
+                      );
+                    })
+                  : databaseCardOptions.map((card) => {
+                      return (
+                        <option key={card.id} value={card.id}>
+                          {`${card.cardData.number} - ${card.cardData.name}`}
+                          {card.cardData.note !== "" &&
+                            ` (${card.cardData.note})`}
+                        </option>
+                      );
+                    })}
+              </StyledSelect>
+            </Styled.SelectContainer>
             <Styled.Input
               type="text"
               value={cardIdField}

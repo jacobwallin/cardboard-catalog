@@ -220,7 +220,7 @@ export default function AddCardsForm(props: Props) {
 
   return (
     <Styled.FormContainer>
-      {title && <Styled.SelectFormTitle>{title}</Styled.SelectFormTitle>}
+      {/* {title && <Styled.SelectFormTitle>{title}</Styled.SelectFormTitle>} */}
       {selectFrom !== "NONE" && (
         <SelectCardForm
           addCards={addCards}
