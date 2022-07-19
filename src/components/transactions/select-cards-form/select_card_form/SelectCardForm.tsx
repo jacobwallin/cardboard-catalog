@@ -3,13 +3,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../../store";
 import { CardFormData } from "../AddCardsForm";
 import StyledButton from "../../../Admin/components/StyledButton";
-import { fetchAllSetData } from "../../../../store/library/sets/thunks";
+import {
+  fetchAllSetData,
+  fetchSetYears,
+} from "../../../../store/library/sets/thunks";
 import { fetchSet } from "../../../../store/library/sets/thunks";
 import { fetchCardsBySet } from "../../../../store/collection/browse/thunks";
 import { fetchSubset } from "../../../../store/library/subsets/thunks";
 import { fetchCardsBySubset } from "../../../../store/collection/browse/thunks";
 import { fetchCardsInSingleSubset } from "../../../../store/collection/browse/thunks";
 import { fetchLeagues } from "../../../../store/library/leagues/thunks";
+import { League } from "../../../../store/library/leagues/types";
 import {
   SeriesTableData,
   DeleteTableDataPoint,
@@ -28,6 +32,11 @@ import {
 } from "./createFormData";
 import { aggregateSubsets } from "./aggregate";
 import { AggregatedSubsetData } from "../../../Collection/set-page/aggregateSubsetData";
+import {
+  aggregateCollectionBySport,
+  aggregateCollectionByYear,
+  CollectionSports,
+} from "../../../Collection/select-set/aggregateSets";
 
 const setLoadingSelector = createLoadingSelector([
   "GET_SINGLE_SET",
@@ -49,23 +58,29 @@ export default function SelectCardForm(props: Props) {
   const { addCards, selectFrom, cardData } = props;
 
   // LIBRARY STORE DATA
-  const allSets = useSelector((state: RootState) => state.library.sets.allSets);
-  const userAllSets = useSelector(
+  const catalogueSets = useSelector(
+    (state: RootState) => state.library.sets.allSets
+  );
+  const catalogueYears = useSelector(
+    (state: RootState) => state.library.sets.setYears
+  );
+  const collectionAllSets = useSelector(
     (state: RootState) => state.collection.browse.cardsBySet
   );
   const set = useSelector((state: RootState) => state.library.sets.set);
-  const userSet = useSelector(
+  const collectionSet = useSelector(
     (state: RootState) => state.collection.browse.cardsBySubset
   );
   const subset = useSelector((state: RootState) => state.library.subsets);
-  const userSubset = useSelector(
+  const collectionSubset = useSelector(
     (state: RootState) => state.collection.browse.cardsInSingleSubset
   );
   const sports = useSelector(
     (state: RootState) => state.library.leagues.allLeagues
   );
 
-  // SELECT FORM DATA
+  // SELECT FORM OPTIONS
+  const [sportOptions, setSportOptions] = useState<League[]>([]);
   const [yearOptions, setYearOptions] = useState<number[]>([]);
   const [setOptions, setSetOptions] = useState<SetSummary[]>([]);
   const [subsetOptions, setSubsetOptions] = useState<AggregatedSubsetData>({
@@ -83,7 +98,7 @@ export default function SelectCardForm(props: Props) {
     DeleteTableDataPoint[]
   >([]);
 
-  // CONTROLLED FORM DATA
+  // FORM DATA
   const [selectedSportId, setSelectedSportId] = useState(-1);
   const [selectedYear, setSelectedYear] = useState(-1);
   const [selectedSetId, setSelectedSetId] = useState(-1);
@@ -108,11 +123,55 @@ export default function SelectCardForm(props: Props) {
     // initial data load, either get all sets or only sets in user's collection
     if (selectFrom === "COLLECTION") {
       dispatch(fetchCardsBySet());
-    } else {
-      dispatch(fetchAllSetData(""));
     }
     dispatch(fetchLeagues());
   }, []);
+
+  useEffect(() => {
+    if (selectFrom === "DATABASE") {
+      setSportOptions(
+        sports.sort((a, b) => {
+          if (a.name < b.name) return -1;
+          return 1;
+        })
+      );
+    }
+  }, [sports, selectFrom]);
+
+  useEffect(() => {
+    if (selectedSportId !== -1) {
+      if (selectFrom === "COLLECTION") {
+        // if selecting from collection, aggregate by year
+        setYearOptions(
+          aggregateCollectionByYear(collectionAllSets, selectedSportId).map(
+            (y) => y.year
+          )
+        );
+      } else {
+        // fetch years that exist in catalogue for given sport
+        dispatch(fetchSetYears(selectedSportId));
+      }
+    }
+  }, [selectedSportId, collectionAllSets, selectFrom, sports, dispatch]);
+
+  useEffect(() => {
+    const idk = catalogueYears.map((idk) => idk.year);
+    console.log("idk", idk);
+    setYearOptions(idk);
+  }, [catalogueYears]);
+
+  useEffect(() => {
+    if (selectedYear !== -1) {
+      if (selectFrom === "COLLECTION") {
+        // if selecting from collection, filter sets by year
+      } else {
+        // fetch set that exist in catalogue for given year and sport
+        dispatch(
+          fetchAllSetData(`sportId=${selectedSportId}&year=${selectedYear}`)
+        );
+      }
+    }
+  }, [selectedYear, collectionAllSets, selectFrom, selectedSportId, dispatch]);
 
   useEffect(() => {
     // fetch set data, but only if a set is selected
@@ -122,7 +181,7 @@ export default function SelectCardForm(props: Props) {
       }
       dispatch(fetchSet(selectedSetId));
     }
-  }, [selectedSetId]);
+  }, [selectedSetId, selectFrom, dispatch]);
 
   useEffect(() => {
     // fetch subset data, same data is needed regardless of selectFrom
@@ -130,51 +189,73 @@ export default function SelectCardForm(props: Props) {
       dispatch(fetchSubset(selectedSubsetId));
       dispatch(fetchCardsInSingleSubset(selectedSubsetId));
     }
-  }, [selectedSubsetId]);
+  }, [selectedSubsetId, dispatch]);
 
   // AGGREGATE DATA FOR FORM
   useEffect(() => {
     if (selectFrom === "COLLECTION") {
-      setYearOptions(aggregate.collectionYears(userAllSets));
-    } else {
-      setYearOptions(aggregate.aggregateYears(allSets.rows));
+      // if selecting from collection, aggregate by year
+      setSportOptions(
+        aggregateCollectionBySport(collectionAllSets, sports).map((s) => {
+          return {
+            id: s.sportId,
+            name: s.sport,
+          };
+        })
+      );
     }
-  }, [allSets, userAllSets, selectFrom]);
+  }, [collectionAllSets, selectFrom, sports]);
 
   useEffect(() => {
     if (selectedYear !== -1) {
       if (selectFrom === "COLLECTION") {
         setSetOptions(
-          aggregate.collectionSetsInYear(userAllSets, selectedYear)
+          aggregate.collectionSetsInYear(
+            collectionAllSets,
+            selectedYear,
+            selectedSportId
+          )
         );
       } else {
-        setSetOptions(aggregate.aggregateSets(allSets.rows, selectedYear));
+        setSetOptions(
+          aggregate.aggregateSets(catalogueSets.rows, selectedYear)
+        );
       }
     }
-  }, [allSets, userAllSets, selectedYear, selectFrom]);
+  }, [
+    catalogueSets,
+    collectionAllSets,
+    selectedYear,
+    selectedSportId,
+    selectFrom,
+  ]);
 
   useEffect(() => {
     if (
       selectedSetId !== -1 &&
-      (set.id === selectedSetId || userSet.setId === selectedSetId)
+      (set.id === selectedSetId || collectionSet.setId === selectedSetId)
     ) {
       if (selectFrom === "COLLECTION") {
-        setSubsetOptions(aggregateSubsets(set.subsets, userSet.subsets, true));
+        setSubsetOptions(
+          aggregateSubsets(set.subsets, collectionSet.subsets, true)
+        );
       } else {
-        setSubsetOptions(aggregateSubsets(set.subsets, userSet.subsets, false));
+        setSubsetOptions(
+          aggregateSubsets(set.subsets, collectionSet.subsets, false)
+        );
       }
     }
-  }, [set, userSet, selectedSetId, selectFrom]);
+  }, [set, collectionSet, selectedSetId, selectFrom]);
 
   useEffect(() => {
     if (
       selectedSubsetId !== -1 &&
       subset.id === selectedSubsetId &&
-      userSubset.subsetId === selectedSubsetId
+      collectionSubset.subsetId === selectedSubsetId
     ) {
       const newSeriesOptions = aggregate.aggregateSubset(
         subset,
-        userSubset,
+        collectionSubset,
         selectFrom === "COLLECTION"
       );
       setSeriesOptions(newSeriesOptions);
@@ -189,7 +270,7 @@ export default function SelectCardForm(props: Props) {
           : -1
       );
     }
-  }, [subset, userSubset, selectedSubsetId, selectFrom]);
+  }, [subset, collectionSubset, selectedSubsetId, selectFrom]);
 
   useEffect(() => {
     if (selectedSeriesId !== -1) {
@@ -317,7 +398,7 @@ export default function SelectCardForm(props: Props) {
         // convert into data needed for the AddCardsForm component
         const newCardData: CardFormData = createRemovedCardFormData(
           userCard,
-          userSubset.cards,
+          collectionSubset.cards,
           subset,
           set
         );
@@ -333,7 +414,7 @@ export default function SelectCardForm(props: Props) {
       if (card) {
         const newCardData = createAddedCardFormData(
           card,
-          userSubset.cards,
+          collectionSubset.cards,
           subset,
           set
         );
@@ -350,13 +431,13 @@ export default function SelectCardForm(props: Props) {
     <Styled.Container>
       <Styled.Flex>
         <StyledSelect
-          value={selectedYear}
+          value={selectedSportId}
           name="select-sport"
           id="select-sport"
           onChange={handleSelectChange}
         >
           <option value={-1}>Select Sport</option>
-          {sports.map((sport) => {
+          {sportOptions.map((sport) => {
             return (
               <option key={sport.id} value={sport.id}>
                 {sport.name}
@@ -409,7 +490,8 @@ export default function SelectCardForm(props: Props) {
           <option value={-1}>Select Subset</option>
           {
             // only render drop down options once the correct subset has been fetched from API
-            (set.id === selectedSetId || userSet.setId === selectedSetId) && (
+            (set.id === selectedSetId ||
+              collectionSet.setId === selectedSetId) && (
               <>
                 {subsetOptions.base && (
                   <optgroup

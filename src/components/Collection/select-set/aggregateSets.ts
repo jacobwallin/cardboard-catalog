@@ -50,6 +50,7 @@ export function aggregateCollectionByYear(
 
 export interface CollectionSports {
   sport: string;
+  sportId: number;
   distinctCards: number;
   totalCards: number;
 }
@@ -80,12 +81,13 @@ export function aggregateCollectionBySport(
     }
   }, {});
 
-  const collectionBySport = Object.keys(sportsHash)
+  const collectionBySport: CollectionSports[] = Object.keys(sportsHash)
     .filter((sportId) => sports.some((s) => s.id === +sportId))
     .map((sportId) => {
       const sport = sports.find((s) => s.id === +sportId)!;
       return {
         sport: sport.name,
+        sportId: sport.id,
         totalCards: sportsHash[sportId].totalCards,
         distinctCards: sportsHash[sportId].distinctCards,
       };

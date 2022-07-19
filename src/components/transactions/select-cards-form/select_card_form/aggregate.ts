@@ -95,11 +95,12 @@ export function collectionYears(collectionSets: SetCards[]): number[] {
 
 export function collectionSetsInYear(
   collectionSets: SetCards[],
-  year: number
+  year: number,
+  sportId: number
 ): SetSummary[] {
   // must return SetSummary to give selectcardform the same data format, unnecessary information is given dummy values
   return collectionSets
-    .filter((set) => set.year === year)
+    .filter((set) => set.year === year && set.leagueId === sportId)
     .map((set) => {
       return {
         id: set.setId,
