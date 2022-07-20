@@ -20,14 +20,19 @@ const columns = (editToggle: (player: Player) => void) => [
     sortable: true,
   },
   {
-    name: "Date Added",
-    selector: (row: Player) => row.createdAt.slice(0, 10),
-    sortable: true,
-  },
-  {
     name: "HOF",
     selector: (row: Player) => row.hallOfFame,
     cell: (row: Player) => (row.hallOfFame ? "HOF" : ""),
+    sortable: true,
+  },
+  {
+    name: "Sport",
+    selector: (row: Player) => row.leagueId,
+    sortable: true,
+  },
+  {
+    name: "Date Added",
+    selector: (row: Player) => row.createdAt.slice(0, 10),
     sortable: true,
   },
   {

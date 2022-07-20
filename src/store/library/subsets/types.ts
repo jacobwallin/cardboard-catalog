@@ -78,6 +78,7 @@ interface Player {
   birthday: string;
   hallOfFame: boolean;
   url: string;
+  leagueId: number;
   card_data_player: {
     cardDatumId: number;
     playerId: number;

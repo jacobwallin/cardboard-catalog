@@ -32,6 +32,8 @@ export default function playersReducer(
         rows: [...state.rows, ...action.players],
         count: state.count + action.players.length,
       };
+    case types.CLEAR_PLAYERS:
+      return initialState;
     default:
       return state;
   }

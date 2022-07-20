@@ -51,3 +51,7 @@ export const bulkCreatePlayerSuccess = (
 export const bulkCreatePlayerFailure = (): types.PlayerActionCreators => ({
   type: types.BULK_CREATE_PLAYER_FAILURE,
 });
+
+export const clearPlayers = () => ({
+  type: types.CLEAR_PLAYERS,
+});

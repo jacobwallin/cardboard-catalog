@@ -93,6 +93,7 @@ export default function CardFormController(props: Props) {
             birthday: player.birthday,
             hallOfFame: player.hallOfFame,
             url: player.url,
+            leagueId: player.leagueId,
             createdAt: "",
             updatedAt: "",
           };

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../../store";
 import { fetchAllPlayers } from "../../../../store/library/players/thunks";
+import { clearPlayers } from "../../../../store/library/players/actions";
 import PaginationController from "../../../transactions/select-cards-form/selected-cards/pagination/PaginationController";
 import * as Styled from "./styled";
 import { Player } from "../../../../store/library/players/types";
@@ -18,12 +19,18 @@ export default function PlayerTable(props: Props) {
   const [search, setSearch] = useState("");
   const [searchField, setSearchField] = useState("");
   const [selectedPlayer, setSelectedPlayer] = useState(0);
+  const [playerSearched, setPlayerSearched] = useState(false);
 
   const players = useSelector((state: RootState) => state.library.players);
 
   useEffect(() => {
+    dispatch(clearPlayers());
+  }, [dispatch]);
+
+  useEffect(() => {
     if (search !== "") {
       setSelectedPlayer(0);
+      setPlayerSearched(true);
       dispatch(
         fetchAllPlayers(
           `?search=${search}&limit=${rowsPerPage}&offset=${
@@ -32,7 +39,7 @@ export default function PlayerTable(props: Props) {
         )
       );
     }
-  }, [rowsPerPage, currentPage, search]);
+  }, [rowsPerPage, currentPage, search, dispatch]);
 
   // reset current page to 1 when new players are fetched
   useEffect(() => {
@@ -97,25 +104,27 @@ export default function PlayerTable(props: Props) {
         hideRowsPerPage
         hideTotal
       />
-      <Styled.Players>
-        {players.rows.map((p) => {
-          return (
-            <Styled.PlayerRow
-              key={p.id}
-              onClick={() => handlePlayerRowClick(p)}
-              selected={p.id === selectedPlayer}
-            >
-              <Styled.PlayerCheckbox
-                id={`${p.id}-${p.name}`}
-                onChange={handlePlayerSelect}
-                type="checkbox"
-                checked={selectedPlayer === p.id}
-              />
-              <div>{p.name}</div>
-            </Styled.PlayerRow>
-          );
-        })}
-      </Styled.Players>
+      {playerSearched && (
+        <Styled.Players>
+          {players.rows.map((p) => {
+            return (
+              <Styled.PlayerRow
+                key={p.id}
+                onClick={() => handlePlayerRowClick(p)}
+                selected={p.id === selectedPlayer}
+              >
+                <Styled.PlayerCheckbox
+                  id={`${p.id}-${p.name}`}
+                  onChange={handlePlayerSelect}
+                  type="checkbox"
+                  checked={selectedPlayer === p.id}
+                />
+                <div>{p.name}</div>
+              </Styled.PlayerRow>
+            );
+          })}
+        </Styled.Players>
+      )}
     </>
   );
 }

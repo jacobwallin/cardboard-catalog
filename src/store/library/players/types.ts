@@ -11,6 +11,7 @@ export interface Player {
   birthday: string;
   hallOfFame: boolean;
   url: string;
+  leagueId: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -28,6 +29,7 @@ export const UPDATE_PLAYER_FAILURE = "UPDATE_PLAYER_FAILURE";
 export const BULK_CREATE_PLAYER_REQUEST = "BULK_CREATE_PLAYER_REQUEST";
 export const BULK_CREATE_PLAYER_SUCCESS = "BULK_CREATE_PLAYER_SUCCESS";
 export const BULK_CREATE_PLAYER_FAILURE = "BULK_CREATE_PLAYER_FAILURE";
+export const CLEAR_PLAYERS = "CLEAR_PLAYERS";
 
 // ACTION CREATORS
 interface GetAllPlayersRequest {
@@ -74,6 +76,10 @@ interface BulkCreatePlayerFailure {
   type: typeof BULK_CREATE_PLAYER_FAILURE;
 }
 
+interface ClearPlayers {
+  type: typeof CLEAR_PLAYERS;
+}
+
 export type PlayerActionCreators =
   | GetAllPlayersRequest
   | GetAllPlayersSuccess
@@ -86,4 +92,5 @@ export type PlayerActionCreators =
   | UpdatePlayerFailure
   | BulkCreatePlayerRequest
   | BulkCreatePlayerSuccess
-  | BulkCreatePlayerFailure;
+  | BulkCreatePlayerFailure
+  | ClearPlayers;
