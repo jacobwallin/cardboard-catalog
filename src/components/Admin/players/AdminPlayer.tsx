@@ -27,7 +27,7 @@ export default function AdminPlayer() {
   const players = useSelector((state: RootState) => state.library.players);
 
   useEffect(() => {
-    dispatch(fetchAllPlayers());
+    dispatch(fetchAllPlayers(""));
   }, []);
 
   useEffect(() => {
