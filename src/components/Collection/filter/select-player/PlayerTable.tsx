@@ -8,7 +8,6 @@ import * as Styled from "./styled";
 import { Player } from "../../../../store/library/players/types";
 import { LoadingDots } from "../../../shared/Loading";
 import { createLoadingSelector } from "../../../../store/loading/reducer";
-import { Divider } from "@material-ui/core";
 const playerSearchLoadingSelector = createLoadingSelector(["GET_ALL_PLAYERS"]);
 
 interface Props {
@@ -35,28 +34,22 @@ export default function PlayerTable(props: Props) {
   }, [dispatch]);
 
   useEffect(() => {
-    if (search !== "") {
-      setSelectedPlayer(0);
-      setPlayerSearched(true);
-      dispatch(clearPlayers());
-      dispatch(
-        fetchAllPlayers(
-          `?search=${search}&limit=${rowsPerPage}&offset=${
-            (currentPage - 1) * rowsPerPage
-          }`
-        )
-      );
-    }
+    setSelectedPlayer(0);
+    setPlayerSearched(true);
+    dispatch(clearPlayers());
+    dispatch(
+      fetchAllPlayers(
+        `?search=${search}&limit=${rowsPerPage}&offset=${
+          (currentPage - 1) * rowsPerPage
+        }`
+      )
+    );
   }, [rowsPerPage, currentPage, search, dispatch]);
-
-  // reset current page to 1 when new players are fetched
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [players]);
 
   function searchPlayers(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
     setSearch(searchField);
+    setCurrentPage(1);
   }
 
   function rowsPerPageChange(e: React.ChangeEvent<HTMLSelectElement>) {
