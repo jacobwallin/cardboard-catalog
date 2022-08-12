@@ -340,7 +340,7 @@ User.hasMany(Card, {
 Player.belongsTo(League);
 League.hasMany(Player);
 
-db.sync({ alter: true });
+// db.sync({ alter: true });
 
 module.exports = {
   User,

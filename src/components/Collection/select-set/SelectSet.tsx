@@ -50,6 +50,8 @@ const SelectSet = () => {
     CollectionSports[]
   >([]);
 
+  const [invalidUrl, setInvalidUrl] = useState(false);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -65,50 +67,62 @@ const SelectSet = () => {
 
   // aggregate collection based on sport and year selected
   useEffect(() => {
-    if (year) {
-      // year is selected, display the sets in collection for given sport and year
-      const setsYear = collectionSets.filter((s) => String(s.year) === year);
-      setFilteredSets(setsYear);
-      setTotalCards(
-        setsYear.reduce((totalCards, set) => {
-          return (totalCards += +set.totalCards);
-        }, 0)
-      );
-    } else if (sport) {
-      // sport is selected, display the years in collection that exist for given sport
-      const selectedSport = sports.find((s) => s.name.toLowerCase() === sport);
-      if (selectedSport) {
-        const collectionByYearAndSport = aggregateCollectionByYear(
-          collectionSets,
-          selectedSport.id
-        );
-        setYearsInCollection(collectionByYearAndSport);
-        setTotalCards(
-          collectionByYearAndSport.reduce((totalCards, set) => {
-            return (totalCards += +set.totalCards);
-          }, 0)
-        );
-      }
-    } else {
-      // sport not selected, display the sports that exist in collection
+    if (!year && !sport) {
+      //  sport not selected, display the sports that exist in collection
       const collectionBySport = aggregateCollectionBySport(
         collectionSets,
         sports
       );
-      console.log("WTF: ", collectionBySport);
       setSportsInCollection(collectionBySport);
       setTotalCards(
         collectionBySport.reduce((totalCards, set) => {
           return (totalCards += +set.totalCards);
         }, 0)
       );
+    } else {
+      // find the sport based on the sport url param
+      const selectedSport = sports.find((s) => s.name.toLowerCase() === sport);
+
+      if (selectedSport) {
+        if (year) {
+          if (year && !/^\d{4}$/.test(year)) {
+            setInvalidUrl(true);
+          } else {
+            // filter sets in collection by selected sport and year
+            const setsYear = collectionSets.filter(
+              (s) => String(s.year) === year && s.leagueId === selectedSport.id
+            );
+            setFilteredSets(setsYear);
+            setTotalCards(
+              setsYear.reduce((totalCards, set) => {
+                return (totalCards += +set.totalCards);
+              }, 0)
+            );
+          }
+        } else {
+          // filter sets in collection by selected sport
+          const collectionByYearAndSport = aggregateCollectionByYear(
+            collectionSets,
+            selectedSport.id
+          );
+          setYearsInCollection(collectionByYearAndSport);
+          setTotalCards(
+            collectionByYearAndSport.reduce((totalCards, set) => {
+              return (totalCards += +set.totalCards);
+            }, 0)
+          );
+        }
+      } else {
+        setInvalidUrl(true);
+      }
     }
   }, [year, sport, sports, collectionSets]);
 
   if (isLoading) return <LoadingDots />;
 
   // render 404 if year param is not a year
-  if (year && !/^\d{4}$/.test(year)) {
+  // if (year && !/^\d{4}$/.test(year)) {
+  if (invalidUrl) {
     return <Navigate to="/404" />;
   }
 
@@ -131,7 +145,7 @@ const SelectSet = () => {
             paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
             paginationPerPage={20}
             noDataComponent={
-              <NoDataMessage>{`You have no cards from ${year}`}</NoDataMessage>
+              <NoDataMessage>{`You have no ${sport} cards from ${year}`}</NoDataMessage>
             }
           />
         </>
@@ -153,7 +167,7 @@ const SelectSet = () => {
             paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
             paginationPerPage={20}
             noDataComponent={
-              <NoDataMessage>{`You have no cards from ${year}`}</NoDataMessage>
+              <NoDataMessage>{`You have no ${sport} cards`}</NoDataMessage>
             }
           />
         </Shared.DataTableContainer>
