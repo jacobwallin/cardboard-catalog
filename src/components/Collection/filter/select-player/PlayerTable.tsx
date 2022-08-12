@@ -6,6 +6,10 @@ import { clearPlayers } from "../../../../store/library/players/actions";
 import PaginationController from "../../../transactions/select-cards-form/selected-cards/pagination/PaginationController";
 import * as Styled from "./styled";
 import { Player } from "../../../../store/library/players/types";
+import { LoadingDots } from "../../../shared/Loading";
+import { createLoadingSelector } from "../../../../store/loading/reducer";
+import { Divider } from "@material-ui/core";
+const playerSearchLoadingSelector = createLoadingSelector(["GET_ALL_PLAYERS"]);
 
 interface Props {
   selectPlayer: (playerIdName: string) => void;
@@ -22,6 +26,9 @@ export default function PlayerTable(props: Props) {
   const [playerSearched, setPlayerSearched] = useState(false);
 
   const players = useSelector((state: RootState) => state.library.players);
+  const loadingPlayers = useSelector((state: RootState) =>
+    playerSearchLoadingSelector(state)
+  );
 
   useEffect(() => {
     dispatch(clearPlayers());
@@ -31,6 +38,7 @@ export default function PlayerTable(props: Props) {
     if (search !== "") {
       setSelectedPlayer(0);
       setPlayerSearched(true);
+      dispatch(clearPlayers());
       dispatch(
         fetchAllPlayers(
           `?search=${search}&limit=${rowsPerPage}&offset=${
@@ -106,23 +114,49 @@ export default function PlayerTable(props: Props) {
       />
       {playerSearched && (
         <Styled.Players>
-          {players.rows.map((p) => {
-            return (
-              <Styled.PlayerRow
-                key={p.id}
-                onClick={() => handlePlayerRowClick(p)}
-                selected={p.id === selectedPlayer}
-              >
-                <Styled.PlayerCheckbox
-                  id={`${p.id}-${p.name}`}
-                  onChange={handlePlayerSelect}
-                  type="checkbox"
-                  checked={selectedPlayer === p.id}
-                />
-                <div>{p.name}</div>
-              </Styled.PlayerRow>
-            );
-          })}
+          {loadingPlayers && (
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <LoadingDots />
+            </div>
+          )}
+          {players.rows.length > 0 &&
+            players.rows.map((p) => {
+              return (
+                <Styled.PlayerRow
+                  key={p.id}
+                  onClick={() => handlePlayerRowClick(p)}
+                  selected={p.id === selectedPlayer}
+                >
+                  <Styled.PlayerCheckbox
+                    id={`${p.id}-${p.name}`}
+                    onChange={handlePlayerSelect}
+                    type="checkbox"
+                    checked={selectedPlayer === p.id}
+                  />
+                  <div>{p.name}</div>
+                </Styled.PlayerRow>
+              );
+            })}
+          {!loadingPlayers && players.rows.length === 0 && (
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "20px",
+                color: "#777",
+                fontSize: "0.9rem",
+              }}
+            >
+              no results found
+            </div>
+          )}
         </Styled.Players>
       )}
     </>
