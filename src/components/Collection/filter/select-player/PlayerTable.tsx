@@ -34,22 +34,26 @@ export default function PlayerTable(props: Props) {
   }, [dispatch]);
 
   useEffect(() => {
-    setSelectedPlayer(0);
-    setPlayerSearched(true);
-    dispatch(clearPlayers());
-    dispatch(
-      fetchAllPlayers(
-        `?search=${search}&limit=${rowsPerPage}&offset=${
-          (currentPage - 1) * rowsPerPage
-        }`
-      )
-    );
-  }, [rowsPerPage, currentPage, search, dispatch]);
+    if (playerSearched) {
+      setSelectedPlayer(0);
+      dispatch(clearPlayers());
+      dispatch(
+        fetchAllPlayers(
+          `?search=${search}&limit=${rowsPerPage}&offset=${
+            (currentPage - 1) * rowsPerPage
+          }`
+        )
+      );
+    }
+  }, [rowsPerPage, currentPage, search, playerSearched, dispatch]);
 
   function searchPlayers(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    setSearch(searchField);
-    setCurrentPage(1);
+    if (searchField !== "") {
+      setSearch(searchField);
+      setCurrentPage(1);
+      setPlayerSearched(true);
+    }
   }
 
   function rowsPerPageChange(e: React.ChangeEvent<HTMLSelectElement>) {
