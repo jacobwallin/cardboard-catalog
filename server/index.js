@@ -32,13 +32,6 @@ app.use(
   })
 );
 
-// test loading indicators client-side
-// app.use((req, res, next) => {
-//   setTimeout(() => {
-//     next();
-//   }, 500);
-// });
-
 app.use(passport.initialize());
 app.use(passport.session());
 
