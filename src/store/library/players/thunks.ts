@@ -6,7 +6,7 @@ import { get, postString, post, put } from "../../../utils/fetch";
 
 export const fetchAllPlayers =
   (
-    query?: string
+    query: string = ""
   ): ThunkAction<void, RootState, unknown, PlayerActionCreators> =>
   (dispatch) => {
     dispatch(actions.getAllPlayersRequest());
