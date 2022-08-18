@@ -125,7 +125,9 @@ export default function ViewTransaction() {
                       }
                     </Styled.DataTitle>
                     <Styled.DataValue>
-                      {transaction.money === null ? "-" : transaction.money}
+                      {transaction.money === null
+                        ? "-"
+                        : `$${transaction.money.toFixed(2)}`}
                     </Styled.DataValue>
                   </Styled.DataFieldContainer>
                 )}
