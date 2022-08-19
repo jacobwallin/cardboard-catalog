@@ -147,7 +147,7 @@ const SetPage = () => {
                 </Styled.NoCardsInSet>
               )}
               <>
-                {aggregatedSubsetData.base && (
+                {aggregatedSubsetData.base.length > 0 && (
                   <>
                     <TableHeader>
                       <TableTitle>
