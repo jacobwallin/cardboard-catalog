@@ -375,7 +375,7 @@ export default function EditTransaction(props: Props) {
               <Styled.CardTableHeader>
                 <SelectedCardsTitle>Cards Added</SelectedCardsTitle>
                 <Styled.ButtonContainer>
-                  {!addedCardsSelectable && transaction.type !== "ADD" && (
+                  {!addedCardsSelectable && (
                     <StyledButton
                       color="BLUE"
                       width="160px"
@@ -427,7 +427,7 @@ export default function EditTransaction(props: Props) {
               <Styled.CardTableHeader>
                 <SelectedCardsTitle>Cards Removed</SelectedCardsTitle>
                 <Styled.ButtonContainer>
-                  {!removedCardsSelectable && transaction.type !== "DELETE" && (
+                  {!removedCardsSelectable && (
                     <StyledButton
                       color="BLUE"
                       width="160px"
