@@ -69,33 +69,19 @@ router.post("/", async (req, res, next) => {
 
   const userId = req.user.id;
   try {
-    let transaction = undefined;
-    if (type === "ADD" || type === "DELETE") {
-      // if transaction type is add or delete, check first if one was created for the current day
-      transaction = await Transaction.findOne({
-        where: {
-          userId: req.user.id,
-          type: type,
-          date: date,
-        },
-      });
-    }
-
-    if (!transaction) {
-      // create new transaction
-      transaction = await Transaction.create({
-        userId: req.user.id,
-        type,
-        date,
-        title,
-        note,
-        platform,
-        individual,
-        money,
-        setId,
-        pending: type === "ADD" || type === "DELETE" ? false : pending,
-      });
-    }
+    // create new transaction
+    const transaction = await Transaction.create({
+      userId: req.user.id,
+      type,
+      date,
+      title,
+      note,
+      platform,
+      individual,
+      money,
+      setId,
+      pending: type === "ADD" || type === "DELETE" ? false : pending,
+    });
 
     // add cards to collection and associate with transaction
     if (cardsAdded) {
