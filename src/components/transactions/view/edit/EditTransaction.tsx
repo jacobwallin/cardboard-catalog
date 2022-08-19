@@ -21,6 +21,7 @@ import AddCardsForm, {
 import SubtleButton from "../../../shared/SubtleButton";
 import { LoadingDots } from "../../../shared/Loading";
 import { createStatusSelector } from "../../../../store/loading/reducer";
+import ConfirmDeleteModal from "../../../Admin/components/ConfirmDeleteModal";
 const updateTradeStatusSelector = createStatusSelector("UPDATE_TRANSACTION");
 const deleteTradeStatusSelector = createStatusSelector("DELETE_TRANSACTION");
 
@@ -114,6 +115,8 @@ export default function EditTransaction(props: Props) {
   }
   const [addedCardsRemoved, setAddedCardsRemoved] = useState<number[]>([]);
   const [deletedCardsRemoved, setDeletedCardsRemoved] = useState<number[]>([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   function removeAddedCards() {
     // filter out selected cards from table data
     setCardsAdded(
@@ -276,6 +279,10 @@ export default function EditTransaction(props: Props) {
     setTransactionDeleted(true);
   }
 
+  function toggleDeleteModal() {
+    setShowDeleteModal(!showDeleteModal);
+  }
+
   // show added and removed card tables based on transaction type
   const showAddedCards =
     transaction.type !== "DELETE" && transaction.type !== "SALE";
@@ -301,6 +308,14 @@ export default function EditTransaction(props: Props) {
 
   return (
     <>
+      {showDeleteModal && (
+        <ConfirmDeleteModal
+          handleDismiss={toggleDeleteModal}
+          handleDelete={handleDelete}
+          deleteStatus={deleteTransactionStatus}
+          message="This will remove any cards that were added in this transaction from your collection, and restore any cards that were removed in this transaction to your collection."
+        />
+      )}
       {addAdditionalCards && (
         <>
           <Styled.ReturnWrapper>
@@ -339,7 +354,6 @@ export default function EditTransaction(props: Props) {
             type={transaction.type}
             handleSubmit={handleSubmit}
             cancel={props.cancel}
-            delete={handleDelete}
             canDelete={canDelete}
             changesMade={
               newCardsAdded.length > 0 ||
@@ -459,6 +473,17 @@ export default function EditTransaction(props: Props) {
               />
             </Styled.TableWrapper>
           )}
+          <Styled.DeleteButtonWrapper>
+            <StyledButton
+              onClick={toggleDeleteModal}
+              color="RED"
+              height="27px"
+              width="150px"
+              disabled={!canDelete}
+            >
+              Delete Transaction
+            </StyledButton>
+          </Styled.DeleteButtonWrapper>
         </>
       )}
     </>

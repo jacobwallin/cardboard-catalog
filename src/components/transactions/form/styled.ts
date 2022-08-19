@@ -52,6 +52,7 @@ export const Label = styled.label`
 export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 `;
 
 export const Flex = styled.div`

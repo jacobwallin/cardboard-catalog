@@ -8,7 +8,6 @@ import dataFieldsByTransactionType from "../shared/dataFieldsByType";
 import { TransactionTypes } from "../../../store/collection/transactions/types";
 import { transactionTypeMap } from "../main/screateTableData";
 import { convertDateString } from "../../../utils/formatTimestamp";
-import ConfirmDeleteModal from "../../Admin/components/ConfirmDeleteModal";
 import detectFormChanges from "../../Admin/detectFormChanges";
 import { createStatusSelector } from "../../../store/loading/reducer";
 const deleteTradeStatusSelector = createStatusSelector("DELETE_TRANSACTION");
@@ -26,7 +25,6 @@ interface Props {
   handleSubmit(data: FormData): void;
   type: TransactionTypes;
   cancel?(): void;
-  delete?(): void;
   canDelete?: boolean;
   initialValues?: FormData;
   changesMade?: boolean;
@@ -54,7 +52,6 @@ export default function TransactionForm(props: Props) {
   const [pending, setPending] = useState(
     initialValues ? initialValues.pending : false
   );
-  const [confirmDelete, setConfirmDelete] = useState(false);
   const [formChanges, setFormChanges] = useState(false);
 
   const deleteTransactionStatus = useSelector((state: RootState) =>
@@ -78,10 +75,6 @@ export default function TransactionForm(props: Props) {
       setFormChanges(changes);
     }
   }, [date, note, individual, platform, pending, money, initialValues]);
-
-  function toggleDeleteModal() {
-    setConfirmDelete(!confirmDelete);
-  }
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     switch (e.target.id) {
@@ -126,14 +119,6 @@ export default function TransactionForm(props: Props) {
         <Styled.CancelWrapper>
           <SubtleButton onClick={props.cancel}>Cancel</SubtleButton>
         </Styled.CancelWrapper>
-      )}
-      {confirmDelete && props.delete && (
-        <ConfirmDeleteModal
-          handleDismiss={toggleDeleteModal}
-          handleDelete={props.delete}
-          deleteStatus={deleteTransactionStatus}
-          message="This will remove any cards that were added in the transaction from your collection, and restore any cards that were removed in this transaction to your collection."
-        />
       )}
       <Styled.DataFieldContainer>
         <Styled.DataTitle>Type</Styled.DataTitle>
@@ -240,19 +225,8 @@ export default function TransactionForm(props: Props) {
           height="27px"
           width="110px"
         >
-          Submit
+          Save
         </StyledButton>
-        {props.delete && (
-          <StyledButton
-            onClick={toggleDeleteModal}
-            color="RED"
-            height="27px"
-            width="110px"
-            disabled={!props.canDelete}
-          >
-            Delete
-          </StyledButton>
-        )}
       </Styled.ButtonContainer>
     </Styled.Container>
   );

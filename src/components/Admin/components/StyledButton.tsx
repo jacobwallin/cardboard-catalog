@@ -1,6 +1,6 @@
 import styled from "styled-components";
 interface ButtonProps {
-  color: "BLUE" | "GREEN" | "YELLOW" | "RED" | "GRAY";
+  color: "BLUE" | "GREEN" | "YELLOW" | "RED" | "GRAY" | "CLEAR";
   height?: string;
   width?: string;
   fontSize?: string;
@@ -31,6 +31,8 @@ const StyledButton = styled.button<ButtonProps>`
     switch (props.color) {
       case "YELLOW":
         return "#000";
+      case "CLEAR":
+        return "#606060";
       default:
         return "#fff";
     }
@@ -47,6 +49,8 @@ const StyledButton = styled.button<ButtonProps>`
         return "#dc3545";
       case "GRAY":
         return "#aaa";
+      case "CLEAR":
+        return "#fff";
     }
   }};
   &:hover:enabled {
@@ -62,6 +66,8 @@ const StyledButton = styled.button<ButtonProps>`
           return "#B50900";
         case "GRAY":
           return "#808080";
+        case "CLEAR":
+          return "lightgray";
       }
     }};
   }

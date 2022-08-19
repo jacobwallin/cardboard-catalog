@@ -6,6 +6,7 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
+  flex-grow: 1;
   @media only screen and (max-width: 1024px) {
     width: 95%;
   }

@@ -43,3 +43,12 @@ export const ReturnWrapper = styled.div`
 export const CancelWrapper = styled.div`
   align-self: flex-end;
 `;
+
+export const DeleteButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  margin-top: 40px;
+  flex-grow: 1;
+`;
