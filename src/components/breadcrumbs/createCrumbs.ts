@@ -38,7 +38,7 @@ export function createSetCrumbs(set: Set, search: string): Crumb[] {
     });
   }
 
-  link += `/${set.league.name}`;
+  link += `/${set.league.name.toLowerCase()}`;
   crumbs.push({
     link: link,
     title: String(set.league.name),
@@ -85,7 +85,7 @@ export function createSubsetCrumbs(subset: Subset, search: string): Crumb[] {
     });
   }
 
-  link += `/${subset.set.league.name}`;
+  link += `/${subset.set.league.name.toLowerCase()}`;
   crumbs.push({
     link: link,
     title: String(subset.set.league.name),
