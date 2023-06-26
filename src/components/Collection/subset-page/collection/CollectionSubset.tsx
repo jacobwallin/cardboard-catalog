@@ -93,7 +93,7 @@ export default function CollectionSubset(props: Props) {
           dense
           columns={columns()}
           data={props.tableData.cards.filter((card) => {
-            return showAllCards || card.quantity > 0;
+            return showAllCards ? card.quantity === 0 : card.quantity > 0;
           })}
           highlightOnHover
           pagination
